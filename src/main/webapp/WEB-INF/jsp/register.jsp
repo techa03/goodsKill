@@ -134,6 +134,8 @@
 														$form.serialize(),
 														function(result) {
 															//do something...
+															console.log(result);
+															window.location.href="./list";
 														});
 											});
 						});
@@ -164,9 +166,6 @@
 			<!-- 			<p></p> -->
 
 			<!-- 		</div> -->
-			<div class="form-group">
-				<button type="button" class="btn btn-info">注册</button>
-			</div>
 			<div class="form-group">
 				<button class="btn btn-lg btn-primary btn-block" type="submit">确认注册</button>
 				<a class="btn btn-lg btn-primary btn-block" href="../">返回首页</a>
