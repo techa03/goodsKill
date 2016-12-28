@@ -3,6 +3,7 @@ package org.seckill.service.impl;
 import org.seckill.dao.UserDao;
 import org.seckill.entity.User;
 import org.seckill.exception.HengException;
+import org.seckill.exception.SeckillException;
 import org.seckill.service.UserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,14 @@ public class UserAccountServiceImpl implements UserAccountService {
 			throw new HengException(null);
 		}
 
+	}
+
+	@Override
+	public void login(User user) {
+		int count = userDao.selectUserByAccountAndPsw(user);
+		if (count != 1) {
+			throw new SeckillException("login fail");
+		}
 	}
 
 }

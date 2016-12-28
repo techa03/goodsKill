@@ -7,10 +7,17 @@
     <insert id="addUser" parameterType="User">
         insert into user(account,password) values(#{account},#{password})
     </insert>
-    <select id="queryById" resultType="Seckill" parameterType="long">
-        SELECT seckill_id,name,number,start_time,end_time,create_time
-        FROM seckill
-        where seckill_id = #{seckillId}
+    <select id="selectUserByAccountAndPsw" parameterType="User" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM user
+        <where>
+        	<if test="account!=null">
+        		account=#{account}
+        	</if>
+        	<if test="password!=null">
+        		and password=#{password}
+        	</if>
+        </where>
     </select>
 
     <select id="queryAll" resultType="Seckill">
