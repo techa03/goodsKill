@@ -49,4 +49,16 @@ public class UserAccountController {
 		userAccountService.login(user);
 		return "redirect:/seckill/list";
 	}
+
+	@RequestMapping(value = "/toUploadPhoto", method = RequestMethod.GET)
+	public String toUploadPhoto() {
+		return "upload";
+	}
+
+	@RequestMapping(value = "/uploadPhoto", method = RequestMethod.POST)
+	public String uploadPhoto(User user) {
+		String psd = user.getPassword();
+		System.out.println("haha");
+		return "redirect:/seckill/list";
+	}
 }
