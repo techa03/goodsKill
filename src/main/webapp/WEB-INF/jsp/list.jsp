@@ -33,7 +33,7 @@
 						<c:forEach var="sk" items="${list}">
 							<tr>
 								<td>${sk.name}</td>
-								<td></td>
+								<td><img alt="图片" src="http://localhost:8080/seckill/img/seckill/${sk.seckillId}"></td>
 								<td>${sk.number}</td>
 								<td>
 									<fmt:formatDate value="${sk.startTime}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
@@ -44,7 +44,6 @@
 								<td>
 									<fmt:formatDate value="${sk.createTime}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
 								</td>
-
 								<td>
 									<a class="btn btn-info" href="/seckill/${sk.seckillId}/detail" target="_blank">link</a>
 								</td>

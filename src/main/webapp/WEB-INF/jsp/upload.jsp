@@ -8,7 +8,7 @@
     <form role="form" action="uploadPhoto" enctype="multipart/form-data" method="post">
         <div class="form-group">
             <label for="inputFile">上传图片aa</label>
-            <input type="file" class="form-control" id="inputFile"/>
+            <input type="file" class="form-control" name="file" id="inputFile"/>
             <input type="submit" value="提交"/>
         </div>
     </form>

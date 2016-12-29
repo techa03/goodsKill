@@ -22,5 +22,11 @@
               <property name="suffix" value=".jsp"/>
        </bean>
        
+        <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+          <property name="defaultEncoding" value="utf-8" />  
+          <property name="maxUploadSize" value="10485760000" />  
+          <property name="maxInMemorySize" value="40960" />  
+    	</bean>  
+       
        <context:component-scan base-package="org.seckill.web"/>
 </beans>
