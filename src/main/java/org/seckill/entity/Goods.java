@@ -1,9 +1,9 @@
 package org.seckill.entity;
 
-import java.util.Date;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -55,5 +55,12 @@ public class Goods {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+
+	@Override
+	public String toString() {
+		return "Goods [goodsId=" + goodsId + ", name=" + name + ", price=" + price + ", photoUrl=" + photoUrl
+				+ ", createTime=" + createTime + "]";
+	}
+	
 
 }

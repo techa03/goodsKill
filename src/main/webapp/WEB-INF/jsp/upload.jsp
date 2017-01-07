@@ -5,10 +5,11 @@
     <title>Title</title>
 </head>
 <body>
-    <form role="form" action="uploadPhoto" enctype="multipart/form-data" method="post">
+    <form role="form" action="${seckillId}" enctype="multipart/form-data" method="post">
         <div class="form-group">
-            <label for="inputFile">上传图片aa</label>
+            <label for="inputFile">上传图片</label>
             <input type="file" class="form-control" name="file" id="inputFile"/>
+            <input name="seckillId" value="${seckillId}" type="hidden">
             <input type="submit" value="提交"/>
         </div>
     </form>

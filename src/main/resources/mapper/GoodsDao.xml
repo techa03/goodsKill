@@ -3,28 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.seckill.dao.GoodsDao">
-    <!--目的:为DAO接口方法提供sql语句配置-->
-    <insert id="addUser" parameterType="User">
-        insert into user(account,password) values(#{account},#{password})
-    </insert>
-    <select id="selectUserByAccountAndPsw" parameterType="User" resultType="java.lang.Integer">
-        SELECT count(1)
-        FROM user
-        <where>
-        	<if test="account!=null">
-        		account=#{account}
-        	</if>
-        	<if test="password!=null">
-        		and password=#{password}
-        	</if>
-        </where>
-    </select>
-
-    <select id="queryAll" resultType="Seckill">
-        SELECT seckill_id,name,number,start_time,end_time,create_time
-        FROM seckill
-        ORDER BY create_time DESC
-        limit #{offset},#{limit}
+    <update id="updatePhotoUrl">
+    	update goods set PHOTO_URL=#{photoUrl} where GOODS_ID=#{goodsId}
+    </update>
+    
+    <select id="selectById" resultType="Goods">
+    	SELECT * FROM GOODS WHERE GOODS_ID=#{goodsId}
     </select>
 
 

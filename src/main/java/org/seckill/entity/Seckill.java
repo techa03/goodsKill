@@ -10,6 +10,7 @@ public class Seckill {
     private Date startTime;
     private Date endTime;
     private Date createTime;
+    private int goodsId;
 
     @Override
     public String toString() {
@@ -20,8 +21,18 @@ public class Seckill {
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", createTime=" + createTime +
+                ", goodsId=" + goodsId +
                 '}';
     }
+
+    public int getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(int goodsId) {
+        this.goodsId = goodsId;
+    }
+
 
     public long getSeckillId() {
         return seckillId;
@@ -70,8 +81,6 @@ public class Seckill {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-
-
 
 
 }

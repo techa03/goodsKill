@@ -1,106 +1,116 @@
 package org.seckill.web;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.transaction.Transactional;
-
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.seckill.dao.SeckillDao;
+import org.seckill.entity.Seckill;
 import org.seckill.entity.User;
 import org.seckill.exception.HengException;
+import org.seckill.service.GoodsService;
 import org.seckill.service.UserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
+import java.io.*;
 
 @Controller
 @RequestMapping("/seckill")
 public class UserAccountController {
-	@Autowired
-	private UserAccountService userAccountService;
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+    @Autowired
+    private UserAccountService userAccountService;
+    @Autowired
+    private SeckillDao seckillDao;
+    @Autowired
+    private GoodsService goodsService;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@RequestMapping(value = "/toRegister", method = RequestMethod.GET)
-	public String toRegister() {
-		return "register";
-	}
+    @RequestMapping(value = "/toRegister", method = RequestMethod.GET)
+    public String toRegister() {
+        return "register";
+    }
 
-	@Transactional
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public @ResponseBody String register(User user) {
-		userAccountService.register(user);
-		return "success";
-	}
+    @Transactional
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String register(User user) {
+        userAccountService.register(user);
+        return "success";
+    }
 
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index() {
-		return "index";
-	}
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public String index() {
+        return "index";
+    }
 
-	@RequestMapping(value = "/toLogin", method = RequestMethod.GET)
-	public String toLogin() {
-		return "login";
-	}
+    @RequestMapping(value = "/toLogin", method = RequestMethod.GET)
+    public String toLogin() {
+        return "login";
+    }
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(User user) {
-		String psd = user.getPassword();
-		user.setPassword(DigestUtils.md5DigestAsHex(psd.getBytes()));
-		userAccountService.login(user);
-		return "redirect:/seckill/list";
-	}
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(User user) {
+        String psd = user.getPassword();
+        user.setPassword(DigestUtils.md5DigestAsHex(psd.getBytes()));
+        userAccountService.login(user);
+        return "redirect:/seckill/list";
+    }
 
-	@RequestMapping(value = "/toUploadPhoto", method = RequestMethod.GET)
-	public String toUploadPhoto() {
-		return "upload";
-	}
+    @RequestMapping(value = "/toUploadPhoto/{seckillId}", method = RequestMethod.GET)
+    public String toUploadPhoto(@PathVariable("seckillId")Long seckillId, Model model) {
+        return "redirect:/seckill/upload/"+seckillId;
+    }
 
-	@Transactional
-	@RequestMapping(value = "/uploadPhoto", method = RequestMethod.POST)
-	public String uploadPhoto(@RequestParam("file") CommonsMultipartFile file, HttpServletRequest request) {
-		System.out.println("haha");
-		System.out.println(file.getOriginalFilename());
-		try {
-			FileOutputStream fos = new FileOutputStream("G:/java学习/" + file.getOriginalFilename());
-			InputStream is = file.getInputStream();
-			int b = 0;
-			while ((b = is.read()) != -1) {
-				fos.write(b);
-			}
-			fos.flush();
-			fos.close();
-			is.close();
-		} catch (IOException e) {
-			throw new HengException("上传文件异常");
-		}
-		return "redirect:/seckill/list";
-	}
+    @RequestMapping(value = "/upload/{seckillId}", method = RequestMethod.GET)
+    public String upload(@PathVariable("seckillId")Long seckillId, Model model) {
+        model.addAttribute("seckillId",seckillId);
+        return "upload";
+    }
 
-	@RequestMapping(value = "/img/seckill/{seckillId}", method = RequestMethod.GET)
-	public void loadImg(@PathVariable("seckillId") Long seckillId, HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
-		response.setContentType("img/*");
-		OutputStream os = response.getOutputStream();
-		FileInputStream fi = new FileInputStream(new File("G:/java学习/4096383O52964Q8P9DHJ1ZD4AA72LMFC.jpg"));
-		int b = 0;
-		while ((b = fi.read()) != -1) {
-			os.write(b);
-		}
-		os.flush();
-		os.close();
-		fi.close();
-	}
+
+    /**
+     * 上传商品图片
+     * @param file 图片源文件
+     * @return String
+     */
+    @Transactional
+    @RequestMapping(value = "/upload/{seckillId}", method = RequestMethod.POST)
+    public String uploadPhoto(@RequestParam("file") CommonsMultipartFile file, @RequestParam("seckillId") Long seckillId) {
+        Seckill seckill = seckillDao.queryById(seckillId);
+        goodsService.uploadGoodsPhoto(file, seckill.getGoodsId());
+        return "redirect:/seckill/list";
+    }
+
+    /**
+     * 根据秒杀id加载对应图片
+     *
+     * @param seckillId 秒杀id
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping(value = "/img/seckill/{seckillId}", method = RequestMethod.GET)
+    public void loadImg(@PathVariable("seckillId") Long seckillId, HttpServletRequest request,
+                        HttpServletResponse response) throws IOException {
+        Seckill seckill = seckillDao.queryById(seckillId);
+        String goodsUrl=goodsService.getPhotoUrl(seckill.getGoodsId());
+        response.setContentType("img/*");
+        OutputStream os = response.getOutputStream();
+        FileInputStream fi = new FileInputStream(new File(goodsUrl));
+        int b = 0;
+        while ((b = fi.read()) != -1) {
+            os.write(b);
+        }
+        os.flush();
+        os.close();
+        fi.close();
+    }
 }
