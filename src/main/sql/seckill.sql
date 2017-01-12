@@ -46,7 +46,7 @@ CREATE TABLE `seckill` (
   `name` varchar(120) NOT NULL COMMENT '商品名称',
   `number` int(11) NOT NULL COMMENT '库存数量',
   `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '秒杀开启时间',
-  `end_time` timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP goodsCOMMENT '秒杀结束时间',
+  `end_time` timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '秒杀结束时间',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `goods_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`seckill_id`),
