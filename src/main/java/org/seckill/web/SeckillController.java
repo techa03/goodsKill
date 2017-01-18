@@ -94,4 +94,9 @@ public class SeckillController {
 		Date now =new Date();
 		return new SeckillResult(true, now.getTime());
 	}
+
+	@RequestMapping(value = "/toAddGoods",method = RequestMethod.GET)
+    public String toAddGoods(){
+        return "addGoods";
+    }
 }

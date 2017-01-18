@@ -1,14 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@include file="common/tag.jsp" %>
+<%@include file="common/head.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <title>秒杀列表页</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- 引入 Bootstrap -->
-<link
-	href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css"
-	rel="stylesheet">
 </head>
 <body>
 	<div class="container">
@@ -18,6 +15,8 @@
 			</div>
 			<div class="panel-body">
 				<table class="table table-hover">
+					<a class="btn btn-info" href="/seckill/toAddGoods" target="_blank">增加秒杀商品</a>
+					<a class="btn btn-info" href="/seckill/toAddGoods" target="_blank">增加商品种类</a>
 					<thead>
 						<tr>
 							<th>名称</th>
@@ -52,6 +51,7 @@
 						</c:forEach>
 					</tbody>
 				</table>
+
 			</div>
 		</div>
 	</div>

@@ -1,10 +1,8 @@
 package org.seckill.web;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.seckill.dao.SeckillDao;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.User;
-import org.seckill.exception.HengException;
 import org.seckill.service.GoodsService;
 import org.seckill.service.UserAccountService;
 import org.slf4j.Logger;
@@ -19,7 +17,10 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 @Controller
 @RequestMapping("/seckill")
