@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,15 +17,21 @@ import java.io.InputStream;
  * Created by heng on 2017/1/7.
  */
 @Service
-public class GoodsServiceImpl implements GoodsService{
+public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private GoodsDao goodsDao;
 
     @Override
     public void uploadGoodsPhoto(CommonsMultipartFile file, long goodsId) {
-        String path="I:/java学习/" + file.getOriginalFilename();
+        final String s = "I:/java学习/";
+        String path = s + file.getOriginalFilename();
         try {
-            FileOutputStream fos = new FileOutputStream("I:/java学习/" + file.getOriginalFilename());
+            String filePath = s;
+            File file_tmp = new File(filePath);
+            if (!file_tmp.exists() && !file_tmp.mkdirs()) {
+                throw new HengException("dir create error!");
+            }
+            FileOutputStream fos = new FileOutputStream(path);
             InputStream is = file.getInputStream();
             int b = 0;
             while ((b = is.read()) != -1) {
@@ -41,7 +48,7 @@ public class GoodsServiceImpl implements GoodsService{
 
     @Override
     public String getPhotoUrl(int goodsId) {
-        Goods good=goodsDao.selectById(goodsId);
+        Goods good = goodsDao.selectById(goodsId);
         return good.getPhotoUrl();
     }
 }
