@@ -16,6 +16,7 @@ import java.io.InputStream;
 /**
  * Created by heng on 2017/1/7.
  */
+@SuppressWarnings("ALL")
 @Service
 public class GoodsServiceImpl implements GoodsService {
     @Autowired
@@ -23,7 +24,25 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public void uploadGoodsPhoto(CommonsMultipartFile file, long goodsId) {
-        final String s = "I:/java学习/";
+        String path = uploadGoodsPhoto(file);
+        goodsDao.updatePhotoUrl(goodsId, path);
+    }
+
+    @Override
+    public String getPhotoUrl(int goodsId) {
+        Goods good = goodsDao.selectById(goodsId);
+        return good.getPhotoUrl();
+    }
+
+    @Override
+    public void addGoods(Goods goods,CommonsMultipartFile file) {
+        String path = uploadGoodsPhoto(file);
+        goods.setPhotoUrl(path);
+        goodsDao.insert(goods);
+    }
+
+    private String uploadGoodsPhoto(CommonsMultipartFile file) {
+        final String s = "/Users/heng/java学习/";
         String path = s + file.getOriginalFilename();
         try {
             String filePath = s;
@@ -43,12 +62,6 @@ public class GoodsServiceImpl implements GoodsService {
         } catch (IOException e) {
             throw new HengException("上传文件异常");
         }
-        goodsDao.updatePhotoUrl(goodsId, path);
-    }
-
-    @Override
-    public String getPhotoUrl(int goodsId) {
-        Goods good = goodsDao.selectById(goodsId);
-        return good.getPhotoUrl();
+        return path;
     }
 }

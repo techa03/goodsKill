@@ -1,8 +1,5 @@
 package org.seckill.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
 import org.seckill.dao.SeckillDao;
 import org.seckill.dao.SuccessKilledDao;
 import org.seckill.dto.Exposer;
@@ -21,17 +18,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * Created by heng on 2016/7/16.
  */
 @Service
 public class SeckillServiceImpl implements SeckillService {
-	
-    public SeckillServiceImpl() {
-		super();
-		System.out.println("SeckillServiceImpl");
-	}
-
 	private final String slat = "gfhfghdfsdgdfgsdgh5rtyhgfhgfhyty@$%@$%^";
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired

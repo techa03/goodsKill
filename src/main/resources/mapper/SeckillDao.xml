@@ -24,7 +24,6 @@
         SELECT seckill_id,name,number,start_time,end_time,create_time,goods_id
         FROM seckill
         ORDER BY create_time DESC
-        limit #{offset},#{limit}
     </select>
 
 

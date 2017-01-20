@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
@@ -97,6 +98,11 @@ public class SeckillController {
 
 	@RequestMapping(value = "/toAddGoods",method = RequestMethod.GET)
     public String toAddGoods(){
-        return "addGoods";
+        return "redirect:/goods/addGoods";
     }
+
+	@RequestMapping(value = "/addSeckill",method = RequestMethod.GET)
+	public String addSeckill(){
+		return "seckill/addSeckill";
+	}
 }

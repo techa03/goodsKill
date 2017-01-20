@@ -11,5 +11,9 @@
     	SELECT * FROM GOODS WHERE GOODS_ID=#{goodsId}
     </select>
 
+    <insert id="insert" parameterType="Goods">
+        INSERT INTO goods (photo_url, name, price, create_time, introduce) VALUES(#{photoUrl},#{name},#{price},#{createTime},#{introduce})
+    </insert>
+
 
 </mapper>
