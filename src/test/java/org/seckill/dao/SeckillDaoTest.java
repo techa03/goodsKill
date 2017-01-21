@@ -1,8 +1,5 @@
 package org.seckill.dao;
 
-import static org.junit.Assert.fail;
-
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +20,7 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:spring/spring-dao.xml"})
+@Transactional
 public class SeckillDaoTest {
     @Autowired
     @Qualifier(value = "seckillDao")
@@ -30,7 +32,14 @@ public class SeckillDaoTest {
      */
     @Test
     public void testReduceNumber() {
-        //
+        SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date=new Date();
+        try {
+          date= formatter.parse("2017-01-26 11:01:47");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Assert.assertEquals(seckillDao.reduceNumber(1000,date),1);
     }
 
     /**

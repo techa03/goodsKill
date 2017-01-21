@@ -17,6 +17,17 @@ public class SeckillExecution {
 
     private SuccessKilled seccessKilled;
 
+    public SeckillExecution(long seckillId, SeckillStatEnum statEnum, SuccessKilled seccessKilled) {
+        this.seckillId = seckillId;
+        this.statEnum = statEnum;
+        this.seccessKilled = seccessKilled;
+    }
+
+    public SeckillExecution(long seckillId, SeckillStatEnum statEnum) {
+        this.seckillId = seckillId;
+        this.statEnum = statEnum;
+    }
+
     public long getSeckillId() {
         return seckillId;
     }
@@ -49,14 +60,11 @@ public class SeckillExecution {
         this.seccessKilled = seccessKilled;
     }
 
-    public SeckillExecution(long seckillId, SeckillStatEnum statEnum, SuccessKilled seccessKilled) {
-        this.seckillId = seckillId;
-        this.statEnum = statEnum;
-        this.seccessKilled = seccessKilled;
+    public SeckillStatEnum getStatEnum() {
+        return statEnum;
     }
 
-    public SeckillExecution(long seckillId, SeckillStatEnum statEnum) {
-        this.seckillId = seckillId;
+    public void setStatEnum(SeckillStatEnum statEnum) {
         this.statEnum = statEnum;
     }
 }

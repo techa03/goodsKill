@@ -15,5 +15,9 @@
         INSERT INTO goods (photo_url, name, price, create_time, introduce) VALUES(#{photoUrl},#{name},#{price},#{createTime},#{introduce})
     </insert>
 
+    <delete id="delete">
+        delete from goods where goods_id=#{id}
+    </delete>
+
 
 </mapper>

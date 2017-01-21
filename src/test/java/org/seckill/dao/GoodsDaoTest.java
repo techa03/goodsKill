@@ -9,34 +9,37 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.transaction.Transactional;
-import java.util.Date;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:spring/spring-dao.xml"})
+@Transactional
 public class GoodsDaoTest {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private GoodsDao goodsDao;
 
-	@Transactional
+
 	@Test
 	public void testUpdatePhotoUrl() {
 		goodsDao.updatePhotoUrl(1L, "1");
-		logger.info(goodsDao.selectById(1L).toString());
+		Assert.assertNotNull(goodsDao.selectById(1L).toString());
 	}
 	
 	@Test
 	public void testSelectById() {
-		logger.info(goodsDao.selectById(1L).toString());
+		Assert.assertNotNull(goodsDao.selectById(1L).toString());
 	}
 
-	@Transactional
 	@Test
 	public void testInsert(){
 		Assert.assertEquals(1, goodsDao.insert(new Goods()));
+	}
+
+	@Test
+	public void testDelete(){
+		Assert.assertEquals(1, goodsDao.delete(10L));
 	}
 
 

@@ -1,5 +1,7 @@
 package org.seckill.service;
 
+import java.io.IOException;
+
 import org.seckill.entity.Goods;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -8,7 +10,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
  */
 public interface GoodsService {
 
-    void uploadGoodsPhoto(CommonsMultipartFile file, long goodsId);
+    void uploadGoodsPhoto(CommonsMultipartFile file, long goodsId) throws IOException;
 
     String getPhotoUrl(int goodsId);
 

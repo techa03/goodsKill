@@ -3,6 +3,7 @@ package org.seckill.web;
 import org.seckill.dao.SeckillDao;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.User;
+import org.seckill.exception.HengException;
 import org.seckill.service.GoodsService;
 import org.seckill.service.UserAccountService;
 import org.slf4j.Logger;
@@ -31,6 +32,7 @@ public class UserAccountController {
     private SeckillDao seckillDao;
     @Autowired
     private GoodsService goodsService;
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value = "/toRegister", method = RequestMethod.GET)
@@ -66,19 +68,20 @@ public class UserAccountController {
     }
 
     @RequestMapping(value = "/toUploadPhoto/{seckillId}", method = RequestMethod.GET)
-    public String toUploadPhoto(@PathVariable("seckillId")Long seckillId, Model model) {
-        return "redirect:/seckill/upload/"+seckillId;
+    public String toUploadPhoto(@PathVariable("seckillId") Long seckillId, Model model) {
+        return "redirect:/seckill/upload/" + seckillId;
     }
 
     @RequestMapping(value = "/upload/{seckillId}", method = RequestMethod.GET)
-    public String upload(@PathVariable("seckillId")Long seckillId, Model model) {
-        model.addAttribute("seckillId",seckillId);
+    public String upload(@PathVariable("seckillId") Long seckillId, Model model) {
+        model.addAttribute("seckillId", seckillId);
         return "upload";
     }
 
 
     /**
      * 上传商品图片
+     *
      * @param file 图片源文件
      * @return String
      */
@@ -86,7 +89,12 @@ public class UserAccountController {
     @RequestMapping(value = "/upload/{seckillId}", method = RequestMethod.POST)
     public String uploadPhoto(@RequestParam("file") CommonsMultipartFile file, @RequestParam("seckillId") Long seckillId) {
         Seckill seckill = seckillDao.queryById(seckillId);
-        goodsService.uploadGoodsPhoto(file, seckill.getGoodsId());
+        try {
+            goodsService.uploadGoodsPhoto(file, seckill.getGoodsId());
+        } catch (IOException e) {
+            logger.info(e.getMessage(), e);
+            throw new HengException("上传商品照片出现错误，请检查");
+        }
         return "redirect:/seckill/list";
     }
 
@@ -102,11 +110,11 @@ public class UserAccountController {
     public void loadImg(@PathVariable("seckillId") Long seckillId, HttpServletRequest request,
                         HttpServletResponse response) throws IOException {
         Seckill seckill = seckillDao.queryById(seckillId);
-        String goodsUrl=goodsService.getPhotoUrl(seckill.getGoodsId());
+        String goodsUrl = goodsService.getPhotoUrl(seckill.getGoodsId());
         response.setContentType("img/*");
         OutputStream os = response.getOutputStream();
         FileInputStream fi = new FileInputStream(new File(goodsUrl));
-        int b = 0;
+        int b;
         while ((b = fi.read()) != -1) {
             os.write(b);
         }
