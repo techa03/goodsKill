@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 
 /**
@@ -83,5 +84,10 @@ public class GoodsServiceImpl implements GoodsService {
         }
         goods.setPhotoUrl(path);
         goodsDao.insert(goods);
+    }
+
+    @Override
+    public List<Goods> queryAll() {
+        return goodsDao.selectBySelective(null);
     }
 }

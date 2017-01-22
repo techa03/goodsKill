@@ -26,5 +26,9 @@
         ORDER BY create_time DESC
     </select>
 
+    <insert id="insert" parameterType="Seckill">
+        INSERT INTO SECKILL(name,number,goods_id) VALUES(#{name},#{number},#{goodsId})
+    </insert>
+
 
 </mapper>

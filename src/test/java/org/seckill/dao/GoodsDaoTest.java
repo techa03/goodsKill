@@ -42,5 +42,14 @@ public class GoodsDaoTest {
 		Assert.assertEquals(1, goodsDao.delete(10L));
 	}
 
+	@Test
+	public void testSelectBySelective(){
+		Goods goods=new Goods();
+		goods.setGoodsId(1);
+//		goods.setName("iphone6");
+		Assert.assertTrue(goodsDao.selectBySelective(null).size()>0);
+	}
+
+
 
 }

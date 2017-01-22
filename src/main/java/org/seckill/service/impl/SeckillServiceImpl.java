@@ -95,4 +95,9 @@ public class SeckillServiceImpl implements SeckillService {
             throw new SeckillException("seckill inner error:" + e.getMessage());
         }
     }
+
+    @Override
+    public void addSeckill(Seckill seckill) {
+        seckillDao.insert(seckill);
+    }
 }

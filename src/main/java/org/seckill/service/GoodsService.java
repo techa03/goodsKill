@@ -1,6 +1,7 @@
 package org.seckill.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.seckill.entity.Goods;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -15,4 +16,6 @@ public interface GoodsService {
     String getPhotoUrl(int goodsId);
 
     void addGoods(Goods goods, CommonsMultipartFile file);
+
+    List<Goods> queryAll();
 }

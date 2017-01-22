@@ -42,9 +42,8 @@ public class UserAccountController {
 
     @Transactional
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public
     @ResponseBody
-    String register(User user) {
+    public String register(User user) {
         userAccountService.register(user);
         return "success";
     }
