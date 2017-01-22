@@ -7,10 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.List;
 
 /**
  *  Created by heng on 17/1/18.
@@ -32,5 +34,12 @@ public class GoodsController {
         goods.setCreateTime(new Date());
         goodsService.addGoods(goods,file);
         return "redirect:/seckill/list";
+    }
+
+    @RequestMapping(value = "/list",method = RequestMethod.GET,produces = {
+            "application/json;charset=UTF-8"})
+    @ResponseBody
+    public List<Goods> list(){
+        return goodsService.queryAll();
     }
 }
