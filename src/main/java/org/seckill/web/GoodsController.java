@@ -4,10 +4,7 @@ import org.seckill.entity.Goods;
 import org.seckill.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.transaction.Transactional;
@@ -41,5 +38,12 @@ public class GoodsController {
     @ResponseBody
     public List<Goods> list(){
         return goodsService.queryAll();
+    }
+
+    @RequestMapping(value = "/getGoodsById/{goodsId}", method = RequestMethod.GET, produces = {
+            "application/json;charset=UTF-8"})
+    @ResponseBody
+    public Goods getGoodsById(@PathVariable(value = "goodsId") long goodsId) {
+        return goodsService.queryByGoodsId(goodsId);
     }
 }

@@ -3,7 +3,6 @@ package org.seckill.web;
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.dto.SeckillResult;
-import org.seckill.entity.Goods;
 import org.seckill.entity.Seckill;
 import org.seckill.enums.SeckillStatEnum;
 import org.seckill.exception.RepeatKillException;
@@ -104,9 +103,14 @@ public class SeckillController {
         return "redirect:/goods/addGoods";
     }
 
-    @RequestMapping(value = "/addSeckill", method = RequestMethod.GET)
+    @RequestMapping(value = "/addSeckill", method = RequestMethod.POST)
     public String addSeckill(Seckill seckill) {
         seckillService.addSeckill(seckill);
-        return "redirect:seckill/list";
+        return "redirect:list";
+    }
+
+    @RequestMapping(value = "/toAddSeckill", method = RequestMethod.GET)
+    public String toAddSeckill() {
+        return "seckill/addSeckill";
     }
 }

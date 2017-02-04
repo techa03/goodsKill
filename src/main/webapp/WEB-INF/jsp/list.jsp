@@ -15,7 +15,7 @@
 			</div>
 			<div class="panel-body">
 				<table class="table table-hover">
-					<a class="btn btn-info" href="/seckill/addSeckill" target="_blank">增加秒杀商品</a>
+                    <a class="btn btn-info" href="/seckill/toAddSeckill" target="_blank">增加秒杀商品</a>
 					<a class="btn btn-info" href="/seckill/toAddGoods" target="_blank">增加商品种类</a>
 					<thead>
 						<tr>

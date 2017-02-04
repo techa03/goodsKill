@@ -90,4 +90,9 @@ public class GoodsServiceImpl implements GoodsService {
     public List<Goods> queryAll() {
         return goodsDao.selectBySelective(null);
     }
+
+    @Override
+    public Goods queryByGoodsId(long goodsId) {
+        return goodsDao.selectById(goodsId);
+    }
 }

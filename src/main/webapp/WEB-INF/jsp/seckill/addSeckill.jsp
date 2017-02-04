@@ -9,15 +9,27 @@
            $.ajax({
                url: "/goods/list",
                success: function(data){
+                   console.log(data);
                    var str="";
                    for(var o in data){
                        str+="<option value='"+data[o].goodsId+"'>"+data[o].name+"</option>";
                    }
-                   $("#seckillId").html(str);
+                   $("#goodsId").html(str);
                }
            });
 
        });
+       function getPrice() {
+           console.log($("#goodsId").val());
+           var goodsId = $("#goodsId").val();
+           $.ajax({
+               url: "/goods/getGoodsById/" + goodsId,
+               success: function (data) {
+                   console.log(data);
+                   $("#realGoodsPrice").html("实际价格:" + data.price);
+               }
+           });
+       }
     </script>
 </head>
 <body>
@@ -26,14 +38,18 @@
     <div class="form-group">
         <div class="dropdown">
             <label for="goodsId">秒杀商品：</label></br>
-            <select class="form-control" name="goodsId" id="goodsId">
-
+            <select class="form-control" name="goodsId" id="goodsId" onchange="getPrice()">
             </select>
         </div>
     </div>
     <div class="form-group">
-        <label for="name">秒杀价格：</label>
+        <label for="name">秒杀活动名称：</label>
         <input type="text" class="form-control" id="name" name="name" placeholder="请输入秒杀活动名称">
+    </div>
+    <div class="form-group">
+        <label for="price">秒杀价格：</label>
+        <input type="text" class="form-control" id="price" name="price" placeholder="请输入秒杀价格">
+        <div id="realGoodsPrice"></div>
     </div>
     <%--<div class="form-group">--%>
         <%--<label for="introduce">秒杀活动商品介绍：</label>--%>
