@@ -1,8 +1,5 @@
 package org.seckill.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import java.util.Date;
 
 public class Goods {
