@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Service
 public class SeckillServiceImpl implements SeckillService {
-    private static final String slat = "gfhfghdfsdgdfgsdgh5rtyhgfhgfhyty@$%@$%^";
+    private static final String SLAT = "gfhfghdfsdgdfgsdgh5rtyhgfhgfhyty@$%@$%^";
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private SeckillDao seckillDao;
@@ -60,7 +60,7 @@ public class SeckillServiceImpl implements SeckillService {
     }
 
     private String getMD5(long seckillId) {
-        String base = seckillId + "/" + slat;
+        String base = seckillId + "/" + SLAT;
         return DigestUtils.md5DigestAsHex(base.getBytes());
     }
 
