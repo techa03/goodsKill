@@ -3,7 +3,6 @@ package org.seckill.service;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seckill.dto.Exposer;
-import org.seckill.dto.SeckillExecution;
 import org.seckill.entity.Seckill;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -3,7 +3,6 @@ package org.seckill.dao;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seckill.entity.Goods;
 import org.seckill.entity.Seckill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -71,6 +70,15 @@ public class SeckillDaoTest {
         t.setNumber(100);
         t.setGoodsId(6);
         Assert.assertEquals(seckillDao.insert(t),1);
+    }
+
+    @Test
+    public void testUpdate() {
+        Seckill seckill = new Seckill();
+        seckill.setSeckillId(1007);
+        seckill.setNumber(50);
+        System.out.println(seckill.getGoodsId());
+        Assert.assertEquals(seckillDao.update(seckill), 1);
     }
 
 

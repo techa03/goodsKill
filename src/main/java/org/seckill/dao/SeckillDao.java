@@ -12,4 +12,5 @@ public interface SeckillDao extends BaseDao<Seckill>{
 	Seckill queryById(long seckillId);
 
 	List<Seckill> queryAll(@Param("offset")int offset,@Param("limit")int limit);
+
 }

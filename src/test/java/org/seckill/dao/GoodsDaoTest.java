@@ -39,8 +39,8 @@ public class GoodsDaoTest {
 
 	@Test
 	public void testDelete(){
-		Assert.assertEquals(1, goodsDao.delete(10L));
-	}
+        Assert.assertEquals(0, goodsDao.delete(10L));
+    }
 
 	@Test
 	public void testSelectBySelective(){

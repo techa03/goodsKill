@@ -100,4 +100,14 @@ public class SeckillServiceImpl implements SeckillService {
     public void addSeckill(Seckill seckill) {
         seckillDao.insert(seckill);
     }
+
+    @Override
+    public int deleteSeckill(Long seckillId) {
+        return seckillDao.delete(seckillId);
+    }
+
+    @Override
+    public int updateSeckill(Seckill seckill) {
+        return seckillDao.update(seckill);
+    }
 }

@@ -113,4 +113,17 @@ public class SeckillController {
     public String toAddSeckill() {
         return "seckill/addSeckill";
     }
+
+    @RequestMapping(value = "/{seckillId}/delete", method = RequestMethod.GET)
+    public String delete(@PathVariable("seckillId") Long seckillId) {
+        seckillService.deleteSeckill(seckillId);
+        if (seckillId == null) {
+            return "redirect:/seckill/list";
+        }
+        Seckill seckill = seckillService.getById(seckillId);
+        if (seckill == null) {
+            return "forward:/seckill/list";
+        }
+        return "detail";
+    }
 }

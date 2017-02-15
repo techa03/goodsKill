@@ -20,4 +20,8 @@ public interface SeckillService {
     SeckillExecution executeSeckill(long seckillId, long userPhone, String md5);
 
     void addSeckill(Seckill seckill);
+
+    int deleteSeckill(Long seckillId);
+
+    int updateSeckill(Seckill seckill);
 }

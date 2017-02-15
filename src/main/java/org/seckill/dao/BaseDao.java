@@ -14,4 +14,6 @@ public interface BaseDao<T extends Object> {
     T selectByPrimaryKey(long id);
 
     List<T> selectBySelective(T t);
+
+    int update(T t);
 }
