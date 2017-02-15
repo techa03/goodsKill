@@ -41,6 +41,7 @@ public class SeckillServiceImplTest {
         long id=1000;
         Exposer exposer=seckillService.exportSeckillUrl(id);
         logger.info("exposer={}",exposer);
+        System.out.println(exposer);
     }
 
 
