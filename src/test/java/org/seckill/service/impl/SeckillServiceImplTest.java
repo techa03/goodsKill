@@ -1,9 +1,10 @@
-package org.seckill.service;
+package org.seckill.service.impl;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seckill.dto.Exposer;
 import org.seckill.entity.Seckill;
+import org.seckill.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
