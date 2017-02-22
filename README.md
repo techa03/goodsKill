@@ -5,6 +5,6 @@
 
 - JAVA应用服务器：tomcat8.0;
 
-- 技术选型：SpringMvc,mybatis,Jsp,ajax,bootstrap,git,maven;
+- 技术选型：SpringMVC,mybatis,Jsp,ajax,bootstrap,git,maven;
 
 - 代码质量控制：sonarQube
