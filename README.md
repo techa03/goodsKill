@@ -5,6 +5,6 @@ o 开发环境：JDK7，MySQL数据库，intelljIdea;
 
 o JAVA应用服务器：tomcat8.0;
 
-o 技术选型：SpringMvc、mybatis、Jsp、ajax、bootstrap，git，maven;
+o 技术选型：SpringMvc,mybatis,Jsp,ajax,bootstrap,git,maven;
 
 o 代码质量控制：sonarQube
