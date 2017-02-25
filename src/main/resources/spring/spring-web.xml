@@ -28,4 +28,6 @@
     	</bean>  
        
        <context:component-scan base-package="org.seckill.web"/>
+
+        <bean id="seckillController" class="org.seckill.web.SeckillController" scope="session"></bean>
 </beans>

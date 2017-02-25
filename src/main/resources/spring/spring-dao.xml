@@ -41,4 +41,24 @@
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+    
+    <bean id="stoneAxe" class="org.seckill.springTest.entity.StoneAxe">
+    </bean>
+    
+    <bean id="chinese" class="org.seckill.springTest.entity.Chinese" autowire="byType">
+        <property name="test" value="猪八戒">
+        </property>
+    </bean>
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>message</value>
+            </list>
+        </property>
+    </bean>
+
+
+    
 </beans>
