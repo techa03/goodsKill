@@ -26,21 +26,24 @@ import java.util.List;
  */
 @Service
 public class SeckillServiceImpl implements SeckillService {
-	private final String slat = "gfhfghdfsdgdfgsdgh5rtyhgfhgfhyty@$%@$%^";
+    private static final String SLAT = "gfhfghdfsdgdfgsdgh5rtyhgfhgfhyty@$%@$%^";
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private SeckillDao seckillDao;
     @Autowired
     private SuccessKilledDao successKilledDao;
 
+    @Override
     public List<Seckill> getSeckillList() {
         return seckillDao.queryAll(0, 4);
     }
 
+    @Override
     public Seckill getById(long seckillId) {
         return seckillDao.queryById(seckillId);
     }
 
+    @Override
     public Exposer exportSeckillUrl(long seckillId) {
         Seckill seckill = seckillDao.queryById(seckillId);
         if (seckill == null) {
@@ -57,13 +60,13 @@ public class SeckillServiceImpl implements SeckillService {
     }
 
     private String getMD5(long seckillId) {
-        String base = seckillId + "/" + slat;
-        String md5 = DigestUtils.md5DigestAsHex(base.getBytes());
-        return md5;
+        String base = seckillId + "/" + SLAT;
+        return DigestUtils.md5DigestAsHex(base.getBytes());
     }
 
     @Transactional
-    public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5) throws SeckillException, RepeatKillException, SeckillCloseException {
+    @Override
+    public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5) {
         if (md5 == null || !md5.equals(getMD5(seckillId))) {
             throw new SeckillException("seckill data rewrite");
         }
@@ -82,12 +85,29 @@ public class SeckillServiceImpl implements SeckillService {
                 }
             }
         } catch (SeckillCloseException e1) {
+            logger.info(e1.getMessage(), e1);
             throw e1;
         } catch (RepeatKillException e2) {
+            logger.info(e2.getMessage(), e2);
             throw e2;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new SeckillException("seckill inner error:" + e.getMessage());
         }
+    }
+
+    @Override
+    public void addSeckill(Seckill seckill) {
+        seckillDao.insert(seckill);
+    }
+
+    @Override
+    public int deleteSeckill(Long seckillId) {
+        return seckillDao.delete(seckillId);
+    }
+
+    @Override
+    public int updateSeckill(Seckill seckill) {
+        return seckillDao.update(seckill);
     }
 }

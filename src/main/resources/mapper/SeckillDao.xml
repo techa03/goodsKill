@@ -26,5 +26,25 @@
         ORDER BY create_time DESC
     </select>
 
+    <insert id="insert" parameterType="Seckill">
+        INSERT INTO SECKILL(name,number,goods_id) VALUES(#{name},#{number},#{goodsId})
+    </insert>
+
+    <update id="update" parameterType="Seckill">
+        UPDATE SECKILL
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="number!=null">
+                number=#{number},
+            </if>
+            <if test="goodsId!=null and goodsId!=0">
+                goods_id=#{goodsId},
+            </if>
+        </trim>
+        where seckill_id=#{seckillId}
+    </update>
+
 
 </mapper>

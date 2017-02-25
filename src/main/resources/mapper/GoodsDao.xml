@@ -15,5 +15,22 @@
         INSERT INTO goods (photo_url, name, price, create_time, introduce) VALUES(#{photoUrl},#{name},#{price},#{createTime},#{introduce})
     </insert>
 
+    <delete id="delete">
+        delete from goods where goods_id=#{id}
+    </delete>
+
+    <select id="selectBySelective" resultType="Goods" parameterType="Goods">
+        select * from goods
+        <where>
+            1=1
+        <if test="goodsId!=null">
+            and goods_id=#{goodsId}
+        </if>
+        <if test="name!=null">
+            and name=#{name}
+        </if>
+        </where>
+    </select>
+
 
 </mapper>

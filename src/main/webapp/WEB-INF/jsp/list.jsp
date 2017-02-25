@@ -15,7 +15,8 @@
 			</div>
 			<div class="panel-body">
 				<table class="table table-hover">
-					<a class="btn btn-info" href="/seckill/addSeckill" target="_blank">增加秒杀商品</a>
+                    <a class="btn btn-info" href="/seckill/toAddSeckill" target="_blank">增加秒杀商品</a>
+					<a>&nbsp;</a>
 					<a class="btn btn-info" href="/seckill/toAddGoods" target="_blank">增加商品种类</a>
 					<thead>
 						<tr>
@@ -46,6 +47,10 @@
 								<td>
 									<a class="btn btn-info" href="/seckill/toUploadPhoto/${sk.seckillId}" target="_blank">上传图片</a>
 									<a class="btn btn-info" href="/seckill/${sk.seckillId}/detail" target="_blank">link</a>
+									<a class="btn btn-info" href="/seckill/${sk.seckillId}/delete"
+									   target="_blank">删除</a>
+									<a class="btn btn-info" href="/seckill/${sk.seckillId}/update"
+									   target="_blank">修改</a>
 								</td>
 							</tr>
 						</c:forEach>

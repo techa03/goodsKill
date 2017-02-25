@@ -3,13 +3,13 @@
  */
 package org.seckill.dao;
 
-import static org.junit.Assert.fail;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author heng
@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:spring/spring-dao.xml"})
+@Transactional
 public class SuccessKilledDaoTest {
 	@Autowired
 	private SuccessKilledDao successKilledDao;
@@ -25,7 +26,7 @@ public class SuccessKilledDaoTest {
 	 */
 	@Test
 	public void testInsertSuccessKilled() {
-		successKilledDao.insertSuccessKilled(1L, 1373483423L);
+		Assert.assertEquals(1,successKilledDao.insertSuccessKilled(1000L, 1373483412L));
 	}
 
 	/**
@@ -33,7 +34,8 @@ public class SuccessKilledDaoTest {
 	 */
 	@Test
 	public void testQueryByIdWithSeckill() {
-		fail("Not yet implemented");
+		successKilledDao.insertSuccessKilled(1000L, 1373483414L);
+		Assert.assertEquals(1373483414L,successKilledDao.queryByIdWithSeckill(1000,1373483414L).getUserPhone());
 	}
 
 }

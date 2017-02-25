@@ -1,10 +1,10 @@
-package org.seckill.service;
+package org.seckill.service.impl;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seckill.dto.Exposer;
-import org.seckill.dto.SeckillExecution;
 import org.seckill.entity.Seckill;
+import org.seckill.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.List;
 @ContextConfiguration({
         "classpath:spring/spring-dao.xml",
         "classpath:spring/spring-service.xml"})
-public class SeckillServiceTest {
+public class SeckillServiceImplTest {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -41,12 +41,8 @@ public class SeckillServiceTest {
         long id=1000;
         Exposer exposer=seckillService.exportSeckillUrl(id);
         logger.info("exposer={}",exposer);
+        System.out.println(exposer);
     }
 
-    @Test
-    public void testExecuteSeckill() throws Exception {
-        long id=1000;
-        long phone=18516536082L;
-        SeckillExecution seckillExecution=seckillService.executeSeckill(id,phone,"bba0db45c3de02800b8c7ace5e440679");
-    }
+
 }
