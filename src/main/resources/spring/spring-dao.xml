@@ -36,21 +36,14 @@
    
     <context:component-scan base-package="org.seckill.*"/>
 
+    <!--spring事务处理-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
-    
-    
-    <bean id="stoneAxe" class="org.seckill.springTest.entity.StoneAxe">
-    </bean>
-    
-    <bean id="chinese" class="org.seckill.springTest.entity.Chinese" autowire="byType">
-        <property name="test" value="猪八戒">
-        </property>
-    </bean>
 
+    <!-- 国际化需要的类-->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
             <list>
@@ -59,6 +52,11 @@
         </property>
     </bean>
 
+    <!-- redis数据访问类-->
+    <bean id="redisDao" class="org.seckill.dao.RedisDao">
+        <constructor-arg index="0" value="localhost"></constructor-arg>
+        <constructor-arg index="1" value="6379"></constructor-arg>
+    </bean>
 
     
 </beans>
