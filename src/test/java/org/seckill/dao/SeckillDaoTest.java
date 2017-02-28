@@ -47,7 +47,7 @@ public class SeckillDaoTest {
      */
     @Test
     public void testQueryById() {
-        long id = 1000L;
+        long id = 1004L;
         Seckill seckill = seckillDao.queryById(id);
         System.out.println(seckill.getStartTime());
         System.out.print(seckill.getGoodsId());

@@ -4,7 +4,7 @@ import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
 import org.seckill.dao.GoodsDao;
 import org.seckill.entity.Goods;
-import org.seckill.exception.HengException;
+import org.seckill.exception.CommonException;
 import org.seckill.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +49,7 @@ public class GoodsServiceImpl implements GoodsService {
             String filePath = s;
             File file_tmp = new File(filePath);
             if (!file_tmp.exists() && !file_tmp.mkdirs()) {
-                throw new HengException("dir create error!");
+                throw new CommonException("dir create error!");
             }
             fos = new FileOutputStream(path);
             is = file.getInputStream();
@@ -60,7 +60,7 @@ public class GoodsServiceImpl implements GoodsService {
             fos.flush();
         } catch (IOException e) {
             logger.error("error message is:", e);
-            throw new HengException("上传文件异常");
+            throw new CommonException("上传文件异常");
         } finally {
             if (fos!=null){
                 fos.close();
@@ -80,7 +80,7 @@ public class GoodsServiceImpl implements GoodsService {
             path = uploadGoodsPhoto(file);
         } catch (IOException e) {
             logger.info(e.getMessage(),e);
-            throw new HengException("上传文件方法出现错误");
+            throw new CommonException("上传文件方法出现错误");
         }
         goods.setPhotoUrl(path);
         goodsDao.insert(goods);
