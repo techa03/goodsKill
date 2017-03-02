@@ -80,7 +80,7 @@ public class GoodsServiceImpl implements GoodsService {
             path = uploadGoodsPhoto(file);
         } catch (IOException e) {
             logger.info(e.getMessage(),e);
-            throw new CommonException("上传文件方法出现错误");
+            throw new CommonException("上传文件方法出现错误!");
         }
         goods.setPhotoUrl(path);
         goodsDao.insert(goods);

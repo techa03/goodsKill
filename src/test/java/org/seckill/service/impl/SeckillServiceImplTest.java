@@ -1,5 +1,6 @@
 package org.seckill.service.impl;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seckill.dto.Exposer;
@@ -11,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
         "classpath:spring/spring-dao.xml",
         "classpath:spring/spring-service.xml"})
+@Transactional
 public class SeckillServiceImplTest {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -41,7 +44,7 @@ public class SeckillServiceImplTest {
         long id=1000;
         Exposer exposer=seckillService.exportSeckillUrl(id);
         logger.info("exposer={}",exposer);
-        System.out.println(exposer);
+        Assert.assertNotNull(exposer);
     }
 
 

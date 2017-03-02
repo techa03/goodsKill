@@ -9,7 +9,6 @@
            $.ajax({
                url: "/goods/list",
                success: function(data){
-                   console.log(data);
                    var str="";
                    for(var o in data){
                        str+="<option value='"+data[o].goodsId+"'>"+data[o].name+"</option>";
@@ -20,12 +19,10 @@
 
        });
        function getPrice() {
-           console.log($("#goodsId").val());
            var goodsId = $("#goodsId").val();
            $.ajax({
                url: "/goods/getGoodsById/" + goodsId,
                success: function (data) {
-                   console.log(data);
                    $("#realGoodsPrice").html("实际价格:" + data.price);
                }
            });

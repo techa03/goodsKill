@@ -6,12 +6,14 @@ import com.dyuproject.protostuff.runtime.RuntimeSchema;
 import org.seckill.entity.Seckill;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 /**
  * Created by heng on 2017/2/25.
  */
+@Repository
 public class RedisDao {
     public static final Logger logger= LoggerFactory.getLogger(RedisDao.class);
     private JedisPool jedisPool;

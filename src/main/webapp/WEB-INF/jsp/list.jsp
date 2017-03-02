@@ -6,6 +6,24 @@
 <head>
 <title>秒杀列表页</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="application/javascript">
+//		function checkExposer(seckillId) {
+//			$.ajax({
+//			    url:"/seckill/"+seckillId+"/exposer",
+//				type:"post",
+//				success:function (result) {
+//                    var data = result.data;
+//                    console.log(data.exposed);
+//			        if(data.exposed==true){
+//			            window.open("/seckill/"+seckillId+"/"+data.md5+"/execution");
+//					}else{
+//                        alert("尚未开始");
+//					}
+//					console.log(data);
+//                }
+//			});
+//        }
+	</script>
 </head>
 <body>
 	<div class="container">
@@ -46,7 +64,7 @@
 								</td>
 								<td>
 									<a class="btn btn-info" href="/seckill/toUploadPhoto/${sk.seckillId}" target="_blank">上传图片</a>
-									<a class="btn btn-info" href="/seckill/${sk.seckillId}/detail" target="_blank">link</a>
+									<a class="btn btn-info"  target="_blank" href="/seckill/${sk.seckillId}/detail" onclick="checkExposer(${sk.seckillId})">链接</a>
 									<a class="btn btn-info" href="/seckill/${sk.seckillId}/delete"
 									   target="_blank">删除</a>
 									<a class="btn btn-info" href="/seckill/${sk.seckillId}/update"

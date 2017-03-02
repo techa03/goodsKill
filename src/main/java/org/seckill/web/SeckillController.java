@@ -11,6 +11,7 @@ import org.seckill.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ import java.util.List;
 /**
  * Created by heng on 2016/7/23.
  */
+@Controller
 @RequestMapping("/seckill")
 public class SeckillController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -50,7 +52,7 @@ public class SeckillController {
     @RequestMapping(value = "/{seckillId}/exposer", method = RequestMethod.POST, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public SeckillResult<Exposer> exposer(Long seckillId) {
+    public SeckillResult<Exposer> exposer(@PathVariable("seckillId") Long seckillId) {
         SeckillResult<Exposer> result;
         try {
             Exposer exposer = seckillService.exportSeckillUrl(seckillId);
@@ -64,6 +66,7 @@ public class SeckillController {
 
     @RequestMapping(value = "/{seckillId}/{md5}/execution", method = RequestMethod.POST, produces = {
             "application/json;charset=UTF-8"})
+    @ResponseBody
     public SeckillResult<SeckillExecution> execute(@PathVariable("seckillId") Long seckillId,
                                                    @PathVariable("md5") String md5, @CookieValue(value = "killPhone", required = false) Long phone) {
         SeckillResult<SeckillExecution> seckillResult;
@@ -123,9 +126,5 @@ public class SeckillController {
             return "forward:/seckill/list";
         }
         return "detail";
-    }
-
-    public SeckillController() {
-        System.out.println("初始化controller");
     }
 }
