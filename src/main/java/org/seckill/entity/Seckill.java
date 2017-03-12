@@ -1,6 +1,7 @@
 package org.seckill.entity;
 
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Seckill {
@@ -11,6 +12,15 @@ public class Seckill {
     private Date endTime;
     private Date createTime;
     private int goodsId;
+    private BigDecimal price;
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
     @Override
     public String toString() {
@@ -22,6 +32,7 @@ public class Seckill {
                 ", endTime=" + endTime +
                 ", createTime=" + createTime +
                 ", goodsId=" + goodsId +
+                ", price=" + price +
                 '}';
     }
 

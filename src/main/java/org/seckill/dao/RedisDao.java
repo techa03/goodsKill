@@ -61,4 +61,7 @@ public class RedisDao {
         }
         return null;
     }
+
+    public RedisDao() {
+    }
 }

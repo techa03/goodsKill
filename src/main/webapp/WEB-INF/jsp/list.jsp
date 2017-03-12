@@ -67,7 +67,7 @@
 									<a class="btn btn-info"  target="_blank" href="/seckill/${sk.seckillId}/detail" onclick="checkExposer(${sk.seckillId})">链接</a>
 									<a class="btn btn-info" href="/seckill/${sk.seckillId}/delete"
 									   target="_blank">删除</a>
-									<a class="btn btn-info" href="/seckill/${sk.seckillId}/update"
+									<a class="btn btn-info" href="/seckill/${sk.seckillId}/edit"
 									   target="_blank">修改</a>
 								</td>
 							</tr>

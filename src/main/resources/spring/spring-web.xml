@@ -12,7 +12,7 @@
         http://www.springframework.org/schema/mvc 
         http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">
 
-       <mvc:annotation-driven/>
+       <mvc:annotation-driven conversion-service="conversionService"/>
        <mvc:default-servlet-handler/>
 
        <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -29,5 +29,12 @@
        
        <context:component-scan base-package="org.seckill.web"/>
 
-        <bean id="seckillController" class="org.seckill.web.SeckillController" scope="session"></bean>
+    <bean id="seckillController" class="org.seckill.web.SeckillController" scope="session"/>
+
+    <!--日期字符串转data类型-->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <bean class="org.seckill.common.util.String2DateUtil"/>
+        </property>
+    </bean>
 </beans>

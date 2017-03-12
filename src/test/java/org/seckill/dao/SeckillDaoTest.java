@@ -69,6 +69,8 @@ public class SeckillDaoTest {
         t.setName("1");
         t.setNumber(100);
         t.setGoodsId(6);
+        t.setStartTime(new Date());
+        t.setEndTime(new Date());
         Assert.assertEquals(seckillDao.insert(t),1);
     }
 

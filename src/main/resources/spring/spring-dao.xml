@@ -9,28 +9,27 @@
 
     <context:property-placeholder location="classpath:jdbc.properties"/>
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="driverClass" value="${driver}"></property>
-        <property name="jdbcUrl" value="${url}"></property>
-        <property name="user" value="${username}"></property>
-        <property name="password" value="${password}"></property>
-
-        <property name="maxPoolSize" value="30"></property>
-        <property name="minPoolSize" value="10"></property>
-        <property name="autoCommitOnClose" value="false"></property>
-        <property name="checkoutTimeout" value="1000"></property>
-        <property name="acquireRetryAttempts" value="2"></property>
+        <property name="driverClass" value="${driver}"/>
+        <property name="jdbcUrl" value="${url}"/>
+        <property name="user" value="${username}"/>
+        <property name="password" value="${password}"/>
+        <property name="maxPoolSize" value="30"/>
+        <property name="minPoolSize" value="10"/>
+        <property name="autoCommitOnClose" value="false"/>
+        <property name="checkoutTimeout" value="1000"/>
+        <property name="acquireRetryAttempts" value="2"/>
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"></property>
-        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
-        <property name="typeAliasesPackage" value="org.seckill.entity"></property>
-        <property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="typeAliasesPackage" value="org.seckill.entity"/>
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
-        <property name="basePackage" value="org.seckill.dao"></property>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="org.seckill.dao"/>
     </bean>
 
    
@@ -54,8 +53,8 @@
 
     <!-- redis数据访问类-->
     <bean id="redisDao" class="org.seckill.dao.RedisDao">
-        <constructor-arg index="0" value="localhost"></constructor-arg>
-        <constructor-arg index="1" value="6379"></constructor-arg>
+        <constructor-arg index="0" value="localhost"/>
+        <constructor-arg index="1" value="6379"/>
     </bean>
 
     

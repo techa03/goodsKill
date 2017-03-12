@@ -25,6 +25,15 @@ import java.util.List;
 public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private GoodsDao goodsDao;
+
+    public GoodsDao getGoodsDao() {
+        return goodsDao;
+    }
+
+    public void setGoodsDao(GoodsDao goodsDao) {
+        this.goodsDao = goodsDao;
+    }
+
     private Logger logger = LoggerFactory.logger(this.getClass());
 
     @Override

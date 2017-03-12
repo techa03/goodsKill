@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -126,5 +127,18 @@ public class SeckillController {
             return "forward:/seckill/list";
         }
         return "detail";
+    }
+
+    @RequestMapping(value = "/{seckillId}/edit", method = RequestMethod.GET)
+    public String edit(Model model,@PathVariable("seckillId")Long seckillId) {
+        model.addAttribute("seckill",seckillService.getById(seckillId));
+        return "seckill/updateSeckill";
+    }
+
+    @Transactional
+    @RequestMapping(value = "/{seckillId}/update", method = RequestMethod.POST)
+    public String update(Seckill seckill) {
+        seckillService.updateSeckill(seckill);
+        return "list";
     }
 }

@@ -106,8 +106,8 @@ public class SeckillServiceImpl implements SeckillService {
     }
 
     @Override
-    public void addSeckill(Seckill seckill) {
-        seckillDao.insert(seckill);
+    public int addSeckill(Seckill seckill) {
+       return seckillDao.insert(seckill);
     }
 
     @Override
