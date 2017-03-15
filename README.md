@@ -8,3 +8,4 @@
 - 技术选型：SpringMVC,mybatis,Redis,Jsp,ajax,bootstrap,git,maven;
 
 - 代码质量控制：sonarQube
+![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%88%AA%E5%9B%BE20170315174408.png)
