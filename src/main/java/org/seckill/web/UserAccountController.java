@@ -3,7 +3,7 @@ package org.seckill.web;
 import org.seckill.dao.SeckillDao;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.User;
-import org.seckill.exception.HengException;
+import org.seckill.exception.CommonException;
 import org.seckill.service.GoodsService;
 import org.seckill.service.UserAccountService;
 import org.slf4j.Logger;
@@ -92,7 +92,7 @@ public class UserAccountController {
             goodsService.uploadGoodsPhoto(file, seckill.getGoodsId());
         } catch (IOException e) {
             logger.info(e.getMessage(), e);
-            throw new HengException("上传商品照片出现错误，请检查");
+            throw new CommonException("上传商品照片出现错误，请检查");
         }
         return "redirect:/seckill/list";
     }

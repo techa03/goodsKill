@@ -2,6 +2,7 @@ package org.seckill.web;
 
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
+import org.seckill.dto.SeckillInfo;
 import org.seckill.dto.SeckillResult;
 import org.seckill.entity.Seckill;
 import org.seckill.enums.SeckillStatEnum;
@@ -11,15 +12,19 @@ import org.seckill.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by heng on 2016/7/23.
  */
+@Controller
 @RequestMapping("/seckill")
 public class SeckillController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -38,11 +43,18 @@ public class SeckillController {
         if (seckillId == null) {
             return "redirect:/seckill/list";
         }
-        Seckill seckill = seckillService.getById(seckillId);
-        if (seckill == null) {
+        SeckillInfo seckillInfo = null;
+        try {
+            seckillInfo = seckillService.getById(seckillId);
+        } catch (InvocationTargetException e) {
+            logger.error("the error is :",e);
+        } catch (IllegalAccessException e) {
+            logger.error("the error is :",e);
+        }
+        if (seckillInfo == null) {
             return "forward:/seckill/list";
         }
-        model.addAttribute("seckill", seckill);
+        model.addAttribute("seckillInfo", seckillInfo);
         return "detail";
 
     }
@@ -50,7 +62,7 @@ public class SeckillController {
     @RequestMapping(value = "/{seckillId}/exposer", method = RequestMethod.POST, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public SeckillResult<Exposer> exposer(Long seckillId) {
+    public SeckillResult<Exposer> exposer(@PathVariable("seckillId") Long seckillId) {
         SeckillResult<Exposer> result;
         try {
             Exposer exposer = seckillService.exportSeckillUrl(seckillId);
@@ -64,6 +76,7 @@ public class SeckillController {
 
     @RequestMapping(value = "/{seckillId}/{md5}/execution", method = RequestMethod.POST, produces = {
             "application/json;charset=UTF-8"})
+    @ResponseBody
     public SeckillResult<SeckillExecution> execute(@PathVariable("seckillId") Long seckillId,
                                                    @PathVariable("md5") String md5, @CookieValue(value = "killPhone", required = false) Long phone) {
         SeckillResult<SeckillExecution> seckillResult;
@@ -115,17 +128,26 @@ public class SeckillController {
     @RequestMapping(value = "/{seckillId}/delete", method = RequestMethod.GET)
     public String delete(@PathVariable("seckillId") Long seckillId) {
         seckillService.deleteSeckill(seckillId);
-        if (seckillId == null) {
-            return "redirect:/seckill/list";
-        }
-        Seckill seckill = seckillService.getById(seckillId);
-        if (seckill == null) {
-            return "forward:/seckill/list";
-        }
-        return "detail";
+        return "redirect:/seckill/list";
     }
 
-    public SeckillController() {
-        System.out.println("初始化controller");
+    @Transactional
+    @RequestMapping(value = "/{seckillId}/edit", method = RequestMethod.GET)
+    public String edit(Model model, @PathVariable("seckillId") Long seckillId) {
+        try {
+            model.addAttribute("seckillInfo", seckillService.getById(seckillId));
+        } catch (InvocationTargetException e) {
+            logger.error("the error is :", e);
+        } catch (IllegalAccessException e) {
+            logger.error("the error is :", e);
+        }
+        return "seckill/edit";
+    }
+
+    @Transactional
+    @RequestMapping(value = "/{seckillId}/update", method = RequestMethod.POST)
+    public String update(Seckill seckill) {
+        seckillService.updateSeckill(seckill);
+        return "redirect:/seckill/list";
     }
 }

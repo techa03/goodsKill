@@ -1,10 +1,12 @@
-package org.seckill.entity;
-
+package org.seckill.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Seckill {
+/**
+ * Created by heng on 2017/3/15.
+ */
+public class SeckillInfo {
     private long seckillId;
     private String name;
     private int number;
@@ -13,37 +15,7 @@ public class Seckill {
     private Date createTime;
     private int goodsId;
     private BigDecimal price;
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "Seckill{" +
-                "seckillId=" + seckillId +
-                ", name='" + name + '\'' +
-                ", number=" + number +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", createTime=" + createTime +
-                ", goodsId=" + goodsId +
-                ", price=" + price +
-                '}';
-    }
-
-    public int getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(int goodsId) {
-        this.goodsId = goodsId;
-    }
-
+    private String goodsName;
 
     public long getSeckillId() {
         return seckillId;
@@ -93,5 +65,42 @@ public class Seckill {
         this.createTime = createTime;
     }
 
+    public int getGoodsId() {
+        return goodsId;
+    }
 
+    public void setGoodsId(int goodsId) {
+        this.goodsId = goodsId;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
+
+    @Override
+    public String toString() {
+        return "SeckillInfo{" +
+                "seckillId=" + seckillId +
+                ", name='" + name + '\'' +
+                ", number=" + number +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", createTime=" + createTime +
+                ", goodsId=" + goodsId +
+                ", price=" + price +
+                ", goodsName='" + goodsName + '\'' +
+                '}';
+    }
 }

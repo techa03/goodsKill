@@ -2,7 +2,7 @@ package org.seckill.service.impl;
 
 import org.seckill.dao.UserDao;
 import org.seckill.entity.User;
-import org.seckill.exception.HengException;
+import org.seckill.exception.CommonException;
 import org.seckill.exception.SeckillException;
 import org.seckill.service.UserAccountService;
 import org.slf4j.Logger;
@@ -24,7 +24,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 			userDao.addUser(user);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			throw new HengException(null);
+			throw new CommonException(null);
 		}
 
 	}

@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/fmt_rt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="../common/head.jsp" %>
 <html>
@@ -37,43 +39,38 @@
 </head>
 <body>
 
-<form role="form" action="/seckill/addSeckill" enctype="multipart/form-data" method="post"
+<form role="form" action="/seckill/${seckillInfo.seckillId}/update" enctype="multipart/form-data" method="post"
       style="width: 10%;margin: 0 auto;">
     <div class="form-group">
-        <div class="dropdown">
-            <label for="goodsId">秒杀商品：</label></br>
-            <select class="form-control" name="goodsId" id="goodsId" onchange="getPrice()">
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="name">秒杀活动名称：</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="请输入秒杀活动名称">
+        <label for="name">秒杀商品名称：</label>
+        <input type="text" class="form-control" id="name" name="name" value="${seckillInfo.goodsName}" readonly="readonly">
     </div>
     <div class="form-group">
         <label for="price">秒杀价格：</label>
-        <input type="text" class="form-control" id="price" name="price" placeholder="请输入秒杀价格">
+        <input type="text" class="form-control" id="price" name="price" value="${seckillInfo.price}">
         <div id="realGoodsPrice"></div>
     </div>
     <div class="form-group">
         <label for="number">秒杀数量：</label>
-        <input type="text" class="form-control" id="number" name="number" placeholder="请输入秒杀数量">
+        <input type="text" class="form-control" id="number" name="number" value="${seckillInfo.number}">
     </div>
     <div class="form-group">
         <label>选择秒杀开始日期：</label>
         <!--指定 date标记-->
         <div class='input-group date' id='datetimepicker1'>
-            <input type='text' class="form-control" name="startTime"/>
+            <input type='text' class="form-control" name="startTime"
+                   value="<fmt:formatDate value="${seckillInfo.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
             <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
         </div>
     </div>
     <div class="form-group">
-        <label>选择秒杀开始日期：</label>
+        <label>选择秒杀结束日期：</label>
         <!--指定 date标记-->
         <div class='input-group date' id='datetimepicker2'>
-            <input type='text' class="form-control" name="endTime"/>
+            <input type='text' class="form-control" name="endTime"
+                   value="<fmt:formatDate value="${seckillInfo.endTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
             <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -84,7 +81,7 @@
     <%--<input type="text" class="form-control" id="introduce" name="introduce" placeholder="请输入商品介绍">--%>
     <%--</div>--%>
 
-    <input type="submit" class="form-control" value="新增秒杀"/>
+    <input type="submit" class="form-control" value="确认修改"/>
 </form>
 </body>
 <%@include file="../common/buttom.jsp" %>
