@@ -39,12 +39,12 @@
 <body>
 <div class="container">
     <div class="panel panel-default text-center">
-        <div class="pannel-heading">${seckill.name}</div>
+        <div class="pannel-heading">${seckillInfo.name}</div>
     </div>
     <div class="panel-body">
         <input type="hidden" name="md5" value="" id="md5"/>
         <input type="text" id="phoneNum" value="">手机号</input>
-        <input type="button" value="执行秒杀" onclick="checkExposer(${seckill.seckillId})"/>
+        <input type="button" value="执行秒杀" onclick="checkExposer(${seckillInfo.seckillId})"/>
     </div>
 </div>
 </body>

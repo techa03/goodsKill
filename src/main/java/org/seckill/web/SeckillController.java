@@ -2,6 +2,7 @@ package org.seckill.web;
 
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
+import org.seckill.dto.SeckillInfo;
 import org.seckill.dto.SeckillResult;
 import org.seckill.entity.Seckill;
 import org.seckill.enums.SeckillStatEnum;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.List;
 
@@ -41,11 +43,18 @@ public class SeckillController {
         if (seckillId == null) {
             return "redirect:/seckill/list";
         }
-        Seckill seckill = seckillService.getById(seckillId);
-        if (seckill == null) {
+        SeckillInfo seckillInfo = null;
+        try {
+            seckillInfo = seckillService.getById(seckillId);
+        } catch (InvocationTargetException e) {
+            logger.error("the error is :",e);
+        } catch (IllegalAccessException e) {
+            logger.error("the error is :",e);
+        }
+        if (seckillInfo == null) {
             return "forward:/seckill/list";
         }
-        model.addAttribute("seckill", seckill);
+        model.addAttribute("seckillInfo", seckillInfo);
         return "detail";
 
     }
@@ -119,26 +128,26 @@ public class SeckillController {
     @RequestMapping(value = "/{seckillId}/delete", method = RequestMethod.GET)
     public String delete(@PathVariable("seckillId") Long seckillId) {
         seckillService.deleteSeckill(seckillId);
-        if (seckillId == null) {
-            return "redirect:/seckill/list";
-        }
-        Seckill seckill = seckillService.getById(seckillId);
-        if (seckill == null) {
-            return "forward:/seckill/list";
-        }
-        return "detail";
+        return "redirect:/seckill/list";
     }
 
+    @Transactional
     @RequestMapping(value = "/{seckillId}/edit", method = RequestMethod.GET)
-    public String edit(Model model,@PathVariable("seckillId")Long seckillId) {
-        model.addAttribute("seckill",seckillService.getById(seckillId));
-        return "seckill/updateSeckill";
+    public String edit(Model model, @PathVariable("seckillId") Long seckillId) {
+        try {
+            model.addAttribute("seckillInfo", seckillService.getById(seckillId));
+        } catch (InvocationTargetException e) {
+            logger.error("the error is :", e);
+        } catch (IllegalAccessException e) {
+            logger.error("the error is :", e);
+        }
+        return "seckill/edit";
     }
 
     @Transactional
     @RequestMapping(value = "/{seckillId}/update", method = RequestMethod.POST)
     public String update(Seckill seckill) {
         seckillService.updateSeckill(seckill);
-        return "list";
+        return "redirect:/seckill/list";
     }
 }

@@ -2,8 +2,10 @@ package org.seckill.service;
 
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
+import org.seckill.dto.SeckillInfo;
 import org.seckill.entity.Seckill;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
@@ -13,7 +15,7 @@ public interface SeckillService {
 
     List<Seckill> getSeckillList();
 
-    Seckill getById(long seckillId);
+    SeckillInfo getById(long seckillId) throws InvocationTargetException, IllegalAccessException;
 
     Exposer exportSeckillUrl(long seckillId);
 

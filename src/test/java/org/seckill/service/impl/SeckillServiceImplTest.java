@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seckill.dto.Exposer;
+import org.seckill.dto.SeckillInfo;
 import org.seckill.entity.Seckill;
 import org.seckill.service.SeckillService;
 import org.slf4j.Logger;
@@ -35,8 +36,8 @@ public class SeckillServiceImplTest {
     @Test
     public void testGetById() throws Exception {
         long id = 1000;
-        Seckill seckill = seckillService.getById(id);
-        logger.info("seckill={}", seckill);
+        SeckillInfo seckill = seckillService.getById(id);
+        logger.info("seckill={}", seckill.toString());
     }
 
     @Test

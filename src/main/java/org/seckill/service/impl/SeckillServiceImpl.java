@@ -1,10 +1,14 @@
 package org.seckill.service.impl;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.seckill.dao.GoodsDao;
 import org.seckill.dao.RedisDao;
 import org.seckill.dao.SeckillDao;
 import org.seckill.dao.SuccessKilledDao;
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
+import org.seckill.dto.SeckillInfo;
+import org.seckill.entity.Goods;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.enums.SeckillStatEnum;
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +40,8 @@ public class SeckillServiceImpl implements SeckillService {
     private SuccessKilledDao successKilledDao;
     @Autowired
     private RedisDao redisDao;
+    @Autowired
+    private GoodsDao goodsDao;
 
     @Override
     public List<Seckill> getSeckillList() {
@@ -42,8 +49,13 @@ public class SeckillServiceImpl implements SeckillService {
     }
 
     @Override
-    public Seckill getById(long seckillId) {
-        return seckillDao.queryById(seckillId);
+    public SeckillInfo getById(long seckillId) throws InvocationTargetException, IllegalAccessException {
+        Seckill seckill=seckillDao.queryById(seckillId);
+        SeckillInfo seckillInfo=new SeckillInfo();
+        BeanUtils.copyProperties(seckillInfo,seckill);
+        Goods goods=goodsDao.selectById(seckill.getGoodsId());
+        seckillInfo.setGoodsName(goods.getName());
+        return seckillInfo;
     }
 
     @Override
