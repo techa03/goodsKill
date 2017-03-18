@@ -8,14 +8,24 @@ import org.seckill.service.UserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import javax.annotation.Resource;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+
 @Service
-public class UserAccountServiceImpl implements UserAccountService {
+public class UserAccountServiceImpl implements UserAccountService{
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private UserDao userDao;
+	@Resource
+	private JmsTemplate jmsTemplate;
 
 	@Override
 	public void register(User user) {
@@ -35,6 +45,16 @@ public class UserAccountServiceImpl implements UserAccountService {
 		if (count != 1) {
 			throw new SeckillException("login fail");
 		}
+	}
+
+	@Override
+	public void sendMsgForLogin(Destination destination,final User user) {
+		jmsTemplate.send(destination, new MessageCreator() {
+			@Override
+			public Message createMessage(Session session) throws JMSException {
+				return session.createTextMessage(user.toString());
+			}
+		});
 	}
 
 }
