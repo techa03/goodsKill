@@ -21,11 +21,11 @@
 			</div>
 			<div class="form-group">
 				<label for="password">密码：</label> <input type="password"
-					class="form-control" name="password" id="password"></input>
+					class="form-control" name="password" id="password" placeholder="请输入密码"/>
 			</div>
 			<div class="form-group">
 				<button class="btn btn-sm btn-primary btn-block" type="submit">登录</button>
-				<a class="btn btn-sm btn-primary btn-block" href="../">注册</a>
+				<a class="btn btn-sm btn-primary btn-block" href="register">注册</a>
 			</div>
 		</form>
 	</div>

@@ -1,5 +1,8 @@
 package org.seckill.common.util;
 
+import org.seckill.service.impl.UserAccountServiceImpl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.convert.converter.Converter;
 
 import java.text.ParseException;
@@ -40,5 +43,11 @@ public class String2DateUtil implements Converter<String,Date> {
             }
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        ApplicationContext context=new ClassPathXmlApplicationContext("spring/spring-dao.xml");
+        UserAccountServiceImpl userAccountService=(UserAccountServiceImpl) context.getBean("userAccountServiceImpl");
+        System.out.println(userAccountService.toString());
     }
 }
