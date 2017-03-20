@@ -13,6 +13,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:spring/spring-dao.xml"})
 public class RedisDaoTest {
+
+
     @Autowired
     private RedisDao redisDao;
     @Autowired
@@ -25,12 +27,16 @@ public class RedisDaoTest {
         if (seckill == null) {
             seckill = seckillDao.queryById(seckillId);
             if (seckill != null) {
-                String result=redisDao.putSeckill(seckill);
+                String result = redisDao.putSeckill(seckill);
                 System.out.println(result);
-                seckill=redisDao.getSeckill(seckillId);
+                seckill = redisDao.getSeckill(seckillId);
                 System.out.println(seckill);
             }
         }
     }
 
+    @Test
+    public void put() throws Exception {
+        redisDao.put("13232334562","343774");
+    }
 }

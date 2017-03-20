@@ -15,53 +15,69 @@ import redis.clients.jedis.JedisPool;
  */
 @Repository
 public class RedisDao {
-    public static final Logger logger= LoggerFactory.getLogger(RedisDao.class);
+    public static final Logger logger = LoggerFactory.getLogger(RedisDao.class);
     private JedisPool jedisPool;
 
-    public RedisDao(String ip,int port) {
-        jedisPool=new JedisPool(ip,port);
+    public RedisDao(String ip, int port) {
+        jedisPool = new JedisPool(ip, port);
     }
 
-    private RuntimeSchema<Seckill> schema=RuntimeSchema.createFrom(Seckill.class);
+    private RuntimeSchema<Seckill> schema = RuntimeSchema.createFrom(Seckill.class);
 
-    public Seckill getSeckill(long seckillId){
+    public Seckill getSeckill(long seckillId) {
         try {
-            Jedis jedis=jedisPool.getResource();
+            Jedis jedis = jedisPool.getResource();
             try {
-                String key="seckill:"+seckillId;
-                byte[] bytes=jedis.get(key.getBytes());
-                if (bytes!=null){
-                    Seckill seckill=schema.newMessage();
-                    ProtostuffIOUtil.mergeFrom(bytes,seckill,schema);
+                String key = "seckill:" + seckillId;
+                byte[] bytes = jedis.get(key.getBytes());
+                if (bytes != null) {
+                    Seckill seckill = schema.newMessage();
+                    ProtostuffIOUtil.mergeFrom(bytes, seckill, schema);
                     return seckill;
                 }
             } finally {
                 jedis.close();
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
         return null;
     }
 
-    public String putSeckill(Seckill seckill){
+    public String putSeckill(Seckill seckill) {
         try {
-            Jedis jedis=jedisPool.getResource();
-            try{
-                String key="seckill:"+seckill.getSeckillId();
-                byte[] bytes=ProtostuffIOUtil.toByteArray(seckill,schema, LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE));
-                int timeout=60*60;
+            Jedis jedis = jedisPool.getResource();
+            try {
+                String key = "seckill:" + seckill.getSeckillId();
+                byte[] bytes = ProtostuffIOUtil.toByteArray(seckill, schema, LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE));
+                int timeout = 60 * 60;
                 String result = jedis.setex(key.getBytes(), timeout, bytes);
                 return result;
-            }finally {
+            } finally {
                 jedis.close();
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
         return null;
     }
 
     public RedisDao() {
     }
+
+    public String put(String phoneNum, String phoneCode) {
+        Jedis jedis = jedisPool.getResource();
+        try {
+            jedis.append(phoneNum, phoneCode);
+            jedis.setex(phoneCode, 5 * 60, phoneCode);
+        } finally {
+            jedis.close();
+        }
+        return null;
+    }
+
+    public String get() {
+        return null;
+    }
+
 }
