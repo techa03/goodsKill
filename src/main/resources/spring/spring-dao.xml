@@ -7,7 +7,15 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--<context:property-placeholder location="classpath:jdbc.properties" />-->
+    <!-- 配置进行解密  -->
+    <bean id="propertyConfigurer" class="org.seckill.common.util.EncryptPropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="${driver}"/>
         <property name="jdbcUrl" value="${url}"/>
