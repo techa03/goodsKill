@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="common/tag.jsp"%>
 <%@include file="common/head.jsp"%>
 <html>
 <head>
@@ -6,7 +7,7 @@
 </head>
 <body>
 
-<form role="form" action="/goods/add" enctype="multipart/form-data" method="post" style="width: 30%;">
+<form role="form" action="${context}/goods/add" enctype="multipart/form-data" method="post" style="width: 30%;">
     <div class="form-group">
         <label for="name">商品名称</label>
         <input type="text" class="form-control" id="name" name="name" placeholder="请输入商品名称">

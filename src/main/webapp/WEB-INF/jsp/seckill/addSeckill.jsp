@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="../common/tag.jsp" %>
 <%@include file="../common/head.jsp" %>
 <html>
 <head>
@@ -37,7 +38,7 @@
 </head>
 <body>
 
-<form role="form" action="/seckill/addSeckill" enctype="multipart/form-data" method="post"
+<form role="form" action="${context}/seckill/addSeckill" enctype="multipart/form-data" method="post"
       style="width: 10%;margin: 0 auto;">
     <div class="form-group">
         <div class="dropdown">

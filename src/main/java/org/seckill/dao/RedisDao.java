@@ -4,8 +4,11 @@ import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.ProtostuffIOUtil;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
 import org.seckill.entity.Seckill;
+import org.seckill.service.impl.SeckillServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -78,6 +81,12 @@ public class RedisDao {
 
     public String get() {
         return null;
+    }
+
+    public static void main(String[] args) {
+        ApplicationContext context=new ClassPathXmlApplicationContext("spring/spring-dao.xml");
+        SeckillServiceImpl seckillServiceImpl=(SeckillServiceImpl) context.getBean("seckillServiceImpl");
+        System.out.println(seckillServiceImpl.toString());
     }
 
 }

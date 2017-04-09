@@ -27,15 +27,16 @@
 </head>
 <body>
 	<div class="container">
+		<c:out value="${context}"></c:out>
 		<div class="panel panel-default">
 			<div class="panel-heading text-center">
 				<h2>秒杀列表</h2>
 			</div>
 			<div class="panel-body">
 				<table class="table table-hover">
-                    <a class="btn btn-info" href="/seckill/toAddSeckill" target="_blank">增加秒杀商品</a>
+                    <a class="btn btn-info" href="${context}/seckill/toAddSeckill" target="_blank">增加秒杀商品</a>
 					<a>&nbsp;</a>
-					<a class="btn btn-info" href="/seckill/toAddGoods" target="_blank">增加商品种类</a>
+					<a class="btn btn-info" href="${context}/seckill/toAddGoods" target="_blank">增加商品种类</a>
 					<thead>
 						<tr>
 							<th>名称</th>
@@ -51,7 +52,7 @@
 						<c:forEach var="sk" items="${list}">
 							<tr>
 								<td>${sk.name}</td>
-								<td><img alt="图片" src="http://localhost:8080/seckill/img/seckill/${sk.seckillId}" style="width: 80px;height: 80px;"></td>
+								<td><img alt="图片" src="${context}/seckill/img/seckill/${sk.seckillId}" style="width: 80px;height: 80px;"></td>
 								<td>${sk.number}</td>
 								<td>
 									<fmt:formatDate value="${sk.startTime}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
@@ -63,11 +64,11 @@
 									<fmt:formatDate value="${sk.createTime}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
 								</td>
 								<td>
-									<a class="btn btn-info" href="/seckill/toUploadPhoto/${sk.seckillId}" target="_blank">上传图片</a>
-									<a class="btn btn-info"  target="_blank" href="/seckill/${sk.seckillId}/detail" onclick="checkExposer(${sk.seckillId})">链接</a>
-									<a class="btn btn-info" href="/seckill/${sk.seckillId}/delete"
+									<a class="btn btn-info" href="${context}/seckill/toUploadPhoto/${sk.seckillId}" target="_blank">上传图片</a>
+									<a class="btn btn-info"  target="_blank" href="${context}/seckill/${sk.seckillId}/detail" onclick="checkExposer(${sk.seckillId})">链接</a>
+									<a class="btn btn-info" href="${context}/seckill/${sk.seckillId}/delete"
 									   target="_blank">删除</a>
-									<a class="btn btn-info" href="/seckill/${sk.seckillId}/edit"
+									<a class="btn btn-info" href="${context}/seckill/${sk.seckillId}/edit"
 									   target="_blank">修改</a>
 								</td>
 							</tr>

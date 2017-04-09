@@ -83,4 +83,12 @@
         <constructor-arg value="myTopic"/>
     </bean>
 
+    <!-- 消息监听容器 -->
+    <bean id="jmsContainer"
+          class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="destination" ref="queueDestination" />
+        <property name="messageListener" ref="userAccountServiceImpl" />
+    </bean>
+
 </beans>

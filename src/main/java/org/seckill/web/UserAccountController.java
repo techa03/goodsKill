@@ -81,7 +81,7 @@ public class UserAccountController {
     @RequestMapping(value = "/upload/{seckillId}", method = RequestMethod.GET)
     public String upload(@PathVariable("seckillId") Long seckillId, Model model) {
         model.addAttribute("seckillId", seckillId);
-        return "upload";
+         return "upload";
     }
 
 

@@ -1,5 +1,6 @@
 package org.seckill.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import org.seckill.dao.UserDao;
 import org.seckill.entity.User;
 import org.seckill.exception.CommonException;
@@ -14,13 +15,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Session;
+import javax.jms.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
-public class UserAccountServiceImpl implements UserAccountService{
+public class UserAccountServiceImpl implements UserAccountService,MessageListener{
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private UserDao userDao;
@@ -52,9 +52,39 @@ public class UserAccountServiceImpl implements UserAccountService{
 		jmsTemplate.send(destination, new MessageCreator() {
 			@Override
 			public Message createMessage(Session session) throws JMSException {
+				Map<String,Object> userInfo=new HashMap<String,Object>();
+				userInfo.put("userName",user.getAccount());
+				userInfo.put("password",user.getPassword());
+				JSONObject user=new JSONObject(userInfo);
 				return session.createTextMessage(user.toString());
 			}
 		});
 	}
 
+	public void getMsgForLogin(){
+
+	}
+
+	@Override
+	public void onMessage(Message message) {
+		TextMessage textMessage=(TextMessage)message;
+		try {
+			System.out.println("接受的用户信息："+textMessage.getText());
+			JSONObject userInfo=JSONObject.parseObject(textMessage.getText());
+			if(!"".equals(userInfo.get("userName"))&&!"".equals(userInfo.get("password"))){
+				User user=new User();
+				user.setAccount((String) userInfo.get("userName"));
+				user.setPassword((String)userInfo.get("password"));
+				if(userDao.selectUserByAccountAndPsw(user)==1){
+					System.out.println("验证成功！");
+				}else{
+					System.out.println("验证失败！");
+				}
+			}else{
+				System.out.println("字段不许为空");
+			}
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}
+	}
 }

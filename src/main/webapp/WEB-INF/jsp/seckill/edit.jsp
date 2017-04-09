@@ -1,6 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/fmt_rt" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="../common/tag.jsp"%>
 <%@include file="../common/head.jsp" %>
 <html>
 <head>
@@ -9,7 +8,7 @@
     <script type="application/javascript">
         $(function () {
             $.ajax({
-                url: "/goods/list",
+                url: "${context}/goods/list",
                 success: function (data) {
                     var str = "";
                     for (var o in data) {
@@ -23,7 +22,7 @@
         function getPrice() {
             var goodsId = $("#goodsId").val();
             $.ajax({
-                url: "/goods/getGoodsById/" + goodsId,
+                url: "${context}/goods/getGoodsById/" + goodsId,
                 success: function (data) {
                     $("#realGoodsPrice").html("实际价格:" + data.price);
                 }
@@ -39,7 +38,7 @@
 </head>
 <body>
 
-<form role="form" action="/seckill/${seckillInfo.seckillId}/update" enctype="multipart/form-data" method="post"
+<form role="form" action="${context}/seckill/${seckillInfo.seckillId}/update" enctype="multipart/form-data" method="post"
       style="width: 10%;margin: 0 auto;">
     <div class="form-group">
         <label for="name">秒杀商品名称：</label>

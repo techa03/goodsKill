@@ -4,12 +4,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title></title>
+    <%@include file="common/tag.jsp"%>
     <%@include file="common/head.jsp" %>
 
     <script type="application/javascript">
         function checkExposer(seckillId) {
             $.ajax({
-                url: "/seckill/" + seckillId + "/exposer",
+                url: "${context}/seckill/" + seckillId + "/exposer",
                 type: "post",
                 success: function (result) {
                     alert($("#phoneNum").val());
@@ -19,7 +20,7 @@
                     console.log(data.exposed);
                     if (data.exposed == true) {
                         $.ajax({
-                            url: "/seckill/" + seckillId + "/" + data.md5 + "/execution",
+                            url: "${context}/seckill/" + seckillId + "/" + data.md5 + "/execution",
                             type: "post",
                             success: function (result) {
                                 var seckillResult = result.data;
