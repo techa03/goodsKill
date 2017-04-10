@@ -1,7 +1,0 @@
-<root>
-  <facet id="me.spring">
-    <node name="libprov">
-      <attribute name="provider-id" value="maven-lib-provider"/>
-    </node>
-  </facet>
-</root>
