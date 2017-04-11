@@ -11,3 +11,6 @@
 
 
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%88%AA%E5%9B%BE20170315174408.png)
+ 
+数据库设计
+![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%B1%8F%E6%9C%AA%E5%91%BD%E5%90%8D.png)
