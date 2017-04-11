@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>seckill</artifactId>
-        <groupId>com.seckill</groupId>
+        <artifactId>goodsKill</artifactId>
+        <groupId>com.goodsKill</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -14,12 +14,84 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.seckill</groupId>
+            <groupId>com.goodsKill</groupId>
             <artifactId>goodsKill-service</artifactId>
             <version>1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
     </dependencies>
 
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <!--根据环境加载不同配置文件-->
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+                <filters>
+                    <filter>src/main/resources/profile/dev/db-connect.properties</filter>
+                </filters>
+            </build>
+        </profile>
+        <profile>
+            <id>sit</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+                <filters>
+                    <filter>src/main/resources/profile/sit/db-connect.properties</filter>
+                </filters>
+            </build>
+        </profile>
+        <profile>
+            <id>uat</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+                <filters>
+                    <filter>src/main/resources/profile/uat/db-connect.properties</filter>
+                </filters>
+            </build>
+        </profile>
+        <profile>
+            <id>prd</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+                <filters>
+                    <filter>src/main/resources/profile/prd/db-connect.properties</filter>
+                </filters>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
