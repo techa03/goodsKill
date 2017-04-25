@@ -1,8 +1,10 @@
 package org.seckill.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SuccessKilled {
+public class SuccessKilled implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private long seckilled;
 	private long userPhone;
 	private short state;

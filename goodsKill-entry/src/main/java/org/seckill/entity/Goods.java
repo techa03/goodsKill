@@ -1,8 +1,10 @@
 package org.seckill.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Goods {
+public class Goods implements Serializable{
+    private static final long serialVersionUID = 1L;
     // 商品id
     private int goodsId;
     // 商品名称

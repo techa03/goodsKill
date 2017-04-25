@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>com.goodsKill</groupId>
-            <artifactId>goodsKill-service</artifactId>
+            <artifactId>goodsKill-api</artifactId>
             <version>1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>

@@ -1,10 +1,12 @@
 package org.seckill.entity;
 
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Seckill {
+public class Seckill implements Serializable{
+    private static final long serialVersionUID = 1L;
     private long seckillId;
     private String name;
     private int number;

@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class UserAccountServiceImpl implements UserAccountService,MessageListener{
+public class UserAccountServiceImpl implements UserAccountService{
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private UserDao userDao;
@@ -61,9 +61,6 @@ public class UserAccountServiceImpl implements UserAccountService,MessageListene
 		});
 	}
 
-	public void getMsgForLogin(){
-
-	}
 
 	@Override
 	public void onMessage(Message message) {
