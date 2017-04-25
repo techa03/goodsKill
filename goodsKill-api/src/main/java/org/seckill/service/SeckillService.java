@@ -26,4 +26,6 @@ public interface SeckillService {
     int deleteSeckill(Long seckillId);
 
     int updateSeckill(Seckill seckill);
+
+    Seckill selectById(Long seckillId);
 }

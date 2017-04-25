@@ -10,6 +10,7 @@
         <module>goodsKill-dao</module>
         <module>goodsKill-entry</module>
         <module>goodsKill-server</module>
+        <module>goodsKill-api</module>
     </modules>
 
     <properties>

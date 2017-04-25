@@ -1,6 +1,7 @@
 package org.seckill.service.impl;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.seckill.common.util.MD5Util;
 import org.seckill.dao.GoodsDao;
 import org.seckill.dao.RedisDao;
 import org.seckill.dao.SeckillDao;
@@ -21,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.DigestUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
@@ -32,7 +32,7 @@ import java.util.List;
  */
 @Service
 public class SeckillServiceImpl implements SeckillService {
-    private static final String SLAT = "gfhfghdfsdgdfgsdgh5rtyhgfhgfhyty@$%@$%^";
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private SeckillDao seckillDao;
@@ -76,19 +76,16 @@ public class SeckillServiceImpl implements SeckillService {
         if (nowTime.getTime() < startTime.getTime() || nowTime.getTime() > endTime.getTime()) {
             return new Exposer(false, seckillId, nowTime.getTime(), startTime.getTime(), endTime.getTime());
         }
-        String md5 = getMD5(seckillId);
+        String md5 = MD5Util.getMD5(seckillId);
         return new Exposer(true, md5, seckillId);
     }
 
-    private String getMD5(long seckillId) {
-        String base = seckillId + "/" + SLAT;
-        return DigestUtils.md5DigestAsHex(base.getBytes());
-    }
+
 
     @Transactional
     @Override
     public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5) {
-        if (md5 == null || !md5.equals(getMD5(seckillId))) {
+        if (md5 == null || !md5.equals(MD5Util.getMD5(seckillId))) {
             throw new SeckillException("seckill data rewrite");
         }
         Date nowTime = new Date();
@@ -130,5 +127,10 @@ public class SeckillServiceImpl implements SeckillService {
     @Override
     public int updateSeckill(Seckill seckill) {
         return seckillDao.update(seckill);
+    }
+
+    @Override
+    public Seckill selectById(Long seckillId) {
+        return seckillDao.queryById(seckillId);
     }
 }

@@ -18,8 +18,8 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-        "classpath:spring/spring-dao.xml",
-        "classpath:spring/spring-service.xml"})
+        "classpath:META-INF/spring/spring-dao.xml",
+        "classpath:META-INF/spring/spring-service.xml"})
 @Transactional
 public class SeckillServiceImplTest {
     private Logger logger = LoggerFactory.getLogger(this.getClass());

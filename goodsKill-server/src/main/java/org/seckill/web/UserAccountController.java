@@ -1,22 +1,20 @@
 package org.seckill.web;
 
-import org.seckill.dao.SeckillDao;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.User;
 import org.seckill.exception.CommonException;
 import org.seckill.service.GoodsService;
+import org.seckill.service.SeckillService;
 import org.seckill.service.UserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.jms.Destination;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
@@ -31,12 +29,12 @@ public class UserAccountController {
     @Autowired
     private UserAccountService userAccountService;
     @Autowired
-    private SeckillDao seckillDao;
-    @Autowired
     private GoodsService goodsService;
     @Autowired
-    @Qualifier(value="queueDestination")
-    private Destination destination;
+    private SeckillService seckillService;
+//    @Autowired
+//    @Qualifier(value="queueDestination")
+//    private Destination destination;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -68,7 +66,7 @@ public class UserAccountController {
     public String login(User user) {
         String psd = user.getPassword();
         user.setPassword(DigestUtils.md5DigestAsHex(psd.getBytes()));
-        userAccountService.sendMsgForLogin(destination,user);
+//        userAccountService.sendMsgForLogin(destination,user);
         userAccountService.login(user);
         return "redirect:/seckill/list";
     }
@@ -94,7 +92,7 @@ public class UserAccountController {
     @Transactional
     @RequestMapping(value = "/upload/{seckillId}", method = RequestMethod.POST)
     public String uploadPhoto(@RequestParam("file") CommonsMultipartFile file, @RequestParam("seckillId") Long seckillId) {
-        Seckill seckill = seckillDao.queryById(seckillId);
+        Seckill seckill = seckillService.selectById(seckillId);
         try {
             goodsService.uploadGoodsPhoto(file, seckill.getGoodsId());
         } catch (IOException e) {
@@ -115,7 +113,7 @@ public class UserAccountController {
     @RequestMapping(value = "/img/seckill/{seckillId}", method = RequestMethod.GET)
     public void loadImg(@PathVariable("seckillId") Long seckillId, HttpServletRequest request,
                         HttpServletResponse response) throws IOException {
-        Seckill seckill = seckillDao.queryById(seckillId);
+        Seckill seckill = seckillService.selectById(seckillId);
         String goodsUrl = goodsService.getPhotoUrl(seckill.getGoodsId());
         response.setContentType("img/*");
         OutputStream os = response.getOutputStream();
