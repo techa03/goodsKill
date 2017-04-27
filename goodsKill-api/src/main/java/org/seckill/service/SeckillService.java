@@ -19,7 +19,7 @@ public interface SeckillService {
 
     Exposer exportSeckillUrl(long seckillId);
 
-    SeckillExecution executeSeckill(long seckillId, long userPhone, String md5);
+    SeckillExecution executeSeckill(long seckillId, String userPhone, String md5);
 
     int addSeckill(Seckill seckill);
 

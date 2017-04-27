@@ -3,10 +3,13 @@ package org.seckill.dto;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.enums.SeckillStatEnum;
 
+import java.io.Serializable;
+
 /**
  * Created by heng on 2016/7/16.
  */
-public class SeckillExecution {
+public class SeckillExecution implements Serializable{
+    private static final long serialVersionUID = 1L;
     private long seckillId;
 
     private SeckillStatEnum statEnum;

@@ -1,8 +1,9 @@
 package org.seckill.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import org.seckill.dao.UserDao;
+import org.seckill.dao.UserMapper;
 import org.seckill.entity.User;
+import org.seckill.entity.UserExample;
 import org.seckill.exception.CommonException;
 import org.seckill.exception.SeckillException;
 import org.seckill.service.UserAccountService;
@@ -23,7 +24,7 @@ import java.util.Map;
 public class UserAccountServiceImpl implements UserAccountService{
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
-	private UserDao userDao;
+	private UserMapper userDao;
 	@Resource
 	private JmsTemplate jmsTemplate;
 
@@ -31,7 +32,7 @@ public class UserAccountServiceImpl implements UserAccountService{
 	public void register(User user) {
 		try {
 			user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
-			userDao.addUser(user);
+			userDao.insert(user);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new CommonException(null);
@@ -41,7 +42,7 @@ public class UserAccountServiceImpl implements UserAccountService{
 
 	@Override
 	public void login(User user) {
-		int count = userDao.selectUserByAccountAndPsw(user);
+		int count = userDao.updateByPrimaryKeySelective(user);
 		if (count != 1) {
 			throw new SeckillException("login fail");
 		}
@@ -69,10 +70,11 @@ public class UserAccountServiceImpl implements UserAccountService{
 			System.out.println("接受的用户信息："+textMessage.getText());
 			JSONObject userInfo=JSONObject.parseObject(textMessage.getText());
 			if(!"".equals(userInfo.get("userName"))&&!"".equals(userInfo.get("password"))){
-				User user=new User();
-				user.setAccount((String) userInfo.get("userName"));
-				user.setPassword((String)userInfo.get("password"));
-				if(userDao.selectUserByAccountAndPsw(user)==1){
+				UserExample userExample=new UserExample();
+				UserExample.Criteria userCriteria=userExample.createCriteria();
+				userCriteria.andAccountEqualTo((String) userInfo.get("userName"));
+				userCriteria.andPasswordEqualTo((String)userInfo.get("password"));
+				if(userDao.selectByExample(userExample).size()==1){
 					System.out.println("验证成功！");
 				}else{
 					System.out.println("验证失败！");

@@ -78,7 +78,7 @@ public class SeckillController {
             "application/json;charset=UTF-8"})
     @ResponseBody
     public SeckillResult<SeckillExecution> execute(@PathVariable("seckillId") Long seckillId,
-                                                   @PathVariable("md5") String md5, @CookieValue(value = "killPhone", required = false) Long phone) {
+                                                   @PathVariable("md5") String md5, @CookieValue(value = "killPhone", required = false) String phone) {
         SeckillResult<SeckillExecution> seckillResult;
         if (phone == null) {
             seckillResult = new SeckillResult(false, "未注册");

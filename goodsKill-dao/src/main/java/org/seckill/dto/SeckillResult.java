@@ -1,9 +1,12 @@
 package org.seckill.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by heng on 2016/7/23.
  */
-public class SeckillResult<T> {
+public class SeckillResult<T> implements Serializable{
+    private static final long serialVersionUID = 1L;
     private boolean success;
     private T data;
     private String error;
