@@ -14,17 +14,15 @@
 
 
     <bean id="userAccountServiceImpl" class="org.seckill.service.impl.UserAccountServiceImpl"/>
-    <dubbo:service ref="userAccountServiceImpl" interface="org.seckill.service.UserAccountService" />
+    <dubbo:service ref="userAccountServiceImpl" interface="org.seckill.service.UserAccountService" timeout="10000"/>
     <!-- 接口服务 -->
     <bean id="goodsServiceImpl" class="org.seckill.service.impl.GoodsServiceImpl"/>
-    <dubbo:service ref="goodsServiceImpl" interface="org.seckill.service.GoodsService" />
+    <dubbo:service ref="goodsServiceImpl" interface="org.seckill.service.GoodsService" timeout="10000"/>
 
     <bean id="helloServiceImpl" class="org.seckill.service.impl.HelloServiceImpl"/>
-    <dubbo:service ref="helloServiceImpl" interface="org.seckill.service.HelloService" />
-
-
+    <dubbo:service ref="helloServiceImpl" interface="org.seckill.service.HelloService" timeout="10000"/>
 
     <bean id="seckillServiceImpl" class="org.seckill.service.impl.SeckillServiceImpl"/>
-    <dubbo:service ref="seckillServiceImpl" interface="org.seckill.service.SeckillService"/>
+    <dubbo:service ref="seckillServiceImpl" interface="org.seckill.service.SeckillService" timeout="10000"/>
 
 </beans>

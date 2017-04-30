@@ -1,11 +1,12 @@
 package org.seckill.service.impl;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.seckill.common.trade.alipay.AlipayRunner;
 import org.seckill.common.util.MD5Util;
-import org.seckill.dao.GoodsDao;
+import org.seckill.dao.GoodsMapper;
 import org.seckill.dao.RedisDao;
-import org.seckill.dao.SeckillDao;
-import org.seckill.dao.SuccessKilledDao;
+import org.seckill.dao.SeckillMapper;
+import org.seckill.dao.SuccessKilledMapper;
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.dto.SeckillInfo;
@@ -32,28 +33,30 @@ import java.util.List;
  */
 @Service
 public class SeckillServiceImpl implements SeckillService {
+    @Autowired
+    private AlipayRunner alipayRunner;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private SeckillDao seckillDao;
+    private SeckillMapper seckillDao;
     @Autowired
-    private SuccessKilledDao successKilledDao;
+    private SuccessKilledMapper successKilledDao;
     @Autowired
     private RedisDao redisDao;
     @Autowired
-    private GoodsDao goodsDao;
+    private GoodsMapper goodsDao;
 
     @Override
     public List<Seckill> getSeckillList() {
-        return seckillDao.queryAll(0, 4);
+        return seckillDao.selectByExample(null);
     }
 
     @Override
     public SeckillInfo getById(long seckillId) throws InvocationTargetException, IllegalAccessException {
-        Seckill seckill=seckillDao.queryById(seckillId);
+        Seckill seckill=seckillDao.selectByPrimaryKey(seckillId);
         SeckillInfo seckillInfo=new SeckillInfo();
         BeanUtils.copyProperties(seckillInfo,seckill);
-        Goods goods=goodsDao.selectById(seckill.getGoodsId());
+        Goods goods=goodsDao.selectByPrimaryKey(seckill.getGoodsId());
         seckillInfo.setGoodsName(goods.getName());
         return seckillInfo;
     }
@@ -63,7 +66,7 @@ public class SeckillServiceImpl implements SeckillService {
         //从redis中获取缓存秒杀信息
         Seckill seckill =redisDao.getSeckill(seckillId);
         if (seckill==null){
-            seckill=seckillDao.queryById(seckillId);
+            seckill=seckillDao.selectByPrimaryKey(seckillId);
             if (seckill!=null){
                 redisDao.putSeckill(seckill);
             }else{
@@ -84,7 +87,7 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Transactional
     @Override
-    public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5) {
+    public SeckillExecution executeSeckill(long seckillId, String userPhone, String md5) {
         if (md5 == null || !md5.equals(MD5Util.getMD5(seckillId))) {
             throw new SeckillException("seckill data rewrite");
         }
@@ -94,12 +97,15 @@ public class SeckillServiceImpl implements SeckillService {
             if (updateCount <= 0) {
                 throw new SeckillCloseException("seckill is closed");
             } else {
-                int insertCount = successKilledDao.insertSuccessKilled(seckillId, userPhone);
+                SuccessKilled successKilled=new SuccessKilled();
+                successKilled.setSeckillId(seckillId);
+                successKilled.setUserPhone(userPhone);
+                int insertCount = successKilledDao.insertSelective(successKilled);
+                String QRfilePath=alipayRunner.trade_precreate(seckillId);
                 if (insertCount <= 0) {
                     throw new RepeatKillException("seckill repeated");
                 } else {
-                    SuccessKilled successKilled = successKilledDao.queryByIdWithSeckill(seckillId, userPhone);
-                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilled);
+                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilledDao.selectByPrimaryKey(seckillId,userPhone),QRfilePath);
                 }
             }
         } catch (SeckillCloseException e1) {
@@ -121,16 +127,16 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public int deleteSeckill(Long seckillId) {
-        return seckillDao.delete(seckillId);
+        return seckillDao.deleteByPrimaryKey(seckillId);
     }
 
     @Override
     public int updateSeckill(Seckill seckill) {
-        return seckillDao.update(seckill);
+        return seckillDao.updateByPrimaryKeySelective(seckill);
     }
 
     @Override
     public Seckill selectById(Long seckillId) {
-        return seckillDao.queryById(seckillId);
+        return seckillDao.selectByPrimaryKey(seckillId);
     }
 }

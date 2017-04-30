@@ -3,10 +3,13 @@ package org.seckill.dto;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.enums.SeckillStatEnum;
 
+import java.io.Serializable;
+
 /**
  * Created by heng on 2016/7/16.
  */
-public class SeckillExecution {
+public class SeckillExecution implements Serializable{
+    private static final long serialVersionUID = 1L;
     private long seckillId;
 
     private SeckillStatEnum statEnum;
@@ -17,10 +20,13 @@ public class SeckillExecution {
 
     private SuccessKilled seccessKilled;
 
-    public SeckillExecution(long seckillId, SeckillStatEnum statEnum, SuccessKilled seccessKilled) {
+    private String QRfilePath;
+
+    public SeckillExecution(long seckillId, SeckillStatEnum statEnum, SuccessKilled seccessKilled,String QRfilePath) {
         this.seckillId = seckillId;
         this.statEnum = statEnum;
         this.seccessKilled = seccessKilled;
+        this.QRfilePath = QRfilePath;
     }
 
     public SeckillExecution(long seckillId, SeckillStatEnum statEnum) {
@@ -66,5 +72,13 @@ public class SeckillExecution {
 
     public void setStatEnum(SeckillStatEnum statEnum) {
         this.statEnum = statEnum;
+    }
+
+    public String getQRfilePath() {
+        return QRfilePath;
+    }
+
+    public void setQRfilePath(String QRfilePath) {
+        this.QRfilePath = QRfilePath;
     }
 }

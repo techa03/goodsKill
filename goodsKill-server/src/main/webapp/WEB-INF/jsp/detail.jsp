@@ -13,11 +13,9 @@
                 url: "${context}/seckill/" + seckillId + "/exposer",
                 type: "post",
                 success: function (result) {
-                    alert($("#phoneNum").val());
                     $.cookie('killPhone', $("#phoneNum").val());
                     console.log("cookie is:" + $.cookie('killPhone'));
                     var data = result.data;
-                    console.log(data.exposed);
                     if (data.exposed == true) {
                         $.ajax({
                             url: "${context}/seckill/" + seckillId + "/" + data.md5 + "/execution",
@@ -25,7 +23,11 @@
                             success: function (result) {
                                 var seckillResult = result.data;
                                 console.log(seckillResult);
-                                alert(seckillResult.statEnum);
+                                if(seckillResult.statEnum=="SUCCESS"){
+                                    window.open("${context}/seckill/pay/Qrcode/"+seckillResult.qrfilePath);
+                                }else {
+                                    alert(seckillResult.statEnum);
+                                }
                             }
                         });
                     } else {

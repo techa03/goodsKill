@@ -1,12 +1,14 @@
 package org.seckill.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * Created by heng on 2017/3/15.
  */
-public class SeckillInfo {
+public class SeckillInfo implements Serializable{
+    private static final long serialVersionUID = 1L;
     private long seckillId;
     private String name;
     private int number;

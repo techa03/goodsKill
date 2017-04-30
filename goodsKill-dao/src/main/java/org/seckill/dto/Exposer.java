@@ -1,10 +1,12 @@
 package org.seckill.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by heng on 2016/7/16.
  */
-public class Exposer {
-
+public class Exposer implements Serializable{
+    private static final long serialVersionUID = 1L;
     private boolean exposed;
 
     private String md5;

@@ -2,7 +2,7 @@ package org.seckill.service.impl;
 
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
-import org.seckill.dao.GoodsDao;
+import org.seckill.dao.GoodsMapper;
 import org.seckill.entity.Goods;
 import org.seckill.exception.CommonException;
 import org.seckill.service.GoodsService;
@@ -24,27 +24,22 @@ import java.util.List;
 @Service
 public class GoodsServiceImpl implements GoodsService {
     @Autowired
-    private GoodsDao goodsDao;
-
-    public GoodsDao getGoodsDao() {
-        return goodsDao;
-    }
-
-    public void setGoodsDao(GoodsDao goodsDao) {
-        this.goodsDao = goodsDao;
-    }
+    private GoodsMapper goodsDao;
 
     private Logger logger = LoggerFactory.logger(this.getClass());
 
     @Override
     public void uploadGoodsPhoto(CommonsMultipartFile file, long goodsId) throws IOException {
         String path = uploadGoodsPhoto(file);
-        goodsDao.updatePhotoUrl(goodsId, path);
+        Goods goods=new Goods();
+        goods.setGoodsId((int)goodsId);
+        goods.setPhotoUrl(path);
+        goodsDao.updateByPrimaryKeySelective(goods);
     }
 
     @Override
     public String getPhotoUrl(int goodsId) {
-        Goods good = goodsDao.selectById(goodsId);
+        Goods good = goodsDao.selectByPrimaryKey(goodsId);
         return good.getPhotoUrl();
     }
 
@@ -97,11 +92,11 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public List<Goods> queryAll() {
-        return goodsDao.selectBySelective(null);
+        return goodsDao.selectByExample(null);
     }
 
     @Override
     public Goods queryByGoodsId(long goodsId) {
-        return goodsDao.selectById(goodsId);
+        return goodsDao.selectByPrimaryKey((int)goodsId);
     }
 }
