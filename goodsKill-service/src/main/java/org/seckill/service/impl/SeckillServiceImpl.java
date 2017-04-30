@@ -1,8 +1,12 @@
 package org.seckill.service.impl;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.seckill.common.trade.alipay.AlipayRunner;
 import org.seckill.common.util.MD5Util;
-import org.seckill.dao.*;
+import org.seckill.dao.GoodsMapper;
+import org.seckill.dao.RedisDao;
+import org.seckill.dao.SeckillMapper;
+import org.seckill.dao.SuccessKilledMapper;
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.dto.SeckillInfo;
@@ -29,6 +33,8 @@ import java.util.List;
  */
 @Service
 public class SeckillServiceImpl implements SeckillService {
+    @Autowired
+    private AlipayRunner alipayRunner;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
@@ -95,10 +101,11 @@ public class SeckillServiceImpl implements SeckillService {
                 successKilled.setSeckillId(seckillId);
                 successKilled.setUserPhone(userPhone);
                 int insertCount = successKilledDao.insertSelective(successKilled);
+                String QRfilePath=alipayRunner.trade_precreate(seckillId);
                 if (insertCount <= 0) {
                     throw new RepeatKillException("seckill repeated");
                 } else {
-                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilledDao.selectByPrimaryKey(seckillId,userPhone));
+                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilledDao.selectByPrimaryKey(seckillId,userPhone),QRfilePath);
                 }
             }
         } catch (SeckillCloseException e1) {

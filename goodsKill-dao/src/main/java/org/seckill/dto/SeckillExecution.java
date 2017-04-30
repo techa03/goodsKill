@@ -20,10 +20,13 @@ public class SeckillExecution implements Serializable{
 
     private SuccessKilled seccessKilled;
 
-    public SeckillExecution(long seckillId, SeckillStatEnum statEnum, SuccessKilled seccessKilled) {
+    private String QRfilePath;
+
+    public SeckillExecution(long seckillId, SeckillStatEnum statEnum, SuccessKilled seccessKilled,String QRfilePath) {
         this.seckillId = seckillId;
         this.statEnum = statEnum;
         this.seccessKilled = seccessKilled;
+        this.QRfilePath = QRfilePath;
     }
 
     public SeckillExecution(long seckillId, SeckillStatEnum statEnum) {
@@ -69,5 +72,13 @@ public class SeckillExecution implements Serializable{
 
     public void setStatEnum(SeckillStatEnum statEnum) {
         this.statEnum = statEnum;
+    }
+
+    public String getQRfilePath() {
+        return QRfilePath;
+    }
+
+    public void setQRfilePath(String QRfilePath) {
+        this.QRfilePath = QRfilePath;
     }
 }

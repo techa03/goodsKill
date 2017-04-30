@@ -42,6 +42,7 @@
 
    
     <context:component-scan base-package="org.seckill.dao"/>
+    <context:component-scan base-package="org.seckill.common"/>
 
     <!--spring事务处理-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

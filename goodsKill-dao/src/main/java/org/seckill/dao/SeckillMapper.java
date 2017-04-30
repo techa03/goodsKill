@@ -96,5 +96,5 @@ public interface SeckillMapper {
      */
     int updateByPrimaryKey(Seckill record);
 
-    int reduceNumber(long seckillId, Date nowTime);
+    int reduceNumber(@Param("seckillId") long seckillId, @Param("killTime") Date killTime);
 }

@@ -17,6 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.List;
@@ -150,4 +155,31 @@ public class SeckillController {
         seckillService.updateSeckill(seckill);
         return "redirect:/seckill/list";
     }
+
+    @RequestMapping(value = "/Qrcode/{QRfilePath}", method = RequestMethod.GET)
+    public void showQRcode(@PathVariable("QRfilePath") String QRfilePath,HttpServletResponse response) throws IOException {
+        response.setContentType("img/*");
+        OutputStream os = response.getOutputStream();
+        FileInputStream fi = new FileInputStream(new File("C:/Users/heng/Pictures/"+QRfilePath+".png"));
+        int b;
+        while ((b = fi.read()) != -1) {
+            os.write(b);
+        }
+        os.flush();
+        os.close();
+        fi.close();
+    }
+
+    /**
+     * 进入支付宝二维码支付页面
+     * @param QRfilePath
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value = "/pay/Qrcode/{QRfilePath}", method = RequestMethod.GET)
+    public String payTransaction(@PathVariable("QRfilePath") String QRfilePath,Model model) throws IOException {
+        model.addAttribute("QRfilePath",QRfilePath);
+        return  "seckill/payByQrcode";
+    }
+
 }
