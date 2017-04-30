@@ -13,3 +13,11 @@
  
 数据库设计
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%B1%8F%E6%9C%AA%E5%91%BD%E5%90%8D.png)
+
+项目启动方法：
+
+1.参照redis官网安装redis，默认端口启动activemq，zookeeper；
+
+2.在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务；
+
+3.编译好整个项目后使用tomcat发布server模块，上下文环境可自定义；
