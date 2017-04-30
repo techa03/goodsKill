@@ -4,7 +4,7 @@
  
 - JAVA应用服务器：tomcat8.0;
  
-- 技术选型：SpringMVC,mybatis,Redis,Jsp,ajax,bootstrap,git,maven,mybatis-generator自动生成mapper插件,dubbo,zookeeper;
+- 技术选型：SpringMVC,mybatis,Redis,Jsp,ajax,bootstrap,git,maven,mybatis-generator自动生成mapper插件,dubbo,zookeeper,ActiveMQ;
  
 - 代码质量控制：sonarQube
 
