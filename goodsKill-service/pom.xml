@@ -41,6 +41,16 @@
             <artifactId>gson</artifactId>
             <version>2.3.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba.alipay</groupId>
+            <artifactId>alipay-trade</artifactId>
+            <version>20161215</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.alipay</groupId>
+            <artifactId>alipay</artifactId>
+            <version>20161213</version>
+        </dependency>
     </dependencies>
 
 
@@ -56,8 +66,22 @@
                     <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
             </plugin>
+            <!--<plugin>-->
+                <!--<artifactId>maven-compiler-plugin</artifactId>-->
+                <!--<version>2.3.2</version>-->
+                <!--<configuration>-->
+                    <!--<source>1.8</source>-->
+                    <!--<target>1.8</target>-->
+                    <!--<encoding>UTF-8</encoding>-->
+                    <!--<compilerArguments>-->
+                        <!--<extdirs>lib</extdirs>&lt;!&ndash;指定外部lib&ndash;&gt;-->
+                    <!--</compilerArguments>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
         </plugins>
     </build>
+
+
 
     <artifactId>goodsKill-service</artifactId>
 </project>
