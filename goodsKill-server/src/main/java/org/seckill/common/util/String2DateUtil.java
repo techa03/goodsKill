@@ -1,5 +1,8 @@
 package org.seckill.common.util;
 
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 
 import java.text.ParseException;
@@ -10,6 +13,7 @@ import java.util.Date;
  * Created by heng on 2017/3/11.
  */
 public class String2DateUtil implements Converter<String,Date> {
+    private static Logger logger= LoggerFactory.getLogger(String2DateUtil.class);
     private final SimpleDateFormat yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
     private final SimpleDateFormat yyyyMMddHHmmss = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private final SimpleDateFormat yyyyMMddHHmm = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -23,28 +27,22 @@ public class String2DateUtil implements Converter<String,Date> {
             try {
                 return yyyyMMdd.parse(source);
             } catch (ParseException e) {
-                e.printStackTrace();
-
+                logger.error("",e);
             }
         } else if(source.length() == leng_yyyyMMddHHmm) {
             try {
                 return yyyyMMddHHmm.parse(source);
             } catch (ParseException e) {
-                e.printStackTrace();
+                logger.error("",e);
             }
         }else if(source.length() == leng_yyyyMMddHHmmss) {
             try {
                 return yyyyMMddHHmmss.parse(source);
             } catch (ParseException e) {
-                e.printStackTrace();
+                logger.error("",e);
             }
         }
         return null;
     }
 
-    public static void main(String[] args) {
-//        ApplicationContext context=new ClassPathXmlApplicationContext("spring/spring-dao.xml");
-//        SeckillServiceImpl seckillServiceImpl=(SeckillServiceImpl) context.getBean("seckillServiceImpl");
-//        System.out.println(seckillServiceImpl.toString());
-    }
 }

@@ -67,7 +67,7 @@ public class UserAccountServiceImpl implements UserAccountService{
 	public void onMessage(Message message) {
 		TextMessage textMessage=(TextMessage)message;
 		try {
-			System.out.println("接受的用户信息："+textMessage.getText());
+			logger.info("接受的用户信息："+textMessage.getText());
 			JSONObject userInfo=JSONObject.parseObject(textMessage.getText());
 			if(!"".equals(userInfo.get("userName"))&&!"".equals(userInfo.get("password"))){
 				UserExample userExample=new UserExample();
@@ -75,15 +75,15 @@ public class UserAccountServiceImpl implements UserAccountService{
 				userCriteria.andAccountEqualTo((String) userInfo.get("userName"));
 				userCriteria.andPasswordEqualTo((String)userInfo.get("password"));
 				if(userDao.selectByExample(userExample).size()==1){
-					System.out.println("验证成功！");
+					logger.info("验证成功！");
 				}else{
-					System.out.println("验证失败！");
+					logger.info("验证失败！");
 				}
 			}else{
-				System.out.println("字段不许为空");
+				logger.info("字段不许为空");
 			}
 		} catch (JMSException e) {
-			e.printStackTrace();
+			logger.error("",e);
 		}
 	}
 }
