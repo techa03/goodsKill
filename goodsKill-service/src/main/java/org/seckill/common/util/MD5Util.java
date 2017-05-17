@@ -12,4 +12,7 @@ public class MD5Util {
         String base = seckillId + "/" + SLAT;
         return DigestUtils.md5DigestAsHex(base.getBytes());
     }
+
+    private MD5Util() {
+    }
 }

@@ -32,9 +32,6 @@ public class UserAccountController {
     private GoodsService goodsService;
     @Autowired
     private SeckillService seckillService;
-//    @Autowired
-//    @Qualifier(value="queueDestination")
-//    private Destination destination;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 

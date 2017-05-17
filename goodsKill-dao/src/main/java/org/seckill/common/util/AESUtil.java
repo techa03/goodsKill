@@ -1,5 +1,7 @@
 package org.seckill.common.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -16,7 +18,7 @@ import java.security.SecureRandom;
  * Created by shuzheng on 2017/2/5.
  */
 public class AESUtil {
-
+    private static Logger logger= LoggerFactory.getLogger(AESUtil.class);
     private static final String encodeRules = "zheng";
 
     /**
@@ -59,19 +61,19 @@ public class AESUtil {
             //11.将字符串返回
             return AES_encode;
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            logger.error("",e);
         } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
+            logger.error("",e);
         } catch (InvalidKeyException e) {
-            e.printStackTrace();
+            logger.error("",e);
         } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
+            logger.error("",e);
         } catch (BadPaddingException e) {
-            e.printStackTrace();
+            logger.error("",e);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.error("",e);
         }
-        //如果有错就返加nulll
+        //如果有错就返加null
         return null;
     }
 
@@ -110,17 +112,17 @@ public class AESUtil {
             String AES_decode = new String(byte_decode, "utf-8");
             return AES_decode;
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            logger.error("",e);
         } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
+            logger.error("",e);
         } catch (InvalidKeyException e) {
-            e.printStackTrace();
+            logger.error("",e);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("",e);
         } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
+            logger.error("",e);
         } catch (BadPaddingException e) {
-            e.printStackTrace();
+            logger.error("",e);
         }
         //如果有错就返加nulll
         return null;
