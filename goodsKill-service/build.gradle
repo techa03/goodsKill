@@ -1,0 +1,12 @@
+
+description = ''
+dependencies {
+  compile project(':goodsKill-api')
+    compile group: 'commons-codec', name: 'commons-codec', version:'1.10'
+    compile group: 'commons-configuration', name: 'commons-configuration', version:'1.10'
+    compile group: 'commons-lang', name: 'commons-lang', version:'2.6'
+    compile group: 'com.google.zxing', name: 'core', version:'2.1'
+    compile group: 'com.google.code.gson', name: 'gson', version:'2.3.1'
+    compile group: 'com.alibaba.alipay', name: 'alipay-trade', version:'20161215'
+    compile group: 'com.alibaba.alipay', name: 'alipay', version:'20161213'
+}
