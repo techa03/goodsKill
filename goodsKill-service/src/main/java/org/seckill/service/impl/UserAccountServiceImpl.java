@@ -41,7 +41,7 @@ public class UserAccountServiceImpl implements UserAccountService{
 	}
 
 	@Override
-	public void login(User user) {
+	public void login(User user) throws SeckillException{
 		int count = userDao.updateByPrimaryKeySelective(user);
 		if (count != 1) {
 			throw new SeckillException("login fail");

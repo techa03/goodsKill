@@ -3,6 +3,7 @@ package org.seckill.web;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.User;
 import org.seckill.exception.CommonException;
+import org.seckill.exception.SeckillException;
 import org.seckill.service.GoodsService;
 import org.seckill.service.SeckillService;
 import org.seckill.service.UserAccountService;
@@ -64,7 +65,11 @@ public class UserAccountController {
         String psd = user.getPassword();
         user.setPassword(DigestUtils.md5DigestAsHex(psd.getBytes()));
 //        userAccountService.sendMsgForLogin(destination,user);
-        userAccountService.login(user);
+        try {
+            userAccountService.login(user);
+        } catch (SeckillException e) {
+            return "login";
+        }
         return "redirect:/seckill/list";
     }
 
