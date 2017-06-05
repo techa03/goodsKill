@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="common/tag.jsp"%>
-<%@include file="common/head.jsp"%>
+<%@include file="common/common.jsp"%>
 <html>
 <head>
     <title>Title</title>
@@ -28,5 +28,4 @@
     <input type="submit" value="提交"/>
 </form>
 </body>
-<%@include file="common/buttom.jsp" %>
 </html>

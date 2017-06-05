@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title></title>
     <%@include file="common/tag.jsp"%>
-    <%@include file="common/head.jsp" %>
+    <%@include file="common/common.jsp" %>
 
     <script type="application/javascript">
         function checkExposer(seckillId) {
@@ -44,17 +44,17 @@
     <div class="panel panel-default text-center">
         <div class="pannel-heading">${seckillInfo.name}</div>
     </div>
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="phoneNum">手机号</label>
+            <input type="text" class="form-control" id="phoneNum" placeholder="请输入11为手机号" maxlength="11">
+        </div>
+        <button type="button" class="btn btn-default" onclick="checkExposer(${seckillInfo.seckillId})">执行秒杀</button>
+    </form>
     <div class="panel-body">
         <input type="hidden" name="md5" value="" id="md5"/>
-        <input type="text" id="phoneNum" value="">手机号</input>
-        <input type="button" value="执行秒杀" onclick="checkExposer(${seckillInfo.seckillId})"/>
     </div>
 </div>
 </body>
-<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-<script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script
-        src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
 </html>

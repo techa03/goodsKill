@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="../common/tag.jsp"%>
-<%@include file="../common/head.jsp" %>
+<%@include file="../common/common.jsp" %>
 <html>
 <head>
     <title>增加秒杀商品详情</title>
-    <script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
     <script type="application/javascript">
         $(function () {
             $.ajax({
@@ -75,13 +74,7 @@
                 </span>
         </div>
     </div>
-    <%--<div class="form-group">--%>
-    <%--<label for="introduce">秒杀活动商品介绍：</label>--%>
-    <%--<input type="text" class="form-control" id="introduce" name="introduce" placeholder="请输入商品介绍">--%>
-    <%--</div>--%>
-
     <input type="submit" class="form-control" value="确认修改"/>
 </form>
 </body>
-<%@include file="../common/buttom.jsp" %>
 </html>

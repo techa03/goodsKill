@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="../common/tag.jsp" %>
-<%@include file="../common/head.jsp" %>
+<%@include file="../common/common.jsp" %>
 <html>
 <head>
     <title>订单支付</title>

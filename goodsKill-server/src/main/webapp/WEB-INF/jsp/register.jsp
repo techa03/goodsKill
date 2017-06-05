@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<%@include file="common/head.jsp" %>
+<%@include file="common/common.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -9,10 +9,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Insert title here</title>
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-    <script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
-    <link
-            href="http://cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css"
-            rel="stylesheet">
     <style type="text/css">
     </style>
     <script type="text/javascript">
@@ -224,14 +220,5 @@
         </div>
     </form>
 </div>
-
-
 </body>
-
-
-<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script
-        src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script
-        src="http://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
 </html>
