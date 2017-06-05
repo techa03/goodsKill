@@ -36,14 +36,14 @@ public class SeckillController {
     @Autowired
     private SeckillService seckillService;
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @GetMapping(value = "/list")
     public String list(Model model) {
         List<Seckill> list = seckillService.getSeckillList();
         model.addAttribute("list", list);
         return "list";
     }
 
-    @RequestMapping(value = "/{seckillId}/detail", method = RequestMethod.GET)
+    @GetMapping(value = "/{seckillId}/detail")
     public String detail(@PathVariable("seckillId") Long seckillId, Model model) {
         if (seckillId == null) {
             return "redirect:/seckill/list";
@@ -52,9 +52,9 @@ public class SeckillController {
         try {
             seckillInfo = seckillService.getById(seckillId);
         } catch (InvocationTargetException e) {
-            logger.error("the error is :",e);
+            logger.error("the error is :", e);
         } catch (IllegalAccessException e) {
-            logger.error("the error is :",e);
+            logger.error("the error is :", e);
         }
         if (seckillInfo == null) {
             return "forward:/seckill/list";
@@ -64,7 +64,7 @@ public class SeckillController {
 
     }
 
-    @RequestMapping(value = "/{seckillId}/exposer", method = RequestMethod.POST, produces = {
+    @PostMapping(value = "/{seckillId}/exposer", produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
     public SeckillResult<Exposer> exposer(@PathVariable("seckillId") Long seckillId) {
@@ -79,7 +79,7 @@ public class SeckillController {
         return result;
     }
 
-    @RequestMapping(value = "/{seckillId}/{md5}/execution", method = RequestMethod.POST, produces = {
+    @PostMapping(value = "/{seckillId}/{md5}/execution", produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
     public SeckillResult<SeckillExecution> execute(@PathVariable("seckillId") Long seckillId,
@@ -108,36 +108,36 @@ public class SeckillController {
         return seckillResult;
     }
 
-    @RequestMapping(value = "/time/now", method = RequestMethod.GET)
+    @GetMapping(value = "/time/now")
     public SeckillResult<Long> time() {
         Date now = new Date();
         return new SeckillResult(true, now.getTime());
     }
 
-    @RequestMapping(value = "/toAddGoods", method = RequestMethod.GET)
+    @GetMapping(value = "/toAddGoods")
     public String toAddGoods() {
         return "redirect:/goods/addGoods";
     }
 
-    @RequestMapping(value = "/addSeckill", method = RequestMethod.POST)
+    @PostMapping(value = "/addSeckill")
     public String addSeckill(Seckill seckill) {
         seckillService.addSeckill(seckill);
         return "redirect:list";
     }
 
-    @RequestMapping(value = "/toAddSeckill", method = RequestMethod.GET)
+    @GetMapping(value = "/toAddSeckill")
     public String toAddSeckill() {
         return "seckill/addSeckill";
     }
 
-    @RequestMapping(value = "/{seckillId}/delete", method = RequestMethod.GET)
+    @GetMapping(value = "/{seckillId}/delete")
     public String delete(@PathVariable("seckillId") Long seckillId) {
         seckillService.deleteSeckill(seckillId);
         return "redirect:/seckill/list";
     }
 
     @Transactional
-    @RequestMapping(value = "/{seckillId}/edit", method = RequestMethod.GET)
+    @GetMapping(value = "/{seckillId}/edit")
     public String edit(Model model, @PathVariable("seckillId") Long seckillId) {
         try {
             model.addAttribute("seckillInfo", seckillService.getById(seckillId));
@@ -150,17 +150,17 @@ public class SeckillController {
     }
 
     @Transactional
-    @RequestMapping(value = "/{seckillId}/update", method = RequestMethod.POST)
+    @PostMapping(value = "/{seckillId}/update")
     public String update(Seckill seckill) {
         seckillService.updateSeckill(seckill);
         return "redirect:/seckill/list";
     }
 
-    @RequestMapping(value = "/Qrcode/{QRfilePath}", method = RequestMethod.GET)
-    public void showQRcode(@PathVariable("QRfilePath") String QRfilePath,HttpServletResponse response) throws IOException {
+    @GetMapping(value = "/Qrcode/{QRfilePath}")
+    public void showQRcode(@PathVariable("QRfilePath") String QRfilePath, HttpServletResponse response) throws IOException {
         response.setContentType("img/*");
         OutputStream os = response.getOutputStream();
-        FileInputStream fi = new FileInputStream(new File("C:/Users/heng/Pictures/"+QRfilePath+".png"));
+        FileInputStream fi = new FileInputStream(new File("C:/Users/heng/Pictures/" + QRfilePath + ".png"));
         int b;
         while ((b = fi.read()) != -1) {
             os.write(b);
@@ -172,14 +172,15 @@ public class SeckillController {
 
     /**
      * 进入支付宝二维码支付页面
+     *
      * @param QRfilePath
      * @return
      * @throws IOException
      */
     @RequestMapping(value = "/pay/Qrcode/{QRfilePath}", method = RequestMethod.GET)
-    public String payTransaction(@PathVariable("QRfilePath") String QRfilePath,Model model) throws IOException {
-        model.addAttribute("QRfilePath",QRfilePath);
-        return  "seckill/payByQrcode";
+    public String payTransaction(@PathVariable("QRfilePath") String QRfilePath, Model model) throws IOException {
+        model.addAttribute("QRfilePath", QRfilePath);
+        return "seckill/payByQrcode";
     }
 
 }
