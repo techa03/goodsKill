@@ -3,7 +3,7 @@ description = ''
 dependencies {
     compile group: 'org.apache.activemq', name: 'activemq-core', version:'5.7.0'
     compile group: 'commons-collections', name: 'commons-collections', version:'3.1'
-    compile group: 'junit', name: 'junit', version:'4.11'
+    compile group: 'junit', name: 'junit', version:'4.12'
     compile group: 'aopalliance', name: 'aopalliance', version:'1.0'
     compile group: 'org.hamcrest', name: 'hamcrest-core', version:'1.3.RC2'
     compile group: 'org.hamcrest', name: 'hamcrest-library', version:'1.3.RC2'

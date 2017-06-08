@@ -2,7 +2,6 @@ package org.seckill.web;
 
 import org.seckill.entity.Seckill;
 import org.seckill.entity.User;
-import org.seckill.exception.CommonException;
 import org.seckill.exception.SeckillException;
 import org.seckill.service.GoodsService;
 import org.seckill.service.SeckillService;
@@ -19,8 +18,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -81,7 +78,7 @@ public class UserAccountController {
     @RequestMapping(value = "/upload/{seckillId}", method = RequestMethod.GET)
     public String upload(@PathVariable("seckillId") Long seckillId, Model model) {
         model.addAttribute("seckillId", seckillId);
-         return "upload";
+        return "upload";
     }
 
 
@@ -96,10 +93,9 @@ public class UserAccountController {
     public String uploadPhoto(@RequestParam("file") CommonsMultipartFile file, @RequestParam("seckillId") Long seckillId) {
         Seckill seckill = seckillService.selectById(seckillId);
         try {
-            goodsService.uploadGoodsPhoto(file, seckill.getGoodsId());
+            goodsService.uploadGoodsPhoto(seckill.getGoodsId(), file.getBytes());
         } catch (IOException e) {
-            logger.info(e.getMessage(), e);
-            throw new CommonException("上传商品照片出现错误，请检查");
+            logger.error("上传文件失败："+e);
         }
         return "redirect:/seckill/list";
     }
@@ -116,27 +112,22 @@ public class UserAccountController {
     public void loadImg(@PathVariable("seckillId") Long seckillId, HttpServletRequest request,
                         HttpServletResponse response) throws IOException {
         Seckill seckill = seckillService.selectById(seckillId);
-        String goodsUrl = goodsService.getPhotoUrl(seckill.getGoodsId());
+        byte[] goodsPhotoImage = goodsService.getPhotoImage(seckill.getGoodsId());
         response.setContentType("img/*");
         OutputStream os = response.getOutputStream();
-        FileInputStream fi = new FileInputStream(new File(goodsUrl));
-        int b;
-        while ((b = fi.read()) != -1) {
-            os.write(b);
-        }
+        os.write(goodsPhotoImage);
         os.flush();
         os.close();
-        fi.close();
     }
 
-    @RequestMapping(value = "/register",method = RequestMethod.GET)
-    public String register(){
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String register() {
         return "register";
     }
 
-    @RequestMapping(value = "/user/{phoneNum}/phoneCode",method = RequestMethod.POST)
+    @RequestMapping(value = "/user/{phoneNum}/phoneCode", method = RequestMethod.POST)
     @ResponseBody
-    public void userPhoneCode(@PathVariable("phoneNum")Long phoneNum){
+    public void userPhoneCode(@PathVariable("phoneNum") Long phoneNum) {
 
     }
 }

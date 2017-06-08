@@ -41,7 +41,11 @@
       style="width: 10%;margin: 0 auto;">
     <div class="form-group">
         <label for="name">秒杀商品名称：</label>
-        <input type="text" class="form-control" id="name" name="name" value="${seckillInfo.goodsName}" readonly="readonly">
+        <input type="text" class="form-control" id="goodsName" name="goodsName" value="${seckillInfo.goodsName}" readonly="readonly">
+    </div>
+    <div class="form-group">
+        <label for="price">活动名称：</label>
+        <input type="text" class="form-control" id="name" name="name" value="${seckillInfo.name}">
     </div>
     <div class="form-group">
         <label for="price">秒杀价格：</label>

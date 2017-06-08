@@ -79,7 +79,7 @@
                 </span>
         </div>
     </div>
-    <input type="submit" class="form-control" value="新增秒杀"/>
+    <input type="submit" class="btn btn-info" value="新增秒杀"/>
 </form>
 </body>
 </html>

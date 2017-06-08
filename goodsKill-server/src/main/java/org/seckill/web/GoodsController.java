@@ -29,7 +29,7 @@ public class GoodsController {
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String add(Goods goods, @RequestParam("file") CommonsMultipartFile file){
         goods.setCreateTime(new Date());
-        goodsService.addGoods(goods,file);
+        goodsService.addGoods(goods,file.getBytes());
         return "redirect:/seckill/list";
     }
 
