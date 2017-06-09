@@ -1,8 +1,10 @@
 package org.seckill.dao;
 
+import com.github.pagehelper.PageHelper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.seckill.entity.SeckillExample;
 import org.seckill.entity.SuccessKilled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -33,6 +35,13 @@ public class SeckillMapperTest {
         record.setUserPhone("18516536081");
         record.setSeckillId(1000l);
         Assert.assertEquals(successKilledMapper.insertSelective(record),1);
+    }
+
+    @Test
+    public void testSelect(){
+        PageHelper.startPage(1,2);
+        SeckillExample example=new SeckillExample();
+        seckillMapper.selectByExample(null);
     }
 
 }

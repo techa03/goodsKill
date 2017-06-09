@@ -1,5 +1,6 @@
 package org.seckill.service.impl;
 
+import com.github.pagehelper.PageInfo;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,12 +15,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-        "classpath:META-INF/spring/spring-dao.xml",
-        "classpath:META-INF/spring/spring-service.xml"})
+        "classpath:test-spring-dao.xml",
+        "classpath:test-spring-service.xml"})
 @Transactional
 public class SeckillServiceImplTest {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -29,8 +29,10 @@ public class SeckillServiceImplTest {
 
     @Test
     public void testGetSeckillList() throws Exception {
-        List<Seckill> list = seckillService.getSeckillList();
-        logger.info("list={}", list);
+        PageInfo<Seckill> pageInfo = seckillService.getSeckillList(3,2);
+        for(Seckill seckill:pageInfo.getList()){
+            logger.info("seckill={}", seckill.toString());
+        }
     }
 
     @Test

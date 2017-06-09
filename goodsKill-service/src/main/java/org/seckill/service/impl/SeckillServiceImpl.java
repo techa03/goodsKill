@@ -1,5 +1,7 @@
 package org.seckill.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.beanutils.BeanUtils;
 import org.seckill.common.trade.alipay.AlipayRunner;
 import org.seckill.common.util.MD5Util;
@@ -47,8 +49,11 @@ public class SeckillServiceImpl implements SeckillService {
     private GoodsMapper goodsDao;
 
     @Override
-    public List<Seckill> getSeckillList() {
-        return seckillDao.selectByExample(null);
+    public PageInfo getSeckillList(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<Seckill> list= seckillDao.selectByExample(null);
+        PageInfo pageInfo=new PageInfo(list);
+        return pageInfo;
     }
 
     @Override

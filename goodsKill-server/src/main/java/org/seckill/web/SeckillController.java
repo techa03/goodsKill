@@ -1,5 +1,6 @@
 package org.seckill.web;
 
+import com.github.pagehelper.PageInfo;
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.dto.SeckillInfo;
@@ -24,7 +25,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by heng on 2016/7/23.
@@ -37,9 +37,13 @@ public class SeckillController {
     private SeckillService seckillService;
 
     @GetMapping(value = "/list")
-    public String list(Model model) {
-        List<Seckill> list = seckillService.getSeckillList();
-        model.addAttribute("list", list);
+    public String list(Model model,@RequestParam(name="offset",required = false,defaultValue = "1") int offset,@RequestParam(name="limit",required = false,defaultValue = "2") int limit) {
+        PageInfo<Seckill> pageInfo = seckillService.getSeckillList(offset,limit);
+        long totalNum=pageInfo.getTotal();
+        long pageNum=(totalNum%limit==0)?totalNum/limit:totalNum/limit+1;
+        model.addAttribute("list", pageInfo.getList());
+        model.addAttribute("totalNum",totalNum);
+        model.addAttribute("pageNum",pageNum);
         return "list";
     }
 
