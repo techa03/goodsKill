@@ -4,9 +4,17 @@
  
 - JAVA应用服务器：tomcat8.0;
  
-- 技术选型：SpringMVC,mybatis,Redis,Jsp,ajax,bootstrap,git,maven,mybatis-generator自动生成mapper插件;
+- 技术选型：SpringMVC,mybatis,Redis,Jsp,ajax,bootstrap,git,maven,mybatis-generator自动生成mapper插件,dubbo,zookeeper,ActiveMQ;
  
 - 代码质量控制：sonarQube
 
 
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%88%AA%E5%9B%BE20170315174408.png)
+
+项目启动方法：
+
+1.参照redis官网安装redis，默认端口启动activemq，zookeeper；
+
+2.在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务；
+
+3.编译好整个项目后使用tomcat发布server模块，上下文环境可自定义；
