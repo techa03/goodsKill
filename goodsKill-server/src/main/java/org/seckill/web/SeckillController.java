@@ -37,7 +37,7 @@ public class SeckillController {
     private SeckillService seckillService;
 
     @GetMapping(value = "/list")
-    public String list(Model model,@RequestParam(name="offset",required = false,defaultValue = "1") int offset,@RequestParam(name="limit",required = false,defaultValue = "2") int limit) {
+    public String list(Model model,@RequestParam(name="offset",required = false,defaultValue = "0") int offset,@RequestParam(name="limit",required = false,defaultValue = "4") int limit) {
         PageInfo<Seckill> pageInfo = seckillService.getSeckillList(offset,limit);
         long totalNum=pageInfo.getTotal();
         long pageNum=(totalNum%limit==0)?totalNum/limit:totalNum/limit+1;

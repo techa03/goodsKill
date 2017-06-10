@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:spring/spring-dao.xml"})
+@ContextConfiguration({"classpath:junit/spring/spring-dao.xml"})
 @Transactional
 public class GoodsMapperTest {
     @Autowired

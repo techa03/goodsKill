@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seckill.entity.SeckillExample;
 import org.seckill.entity.SuccessKilled;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,9 +19,10 @@ import java.util.Date;
  * Created by heng on 2017/4/29.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:spring/spring-dao.xml"})
+@ContextConfiguration({"classpath:junit/spring/spring-dao.xml"})
 @Transactional
 public class SeckillMapperTest {
+    private static Logger logger= LoggerFactory.getLogger(SeckillMapperTest.class);
     @Autowired
     private SeckillMapper seckillMapper;
     @Autowired
@@ -42,6 +45,7 @@ public class SeckillMapperTest {
         PageHelper.startPage(1,2);
         SeckillExample example=new SeckillExample();
         seckillMapper.selectByExample(null);
+        logger.info("fd");
     }
 
 }

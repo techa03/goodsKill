@@ -7,22 +7,10 @@
     <title>秒杀列表页</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="application/javascript">
-        //		function checkExposer(seckillId) {
-        //			$.ajax({
-        //			    url:"/seckill/"+seckillId+"/exposer",
-        //				type:"post",
-        //				success:function (result) {
-        //                    var data = result.data;
-        //                    console.log(data.exposed);
-        //			        if(data.exposed==true){
-        //			            window.open("/seckill/"+seckillId+"/"+data.md5+"/execution");
-        //					}else{
-        //                        alert("尚未开始");
-        //					}
-        //					console.log(data);
-        //                }
-        //			});
-        //        }
+        function changePageNum() {
+            var pageNum=$("#pageNum").val();
+            window.location.href="${context}/seckill/list?limit="+pageNum;
+        }
     </script>
 </head>
 <body>
@@ -37,8 +25,7 @@
             <a class="btn btn-info" href="${context}/seckill/toAddGoods" target="_blank">增加商品种类</a>
         </div>
         <div class="panel-body">
-            <table class="table table-hover table-striped table-bordered">
-
+            <table class="table table-hover">
                 <thead>
                 <tr>
                     <th>名称</th>
@@ -89,12 +76,15 @@
                                     </a>
                                 </li>
                                 <c:forEach var="i" begin="1" end="${pageNum}">
-                                    <li><a href="${context}/seckill/list?offset=${i}&limit=2">${i}</a></li>
+                                    <li><a href="${context}/seckill/list?offset=${i}&limit=4">${i}</a></li>
                                 </c:forEach>
                                 <li>
                                     <a href="#" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
+                                </li>
+                                <li>每页<input id="pageNum" type="text"/>条记录</li>
+                                <li><input type="button" class="btn btn-primary" value="确定" onclick="changePageNum();">
                                 </li>
                             </ul>
                         </nav>

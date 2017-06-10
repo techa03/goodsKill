@@ -44,5 +44,6 @@ dependencies {
     compile group: 'com.github.sgroschupf', name: 'zkclient', version: '0.1'
     compile project(':goodsKill-entry')
     compile group: 'com.github.pagehelper', name: 'pagehelper', version: '5.0.2'
+    compile group: 'com.alibaba', name: 'druid', version: '1.0.31'
     runtime group: 'mysql', name: 'mysql-connector-java', version: '5.1.35'
 }
