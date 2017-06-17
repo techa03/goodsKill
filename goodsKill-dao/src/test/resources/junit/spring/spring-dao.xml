@@ -7,15 +7,15 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <context:property-placeholder location="classpath:junit/jdbc.properties" />
+    <!--<context:property-placeholder location="classpath:junit/jdbc.properties"/>-->
     <!-- 配置进行解密  -->
-    <!--<bean id="propertyConfigurer" class="org.seckill.common.util.EncryptPropertyPlaceholderConfigurer">-->
-    <!--<property name="locations">-->
-    <!--<list>-->
-    <!--<value>classpath:jdbc.properties</value>-->
-    <!--</list>-->
-    <!--</property>-->
-    <!--</bean>-->
+    <bean id="propertyConfigurer" class="org.seckill.common.util.EncryptPropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:junit/jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
 
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
           destroy-method="close">
@@ -44,8 +44,8 @@
     </bean>
 
     <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
-        <property name="slowSqlMillis" value="10000" />
-        <property name="logSlowSql" value="true" />
+        <property name="slowSqlMillis" value="10000"/>
+        <property name="logSlowSql" value="true"/>
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -78,7 +78,7 @@
 
     <!--spring事务处理-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dataSource"/>
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
@@ -97,7 +97,6 @@
         <constructor-arg index="0" value="localhost"/>
         <constructor-arg index="1" value="6379"/>
     </bean>
-
 
 
 </beans>

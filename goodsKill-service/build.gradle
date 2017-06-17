@@ -1,3 +1,6 @@
+
+apply plugin: 'java'
+
 description = ''
 dependencies {
     compile project(':goodsKill-api')
@@ -9,4 +12,16 @@ dependencies {
     compile group: 'com.alibaba.alipay', name: 'alipay-trade', version: '20161215'
     compile group: 'com.alibaba.alipay', name: 'alipay', version: '20161213'
 
+}
+
+jar {
+    manifest {
+        attributes(
+                "Manifest-Version": 1.0,
+                "Main-Class": "org.seckill.GoodsKillRpcServiceApplication.Main")
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    into('assets') {
+        from 'assets'
+    }
 }
