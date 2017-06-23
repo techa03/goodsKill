@@ -6,12 +6,12 @@ import org.slf4j.LoggerFactory;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
-import javax.crypto.*;
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 
 /**
@@ -32,7 +32,7 @@ public class AESUtil {
      * 5.内容加密
      * 6.返回字符串
      */
-    public static String AESEncode(String content) {
+    public static String aesEncode(String content) {
         try {
             //1.构造密钥生成器，指定为AES算法,不区分大小写
             KeyGenerator keygen = KeyGenerator.getInstance("AES");
@@ -60,17 +60,9 @@ public class AESUtil {
             //解决办法：
             //在项目的Build path中先移除JRE System Library，再添加库JRE System Library，重新编译后就一切正常了。
             return String.valueOf(new BASE64Encoder().encode(byteAES));
-        } catch (NoSuchAlgorithmException e) {
+        } catch (GeneralSecurityException e) {
             logger.error("",e);
-        } catch (NoSuchPaddingException e) {
-            logger.error("",e);
-        } catch (InvalidKeyException e) {
-            logger.error("",e);
-        } catch (IllegalBlockSizeException e) {
-            logger.error("",e);
-        } catch (BadPaddingException e) {
-            logger.error("",e);
-        } catch (UnsupportedEncodingException e) {
+        } catch (IOException e) {
             logger.error("",e);
         }
         //如果有错就返加null
@@ -84,7 +76,7 @@ public class AESUtil {
      * 2.将加密后的字符串反纺成byte[]数组
      * 3.将加密内容解密
      */
-    public static String AESDecode(String content) {
+    public static String aesDecode(String content) {
         try {
             //1.构造密钥生成器，指定为AES算法,不区分大小写
             KeyGenerator keygen = KeyGenerator.getInstance("AES");
@@ -111,17 +103,9 @@ public class AESUtil {
             byte[] byteDecode = cipher.doFinal(byteContent);
             String aesDecode = new String(byteDecode, "utf-8");
             return aesDecode;
-        } catch (NoSuchAlgorithmException e) {
-            logger.error("",e);
-        } catch (NoSuchPaddingException e) {
-            logger.error("",e);
-        } catch (InvalidKeyException e) {
+        } catch (GeneralSecurityException e) {
             logger.error("",e);
         } catch (IOException e) {
-            logger.error("",e);
-        } catch (IllegalBlockSizeException e) {
-            logger.error("",e);
-        } catch (BadPaddingException e) {
             logger.error("",e);
         }
         //如果有错就返加nulll
@@ -132,12 +116,12 @@ public class AESUtil {
         String[] keys = {
                 "", "275688"
         };
-        log.info("key | AESEncode | AESDecode");
+        log.info("key | aesEncode | aesDecode");
         for (String key : keys) {
             log.info(key + " | ");
-            String encryptString = AESEncode(key);
+            String encryptString = aesEncode(key);
             log.info(encryptString + " | ");
-            String decryptString = AESDecode(encryptString);
+            String decryptString = aesDecode(encryptString);
             log.info(decryptString);
         }
     }
