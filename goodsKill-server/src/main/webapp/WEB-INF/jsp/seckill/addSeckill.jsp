@@ -21,7 +21,7 @@
         function getPrice() {
             var goodsId = $("#goodsId").val();
             $.ajax({
-                url: "${context}/goods/getGoodsById/" + goodsId,
+                url: "${context}/goods/" + goodsId,
                 success: function (data) {
                     $("#realGoodsPrice").html("实际价格:" + data.price);
                 }
@@ -37,7 +37,7 @@
 </head>
 <body>
 
-<form role="form" action="${context}/seckill/addSeckill" enctype="multipart/form-data" method="post"
+<form role="form" action="${context}/seckill/create" enctype="multipart/form-data" method="post"
       style="width: 10%;margin: 0 auto;">
     <div class="form-group">
         <div class="dropdown">

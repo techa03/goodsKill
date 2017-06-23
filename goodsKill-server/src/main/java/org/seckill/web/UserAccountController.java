@@ -33,13 +33,8 @@ public class UserAccountController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping(value = "/toRegister", method = RequestMethod.GET)
-    public String toRegister() {
-        return "register";
-    }
-
     @Transactional
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/register/create", method = RequestMethod.POST)
     @ResponseBody
     public String register(User user) {
         userAccountService.register(user);
@@ -51,13 +46,13 @@ public class UserAccountController {
         return "index";
     }
 
-    @RequestMapping(value = "/toLogin", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String toLogin() {
         return "login";
     }
 
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/login/session", method = RequestMethod.POST)
     public String login(User user) {
         String psd = user.getPassword();
         user.setPassword(DigestUtils.md5DigestAsHex(psd.getBytes()));
@@ -70,7 +65,7 @@ public class UserAccountController {
         return "redirect:/seckill/list";
     }
 
-    @RequestMapping(value = "/toUploadPhoto/{seckillId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/uploadPhoto/{seckillId}", method = RequestMethod.GET)
     public String toUploadPhoto(@PathVariable("seckillId") Long seckillId, Model model) {
         return "redirect:/seckill/upload/" + seckillId;
     }
@@ -89,7 +84,7 @@ public class UserAccountController {
      * @return String
      */
     @Transactional
-    @RequestMapping(value = "/upload/{seckillId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/upload/{seckillId}/create", method = RequestMethod.POST)
     public String uploadPhoto(@RequestParam("file") CommonsMultipartFile file, @RequestParam("seckillId") Long seckillId) {
         Seckill seckill = seckillService.selectById(seckillId);
         try {

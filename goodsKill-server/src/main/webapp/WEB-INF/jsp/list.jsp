@@ -20,9 +20,9 @@
             <h2 class="text-primary">秒杀列表</h2>
         </div>
         <div style="margin-top: 15px;margin-left: 15px">
-            <a class="btn btn-info" href="${context}/seckill/toAddSeckill" target="_blank">增加秒杀商品</a>
+            <a class="btn btn-info" href="${context}/seckill/new" target="_blank">增加秒杀商品</a>
             <a>&nbsp;</a>
-            <a class="btn btn-info" href="${context}/seckill/toAddGoods" target="_blank">增加商品种类</a>
+            <a class="btn btn-info" href="${context}/goods/new" target="_blank">增加商品种类</a>
         </div>
         <div class="panel-body">
             <table class="table table-hover">
@@ -54,7 +54,7 @@
                             <fmt:formatDate value="${sk.createTime}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
                         </td>
                         <td>
-                            <a class="btn btn-primary" href="${context}/seckill/toUploadPhoto/${sk.seckillId}"
+                            <a class="btn btn-primary" href="${context}/seckill/uploadPhoto/${sk.seckillId}"
                                target="_blank">上传图片</a>
                                 <%--<a class="btn btn-info"  target="_blank" href="${context}/seckill/${sk.seckillId}/detail" onclick="checkExposer(${sk.seckillId})">链接</a>--%>
                             <a class="btn btn-danger" href="${context}/seckill/${sk.seckillId}/delete"

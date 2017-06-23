@@ -47,7 +47,11 @@
     <form class="form-inline">
         <div class="form-group">
             <label for="phoneNum">手机号</label>
-            <input type="text" class="form-control" id="phoneNum" placeholder="请输入11为手机号" maxlength="11">
+            <input type="text" class="form-control" id="phoneNum" name="手机" placeholder="请输入11为手机号" maxlength="11">
+            <input type="text" class="form-control" id="name" name="名称" placeholder="请输入11为手机号" maxlength="11">
+            <input type="text" class="form-control" id="sex" name="性别" placeholder="请输入11为手机号" maxlength="11">
+            <input type="text" class="form-control" id="address" name="家庭住址" placeholder="请输入11为手机号" maxlength="11">
+            <input type="text" class="form-control" id="phone" name="电话" placeholder="请输入11为手机号" maxlength="11">
         </div>
         <button type="button" class="btn btn-default" onclick="checkExposer(${seckillInfo.seckillId})">执行秒杀</button>
     </form>

@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div style="width: 35%; margin: 0 auto;">
-		<form id="defaultForm" action="login" role="form"
+		<form id="defaultForm" action="login/session" role="form"
 			style="width: 50%;" method="post">
 			<div class="form-group">
 				<label for="account">账号：</label> <input type="text"

@@ -21,7 +21,7 @@
         function getPrice() {
             var goodsId = $("#goodsId").val();
             $.ajax({
-                url: "${context}/goods/getGoodsById/" + goodsId,
+                url: "${context}/goods/" + goodsId,
                 success: function (data) {
                     $("#realGoodsPrice").html("实际价格:" + data.price);
                 }

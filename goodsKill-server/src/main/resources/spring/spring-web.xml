@@ -7,29 +7,25 @@
         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
-
-
-        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">
 
-       <mvc:annotation-driven conversion-service="conversionService"/>
-       <mvc:default-servlet-handler/>
+    <mvc:annotation-driven conversion-service="conversionService"/>
+    <mvc:default-servlet-handler/>
 
-       <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-              <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-              <property name="prefix" value="/WEB-INF/jsp/"/>
-              <property name="suffix" value=".jsp"/>
-       </bean>
-       
-        <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
-          <property name="defaultEncoding" value="utf-8" />  
-          <property name="maxUploadSize" value="10485760000" />  
-          <property name="maxInMemorySize" value="40960" />  
-    	</bean>  
-       
-       <context:component-scan base-package="org.seckill.web"/>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
 
-    <!--<bean id="seckillController" class="org.seckill.web.SeckillController" scope="session"/>-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="maxUploadSize" value="10485760000"/>
+        <property name="maxInMemorySize" value="40960"/>
+    </bean>
+
+    <context:component-scan base-package="org.seckill.web;org.seckill.swagger"/>
 
     <!--日期字符串转data类型-->
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
@@ -37,4 +33,5 @@
             <bean class="org.seckill.common.util.String2DateUtil"/>
         </property>
     </bean>
+
 </beans>
