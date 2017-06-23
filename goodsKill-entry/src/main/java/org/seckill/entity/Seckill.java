@@ -269,4 +269,18 @@ public class Seckill implements Serializable{
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "Seckill{" +
+                "seckillId=" + seckillId +
+                ", name='" + name + '\'' +
+                ", number=" + number +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", createTime=" + createTime +
+                ", goodsId=" + goodsId +
+                ", price=" + price +
+                '}';
+    }
 }

@@ -1,19 +1,19 @@
 package org.seckill.service;
 
+import com.github.pagehelper.PageInfo;
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.dto.SeckillInfo;
 import org.seckill.entity.Seckill;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
 /**
  * Created by heng on 2016/7/16.
  */
 public interface SeckillService {
 
-    List<Seckill> getSeckillList();
+    PageInfo getSeckillList(int pageNum, int pageSize);
 
     SeckillInfo getById(long seckillId) throws InvocationTargetException, IllegalAccessException;
 

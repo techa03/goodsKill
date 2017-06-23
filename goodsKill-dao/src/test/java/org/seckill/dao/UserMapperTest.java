@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by heng on 2017/4/27.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:spring/spring-dao.xml"})
+@ContextConfiguration({"classpath:junit/spring/spring-dao.xml"})
 @Transactional
 public class UserMapperTest {
     @Autowired

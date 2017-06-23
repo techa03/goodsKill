@@ -8,8 +8,6 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
    <context:component-scan base-package="org.seckill.service" />
 
-   <!--activeMQ配置-->
-   <!-- 真正可以产生Connection的ConnectionFactory，由对应的 JMS服务厂商提供 -->
    <bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
       <property name="brokerURL" value="tcp://localhost:61616"/>
    </bean>
@@ -23,23 +21,4 @@
    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
       <property name="connectionFactory" ref="connectionFactory"/>
    </bean>
-
-   <bean id="queueDestination" class="org.apache.activemq.command.ActiveMQQueue">
-      <constructor-arg>
-         <value>heng</value>
-      </constructor-arg>
-   </bean>
-
-   <bean id="topicDestination" class="org.apache.activemq.command.ActiveMQTopic">
-      <constructor-arg value="myTopic"/>
-   </bean>
-
-   <!-- 消息监听容器 -->
-   <bean id="jmsContainer"
-         class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-      <property name="connectionFactory" ref="connectionFactory" />
-      <property name="destination" ref="queueDestination" />
-      <property name="messageListener" ref="userAccountServiceImpl" />
-   </bean>
-
 </beans>

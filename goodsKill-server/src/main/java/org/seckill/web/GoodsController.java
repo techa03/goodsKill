@@ -20,16 +20,16 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
-    @RequestMapping("/addGoods")
-    public String addGoods(){
+    @GetMapping("/new")
+    public String addGoodsPage(){
         return "addGoods";
     }
 
     @Transactional
-    @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @RequestMapping(value = "/create",method = RequestMethod.POST)
     public String add(Goods goods, @RequestParam("file") CommonsMultipartFile file){
         goods.setCreateTime(new Date());
-        goodsService.addGoods(goods,file);
+        goodsService.addGoods(goods,file.getBytes());
         return "redirect:/seckill/list";
     }
 
@@ -40,7 +40,7 @@ public class GoodsController {
         return goodsService.queryAll();
     }
 
-    @RequestMapping(value = "/getGoodsById/{goodsId}", method = RequestMethod.GET, produces = {
+    @RequestMapping(value = "/{goodsId}", method = RequestMethod.GET, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
     public Goods getGoodsById(@PathVariable(value = "goodsId") long goodsId) {

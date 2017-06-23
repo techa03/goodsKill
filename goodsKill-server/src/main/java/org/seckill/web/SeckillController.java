@@ -1,5 +1,9 @@
 package org.seckill.web;
 
+import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.dto.SeckillInfo;
@@ -24,7 +28,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by heng on 2016/7/23.
@@ -36,10 +39,20 @@ public class SeckillController {
     @Autowired
     private SeckillService seckillService;
 
+
+    @ApiOperation(value = "秒杀列表", notes = "分页显示秒杀列表")
+    @ApiImplicitParams({@ApiImplicitParam(name = "model", value = "model对象", required = true, dataType = "Model"),
+            @ApiImplicitParam(name = "offset", value = "当前页数", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "limit", value = "每页显示的记录数", required = true, dataType = "int")})
     @GetMapping(value = "/list")
-    public String list(Model model) {
-        List<Seckill> list = seckillService.getSeckillList();
-        model.addAttribute("list", list);
+    public String list(Model model,@RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
+                       @RequestParam(name = "limit", required = false, defaultValue = "4") int limit) {
+        PageInfo<Seckill> pageInfo = seckillService.getSeckillList(offset, limit);
+        long totalNum = pageInfo.getTotal();
+        long pageNum = (totalNum % limit == 0) ? totalNum / limit : totalNum / limit + 1;
+        model.addAttribute("list", pageInfo.getList());
+        model.addAttribute("totalNum", totalNum);
+        model.addAttribute("pageNum", pageNum);
         return "list";
     }
 
@@ -114,19 +127,14 @@ public class SeckillController {
         return new SeckillResult(true, now.getTime());
     }
 
-    @GetMapping(value = "/toAddGoods")
-    public String toAddGoods() {
-        return "redirect:/goods/addGoods";
-    }
-
-    @PostMapping(value = "/addSeckill")
+    @PostMapping(value = "/create")
     public String addSeckill(Seckill seckill) {
         seckillService.addSeckill(seckill);
         return "redirect:list";
     }
 
-    @GetMapping(value = "/toAddSeckill")
-    public String toAddSeckill() {
+    @GetMapping(value = "/new")
+    public String toAddSeckillPage() {
         return "seckill/addSeckill";
     }
 
