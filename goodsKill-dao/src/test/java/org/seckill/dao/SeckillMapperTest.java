@@ -36,7 +36,7 @@ public class SeckillMapperTest {
     public void testInsertSelective(){
         SuccessKilled record=new SuccessKilled();
         record.setUserPhone("18516536081");
-        record.setSeckillId(1000l);
+        record.setSeckillId(11000l);
         Assert.assertEquals(successKilledMapper.insertSelective(record),1);
     }
 
