@@ -1,19 +1,13 @@
 package org.seckill.dao;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.seckill.base.BaseTestConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by heng on 2017/4/27.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:junit/spring/spring-dao.xml"})
-@Transactional
-public class UserMapperTest {
+public class UserMapperTest extends BaseTestConfig{
     @Autowired
     private UserMapper userMapper;
     @Test
