@@ -173,7 +173,7 @@ public class SeckillController {
                 os.write(b);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.error("the error is :", e);
         } finally {
             os.flush();
             os.close();
