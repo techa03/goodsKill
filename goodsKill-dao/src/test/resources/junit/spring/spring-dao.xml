@@ -99,7 +99,7 @@
 
     <!-- redis数据访问类-->
     <bean id="redisDao" class="org.seckill.dao.RedisDao">
-        <constructor-arg index="0" value="localhost"/>
+        <constructor-arg index="0" value="192.168.6.101"/>
         <constructor-arg index="1" value="6379"/>
     </bean>
 

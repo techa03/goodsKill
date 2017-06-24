@@ -9,7 +9,7 @@
    <context:component-scan base-package="org.seckill.service" />
 
    <bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
-      <property name="brokerURL" value="tcp://localhost:61616"/>
+      <property name="brokerURL" value="tcp://192.168.6.101:61616"/>
    </bean>
 
    <!-- Spring用于管理真正的ConnectionFactory的ConnectionFactory -->
