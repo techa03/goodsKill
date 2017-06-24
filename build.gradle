@@ -1,44 +1,76 @@
 plugins {
-  id "org.sonarqube" version "2.5"
+    id "org.sonarqube" version "2.5"
 }
 
-allprojects  {
-  apply plugin: 'maven'
+allprojects {
+    apply plugin: 'maven'
 
-  group = 'com.goodsKill'
-  version = '1.0-SNAPSHOT'
+    group = 'com.goodsKill'
+    version = '1.0-SNAPSHOT'
 }
 
 
 
 subprojects {
-  apply plugin: 'java'
-  sourceCompatibility = 1.8
-  targetCompatibility = 1.8
-  tasks.withType(JavaCompile) {
-  	options.encoding = 'UTF-8'
-  }
+    apply plugin: 'java'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    ext {
+        springVersion = '4.3.9.RELEASE'
+    }
 
 
-  repositories {
-    mavenLocal()
+    repositories {
+        mavenLocal()
+        maven { url "http://repo.maven.apache.org/maven2" }
+    }
 
-    maven { url "http://repo.maven.apache.org/maven2" }
-  }
+    dependencies {
+        compile(
+                "org.springframework:spring-context:$springVersion",
+                "org.springframework:spring-aop:$springVersion",
+                "org.springframework:spring-beans:$springVersion",
+                "org.springframework:spring-core:$springVersion",
+                "org.springframework:spring-expression:$springVersion",
+                "org.springframework:spring-jdbc:$springVersion",
+                "org.springframework:spring-jms:$springVersion",
+                "org.springframework:spring-messaging:$springVersion",
+                "org.springframework:spring-orm:$springVersion",
+                "org.springframework:spring-web:$springVersion",
+                "org.springframework:spring-webmvc:$springVersion",
+                "org.springframework:spring-tx:$springVersion",
+        )
 
-    sonarqube{
-      properties{
-        property "sonar.host.url", "http://192.168.6.101:9000/"
-        property "sonar.jdbc.url", "jdbc:mysql://192.168.6.101:3306/sonar"
-        property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
-        property "sonar.jdbc.username", "root"
-        property "sonar.jdbc.password", "275688"
-        property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.login", "admin"
-        property "sonar.password", "admin"
-        property "sonar.forceAuthentication", "false"
-      }
-  }
+        compile(group: 'com.alibaba', name: 'dubbo', version: '2.5.3') {
+            exclude(module: 'spring')
+        }
+
+
+        testCompile(
+                "org.springframework:spring-test:$springVersion",
+                "junit:junit:4.12"
+        )
+    }
+
+
+
+    sonarqube {
+        properties {
+            property "sonar.host.url", "http://192.168.6.101:9000/"
+            property "sonar.jdbc.url", "jdbc:mysql://192.168.6.101:3306/sonar"
+            property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
+            property "sonar.jdbc.username", "root"
+            property "sonar.jdbc.password", "275688"
+            property "sonar.sourceEncoding", "UTF-8"
+            property "sonar.login", "admin"
+            property "sonar.password", "admin"
+            property "sonar.forceAuthentication", "false"
+        }
+    }
 
 
 
