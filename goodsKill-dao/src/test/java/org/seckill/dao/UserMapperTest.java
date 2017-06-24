@@ -2,7 +2,6 @@ package org.seckill.dao;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seckill.entity.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -37,13 +36,6 @@ public class UserMapperTest {
     public void insertSelective() throws Exception {
     }
 
-    @Test
-    public void selectByExample() throws Exception {
-        UserExample userExample=new UserExample();
-        UserExample.Criteria criteria=userExample.createCriteria();
-        criteria.andUpdateTimeIsNull();
-        userMapper.selectByExample(userExample);
-    }
 
     @Test
     public void selectByPrimaryKey() throws Exception {

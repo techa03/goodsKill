@@ -1,10 +1,9 @@
 package org.seckill.dao;
 
-import com.github.pagehelper.PageHelper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seckill.entity.SeckillExample;
+import org.seckill.dao.ext.ExtSeckillMapper;
 import org.seckill.entity.SuccessKilled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ import java.util.Date;
 public class SeckillMapperTest {
     private static Logger logger= LoggerFactory.getLogger(SeckillMapperTest.class);
     @Autowired
-    private SeckillMapper seckillMapper;
+    private ExtSeckillMapper seckillMapper;
     @Autowired
     private SuccessKilledMapper successKilledMapper;
     @Test
@@ -38,14 +37,6 @@ public class SeckillMapperTest {
         record.setUserPhone("18516536081");
         record.setSeckillId(11000l);
         Assert.assertEquals(successKilledMapper.insertSelective(record),1);
-    }
-
-    @Test
-    public void testSelect(){
-        PageHelper.startPage(1,2);
-        SeckillExample example=new SeckillExample();
-        seckillMapper.selectByExample(null);
-        logger.info("fd");
     }
 
 }

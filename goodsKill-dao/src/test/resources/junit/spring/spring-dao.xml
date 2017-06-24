@@ -52,7 +52,12 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:junit/mybatis-config.xml"/>
         <property name="typeAliasesPackage" value="org.seckill.entity"/>
-        <property name="mapperLocations" value="classpath*:mapper/*.xml"/>
+        <property name="mapperLocations">
+            <array>
+                <value>classpath*:mapper/ext/*.xml</value>
+                <value>classpath*:mapper/*.xml</value>
+            </array>
+        </property>
         <property name="plugins">
             <array>
                 <bean class="com.github.pagehelper.PageInterceptor">
@@ -69,11 +74,11 @@
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-        <property name="basePackage" value="org.seckill.dao"/>
+        <property name="basePackage" value="org.seckill.dao;org.seckill.dao.ext"/>
     </bean>
 
 
-    <context:component-scan base-package="org.seckill.dao"/>
+    <context:component-scan base-package="org.seckill.dao;org.seckill.dao.ext"/>
     <context:component-scan base-package="org.seckill.common"/>
 
     <!--spring事务处理-->

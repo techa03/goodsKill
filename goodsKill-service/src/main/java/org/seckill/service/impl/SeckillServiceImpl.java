@@ -7,8 +7,8 @@ import org.seckill.common.trade.alipay.AlipayRunner;
 import org.seckill.common.util.MD5Util;
 import org.seckill.dao.GoodsMapper;
 import org.seckill.dao.RedisDao;
-import org.seckill.dao.SeckillMapper;
 import org.seckill.dao.SuccessKilledMapper;
+import org.seckill.dao.ext.ExtSeckillMapper;
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.dto.SeckillInfo;
@@ -40,7 +40,7 @@ public class SeckillServiceImpl implements SeckillService {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private SeckillMapper seckillDao;
+    private ExtSeckillMapper seckillDao;
     @Autowired
     private SuccessKilledMapper successKilledDao;
     @Autowired

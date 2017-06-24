@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration({
-//        "classpath:test-spring-dao.xml",
+//        "classpath:test-novalid-spring-dao.xml",
 //        "classpath:test-spring-service.xml"})
 //@Transactional
 public class SeckillServiceImplTest {

@@ -7,11 +7,8 @@ import com.alipay.demo.trade.model.ExtendParams;
 import com.alipay.demo.trade.model.GoodsDetail;
 import com.alipay.demo.trade.model.builder.AlipayTradePrecreateRequestBuilder;
 import com.alipay.demo.trade.model.result.AlipayF2FPrecreateResult;
-import com.alipay.demo.trade.service.AlipayMonitorService;
 import com.alipay.demo.trade.service.AlipayTradeService;
-import com.alipay.demo.trade.service.impl.AlipayMonitorServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
-import com.alipay.demo.trade.service.impl.AlipayTradeWithHBServiceImpl;
 import com.alipay.demo.trade.utils.ZxingUtils;
 import org.apache.commons.lang.StringUtils;
 import org.seckill.dao.GoodsMapper;
@@ -109,7 +106,8 @@ public class AlipayRunner {
         // 商品明细列表，需填写购买商品详细信息，
         List<GoodsDetail> goodsDetailList = new ArrayList<GoodsDetail>();
         // 创建一个商品信息，参数含义分别为商品id（使用国标）、名称、单价（单位为分）、数量，如果需要添加商品类别，详见GoodsDetail
-        GoodsDetail goods1 = GoodsDetail.newInstance(String.valueOf(seckill.getGoodsId()), goods.getName(), Long.valueOf(seckill.getPrice().intValue()*100), 1);
+
+        GoodsDetail goods1 = GoodsDetail.newInstance(String.valueOf(seckill.getGoodsId()), goods.getName(), seckill.getPrice().intValue()*100, 1);
         // 创建好一个商品后添加至商品明细列表
         goodsDetailList.add(goods1);
 
@@ -138,7 +136,9 @@ public class AlipayRunner {
                 String filePath = String.format("C:/Users/heng/Pictures/qr-%s.png",
                         response.getOutTradeNo());
                 logger.info("filePath:" + filePath.split("/")[4]);
-                ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
+                if(response!=null&&StringUtils.isNotEmpty(response.getQrCode())){
+                    ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
+                }
                 return filePath.split("/")[4];
 
             case FAILED:
