@@ -11,6 +11,7 @@ import com.alipay.demo.trade.service.AlipayTradeService;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.alipay.demo.trade.utils.ZxingUtils;
 import org.apache.commons.lang.StringUtils;
+import org.seckill.constants.SeckillConstants;
 import org.seckill.dao.GoodsMapper;
 import org.seckill.dao.RedisDao;
 import org.seckill.entity.Goods;
@@ -134,7 +135,7 @@ public class AlipayRunner {
                 String filePath="";
                 // 需要修改为运行机器上的路径
                 if(response!=null&&StringUtils.isNotEmpty(response.getOutTradeNo())){
-                    filePath = String.format("C:/Users/heng/Pictures/qr-%s.png",
+                    filePath = String.format(SeckillConstants.GOODS_PICTURE_PATH+"/qr-%s.png",
                             response.getOutTradeNo());
                     logger.info("filePath:" + filePath.split("/")[4]);
                 }

@@ -16,7 +16,7 @@ public class GoodsKillRpcServiceApplication {
     public static void main(String[] args) throws IOException {
         logger.info(">>>>> goodsKill-rpc-service 正在启动 <<<<<");
         ClassPathXmlApplicationContext context= new ClassPathXmlApplicationContext(
-                new String[]{"classpath:META-INF/spring/spring-*.xml", "classpath*:junit/spring/spring-dao.xml"});
+                "classpath*:META-INF/spring/spring-*.xml");
         context.start();
         System.in.read();
         logger.info(">>>>> goodsKill-rpc-service 启动完成 <<<<<");

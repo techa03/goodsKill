@@ -24,7 +24,7 @@
                                 var seckillResult = result.data;
                                 console.log(seckillResult);
                                 if(seckillResult.statEnum=="SUCCESS"){
-                                    window.open("${context}/seckill/pay/Qrcode/"+seckillResult.qrfilePath);
+                                    window.open("${context}/seckill/pay/Qrcode/"+seckillResult.qrfilepath);
                                 }else {
                                     alert(seckillResult.statEnum);
                                 }

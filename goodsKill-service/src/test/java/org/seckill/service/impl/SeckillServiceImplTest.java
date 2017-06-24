@@ -17,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-        "classpath:test-spring-dao.xml",
-        "classpath:test-spring-service.xml"})
+        "classpath:META-INF/spring/spring-dao.xml",
+        "classpath:META-INF/spring/spring-service.xml"})
 @Transactional
 public class SeckillServiceImplTest {
     private Logger logger = LoggerFactory.getLogger(this.getClass());

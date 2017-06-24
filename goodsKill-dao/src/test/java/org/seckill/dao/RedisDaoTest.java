@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by heng on 2017/6/17.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:junit/spring/spring-dao.xml"})
+@ContextConfiguration({"classpath:META-INF/spring/spring-dao.xml"})
 @Transactional
 public class RedisDaoTest{
     @Autowired

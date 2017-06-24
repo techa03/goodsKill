@@ -12,7 +12,7 @@
     <bean id="propertyConfigurer" class="org.seckill.common.util.EncryptPropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath:junit/jdbc.properties</value>
+                <value>classpath:jdbc.properties</value>
             </list>
         </property>
     </bean>
@@ -50,7 +50,7 @@
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="configLocation" value="classpath:junit/mybatis-config.xml"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <property name="typeAliasesPackage" value="org.seckill.entity"/>
         <property name="mapperLocations">
             <array>
@@ -92,14 +92,14 @@
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
             <list>
-                <value>junit.message</value>
+                <value>message</value>
             </list>
         </property>
     </bean>
 
     <!-- redis数据访问类-->
     <bean id="redisDao" class="org.seckill.dao.RedisDao">
-        <constructor-arg index="0" value="192.168.6.101"/>
+        <constructor-arg index="0" value="${host_ip}"/>
         <constructor-arg index="1" value="6379"/>
     </bean>
 

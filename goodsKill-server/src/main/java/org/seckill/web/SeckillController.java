@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.seckill.constants.SeckillConstants;
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.dto.SeckillInfo;
@@ -167,7 +168,7 @@ public class SeckillController {
         OutputStream os = response.getOutputStream();
         FileInputStream fi = null;
         try {
-            fi = new FileInputStream(new File("C:/Users/heng/Pictures/" + QRfilePath + ".png"));
+            fi = new FileInputStream(new File(SeckillConstants.GOODS_PICTURE_PATH +"/"+ QRfilePath + ".png"));
             int b;
             while ((b = fi.read()) != -1) {
                 os.write(b);
