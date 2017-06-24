@@ -22,10 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
@@ -168,14 +165,20 @@ public class SeckillController {
     public void showQRcode(@PathVariable("QRfilePath") String QRfilePath, HttpServletResponse response) throws IOException {
         response.setContentType("img/*");
         OutputStream os = response.getOutputStream();
-        FileInputStream fi = new FileInputStream(new File("C:/Users/heng/Pictures/" + QRfilePath + ".png"));
-        int b;
-        while ((b = fi.read()) != -1) {
-            os.write(b);
+        FileInputStream fi = null;
+        try {
+            fi = new FileInputStream(new File("C:/Users/heng/Pictures/" + QRfilePath + ".png"));
+            int b;
+            while ((b = fi.read()) != -1) {
+                os.write(b);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            os.flush();
+            os.close();
+            fi.close();
         }
-        os.flush();
-        os.close();
-        fi.close();
     }
 
     /**

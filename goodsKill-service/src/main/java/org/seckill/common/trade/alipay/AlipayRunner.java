@@ -107,7 +107,7 @@ public class AlipayRunner {
         List<GoodsDetail> goodsDetailList = new ArrayList<GoodsDetail>();
         // 创建一个商品信息，参数含义分别为商品id（使用国标）、名称、单价（单位为分）、数量，如果需要添加商品类别，详见GoodsDetail
 
-        GoodsDetail goods1 = GoodsDetail.newInstance(String.valueOf(seckill.getGoodsId()), goods.getName(), seckill.getPrice().intValue()*100, 1);
+        GoodsDetail goods1 = GoodsDetail.newInstance(String.valueOf(seckill.getGoodsId()), goods.getName(), seckill.getPrice().intValue()*100L, 1);
         // 创建好一个商品后添加至商品明细列表
         goodsDetailList.add(goods1);
 
@@ -131,11 +131,13 @@ public class AlipayRunner {
 
                 AlipayTradePrecreateResponse response = result.getResponse();
                 dumpResponse(response);
-
+                String filePath="";
                 // 需要修改为运行机器上的路径
-                String filePath = String.format("C:/Users/heng/Pictures/qr-%s.png",
-                        response.getOutTradeNo());
-                logger.info("filePath:" + filePath.split("/")[4]);
+                if(response!=null&&StringUtils.isNotEmpty(response.getOutTradeNo())){
+                    filePath = String.format("C:/Users/heng/Pictures/qr-%s.png",
+                            response.getOutTradeNo());
+                    logger.info("filePath:" + filePath.split("/")[4]);
+                }
                 if(response!=null&&StringUtils.isNotEmpty(response.getQrCode())){
                     ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
                 }
