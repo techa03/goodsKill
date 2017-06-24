@@ -177,7 +177,9 @@ public class SeckillController {
         } finally {
             os.flush();
             os.close();
-            fi.close();
+            if (fi!=null){
+                fi.close();
+            }
         }
     }
 
