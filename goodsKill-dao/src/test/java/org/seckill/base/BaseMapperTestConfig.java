@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:junit/spring/spring-dao.xml"})
 @Transactional
-public class BaseTestConfig {
+public class BaseMapperTestConfig {
 
     @Test
     public void testSelectByPrimaryKey() throws Exception {

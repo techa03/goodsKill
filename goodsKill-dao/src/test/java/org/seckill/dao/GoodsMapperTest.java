@@ -3,7 +3,7 @@ package org.seckill.dao;
 import com.github.pagehelper.PageHelper;
 import org.junit.Assert;
 import org.junit.Test;
-import org.seckill.base.BaseTestConfig;
+import org.seckill.base.BaseMapperTestConfig;
 import org.seckill.entity.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,7 +13,7 @@ import java.io.FileOutputStream;
 /**
  * Created by heng on 2017/6/24.
  */
-public class GoodsMapperTest extends BaseTestConfig {
+public class GoodsMapperTest extends BaseMapperTestConfig {
     @Autowired
     private GoodsMapper goodsMapper;
 

@@ -3,7 +3,7 @@ package org.seckill.dao;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seckill.base.BaseTestConfig;
+import org.seckill.base.BaseMapperTestConfig;
 import org.seckill.dao.ext.ExtSeckillMapper;
 import org.seckill.entity.SuccessKilled;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ import java.util.Date;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:junit/spring/spring-dao.xml"})
 @Transactional
-public class SeckillMapperTest extends BaseTestConfig {
+public class SeckillMapperTest extends BaseMapperTestConfig {
     private static Logger logger= LoggerFactory.getLogger(SeckillMapperTest.class);
     @Autowired
     private ExtSeckillMapper seckillMapper;

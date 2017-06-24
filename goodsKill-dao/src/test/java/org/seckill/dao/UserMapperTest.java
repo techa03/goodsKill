@@ -1,13 +1,13 @@
 package org.seckill.dao;
 
 import org.junit.Test;
-import org.seckill.base.BaseTestConfig;
+import org.seckill.base.BaseMapperTestConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by heng on 2017/4/27.
  */
-public class UserMapperTest extends BaseTestConfig{
+public class UserMapperTest extends BaseMapperTestConfig{
     @Autowired
     private UserMapper userMapper;
     @Test
