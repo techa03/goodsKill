@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.seckill.dao.ext.ExtSeckillMapper">
+  <update id="reduceNumber">
+    UPDATE
+    seckill
+    SET
+    number = number -1
+    WHERE seckill_id = #{seckillId}
+    AND start_time <![CDATA[ <= ]]> #{killTime}
+    AND end_time <![CDATA[ >= ]]> #{killTime}
+    AND number <![CDATA[ > ]]> 0
+  </update>
+</mapper>

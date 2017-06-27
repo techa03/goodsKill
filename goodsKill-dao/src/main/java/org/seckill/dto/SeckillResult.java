@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class SeckillResult<T> implements Serializable{
     private static final long serialVersionUID = 1L;
     private boolean success;
-    private T data;
+    private transient T data;
     private String error;
 
     public SeckillResult(boolean success, T data) {

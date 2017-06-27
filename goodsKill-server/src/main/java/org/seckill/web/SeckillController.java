@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.seckill.constants.SeckillConstants;
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.dto.SeckillInfo;
@@ -22,10 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
@@ -167,15 +165,15 @@ public class SeckillController {
     @GetMapping(value = "/Qrcode/{QRfilePath}")
     public void showQRcode(@PathVariable("QRfilePath") String QRfilePath, HttpServletResponse response) throws IOException {
         response.setContentType("img/*");
-        OutputStream os = response.getOutputStream();
-        FileInputStream fi = new FileInputStream(new File("C:/Users/heng/Pictures/" + QRfilePath + ".png"));
-        int b;
-        while ((b = fi.read()) != -1) {
-            os.write(b);
+        try(FileInputStream fi = new FileInputStream(new File(SeckillConstants.GOODS_PICTURE_PATH +"/"+ QRfilePath + ".png"));
+            OutputStream os = response.getOutputStream()) {
+            int b;
+            while ((b = fi.read()) != -1) {
+                os.write(b);
+            }
+        } catch (FileNotFoundException e) {
+            logger.error("the error is :", e);
         }
-        os.flush();
-        os.close();
-        fi.close();
     }
 
     /**

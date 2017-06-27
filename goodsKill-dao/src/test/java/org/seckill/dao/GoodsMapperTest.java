@@ -1,23 +1,22 @@
 package org.seckill.dao;
 
 import com.github.pagehelper.PageHelper;
+import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.seckill.base.BaseMapperTestConfig;
 import org.seckill.entity.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileOutputStream;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:junit/spring/spring-dao.xml"})
-@Transactional
-public class GoodsMapperTest {
+/**
+ * Created by heng on 2017/6/24.
+ */
+public class GoodsMapperTest extends BaseMapperTestConfig {
     @Autowired
     private GoodsMapper goodsMapper;
+
     @Test
     public void testSelectByPrimaryKey() throws Exception {
         PageHelper.startPage(1,2);
@@ -28,7 +27,43 @@ public class GoodsMapperTest {
     }
 
     @Test
-    public void testInsertSelective(){
-
+    public void deleteByPrimaryKey() throws Exception {
+        Goods goods=new Goods();
+        goods.setGoodsId(1833);
+        goodsMapper.insert(goods);
+        Assert.assertEquals(goodsMapper.deleteByPrimaryKey(1),1);
     }
+
+    @Test
+    public void insert() throws Exception {
+    }
+
+    @Test
+    public void insertSelective() throws Exception {
+    }
+
+    @Test
+    public void selectByExampleWithBLOBs() throws Exception {
+    }
+
+    @Test
+    public void selectByExample() throws Exception {
+    }
+
+    @Test
+    public void selectByPrimaryKey() throws Exception {
+    }
+
+    @Test
+    public void updateByPrimaryKeySelective() throws Exception {
+    }
+
+    @Test
+    public void updateByPrimaryKeyWithBLOBs() throws Exception {
+    }
+
+    @Test
+    public void updateByPrimaryKey() throws Exception {
+    }
+
 }

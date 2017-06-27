@@ -3,7 +3,6 @@ package org.seckill.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import org.seckill.dao.UserMapper;
 import org.seckill.entity.User;
-import org.seckill.entity.UserExample;
 import org.seckill.exception.CommonException;
 import org.seckill.exception.SeckillException;
 import org.seckill.service.UserAccountService;
@@ -70,15 +69,7 @@ public class UserAccountServiceImpl implements UserAccountService{
 			logger.info("接受的用户信息："+textMessage.getText());
 			JSONObject userInfo=JSONObject.parseObject(textMessage.getText());
 			if(!"".equals(userInfo.get("userName"))&&!"".equals(userInfo.get("password"))){
-				UserExample userExample=new UserExample();
-				UserExample.Criteria userCriteria=userExample.createCriteria();
-				userCriteria.andAccountEqualTo((String) userInfo.get("userName"));
-				userCriteria.andPasswordEqualTo((String)userInfo.get("password"));
-				if(userDao.selectByExample(userExample).size()==1){
-					logger.info("验证成功！");
-				}else{
-					logger.info("验证失败！");
-				}
+				// TODO
 			}else{
 				logger.info("字段不许为空");
 			}

@@ -7,7 +7,7 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <!--<context:property-placeholder location="classpath:jdbc.properties"/>-->
+    <!--<context:property-placeholder location="classpath:junit/jdbc.properties"/>-->
     <!-- 配置进行解密  -->
     <bean id="propertyConfigurer" class="org.seckill.common.util.EncryptPropertyPlaceholderConfigurer">
         <property name="locations">
@@ -52,7 +52,12 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <property name="typeAliasesPackage" value="org.seckill.entity"/>
-        <property name="mapperLocations" value="classpath*:mapper/*.xml"/>
+        <property name="mapperLocations">
+            <array>
+                <value>classpath*:mapper/ext/*.xml</value>
+                <value>classpath*:mapper/*.xml</value>
+            </array>
+        </property>
         <property name="plugins">
             <array>
                 <bean class="com.github.pagehelper.PageInterceptor">
@@ -69,11 +74,11 @@
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-        <property name="basePackage" value="org.seckill.dao"/>
+        <property name="basePackage" value="org.seckill.dao;org.seckill.dao.ext"/>
     </bean>
 
 
-    <context:component-scan base-package="org.seckill.dao"/>
+    <context:component-scan base-package="org.seckill.dao;org.seckill.dao.ext"/>
     <context:component-scan base-package="org.seckill.common"/>
 
     <!--spring事务处理-->
@@ -87,15 +92,16 @@
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
             <list>
-                <value>junit.message</value>
+                <value>message</value>
             </list>
         </property>
     </bean>
 
     <!-- redis数据访问类-->
     <bean id="redisDao" class="org.seckill.dao.RedisDao">
-        <constructor-arg index="0" value="localhost"/>
+        <constructor-arg index="0" value="${host_ip}"/>
         <constructor-arg index="1" value="6379"/>
     </bean>
+
 
 </beans>

@@ -1,10 +1,10 @@
 package org.seckill.dao;
 
-import com.github.pagehelper.PageHelper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seckill.entity.SeckillExample;
+import org.seckill.base.BaseMapperTestConfig;
+import org.seckill.dao.ext.ExtSeckillMapper;
 import org.seckill.entity.SuccessKilled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +19,12 @@ import java.util.Date;
  * Created by heng on 2017/4/29.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:junit/spring/spring-dao.xml"})
+@ContextConfiguration({"classpath:META-INF/spring/spring-dao.xml"})
 @Transactional
-public class SeckillMapperTest {
+public class SeckillMapperTest extends BaseMapperTestConfig {
     private static Logger logger= LoggerFactory.getLogger(SeckillMapperTest.class);
     @Autowired
-    private SeckillMapper seckillMapper;
+    private ExtSeckillMapper seckillMapper;
     @Autowired
     private SuccessKilledMapper successKilledMapper;
     @Test
@@ -36,16 +36,8 @@ public class SeckillMapperTest {
     public void testInsertSelective(){
         SuccessKilled record=new SuccessKilled();
         record.setUserPhone("18516536081");
-        record.setSeckillId(1000l);
+        record.setSeckillId(11000l);
         Assert.assertEquals(successKilledMapper.insertSelective(record),1);
-    }
-
-    @Test
-    public void testSelect(){
-        PageHelper.startPage(1,2);
-        SeckillExample example=new SeckillExample();
-        seckillMapper.selectByExample(null);
-        logger.info("fd");
     }
 
 }

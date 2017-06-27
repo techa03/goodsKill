@@ -28,6 +28,7 @@ public class GoodsServiceImpl implements GoodsService {
         Goods goods=new Goods();
         goods.setGoodsId((int)goodsId);
         goods.setPhotoImage(bytes);
+        logger.info(goods.toString());
         goodsDao.updateByPrimaryKeySelective(goods);
     }
 
