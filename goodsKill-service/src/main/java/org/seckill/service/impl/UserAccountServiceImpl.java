@@ -3,6 +3,7 @@ package org.seckill.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import org.seckill.dao.UserMapper;
 import org.seckill.entity.User;
+import org.seckill.entity.UserExample;
 import org.seckill.exception.CommonException;
 import org.seckill.exception.SeckillException;
 import org.seckill.service.UserAccountService;
@@ -17,6 +18,7 @@ import org.springframework.util.DigestUtils;
 import javax.annotation.Resource;
 import javax.jms.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -41,8 +43,10 @@ public class UserAccountServiceImpl implements UserAccountService{
 
 	@Override
 	public void login(User user) throws SeckillException{
-		int count = userDao.updateByPrimaryKeySelective(user);
-		if (count != 1) {
+		UserExample example=new UserExample();
+		example.createCriteria().andAccountEqualTo(user.getAccount()).andPasswordEqualTo(user.getPassword());
+		List<User> list = userDao.selectByExample(example);
+		if (list.size() != 1) {
 			throw new SeckillException("login fail");
 		}
 	}
@@ -61,8 +65,6 @@ public class UserAccountServiceImpl implements UserAccountService{
 		});
 	}
 
-
-	@Override
 	public void onMessage(Message message) {
 		TextMessage textMessage=(TextMessage)message;
 		try {
