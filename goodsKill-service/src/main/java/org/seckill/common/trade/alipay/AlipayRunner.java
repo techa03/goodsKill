@@ -11,7 +11,7 @@ import com.alipay.demo.trade.service.AlipayTradeService;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.alipay.demo.trade.utils.ZxingUtils;
 import org.apache.commons.lang.StringUtils;
-import org.seckill.constants.SeckillConstants;
+import org.seckill.enums.SeckillConstants;
 import org.seckill.dao.GoodsMapper;
 import org.seckill.dao.RedisDao;
 import org.seckill.entity.Goods;

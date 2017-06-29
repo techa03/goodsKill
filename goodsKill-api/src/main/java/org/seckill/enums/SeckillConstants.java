@@ -1,4 +1,4 @@
-package org.seckill.constants;
+package org.seckill.enums;
 
 /**
  * Created by heng on 2017/6/24.

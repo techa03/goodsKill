@@ -1,5 +1,6 @@
 description = ''
 apply plugin: 'java'
 dependencies {
+    compile project(':goodsKill-util')
     compile project(':goodsKill-entry')
 }
