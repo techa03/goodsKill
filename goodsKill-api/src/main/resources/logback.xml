@@ -21,7 +21,7 @@
         <prudent>false</prudent>
     </appender>
 
-    <root level="DEBUG">
+    <root level="ERROR">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="rollingAppender" />
     </root>

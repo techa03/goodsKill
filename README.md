@@ -1,3 +1,6 @@
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/techa03/goodsKill/pulls)
+[![GitHub stars](https://img.shields.io/github/stars/techa03/goodsKill.svg?style=social&label=Stars)](https://github.com/techa03/goodsKill)
+[![GitHub forks](https://img.shields.io/github/forks/techa03/goodsKill.svg?style=social&label=Fork)](https://github.com/techa03/goodsKill)
 # 前言
    本demo为仿购物秒杀网站,该系统分为用户注册登录、秒杀商品管理模块。 前端页面基于bootstrap框架搭建，并使用bootstrap-validator插件进行表单验证。 此项目整体采用springMVC+RESTFUL风格，持久层使用的是mybatis。使用maven模块化设计，并可根据环境加载不同的数据源配置文件，数据库密码采用AES加密保护。采用dubbo+zookeeper实现服务分布式部署及调用。集成了支付宝支付功能（详见service模块），用户完成秒杀操作成功之后即可通过二维码扫码完成支付（本demo基于支付宝沙箱环境）。
  
@@ -38,6 +41,10 @@ Bootstrap | 前端框架  | [http://getbootstrap.com/](http://getbootstrap.com/)
 
 1.参照redis官网安装redis，默认端口启动activemq，zookeeper；
 
-2.在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务；
+2.找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行seckill.sql完成数据初始化操作；
 
-3.编译好整个项目后使用tomcat发布server模块，上下文环境可自定义；
+3.jdbc.properties中修改数据库连接信息；
+
+4.在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务；
+
+5.编译好整个项目后使用tomcat发布server模块，上下文环境配置为goodsKill,部署成功后访问 http://localhost:8080/goodsKill/seckill/list 秒杀详情页；
