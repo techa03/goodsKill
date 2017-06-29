@@ -3,7 +3,10 @@
 [![GitHub forks](https://img.shields.io/github/forks/techa03/goodsKill.svg?style=social&label=Fork)](https://github.com/techa03/goodsKill)
 # 前言
    本demo为仿购物秒杀网站,该系统分为用户注册登录、秒杀商品管理模块。 前端页面基于bootstrap框架搭建，并使用bootstrap-validator插件进行表单验证。 此项目整体采用springMVC+RESTFUL风格，持久层使用的是mybatis。使用maven模块化设计，并可根据环境加载不同的数据源配置文件，数据库密码采用AES加密保护。采用dubbo+zookeeper实现服务分布式部署及调用。集成了支付宝支付功能（详见service模块），用户完成秒杀操作成功之后即可通过二维码扫码完成支付（本demo基于支付宝沙箱环境）。
- 
+   
+## 分支介绍
+本项目目前主要有两个分支，`dev_gradle`和`dev`分支均使用gradle构建工具管理项目依赖，`master`对应maven构建工具，`master`部署方法见底部。本人已经转移到gradle分支上提交代码了，如需查看最新提交，请移步`dev_gradle`，`dev`仅作为一个过渡分支，该项目仅作学习参考之用。
+
 ## 技术选型
 
 ### 后端技术:
@@ -43,8 +46,19 @@ Bootstrap | 前端框架  | [http://getbootstrap.com/](http://getbootstrap.com/)
 
 2.找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行seckill.sql完成数据初始化操作；
 
-3.jdbc.properties中修改数据库连接信息；
+3.jdbc.properties中修改数据库配置信息；
 
 4.在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务；
 
-5.编译好整个项目后使用tomcat发布server模块，上下文环境配置为goodsKill,部署成功后访问 http://localhost:8080/goodsKill/seckill/list 秒杀详情页；
+5.编译好整个项目后使用tomcat发布server模块，上下文环境配置为goodsKill,部署成功后访问
+http://localhost:8080/goodsKill/seckill/list 秒杀详情页；
+
+#### 编译部署注意事项：
+1.本项目集成了支付宝二维码支付API接口，使用时需要配置支付宝沙箱环境，具体教程见[支付包二维码支付接入方法](http://blog.csdn.net/techa/article/details/71003519)；
+
+2.项目中service部分引用了支付宝的第三方jar包，如需使用首先需要到支付宝开放平台下载，并引入到项目中，支付宝jar包安装到本地环境并添加本地依赖的方法：
+
+```
+mvn install:install-file -Dfile=jar包路径 -DgroupId=com.alibaba.alipay -DartifactId=alipay -Dversion=20161213 -Dpackaging=jar
+mvn install:install-file -Dfile=jar包路径 -DgroupId=com.alibaba.alipay -DartifactId=alipay-trade -Dversion=20161215 -Dpackaging=jar
+```
