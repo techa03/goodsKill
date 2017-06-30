@@ -10,8 +10,3 @@ jdk:
   - oraclejdk8
 sudo: enabled
 dist: trusty
-
-before_script:
-- chmod a+x gradlew
-
-script: ./gradlew build
