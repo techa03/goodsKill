@@ -10,3 +10,5 @@ jdk:
   - oraclejdk8
 sudo: enabled
 dist: trusty
+
+script: gradle build -x test
