@@ -6,7 +6,7 @@ dependencies {
     compile project(':goodsKill-api')
     compile project(':goodsKill-dao')
     compile("org.springframework.boot:spring-boot-starter-web:1.5.4.RELEASE")
-    compile fileTree(dir:'classpath:lib',include:['*.jar'])
+    compile fileTree(dir:'lib',include:['*.jar'])
 }
 
 jar {
