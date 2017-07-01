@@ -125,7 +125,7 @@ subprojects {
             property "sonar.password", "admin"
             property "sonar.forceAuthentication", "false"
             property "sonar.groovy.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
-            property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+            property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
         }
     }
 
