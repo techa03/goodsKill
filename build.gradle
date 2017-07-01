@@ -91,9 +91,6 @@ subprojects {
         compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
         compile group: 'com.google.zxing', name: 'core', version: '2.1'
         compile group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
-        //支付宝sdk
-//        compile group: 'com.alibaba.alipay', name: 'alipay-trade', version: '20161215'
-//        compile group: 'com.alibaba.alipay', name: 'alipay', version: '20161213'
         // swagger相关依赖start-------------
         compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.4.0'
         compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.4.0'
