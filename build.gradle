@@ -103,6 +103,8 @@ subprojects {
 
         compile group: 'org.projectlombok', name: 'lombok', version:'1.16.6'
 
+        compile 'io.sentry:sentry:1.2.2'
+
         testCompile(
                 "org.springframework:spring-test:$springVersion",
                 "junit:junit:4.12"

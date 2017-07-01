@@ -11,7 +11,9 @@ jdk:
 sudo: enabled
 dist: trusty
 
-script: gradle build -x test
+script:
+  - gradle check -x test
+  - gradle jacocoTestReport
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
