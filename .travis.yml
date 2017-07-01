@@ -12,3 +12,6 @@ sudo: enabled
 dist: trusty
 
 script: gradle build -x test
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
