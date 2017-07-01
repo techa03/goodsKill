@@ -1,18 +1,19 @@
 package org.seckill.service.impl;
 
-import lombok.extern.slf4j.Slf4j;
 import org.seckill.service.HelloService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
  * Created by heng on 2017/4/25.
  */
-@Slf4j
 @Service
 public class HelloServiceImpl implements HelloService{
+    private Logger logger= LoggerFactory.getLogger(this.getClass());
     @Override
     public void sayHello() {
-        log.info("hello,heng!");
+        logger.info("hello,heng!");
     }
 
 }

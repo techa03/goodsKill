@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.seckill.base.BaseMapperTestConfig;
 import org.seckill.entity.Goods;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
@@ -14,6 +16,7 @@ import java.io.FileOutputStream;
  * Created by heng on 2017/6/24.
  */
 public class GoodsMapperTest extends BaseMapperTestConfig {
+    private static Logger logger= LoggerFactory.getLogger(GoodsMapperTest.class);
     @Autowired
     private GoodsMapper goodsMapper;
 
@@ -24,6 +27,7 @@ public class GoodsMapperTest extends BaseMapperTestConfig {
         byte[] b=goods.getPhotoImage();
         FileOutputStream os=new FileOutputStream(new File("F:\\heng\\a.jpg"));
         os.write(b);
+        logger.info(goods.toString());
     }
 
     @Test

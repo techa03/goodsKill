@@ -1,6 +1,5 @@
 package org.seckill.common.util;
 
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.misc.BASE64Decoder;
@@ -18,7 +17,6 @@ import java.security.SecureRandom;
  * AES加解密工具类
  * Created by shuzheng on 2017/2/5.
  */
-@Slf4j
 public class AESUtil {
     private static Logger logger= LoggerFactory.getLogger(AESUtil.class);
     private static final String ENCODE_RULES = "zheng";
@@ -116,13 +114,13 @@ public class AESUtil {
         String[] keys = {
                 "", "275688"
         };
-        log.info("key | aesEncode | aesDecode");
+        logger.info("key | aesEncode | aesDecode");
         for (String key : keys) {
-            log.info(key + " | ");
+            logger.info(key + " | ");
             String encryptString = aesEncode(key);
-            log.info(encryptString + " | ");
+            logger.info(encryptString + " | ");
             String decryptString = aesDecode(encryptString);
-            log.info(decryptString);
+            logger.info(decryptString);
         }
     }
 
