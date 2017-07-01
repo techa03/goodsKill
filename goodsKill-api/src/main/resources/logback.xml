@@ -21,9 +21,16 @@
         <prudent>false</prudent>
     </appender>
 
-    <root level="ERROR">
+    <appender name="Sentry" class="io.sentry.logback.SentryAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+    </appender>
+
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="rollingAppender" />
+        <appender-ref ref="Sentry" />
     </root>
 
 </configuration>

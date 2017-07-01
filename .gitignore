@@ -1,0 +1,16 @@
+/.gradle/
+/out/
+/.settings/
+*/.settings/
+/.idea/
+*/.classpath
+*/.project
+*/*.iml
+*/build/
+*.xml
+*.jar
+*.iml
+*.txt
+*.ipr
+*.iws
+.project

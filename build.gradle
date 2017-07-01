@@ -99,8 +99,9 @@ subprojects {
         compile group: 'org.apache.activemq', name: 'activemq-core', version: '5.7.0'
 
         compile group: 'org.projectlombok', name: 'lombok', version:'1.16.6'
-
+        //-- https://github.com/getsentry/sentry-java/tree/master/sentry-logback
         compile 'io.sentry:sentry:1.2.2'
+        compile 'io.sentry:sentry-logback:1.2.2'
 
         testCompile(
                 "org.springframework:spring-test:$springVersion",
