@@ -32,6 +32,7 @@ subprojects {
     }
 
     dependencies {
+        compile('io.sentry:sentry-logback:1.2.2')
         compile(
                 "org.springframework:spring-context:$springVersion",
                 "org.springframework:spring-aop:$springVersion",
@@ -79,8 +80,16 @@ subprojects {
         compile group: 'org.jmock', name: 'jmock-junit4', version: '2.6.0'
         compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.2'
         compile group: 'com.alibaba', name: 'fastjson', version: '1.2.28'
-        compile group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.4.6'
-        compile group: 'com.github.sgroschupf', name: 'zkclient', version: '0.1'
+        compile(group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.4.6') {
+            exclude(module: 'slf4j-log4j12')
+//            exclude(module: 'log4j')
+        }
+        compile (group: 'com.github.sgroschupf', name: 'zkclient', version: '0.1'){
+//            exclude(module: 'log4j')
+        }
+        // https://mvnrepository.com/artifact/org.slf4j/log4j-over-slf4j
+        compile group: 'org.slf4j', name: 'log4j-over-slf4j', version: '1.7.25'
+
         //druid连接池
         compile group: 'com.alibaba', name: 'druid', version: '1.0.31'
 
@@ -101,6 +110,8 @@ subprojects {
                 "org.springframework:spring-test:$springVersion",
                 "junit:junit:4.12"
         )
+
+
     }
 
 

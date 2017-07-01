@@ -21,11 +21,10 @@
         <prudent>false</prudent>
     </appender>
 
-    <logger name="druid.sql" additivity="false"/>
-
-    <!--<root level="INFO">-->
-        <!--<appender-ref ref="STDOUT" />-->
-        <!--<appender-ref ref="rollingAppender" />-->
-    <!--</root>-->
+    <!-- 必须设置为debug否则sql不打印 -->
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="rollingAppender" />
+    </root>
 
 </configuration>
