@@ -16,4 +16,4 @@ script:
   - gradle jacocoTestReport
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash) -t 68b421a2-d84c-4269-9c25-c3907b9d8c35
