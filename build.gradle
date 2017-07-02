@@ -77,7 +77,6 @@ subprojects {
         compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
         compile group: 'com.dyuproject.protostuff', name: 'protostuff-core', version: '1.0.8'
         compile group: 'com.dyuproject.protostuff', name: 'protostuff-runtime', version: '1.0.8'
-        compile group: 'org.jmock', name: 'jmock-junit4', version: '2.6.0'
         compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.2'
         compile group: 'com.alibaba', name: 'fastjson', version: '1.2.28'
         compile(group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.4.6') {
@@ -110,7 +109,6 @@ subprojects {
                 "org.springframework:spring-test:$springVersion",
                 "junit:junit:4.12"
         )
-
 
     }
 

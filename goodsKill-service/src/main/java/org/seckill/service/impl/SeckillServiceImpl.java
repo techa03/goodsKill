@@ -37,7 +37,6 @@ import java.util.List;
 public class SeckillServiceImpl implements SeckillService {
     @Autowired
     private AlipayRunner alipayRunner;
-
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private ExtSeckillMapper seckillDao;
@@ -48,20 +47,40 @@ public class SeckillServiceImpl implements SeckillService {
     @Autowired
     private GoodsMapper goodsDao;
 
+    public void setAlipayRunner(AlipayRunner alipayRunner) {
+        this.alipayRunner = alipayRunner;
+    }
+
+    public void setSeckillDao(ExtSeckillMapper seckillDao) {
+        this.seckillDao = seckillDao;
+    }
+
+    public void setSuccessKilledDao(SuccessKilledMapper successKilledDao) {
+        this.successKilledDao = successKilledDao;
+    }
+
+    public void setRedisDao(RedisDao redisDao) {
+        this.redisDao = redisDao;
+    }
+
+    public void setGoodsDao(GoodsMapper goodsDao) {
+        this.goodsDao = goodsDao;
+    }
+
     @Override
     public PageInfo getSeckillList(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
-        List<Seckill> list= seckillDao.selectByExample(null);
-        PageInfo pageInfo=new PageInfo(list);
+        PageHelper.startPage(pageNum, pageSize);
+        List<Seckill> list = seckillDao.selectByExample(null);
+        PageInfo pageInfo = new PageInfo(list);
         return pageInfo;
     }
 
     @Override
     public SeckillInfo getById(long seckillId) throws InvocationTargetException, IllegalAccessException {
-        Seckill seckill=seckillDao.selectByPrimaryKey(seckillId);
-        SeckillInfo seckillInfo=new SeckillInfo();
-        BeanUtils.copyProperties(seckillInfo,seckill);
-        Goods goods=goodsDao.selectByPrimaryKey(seckill.getGoodsId());
+        Seckill seckill = seckillDao.selectByPrimaryKey(seckillId);
+        SeckillInfo seckillInfo = new SeckillInfo();
+        BeanUtils.copyProperties(seckillInfo, seckill);
+        Goods goods = goodsDao.selectByPrimaryKey(seckill.getGoodsId());
         seckillInfo.setGoodsName(goods.getName());
         return seckillInfo;
     }
@@ -69,12 +88,12 @@ public class SeckillServiceImpl implements SeckillService {
     @Override
     public Exposer exportSeckillUrl(long seckillId) {
         //从redis中获取缓存秒杀信息
-        Seckill seckill =redisDao.getSeckill(seckillId);
-        if (seckill==null){
-            seckill=seckillDao.selectByPrimaryKey(seckillId);
-            if (seckill!=null){
+        Seckill seckill = redisDao.getSeckill(seckillId);
+        if (seckill == null) {
+            seckill = seckillDao.selectByPrimaryKey(seckillId);
+            if (seckill != null) {
                 redisDao.putSeckill(seckill);
-            }else{
+            } else {
                 return new Exposer(false, seckillId);
             }
         }
@@ -89,7 +108,6 @@ public class SeckillServiceImpl implements SeckillService {
     }
 
 
-
     @Transactional
     @Override
     public SeckillExecution executeSeckill(long seckillId, String userPhone, String md5) {
@@ -102,15 +120,15 @@ public class SeckillServiceImpl implements SeckillService {
             if (updateCount <= 0) {
                 throw new SeckillCloseException("seckill is closed");
             } else {
-                SuccessKilled successKilled=new SuccessKilled();
+                SuccessKilled successKilled = new SuccessKilled();
                 successKilled.setSeckillId(seckillId);
                 successKilled.setUserPhone(userPhone);
                 int insertCount = successKilledDao.insertSelective(successKilled);
-                String QRfilePath=alipayRunner.trade_precreate(seckillId);
+                String QRfilePath = alipayRunner.trade_precreate(seckillId);
                 if (insertCount <= 0) {
                     throw new RepeatKillException("seckill repeated");
                 } else {
-                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilledDao.selectByPrimaryKey(seckillId,userPhone),QRfilePath);
+                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilledDao.selectByPrimaryKey(seckillId, userPhone), QRfilePath);
                 }
             }
         } catch (SeckillCloseException e1) {
@@ -127,7 +145,7 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public int addSeckill(Seckill seckill) {
-       return seckillDao.insert(seckill);
+        return seckillDao.insert(seckill);
     }
 
     @Override

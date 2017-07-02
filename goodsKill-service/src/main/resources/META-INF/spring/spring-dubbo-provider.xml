@@ -18,9 +18,6 @@
     <bean id="goodsServiceImpl" class="org.seckill.service.impl.GoodsServiceImpl"/>
     <dubbo:service ref="goodsServiceImpl" interface="org.seckill.service.GoodsService" timeout="100000"/>
 
-    <bean id="helloServiceImpl" class="org.seckill.service.impl.HelloServiceImpl"/>
-    <dubbo:service ref="helloServiceImpl" interface="org.seckill.service.HelloService" timeout="100000"/>
-
     <bean id="seckillServiceImpl" class="org.seckill.service.impl.SeckillServiceImpl"/>
     <dubbo:service ref="seckillServiceImpl" interface="org.seckill.service.SeckillService" timeout="100000"/>
 

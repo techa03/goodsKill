@@ -7,10 +7,10 @@
 */.project
 */*.iml
 */build/
-*.xml
-*.jar
-*.iml
-*.txt
-*.ipr
-*.iws
-.project
+/*.xml
+/*.jar
+/*.iml
+/*.txt
+/*.ipr
+/*.iws
+/.project

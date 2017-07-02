@@ -1,10 +1,10 @@
 package org.seckill.service.impl;
 
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
-import org.jboss.logging.Logger;
 import org.seckill.dao.GoodsMapper;
 import org.seckill.entity.Goods;
 import org.seckill.service.GoodsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +20,16 @@ import java.util.List;
 public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private GoodsMapper goodsDao;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private Logger logger = LoggerFactory.logger(this.getClass());
+    public void setGoodsDao(GoodsMapper goodsDao) {
+        this.goodsDao = goodsDao;
+    }
 
     @Override
-    public void uploadGoodsPhoto(long goodsId,byte[] bytes) throws IOException {
-        Goods goods=new Goods();
-        goods.setGoodsId((int)goodsId);
+    public void uploadGoodsPhoto(long goodsId, byte[] bytes) throws IOException {
+        Goods goods = new Goods();
+        goods.setGoodsId((int) goodsId);
         goods.setPhotoImage(bytes);
         logger.info(goods.toString());
         goodsDao.updateByPrimaryKeySelective(goods);
@@ -52,6 +55,6 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public Goods queryByGoodsId(long goodsId) {
-        return goodsDao.selectByPrimaryKey((int)goodsId);
+        return goodsDao.selectByPrimaryKey((int) goodsId);
     }
 }

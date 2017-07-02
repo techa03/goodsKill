@@ -11,7 +11,6 @@
     <dubbo:registry address="zookeeper://192.168.6.101:2181" />
 
     <!-- 生成远程服务代理，可以像使用本地bean一样使用userService -->
-    <dubbo:reference id="helloServiceImpl"    interface="org.seckill.service.HelloService"/>
     <dubbo:reference id="seckillServiceImpl" interface="org.seckill.service.SeckillService"/>
     <dubbo:reference id="goodsServiceImpl" interface="org.seckill.service.GoodsService"/>
     <dubbo:reference id="userAccountServiceImpl" interface="org.seckill.service.UserAccountService"/>
