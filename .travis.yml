@@ -8,12 +8,10 @@ cache:
     - $HOME/.gradle/wrapper/
 jdk:
   - oraclejdk8
-sudo: enabled
-dist: trusty
 
 script:
   - gradle check
-  - gradle jacocoTestReport
+  - gradle codeCoverageReport
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -t 68b421a2-d84c-4269-9c25-c3907b9d8c35

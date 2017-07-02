@@ -10,8 +10,6 @@ allprojects {
     version = '1.0-SNAPSHOT'
 }
 
-
-
 subprojects {
     apply plugin: 'java'
     apply plugin: "jacoco"
@@ -83,7 +81,7 @@ subprojects {
             exclude(module: 'slf4j-log4j12')
 //            exclude(module: 'log4j')
         }
-        compile (group: 'com.github.sgroschupf', name: 'zkclient', version: '0.1'){
+        compile(group: 'com.github.sgroschupf', name: 'zkclient', version: '0.1') {
 //            exclude(module: 'log4j')
         }
         // https://mvnrepository.com/artifact/org.slf4j/log4j-over-slf4j
@@ -109,10 +107,7 @@ subprojects {
                 "org.springframework:spring-test:$springVersion",
                 "junit:junit:4.12"
         )
-
     }
-
-
 
     sonarqube {
         properties {
@@ -130,17 +125,37 @@ subprojects {
         }
     }
 
-    jacoco {
-        toolVersion = "0.7.6.201602180812"
-        reportsDir = file("$buildDir/reports/jacoco")
-    }
+//    jacoco {
+//        toolVersion = "0.7.6.201602180812"
+//        reportsDir = file("$buildDir/reports/jacoco")
+//    }
+//
+//    jacocoTestReport {
+//        reports {
+//            xml.enabled false
+//            csv.enabled false
+//            html.destination "${buildDir}/jacocoHtml"
+//        }
+//    }
 
-    jacocoTestReport {
-        reports {
-            xml.enabled false
-            csv.enabled false
-            html.destination "${buildDir}/jacocoHtml"
+    task codeCoverageReport(type: JacocoReport) {
+        // Gather execution data from all subprojects
+        // (change this if you e.g. want to calculate unit test/integration test coverage separately)
+        executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+        // Add all relevant sourcesets from the subprojects
+        subprojects.each {
+            sourceSets it.sourceSets.main
         }
+        reports {
+            xml.enabled true
+            html.enabled true
+            html.destination "${buildDir}/reports/jacoco"
+            csv.enabled false
+        }
+    }
+    // always run the tests before generating the report
+    codeCoverageReport.dependsOn {
+        subprojects*.test
     }
 
 }
