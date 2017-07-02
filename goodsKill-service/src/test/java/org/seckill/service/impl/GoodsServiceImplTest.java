@@ -1,11 +1,9 @@
 package org.seckill.service.impl;
 
-import org.seckill.service.base.BaseServiceConfigForTest;
-
 /**
  * Created by heng on 2017/6/28.
  */
-public class GoodsServiceImplTest extends BaseServiceConfigForTest {
+public class GoodsServiceImplTest{
 //    @Autowired
 //    private GoodsService goodsService;
 //    @Test

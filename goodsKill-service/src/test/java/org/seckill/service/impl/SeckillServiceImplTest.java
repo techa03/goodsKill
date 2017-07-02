@@ -1,8 +1,6 @@
 package org.seckill.service.impl;
 
-import org.seckill.service.base.BaseServiceConfigForTest;
-
-public class SeckillServiceImplTest extends BaseServiceConfigForTest{
+public class SeckillServiceImplTest{
 //    private Logger logger = LoggerFactory.getLogger(this.getClass());
 //
 //    @Autowired
