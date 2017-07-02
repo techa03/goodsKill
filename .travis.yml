@@ -12,7 +12,7 @@ sudo: enabled
 dist: trusty
 
 script:
-  - gradle check -x test
+  - gradle check
   - gradle jacocoTestReport
 
 after_success:
