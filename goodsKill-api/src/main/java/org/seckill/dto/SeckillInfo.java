@@ -9,21 +9,25 @@ import java.util.Date;
  */
 public class SeckillInfo implements Serializable{
     private static final long serialVersionUID = 1L;
-    private long seckillId;
+    private Long seckillId;
     private String name;
-    private int number;
+    private Integer number;
     private Date startTime;
     private Date endTime;
     private Date createTime;
-    private int goodsId;
+    private Integer goodsId;
     private BigDecimal price;
     private String goodsName;
 
-    public long getSeckillId() {
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Long getSeckillId() {
         return seckillId;
     }
 
-    public void setSeckillId(long seckillId) {
+    public void setSeckillId(Long seckillId) {
         this.seckillId = seckillId;
     }
 
@@ -35,11 +39,11 @@ public class SeckillInfo implements Serializable{
         this.name = name;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
@@ -67,11 +71,11 @@ public class SeckillInfo implements Serializable{
         this.createTime = createTime;
     }
 
-    public int getGoodsId() {
+    public Integer getGoodsId() {
         return goodsId;
     }
 
-    public void setGoodsId(int goodsId) {
+    public void setGoodsId(Integer goodsId) {
         this.goodsId = goodsId;
     }
 
@@ -89,20 +93,5 @@ public class SeckillInfo implements Serializable{
 
     public void setGoodsName(String goodsName) {
         this.goodsName = goodsName;
-    }
-
-    @Override
-    public String toString() {
-        return "SeckillInfo{" +
-                "seckillId=" + seckillId +
-                ", name='" + name + '\'' +
-                ", number=" + number +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", createTime=" + createTime +
-                ", goodsId=" + goodsId +
-                ", price=" + price +
-                ", goodsName='" + goodsName + '\'' +
-                '}';
     }
 }

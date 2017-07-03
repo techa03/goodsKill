@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.beanutils.BeanUtils;
 import org.seckill.common.trade.alipay.AlipayRunner;
+import org.seckill.common.util.DateUtil;
 import org.seckill.common.util.MD5Util;
 import org.seckill.dao.GoodsMapper;
 import org.seckill.dao.RedisDao;
@@ -39,48 +40,48 @@ public class SeckillServiceImpl implements SeckillService {
     private AlipayRunner alipayRunner;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private ExtSeckillMapper seckillDao;
+    private ExtSeckillMapper extSeckillMapper;
     @Autowired
-    private SuccessKilledMapper successKilledDao;
+    private SuccessKilledMapper successKilledMapper;
     @Autowired
     private RedisDao redisDao;
     @Autowired
-    private GoodsMapper goodsDao;
+    private GoodsMapper goodsMapper;
 
     public void setAlipayRunner(AlipayRunner alipayRunner) {
         this.alipayRunner = alipayRunner;
     }
 
-    public void setSeckillDao(ExtSeckillMapper seckillDao) {
-        this.seckillDao = seckillDao;
+    public void setExtSeckillMapper(ExtSeckillMapper extSeckillMapper) {
+        this.extSeckillMapper = extSeckillMapper;
     }
 
-    public void setSuccessKilledDao(SuccessKilledMapper successKilledDao) {
-        this.successKilledDao = successKilledDao;
+    public void setSuccessKilledMapper(SuccessKilledMapper successKilledMapper) {
+        this.successKilledMapper = successKilledMapper;
     }
 
     public void setRedisDao(RedisDao redisDao) {
         this.redisDao = redisDao;
     }
 
-    public void setGoodsDao(GoodsMapper goodsDao) {
-        this.goodsDao = goodsDao;
+    public void setGoodsMapper(GoodsMapper goodsMapper) {
+        this.goodsMapper = goodsMapper;
     }
 
     @Override
     public PageInfo getSeckillList(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Seckill> list = seckillDao.selectByExample(null);
+        List<Seckill> list = extSeckillMapper.selectByExample(null);
         PageInfo pageInfo = new PageInfo(list);
         return pageInfo;
     }
 
     @Override
     public SeckillInfo getById(long seckillId) throws InvocationTargetException, IllegalAccessException {
-        Seckill seckill = seckillDao.selectByPrimaryKey(seckillId);
+        Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
         SeckillInfo seckillInfo = new SeckillInfo();
         BeanUtils.copyProperties(seckillInfo, seckill);
-        Goods goods = goodsDao.selectByPrimaryKey(seckill.getGoodsId());
+        Goods goods = goodsMapper.selectByPrimaryKey(seckill.getGoodsId());
         seckillInfo.setGoodsName(goods.getName());
         return seckillInfo;
     }
@@ -90,7 +91,7 @@ public class SeckillServiceImpl implements SeckillService {
         //从redis中获取缓存秒杀信息
         Seckill seckill = redisDao.getSeckill(seckillId);
         if (seckill == null) {
-            seckill = seckillDao.selectByPrimaryKey(seckillId);
+            seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
             if (seckill != null) {
                 redisDao.putSeckill(seckill);
             } else {
@@ -114,21 +115,21 @@ public class SeckillServiceImpl implements SeckillService {
         if (md5 == null || !md5.equals(MD5Util.getMD5(seckillId))) {
             throw new SeckillException("seckill data rewrite");
         }
-        Date nowTime = new Date();
+        Date nowTime = DateUtil.getNowTime();
         try {
-            int updateCount = seckillDao.reduceNumber(seckillId, nowTime);
+            int updateCount = extSeckillMapper.reduceNumber(seckillId, nowTime);
             if (updateCount <= 0) {
                 throw new SeckillCloseException("seckill is closed");
             } else {
                 SuccessKilled successKilled = new SuccessKilled();
                 successKilled.setSeckillId(seckillId);
                 successKilled.setUserPhone(userPhone);
-                int insertCount = successKilledDao.insertSelective(successKilled);
+                int insertCount = successKilledMapper.insertSelective(successKilled);
                 String QRfilePath = alipayRunner.trade_precreate(seckillId);
                 if (insertCount <= 0) {
                     throw new RepeatKillException("seckill repeated");
                 } else {
-                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilledDao.selectByPrimaryKey(seckillId, userPhone), QRfilePath);
+                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilledMapper.selectByPrimaryKey(seckillId, userPhone), QRfilePath);
                 }
             }
         } catch (SeckillCloseException e1) {
@@ -145,21 +146,21 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public int addSeckill(Seckill seckill) {
-        return seckillDao.insert(seckill);
+        return extSeckillMapper.insert(seckill);
     }
 
     @Override
     public int deleteSeckill(Long seckillId) {
-        return seckillDao.deleteByPrimaryKey(seckillId);
+        return extSeckillMapper.deleteByPrimaryKey(seckillId);
     }
 
     @Override
     public int updateSeckill(Seckill seckill) {
-        return seckillDao.updateByPrimaryKeySelective(seckill);
+        return extSeckillMapper.updateByPrimaryKeySelective(seckill);
     }
 
     @Override
     public Seckill selectById(Long seckillId) {
-        return seckillDao.selectByPrimaryKey(seckillId);
+        return extSeckillMapper.selectByPrimaryKey(seckillId);
     }
 }

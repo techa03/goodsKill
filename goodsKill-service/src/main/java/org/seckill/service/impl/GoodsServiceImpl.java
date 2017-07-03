@@ -19,11 +19,11 @@ import java.util.List;
 @Service
 public class GoodsServiceImpl implements GoodsService {
     @Autowired
-    private GoodsMapper goodsDao;
+    private GoodsMapper goodsMapper;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public void setGoodsDao(GoodsMapper goodsDao) {
-        this.goodsDao = goodsDao;
+    public void setGoodsMapper(GoodsMapper goodsMapper) {
+        this.goodsMapper = goodsMapper;
     }
 
     @Override
@@ -32,12 +32,12 @@ public class GoodsServiceImpl implements GoodsService {
         goods.setGoodsId((int) goodsId);
         goods.setPhotoImage(bytes);
         logger.info(goods.toString());
-        goodsDao.updateByPrimaryKeySelective(goods);
+        goodsMapper.updateByPrimaryKeySelective(goods);
     }
 
     @Override
     public byte[] getPhotoImage(int goodsId) {
-        Goods good = goodsDao.selectByPrimaryKey(goodsId);
+        Goods good = goodsMapper.selectByPrimaryKey(goodsId);
         return good.getPhotoImage();
     }
 
@@ -45,16 +45,16 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public void addGoods(Goods goods, byte[] bytes) {
         goods.setPhotoImage(bytes);
-        goodsDao.insert(goods);
+        goodsMapper.insert(goods);
     }
 
     @Override
     public List<Goods> queryAll() {
-        return goodsDao.selectByExample(null);
+        return goodsMapper.selectByExample(null);
     }
 
     @Override
     public Goods queryByGoodsId(long goodsId) {
-        return goodsDao.selectByPrimaryKey((int) goodsId);
+        return goodsMapper.selectByPrimaryKey((int) goodsId);
     }
 }

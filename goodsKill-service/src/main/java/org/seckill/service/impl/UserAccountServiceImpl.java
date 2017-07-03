@@ -20,7 +20,7 @@ import java.util.List;
 public class UserAccountServiceImpl implements UserAccountService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private UserMapper userDao;
+    private UserMapper userMapper;
     @Resource
     private JmsTemplate jmsTemplate;
 
@@ -28,7 +28,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     public void register(User user) {
         try {
             user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
-            userDao.insert(user);
+            userMapper.insert(user);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new CommonException(null);
@@ -40,17 +40,14 @@ public class UserAccountServiceImpl implements UserAccountService {
     public void login(User user) throws SeckillException {
         UserExample example = new UserExample();
         example.createCriteria().andAccountEqualTo(user.getAccount()).andPasswordEqualTo(user.getPassword());
-        List<User> list = userDao.selectByExample(example);
+        List<User> list = userMapper.selectByExample(example);
         if (list.size() != 1) {
             throw new SeckillException("login fail");
         }
     }
 
-    public void setUserDao(UserMapper userDao) {
-        this.userDao = userDao;
+    public void setUserMapper(UserMapper userMapper) {
+        this.userMapper = userMapper;
     }
 
-    public void setJmsTemplate(JmsTemplate jmsTemplate) {
-        this.jmsTemplate = jmsTemplate;
-    }
 }

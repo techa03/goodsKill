@@ -22,7 +22,7 @@ public class GoodsServiceImplTest {
 
     @Before
     public void setUp(){
-        goodsService.setGoodsDao(goodsDao);
+        goodsService.setGoodsMapper(goodsDao);
     }
 
     @Test
