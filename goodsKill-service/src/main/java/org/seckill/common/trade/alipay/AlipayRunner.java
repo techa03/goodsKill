@@ -11,16 +11,18 @@ import com.alipay.demo.trade.service.AlipayTradeService;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.alipay.demo.trade.utils.ZxingUtils;
 import org.apache.commons.lang.StringUtils;
-import org.seckill.enums.SeckillConstants;
+import org.seckill.common.util.PropertiesUtil;
 import org.seckill.dao.GoodsMapper;
 import org.seckill.dao.RedisDao;
 import org.seckill.entity.Goods;
 import org.seckill.entity.Seckill;
+import org.seckill.exception.SeckillException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +33,7 @@ import java.util.List;
  */
 @Component
 public class AlipayRunner {
-    @Autowired
-    private RedisDao redisDao;
-    @Autowired
-    private GoodsMapper goodsDao;
     private static Logger logger = LoggerFactory.getLogger(AlipayRunner.class);
-
     // 支付宝当面付2.0服务
     private static AlipayTradeService tradeService;
 
@@ -52,6 +49,11 @@ public class AlipayRunner {
         tradeService = new AlipayTradeServiceImpl.ClientBuilder().build();
 
     }
+
+    @Autowired
+    private RedisDao redisDao;
+    @Autowired
+    private GoodsMapper goodsDao;
 
     // 简单打印应答
     private void dumpResponse(AlipayResponse response) {
@@ -134,8 +136,17 @@ public class AlipayRunner {
                 dumpResponse(response);
                 String filePath="";
                 // 需要修改为运行机器上的路径
+                File file = new File(PropertiesUtil.getProperties("QRCODE_IMAGE_DIR"));
+                if (!file.exists()) {
+                    if (file.mkdirs() && file.exists()) {
+                        logger.info("二维码存放目录创建成功，请检查！");
+                    } else if (!file.exists()) {
+                        logger.error("创建目录失败，请检查用户权限！");
+                        throw new SeckillException("创建目录失败，请检查用户权限！");
+                    }
+                }
                 if(response!=null&&StringUtils.isNotEmpty(response.getOutTradeNo())){
-                    filePath = String.format(SeckillConstants.GOODS_PICTURE_PATH+"/qr-%s.png",
+                    filePath = String.format(PropertiesUtil.getProperties("QRCODE_IMAGE_DIR") + "/qr-%s.png",
                             response.getOutTradeNo());
                     logger.info("filePath:" + filePath.split("/")[4]);
                 }

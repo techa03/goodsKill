@@ -50,36 +50,39 @@ Bootstrap | 前端框架  | [http://getbootstrap.com/](http://getbootstrap.com/)
 
 #### 项目启动方法：
 
-1.参照redis官网安装redis，默认端口启动activemq，zookeeper；
+1.参照redis官网安装redis，本地默认端口启动activemq，zookeeper（zookeeper这个一定要装啊，不然启动不了，开启服务后倾检查2181端口是否正常开启了）；
 
 2.找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行seckill.sql完成数据初始化操作；
 
-3.jdbc.properties中修改数据库配置信息；
+3.找到jdbc.properties修改数据库配置信息；
 
-4.gradle安装配置好，在项目根目录输入命令
+4.二维码图片存放路径配置信息在goods-util中的seckill.properties文件中修改；
+
+5.gradle安装配置好，在项目根目录输入命令
 
 ```
 gradle build
 ```
 
-5.如需生成测试覆盖率报告，请在项目根目录输入命令
+6.如需生成测试覆盖率报告，请在项目根目录输入命令
 
 ```
 gradle jacocoTestReport
 ```
 
 
-6.在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务；
+7.在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务；
 
-7.编译好整个项目后使用tomcat发布server模块，上下文环境配置为goodsKill,部署成功后访问
+8.编译好整个项目后使用tomcat发布server模块，上下文环境配置为goodsKill,部署成功后访问
 http://localhost:8080/goodsKill/seckill/list 秒杀详情页；
 
 #### 编译部署注意事项：
 - 本项目集成了支付宝二维码支付API接口，使用时需要配置支付宝沙箱环境，具体教程见[支付包二维码支付接入方法](http://blog.csdn.net/techa/article/details/71003519)；
 
-- ~~项目中service部分引用了支付宝的第三方jar包，如需使用首先需要到支付宝开放平台下载，并引入到项目中，支付宝jar包安装到本地环境并添加本地依赖的方法：~~
+- ~~项目中service部分引用了支付宝的第三方jar包，如需使用首先需要到支付宝开放平台下载，并引入到项目中，支付宝jar包安装到本地环境并添加本地依赖的方法：~~（已集成无需手动添加）
 
 ```
 mvn install:install-file -Dfile=jar包路径 -DgroupId=com.alibaba.alipay -DartifactId=alipay -Dversion=20161213 -Dpackaging=jar
 mvn install:install-file -Dfile=jar包路径 -DgroupId=com.alibaba.alipay -DartifactId=alipay-trade -Dversion=20161215 -Dpackaging=jar
 ```
+- 注意logback.xml和seckill.properties的文件路径配置信息，修改成你自定义的目录即可；

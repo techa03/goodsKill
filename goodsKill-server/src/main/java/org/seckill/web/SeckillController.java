@@ -4,7 +4,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.seckill.enums.SeckillConstants;
+import org.seckill.common.util.PropertiesUtil;
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.dto.SeckillInfo;
@@ -43,7 +43,7 @@ public class SeckillController {
             @ApiImplicitParam(name = "offset", value = "当前页数", required = true, dataType = "int"),
             @ApiImplicitParam(name = "limit", value = "每页显示的记录数", required = true, dataType = "int")})
     @GetMapping(value = "/list")
-    public String list(Model model,@RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
+    public String list(Model model, @RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
                        @RequestParam(name = "limit", required = false, defaultValue = "4") int limit) {
         PageInfo<Seckill> pageInfo = seckillService.getSeckillList(offset, limit);
         long totalNum = pageInfo.getTotal();
@@ -165,8 +165,8 @@ public class SeckillController {
     @GetMapping(value = "/Qrcode/{QRfilePath}")
     public void showQRcode(@PathVariable("QRfilePath") String QRfilePath, HttpServletResponse response) throws IOException {
         response.setContentType("img/*");
-        try(FileInputStream fi = new FileInputStream(new File(SeckillConstants.GOODS_PICTURE_PATH +"/"+ QRfilePath + ".png"));
-            OutputStream os = response.getOutputStream()) {
+        try (FileInputStream fi = new FileInputStream(new File(PropertiesUtil.getProperties("QRCODE_IMAGE_DIR") + "\\" + QRfilePath + ".png"));
+             OutputStream os = response.getOutputStream()) {
             int b;
             while ((b = fi.read()) != -1) {
                 os.write(b);
