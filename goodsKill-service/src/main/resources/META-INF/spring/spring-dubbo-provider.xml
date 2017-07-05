@@ -10,7 +10,7 @@
 
     <dubbo:application name="goodsKill-provider"/>
 
-    <dubbo:registry address="zookeeper://192.168.6.101:2181" check="false" subscribe="false" register=""/>
+    <dubbo:registry address="${zookeeper_address}" check="false" subscribe="false" register=""/>
 
     <bean id="userAccountServiceImpl" class="org.seckill.service.impl.UserAccountServiceImpl"/>
     <dubbo:service ref="userAccountServiceImpl" interface="org.seckill.service.UserAccountService" timeout="100000"/>

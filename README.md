@@ -54,26 +54,28 @@ Bootstrap | 前端框架  | [http://getbootstrap.com/](http://getbootstrap.com/)
 
 2.找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行seckill.sql完成数据初始化操作；
 
-3.找到jdbc.properties修改数据库配置信息；
+3.jdbc.properties可以修改数据库以及zookeeper，mq配置信息；
 
-4.二维码图片存放路径配置信息在goods-util中的seckill.properties文件中修改；
+4.数据库加密工具见AESUtil，可以根据明文生成对应秘钥，生成后在jdbc.properties中修改password属性即可；
 
-5.gradle安装配置好，在项目根目录输入命令
+5.二维码图片存放路径配置信息在goods-util中的seckill.properties文件中修改；
+
+6.gradle安装配置好，在项目根目录输入命令
 
 ```
 gradle build
 ```
 
-6.如需生成测试覆盖率报告，请在项目根目录输入命令
+7.如需生成测试覆盖率报告，请在项目根目录输入命令
 
 ```
 gradle jacocoTestReport
 ```
 
 
-7.在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务；
+8.在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务；
 
-8.编译好整个项目后使用tomcat发布server模块，上下文环境配置为goodsKill,部署成功后访问
+9.编译好整个项目后使用tomcat发布server模块，上下文环境配置为goodsKill,部署成功后访问
 http://localhost:8080/goodsKill/seckill/list 秒杀详情页；
 
 #### 编译部署注意事项：
