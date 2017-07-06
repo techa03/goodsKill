@@ -14,3 +14,6 @@
 /*.ipr
 /*.iws
 /.project
+/target/
+/build/
+/.classpath

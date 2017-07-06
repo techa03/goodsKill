@@ -1,8 +1,0 @@
-
-apply plugin: 'war'
-
-description = ''
-dependencies {
-  compile project(':goodsKill-api')
-  compile project(':goodsKill-util')
-}
