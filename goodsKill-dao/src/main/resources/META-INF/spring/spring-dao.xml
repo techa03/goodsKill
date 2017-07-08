@@ -12,7 +12,7 @@
     <bean id="propertyConfigurer" class="org.seckill.common.util.EncryptPropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath:jdbc.properties</value>
+                <value>classpath:goodsKill-service.properties</value>
             </list>
         </property>
     </bean>
@@ -99,7 +99,7 @@
 
     <!-- redis数据访问类-->
     <bean id="redisDao" class="org.seckill.dao.RedisDao">
-        <constructor-arg index="0" value="localhost"/>
+        <constructor-arg index="0" value="${cache_address}"/>
         <constructor-arg index="1" value="6379"/>
     </bean>
 

@@ -1,7 +1,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/techa03/goodsKill/pulls)
-[![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=dev_gradle)](https://travis-ci.org/techa03/goodsKill)
-[![codecov](https://codecov.io/gh/techa03/goodsKill/branch/dev_gradle/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
+[![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=dev_maven)](https://travis-ci.org/techa03/goodsKill)
+[![codecov](https://codecov.io/gh/techa03/goodsKill/branch/dev_maven/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
 
 [![GitHub stars](https://img.shields.io/github/stars/techa03/goodsKill.svg?style=social&label=Stars)](https://github.com/techa03/goodsKill)
 [![GitHub forks](https://img.shields.io/github/forks/techa03/goodsKill.svg?style=social&label=Fork)](https://github.com/techa03/goodsKill)
@@ -11,7 +11,7 @@
 本项目扩展了秒杀网站功能，通过gradle分模块管理项目，集成了jmock完成service层的测试，同时项目使用travis持续集成，提交更新后即可触发travis自动构建并完成项目测试覆盖率报告。
 
 ## 分支介绍
-本项目目前主要有两个分支，`dev_gradle`分支为使用gradle构建工具管理项目依赖，`master`分支对应maven构建工具，`master`部署方法见底部。本人已经转移到gradle分支上提交代码了，gradle分支集成了druid，swagger2以及pageHelper等功能，`master`已经是很久以前的版本了，不过还是可以用的。[![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=dev_gradle)](https://travis-ci.org/techa03/goodsKill)代表编译成功，该项目仅作学习参考之用，觉得本项目对你有帮助的请多多支持一下~~~~。
+本项目目前主要有两个分支，`dev_gradle`分支为使用gradle构建工具管理项目依赖，`dev_maven`分支对应maven构建工具，`dev_maven`部署方法见底部。`dev_gradle`和`dev_master`分支集成了druid，swagger2以及pageHelper等功能，[![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=dev_gradle)](https://travis-ci.org/techa03/goodsKill)代表编译成功，该项目仅作学习参考之用，觉得本项目对你有帮助的请多多支持一下~~~~。
 
 ## 技术选型
 
@@ -50,31 +50,27 @@ Bootstrap | 前端框架  | [http://getbootstrap.com/](http://getbootstrap.com/)
 
 #### 项目启动方法：
 
-1.参照redis官网安装redis，本地默认端口启动activemq，zookeeper（zookeeper这个一定要装啊，不然启动不了，开启服务后倾检查2181端口是否正常开启了）；
+1.参照redis官网安装redis，本地默认端口启动activemq，zookeeper（zookeeper这个一定要装啊，不然启动不了，开启服务后倾检查2181端口是否正常开启了）;
 
 2.找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行seckill.sql完成数据初始化操作；
 
-3.找到jdbc.properties修改数据库配置信息；
+3.到service下的resources/profile/local/jdbc.properties修改数据库配置信息；
 
 4.二维码图片存放路径配置信息在goods-util中的seckill.properties文件中修改；
 
-5.gradle安装配置好，在项目根目录输入命令
+5.在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务；
 
-```
-gradle build
-```
-
-6.如需生成测试覆盖率报告，请在项目根目录输入命令
-
-```
-gradle jacocoTestReport
-```
-
-
-7.在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务；
-
-8.编译好整个项目后使用tomcat发布server模块，上下文环境配置为goodsKill,部署成功后访问
+6.编译好整个项目后使用tomcat发布server模块，上下文环境配置为goodsKill,部署成功后访问
 http://localhost:8080/goodsKill/seckill/list 秒杀详情页；
+
+7.service和server下的resources/profile用于存放不同环境的配置信息，默认使用local目录的properties配置，如需应用其他环境下的配置文件，[请到此处修改配置](https://github.com/techa03/goodsKill/blob/dev_maven/pom.xml#L32-L34);
+
+8.根据不同环境打包项目在根目录中使用maven命令:
+```
+mvn clean install -P<你的profileId>
+eg:
+mvn clean install -Plocal
+```
 
 #### 编译部署注意事项：
 - 本项目集成了支付宝二维码支付API接口，使用时需要配置支付宝沙箱环境，具体教程见[支付包二维码支付接入方法](http://blog.csdn.net/techa/article/details/71003519)；
