@@ -18,8 +18,8 @@ public class GoodsKillRpcServiceApplication {
         ClassPathXmlApplicationContext context= new ClassPathXmlApplicationContext(
                 "classpath*:META-INF/spring/spring-*.xml");
         context.start();
-        System.in.read();
         logger.info(">>>>> goodsKill-rpc-service 启动完成 <<<<<");
+        System.in.read();
     }
 
 }

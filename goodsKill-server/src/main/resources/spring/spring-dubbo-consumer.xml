@@ -8,7 +8,7 @@
     <dubbo:application name="goodsKill-consumer" />
 
     <!-- 使用zookeeper注册中心暴露服务地址 -->
-    <dubbo:registry address="${zookeeper_address}" />
+    <dubbo:registry address="zookeeper://localhost:2181" />
 
     <!-- 生成远程服务代理，可以像使用本地bean一样使用userService -->
     <dubbo:reference id="seckillServiceImpl" interface="org.seckill.service.SeckillService"/>

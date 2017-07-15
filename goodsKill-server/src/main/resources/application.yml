@@ -1,0 +1,8 @@
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+server:
+  port: 18080
+  context-path: /goodsKill
