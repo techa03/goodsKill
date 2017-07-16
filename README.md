@@ -78,3 +78,7 @@ mvn clean install -Plocal
 - 本项目集成了支付宝二维码支付API接口，使用时需要配置支付宝沙箱环境，具体教程见[支付包二维码支付接入方法](http://blog.csdn.net/techa/article/details/71003519)；
 
 - 注意logback.xml和seckill.properties的文件路径配置信息，修改成你自定义的目录即可；
+
+- 可通过http://localhost:18080/goodsKill/swagger-ui.html#/访问swagger主页
+
+- 使用IDEA工具启动SampleJettyJspApplication main方法时可能会出现无法找到返回的jsp页面的情况，解决办法是设置SampleJettyJspApplication的working directory目录为goodsKill-server,IDEA默认以goodsKill作为working directory，elicpse不需要设置可以直接启动。
