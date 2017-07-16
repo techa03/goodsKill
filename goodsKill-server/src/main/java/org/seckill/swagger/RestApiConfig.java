@@ -1,12 +1,7 @@
 package org.seckill.swagger;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-
-
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -20,11 +15,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * http://IP:port/{context-path}/swagger-ui.html
  * eg:http://localhost:8080/jd-config-web/swagger-ui.html
  */
-@EnableWebMvc
 @EnableSwagger2
-@ComponentScan(basePackages = {"org.seckill.web"})
 @Configuration
-public class RestApiConfig extends WebMvcConfigurationSupport{
+public class RestApiConfig{
 
     @Bean
     public Docket createRestApi() {

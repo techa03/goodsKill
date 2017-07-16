@@ -1,15 +1,54 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.goodsKill</groupId>
-    <artifactId>goodsKill-server</artifactId>
-    <version>${project.version}</version>
-    <packaging>war</packaging>
+
     <parent>
         <groupId>com.goodsKill</groupId>
         <artifactId>goodsKill</artifactId>
         <version>${project.version}</version>
     </parent>
+
+    <groupId>com.goodsKill</groupId>
+    <artifactId>goodsKill-server</artifactId>
+    <version>${project.version}</version>
+    <packaging>war</packaging>
+    <name>goodsKill-server Maven Webapp</name>
+
+    <!--此处根据环境修改你的配置-->
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <profiles.active>local</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>sit</id>
+            <properties>
+                <profiles.active>sit</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>uat</id>
+            <properties>
+                <profiles.active>uat</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prd</id>
+            <properties>
+                <profiles.active>prd</profiles.active>
+            </properties>
+        </profile>
+    </profiles>
+
+    <properties>
+        <main.basedir>${basedir}</main.basedir>
+        <m2eclipse.wtp.contextRoot>/goodsKill-server</m2eclipse.wtp.contextRoot>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.goodsKill</groupId>
@@ -54,6 +93,19 @@
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>apache-jsp</artifactId>
             <!--<scope>provided</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.7.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.7.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
