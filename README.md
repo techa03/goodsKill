@@ -1,7 +1,6 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/techa03/goodsKill/pulls)
 [![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=dev_maven)](https://travis-ci.org/techa03/goodsKill)
-[![codecov](https://codecov.io/gh/techa03/goodsKill/branch/dev_maven/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
 
 [![GitHub stars](https://img.shields.io/github/stars/techa03/goodsKill.svg?style=social&label=Stars)](https://github.com/techa03/goodsKill)
 [![GitHub forks](https://img.shields.io/github/forks/techa03/goodsKill.svg?style=social&label=Fork)](https://github.com/techa03/goodsKill)
@@ -11,7 +10,7 @@
 本项目扩展了秒杀网站功能，通过gradle分模块管理项目，集成了jmock完成service层的测试，同时项目使用travis持续集成，提交更新后即可触发travis自动构建并完成项目测试覆盖率报告。
 
 ## 分支介绍
-本项目目前主要有两个分支，`dev_gradle`分支为使用gradle构建工具管理项目依赖，`dev_maven`分支对应maven构建工具，`dev_maven`部署方法见底部。`dev_gradle`和`dev_master`分支集成了druid，swagger2以及pageHelper等功能，[![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=dev_gradle)](https://travis-ci.org/techa03/goodsKill)代表编译成功，该项目仅作学习参考之用，觉得本项目对你有帮助的请多多支持一下~~~~。
+本项目目前主要有两个分支，`dev_gradle`分支为使用gradle构建工具管理项目依赖，`dev_maven`分支对应maven构建工具，`dev_maven`部署方法见底部。本分支集成了druid，swagger2以及pageHelper等功能，该项目仅作学习参考之用，觉得本项目对你有帮助的请多多star支持一下~~~~。
 
 ## 技术选型
 
@@ -74,11 +73,10 @@ mvn clean install -Plocal
 
 #### 编译部署注意事项：
 - 本项目集成了支付宝二维码支付API接口，使用时需要配置支付宝沙箱环境，具体教程见[支付包二维码支付接入方法](http://blog.csdn.net/techa/article/details/71003519)；
-
 - ~~项目中service部分引用了支付宝的第三方jar包，如需使用首先需要到支付宝开放平台下载，并引入到项目中，支付宝jar包安装到本地环境并添加本地依赖的方法：~~（已集成无需手动添加）
-
 ```
 mvn install:install-file -Dfile=jar包路径 -DgroupId=com.alibaba.alipay -DartifactId=alipay -Dversion=20161213 -Dpackaging=jar
 mvn install:install-file -Dfile=jar包路径 -DgroupId=com.alibaba.alipay -DartifactId=alipay-trade -Dversion=20161215 -Dpackaging=jar
 ```
 - 注意logback.xml和seckill.properties的文件路径配置信息，修改成你自定义的目录即可；
+- 可通过http://localhost:18080/goodsKill/swagger-ui.html#/访问swagger主页
