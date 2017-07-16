@@ -1,8 +1,5 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/techa03/goodsKill/pulls)
-[![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=dev_maven)](https://travis-ci.org/techa03/goodsKill)
-[![codecov](https://codecov.io/gh/techa03/goodsKill/branch/dev_maven/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
-
 [![GitHub stars](https://img.shields.io/github/stars/techa03/goodsKill.svg?style=social&label=Stars)](https://github.com/techa03/goodsKill)
 [![GitHub forks](https://img.shields.io/github/forks/techa03/goodsKill.svg?style=social&label=Fork)](https://github.com/techa03/goodsKill)
 # 前言
