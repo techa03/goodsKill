@@ -11,7 +11,7 @@
 本项目扩展了秒杀网站功能，通过gradle分模块管理项目，集成了jmock完成service层的测试，同时项目使用travis持续集成，提交更新后即可触发travis自动构建并完成项目测试覆盖率报告。
 
 ## 分支介绍
-本项目目前主要有两个分支，`dev_gradle`分支为使用gradle构建工具管理项目依赖，`master`分支对应maven构建工具，`master`部署方法见底部。本人已经转移到gradle分支上提交代码了，gradle分支集成了druid，swagger2以及pageHelper等功能，`master`已经是很久以前的版本了，不过还是可以用的。[![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=dev_gradle)](https://travis-ci.org/techa03/goodsKill)代表编译成功，该项目仅作学习参考之用，觉得本项目对你有帮助的请多多支持一下~~~~。
+本项目目前主要有两个分支，`dev_gradle`分支为使用gradle构建工具管理项目依赖，部署方法见底部。gradle分支集成了druid，swagger2以及pageHelper等功能。[![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=dev_gradle)](https://travis-ci.org/techa03/goodsKill)代表编译成功，该项目仅作学习参考之用，觉得本项目对你有帮助的请多多支持一下~~~~。
 
 ## 技术选型
 
