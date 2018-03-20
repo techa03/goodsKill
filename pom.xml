@@ -9,7 +9,7 @@
         <module>goodsKill-service</module>
         <module>goodsKill-dao</module>
         <module>goodsKill-entry</module>
-        <module>goodsKill-server</module>
+        <module>goodsKill-web</module>
         <module>goodsKill-api</module>
         <module>goodsKill-util</module>
     </modules>
@@ -187,7 +187,7 @@
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper</artifactId>
-                <version>5.0.2</version>
+                <version>5.1.2</version>
             </dependency>
             <dependency>
                 <groupId>commons-collections</groupId>
