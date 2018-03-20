@@ -62,7 +62,7 @@ Bootstrap | 前端框架  | [http://getbootstrap.com/](http://getbootstrap.com/)
 6.编译好整个项目后使用tomcat发布server模块，上下文环境配置为goodsKill,部署成功后访问
 http://localhost:8080/goodsKill/seckill/list 秒杀详情页；
 
-7.service和server下的resources/profile用于存放不同环境的配置信息，默认使用local目录的properties配置，如需应用其他环境下的配置文件，[请到此处修改配置](https://github.com/techa03/goodsKill/blob/dev_maven/pom.xml#L32-L34);
+7.service和server下的resources/profile用于存放不同环境的配置信息，默认使用local目录的properties配置，如需应用其他环境下的配置文件，[请到此处修改配置](https://github.com/techa03/goodsKill/blob/dev_maven/pom.xml#L26-L54);
 
 8.根据不同环境打包项目在根目录中使用maven命令:
 ```
