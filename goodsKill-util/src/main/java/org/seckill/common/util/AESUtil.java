@@ -2,8 +2,7 @@ package org.seckill.common.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import org.springframework.util.Base64Utils;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -57,7 +56,7 @@ public class AESUtil {
             //这里用Base64Encoder中会找不到包
             //解决办法：
             //在项目的Build path中先移除JRE System Library，再添加库JRE System Library，重新编译后就一切正常了。
-            return String.valueOf(new BASE64Encoder().encode(byteAES));
+            return Base64Utils.encodeToString(byteAES);
         } catch (GeneralSecurityException e) {
             logger.error("",e);
         } catch (IOException e) {
@@ -94,7 +93,7 @@ public class AESUtil {
             //7.初始化密码器，第一个参数为加密(Encrypt_mode)或者解密(Decrypt_mode)操作，第二个参数为使用的KEY
             cipher.init(Cipher.DECRYPT_MODE, key);
             //8.将加密并编码后的内容解码成字节数组
-            byte[] byteContent = new BASE64Decoder().decodeBuffer(content);
+            byte[] byteContent = Base64Utils.decodeFromString(content);
             /*
              * 解密
              */
@@ -106,7 +105,7 @@ public class AESUtil {
         } catch (IOException e) {
             logger.error("",e);
         }
-        //如果有错就返加nulll
+        //如果有错就返加null
         return null;
     }
 
@@ -114,13 +113,13 @@ public class AESUtil {
         String[] keys = {
                 "", "275688"
         };
-        logger.info("key | aesEncode | aesDecode");
+        System.out.println("key | aesEncode | aesDecode");
         for (String key : keys) {
-            logger.info(key + " | ");
+            System.out.println(key + " | ");
             String encryptString = aesEncode(key);
-            logger.info(encryptString + " | ");
+            System.out.println(encryptString + " | ");
             String decryptString = aesDecode(encryptString);
-            logger.info(decryptString);
+            System.out.println(decryptString);
         }
     }
 
