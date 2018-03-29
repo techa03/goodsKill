@@ -41,5 +41,10 @@
   <listener>
     <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
   </listener>
+
+  <!--?????????-->
+  <error-page>
+    <location>/error</location>
+  </error-page>
   	
 </web-app>
