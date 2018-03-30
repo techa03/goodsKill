@@ -327,6 +327,7 @@
                 <artifactId>commons-lang</artifactId>
                 <version>2.6</version>
             </dependency>
+            <!--支付宝sdk需要的依赖-->
             <dependency>
                 <groupId>com.google.zxing</groupId>
                 <artifactId>core</artifactId>
@@ -337,6 +338,7 @@
                 <artifactId>gson</artifactId>
                 <version>2.3.1</version>
             </dependency>
+            <!--支付宝sdk需要的依赖END-->
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>

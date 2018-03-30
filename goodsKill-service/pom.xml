@@ -116,6 +116,14 @@
             <groupId>io.sentry</groupId>
             <artifactId>sentry-logback</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

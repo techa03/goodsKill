@@ -21,14 +21,6 @@
         <prudent>false</prudent>
     </appender>
 
-    <!-- Configure the Sentry appender, overriding the logging threshold to the WARN level -->
-    <appender name="Sentry" class="io.sentry.logback.SentryAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>WARN</level>
-        </filter>
-        <dsn>https://8361689ddd2f48d2aac3927e0857aa1b:d7a5ed75a00240009d563b4a7309a62c@sentry.io/186531</dsn>
-    </appender>
-
     <logger name="java.sql.Connection" level="DEBUG"/>
     <logger name="java.sql.Statement" level="DEBUG"/>
     <logger name="java.sql.PreparedStatement" level="DEBUG"/>
@@ -38,7 +30,6 @@
     <root level="DEBUG">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="rollingAppender" />
-        <appender-ref ref="Sentry" />
     </root>
 
 </configuration>

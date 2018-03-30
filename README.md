@@ -70,6 +70,7 @@ mvn clean install -P<你的profileId>
 eg:
 mvn clean install -Plocal
 ```
+9.支付宝二维码接入指南：https://blog.csdn.net/techa/article/details/71003519
 
 #### 编译部署注意事项：
 - 本项目集成了支付宝二维码支付API接口，使用时需要配置支付宝沙箱环境，具体教程见[支付包二维码支付接入方法](http://blog.csdn.net/techa/article/details/71003519)；
