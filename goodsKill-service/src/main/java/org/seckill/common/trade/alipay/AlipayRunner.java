@@ -76,8 +76,8 @@ public class AlipayRunner {
 
         // (必填) 订单标题，粗略描述用户的支付目的。如“xxx品牌xxx门店当面付扫码消费”
         String subject = "xxx数码商城";
-        Seckill seckill=redisDao.getSeckill(seckillId);
-        Goods goods=goodsDao.selectByPrimaryKey(seckill.getGoodsId());
+        Seckill seckill = redisDao.getSeckill(seckillId);
+        Goods goods = goodsDao.selectByPrimaryKey(seckill.getGoodsId());
         // (必填) 订单总金额，单位为元，不能超过1亿元
         // 如果同时传入了【打折金额】,【不可打折金额】,【订单总金额】三者,则必须满足如下条件:【订单总金额】=【打折金额】+【不可打折金额】
         String totalAmount = String.valueOf(seckill.getPrice());
@@ -91,7 +91,7 @@ public class AlipayRunner {
         String sellerId = "";
 
         // 订单描述，可以对交易或商品进行一个详细地描述，比如填写"购买商品2件共15.00元"
-        String body = new StringBuffer("购买商品1件共").append(seckill.getPrice())+"元";
+        String body = new StringBuffer("购买商品1件共").append(seckill.getPrice()) + "元";
 
         // 商户操作员编号，添加此参数可以为商户操作员做销售统计
         String operatorId = "test_operator_id";
@@ -110,7 +110,7 @@ public class AlipayRunner {
         List<GoodsDetail> goodsDetailList = new ArrayList<GoodsDetail>();
         // 创建一个商品信息，参数含义分别为商品id（使用国标）、名称、单价（单位为分）、数量，如果需要添加商品类别，详见GoodsDetail
 
-        GoodsDetail goods1 = GoodsDetail.newInstance(String.valueOf(seckill.getGoodsId()), goods.getName(), seckill.getPrice().intValue()*100L, 1);
+        GoodsDetail goods1 = GoodsDetail.newInstance(String.valueOf(seckill.getGoodsId()), goods.getName(), seckill.getPrice().intValue() * 100L, 1);
         // 创建好一个商品后添加至商品明细列表
         goodsDetailList.add(goods1);
 
@@ -134,7 +134,7 @@ public class AlipayRunner {
 
                 AlipayTradePrecreateResponse response = result.getResponse();
                 dumpResponse(response);
-                String filePath="";
+                String filePath = "";
                 // 需要修改为运行机器上的路径
                 File file = new File(PropertiesUtil.getProperties("QRCODE_IMAGE_DIR"));
                 if (!file.exists()) {
@@ -145,15 +145,17 @@ public class AlipayRunner {
                         throw new SeckillException("创建目录失败，请检查用户权限！");
                     }
                 }
-                if(response!=null&&StringUtils.isNotEmpty(response.getOutTradeNo())){
+                int filePathDeepth = 0;
+                if (response != null && StringUtils.isNotEmpty(response.getOutTradeNo())) {
                     filePath = String.format(PropertiesUtil.getProperties("QRCODE_IMAGE_DIR") + "/qr-%s.png",
                             response.getOutTradeNo());
-                    logger.info("filePath:" + filePath.split("/")[4]);
+                    filePathDeepth = filePath.split("/").length;
+                    logger.info("filePath:" + filePath.split("/")[filePathDeepth - 1]);
                 }
-                if(response!=null&&StringUtils.isNotEmpty(response.getQrCode())){
+                if (response != null && StringUtils.isNotEmpty(response.getQrCode())) {
                     ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
                 }
-                return filePath.split("/")[4];
+                return filePath.split("/")[filePathDeepth - 1];
 
             case FAILED:
                 logger.error("支付宝预下单失败!!!");

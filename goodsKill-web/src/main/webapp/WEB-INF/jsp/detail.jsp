@@ -14,7 +14,6 @@
                 type: "post",
                 success: function (result) {
                     $.cookie('killPhone', $("#phoneNum").val());
-                    console.log("cookie is:" + $.cookie('killPhone'));
                     var data = result.data;
                     if (data.exposed == true) {
                         $.ajax({
@@ -22,7 +21,6 @@
                             type: "post",
                             success: function (result) {
                                 var seckillResult = result.data;
-                                console.log(seckillResult);
                                 if(seckillResult.statEnum=="SUCCESS"){
                                     window.open("${context}/seckill/pay/Qrcode/"+seckillResult.qrfilepath);
                                 }else {

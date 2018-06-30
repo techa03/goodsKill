@@ -2,7 +2,6 @@ package org.seckill.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.commons.beanutils.BeanUtils;
 import org.seckill.common.trade.alipay.AlipayRunner;
 import org.seckill.common.util.DateUtil;
 import org.seckill.common.util.MD5Util;
@@ -23,6 +22,7 @@ import org.seckill.exception.SeckillException;
 import org.seckill.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,7 +80,7 @@ public class SeckillServiceImpl implements SeckillService {
     public SeckillInfo getById(long seckillId) throws InvocationTargetException, IllegalAccessException {
         Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
         SeckillInfo seckillInfo = new SeckillInfo();
-        BeanUtils.copyProperties(seckillInfo, seckill);
+        BeanUtils.copyProperties(seckill, seckillInfo);
         Goods goods = goodsMapper.selectByPrimaryKey(seckill.getGoodsId());
         seckillInfo.setGoodsName(goods.getName());
         return seckillInfo;

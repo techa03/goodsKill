@@ -35,7 +35,7 @@
     <logger name="druid.sql.Statement" level="DEBUG"/>
 
     <!-- 必须设置为debug否则sql不打印 -->
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="rollingAppender" />
         <appender-ref ref="Sentry" />
