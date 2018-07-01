@@ -12,7 +12,7 @@
     <bean id="propertyConfigurer" class="org.seckill.util.common.util.EncryptPropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath:goodsKill-service.properties</value>
+                <value>classpath:connections.properties</value>
             </list>
         </property>
     </bean>

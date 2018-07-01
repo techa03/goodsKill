@@ -36,6 +36,7 @@ SonarQube | 项目代码质量监控 | [https://www.sonarqube.org/](https://www.
 Swagger2 | 项目API文档生成及测试工具 | [http://swagger.io/](http://swagger.io/)
 Jmock | mock类生成测试工具 | [http://www.jmock.org/](http://www.jmock.org/)
 Jacoco | 测试覆盖率报告插件 | [http://www.eclemma.org/jacoco/](http://www.eclemma.org/jacoco/)
+Shiro | 用户权限安全管理框架 | [https://shiro.apache.org/](https://shiro.apache.org/)
 ### 前端技术:
 技术 | 名称 | 官网
 ----|------|----
@@ -51,9 +52,9 @@ Bootstrap | 前端框架  | [http://getbootstrap.com/](http://getbootstrap.com/)
 
 1.参照redis官网安装redis，本地默认端口启动activemq，zookeeper（zookeeper这个一定要装啊，不然启动不了，开启服务后倾检查2181端口是否正常开启了）;
 
-2.找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行seckill.sql完成数据初始化操作；
+2.找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行seckill.sql完成数据初始化操作,增量脚本为seckill_DDL.sql针对2.0.0-SNAPSHOT后的版本使用；
 
-3.到service下的resources/profile/local/jdbc.properties修改数据库配置信息；
+3.到service下的resources/profile/local/connections.properties根据需要修改数据库以及zookeeper等配置信息；
 
 4.二维码图片存放路径配置信息在goods-util中的seckill.properties文件中修改；
 
