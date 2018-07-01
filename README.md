@@ -7,10 +7,10 @@
 # 前言
 本demo为慕课网仿购物秒杀网站,该系统分为用户注册登录、秒杀商品管理模块。 注册登录功能目前使用shiro完成权限验证，前端页面基于bootstrap框架搭建，并使用bootstrap-validator插件进行表单验证。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，数据库密码采用AES加密保护（默认未开启）。采用dubbo+zookeeper实现服务分布式部署及调用。集成了支付宝支付功能（详见service模块），用户完成秒杀操作成功之后即可通过二维码扫码完成支付（本demo基于支付宝沙箱环境）。
 
-本项目扩展了秒杀网站功能，通过gradle分模块管理项目，集成了jmock完成service层的测试，同时项目使用travis持续集成，提交更新后即可触发travis自动构建并完成项目测试覆盖率报告。
+本项目扩展了秒杀功能，集成了jmock完成service层的测试，同时项目使用travis持续集成，提交更新后即可触发travis自动构建并完成项目测试覆盖率报告。
 
 ## 分支介绍
-本项目目前主要有两个分支，`dev_gradle`分支为使用gradle构建工具管理项目依赖，`dev_maven`分支对应maven构建工具，`dev_maven`部署方法见底部。本分支集成了druid，swagger2以及pageHelper等功能，该项目功能目前比较简陋，功能还有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下~~~~。
+本项目目前主要有两个分支，`dev_gradle`分支为使用gradle构建工具管理项目依赖，`dev_maven`分支对应maven构建工具（目前为主分支），`dev_maven`部署方法见底部。本分支集成了druid，swagger2以及pageHelper等功能，该项目功能目前比较简陋，功能还有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下~~~~。
 
 ## 技术选型
 
