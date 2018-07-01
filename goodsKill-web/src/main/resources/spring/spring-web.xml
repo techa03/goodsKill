@@ -27,12 +27,12 @@
         <property name="maxInMemorySize" value="40960"/>
     </bean>
 
-    <context:component-scan base-package="org.seckill.web;org.seckill.swagger"/>
+    <context:component-scan base-package="org.seckill.web;org.seckill.web.swagger"/>
 
     <!--日期字符串转data类型-->
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="converters">
-            <bean class="org.seckill.common.util.String2DateUtil"/>
+            <bean class="org.seckill.util.common.util.String2DateUtil"/>
         </property>
     </bean>
 

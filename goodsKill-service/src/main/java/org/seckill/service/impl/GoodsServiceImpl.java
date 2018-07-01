@@ -2,7 +2,7 @@ package org.seckill.service.impl;
 
 import org.seckill.dao.GoodsMapper;
 import org.seckill.entity.Goods;
-import org.seckill.service.GoodsService;
+import org.seckill.api.service.GoodsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

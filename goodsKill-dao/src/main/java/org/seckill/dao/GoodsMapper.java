@@ -1,7 +1,7 @@
 package org.seckill.dao;
 
-import org.seckill.entity.Goods;
 import org.seckill.entity.GoodsExample;
+import org.seckill.entity.Goods;
 
 import java.util.List;
 

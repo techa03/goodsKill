@@ -216,7 +216,7 @@
         <!-- 		</div> -->
         <div class="form-group">
             <button class="btn btn-sm btn-primary btn-block" type="submit">确认注册</button>
-            <a class="btn btn-sm btn-primary btn-block" href="../">返回首页</a>
+            <a class="btn btn-sm btn-primary btn-block" href="./login">返回首页</a>
         </div>
     </form>
 </div>

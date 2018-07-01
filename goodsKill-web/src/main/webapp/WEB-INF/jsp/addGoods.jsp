@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<form role="form" action="${context}/goods/create" enctype="multipart/form-data" method="post" style="width: 15%;margin: 0 auto;">
+<form role="form" action="${context}/seckill/goods/create" enctype="multipart/form-data" method="post" style="width: 15%;margin: 0 auto;">
     <div class="form-group">
         <label for="name">商品名称</label>
         <input type="text" class="form-control" id="name" name="name" placeholder="请输入商品名称">

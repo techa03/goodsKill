@@ -9,7 +9,7 @@
 
     <!--<context:property-placeholder location="classpath:junit/jdbc.properties"/>-->
     <!-- 配置进行解密  -->
-    <bean id="propertyConfigurer" class="org.seckill.common.util.EncryptPropertyPlaceholderConfigurer">
+    <bean id="propertyConfigurer" class="org.seckill.util.common.util.EncryptPropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
                 <value>classpath:goodsKill-service.properties</value>
@@ -79,7 +79,6 @@
 
 
     <context:component-scan base-package="org.seckill.dao;org.seckill.dao.ext"/>
-    <context:component-scan base-package="org.seckill.common"/>
 
     <!--spring事务处理-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

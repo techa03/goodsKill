@@ -7,7 +7,7 @@
     <script type="application/javascript">
         $(function () {
             $.ajax({
-                url: "${context}/goods/list",
+                url: "${context}/seckill/goods/list",
                 success: function (data) {
                     var str = "";
                     for (var o in data) {
@@ -21,7 +21,7 @@
         function getPrice() {
             var goodsId = $("#goodsId").val();
             $.ajax({
-                url: "${context}/goods/" + goodsId,
+                url: "${context}/seckill/goods/" + goodsId,
                 success: function (data) {
                     $("#realGoodsPrice").html("实际价格:" + data.price);
                 }
