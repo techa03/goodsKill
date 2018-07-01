@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.seckill.dao.UserMapper;
 import org.seckill.entity.User;
 import org.seckill.service.impl.UserAccountServiceImpl;
-import org.springframework.util.DigestUtils;
 
 /**
  * Created by heng on 2017/6/28.
@@ -30,8 +29,8 @@ public class UserAccountServiceImplTest {
         User user = new User();
         user.setPassword("123");
         context.checking(new Expectations() {{
-            user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
-            oneOf(userMapper).insert(user);
+            user.setPassword(user.getPassword());
+            oneOf(userMapper).insertSelective(user);
             will(returnValue(1));
         }});
         userAccountService.register(user);
