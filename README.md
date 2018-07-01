@@ -89,4 +89,5 @@ mvn install:install-file -Dfile=jar包路径 -DgroupId=com.alibaba.alipay -Darti
 mvn install:install-file -Dfile=jar包路径 -DgroupId=com.alibaba.alipay -DartifactId=alipay-trade -Dversion=20161215 -Dpackaging=jar
 ```
 2.注意logback.xml和seckill.properties的文件路径配置信息，修改成你自定义的目录即可；
+
 3.可通过http://localhost:8080/goodsKill/swagger-ui.html#/访问swagger主页
