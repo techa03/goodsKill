@@ -1,20 +1,19 @@
 package org.seckill.service.impl;
 
-import org.seckill.entity.User;
-import org.seckill.dao.UserMapper;
-import org.seckill.entity.Permission;
-import org.seckill.entity.Role;
-import org.seckill.entity.UserExample;
 import org.seckill.api.exception.CommonException;
 import org.seckill.api.exception.SeckillException;
 import org.seckill.api.service.UserAccountService;
+import org.seckill.dao.UserMapper;
+import org.seckill.entity.Permission;
+import org.seckill.entity.Role;
+import org.seckill.entity.User;
+import org.seckill.entity.UserExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
 import java.util.HashSet;
@@ -32,8 +31,8 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public void register(User user) {
         try {
-            user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
-            userMapper.insert(user);
+            user.setPassword(user.getPassword());
+            userMapper.insertSelective(user);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new CommonException(null);

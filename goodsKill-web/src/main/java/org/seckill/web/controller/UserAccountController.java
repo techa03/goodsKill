@@ -2,20 +2,22 @@ package org.seckill.web.controller;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
-import org.seckill.entity.User;
+import org.apache.shiro.util.ByteSource;
+import org.seckill.api.service.GoodsService;
 import org.seckill.api.service.SeckillService;
 import org.seckill.api.service.UserAccountService;
-import org.seckill.api.service.GoodsService;
+import org.seckill.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/")
 public class UserAccountController {
     @Autowired
     private UserAccountService userAccountService;
@@ -26,20 +28,18 @@ public class UserAccountController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Transactional
     @RequestMapping(value = "/register/create", method = RequestMethod.POST)
-    @ResponseBody
     public String register(User user) {
-        userAccountService.register(user);
-        return "success";
+        User userEncrypt = new User();
+        BeanUtils.copyProperties(user,userEncrypt);
+        userEncrypt.setPassword(new SimpleHash("MD5", user.getPassword(), ByteSource.Util.bytes(user.getAccount()), 2).toString());
+        userAccountService.register(userEncrypt);
+        // 注册成功后直接登录
+        login(user);
+        return "redirect:/seckill/list";
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
-        return "index";
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login")
     public String toLogin() {
         return "login";
     }
@@ -60,7 +60,7 @@ public class UserAccountController {
         return "redirect:/seckill/list";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @RequestMapping(value = "/register")
     public String register() {
         return "register";
     }
