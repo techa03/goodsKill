@@ -1,12 +1,14 @@
 package org.seckill.service.impl;
 
-import org.seckill.api.service.RoleServie;
+import org.seckill.api.service.RoleService;
 import org.seckill.dao.RoleMapper;
 import org.seckill.entity.Role;
 import org.seckill.entity.RoleExample;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class RoleServieImpl extends CommonServiceImpl<RoleMapper, RoleExample, Role> implements RoleServie {
+@Service
+public class RoleServiceImpl extends CommonServiceImpl<RoleMapper, RoleExample, Role> implements RoleService {
     @Autowired
     private RoleMapper roleMapper;
 }

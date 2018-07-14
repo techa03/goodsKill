@@ -12,13 +12,18 @@
 
     <dubbo:registry address="${zookeeper_address}" check="false" subscribe="false" register=""/>
 
-    <bean id="userAccountServiceImpl" class="org.seckill.service.impl.UserAccountServiceImpl"/>
     <dubbo:service ref="userAccountServiceImpl" interface="org.seckill.api.service.UserAccountService" timeout="1000000"/>
     <!-- 接口服务 -->
-    <bean id="goodsServiceImpl" class="org.seckill.service.impl.GoodsServiceImpl"/>
     <dubbo:service ref="goodsServiceImpl" interface="org.seckill.api.service.GoodsService" timeout="1000000"/>
 
-    <bean id="seckillServiceImpl" class="org.seckill.service.impl.SeckillServiceImpl"/>
     <dubbo:service ref="seckillServiceImpl" interface="org.seckill.api.service.SeckillService" timeout="1000000" retries="0"/>
+
+    <dubbo:service ref="roleServiceImpl" interface="org.seckill.api.service.RoleService" timeout="1000000" retries="0"/>
+
+    <dubbo:service ref="userRoleServiceImpl" interface="org.seckill.api.service.UserRoleService" timeout="1000000" retries="0"/>
+
+    <dubbo:service ref="permissionServiceImpl" interface="org.seckill.api.service.PermissionService" timeout="1000000" retries="0"/>
+
+    <dubbo:service ref="rolePermissionServiceImpl" interface="org.seckill.api.service.RolePermissionService" timeout="1000000" retries="0"/>
 
 </beans>

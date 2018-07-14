@@ -14,4 +14,8 @@
     <dubbo:reference id="seckillServiceImpl" interface="org.seckill.api.service.SeckillService"/>
     <dubbo:reference id="goodsServiceImpl" interface="org.seckill.api.service.GoodsService"/>
     <dubbo:reference id="userAccountServiceImpl" interface="org.seckill.api.service.UserAccountService"/>
+    <dubbo:reference id="roleServiceImpl" interface="org.seckill.api.service.RoleService"/>
+    <dubbo:reference id="userRoleServiceImpl" interface="org.seckill.api.service.UserRoleService"/>
+    <dubbo:reference id="permissionServiceImpl" interface="org.seckill.api.service.PermissionService"/>
+    <dubbo:reference id="rolePermissionServiceImpl" interface="org.seckill.api.service.RolePermissionService"/>
 </beans>

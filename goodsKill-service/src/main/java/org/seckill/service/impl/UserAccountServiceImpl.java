@@ -40,6 +40,7 @@ public class UserAccountServiceImpl extends CommonServiceImpl<UserMapper, UserEx
     public void register(User user) {
         try {
             user.setPassword(user.getPassword());
+            user.setUsername(user.getAccount());
             userMapper.insertSelective(user);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

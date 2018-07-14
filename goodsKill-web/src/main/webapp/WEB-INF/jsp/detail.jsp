@@ -31,7 +31,6 @@
                     } else {
                         alert("尚未开始");
                     }
-                    console.log(data);
                 }
             });
         }

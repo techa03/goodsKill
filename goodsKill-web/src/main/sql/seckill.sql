@@ -111,7 +111,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'test01', '47342d1bee153385294760bddb8a7f49', '2016-12-18 17:53:26', '2017-06-17 14:46:21');
+INSERT INTO `user` VALUES ('14', 'test01', 'fad7b1af11bc7132037e94b8291a5ed3', '2016-12-18 17:53:26', '2017-06-17 14:46:21');
 
 --
 -- Table structure for table `permission`

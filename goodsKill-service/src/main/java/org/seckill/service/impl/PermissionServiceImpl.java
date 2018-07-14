@@ -5,7 +5,9 @@ import org.seckill.dao.PermissionMapper;
 import org.seckill.entity.Permission;
 import org.seckill.entity.PermissionExample;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PermissionServiceImpl extends CommonServiceImpl<PermissionMapper, PermissionExample, Permission> implements PermissionService {
     @Autowired
     private PermissionMapper permissionMapper;

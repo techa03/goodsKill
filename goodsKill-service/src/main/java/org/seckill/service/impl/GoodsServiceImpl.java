@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * Created by heng on 2017/1/7.
  */
-@SuppressWarnings("ALL")
 @Service
 public class GoodsServiceImpl extends CommonServiceImpl<GoodsMapper, GoodsExample, Goods> implements GoodsService {
     @Autowired

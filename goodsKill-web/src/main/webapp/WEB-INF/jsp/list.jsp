@@ -24,9 +24,11 @@
             <a class="btn btn-info" href="${context}/seckill/new" target="_blank">增加秒杀商品</a>
             <a>&nbsp;</a>
             <a class="btn btn-info" href="${context}/seckill/goods/new" target="_blank">增加商品种类</a>
+            <a class="btn btn-info" href="${context}/seckill/admin" target="_blank">管理用户</a>
+            <a class="btn btn-info" href="${context}/seckill/signOut" target="_blank">退出登录</a>
         </div>
         <div class="panel-body">
-            <table class="table table-hover table-striped">
+            <table class="table table-hover table-striped" data-toggle="table" data-pagination="true" data-height="580">
                 <thead>
                 <tr>
                     <th>名称</th>
