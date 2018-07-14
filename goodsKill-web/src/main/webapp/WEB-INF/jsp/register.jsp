@@ -165,13 +165,13 @@
                    class="form-control" name="account" id="account"
                    placeholder="6-20位字母数字下划线"/>
         </div>
-        <div class="form-group">
-            <label for="phoneNum">手机号：</label>
-            <input type="phoneNum" id="phoneNum"
-                   class="form-control" name="phoneNum"
-                   placeholder="请输入手机号" maxlength="11"/>
-            <span><button type="button" class="btn btn-info" onclick="getPhoneCode()">获取验证码</button></span>
-        </div>
+        <%--<div class="form-group">--%>
+            <%--<label for="phoneNum">手机号：</label>--%>
+            <%--<input type="phoneNum" id="phoneNum"--%>
+                   <%--class="form-control" name="phoneNum"--%>
+                   <%--placeholder="请输入手机号" maxlength="11"/>--%>
+            <%--<span><button type="button" class="btn btn-info" onclick="getPhoneCode()">获取验证码</button></span>--%>
+        <%--</div>--%>
         <div class="form-group">
             <label for="password">密码：</label>
             <input type="password"
