@@ -5,13 +5,14 @@ import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
 import org.seckill.api.dto.SeckillInfo;
 import org.seckill.entity.Seckill;
+import org.seckill.entity.SeckillExample;
 
 import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by heng on 2016/7/16.
  */
-public interface SeckillService {
+public interface SeckillService extends CommonService<SeckillExample, Seckill> {
 
     PageInfo getSeckillList(int pageNum, int pageSize);
 

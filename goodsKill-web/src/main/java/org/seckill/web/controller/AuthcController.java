@@ -1,10 +1,6 @@
 package org.seckill.web.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
-import org.seckill.entity.User;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -28,6 +24,6 @@ public class AuthcController {
     @RequestMapping("/admin")
     public String admin() {
         // TODO 管理员页面待完成
-        return "redirect:/seckill/admin";
+        return "admin/admin";
     }
 }

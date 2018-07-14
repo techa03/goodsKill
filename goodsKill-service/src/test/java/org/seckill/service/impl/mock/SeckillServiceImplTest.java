@@ -5,16 +5,14 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.seckill.service.common.trade.alipay.AlipayRunner;
 import org.seckill.dao.GoodsMapper;
-import org.seckill.dao.ext.ExtSeckillMapper;
 import org.seckill.dao.RedisDao;
 import org.seckill.dao.SuccessKilledMapper;
+import org.seckill.dao.ext.ExtSeckillMapper;
 import org.seckill.entity.Goods;
 import org.seckill.entity.Seckill;
+import org.seckill.service.common.trade.alipay.AlipayRunner;
 import org.seckill.service.impl.SeckillServiceImpl;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -36,15 +34,6 @@ public class SeckillServiceImplTest {
         seckillService.setExtSeckillMapper(seckillMapper);
         seckillService.setSuccessKilledMapper(successKilledMapper);
 
-    }
-
-    @Test
-    public void getSeckillList() throws Exception {
-        context.checking(new Expectations() {{
-            oneOf(seckillMapper).selectByExample(null);
-            will(returnValue(new ArrayList<Seckill>()));
-        }});
-        assertNotNull(seckillService.getSeckillList(3, 2));
     }
 
     @Test

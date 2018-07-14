@@ -7,5 +7,5 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-   <context:component-scan base-package="org.seckill.service" />
+   <context:component-scan base-package="org.seckill.service;" />
 </beans>

@@ -1,11 +1,12 @@
 package org.seckill.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SeckillExample {
+public class SeckillExample implements Serializable {
     protected String orderByClause;
 
     protected boolean distinct;

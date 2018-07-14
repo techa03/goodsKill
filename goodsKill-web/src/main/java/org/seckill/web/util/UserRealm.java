@@ -6,10 +6,10 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-import org.seckill.entity.Permission;
-import org.seckill.entity.User;
 import org.seckill.api.service.UserAccountService;
+import org.seckill.entity.Permission;
 import org.seckill.entity.Role;
+import org.seckill.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
@@ -36,7 +36,7 @@ public class UserRealm extends AuthorizingRealm {
         Set<Role> roles = userService.findRoles(account);
         Set<String> roleNames = new HashSet<>();
         for (Role role : roles) {
-            roleNames.add(role.getRole());
+            roleNames.add(role.getRoleName());
         }
         // 将角色名称提供给info
         authorizationInfo.setRoles(roleNames);
@@ -44,7 +44,7 @@ public class UserRealm extends AuthorizingRealm {
         Set<Permission> permissions = userService.findPermissions(account);
         Set<String> permissionNames = new HashSet<>();
         for (Permission permission : permissions) {
-            permissionNames.add(permission.getPermission());
+            permissionNames.add(permission.getPermissionName());
         }
         // 将权限名称提供给info
         authorizationInfo.setStringPermissions(permissionNames);

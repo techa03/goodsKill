@@ -1,25 +1,26 @@
 package org.seckill.service.impl;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.seckill.service.common.trade.alipay.AlipayRunner;
-import org.seckill.dao.GoodsMapper;
-import org.seckill.dao.SuccessKilledMapper;
-import org.seckill.dao.ext.ExtSeckillMapper;
-import org.seckill.entity.Goods;
-import org.seckill.api.enums.SeckillStatEnum;
-import org.seckill.api.exception.RepeatKillException;
-import org.seckill.api.exception.SeckillException;
-import org.seckill.api.service.SeckillService;
-import org.seckill.util.common.util.DateUtil;
-import org.seckill.util.common.util.MD5Util;
-import org.seckill.dao.RedisDao;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
 import org.seckill.api.dto.SeckillInfo;
-import org.seckill.entity.Seckill;
-import org.seckill.entity.SuccessKilled;
+import org.seckill.api.enums.SeckillStatEnum;
+import org.seckill.api.exception.RepeatKillException;
 import org.seckill.api.exception.SeckillCloseException;
+import org.seckill.api.exception.SeckillException;
+import org.seckill.api.service.SeckillService;
+import org.seckill.dao.GoodsMapper;
+import org.seckill.dao.RedisDao;
+import org.seckill.dao.SeckillMapper;
+import org.seckill.dao.SuccessKilledMapper;
+import org.seckill.dao.ext.ExtSeckillMapper;
+import org.seckill.entity.Goods;
+import org.seckill.entity.Seckill;
+import org.seckill.entity.SeckillExample;
+import org.seckill.entity.SuccessKilled;
+import org.seckill.service.common.trade.alipay.AlipayRunner;
+import org.seckill.util.common.util.DateUtil;
+import org.seckill.util.common.util.MD5Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -29,13 +30,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by heng on 2016/7/16.
  */
 @Service
-public class SeckillServiceImpl implements SeckillService {
+public class SeckillServiceImpl extends CommonServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService {
     @Autowired
     private AlipayRunner alipayRunner;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -70,10 +70,7 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public PageInfo getSeckillList(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<Seckill> list = extSeckillMapper.selectByExample(null);
-        PageInfo pageInfo = new PageInfo(list);
-        return pageInfo;
+        return selectByPage(new SeckillExample(),pageNum,pageSize);
     }
 
     @Override
