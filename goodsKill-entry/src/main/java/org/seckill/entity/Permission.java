@@ -1,16 +1,24 @@
 package org.seckill.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 
+@Data
 public class Permission implements Serializable {
     private Integer permissionId;
 
     private String permissionName;
 
-    private Date createdTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    private Date createTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date updateTime;
+
+    private String permissionMenu;
 
     private static final long serialVersionUID = 1L;
 
@@ -30,12 +38,12 @@ public class Permission implements Serializable {
         this.permissionName = permissionName == null ? null : permissionName.trim();
     }
 
-    public Date getCreatedTime() {
-        return createdTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getUpdateTime() {
@@ -46,6 +54,14 @@ public class Permission implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public String getPermissionMenu() {
+        return permissionMenu;
+    }
+
+    public void setPermissionMenu(String permissionMenu) {
+        this.permissionMenu = permissionMenu == null ? null : permissionMenu.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -54,8 +70,9 @@ public class Permission implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", permissionId=").append(permissionId);
         sb.append(", permissionName=").append(permissionName);
-        sb.append(", createdTime=").append(createdTime);
+        sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
+        sb.append(", permissionMenu=").append(permissionMenu);
         sb.append("]");
         return sb.toString();
     }
@@ -74,8 +91,9 @@ public class Permission implements Serializable {
         Permission other = (Permission) that;
         return (this.getPermissionId() == null ? other.getPermissionId() == null : this.getPermissionId().equals(other.getPermissionId()))
             && (this.getPermissionName() == null ? other.getPermissionName() == null : this.getPermissionName().equals(other.getPermissionName()))
-            && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getPermissionMenu() == null ? other.getPermissionMenu() == null : this.getPermissionMenu().equals(other.getPermissionMenu()));
     }
 
     @Override
@@ -84,8 +102,9 @@ public class Permission implements Serializable {
         int result = 1;
         result = prime * result + ((getPermissionId() == null) ? 0 : getPermissionId().hashCode());
         result = prime * result + ((getPermissionName() == null) ? 0 : getPermissionName().hashCode());
-        result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getPermissionMenu() == null) ? 0 : getPermissionMenu().hashCode());
         return result;
     }
 }
