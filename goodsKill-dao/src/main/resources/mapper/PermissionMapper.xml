@@ -4,8 +4,11 @@
   <resultMap id="BaseResultMap" type="org.seckill.entity.Permission">
     <id column="permission_id" jdbcType="INTEGER" property="permissionId" />
     <result column="permission_name" jdbcType="VARCHAR" property="permissionName" />
-    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="permission_menu" jdbcType="VARCHAR" property="permissionMenu" />
+    <result column="parent_permission_id" jdbcType="INTEGER" property="parentPermissionId" />
+    <result column="is_dir" jdbcType="VARCHAR" property="isDir" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,7 +69,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    permission_id, permission_name, created_time, update_time
+    permission_id, permission_name, create_time, update_time, permission_menu, parent_permission_id, 
+    is_dir
   </sql>
   <select id="selectByExample" parameterType="org.seckill.entity.PermissionExample" resultMap="BaseResultMap">
     select
@@ -99,10 +103,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="org.seckill.entity.Permission">
-    insert into permission (permission_id, permission_name, created_time, 
-      update_time)
-    values (#{permissionId,jdbcType=INTEGER}, #{permissionName,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+    insert into permission (permission_id, permission_name, create_time, 
+      update_time, permission_menu, parent_permission_id, 
+      is_dir)
+    values (#{permissionId,jdbcType=INTEGER}, #{permissionName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{permissionMenu,jdbcType=VARCHAR}, #{parentPermissionId,jdbcType=INTEGER}, 
+      #{isDir,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.seckill.entity.Permission">
     insert into permission
@@ -113,11 +119,20 @@
       <if test="permissionName != null">
         permission_name,
       </if>
-      <if test="createdTime != null">
-        created_time,
+      <if test="createTime != null">
+        create_time,
       </if>
       <if test="updateTime != null">
         update_time,
+      </if>
+      <if test="permissionMenu != null">
+        permission_menu,
+      </if>
+      <if test="parentPermissionId != null">
+        parent_permission_id,
+      </if>
+      <if test="isDir != null">
+        is_dir,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -127,11 +142,20 @@
       <if test="permissionName != null">
         #{permissionName,jdbcType=VARCHAR},
       </if>
-      <if test="createdTime != null">
-        #{createdTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="permissionMenu != null">
+        #{permissionMenu,jdbcType=VARCHAR},
+      </if>
+      <if test="parentPermissionId != null">
+        #{parentPermissionId,jdbcType=INTEGER},
+      </if>
+      <if test="isDir != null">
+        #{isDir,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -150,11 +174,20 @@
       <if test="record.permissionName != null">
         permission_name = #{record.permissionName,jdbcType=VARCHAR},
       </if>
-      <if test="record.createdTime != null">
-        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.permissionMenu != null">
+        permission_menu = #{record.permissionMenu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentPermissionId != null">
+        parent_permission_id = #{record.parentPermissionId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDir != null">
+        is_dir = #{record.isDir,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -165,8 +198,11 @@
     update permission
     set permission_id = #{record.permissionId,jdbcType=INTEGER},
       permission_name = #{record.permissionName,jdbcType=VARCHAR},
-      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      permission_menu = #{record.permissionMenu,jdbcType=VARCHAR},
+      parent_permission_id = #{record.parentPermissionId,jdbcType=INTEGER},
+      is_dir = #{record.isDir,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -177,11 +213,20 @@
       <if test="permissionName != null">
         permission_name = #{permissionName,jdbcType=VARCHAR},
       </if>
-      <if test="createdTime != null">
-        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="permissionMenu != null">
+        permission_menu = #{permissionMenu,jdbcType=VARCHAR},
+      </if>
+      <if test="parentPermissionId != null">
+        parent_permission_id = #{parentPermissionId,jdbcType=INTEGER},
+      </if>
+      <if test="isDir != null">
+        is_dir = #{isDir,jdbcType=VARCHAR},
       </if>
     </set>
     where permission_id = #{permissionId,jdbcType=INTEGER}
@@ -189,8 +234,11 @@
   <update id="updateByPrimaryKey" parameterType="org.seckill.entity.Permission">
     update permission
     set permission_name = #{permissionName,jdbcType=VARCHAR},
-      created_time = #{createdTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      permission_menu = #{permissionMenu,jdbcType=VARCHAR},
+      parent_permission_id = #{parentPermissionId,jdbcType=INTEGER},
+      is_dir = #{isDir,jdbcType=VARCHAR}
     where permission_id = #{permissionId,jdbcType=INTEGER}
   </update>
 </mapper>

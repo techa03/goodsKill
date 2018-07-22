@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class PermissionExample implements Serializable {
+public class PermissionExample {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -425,16 +425,146 @@ public class PermissionExample implements Serializable {
             addCriterion("permission_menu not between", value1, value2, "permissionMenu");
             return (Criteria) this;
         }
+
+        public Criteria andParentPermissionIdIsNull() {
+            addCriterion("parent_permission_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentPermissionIdIsNotNull() {
+            addCriterion("parent_permission_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentPermissionIdEqualTo(Integer value) {
+            addCriterion("parent_permission_id =", value, "parentPermissionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentPermissionIdNotEqualTo(Integer value) {
+            addCriterion("parent_permission_id <>", value, "parentPermissionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentPermissionIdGreaterThan(Integer value) {
+            addCriterion("parent_permission_id >", value, "parentPermissionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentPermissionIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("parent_permission_id >=", value, "parentPermissionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentPermissionIdLessThan(Integer value) {
+            addCriterion("parent_permission_id <", value, "parentPermissionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentPermissionIdLessThanOrEqualTo(Integer value) {
+            addCriterion("parent_permission_id <=", value, "parentPermissionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentPermissionIdIn(List<Integer> values) {
+            addCriterion("parent_permission_id in", values, "parentPermissionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentPermissionIdNotIn(List<Integer> values) {
+            addCriterion("parent_permission_id not in", values, "parentPermissionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentPermissionIdBetween(Integer value1, Integer value2) {
+            addCriterion("parent_permission_id between", value1, value2, "parentPermissionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentPermissionIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("parent_permission_id not between", value1, value2, "parentPermissionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirIsNull() {
+            addCriterion("is_dir is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirIsNotNull() {
+            addCriterion("is_dir is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirEqualTo(String value) {
+            addCriterion("is_dir =", value, "isDir");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirNotEqualTo(String value) {
+            addCriterion("is_dir <>", value, "isDir");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirGreaterThan(String value) {
+            addCriterion("is_dir >", value, "isDir");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirGreaterThanOrEqualTo(String value) {
+            addCriterion("is_dir >=", value, "isDir");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirLessThan(String value) {
+            addCriterion("is_dir <", value, "isDir");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirLessThanOrEqualTo(String value) {
+            addCriterion("is_dir <=", value, "isDir");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirLike(String value) {
+            addCriterion("is_dir like", value, "isDir");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirNotLike(String value) {
+            addCriterion("is_dir not like", value, "isDir");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirIn(List<String> values) {
+            addCriterion("is_dir in", values, "isDir");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirNotIn(List<String> values) {
+            addCriterion("is_dir not in", values, "isDir");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirBetween(String value1, String value2) {
+            addCriterion("is_dir between", value1, value2, "isDir");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDirNotBetween(String value1, String value2) {
+            addCriterion("is_dir not between", value1, value2, "isDir");
+            return (Criteria) this;
+        }
     }
 
-    public static class Criteria extends GeneratedCriteria implements Serializable{
+    public static class Criteria extends GeneratedCriteria implements Serializable {
 
         protected Criteria() {
             super();
         }
     }
 
-    public static class Criterion implements Serializable{
+    public static class Criterion implements Serializable {
         private String condition;
 
         private Object value;

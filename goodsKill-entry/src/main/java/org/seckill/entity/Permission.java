@@ -20,6 +20,10 @@ public class Permission implements Serializable {
 
     private String permissionMenu;
 
+    private Integer parentPermissionId;
+
+    private String isDir;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getPermissionId() {
@@ -62,6 +66,22 @@ public class Permission implements Serializable {
         this.permissionMenu = permissionMenu == null ? null : permissionMenu.trim();
     }
 
+    public Integer getParentPermissionId() {
+        return parentPermissionId;
+    }
+
+    public void setParentPermissionId(Integer parentPermissionId) {
+        this.parentPermissionId = parentPermissionId;
+    }
+
+    public String getIsDir() {
+        return isDir;
+    }
+
+    public void setIsDir(String isDir) {
+        this.isDir = isDir == null ? null : isDir.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -73,6 +93,8 @@ public class Permission implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", permissionMenu=").append(permissionMenu);
+        sb.append(", parentPermissionId=").append(parentPermissionId);
+        sb.append(", isDir=").append(isDir);
         sb.append("]");
         return sb.toString();
     }
@@ -93,7 +115,9 @@ public class Permission implements Serializable {
             && (this.getPermissionName() == null ? other.getPermissionName() == null : this.getPermissionName().equals(other.getPermissionName()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getPermissionMenu() == null ? other.getPermissionMenu() == null : this.getPermissionMenu().equals(other.getPermissionMenu()));
+            && (this.getPermissionMenu() == null ? other.getPermissionMenu() == null : this.getPermissionMenu().equals(other.getPermissionMenu()))
+            && (this.getParentPermissionId() == null ? other.getParentPermissionId() == null : this.getParentPermissionId().equals(other.getParentPermissionId()))
+            && (this.getIsDir() == null ? other.getIsDir() == null : this.getIsDir().equals(other.getIsDir()));
     }
 
     @Override
@@ -105,6 +129,8 @@ public class Permission implements Serializable {
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getPermissionMenu() == null) ? 0 : getPermissionMenu().hashCode());
+        result = prime * result + ((getParentPermissionId() == null) ? 0 : getParentPermissionId().hashCode());
+        result = prime * result + ((getIsDir() == null) ? 0 : getIsDir().hashCode());
         return result;
     }
 }
