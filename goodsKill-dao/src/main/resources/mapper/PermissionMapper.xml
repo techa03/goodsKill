@@ -9,6 +9,7 @@
     <result column="permission_menu" jdbcType="VARCHAR" property="permissionMenu" />
     <result column="parent_permission_id" jdbcType="INTEGER" property="parentPermissionId" />
     <result column="is_dir" jdbcType="VARCHAR" property="isDir" />
+    <result column="order_no" jdbcType="INTEGER" property="orderNo" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +71,7 @@
   </sql>
   <sql id="Base_Column_List">
     permission_id, permission_name, create_time, update_time, permission_menu, parent_permission_id, 
-    is_dir
+    is_dir, order_no
   </sql>
   <select id="selectByExample" parameterType="org.seckill.entity.PermissionExample" resultMap="BaseResultMap">
     select
@@ -105,10 +106,10 @@
   <insert id="insert" parameterType="org.seckill.entity.Permission">
     insert into permission (permission_id, permission_name, create_time, 
       update_time, permission_menu, parent_permission_id, 
-      is_dir)
+      is_dir, order_no)
     values (#{permissionId,jdbcType=INTEGER}, #{permissionName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{permissionMenu,jdbcType=VARCHAR}, #{parentPermissionId,jdbcType=INTEGER}, 
-      #{isDir,jdbcType=VARCHAR})
+      #{isDir,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="org.seckill.entity.Permission">
     insert into permission
@@ -134,6 +135,9 @@
       <if test="isDir != null">
         is_dir,
       </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="permissionId != null">
@@ -156,6 +160,9 @@
       </if>
       <if test="isDir != null">
         #{isDir,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -189,6 +196,9 @@
       <if test="record.isDir != null">
         is_dir = #{record.isDir,jdbcType=VARCHAR},
       </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -202,7 +212,8 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       permission_menu = #{record.permissionMenu,jdbcType=VARCHAR},
       parent_permission_id = #{record.parentPermissionId,jdbcType=INTEGER},
-      is_dir = #{record.isDir,jdbcType=VARCHAR}
+      is_dir = #{record.isDir,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -228,6 +239,9 @@
       <if test="isDir != null">
         is_dir = #{isDir,jdbcType=VARCHAR},
       </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=INTEGER},
+      </if>
     </set>
     where permission_id = #{permissionId,jdbcType=INTEGER}
   </update>
@@ -238,7 +252,8 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       permission_menu = #{permissionMenu,jdbcType=VARCHAR},
       parent_permission_id = #{parentPermissionId,jdbcType=INTEGER},
-      is_dir = #{isDir,jdbcType=VARCHAR}
+      is_dir = #{isDir,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=INTEGER}
     where permission_id = #{permissionId,jdbcType=INTEGER}
   </update>
 </mapper>

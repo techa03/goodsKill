@@ -16,11 +16,8 @@
                 url: "${context}/seckill/admin/role",
                 type: "post",
                 success: function (result) {
-                    console.log(result);
-                    var data = result.data;
-                    if (data == true) {
-
-                    }
+                    console.log(result[0]);
+                    console.log($("#roleList tbody").after("<tr><td></td><td>"+result[0].roleName+"</td><td>"+result[0].updateTime+"</td><td><td></tr>"));
                 }
             });
         }
@@ -52,7 +49,7 @@
                         </h4>
                     </div>
                     <div class="modal-body">
-                        <table id="roleList" data-toggle="table" data-pagination="true" data-height="480" data-striped="true" data-page-list="[5, 10, 25, 50, 100, All]" data-click-to-select="true">
+                        <table id="roleList" data-toggle="table" data-height="480" data-striped="true" data-click-to-select="true">
                             <thead>
                             <tr>
                                 <th data-checkbox="true"></th>
@@ -62,18 +59,6 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <%--<c:forEach var="role" items="${list}">--%>
-                                <%--<tr>--%>
-                                    <%--<td></td>--%>
-                                    <%--<td>${role.roleName}</td>--%>
-                                    <%--<td>--%>
-                                        <%--<fmt:formatDate value="${role.createTime}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>--%>
-                                    <%--</td>--%>
-                                    <%--<td>--%>
-                                        <%--<fmt:formatDate value="${role.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>--%>
-                                    <%--</td>--%>
-                                <%--</tr>--%>
-                            <%--</c:forEach>--%>
                             </tbody>
                         </table>
                     </div>
@@ -112,30 +97,6 @@
                         </td>
                     </tr>
                 </c:forEach>
-                <%--<tr>--%>
-                    <%--<td colspan="7">--%>
-                        <%--<nav aria-label="Page navigation">--%>
-                            <%--<ul class="pagination">--%>
-                                <%--<li>--%>
-                                    <%--<a href="#" aria-label="Previous">--%>
-                                        <%--<span aria-hidden="true">&laquo;</span>--%>
-                                    <%--</a>--%>
-                                <%--</li>--%>
-                                <%--<c:forEach var="i" begin="1" end="${pageNum}">--%>
-                                    <%--<li><a href="${context}/seckill/admin/user?offset=${i}&limit=4">${i}</a></li>--%>
-                                <%--</c:forEach>--%>
-                                <%--<li>--%>
-                                    <%--<a href="#" aria-label="Next">--%>
-                                        <%--<span aria-hidden="true">&raquo;</span>--%>
-                                    <%--</a>--%>
-                                <%--</li>--%>
-                                <%--<li>每页<input class="" id="pageNum" type="text"/>条记录</li>--%>
-                                <%--<li><input type="button" class="btn btn-primary" value="确定" onclick="changePageNum();">--%>
-                                <%--</li>--%>
-                            <%--</ul>--%>
-                        <%--</nav>--%>
-                    <%--</td>--%>
-                <%--</tr>--%>
                 </tbody>
             </table>
 

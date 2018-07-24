@@ -42,6 +42,7 @@ Shiro | 用户权限安全管理框架 | [https://shiro.apache.org/](https://shi
 ----|------|----
 jQuery | 函式库  | [http://jquery.com/](http://jquery.com/)
 Bootstrap | 前端框架  | [http://getbootstrap.com/](http://getbootstrap.com/)
+LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 ### API接口
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png)
 
@@ -60,16 +61,16 @@ Bootstrap | 前端框架  | [http://getbootstrap.com/](http://getbootstrap.com/)
 
 1.参照redis官网安装redis，本地默认端口启动activemq，zookeeper（zookeeper这个一定要装啊，不然启动不了，开启服务后倾检查2181端口是否正常开启了）;
 
-2.找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行seckill.sql完成数据初始化操作,增量脚本为seckill_DDL.sql针对2.0.0-SNAPSHOT后的版本使用；
+2.找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行seckill.sql完成数据初始化操作;
 
-3.到service下的resources/profile/local/connections.properties根据需要修改数据库以及zookeeper等配置信息；
+3.到service下的resources/profile/local/connections.properties根据需要修改数据库以及zookeeper等配置信息;
 
-4.二维码图片存放路径配置信息在goods-util中的seckill.properties文件中修改；
+4.二维码图片存放路径配置信息在goods-util中的seckill.properties文件中修改;
 
-5.在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务；
+5.在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务;
 
-6.编译好整个项目后使用tomcat发布server模块，上下文环境配置为goodsKill,部署成功后访问
-http://localhost:8080/goodsKill/login；
+6.编译好整个项目后使用tomcat发布server模块，端口号18080，上下文环境配置为goodsKill,部署成功后访问
+http://localhost:18080/goodsKill/login，默认管理员账号admin123，密码：aa123456;
 
 7.service和server下的resources/profile用于存放不同环境的配置信息，默认使用local目录的properties配置，如需应用其他环境下的配置文件，[请到此处修改配置](https://github.com/techa03/goodsKill/blob/dev_maven/pom.xml#L26-L54);
 
@@ -82,12 +83,7 @@ mvn clean install -Plocal
 9.支付宝二维码接入指南：https://blog.csdn.net/techa/article/details/71003519
 
 #### 编译部署注意事项：
-1.本项目集成了支付宝二维码支付API接口，使用时需要配置支付宝沙箱环境，具体教程见[支付包二维码支付接入方法](http://blog.csdn.net/techa/article/details/71003519)；
-~~项目中service部分引用了支付宝的第三方jar包，如需使用首先需要到支付宝开放平台下载，并引入到项目中，支付宝jar包安装到本地环境并添加本地依赖的方法：~~（已集成无需手动添加）
-```
-mvn install:install-file -Dfile=jar包路径 -DgroupId=com.alibaba.alipay -DartifactId=alipay -Dversion=20161213 -Dpackaging=jar
-mvn install:install-file -Dfile=jar包路径 -DgroupId=com.alibaba.alipay -DartifactId=alipay-trade -Dversion=20161215 -Dpackaging=jar
-```
-2.注意logback.xml和seckill.properties的文件路径配置信息，修改成你自定义的目录即可；
 
-3.可通过http://localhost:8080/goodsKill/swagger-ui.html#/访问swagger主页
+1.注意logback.xml和seckill.properties的文件路径配置信息，修改成你自定义的目录即可；
+
+2.可通过http://localhost:18080/goodsKill/swagger-ui.html#/访问swagger主页

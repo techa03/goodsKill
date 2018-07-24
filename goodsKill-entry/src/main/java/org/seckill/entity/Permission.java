@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class Permission implements Serializable {
+public class Permission implements Serializable, Comparable<Permission>{
     private Integer permissionId;
 
     private String permissionName;
@@ -23,6 +23,8 @@ public class Permission implements Serializable {
     private Integer parentPermissionId;
 
     private String isDir;
+
+    private Integer orderNo;
 
     private static final long serialVersionUID = 1L;
 
@@ -82,6 +84,14 @@ public class Permission implements Serializable {
         this.isDir = isDir == null ? null : isDir.trim();
     }
 
+    public Integer getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(Integer orderNo) {
+        this.orderNo = orderNo;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -95,6 +105,7 @@ public class Permission implements Serializable {
         sb.append(", permissionMenu=").append(permissionMenu);
         sb.append(", parentPermissionId=").append(parentPermissionId);
         sb.append(", isDir=").append(isDir);
+        sb.append(", orderNo=").append(orderNo);
         sb.append("]");
         return sb.toString();
     }
@@ -117,7 +128,8 @@ public class Permission implements Serializable {
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getPermissionMenu() == null ? other.getPermissionMenu() == null : this.getPermissionMenu().equals(other.getPermissionMenu()))
             && (this.getParentPermissionId() == null ? other.getParentPermissionId() == null : this.getParentPermissionId().equals(other.getParentPermissionId()))
-            && (this.getIsDir() == null ? other.getIsDir() == null : this.getIsDir().equals(other.getIsDir()));
+            && (this.getIsDir() == null ? other.getIsDir() == null : this.getIsDir().equals(other.getIsDir()))
+            && (this.getOrderNo() == null ? other.getOrderNo() == null : this.getOrderNo().equals(other.getOrderNo()));
     }
 
     @Override
@@ -131,6 +143,12 @@ public class Permission implements Serializable {
         result = prime * result + ((getPermissionMenu() == null) ? 0 : getPermissionMenu().hashCode());
         result = prime * result + ((getParentPermissionId() == null) ? 0 : getParentPermissionId().hashCode());
         result = prime * result + ((getIsDir() == null) ? 0 : getIsDir().hashCode());
+        result = prime * result + ((getOrderNo() == null) ? 0 : getOrderNo().hashCode());
         return result;
+    }
+
+    @Override
+    public int compareTo(Permission o) {
+        return this.getOrderNo().compareTo(o.getOrderNo());
     }
 }

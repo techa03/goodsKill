@@ -71,4 +71,6 @@ public class UserAccountController {
         subject.logout();
         return "redirect:login";
     }
+
+
 }

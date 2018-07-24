@@ -4,17 +4,19 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.seckill.util.common.util.PropertiesUtil;
-import org.seckill.entity.Seckill;
-import org.seckill.api.enums.SeckillStatEnum;
-import org.seckill.api.exception.RepeatKillException;
-import org.seckill.api.exception.SeckillCloseException;
-import org.seckill.api.service.SeckillService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
 import org.seckill.api.dto.SeckillInfo;
 import org.seckill.api.dto.SeckillResult;
-import org.seckill.api.service.GoodsService;
+import org.seckill.api.enums.SeckillStatEnum;
+import org.seckill.api.exception.RepeatKillException;
+import org.seckill.api.exception.SeckillCloseException;
+import org.seckill.api.service.*;
+import org.seckill.entity.*;
+import org.seckill.util.common.util.PropertiesUtil;
+import org.seckill.web.dto.ResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by heng on 2016/7/23.
@@ -41,6 +43,14 @@ public class SeckillController {
     private SeckillService seckillService;
     @Autowired
     private GoodsService goodsService;
+    @Autowired
+    private RolePermissionService rolePermissionService;
+    @Autowired
+    private UserRoleService userRoleService;
+    @Autowired
+    private UserAccountService userAccountService;
+    @Autowired
+    private PermissionService permissionService;
 
 
     @ApiOperation(value = "秒杀列表", notes = "分页显示秒杀列表")
@@ -239,7 +249,7 @@ public class SeckillController {
         try {
             goodsService.uploadGoodsPhoto(seckill.getGoodsId(), file.getBytes());
         } catch (IOException e) {
-            logger.error("上传文件失败："+e);
+            logger.error("上传文件失败：" + e);
         }
         return "redirect:/seckill/list";
     }
@@ -249,6 +259,63 @@ public class SeckillController {
     @ResponseBody
     public void userPhoneCode(@PathVariable("phoneNum") Long phoneNum) {
 
+    }
+
+    @RequestMapping(value = "/permission/list", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseDto getPermissionList() {
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getSession().getAttribute("user");
+        user = userAccountService.findByUserAccount(user.getAccount());
+        UserRoleExample example = new UserRoleExample();
+        example.createCriteria().andUserIdEqualTo(user.getId());
+        List<UserRole> userRoleList = userRoleService.selectByExample(example);
+        RolePermissionExample rolePermissionExample = new RolePermissionExample();
+        Set<Permission> set = new HashSet<>();
+        for (UserRole userRole : userRoleList) {
+            rolePermissionExample.clear();
+            rolePermissionExample.createCriteria().andRoleIdEqualTo(userRole.getRoleId());
+            List<RolePermission> rolePermissionList = rolePermissionService.selectByExample(rolePermissionExample);
+            for (RolePermission rolePermission : rolePermissionList) {
+                set.add(permissionService.selectByPrimaryKey(rolePermission.getPermissionId()));
+            }
+        }
+        ResponseDto<Permission> responseDto = new ResponseDto<>();
+        List<Permission> permissions = new ArrayList<>(set);
+        Collections.sort(permissions);
+        logger.info(user.toString());
+        responseDto.setData(permissions.toArray(new Permission[permissions.size()]));
+        return responseDto;
+    }
+
+    @RequestMapping(value = "/permission/diretorylist", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseDto getDirectoryPermissionList() {
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getSession().getAttribute("user");
+        user = userAccountService.findByUserAccount(user.getAccount());
+        UserRoleExample example = new UserRoleExample();
+        example.createCriteria().andUserIdEqualTo(user.getId());
+        List<UserRole> userRoleList = userRoleService.selectByExample(example);
+        RolePermissionExample rolePermissionExample = new RolePermissionExample();
+        Set<Permission> set = new HashSet<>();
+        for (UserRole userRole : userRoleList) {
+            rolePermissionExample.clear();
+            rolePermissionExample.createCriteria().andRoleIdEqualTo(userRole.getRoleId());
+            List<RolePermission> rolePermissionList = rolePermissionService.selectByExample(rolePermissionExample);
+            for (RolePermission rolePermission : rolePermissionList) {
+                Permission permission = permissionService.selectByPrimaryKey(rolePermission.getPermissionId());
+                if("Y".equals(permission.getIsDir())){
+                    set.add(permission);
+                }
+            }
+        }
+        ResponseDto<Permission> responseDto = new ResponseDto<>();
+        List<Permission> permissions = new ArrayList<>(set);
+        Collections.sort(permissions);
+        logger.info(user.toString());
+        responseDto.setData(permissions.toArray(new Permission[permissions.size()]));
+        return responseDto;
     }
 
 }

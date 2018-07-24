@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="js/config.js"></script>
+    <script src="./js/jquery-1.10.2.js"></script>
+    <script src="../layui/layui.all.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $.ajax({
+                url: Http_port + '/seckill/permission/list',
+                type: 'GET',
+                async: false,
+                success: function (result) {
+                    var data = result.data;
+                    console.log(data);
+                    var innerHtml = '';
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].isDir == 'Y') {
+                            innerHtml += '<li id="li'+i+'" class="layui-nav-item layui-nav-itemed"><a id="link' + i + '" href="javascript:;" onclick="shrink(\'li'+i+'\')">' + data[i].permissionName + '<span class="layui-nav-more"></a><dl class="layui-nav-child">';
+                        } else {
+                            innerHtml += '<dd><a id=link"' + i + '" href="javascript:;" onclick="changeContent(\''+data[i].permissionMenu+'\');">' + data[i].permissionName + '</a></dd>';
+                        }
+                        if(i == data.length){
+                            innerHtml += '</dl></li>';
+                        }
+                    }
+                    $('#menu').html(innerHtml);
+                    // $('#menu').attr('class','layui-nav-item layui-nav-itemed');
+                }
+            });
+        });
+
+        function changeContent(urlName) {
+            $("#frame").attr('src', urlName);
+        }
+
+        function shrink(liNo) {
+            $('#'+liNo).toggleClass('layui-nav-itemed');
+        }
+    </script>
+</head>
+
+
+<body>
+
+
+<div style="margin-left: 200px">
+    <ul id="menu" class="layui-nav layui-nav-tree layui-nav-side layui-bg-black" lay-filter="test">
+    </ul>
+    <!--<ul class="layui-nav layui-nav-tree layui-nav-side layui-bg-black" lay-filter="test">-->
+        <!--<li class="layui-nav-item layui-nav-itemed">-->
+            <!--<a href="javascript:;">用户角色权限管理<span class="layui-nav-more"></span></a>-->
+            <!--<dl class="layui-nav-child">-->
+                <!--<dd><a href="javascript:;">用户管理</a></dd>-->
+                <!--<dd><a href="javascript:;">用户角色管理</a></dd>-->
+                <!--<dd><a href="javascript:;">权限管理</a></dd>-->
+                <!--<dd><a href="javascript:;">角色管理</a></dd>-->
+            <!--</dl>-->
+        <!--</li>-->
+    <!--</ul>-->
+
+    <iframe id="frame" src="" height="720px" width="100%" frameborder="0" scrolling="no"></iframe>
+</div>
+
+
+<!--<script src="./js/jquery-1.10.2.js"/>-->
+
+
+</body>
+</html>
+
+

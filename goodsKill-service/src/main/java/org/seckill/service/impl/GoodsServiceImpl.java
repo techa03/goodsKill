@@ -7,6 +7,7 @@ import org.seckill.entity.GoodsExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.SchedulingTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,10 +18,12 @@ import java.util.List;
  * Created by heng on 2017/1/7.
  */
 @Service
-public class GoodsServiceImpl extends CommonServiceImpl<GoodsMapper, GoodsExample, Goods> implements GoodsService {
+public class GoodsServiceImpl extends CommonServiceImpl<GoodsMapper, GoodsExample, Goods> implements GoodsService{
     @Autowired
     private GoodsMapper goodsMapper;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+    @Autowired
+    private SchedulingTaskExecutor taskExecutor;
 
     public void setGoodsMapper(GoodsMapper goodsMapper) {
         this.goodsMapper = goodsMapper;
@@ -57,4 +60,5 @@ public class GoodsServiceImpl extends CommonServiceImpl<GoodsMapper, GoodsExampl
     public Goods queryByGoodsId(long goodsId) {
         return goodsMapper.selectByPrimaryKey((int) goodsId);
     }
+
 }

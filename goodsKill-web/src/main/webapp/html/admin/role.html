@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <script src="../js/config.js"></script>
+    <script src="../js/jquery-1.10.2.js"></script>
+    <script src="../../layui/layui.all.js"></script>
+    <script>
+        function addRole() {
+            layer.open({
+                type: 1,
+                title: '新增角色',
+                area: ['400px', '300px'],
+                content: '<div id="addUser1" style="margin-top: 20px;margin-right: 60px">\n' +
+                '    <form class="layui-form" action="http://localhost:18080/goodsKill/seckill/admin/role/add">\n' +
+                '        <div class="layui-form-item">\n' +
+                '            <label class="layui-form-label">角色名称</label>\n' +
+                '            <div class="layui-input-block">\n' +
+                '                <input type="text" name="roleName" required  lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">\n' +
+                '            </div>\n' +
+                '        </div>\n' +
+                '        <div class="layui-form-item">\n' +
+                '            <div class="layui-input-block">\n' +
+                '                <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>\n' +
+                '                <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
+                '            </div>\n' +
+                '        </div>\n' +
+                '    </form>\n' +
+                '</div>', //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                yes: function (index, layero) {
+                    //do something
+                    layer.close(index); //如果设定了yes回调，需进行手工关闭
+                }
+            });
+        }
+
+        function deleteRole(roleId) {
+            $.ajax({
+                url: Http_port + "/seckill/admin/role/delete/" + roleId,
+                type: 'get',
+                success: function (data) {
+                    layui.table.reload('userRole', {
+                        url: Http_port + "/seckill/admin/role"
+                        , where: {} //设定异步数据接口的额外参数
+                    });
+                }
+            });
+        };
+
+        $(function () {
+            layui.table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                if (obj.event === 'detail') { //查看
+                    //do somehing
+                } else if (obj.event === 'del') { //删除
+                    layer.confirm('确认删除么？', function (index) {
+                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                        layer.close(index);
+                        deleteRole(obj.data.roleId);
+                    });
+                }
+            });
+        })
+
+    </script>
+
+    <script type="text/html" id="bar">
+        <a class="layui-btn layui-btn-xs" lay-event="detail">角色权限管理</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+</head>
+
+
+<body>
+<div style="margin-left: 20px;margin-top: 30px">
+    <button class="layui-btn layui-btn-sm" onclick="addRole();">新增</button>
+    <table class="layui-table"
+           lay-data="{url:'http://localhost:18080/goodsKill/seckill/admin/roleLess', page:true, id:'userRole', even:true}"
+           lay-filter="test">
+        <thead>
+        <tr>
+            <th lay-data="{checkbox:true}"></th>
+            <th lay-data="{field:'roleId', width:80, sort: true}">ID</th>
+            <th lay-data="{field:'roleName', width:180}">角色名</th>
+            <th lay-data="{fixed: 'right', width:250, align:'center', toolbar: '#bar'}">操作</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+<script src="../../layui/layui.all.js"></script>
+</body>
+</html>
+
+
