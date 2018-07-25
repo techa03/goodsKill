@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50640
 File Encoding         : 65001
 
-Date: 2018-07-24 09:50:48
+Date: 2018-07-25 21:56:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -66,7 +66,6 @@ INSERT INTO `permission` VALUES ('4', '用户角色管理', '2018-07-14 12:28:25
 INSERT INTO `permission` VALUES ('5', '权限管理', '2018-07-14 12:28:25', '2018-07-14 12:28:25', 'admin/permission.html', '7', 'N', '3');
 INSERT INTO `permission` VALUES ('6', '角色管理', '2018-07-14 12:28:25', '2018-07-14 12:28:25', 'admin/role.html', '7', 'N', '4');
 INSERT INTO `permission` VALUES ('7', '用户角色权限管理', '2018-07-14 12:28:25', '2018-07-14 12:28:25', 'admin', null, 'Y', '0');
-INSERT INTO `permission` VALUES ('9', '库存管理', '2018-07-23 16:49:44', '2018-07-23 16:49:44', 'storage', null, 'Y', '1');
 
 -- ----------------------------
 -- Table structure for role
@@ -98,17 +97,36 @@ CREATE TABLE `role_permission` (
   `role_id` int(10) unsigned NOT NULL,
   `create_time` timestamp NULL DEFAULT NULL,
   `update_time` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  PRIMARY KEY (`id`),
+  KEY `for_permission_id` (`permission_id`),
+  KEY `for_role_id` (`role_id`),
+  CONSTRAINT `for_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`permission_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `for_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of role_permission
 -- ----------------------------
-INSERT INTO `role_permission` VALUES ('4', '3', '1', null, null);
-INSERT INTO `role_permission` VALUES ('5', '4', '1', null, null);
-INSERT INTO `role_permission` VALUES ('6', '5', '1', null, null);
-INSERT INTO `role_permission` VALUES ('7', '6', '1', null, null);
-INSERT INTO `role_permission` VALUES ('8', '7', '1', null, null);
+INSERT INTO `role_permission` VALUES ('31', '7', '8', '2018-07-25 21:53:28', '2018-07-25 21:53:28');
+INSERT INTO `role_permission` VALUES ('32', '3', '8', '2018-07-25 21:53:28', '2018-07-25 21:53:28');
+INSERT INTO `role_permission` VALUES ('33', '4', '8', '2018-07-25 21:53:28', '2018-07-25 21:53:28');
+INSERT INTO `role_permission` VALUES ('34', '5', '8', '2018-07-25 21:53:28', '2018-07-25 21:53:28');
+INSERT INTO `role_permission` VALUES ('35', '6', '8', '2018-07-25 21:53:28', '2018-07-25 21:53:28');
+INSERT INTO `role_permission` VALUES ('36', '7', '2', '2018-07-25 21:53:47', '2018-07-25 21:53:47');
+INSERT INTO `role_permission` VALUES ('37', '3', '2', '2018-07-25 21:53:47', '2018-07-25 21:53:47');
+INSERT INTO `role_permission` VALUES ('38', '4', '2', '2018-07-25 21:53:47', '2018-07-25 21:53:47');
+INSERT INTO `role_permission` VALUES ('39', '5', '2', '2018-07-25 21:53:47', '2018-07-25 21:53:47');
+INSERT INTO `role_permission` VALUES ('40', '6', '2', '2018-07-25 21:53:47', '2018-07-25 21:53:47');
+INSERT INTO `role_permission` VALUES ('41', '7', '7', '2018-07-25 21:53:49', '2018-07-25 21:53:49');
+INSERT INTO `role_permission` VALUES ('42', '3', '7', '2018-07-25 21:53:49', '2018-07-25 21:53:49');
+INSERT INTO `role_permission` VALUES ('43', '4', '7', '2018-07-25 21:53:49', '2018-07-25 21:53:49');
+INSERT INTO `role_permission` VALUES ('44', '5', '7', '2018-07-25 21:53:49', '2018-07-25 21:53:49');
+INSERT INTO `role_permission` VALUES ('45', '6', '7', '2018-07-25 21:53:49', '2018-07-25 21:53:49');
+INSERT INTO `role_permission` VALUES ('46', '7', '1', '2018-07-25 21:53:52', '2018-07-25 21:53:52');
+INSERT INTO `role_permission` VALUES ('47', '3', '1', '2018-07-25 21:53:52', '2018-07-25 21:53:52');
+INSERT INTO `role_permission` VALUES ('48', '4', '1', '2018-07-25 21:53:52', '2018-07-25 21:53:52');
+INSERT INTO `role_permission` VALUES ('49', '5', '1', '2018-07-25 21:53:52', '2018-07-25 21:53:52');
+INSERT INTO `role_permission` VALUES ('50', '6', '1', '2018-07-25 21:53:52', '2018-07-25 21:53:52');
 
 -- ----------------------------
 -- Table structure for seckill
@@ -164,7 +182,7 @@ INSERT INTO `success_killed` VALUES ('1', '1373483423', '0', '2016-08-06 16:36:3
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `account` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL DEFAULT 'aa123456',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -173,7 +191,7 @@ CREATE TABLE `user` (
   `locked` varchar(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `account_UNIQUE` (`account`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
@@ -192,21 +210,25 @@ CREATE TABLE `user_role` (
   `role_id` int(10) unsigned DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT NULL,
   `update_time` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `for_user_role_id` (`role_id`),
+  KEY `for_user_id` (`user_id`),
+  CONSTRAINT `for_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `for_user_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_role
 -- ----------------------------
-INSERT INTO `user_role` VALUES ('31', '15', '1', null, null);
-INSERT INTO `user_role` VALUES ('32', '15', '2', null, null);
-INSERT INTO `user_role` VALUES ('33', '15', '7', null, null);
-INSERT INTO `user_role` VALUES ('34', '15', '8', null, null);
-INSERT INTO `user_role` VALUES ('35', '21', '1', null, null);
-INSERT INTO `user_role` VALUES ('36', '21', '2', null, null);
-INSERT INTO `user_role` VALUES ('37', '21', '7', null, null);
-INSERT INTO `user_role` VALUES ('38', '21', '8', null, null);
-INSERT INTO `user_role` VALUES ('39', '14', '1', null, null);
-INSERT INTO `user_role` VALUES ('40', '14', '2', null, null);
-INSERT INTO `user_role` VALUES ('41', '14', '7', null, null);
-INSERT INTO `user_role` VALUES ('42', '14', '8', null, null);
+INSERT INTO `user_role` VALUES ('60', '15', '1', '2018-07-24 14:43:18', '2018-07-24 14:43:18');
+INSERT INTO `user_role` VALUES ('61', '15', '2', '2018-07-24 14:43:18', '2018-07-24 14:43:18');
+INSERT INTO `user_role` VALUES ('62', '15', '7', '2018-07-24 14:43:18', '2018-07-24 14:43:18');
+INSERT INTO `user_role` VALUES ('63', '15', '8', '2018-07-24 14:43:18', '2018-07-24 14:43:18');
+INSERT INTO `user_role` VALUES ('64', '21', '1', '2018-07-24 14:43:21', '2018-07-24 14:43:21');
+INSERT INTO `user_role` VALUES ('65', '21', '2', '2018-07-24 14:43:21', '2018-07-24 14:43:21');
+INSERT INTO `user_role` VALUES ('66', '21', '7', '2018-07-24 14:43:21', '2018-07-24 14:43:21');
+INSERT INTO `user_role` VALUES ('67', '21', '8', '2018-07-24 14:43:21', '2018-07-24 14:43:21');
+INSERT INTO `user_role` VALUES ('72', '14', '1', '2018-07-24 14:48:23', '2018-07-24 14:48:23');
+INSERT INTO `user_role` VALUES ('73', '14', '2', '2018-07-24 14:48:23', '2018-07-24 14:48:23');
+INSERT INTO `user_role` VALUES ('74', '14', '7', '2018-07-24 14:48:23', '2018-07-24 14:48:23');
+INSERT INTO `user_role` VALUES ('75', '14', '8', '2018-07-24 14:48:23', '2018-07-24 14:48:23');

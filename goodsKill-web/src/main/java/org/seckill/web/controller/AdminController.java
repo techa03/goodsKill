@@ -2,11 +2,9 @@ package org.seckill.web.controller;
 
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.seckill.api.service.PermissionService;
-import org.seckill.api.service.RoleService;
-import org.seckill.api.service.UserAccountService;
-import org.seckill.api.service.UserRoleService;
+import org.seckill.api.service.*;
 import org.seckill.entity.*;
+import org.seckill.web.dto.PermissionDto;
 import org.seckill.web.dto.ResponseDto;
 import org.seckill.web.dto.RoleDto;
 import org.springframework.beans.BeanUtils;
@@ -32,10 +30,12 @@ public class AdminController {
     UserRoleService userRoleService;
     @Autowired
     PermissionService permissionService;
+    @Autowired
+    RolePermissionService rolePermissionService;
 
     @RequestMapping("/role")
     @ResponseBody
-    public ResponseDto role(Model model, @RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
+    public ResponseDto role(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                             @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
         PageInfo<Role> pageInfo = roleService.selectByPage(new RoleExample(), offset, limit);
         ResponseDto<Role> responseDto = new ResponseDto<>();
@@ -46,15 +46,15 @@ public class AdminController {
 
     @RequestMapping("/roleLess")
     @ResponseBody
-    public ResponseDto roleLess(Model model, @RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
-                            @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
+    public ResponseDto roleLess(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
+                                @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
         PageInfo<Role> pageInfo = roleService.selectByPage(new RoleExample(), offset, limit);
         ResponseDto<RoleDto> responseDto = new ResponseDto<>();
         List<Role> list = pageInfo.getList();
         List<RoleDto> result = new ArrayList();
         for (Role role : list) {
             RoleDto roleDto = new RoleDto();
-            BeanUtils.copyProperties(role,roleDto);
+            BeanUtils.copyProperties(role, roleDto);
             result.add(roleDto);
         }
         responseDto.setData(result.toArray(new RoleDto[result.size()]));
@@ -81,11 +81,33 @@ public class AdminController {
 
     @RequestMapping("/permission")
     @ResponseBody
-    public ResponseDto permission(Model model, @RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
+    public ResponseDto permission(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                                   @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
         PageInfo<Permission> pageInfo = permissionService.selectByPage(new PermissionExample(), offset, limit);
         ResponseDto<Permission> responseDto = new ResponseDto<>();
         responseDto.setData(pageInfo.getList().toArray(new Permission[pageInfo.getList().size()]));
+        responseDto.setCount((int) pageInfo.getTotal());
+        return responseDto;
+    }
+
+    @RequestMapping("/permissionTree")
+    @ResponseBody
+    public ResponseDto permissionTree(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
+                                      @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
+        PageInfo<Permission> pageInfo = permissionService.selectByPage(new PermissionExample(), offset, limit);
+        List<Permission> permissions = pageInfo.getList();
+        List<PermissionDto> permissionDtoList = new ArrayList<>();
+        for (Permission permission : permissions) {
+            PermissionDto permissionDto = new PermissionDto();
+            permissionDto.setId(permission.getPermissionId().toString());
+            if (permission.getParentPermissionId() != null) {
+                permissionDto.setPId(permission.getParentPermissionId().toString());
+            }
+            permissionDto.setName(permission.getPermissionName());
+            permissionDtoList.add(permissionDto);
+        }
+        ResponseDto<PermissionDto> responseDto = new ResponseDto<>();
+        responseDto.setData(permissionDtoList.toArray(new PermissionDto[permissionDtoList.size()]));
         responseDto.setCount((int) pageInfo.getTotal());
         return responseDto;
     }
@@ -109,7 +131,7 @@ public class AdminController {
 
     @RequestMapping("/user")
     @ResponseBody
-    public ResponseDto user(Model model, @RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
+    public ResponseDto user(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                             @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
         PageInfo<User> pageInfo = userService.selectByPage(new UserExample(), offset, limit);
         ResponseDto<User> responseDto = new ResponseDto<>();
@@ -142,6 +164,26 @@ public class AdminController {
             record.setCreateTime(new Date());
             record.setUpdateTime(new Date());
             userRoleService.insertSelective(record);
+        }
+        ResponseDto<User> responseDto = new ResponseDto<>();
+        return responseDto;
+    }
+
+    @PostMapping(value = "/role/{roleId}/updateRolePermission")
+    @ResponseBody
+    @Transactional
+    public ResponseDto updateRolePermission(@PathVariable("roleId") int roleId, @RequestBody String[] permissionIds) {
+        UserRoleExample example = new UserRoleExample();
+        RolePermissionExample rolePermissionExample = new RolePermissionExample();
+        rolePermissionExample.createCriteria().andRoleIdEqualTo(roleId);
+        rolePermissionService.deleteByExample(rolePermissionExample);
+        for (String permissionId : permissionIds) {
+            RolePermission record = new RolePermission();
+            record.setRoleId(roleId);
+            record.setPermissionId(Integer.valueOf(permissionId));
+            record.setCreateTime(new Date());
+            record.setUpdateTime(new Date());
+            rolePermissionService.insertSelective(record);
         }
         ResponseDto<User> responseDto = new ResponseDto<>();
         return responseDto;
