@@ -435,6 +435,11 @@
                 <artifactId>shiro-web</artifactId>
                 <version>${shiro.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.1</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -450,6 +455,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
             <!--<plugin>-->
                 <!--<groupId>com.rimerosolutions.maven.plugins</groupId>-->
                 <!--<artifactId>wrapper-maven-plugin</artifactId>-->
