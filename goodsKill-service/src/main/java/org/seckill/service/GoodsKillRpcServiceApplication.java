@@ -18,7 +18,7 @@ public class GoodsKillRpcServiceApplication {
         logger.info(">>>>> goodsKill-rpc-service 正在启动 <<<<<");
         AbstractApplicationContext context= new ClassPathXmlApplicationContext(
                 "classpath*:META-INF/spring/spring-*.xml");
-        //程序退出前优雅关闭JVM
+        // 程序退出前优雅关闭JVM
         context.registerShutdownHook();
         context.start();
         logger.info(">>>>> goodsKill-rpc-service 启动完成 <<<<<");

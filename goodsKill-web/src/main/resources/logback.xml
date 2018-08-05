@@ -34,9 +34,11 @@
     <logger name="java.sql.PreparedStatement" level="DEBUG" additivity="false"/>
     <logger name="druid.sql.Statement" level="DEBUG" additivity="false"/>
     <logger name="org.apache.zookeeper" level="WARN" additivity="false"/>
+    <logger name="org.seckill" level="DEBUG" additivity="false"/>
+
 
     <!-- 必须设置为debug否则sql不打印 -->
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="rollingAppender" />
         <!--<appender-ref ref="Sentry" />-->
