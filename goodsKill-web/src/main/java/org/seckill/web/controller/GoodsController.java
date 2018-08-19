@@ -1,7 +1,8 @@
 package org.seckill.web.controller;
 
-import org.seckill.entity.Goods;
+import io.swagger.annotations.Api;
 import org.seckill.api.service.GoodsService;
+import org.seckill.entity.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import java.util.List;
 /**
  *  Created by heng on 17/1/18.
  */
+@Api(tags = "商品管理")
 @Controller
 @RequestMapping("/seckill/goods")
 public class GoodsController {

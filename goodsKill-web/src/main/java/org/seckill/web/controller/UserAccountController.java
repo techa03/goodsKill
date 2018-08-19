@@ -1,5 +1,6 @@
 package org.seckill.web.controller;
 
+import io.swagger.annotations.Api;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -14,9 +15,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+@Api(tags = "登录注册控制")
 @Controller
 public class UserAccountController {
     @Autowired
@@ -39,7 +42,7 @@ public class UserAccountController {
         return "redirect:/seckill/list";
     }
 
-    @RequestMapping(value = "/login")
+    @GetMapping(value = "/login")
     public String toLogin() {
         return "login";
     }
@@ -60,12 +63,12 @@ public class UserAccountController {
         return "redirect:/seckill/list";
     }
 
-    @RequestMapping(value = "/register")
+    @GetMapping(value = "/register")
     public String register() {
         return "register";
     }
 
-    @RequestMapping(value = "seckill/signOut")
+    @GetMapping(value = "seckill/signOut")
     public String signOut() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();

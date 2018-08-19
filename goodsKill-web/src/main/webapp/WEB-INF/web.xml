@@ -42,12 +42,10 @@
     <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
   </listener>
 
-  <!--??????-->
   <error-page>
     <location>/error</location>
   </error-page>
 
-  <!-- shiro???? -->
   <filter>
     <filter-name>shiroFilter</filter-name>
     <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -61,6 +59,5 @@
     <filter-name>shiroFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  <!-- shiro???? -->
-  	
+
 </web-app>

@@ -1,6 +1,7 @@
 package org.seckill.web.controller;
 
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -35,6 +36,7 @@ import java.util.*;
 /**
  * Created by heng on 2016/7/23.
  */
+@Api(tags = "秒杀管理")
 @Controller
 @RequestMapping("/seckill")
 public class SeckillController {

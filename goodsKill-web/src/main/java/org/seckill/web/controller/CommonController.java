@@ -1,10 +1,12 @@
 package org.seckill.web.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Api(tags = "公共控制")
 @Controller
 public class CommonController {
     @GetMapping("/error")

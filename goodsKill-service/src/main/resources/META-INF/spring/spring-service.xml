@@ -2,15 +2,25 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+   <!--aop支持,支持方法内部调用-->
+   <aop:aspectj-autoproxy expose-proxy="true"/>
 
    <context:component-scan base-package="org.seckill.service;" />
+
+   <!--线程池-->
    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
       <property name="corePoolSize" value="10"/>
-      <property name="maxPoolSize" value="50"/>
-      <property name="queueCapacity" value="20"/>
+      <property name="maxPoolSize" value="20"/>
+      <property name="queueCapacity" value="50"/>
+      <property name="rejectedExecutionHandler">
+         <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+      </property>
    </bean>
+
 </beans>

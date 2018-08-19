@@ -1,6 +1,7 @@
 package org.seckill.web.controller;
 
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.seckill.api.service.*;
 import org.seckill.entity.*;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Api(tags = "角色权限管理")
 @Controller
 @RequestMapping("/seckill/admin")
 @Slf4j
@@ -33,7 +35,7 @@ public class AdminController {
     @Autowired
     RolePermissionService rolePermissionService;
 
-    @RequestMapping("/role")
+    @GetMapping("/role")
     @ResponseBody
     public ResponseDto role(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                             @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
@@ -44,7 +46,7 @@ public class AdminController {
         return responseDto;
     }
 
-    @RequestMapping("/roleLess")
+    @GetMapping("/roleLess")
     @ResponseBody
     public ResponseDto roleLess(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                                 @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
@@ -62,7 +64,7 @@ public class AdminController {
         return responseDto;
     }
 
-    @RequestMapping("/role/add")
+    @GetMapping("/role/add")
     public String addRole(Role role) {
         role.setCreateTime(new Date());
         role.setUpdateTime(new Date());
@@ -79,7 +81,7 @@ public class AdminController {
         return responseDto;
     }
 
-    @RequestMapping("/permission")
+    @GetMapping("/permission")
     @ResponseBody
     public ResponseDto permission(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                                   @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
@@ -90,7 +92,7 @@ public class AdminController {
         return responseDto;
     }
 
-    @RequestMapping("/permissionTree")
+    @GetMapping("/permissionTree")
     @ResponseBody
     public ResponseDto permissionTree(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                                       @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
@@ -112,7 +114,7 @@ public class AdminController {
         return responseDto;
     }
 
-    @RequestMapping("/permission/add")
+    @GetMapping("/permission/add")
     public String addPermission(Permission permission) {
         permission.setCreateTime(new Date());
         permission.setUpdateTime(new Date());
@@ -129,7 +131,7 @@ public class AdminController {
         return responseDto;
     }
 
-    @RequestMapping("/user")
+    @GetMapping("/user")
     @ResponseBody
     public ResponseDto user(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                             @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
