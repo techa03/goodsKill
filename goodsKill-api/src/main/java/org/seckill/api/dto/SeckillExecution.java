@@ -1,14 +1,14 @@
 package org.seckill.api.dto;
 
-import org.seckill.entity.SuccessKilled;
 import org.seckill.api.enums.SeckillStatEnum;
+import org.seckill.entity.SuccessKilled;
 
 import java.io.Serializable;
 
 /**
  * Created by heng on 2016/7/16.
  */
-public class SeckillExecution implements Serializable{
+public class SeckillExecution implements Serializable {
     private static final long serialVersionUID = 1L;
     private long seckillId;
 
@@ -22,7 +22,7 @@ public class SeckillExecution implements Serializable{
 
     private String qrfilepath;
 
-    public SeckillExecution(long seckillId, SeckillStatEnum statEnum, SuccessKilled seccessKilled,String qrfilepath) {
+    public SeckillExecution(long seckillId, SeckillStatEnum statEnum, SuccessKilled seccessKilled, String qrfilepath) {
         this.seckillId = seckillId;
         this.statEnum = statEnum;
         this.seccessKilled = seccessKilled;

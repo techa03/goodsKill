@@ -21,10 +21,9 @@
         <prudent>false</prudent>
     </appender>
 
-    <logger name="org.seckill" level="DEBUG"/>
-    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.seckill" level="DEBUG" additivity="true"/>
+    <logger name="org.springframework" level="WARN" additivity="true"/>
 
-    <!-- 必须设置为debug否则sql不打印 -->
     <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="rollingAppender" />

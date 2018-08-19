@@ -14,10 +14,7 @@ import org.seckill.dao.RedisDao;
 import org.seckill.dao.SeckillMapper;
 import org.seckill.dao.SuccessKilledMapper;
 import org.seckill.dao.ext.ExtSeckillMapper;
-import org.seckill.entity.Goods;
-import org.seckill.entity.Seckill;
-import org.seckill.entity.SeckillExample;
-import org.seckill.entity.SuccessKilled;
+import org.seckill.entity.*;
 import org.seckill.service.common.trade.alipay.AlipayRunner;
 import org.seckill.util.common.util.DateUtil;
 import org.seckill.util.common.util.MD5Util;
@@ -25,11 +22,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * Created by heng on 2016/7/16.
@@ -47,6 +47,8 @@ public class SeckillServiceImpl extends CommonServiceImpl<SeckillMapper, Seckill
     private RedisDao redisDao;
     @Autowired
     private GoodsMapper goodsMapper;
+    @Resource(name = "taskExecutor")
+    ThreadPoolTaskExecutor taskExecutor;
 
     public void setAlipayRunner(AlipayRunner alipayRunner) {
         this.alipayRunner = alipayRunner;
@@ -70,7 +72,7 @@ public class SeckillServiceImpl extends CommonServiceImpl<SeckillMapper, Seckill
 
     @Override
     public PageInfo getSeckillList(int pageNum, int pageSize) {
-        return selectByPage(new SeckillExample(),pageNum,pageSize);
+        return selectByPage(new SeckillExample(), pageNum, pageSize);
     }
 
     @Override
@@ -126,7 +128,10 @@ public class SeckillServiceImpl extends CommonServiceImpl<SeckillMapper, Seckill
                 if (insertCount <= 0) {
                     throw new RepeatKillException("seckill repeated");
                 } else {
-                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilledMapper.selectByPrimaryKey(seckillId, userPhone), QRfilePath);
+                    SuccessKilledKey key = new SuccessKilledKey();
+                    key.setSeckillId(seckillId);
+                    key.setUserPhone(userPhone);
+                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilledMapper.selectByPrimaryKey(key), QRfilePath);
                 }
             }
         } catch (SeckillCloseException e1) {
@@ -159,5 +164,46 @@ public class SeckillServiceImpl extends CommonServiceImpl<SeckillMapper, Seckill
     @Override
     public Seckill selectById(Long seckillId) {
         return extSeckillMapper.selectByPrimaryKey(seckillId);
+    }
+
+    @Override
+    public int deleteSuccessKillRecord(long seckillId) {
+        SuccessKilledExample example = new SuccessKilledExample();
+        example.createCriteria().andSeckillIdEqualTo(seckillId);
+        return successKilledMapper.deleteByExample(example);
+    }
+
+    @Override
+    public void executeWithSynchronized(Long seckillId, int executeTime) {
+        CountDownLatch countDownLatch = new CountDownLatch(executeTime);
+        for (int i = 0; i < executeTime; i++) {
+            int userId = i;
+            taskExecutor.execute(() -> {
+                synchronized (this) {
+                    Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
+                    if (seckill.getNumber() > 0) {
+                        extSeckillMapper.reduceNumber(seckillId, new Date());
+                        SuccessKilled record = new SuccessKilled();
+                        record.setSeckillId(seckillId);
+                        record.setUserPhone(String.valueOf(userId));
+                        record.setStatus((byte) 1);
+                        record.setCreateTime(new Date());
+                        successKilledMapper.insert(record);
+                    } else {
+                        logger.warn("库存不足，无法继续秒杀！");
+                    }
+                }
+                countDownLatch.countDown();
+            });
+        }
+        // 等待线程执行完毕，阻塞当前进程
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        SuccessKilledExample example = new SuccessKilledExample();
+        example.createCriteria().andSeckillIdEqualTo(seckillId);
+        logger.info("成功笔数:{}",successKilledMapper.countByExample(example));
     }
 }

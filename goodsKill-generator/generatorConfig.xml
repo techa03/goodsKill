@@ -50,9 +50,6 @@
 		</javaClientGenerator>
 		<!-- 指定数据库表 -->
 		<!--<table tableName="items"></table> -->
-		<table tableName="permission"></table>
-		<table tableName="role"></table>
-		<table tableName="role_permission"></table>
-		<table tableName="user_role"></table>
+		<table tableName="success_Killed"></table>
 	</context>
 </generatorConfiguration>

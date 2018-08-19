@@ -29,4 +29,20 @@ public interface SeckillService extends CommonService<SeckillExample, Seckill> {
     int updateSeckill(Seckill seckill);
 
     Seckill selectById(Long seckillId);
+
+    /**
+     * 根据秒杀id删除成功记录
+     *
+     * @param seckillId 秒杀活动id
+     * @return 删除数量
+     */
+    int deleteSuccessKillRecord(long seckillId);
+
+    /**
+     * 执行秒杀，通过同步来控制并发
+     *
+     * @param seckillId   秒杀活动id
+     * @param executeTime 执行秒杀次数
+     */
+    void executeWithSynchronized(Long seckillId, int executeTime);
 }

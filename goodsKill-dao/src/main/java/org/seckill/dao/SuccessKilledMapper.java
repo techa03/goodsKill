@@ -2,15 +2,29 @@ package org.seckill.dao;
 
 import org.apache.ibatis.annotations.Param;
 import org.seckill.entity.SuccessKilled;
+import org.seckill.entity.SuccessKilledExample;
+import org.seckill.entity.SuccessKilledKey;
+
+import java.util.List;
 
 public interface SuccessKilledMapper {
-    int deleteByPrimaryKey(@Param("seckillId") Long seckillId, @Param("userPhone") String userPhone);
+    long countByExample(SuccessKilledExample example);
+
+    int deleteByExample(SuccessKilledExample example);
+
+    int deleteByPrimaryKey(SuccessKilledKey key);
 
     int insert(SuccessKilled record);
 
     int insertSelective(SuccessKilled record);
 
-    SuccessKilled selectByPrimaryKey(@Param("seckillId") Long seckillId, @Param("userPhone") String userPhone);
+    List<SuccessKilled> selectByExample(SuccessKilledExample example);
+
+    SuccessKilled selectByPrimaryKey(SuccessKilledKey key);
+
+    int updateByExampleSelective(@Param("record") SuccessKilled record, @Param("example") SuccessKilledExample example);
+
+    int updateByExample(@Param("record") SuccessKilled record, @Param("example") SuccessKilledExample example);
 
     int updateByPrimaryKeySelective(SuccessKilled record);
 

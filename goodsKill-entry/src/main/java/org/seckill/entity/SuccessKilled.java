@@ -1,37 +1,14 @@
 package org.seckill.entity;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
 
-@Data
-public class SuccessKilled implements Serializable {
-    private Long seckillId;
-
-    private String userPhone;
-
+public class SuccessKilled extends SuccessKilledKey implements Serializable {
     private Byte status;
 
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
-
-    public Long getSeckillId() {
-        return seckillId;
-    }
-
-    public void setSeckillId(Long seckillId) {
-        this.seckillId = seckillId;
-    }
-
-    public String getUserPhone() {
-        return userPhone;
-    }
-
-    public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone == null ? null : userPhone.trim();
-    }
 
     public Byte getStatus() {
         return status;
@@ -47,6 +24,18 @@ public class SuccessKilled implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", status=").append(status);
+        sb.append(", createTime=").append(createTime);
+        sb.append("]");
+        return sb.toString();
     }
 
     @Override
@@ -76,20 +65,5 @@ public class SuccessKilled implements Serializable {
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         return result;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", seckillId=").append(seckillId);
-        sb.append(", userPhone=").append(userPhone);
-        sb.append(", status=").append(status);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 }

@@ -39,4 +39,5 @@
     <!--静态资源访问-->
     <mvc:resources mapping="/html/**" location="/html/"/>
 
+
 </beans>
