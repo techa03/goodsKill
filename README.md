@@ -112,3 +112,351 @@ mvn clean install -Plocal
 - 注意logback.xml和seckill.properties的文件路径配置信息，修改成你自定义的目录即可；
 
 - 可通过http://localhost:18080/goodsKill/swagger-ui.html#/访问swagger主页
+
+
+#### 附：项目目录结构
+```
+goodsKill
+|--.travis.yml
+|--goodsKill-api
+|   |--pom.xml
+|   |--src
+|   |   |--main
+|   |   |   |--java
+|   |   |   |   |--org
+|   |   |   |   |   |--seckill
+|   |   |   |   |   |   |--api
+|   |   |   |   |   |   |   |--annotation
+|   |   |   |   |   |   |   |   |--BaseService.java
+|   |   |   |   |   |   |   |--dto
+|   |   |   |   |   |   |   |   |--Exposer.java
+|   |   |   |   |   |   |   |   |--SeckillExecution.java
+|   |   |   |   |   |   |   |   |--SeckillInfo.java
+|   |   |   |   |   |   |   |   |--SeckillResult.java
+|   |   |   |   |   |   |   |--enums
+|   |   |   |   |   |   |   |   |--SeckillStatEnum.java
+|   |   |   |   |   |   |   |   |--UserAccountEnum.java
+|   |   |   |   |   |   |   |--exception
+|   |   |   |   |   |   |   |   |--CommonException.java
+|   |   |   |   |   |   |   |   |--RepeatKillException.java
+|   |   |   |   |   |   |   |   |--SeckillCloseException.java
+|   |   |   |   |   |   |   |   |--SeckillException.java
+|   |   |   |   |   |   |   |--service
+|   |   |   |   |   |   |   |   |--CommonService.java
+|   |   |   |   |   |   |   |   |--GoodsService.java
+|   |   |   |   |   |   |   |   |--PermissionService.java
+|   |   |   |   |   |   |   |   |--RolePermissionService.java
+|   |   |   |   |   |   |   |   |--RoleService.java
+|   |   |   |   |   |   |   |   |--SeckillService.java
+|   |   |   |   |   |   |   |   |--UserAccountService.java
+|   |   |   |   |   |   |   |   |--UserRoleService.java
+|--goodsKill-dao
+|   |--pom.xml
+|   |--src
+|   |   |--main
+|   |   |   |--java
+|   |   |   |   |--org
+|   |   |   |   |   |--seckill
+|   |   |   |   |   |   |--dao
+|   |   |   |   |   |   |   |--BaseMapper.java
+|   |   |   |   |   |   |   |--ext
+|   |   |   |   |   |   |   |   |--ExtSeckillMapper.java
+|   |   |   |   |   |   |   |--GoodsMapper.java
+|   |   |   |   |   |   |   |--PermissionMapper.java
+|   |   |   |   |   |   |   |--RedisDao.java
+|   |   |   |   |   |   |   |--RoleMapper.java
+|   |   |   |   |   |   |   |--RolePermissionMapper.java
+|   |   |   |   |   |   |   |--SeckillMapper.java
+|   |   |   |   |   |   |   |--SuccessKilledMapper.java
+|   |   |   |   |   |   |   |--UserMapper.java
+|   |   |   |   |   |   |   |--UserRoleMapper.java
+|   |   |   |--resources
+|   |   |   |   |--mapper
+|   |   |   |   |   |--ext
+|   |   |   |   |   |   |--ExtSeckillMapper.xml
+|   |   |   |   |   |--GoodsMapper.xml
+|   |   |   |   |   |--PermissionMapper.xml
+|   |   |   |   |   |--RoleMapper.xml
+|   |   |   |   |   |--RolePermissionMapper.xml
+|   |   |   |   |   |--SeckillMapper.xml
+|   |   |   |   |   |--SuccessKilledMapper.xml
+|   |   |   |   |   |--UserMapper.xml
+|   |   |   |   |   |--UserRoleMapper.xml
+|   |   |   |   |--message.properties
+|   |   |   |   |--message_en_US.properties
+|   |   |   |   |--message_zh_CN.properties
+|   |   |   |   |--META-INF
+|   |   |   |   |   |--spring
+|   |   |   |   |   |   |--spring-dao.xml
+|   |   |   |   |--mybatis-config.xml
+|   |   |--test
+|   |   |   |--java
+|   |   |   |   |--org
+|   |   |   |   |   |--seckill
+|   |   |   |   |   |   |--dao
+|   |   |   |   |   |   |   |--test
+|   |   |   |   |   |   |   |   |--base
+|   |   |   |   |   |   |   |   |   |--BaseMapperTestConfig.java
+|--goodsKill-entry
+|   |--pom.xml
+|   |--src
+|   |   |--main
+|   |   |   |--java
+|   |   |   |   |--org
+|   |   |   |   |   |--seckill
+|   |   |   |   |   |   |--entity
+|   |   |   |   |   |   |   |--Goods.java
+|   |   |   |   |   |   |   |--GoodsExample.java
+|   |   |   |   |   |   |   |--Permission.java
+|   |   |   |   |   |   |   |--PermissionExample.java
+|   |   |   |   |   |   |   |--Role.java
+|   |   |   |   |   |   |   |--RoleExample.java
+|   |   |   |   |   |   |   |--RolePermission.java
+|   |   |   |   |   |   |   |--RolePermissionExample.java
+|   |   |   |   |   |   |   |--Seckill.java
+|   |   |   |   |   |   |   |--SeckillExample.java
+|   |   |   |   |   |   |   |--SuccessKilled.java
+|   |   |   |   |   |   |   |--SuccessKilledExample.java
+|   |   |   |   |   |   |   |--SuccessKilledKey.java
+|   |   |   |   |   |   |   |--User.java
+|   |   |   |   |   |   |   |--UserExample.java
+|   |   |   |   |   |   |   |--UserRole.java
+|   |   |   |   |   |   |   |--UserRoleExample.java
+|--goodsKill-generator
+|   |--generatorConfig.xml
+|   |--pom.xml
+|   |--src
+|   |   |--main
+|   |   |   |--java
+|   |   |   |   |--org
+|   |   |   |   |   |--seckill
+|   |   |   |   |   |   |--generator
+|   |   |   |   |   |   |   |--plugins
+|   |   |   |--resources
+|   |   |--test
+|   |   |   |--java
+|--goodsKill-service
+|   |--pom.xml
+|   |--src
+|   |   |--main
+|   |   |   |--java
+|   |   |   |   |--org
+|   |   |   |   |   |--seckill
+|   |   |   |   |   |   |--service
+|   |   |   |   |   |   |   |--aspect
+|   |   |   |   |   |   |   |   |--DefaultUsageTracked.java
+|   |   |   |   |   |   |   |   |--ParamLogAspect.java
+|   |   |   |   |   |   |   |   |--UsageTracked.java
+|   |   |   |   |   |   |   |--common
+|   |   |   |   |   |   |   |   |--trade
+|   |   |   |   |   |   |   |   |   |--alipay
+|   |   |   |   |   |   |   |   |   |   |--AlipayRunner.java
+|   |   |   |   |   |   |   |--GoodsKillRpcServiceApplication.java
+|   |   |   |   |   |   |   |--impl
+|   |   |   |   |   |   |   |   |--CommonServiceImpl.java
+|   |   |   |   |   |   |   |   |--GoodsServiceImpl.java
+|   |   |   |   |   |   |   |   |--PermissionServiceImpl.java
+|   |   |   |   |   |   |   |   |--RolePermissionServiceImpl.java
+|   |   |   |   |   |   |   |   |--RoleServiceImpl.java
+|   |   |   |   |   |   |   |   |--SeckillServiceImpl.java
+|   |   |   |   |   |   |   |   |--UserAccountServiceImpl.java
+|   |   |   |   |   |   |   |   |--UserRoleServiceImpl.java
+|   |   |   |   |   |   |   |--mq
+|   |   |   |   |   |   |   |--org
+|   |   |   |   |   |   |   |--util
+|   |   |   |   |   |   |   |   |--AopTest.java
+|   |   |   |   |   |   |   |   |--ApplicationContextUtil.java
+|   |   |   |   |   |   |   |   |--HashMapTest.java
+|   |   |   |   |   |   |   |   |--Pojo.java
+|   |   |   |   |   |   |   |   |--SimplePojo.java
+|   |   |   |--resources
+|   |   |   |   |--lib
+|   |   |   |   |--logback.xml
+|   |   |   |   |--message.properties
+|   |   |   |   |--message_en_US.properties
+|   |   |   |   |--message_zh_CN.properties
+|   |   |   |   |--META-INF
+|   |   |   |   |   |--spring
+|   |   |   |   |   |   |--spring-dubbo-provider.xml
+|   |   |   |   |   |   |--spring-service-mq.xml
+|   |   |   |   |   |   |--spring-service.xml
+|   |   |   |   |--mybatis-config.xml
+|   |   |   |   |--profile
+|   |   |   |   |   |--local
+|   |   |   |   |   |   |--connections.properties
+|   |   |   |   |   |--prd
+|   |   |   |   |   |   |--connections.properties
+|   |   |   |   |   |--sit
+|   |   |   |   |   |   |--connections.properties
+|   |   |   |   |   |--uat
+|   |   |   |   |   |   |--connections.properties
+|   |   |   |   |--zfbinfo.properties
+|   |   |--test
+|   |   |   |--java
+|   |   |   |   |--org
+|   |   |   |   |   |--seckill
+|   |   |   |   |   |   |--service
+|   |   |   |   |   |   |   |--impl
+|   |   |   |   |   |   |   |   |--mock
+|   |   |   |   |   |   |   |   |   |--GoodsServiceImplTest.java
+|   |   |   |   |   |   |   |   |   |--SeckillServiceImplTest.java
+|   |   |   |   |   |   |   |   |   |--UserAccountServiceImplTest.java
+|   |   |   |   |   |   |   |--test
+|   |   |   |   |   |   |   |   |--base
+|   |   |   |   |   |   |   |   |   |--BaseServiceConfigForTest.java
+|--goodsKill-util
+|   |--pom.xml
+|   |--src
+|   |   |--main
+|   |   |   |--java
+|   |   |   |   |--org
+|   |   |   |   |   |--seckill
+|   |   |   |   |   |   |--util
+|   |   |   |   |   |   |   |--common
+|   |   |   |   |   |   |   |   |--util
+|   |   |   |   |   |   |   |   |   |--AESUtil.java
+|   |   |   |   |   |   |   |   |   |--DateUtil.java
+|   |   |   |   |   |   |   |   |   |--EncryptPropertyPlaceholderConfigurer.java
+|   |   |   |   |   |   |   |   |   |--GenerateProjectTreeUtil.java
+|   |   |   |   |   |   |   |   |   |--MD5Util.java
+|   |   |   |   |   |   |   |   |   |--PropertiesUtil.java
+|   |   |   |   |   |   |   |   |   |--String2DateUtil.java
+|   |   |   |--resources
+|   |   |   |   |--seckill.properties
+|--goodsKill-web
+|   |--pom.xml
+|   |--src
+|   |   |--main
+|   |   |   |--java
+|   |   |   |   |--org
+|   |   |   |   |   |--seckill
+|   |   |   |   |   |   |--web
+|   |   |   |   |   |   |   |--controller
+|   |   |   |   |   |   |   |   |--AdminController.java
+|   |   |   |   |   |   |   |   |--AuthcController.java
+|   |   |   |   |   |   |   |   |--CommonController.java
+|   |   |   |   |   |   |   |   |--GoodsController.java
+|   |   |   |   |   |   |   |   |--SeckillController.java
+|   |   |   |   |   |   |   |   |--SeckillMockController.java
+|   |   |   |   |   |   |   |   |--UserAccountController.java
+|   |   |   |   |   |   |   |--dto
+|   |   |   |   |   |   |   |   |--PermissionDto.java
+|   |   |   |   |   |   |   |   |--ResponseDto.java
+|   |   |   |   |   |   |   |   |--RoleDto.java
+|   |   |   |   |   |   |   |--swagger
+|   |   |   |   |   |   |   |   |--RestApiConfig.java
+|   |   |   |   |   |   |   |--util
+|   |   |   |   |   |   |   |   |--RetryLimitHashedCredentialsMatcher.java
+|   |   |   |   |   |   |   |   |--UserRealm.java
+|   |   |   |--resources
+|   |   |   |   |--ehcache.xml
+|   |   |   |   |--logback.xml
+|   |   |   |   |--profile
+|   |   |   |   |   |--local
+|   |   |   |   |   |   |--goodsKill-server.properties
+|   |   |   |   |   |--prd
+|   |   |   |   |   |   |--goodsKill-server.properties
+|   |   |   |   |   |--sit
+|   |   |   |   |   |   |--goodsKill-server.properties
+|   |   |   |   |   |--uat
+|   |   |   |   |   |   |--goodsKill-server.properties
+|   |   |   |   |--spring
+|   |   |   |   |   |--spring-dubbo-consumer.xml
+|   |   |   |   |   |--spring-shiro-web.xml
+|   |   |   |   |   |--spring-web.xml
+|   |   |   |--sql
+|   |   |   |   |--seckill.sql
+|   |   |   |--webapp
+|   |   |   |   |--html
+|   |   |   |   |   |--404.html
+|   |   |   |   |   |--500.html
+|   |   |   |   |   |--admin
+|   |   |   |   |   |   |--permission.html
+|   |   |   |   |   |   |--role.html
+|   |   |   |   |   |   |--user.html
+|   |   |   |   |   |   |--userRole.html
+|   |   |   |   |   |--common
+|   |   |   |   |   |--css
+|   |   |   |   |   |   |--awesomeStyle
+|   |   |   |   |   |   |   |--awesome.css
+|   |   |   |   |   |   |   |--awesome.less
+|   |   |   |   |   |   |   |--fa.less
+|   |   |   |   |   |   |   |--img
+|   |   |   |   |   |   |   |   |--loading.gif
+|   |   |   |   |   |   |--bootstrap.css
+|   |   |   |   |   |   |--demo.css
+|   |   |   |   |   |   |--font-awesome.min.css
+|   |   |   |   |   |   |--metroStyle
+|   |   |   |   |   |   |   |--img
+|   |   |   |   |   |   |   |   |--line_conn.png
+|   |   |   |   |   |   |   |   |--loading.gif
+|   |   |   |   |   |   |   |   |--metro.gif
+|   |   |   |   |   |   |   |   |--metro.png
+|   |   |   |   |   |   |   |--metroStyle.css
+|   |   |   |   |   |   |--style.css
+|   |   |   |   |   |   |--zTreeStyle
+|   |   |   |   |   |   |   |--img
+|   |   |   |   |   |   |   |   |--diy
+|   |   |   |   |   |   |   |   |   |--1_close.png
+|   |   |   |   |   |   |   |   |   |--1_open.png
+|   |   |   |   |   |   |   |   |   |--2.png
+|   |   |   |   |   |   |   |   |   |--3.png
+|   |   |   |   |   |   |   |   |   |--4.png
+|   |   |   |   |   |   |   |   |   |--5.png
+|   |   |   |   |   |   |   |   |   |--6.png
+|   |   |   |   |   |   |   |   |   |--7.png
+|   |   |   |   |   |   |   |   |   |--8.png
+|   |   |   |   |   |   |   |   |   |--9.png
+|   |   |   |   |   |   |   |   |--line_conn.gif
+|   |   |   |   |   |   |   |   |--loading.gif
+|   |   |   |   |   |   |   |   |--zTreeStandard.gif
+|   |   |   |   |   |   |   |   |--zTreeStandard.png
+|   |   |   |   |   |   |   |--zTreeStyle.css
+|   |   |   |   |   |--fonts
+|   |   |   |   |   |   |--fontawesome-webfont.eot
+|   |   |   |   |   |   |--fontawesome-webfont.svg
+|   |   |   |   |   |   |--fontawesome-webfont.ttf
+|   |   |   |   |   |   |--fontawesome-webfont.woff
+|   |   |   |   |   |   |--FontAwesome.otf
+|   |   |   |   |   |   |--glyphicons-halflings-regular.eot
+|   |   |   |   |   |   |--glyphicons-halflings-regular.svg
+|   |   |   |   |   |   |--glyphicons-halflings-regular.ttf
+|   |   |   |   |   |   |--glyphicons-halflings-regular.woff
+|   |   |   |   |   |--index.html
+|   |   |   |   |   |--js
+|   |   |   |   |   |   |--bootstrap-table-zh-CN.js
+|   |   |   |   |   |   |--bootstrap-table.css
+|   |   |   |   |   |   |--bootstrap-table.js
+|   |   |   |   |   |   |--bootstrap.js
+|   |   |   |   |   |   |--config.js
+|   |   |   |   |   |   |--countUp.js
+|   |   |   |   |   |   |--custom.js
+|   |   |   |   |   |   |--custom500.js
+|   |   |   |   |   |   |--jquery-1.10.2.js
+|   |   |   |   |   |   |--jquery.ztree.all.min.js
+|   |   |   |   |--WEB-INF
+|   |   |   |   |   |--jsp
+|   |   |   |   |   |   |--addGoods.jsp
+|   |   |   |   |   |   |--admin
+|   |   |   |   |   |   |   |--admin.jsp
+|   |   |   |   |   |   |   |--user.jsp
+|   |   |   |   |   |   |--common
+|   |   |   |   |   |   |   |--common.jsp
+|   |   |   |   |   |   |   |--tag.jsp
+|   |   |   |   |   |   |--detail.jsp
+|   |   |   |   |   |   |--list.jsp
+|   |   |   |   |   |   |--login.jsp
+|   |   |   |   |   |   |--register.jsp
+|   |   |   |   |   |   |--seckill
+|   |   |   |   |   |   |   |--addSeckill.jsp
+|   |   |   |   |   |   |   |--edit.jsp
+|   |   |   |   |   |   |   |--payByQrcode.jsp
+|   |   |   |   |   |   |--upload.jsp
+|   |   |   |   |   |--web.xml
+|--LICENSE
+|--pom.xml
+|--README.md
+|--sonar-project.properties
+```
+
+
