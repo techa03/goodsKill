@@ -50,6 +50,7 @@ Bootstrap | 前端框架  | [http://getbootstrap.com/](http://getbootstrap.com/)
 LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 ### API接口
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png)
+![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png)
 
 ### 页面展示
 
@@ -91,6 +92,11 @@ eg:
 mvn clean install -Plocal
 ```
 9.支付宝二维码接入指南：https://blog.csdn.net/techa/article/details/71003519
+
+#### 并发场景：
+#####目前实现了几种秒杀方案
+实现方式一：sychronized同步锁实现
+可以通过swagger进行测试,接口地址：http://localhost:18080/goodsKill/seckill/sychronized/{seckillId}
 
 #### 编译部署注意事项：
 
