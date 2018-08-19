@@ -42,29 +42,37 @@ Swagger2 | 项目API文档生成及测试工具 | [http://swagger.io/](http://sw
 Jmock | mock类生成测试工具 | [http://www.jmock.org/](http://www.jmock.org/)
 Jacoco | 测试覆盖率报告插件 | [http://www.eclemma.org/jacoco/](http://www.eclemma.org/jacoco/)
 Shiro | 用户权限安全管理框架 | [https://shiro.apache.org/](https://shiro.apache.org/)
+
 ### 前端技术:
 技术 | 名称 | 官网
 ----|------|----
 jQuery | 函式库  | [http://jquery.com/](http://jquery.com/)
 Bootstrap | 前端框架  | [http://getbootstrap.com/](http://getbootstrap.com/)
 LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
+
 ### API接口
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png)
+
+### API接口说明
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png)
 
 ### 页面展示
 
 #### 登录：
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215746.png)
+
 #### 注册：
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215804.png)
+
 #### 主页：
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215849.png)
+
 #### 用户角色权限管理：
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155310.png)
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155353.png)
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155400.png)
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155408.png)
+
 #### 支付宝二维码扫码支付：
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701221505.png)
 
@@ -94,12 +102,13 @@ mvn clean install -Plocal
 9.支付宝二维码接入指南：https://blog.csdn.net/techa/article/details/71003519
 
 #### 并发场景：
-#####目前实现了几种秒杀方案
-实现方式一：sychronized同步锁实现
+目前实现了几种秒杀方案
+
+- 实现方式一：sychronized同步锁实现
 可以通过swagger进行测试,接口地址：http://localhost:18080/goodsKill/seckill/sychronized/{seckillId}
 
 #### 编译部署注意事项：
 
-1.注意logback.xml和seckill.properties的文件路径配置信息，修改成你自定义的目录即可；
+- 注意logback.xml和seckill.properties的文件路径配置信息，修改成你自定义的目录即可；
 
-2.可通过http://localhost:18080/goodsKill/swagger-ui.html#/访问swagger主页
+- 可通过http://localhost:18080/goodsKill/swagger-ui.html#/访问swagger主页
