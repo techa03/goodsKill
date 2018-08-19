@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : seckill
-Source Server Version : 50640
-Source Host           : localhost:3306
+Source Server         : seckillDocker
+Source Server Version : 50722
+Source Host           : 127.0.0.1:3306
 Source Database       : seckill
 
 Target Server Type    : MYSQL
-Target Server Version : 50640
+Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2018-07-25 21:56:51
+Date: 2018-08-19 22:50:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -102,7 +102,7 @@ CREATE TABLE `role_permission` (
   KEY `for_role_id` (`role_id`),
   CONSTRAINT `for_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`permission_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `for_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of role_permission
@@ -122,11 +122,11 @@ INSERT INTO `role_permission` VALUES ('42', '3', '7', '2018-07-25 21:53:49', '20
 INSERT INTO `role_permission` VALUES ('43', '4', '7', '2018-07-25 21:53:49', '2018-07-25 21:53:49');
 INSERT INTO `role_permission` VALUES ('44', '5', '7', '2018-07-25 21:53:49', '2018-07-25 21:53:49');
 INSERT INTO `role_permission` VALUES ('45', '6', '7', '2018-07-25 21:53:49', '2018-07-25 21:53:49');
-INSERT INTO `role_permission` VALUES ('46', '7', '1', '2018-07-25 21:53:52', '2018-07-25 21:53:52');
-INSERT INTO `role_permission` VALUES ('47', '3', '1', '2018-07-25 21:53:52', '2018-07-25 21:53:52');
-INSERT INTO `role_permission` VALUES ('48', '4', '1', '2018-07-25 21:53:52', '2018-07-25 21:53:52');
-INSERT INTO `role_permission` VALUES ('49', '5', '1', '2018-07-25 21:53:52', '2018-07-25 21:53:52');
-INSERT INTO `role_permission` VALUES ('50', '6', '1', '2018-07-25 21:53:52', '2018-07-25 21:53:52');
+INSERT INTO `role_permission` VALUES ('51', '7', '1', '2018-08-19 19:40:54', '2018-08-19 19:40:54');
+INSERT INTO `role_permission` VALUES ('52', '3', '1', '2018-08-19 19:40:54', '2018-08-19 19:40:54');
+INSERT INTO `role_permission` VALUES ('53', '4', '1', '2018-08-19 19:40:54', '2018-08-19 19:40:54');
+INSERT INTO `role_permission` VALUES ('54', '5', '1', '2018-08-19 19:40:54', '2018-08-19 19:40:54');
+INSERT INTO `role_permission` VALUES ('55', '6', '1', '2018-08-19 19:40:54', '2018-08-19 19:40:54');
 
 -- ----------------------------
 -- Table structure for seckill
@@ -151,13 +151,13 @@ CREATE TABLE `seckill` (
 -- Records of seckill
 -- ----------------------------
 INSERT INTO `seckill` VALUES ('1000', 'iphone6', '127', '2017-07-04 11:19:00', '2027-06-25 12:00:00', '2016-06-24 19:46:06', '1', '8000000.00');
-INSERT INTO `seckill` VALUES ('1001', 'ipad2', '98', '2017-06-24 22:54:42', '2017-06-25 09:00:00', '2016-06-24 19:46:06', '2', '3000.00');
-INSERT INTO `seckill` VALUES ('1002', '小米4', '100', '2017-06-24 22:36:24', '2017-03-15 12:00:00', '2016-06-24 19:46:06', '3', '1000.00');
-INSERT INTO `seckill` VALUES ('1003', '红米note', '398', '2017-06-24 22:45:25', '2017-07-20 12:00:00', '2016-06-24 19:46:06', '4', '400.00');
-INSERT INTO `seckill` VALUES ('1004', '小米6', '10', '2017-06-09 12:13:00', '2017-06-10 01:13:00', '2017-06-09 00:13:54', '5', '2000.00');
-INSERT INTO `seckill` VALUES ('1005', '小米max2', '1000', '2017-06-10 11:14:00', '2017-06-23 11:14:00', '2017-06-10 11:14:49', '6', '1499.00');
-INSERT INTO `seckill` VALUES ('1006', '小米5c', '100', '2017-06-10 11:16:00', '2017-06-17 11:16:00', '2017-06-10 11:16:48', '7', '1299.00');
-INSERT INTO `seckill` VALUES ('1007', 'oppo R11', '50', '2017-06-10 11:24:00', '2017-06-30 11:24:00', '2017-06-10 11:24:07', '8', '3099.00');
+INSERT INTO `seckill` VALUES ('1001', 'ipad2', '98', '2018-08-19 22:25:35', '2027-06-25 12:00:00', '2016-06-24 19:46:06', '2', '3000.00');
+INSERT INTO `seckill` VALUES ('1002', '小米4', '0', '2018-08-19 22:30:22', '2027-06-25 12:00:00', '2016-06-24 19:46:06', '3', '1000.00');
+INSERT INTO `seckill` VALUES ('1003', '红米note', '398', '2018-08-19 22:25:40', '2027-06-25 12:00:00', '2016-06-24 19:46:06', '4', '400.00');
+INSERT INTO `seckill` VALUES ('1004', '小米6', '10', '2018-08-19 22:25:44', '2027-06-25 12:00:00', '2017-06-09 00:13:54', '5', '2000.00');
+INSERT INTO `seckill` VALUES ('1005', '小米max2', '1000', '2018-08-19 22:25:45', '2027-06-25 12:00:00', '2017-06-10 11:14:49', '6', '1499.00');
+INSERT INTO `seckill` VALUES ('1006', '小米5c', '100', '2018-08-19 22:25:47', '2027-06-25 12:00:00', '2017-06-10 11:16:48', '7', '1299.00');
+INSERT INTO `seckill` VALUES ('1007', 'oppo R11', '50', '2018-08-19 22:25:56', '2027-06-25 12:00:00', '2017-06-10 11:24:07', '8', '3099.00');
 
 -- ----------------------------
 -- Table structure for success_killed
@@ -175,7 +175,6 @@ CREATE TABLE `success_killed` (
 -- ----------------------------
 -- Records of success_killed
 -- ----------------------------
-INSERT INTO `success_killed` VALUES ('1', '1373483423', '0', '2016-08-06 16:36:39');
 
 -- ----------------------------
 -- Table structure for user
@@ -215,7 +214,7 @@ CREATE TABLE `user_role` (
   KEY `for_user_id` (`user_id`),
   CONSTRAINT `for_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `for_user_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_role
@@ -228,7 +227,7 @@ INSERT INTO `user_role` VALUES ('64', '21', '1', '2018-07-24 14:43:21', '2018-07
 INSERT INTO `user_role` VALUES ('65', '21', '2', '2018-07-24 14:43:21', '2018-07-24 14:43:21');
 INSERT INTO `user_role` VALUES ('66', '21', '7', '2018-07-24 14:43:21', '2018-07-24 14:43:21');
 INSERT INTO `user_role` VALUES ('67', '21', '8', '2018-07-24 14:43:21', '2018-07-24 14:43:21');
-INSERT INTO `user_role` VALUES ('72', '14', '1', '2018-07-24 14:48:23', '2018-07-24 14:48:23');
-INSERT INTO `user_role` VALUES ('73', '14', '2', '2018-07-24 14:48:23', '2018-07-24 14:48:23');
-INSERT INTO `user_role` VALUES ('74', '14', '7', '2018-07-24 14:48:23', '2018-07-24 14:48:23');
-INSERT INTO `user_role` VALUES ('75', '14', '8', '2018-07-24 14:48:23', '2018-07-24 14:48:23');
+INSERT INTO `user_role` VALUES ('80', '14', '1', '2018-08-19 19:40:36', '2018-08-19 19:40:36');
+INSERT INTO `user_role` VALUES ('81', '14', '2', '2018-08-19 19:40:36', '2018-08-19 19:40:36');
+INSERT INTO `user_role` VALUES ('82', '14', '7', '2018-08-19 19:40:36', '2018-08-19 19:40:36');
+INSERT INTO `user_role` VALUES ('83', '14', '8', '2018-08-19 19:40:36', '2018-08-19 19:40:36');
