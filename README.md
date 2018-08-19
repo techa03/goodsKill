@@ -78,28 +78,28 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 #### 项目启动方法：
 
-1.参照redis官网安装redis，本地默认端口启动activemq，zookeeper（zookeeper这个一定要装啊，不然启动不了，开启服务后倾检查2181端口是否正常开启了）;
+- 参照redis官网安装redis，本地默认端口启动activemq，zookeeper（zookeeper这个一定要装啊，不然启动不了，开启服务后倾检查2181端口是否正常开启了）;
 
-2.找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行seckill.sql完成数据初始化操作;
+- 找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行seckill.sql完成数据初始化操作;
 
-3.到service下的resources/profile/local/connections.properties根据需要修改数据库以及zookeeper等配置信息;
+- 到service下的resources/profile/local/connections.properties根据需要修改数据库以及zookeeper等配置信息;
 
-4.二维码图片存放路径配置信息在goods-util中的seckill.properties文件中修改;
+- 二维码图片存放路径配置信息在goods-util中的seckill.properties文件中修改;
 
-5.在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务;
+- 在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务;
 
-6.编译好整个项目后使用tomcat发布server模块，端口号18080，上下文环境配置为goodsKill,部署成功后访问
+- 编译好整个项目后使用tomcat发布server模块，端口号18080，上下文环境配置为goodsKill,部署成功后访问
 http://localhost:18080/goodsKill/login，默认管理员账号admin123，密码：aa123456;
 
-7.service和server下的resources/profile用于存放不同环境的配置信息，默认使用local目录的properties配置，如需应用其他环境下的配置文件，[请到此处修改配置](https://github.com/techa03/goodsKill/blob/dev_maven/pom.xml#L26-L54);
+- service和server下的resources/profile用于存放不同环境的配置信息，默认使用local目录的properties配置，如需应用其他环境下的配置文件，[请到此处修改配置](https://github.com/techa03/goodsKill/blob/dev_maven/pom.xml#L26-L54);
 
-8.根据不同环境打包项目在根目录中使用maven命令:
+- 根据不同环境打包项目在根目录中使用maven命令:
 ```
 mvn clean install -P<你的profileId>
 eg:
 mvn clean install -Plocal
 ```
-9.支付宝二维码接入指南：https://blog.csdn.net/techa/article/details/71003519
+- 支付宝二维码接入指南：https://blog.csdn.net/techa/article/details/71003519
 
 #### 并发场景：
 目前实现了几种秒杀方案
