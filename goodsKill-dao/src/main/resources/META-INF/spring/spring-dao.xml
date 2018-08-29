@@ -26,8 +26,8 @@
         <property name="password" value="${password}"/>
         <!-- 配置初始化大小、最小、最大 -->
         <property name="initialSize" value="1"/>
-        <property name="minIdle" value="1"/>
-        <property name="maxActive" value="20"/>
+        <property name="minIdle" value="30"/>
+        <property name="maxActive" value="200"/>
         <!-- 配置获取连接等待超时的时间 -->
         <property name="maxWait" value="60000"/>
         <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
@@ -35,7 +35,7 @@
         <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
         <property name="minEvictableIdleTimeMillis" value="300000"/>
         <!-- 校验语句 -->
-        <property name="validationQuery" value="SELECT 1"/>
+        <property name="validationQuery" value="SELECT 1 FROM SECKILL"/>
         <property name="testWhileIdle" value="true"/>
         <property name="testOnBorrow" value="false"/>
         <property name="testOnReturn" value="false"/>

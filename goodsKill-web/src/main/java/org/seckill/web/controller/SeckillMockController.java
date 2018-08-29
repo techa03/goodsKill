@@ -40,6 +40,36 @@ public class SeckillMockController {
         seckillService.updateByPrimaryKeySelective(entity);
         // 清理已成功秒杀记录
         seckillService.deleteSuccessKillRecord(seckillId);
-        seckillService.executeWithSynchronized(seckillId,2000);
+        long start = System.currentTimeMillis();
+        int executeTime = 2000;
+        seckillService.executeWithSynchronized(seckillId, executeTime);
+        log.info("秒杀耗时：{}毫秒", System.currentTimeMillis() - start);
+        log.info("秒杀库存数量{},秒杀请求数{}", totalCount, executeTime);
+    }
+
+    /**
+     * 通过同步锁控制秒杀并发，效率较低
+     * 场景一：初始化当前库存为1000，通过线程池调度，模拟总共有2000人参与秒杀，期望值为最后成功笔数为1000
+     * 结果：多次运行，最终的结果为1000
+     * 总结：加上同步锁可以很好的解决秒杀问题，适用于单机模式。
+     *
+     * @param seckillId 秒杀活动id
+     */
+    @ApiOperation(value = "秒杀场景二(redis分布式锁实现)")
+    @PostMapping("/redisson/{seckillId}")
+    public void doWithRedissionLock(@PathVariable("seckillId") Long seckillId) throws InterruptedException {
+        // 初始化库存数量
+        Seckill entity = new Seckill();
+        entity.setSeckillId(seckillId);
+        int totalCount = 1000;
+        entity.setNumber(totalCount);
+        seckillService.updateByPrimaryKeySelective(entity);
+        // 清理已成功秒杀记录
+        seckillService.deleteSuccessKillRecord(seckillId);
+        long start = System.currentTimeMillis();
+        int executeTime = 2000;
+        seckillService.executeWithRedisson(seckillId, executeTime);
+        log.info("秒杀耗时：{}毫秒", System.currentTimeMillis() - start);
+        log.info("秒杀库存数量{},秒杀请求数{}", totalCount, executeTime);
     }
 }

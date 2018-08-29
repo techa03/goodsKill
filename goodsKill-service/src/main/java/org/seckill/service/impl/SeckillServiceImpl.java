@@ -1,6 +1,8 @@
 package org.seckill.service.impl;
 
 import com.github.pagehelper.PageInfo;
+import org.redisson.Redisson;
+import org.redisson.api.RLock;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
 import org.seckill.api.dto.SeckillInfo;
@@ -30,6 +32,7 @@ import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by heng on 2016/7/16.
@@ -204,6 +207,41 @@ public class SeckillServiceImpl extends CommonServiceImpl<SeckillMapper, Seckill
         }
         SuccessKilledExample example = new SuccessKilledExample();
         example.createCriteria().andSeckillIdEqualTo(seckillId);
-        logger.info("成功笔数:{}",successKilledMapper.countByExample(example));
+        logger.info("成功笔数:{}", successKilledMapper.countByExample(example));
+    }
+
+    @Override
+    public void executeWithRedisson(Long seckillId, int executeTime) {
+        RLock lock = Redisson.create().getLock(seckillId + "");
+        CountDownLatch countDownLatch = new CountDownLatch(executeTime);
+        for (int i = 0; i < executeTime; i++) {
+            int userId = i;
+            taskExecutor.execute(() -> {
+                lock.lock(10L, TimeUnit.SECONDS);
+                Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
+                if (seckill.getNumber() > 0) {
+                    extSeckillMapper.reduceNumber(seckillId, new Date());
+                    SuccessKilled record = new SuccessKilled();
+                    record.setSeckillId(seckillId);
+                    record.setUserPhone(String.valueOf(userId));
+                    record.setStatus((byte) 1);
+                    record.setCreateTime(new Date());
+                    successKilledMapper.insert(record);
+                } else {
+                    logger.warn("库存不足，无法继续秒杀！");
+                }
+                lock.unlock();
+                countDownLatch.countDown();
+            });
+        }
+        // 等待线程执行完毕，阻塞当前进程
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        SuccessKilledExample example = new SuccessKilledExample();
+        example.createCriteria().andSeckillIdEqualTo(seckillId);
+        logger.info("成功笔数:{}", successKilledMapper.countByExample(example));
     }
 }

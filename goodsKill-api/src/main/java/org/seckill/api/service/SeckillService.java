@@ -45,4 +45,12 @@ public interface SeckillService extends CommonService<SeckillExample, Seckill> {
      * @param executeTime 执行秒杀次数
      */
     void executeWithSynchronized(Long seckillId, int executeTime);
+
+    /**
+     * 执行秒杀，通过同步来控制并发
+     *
+     * @param seckillId   秒杀活动id
+     * @param executeTime 执行秒杀次数
+     */
+    void executeWithRedisson(Long seckillId, int executeTime);
 }

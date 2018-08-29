@@ -364,7 +364,7 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>5.1.46</version>
+                <version>8.0.11</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
@@ -454,6 +454,11 @@
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjweaver</artifactId>
                 <version>1.8.9</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>3.7.5</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

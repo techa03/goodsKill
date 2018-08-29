@@ -64,11 +64,10 @@ public class RedisDao {
     public RedisDao() {
     }
 
-    public String put(String phoneNum, String phoneCode) {
+    public String put(String key, Object value) {
         Jedis jedis = jedisPool.getResource();
         try {
-            jedis.append(phoneNum, phoneCode);
-            jedis.setex(phoneCode, 5 * 60, phoneCode);
+            jedis.lpush(key, value.toString());
         } finally {
             jedis.close();
         }
