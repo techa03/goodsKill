@@ -76,6 +76,11 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 #### 支付宝二维码扫码支付：
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701221505.png)
 
+#### 软件版本说明：
+- JAVA版本:JDK1.8+;
+- MYSQL版本:8.0+;
+
+
 #### 项目启动方法：
 
 - 参照redis官网安装redis，本地默认端口启动activemq，zookeeper（zookeeper这个一定要装啊，不然启动不了，开启服务后倾检查2181端口是否正常开启了）;
