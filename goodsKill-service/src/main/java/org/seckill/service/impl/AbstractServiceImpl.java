@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @BaseService
-public abstract class CommonServiceImpl<Mapper, Example, Entity> implements CommonService<Example, Entity> {
+public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements CommonService<Example, Entity> {
     public Mapper mapper;
 
     /**

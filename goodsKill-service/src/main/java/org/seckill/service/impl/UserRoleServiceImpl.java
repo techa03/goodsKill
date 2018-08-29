@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserRoleServiceImpl extends CommonServiceImpl<UserRoleMapper, UserRoleExample, UserRole> implements UserRoleService {
+public class UserRoleServiceImpl extends AbstractServiceImpl<UserRoleMapper, UserRoleExample, UserRole> implements UserRoleService {
     @Autowired
     private UserRoleMapper userRoleMapper;
 }

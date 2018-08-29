@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class UserAccountServiceImpl extends CommonServiceImpl<UserMapper, UserExample, User> implements UserAccountService {
+public class UserAccountServiceImpl extends AbstractServiceImpl<UserMapper, UserExample, User> implements UserAccountService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private UserMapper userMapper;

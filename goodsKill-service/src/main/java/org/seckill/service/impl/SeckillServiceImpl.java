@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit;
  * Created by heng on 2016/7/16.
  */
 @Service
-public class SeckillServiceImpl extends CommonServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService {
+public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService {
     @Autowired
     private AlipayRunner alipayRunner;
     private Logger logger = LoggerFactory.getLogger(this.getClass());

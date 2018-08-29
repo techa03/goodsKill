@@ -17,7 +17,7 @@ import java.util.List;
  * Created by heng on 2017/1/7.
  */
 @Service
-public class GoodsServiceImpl extends CommonServiceImpl<GoodsMapper, GoodsExample, Goods> implements GoodsService{
+public class GoodsServiceImpl extends AbstractServiceImpl<GoodsMapper, GoodsExample, Goods> implements GoodsService{
     @Autowired
     private GoodsMapper goodsMapper;
     private Logger logger = LoggerFactory.getLogger(this.getClass());

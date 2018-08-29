@@ -111,6 +111,8 @@ mvn clean install -Plocal
 
 - 实现方式一：sychronized同步锁实现
 可以通过swagger进行测试,接口地址：http://localhost:18080/goodsKill/seckill/sychronized/{seckillId}
+- 实现方式二：redisson分布式锁实现
+可以通过swagger进行测试,接口地址：http://localhost:18080/goodsKill/seckill/redisson/{seckillId}
 
 #### 编译部署注意事项：
 
