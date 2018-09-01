@@ -18,7 +18,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>4.3.18.RELEASE</spring.version>
-        <project.version>2.2.0-SNAPSHOT</project.version>
+        <project.version>2.3.0-SNAPSHOT</project.version>
         <shiro.version>1.4.0</shiro.version>
     </properties>
     <name>goodsKill Maven Webapp</name>
@@ -454,6 +454,11 @@
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson</artifactId>
                 <version>3.7.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>1.3.6.RELEASE</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -231,3 +231,7 @@ INSERT INTO `user_role` VALUES ('80', '14', '1', '2018-08-19 19:40:36', '2018-08
 INSERT INTO `user_role` VALUES ('81', '14', '2', '2018-08-19 19:40:36', '2018-08-19 19:40:36');
 INSERT INTO `user_role` VALUES ('82', '14', '7', '2018-08-19 19:40:36', '2018-08-19 19:40:36');
 INSERT INTO `user_role` VALUES ('83', '14', '8', '2018-08-19 19:40:36', '2018-08-19 19:40:36');
+
+ALTER TABLE `seckill`.`seckill`
+CHANGE COLUMN `create_time` `start_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '秒杀开启时间' ;
+

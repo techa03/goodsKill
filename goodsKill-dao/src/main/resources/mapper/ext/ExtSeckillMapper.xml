@@ -6,9 +6,9 @@
     seckill
     SET
     number = number -1
-    WHERE seckill_id = #{seckillId}
-    AND start_time <![CDATA[ <= ]]> #{killTime}
-    AND end_time <![CDATA[ >= ]]> #{killTime}
+    WHERE seckill_id = #{seckillId,jdbcType=BIGINT}
+    AND start_time <![CDATA[ <= ]]> #{killTime,jdbcType=TIMESTAMP}
+    AND end_time <![CDATA[ >= ]]> #{killTime,jdbcType=TIMESTAMP}
     AND number <![CDATA[ > ]]> 0
   </update>
 </mapper>

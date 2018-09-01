@@ -60,5 +60,19 @@ public interface SeckillService extends CommonService<SeckillExample, Seckill> {
      * @param seckillId   秒杀活动id
      * @param executeTime 执行秒杀次数
      */
-    void executeWithMq(Long seckillId, int executeTime);
+    void executeWithActiveMq(Long seckillId, int executeTime);
+
+    /**
+     * 执行秒杀，通过消息队列控制并发
+     *
+     * @param seckillId   秒杀活动id
+     * @param executeTime 执行秒杀次数
+     */
+    void executeWithKafkaMq(Long seckillId, int executeTime);
+
+    /**
+     * 获取成功秒杀记录数
+     * @param seckillId 秒杀活动id
+     */
+    long getSuccessKillCount(Long seckillId);
 }

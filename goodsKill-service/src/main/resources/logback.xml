@@ -22,10 +22,10 @@
         <prudent>false</prudent>
     </appender>
 
-    <logger name="org.seckill" level="DEBUG" additivity="true"/>
+    <logger name="org.seckill" level="INFO" additivity="true"/>
     <logger name="org.springframework" level="WARN" additivity="true"/>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="rollingAppender" />
     </root>
