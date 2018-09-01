@@ -24,11 +24,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.Session;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
@@ -38,7 +44,7 @@ import java.util.concurrent.TimeUnit;
  * Created by heng on 2016/7/16.
  */
 @Service
-public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService {
+public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService, MessageListener {
     @Autowired
     private AlipayRunner alipayRunner;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -51,7 +57,9 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     @Autowired
     private GoodsMapper goodsMapper;
     @Resource(name = "taskExecutor")
-    ThreadPoolTaskExecutor taskExecutor;
+    private ThreadPoolTaskExecutor taskExecutor;
+    @Autowired
+    private JmsTemplate jmsTemplate;
 
     public void setAlipayRunner(AlipayRunner alipayRunner) {
         this.alipayRunner = alipayRunner;
@@ -243,5 +251,58 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         SuccessKilledExample example = new SuccessKilledExample();
         example.createCriteria().andSeckillIdEqualTo(seckillId);
         logger.info("成功笔数:{}", successKilledMapper.countByExample(example));
+    }
+
+    @Override
+    public void executeWithMq(Long seckillId, int executeTime) {
+        CountDownLatch countDownLatch = new CountDownLatch(executeTime);
+        for (int i = 0; i < executeTime; i++) {
+            int userId = i;
+            taskExecutor.execute(() -> {
+                jmsTemplate.send(new MessageCreator() {
+                    @Override
+                    public Message createMessage(Session session) throws JMSException {
+                        countDownLatch.countDown();
+                        Message message = session.createMessage();
+                        message.setLongProperty("seckillId", seckillId);
+                        message.setStringProperty("userPhone", String.valueOf(userId));
+                        return message;
+                    }
+                });
+            });
+        }
+        // 等待线程执行完毕，阻塞当前进程
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        SuccessKilledExample example = new SuccessKilledExample();
+        example.createCriteria().andSeckillIdEqualTo(seckillId);
+        logger.info("成功笔数:{}", successKilledMapper.countByExample(example));
+    }
+
+    @Override
+    public void onMessage(Message message) {
+        long seckillId = 0;
+        String userPhone = null;
+        try {
+            seckillId = message.getLongProperty("seckillId");
+            userPhone = message.getStringProperty("userPhone");
+        } catch (JMSException e) {
+            logger.error(e.getMessage(), e);
+        }
+        Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
+        if (seckill.getNumber() > 0) {
+            extSeckillMapper.reduceNumber(seckillId, new Date());
+            SuccessKilled record = new SuccessKilled();
+            record.setSeckillId(seckillId);
+            record.setUserPhone(userPhone);
+            record.setStatus((byte) 1);
+            record.setCreateTime(new Date());
+            successKilledMapper.insert(record);
+        } else {
+            logger.warn("库存不足，无法继续秒杀！");
+        }
     }
 }
