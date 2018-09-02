@@ -32,6 +32,7 @@ ZooKeeper | 分布式协调服务  | [http://zookeeper.apache.org/](http://zooke
 Dubbo | 分布式服务框架  | [http://dubbo.io/](http://dubbo.io/)
 Redis | 分布式缓存数据库  | [https://redis.io/](https://redis.io/)
 ActiveMQ | 消息队列  | [http://activemq.apache.org/](http://activemq.apache.org/)
+KafkaMQ | 消息队列  | [http://kafka.apache.org/](http://kafka.apache.org/)
 Logback | 日志组件  | [https://logback.qos.ch/](https://logback.qos.ch/)
 Protobuf & json | 数据序列化  | [https://github.com/google/protobuf](https://github.com/google/protobuf)
 Jenkins | 持续集成工具  | [https://jenkins.io/index.html](https://jenkins.io/index.html)
@@ -83,7 +84,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 #### 项目启动方法：
 
-- 参照redis官网安装redis，本地默认端口启动activemq，zookeeper（zookeeper这个一定要装啊，不然启动不了，开启服务后倾检查2181端口是否正常开启了）;
+- 参照redis官网安装redis，本地默认端口启动activemq，kafka，zookeeper（开启服务后倾检查2181端口是否正常开启了）;
 
 - 找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行seckill.sql完成数据初始化操作;
 
@@ -109,10 +110,11 @@ mvn clean install -Plocal
 #### 并发场景：
 目前实现了几种秒杀方案
 
+测试地址：http://localhost:18080/goodsKill/swagger-ui.html#/
 - 实现方式一：sychronized同步锁实现
-可以通过swagger进行测试,接口地址：http://localhost:18080/goodsKill/seckill/sychronized/{seckillId}
 - 实现方式二：redisson分布式锁实现
-可以通过swagger进行测试,接口地址：http://localhost:18080/goodsKill/seckill/redisson/{seckillId}
+- 实现方式三：activemq实现
+- 实现方式四：kafkamq实现
 
 #### 编译部署注意事项：
 
