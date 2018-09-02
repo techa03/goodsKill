@@ -2,23 +2,14 @@ package org.seckill.service.mq;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.seckill.api.service.SeckillService;
 import org.seckill.dao.SuccessKilledMapper;
 import org.seckill.dao.ext.ExtSeckillMapper;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.kafka.listener.MessageListener;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Session;
 import java.util.Date;
-
-import static org.seckill.service.mq.MqTask.taskCompleteFlag;
 
 /**
  * 秒杀请求监听器
@@ -31,10 +22,7 @@ public class SekcillKafkaConsumer implements MessageListener {
     @Autowired
     private SuccessKilledMapper successKilledMapper;
     @Autowired
-    @Qualifier("jmsTopicTemplate")
-    private JmsTemplate jmsTopicTemplate;
-    @Autowired
-    private SeckillService seckillService;
+    private MqTask mqTask;
 
     @Override
     public void onMessage(Object data) {
@@ -52,20 +40,7 @@ public class SekcillKafkaConsumer implements MessageListener {
                 successKilled.setCreateTime(new Date());
                 successKilledMapper.insert(successKilled);
             } else {
-                if (MqTask.count == 0) {
-                    seckillService.getSuccessKillCount(seckillId);
-                    jmsTopicTemplate.send(new MessageCreator() {
-                        @Override
-                        public Message createMessage(Session session) throws JMSException {
-                            taskCompleteFlag = true;
-                            Message message = session.createMessage();
-                            message.setLongProperty("seckillId", seckillId);
-                            message.setBooleanProperty("status", taskCompleteFlag);
-                            return message;
-                        }
-                    });
-                    MqTask.count++;
-                }
+                mqTask.sendSeckillSuccessTopic(seckillId, "秒杀场景四(kafka消息队列实现)");
                 if (log.isDebugEnabled()) {
                     log.debug("库存不足，无法继续秒杀！");
                 }

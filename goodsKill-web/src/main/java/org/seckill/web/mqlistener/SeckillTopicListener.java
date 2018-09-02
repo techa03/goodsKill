@@ -17,19 +17,22 @@ import java.util.Date;
 public class SeckillTopicListener implements MessageListener {
     @Autowired
     private SeckillService seckillService;
+
     @Override
     public void onMessage(Message message) {
         long seckillId = 0;
         boolean status = false;
+        String note = null;
         try {
             seckillId = message.getLongProperty("seckillId");
             status = message.getBooleanProperty("status");
+            note = message.getStringProperty("note");
         } catch (JMSException e) {
             log.error(e.getMessage(), e);
         }
-        if(status){
+        if (status) {
             log.info("最终成功交易笔数：{}", seckillService.getSuccessKillCount(seckillId));
-            log.info("秒杀活动结束，时间：{},秒杀id：{}", new Date(), seckillId);
+            log.info("秒杀活动结束，{}时间：{},秒杀id：{}", new Object[]{note, new Date(), seckillId});
         }
     }
 }

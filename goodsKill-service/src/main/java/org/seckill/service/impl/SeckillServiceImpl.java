@@ -63,6 +63,8 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     private JmsTemplate jmsTemplate;
     @Autowired
     private KafkaTemplate kafkaTemplate;
+    @Autowired
+    private MqTask mqTask;
 
     public void setAlipayRunner(AlipayRunner alipayRunner) {
         this.alipayRunner = alipayRunner;
@@ -189,6 +191,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
 
     @Override
     public void executeWithSynchronized(Long seckillId, int executeTime) {
+        mqTask.initialFlag();
         CountDownLatch countDownLatch = new CountDownLatch(executeTime);
         for (int i = 0; i < executeTime; i++) {
             int userId = i;
@@ -204,6 +207,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
                         record.setCreateTime(new Date());
                         successKilledMapper.insert(record);
                     } else {
+                        mqTask.sendSeckillSuccessTopic(seckillId, "秒杀场景一(sychronized同步锁实现)");
                         if (log.isDebugEnabled()) {
                             log.debug("库存不足，无法继续秒杀！");
                         }
@@ -216,12 +220,38 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 
     @Override
+    public void executeWithProcedure(Long seckillId, int executeTime) {
+        mqTask.initialFlag();
+        Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
+        CountDownLatch countDownLatch = new CountDownLatch(seckill.getNumber());
+        for (int i = 0; i < executeTime; i++) {
+            int userId = i;
+            taskExecutor.execute(() -> {
+                try {
+                    extSeckillMapper.reduceNumberByProcedure(seckillId, userId, new Date());
+                }catch (Exception e){
+                    log.error(e.getMessage(), e);
+                }
+                countDownLatch.countDown();
+            });
+        }
+        // 等待线程执行完毕，阻塞当前进程
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            log.error(e.getMessage(), e);
+        }
+        mqTask.sendSeckillSuccessTopic(seckillId, "秒杀场景五(存储过程实现)");
+    }
+
+    @Override
     public void executeWithRedisson(Long seckillId, int executeTime) {
+        mqTask.initialFlag();
         RLock lock = Redisson.create().getLock(seckillId + "");
         CountDownLatch countDownLatch = new CountDownLatch(executeTime);
         for (int i = 0; i < executeTime; i++) {
@@ -238,6 +268,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
                     record.setCreateTime(new Date());
                     successKilledMapper.insert(record);
                 } else {
+                    mqTask.sendSeckillSuccessTopic(seckillId, "秒杀场景二(redis分布式锁实现)");
                     if (log.isDebugEnabled()) {
                         log.debug("库存不足，无法继续秒杀！");
                     }
@@ -250,14 +281,13 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 
     @Override
     public void executeWithActiveMq(Long seckillId, int executeTime) {
-        MqTask.taskCompleteFlag = false;
-        MqTask.count = 0;
+        mqTask.initialFlag();
         CountDownLatch countDownLatch = new CountDownLatch(executeTime);
         for (int i = 0; i < executeTime; i++) {
             int userId = i;
@@ -278,14 +308,13 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 
     @Override
     public void executeWithKafkaMq(Long seckillId, int executeTime) {
-        MqTask.taskCompleteFlag = false;
-        MqTask.count = 0;
+        mqTask.initialFlag();
         CountDownLatch countDownLatch = new CountDownLatch(executeTime);
         for (int i = 0; i < executeTime; i++) {
             int userId = i;
@@ -298,7 +327,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 

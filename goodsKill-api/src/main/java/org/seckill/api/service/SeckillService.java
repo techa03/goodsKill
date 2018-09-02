@@ -47,6 +47,14 @@ public interface SeckillService extends CommonService<SeckillExample, Seckill> {
     void executeWithSynchronized(Long seckillId, int executeTime);
 
     /**
+     * 执行秒杀，内部使用存储过程实现,无锁
+     *
+     * @param seckillId   秒杀活动id
+     * @param executeTime 执行秒杀次数
+     */
+    void executeWithProcedure(Long seckillId, int executeTime);
+
+    /**
      * 执行秒杀，通过同步来控制并发
      *
      * @param seckillId   秒杀活动id

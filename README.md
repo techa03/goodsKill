@@ -86,7 +86,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 - 参照redis官网安装redis，本地默认端口启动activemq，kafka，zookeeper（开启服务后倾检查2181端口是否正常开启了）;
 
-- 找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行seckill.sql完成数据初始化操作;
+- 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作;
 
 - 到service下的resources/profile/local/connections.properties根据需要修改数据库以及zookeeper等配置信息;
 
@@ -115,6 +115,7 @@ mvn clean install -Plocal
 - 实现方式二：redisson分布式锁实现
 - 实现方式三：activemq实现
 - 实现方式四：kafkamq实现
+- 实现方式五：存储过程实现
 
 #### 编译部署注意事项：
 
