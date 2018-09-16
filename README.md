@@ -111,11 +111,12 @@ mvn clean install -Plocal
 目前实现了几种秒杀方案
 
 测试地址：http://localhost:18080/goodsKill/swagger-ui.html#/
-- 实现方式一：sychronized同步锁实现
-- 实现方式二：redisson分布式锁实现
-- 实现方式三：activemq实现
-- 实现方式四：kafkamq实现
-- 实现方式五：存储过程实现
+- 场景一：sychronized同步锁实现
+- 场景二：redisson分布式锁实现
+- 场景三：activemq实现
+- 场景四：kafkamq实现
+- 场景五：存储过程实现
+- 场景六：实时等待秒杀处理结果
 
 #### 编译部署注意事项：
 

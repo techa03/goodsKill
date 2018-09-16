@@ -29,7 +29,7 @@ public class SekcillKafkaConsumer implements MessageListener {
         if (data instanceof ConsumerRecord) {
             ConsumerRecord record = (ConsumerRecord) data;
             String userPhone = record.key().toString();
-            long seckillId = Long.valueOf((String) record.value());
+            long seckillId = Long.parseLong((String) record.value());
             Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
             if (seckill.getNumber() > 0) {
                 extSeckillMapper.reduceNumber(seckillId, new Date());

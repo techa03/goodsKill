@@ -18,6 +18,7 @@
    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
       <property name="connectionFactory" ref="connectionFactory"/>
       <property name="defaultDestination" ref="queueDestination"/>
+      <property name="receiveTimeout" value="30000"/>
    </bean>
 
    <bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">

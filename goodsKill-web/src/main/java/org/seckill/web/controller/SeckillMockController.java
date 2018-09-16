@@ -6,12 +6,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.seckill.api.service.SeckillService;
 import org.seckill.entity.Seckill;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
+import org.springframework.web.bind.annotation.*;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * 模拟秒杀场景，可在swagger界面中触发操作
@@ -26,6 +29,8 @@ public class SeckillMockController {
 
     @Autowired
     SeckillService seckillService;
+    @Autowired
+    private JmsTemplate jmsTemplate;
 
     /**
      * 通过同步锁控制秒杀并发（秒杀未完成阻塞主线程）
@@ -80,7 +85,7 @@ public class SeckillMockController {
      * 异步秒杀
      * 场景三：初始化当前库存为1000，通过线程池调度，模拟总共有2000人参与秒杀，期望值为最后成功笔数为1000
      * 结果：多次运行，最终的结果为1000
-     * 总结：速度较快，处理时间与场景一大致相同。
+     * 总结：速度较快，处理时间稍慢于场景一。
      *
      * @param seckillId 秒杀活动id
      */
@@ -125,10 +130,46 @@ public class SeckillMockController {
     @ApiOperation(value = "秒杀场景五(存储过程实现)")
     @PostMapping("/procedure/{seckillId}")
     public void doWithProcedure(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
-                                  @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
+                                @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
         prepareSeckill(seckillId, seckillCount);
         log.info("秒杀活动开始，秒杀场景五(存储过程实现)时间：{},秒杀id：{}", new Date(), seckillId);
         seckillService.executeWithProcedure(seckillId, requestCount);
+    }
+
+    /**
+     * 执行单次秒杀动作，等待实时处理结果，30秒超时
+     * 场景六：返回执行结果的秒杀,30秒超时,activeMq实现
+     *
+     * @param seckillId 秒杀活动id
+     */
+    @ApiOperation(value = "秒杀场景六(返回执行结果的秒杀,30秒超时,activeMq实现)")
+    @PostMapping("/activemq/reply/{seckillId}")
+    @ResponseBody
+    public String doWithActiveMqMessageWithReply(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "userPhone") String userPhone) {
+        prepareSeckill(seckillId, 10);
+        log.info("秒杀场景六(返回执行结果的秒杀,30秒超时,activeMq实现)时间：{},秒杀id：{}", new Date(), seckillId);
+
+        Message mes = jmsTemplate.sendAndReceive(new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                Message message = session.createMessage();
+                message.setLongProperty("seckillId", seckillId);
+                message.setStringProperty("userPhone", userPhone);
+                // 指定服务方应答到临时队列中，请求方最终从临时队列获取消息
+                message.setJMSReplyTo(session.createTemporaryQueue());
+                // 消息超时时间设置为5分钟
+                message.setJMSExpiration(5 * 60 * 1000);
+                message.setJMSCorrelationID(UUID.randomUUID().toString());
+                return message;
+            }
+        });
+        String result = "";
+        try {
+            result = mes.getStringProperty("message");
+        } catch (JMSException e) {
+            log.warn(e.getMessage(), e);
+        }
+        return result;
     }
 
 }

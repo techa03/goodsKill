@@ -44,4 +44,5 @@ public class MqTask {
         taskCompleteFlag = false;
         count = 0;
     }
+
 }

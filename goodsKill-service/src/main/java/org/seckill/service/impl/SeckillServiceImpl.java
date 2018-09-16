@@ -42,7 +42,10 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * Created by heng on 2016/7/16.
+ * 秒杀接口实现类
+ *
+ * @author heng
+ * @date 2016/7/16
  */
 @Service
 @Slf4j
@@ -234,7 +237,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
             taskExecutor.execute(() -> {
                 try {
                     extSeckillMapper.reduceNumberByProcedure(seckillId, userId, new Date());
-                }catch (Exception e){
+                } catch (Exception e) {
                     log.error(e.getMessage(), e);
                 }
                 countDownLatch.countDown();

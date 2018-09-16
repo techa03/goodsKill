@@ -83,4 +83,5 @@ public interface SeckillService extends CommonService<SeckillExample, Seckill> {
      * @param seckillId 秒杀活动id
      */
     long getSuccessKillCount(Long seckillId);
+
 }

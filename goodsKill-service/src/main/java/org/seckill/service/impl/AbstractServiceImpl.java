@@ -2,6 +2,7 @@ package org.seckill.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.seckill.api.annotation.BaseService;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 @BaseService
+@Slf4j
 public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements CommonService<Example, Entity> {
     public Mapper mapper;
 
@@ -56,11 +58,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = countByExample.invoke(mapper, example);
             return Integer.parseInt(String.valueOf(result));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return 0;
     }
@@ -73,11 +75,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = deleteByExample.invoke(mapper, example);
             return Integer.parseInt(String.valueOf(result));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return 0;
     }
@@ -90,11 +92,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = deleteByPrimaryKey.invoke(mapper, id);
             return Integer.parseInt(String.valueOf(result));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return 0;
     }
@@ -107,11 +109,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = insert.invoke(mapper, record);
             return Integer.parseInt(String.valueOf(result));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return 0;
     }
@@ -124,11 +126,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = insertSelective.invoke(mapper, record);
             return Integer.parseInt(String.valueOf(result));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return 0;
     }
@@ -141,11 +143,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = selectByExampleWithBLOBs.invoke(mapper, example);
             return (List<Entity>) result;
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
@@ -159,11 +161,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = selectByExampleWithBLOBs.invoke(mapper, example);
             return (List<Entity>) result;
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
@@ -177,11 +179,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = selectByExample.invoke(mapper, example);
             return (List<Entity>) result;
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         return null;
@@ -196,11 +198,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = selectByExampleWithBLOBs.invoke(mapper, example);
             return (List<Entity>) result;
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         return null;
@@ -215,11 +217,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = selectByExample.invoke(mapper, example);
             return (List<Entity>) result;
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         return null;
@@ -235,11 +237,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
                 return result.get(0);
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         return null;
@@ -255,11 +257,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
                 return result.get(0);
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         return null;
@@ -273,11 +275,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = selectByPrimaryKey.invoke(mapper, id);
             return (Entity) result;
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         return null;
@@ -291,11 +293,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = updateByExampleSelective.invoke(mapper, record, example);
             return Integer.parseInt(String.valueOf(result));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         return 0;
@@ -309,11 +311,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = updateByExampleWithBLOBs.invoke(mapper, record, example);
             return Integer.parseInt(String.valueOf(result));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         return 0;
@@ -327,11 +329,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = updateByExample.invoke(mapper, record, example);
             return Integer.parseInt(String.valueOf(result));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         return 0;
@@ -345,11 +347,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = updateByPrimaryKeySelective.invoke(mapper, record);
             return Integer.parseInt(String.valueOf(result));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         return 0;
@@ -363,11 +365,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = updateByPrimaryKeyWithBLOBs.invoke(mapper, record);
             return Integer.parseInt(String.valueOf(result));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return 0;
     }
@@ -380,11 +382,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Object result = updateByPrimaryKey.invoke(mapper, record);
             return Integer.parseInt(String.valueOf(result));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return 0;
     }
@@ -409,11 +411,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             }
             return count;
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return 0;
     }
@@ -436,11 +438,11 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
             Method method = mapper.getClass().getDeclaredMethod("selectByExample", example.getClass());
             obj = (List<Entity>) method.invoke(mapper, example);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return obj;
     }
