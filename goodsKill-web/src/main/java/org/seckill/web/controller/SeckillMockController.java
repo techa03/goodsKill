@@ -47,6 +47,7 @@ public class SeckillMockController {
         prepareSeckill(seckillId, seckillCount);
         log.info("秒杀活动开始，秒杀场景一(sychronized同步锁实现)时间：{},秒杀id：{}", new Date(), seckillId);
         seckillService.executeWithSynchronized(seckillId, requestCount);
+        log.info("秒杀活动结束，秒杀场景一(sychronized同步锁实现)时间：{},秒杀id：{}", new Date(), seckillId);
     }
 
     /**
@@ -147,7 +148,7 @@ public class SeckillMockController {
     @ResponseBody
     public String doWithActiveMqMessageWithReply(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "userPhone") String userPhone) {
         prepareSeckill(seckillId, 10);
-        log.info("秒杀场景六(返回执行结果的秒杀,30秒超时,activeMq实现)时间：{},秒杀id：{}", new Date(), seckillId);
+        log.info("秒杀场景六(返回执行结果的秒杀,30秒超时,activeMq实现)开始时间：{},秒杀id：{}", new Date(), seckillId);
 
         Message mes = jmsTemplate.sendAndReceive(new MessageCreator() {
             @Override
@@ -169,6 +170,7 @@ public class SeckillMockController {
         } catch (JMSException e) {
             log.warn(e.getMessage(), e);
         }
+        log.info("秒杀场景六(返回执行结果的秒杀,30秒超时,activeMq实现)结束时间：{},秒杀id：{}", new Date(), seckillId);
         return result;
     }
 
