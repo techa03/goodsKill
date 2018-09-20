@@ -1,6 +1,7 @@
 package org.seckill.service.mq;
 
 import lombok.extern.slf4j.Slf4j;
+import org.seckill.dao.RedisDao;
 import org.seckill.dao.SuccessKilledMapper;
 import org.seckill.dao.ext.ExtSeckillMapper;
 import org.seckill.entity.Seckill;
@@ -44,6 +45,8 @@ public class SeckillActiveConsumer implements MessageListener {
             log.error(e.getMessage(), e);
         }
         Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
+
+        log.info("当前库存：{}", seckill.getNumber());
         if (seckill.getNumber() > 0) {
             extSeckillMapper.reduceNumber(seckillId, new Date());
             SuccessKilled record = new SuccessKilled();

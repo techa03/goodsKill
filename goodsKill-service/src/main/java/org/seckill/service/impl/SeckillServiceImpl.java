@@ -108,14 +108,6 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     public Exposer exportSeckillUrl(long seckillId) {
         //从redis中获取缓存秒杀信息
         Seckill seckill = redisDao.getSeckill(seckillId);
-        if (seckill == null) {
-            seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
-            if (seckill != null) {
-                redisDao.putSeckill(seckill);
-            } else {
-                return new Exposer(false, seckillId);
-            }
-        }
         Date startTime = seckill.getStartTime();
         Date endTime = seckill.getEndTime();
         Date nowTime = new Date();
@@ -340,6 +332,11 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         example.createCriteria().andSeckillIdEqualTo(seckillId);
         long count = successKilledMapper.countByExample(example);
         return count;
+    }
+
+    @Override
+    public void executeWithZookeeperLock(Long seckillId, int requestCount) {
+
     }
 
 }

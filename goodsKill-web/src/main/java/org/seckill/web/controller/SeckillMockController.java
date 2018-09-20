@@ -135,6 +135,7 @@ public class SeckillMockController {
         prepareSeckill(seckillId, seckillCount);
         log.info("秒杀活动开始，秒杀场景五(存储过程实现)时间：{},秒杀id：{}", new Date(), seckillId);
         seckillService.executeWithProcedure(seckillId, requestCount);
+        //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
     /**
@@ -173,5 +174,15 @@ public class SeckillMockController {
         log.info("秒杀场景六(返回执行结果的秒杀,30秒超时,activeMq实现)结束时间：{},秒杀id：{}", new Date(), seckillId);
         return result;
     }
+
+
+//    @PostMapping("/activemq/reply/{seckillId}")
+//    @ResponseBody
+//    public void doWithZookeeperLock(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
+//                                      @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) {
+//        prepareSeckill(seckillId, seckillCount);
+//        log.info("秒杀活动开始，秒杀场景五(存储过程实现)时间：{},秒杀id：{}", new Date(), seckillId);
+//        seckillService.executeWithZookeeperLock(seckillId, requestCount);
+//    }
 
 }

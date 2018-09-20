@@ -84,4 +84,9 @@ public interface SeckillService extends CommonService<SeckillExample, Seckill> {
      */
     long getSuccessKillCount(Long seckillId);
 
+    /**
+     * @param seckillId
+     * @param requestCount
+     */
+    void executeWithZookeeperLock(Long seckillId, int requestCount);
 }

@@ -36,6 +36,14 @@
         <constructor-arg value="seckillTopic"/>
     </bean>
 
+    <!-- 秒杀成功通知消息监听容器 -->
+    <bean id="jmsContainer"
+          class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="destination" ref="topicDestination" />
+        <property name="messageListener" ref="seckillTopicListener"/>
+    </bean>
+
     <!--kafka消息队列-->
     <!--生产者工厂-->
     <bean id="kafkaProducerFactory" class="org.springframework.kafka.core.DefaultKafkaProducerFactory">
@@ -61,4 +69,5 @@
     <bean id="StringSerializer" class="org.apache.kafka.common.serialization.StringSerializer"/>
     <bean id="IntegerDeserializer" class="org.apache.kafka.common.serialization.IntegerDeserializer"/>
     <bean id="StringDeserializer" class="org.apache.kafka.common.serialization.StringDeserializer"/>
+    <bean id="seckillTopicListener" class="org.seckill.web.mqlistener.SeckillTopicListener"/>
 </beans>

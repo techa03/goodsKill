@@ -126,6 +126,9 @@ mvn clean install -Plocal
 - 可通过http://localhost:18080/goodsKill/swagger-ui.html#/访问swagger主页
 
 
+#### 错误排查
+- 如果发现减少库存无效（update set number=number-1语句），请检查mysql是否为8.0+版本
+
 #### 附：项目目录结构
 ```
 goodsKill

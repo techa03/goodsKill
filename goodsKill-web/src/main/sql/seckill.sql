@@ -136,7 +136,7 @@ CREATE TABLE `seckill` (
   `seckill_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '商品库存id',
   `name` varchar(120) NOT NULL COMMENT '商品名称',
   `number` int(11) NOT NULL COMMENT '库存数量',
-  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '秒杀开启时间',
+  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '秒杀开启时间',
   `end_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '秒杀结束时间',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `goods_id` int(11) DEFAULT NULL,
@@ -232,6 +232,5 @@ INSERT INTO `user_role` VALUES ('81', '14', '2', '2018-08-19 19:40:36', '2018-08
 INSERT INTO `user_role` VALUES ('82', '14', '7', '2018-08-19 19:40:36', '2018-08-19 19:40:36');
 INSERT INTO `user_role` VALUES ('83', '14', '8', '2018-08-19 19:40:36', '2018-08-19 19:40:36');
 
-ALTER TABLE `seckill`.`seckill`
-CHANGE COLUMN `create_time` `start_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '秒杀开启时间' ;
+
 
