@@ -3,18 +3,24 @@ package org.seckill.web.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+
+import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.service.SeckillService;
-import org.seckill.entity.Seckill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+import org.seckill.entity.Seckill;
 
 /**
  * 模拟秒杀场景，可在swagger界面中触发操作
@@ -28,9 +34,13 @@ import java.util.UUID;
 public class SeckillMockController {
 
     @Autowired
-    SeckillService seckillService;
+    private SeckillService seckillService;
     @Autowired
     private JmsTemplate jmsTemplate;
+    @Resource(name = "taskExecutor")
+    private ThreadPoolTaskExecutor taskExecutor;
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
 
     /**
      * 通过同步锁控制秒杀并发（秒杀未完成阻塞主线程）
@@ -59,6 +69,7 @@ public class SeckillMockController {
         Seckill entity = new Seckill();
         entity.setSeckillId(seckillId);
         entity.setNumber(seckillCount);
+        entity.setStatus(SeckillStatusConstant.IN_PROGRESS);
         seckillService.updateByPrimaryKeySelective(entity);
         // 清理已成功秒杀记录
         seckillService.deleteSuccessKillRecord(seckillId);
@@ -79,7 +90,12 @@ public class SeckillMockController {
         // 初始化库存数量
         prepareSeckill(seckillId, seckillCount);
         log.info("秒杀活动开始，秒杀场景二(redis分布式锁实现)时间：{},秒杀id：{}", new Date(), seckillId);
-        seckillService.executeWithRedisson(seckillId, requestCount);
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        for (int i = 0; i < requestCount; i++) {
+            taskExecutor.execute(() -> {
+                seckillService.executeWithRedisson(seckillId, 1, atomicInteger.addAndGet(1));
+            });
+        }
     }
 
     /**
@@ -97,7 +113,19 @@ public class SeckillMockController {
         // 初始化库存数量
         prepareSeckill(seckillId, seckillCount);
         log.info("秒杀活动开始，秒杀场景三(activemq消息队列实现)时间：{},秒杀id：{}", new Date(), seckillId);
-        seckillService.executeWithActiveMq(seckillId, requestCount);
+        // 保证用户id不重复
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        for (int i = 0; i < requestCount; i++) {
+            taskExecutor.execute(() -> {
+                jmsTemplate.send((Session session) -> {
+                    Message message = session.createMessage();
+                    message.setLongProperty("seckillId", seckillId);
+                    message.setStringProperty("userPhone", String.valueOf(atomicInteger.incrementAndGet()));
+                    message.setStringProperty("note", String.valueOf("秒杀场景三(activemq消息队列实现)"));
+                    return message;
+                });
+            });
+        }
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -116,7 +144,8 @@ public class SeckillMockController {
         // 初始化库存数量
         prepareSeckill(seckillId, seckillCount);
         log.info("秒杀活动开始，秒杀场景四(kafka消息队列实现)时间：{},秒杀id：{}", new Date(), seckillId);
-        seckillService.executeWithKafkaMq(seckillId, requestCount);
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        kafkaTemplate.sendDefault(atomicInteger.incrementAndGet(), String.valueOf(seckillId));
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -134,7 +163,12 @@ public class SeckillMockController {
                                 @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
         prepareSeckill(seckillId, seckillCount);
         log.info("秒杀活动开始，秒杀场景五(存储过程实现)时间：{},秒杀id：{}", new Date(), seckillId);
-        seckillService.executeWithProcedure(seckillId, requestCount);
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        for (int i = 0; i < requestCount; i++) {
+            taskExecutor.execute(() -> {
+                seckillService.executeWithProcedure(seckillId, 1, atomicInteger.addAndGet(1));
+            });
+        }
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 

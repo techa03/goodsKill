@@ -1,12 +1,9 @@
 package org.seckill.entity;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Data
 public class Seckill implements Serializable {
     private Long seckillId;
 
@@ -23,6 +20,10 @@ public class Seckill implements Serializable {
     private Integer goodsId;
 
     private BigDecimal price;
+
+    private String status;
+
+    private String createUser;
 
     private static final long serialVersionUID = 1L;
 
@@ -90,6 +91,42 @@ public class Seckill implements Serializable {
         this.price = price;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser == null ? null : createUser.trim();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", seckillId=").append(seckillId);
+        sb.append(", name=").append(name);
+        sb.append(", number=").append(number);
+        sb.append(", startTime=").append(startTime);
+        sb.append(", endTime=").append(endTime);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", goodsId=").append(goodsId);
+        sb.append(", price=").append(price);
+        sb.append(", status=").append(status);
+        sb.append(", createUser=").append(createUser);
+        sb.append("]");
+        return sb.toString();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -109,7 +146,9 @@ public class Seckill implements Serializable {
             && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getGoodsId() == null ? other.getGoodsId() == null : this.getGoodsId().equals(other.getGoodsId()))
-            && (this.getPrice() == null ? other.getPrice() == null : this.getPrice().equals(other.getPrice()));
+            && (this.getPrice() == null ? other.getPrice() == null : this.getPrice().equals(other.getPrice()))
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+            && (this.getCreateUser() == null ? other.getCreateUser() == null : this.getCreateUser().equals(other.getCreateUser()));
     }
 
     @Override
@@ -124,25 +163,8 @@ public class Seckill implements Serializable {
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getGoodsId() == null) ? 0 : getGoodsId().hashCode());
         result = prime * result + ((getPrice() == null) ? 0 : getPrice().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getCreateUser() == null) ? 0 : getCreateUser().hashCode());
         return result;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", seckillId=").append(seckillId);
-        sb.append(", name=").append(name);
-        sb.append(", number=").append(number);
-        sb.append(", startTime=").append(startTime);
-        sb.append(", endTime=").append(endTime);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", goodsId=").append(goodsId);
-        sb.append(", price=").append(price);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 }

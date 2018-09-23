@@ -10,6 +10,8 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
     <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -40,15 +42,44 @@
       </foreach>
     </where>
   </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
   <sql id="Base_Column_List">
-    seckill_id, name, number, start_time, end_time, create_time, goods_id, price
+    seckill_id, name, number, start_time, end_time, create_time, goods_id, price, status, 
+    create_user
   </sql>
   <select id="selectByExample" parameterType="org.seckill.entity.SeckillExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
-    'false' as QUERYID,
     <include refid="Base_Column_List" />
     from seckill
     <if test="_parameter != null">
@@ -68,13 +99,21 @@
     delete from seckill
     where seckill_id = #{seckillId,jdbcType=BIGINT}
   </delete>
+  <delete id="deleteByExample" parameterType="org.seckill.entity.SeckillExample">
+    delete from seckill
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
   <insert id="insert" parameterType="org.seckill.entity.Seckill">
     insert into seckill (seckill_id, name, number, 
       start_time, end_time, create_time, 
-      goods_id, price)
+      goods_id, price, status, 
+      create_user)
     values (#{seckillId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{goodsId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL})
+      #{goodsId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.seckill.entity.Seckill">
     insert into seckill
@@ -103,6 +142,12 @@
       <if test="price != null">
         price,
       </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="seckillId != null">
@@ -129,8 +174,74 @@
       <if test="price != null">
         #{price,jdbcType=DECIMAL},
       </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
+  <select id="countByExample" parameterType="org.seckill.entity.SeckillExample" resultType="java.lang.Long">
+    select count(*) from seckill
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update seckill
+    <set>
+      <if test="record.seckillId != null">
+        seckill_id = #{record.seckillId,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.number != null">
+        number = #{record.number,jdbcType=INTEGER},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.goodsId != null">
+        goods_id = #{record.goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update seckill
+    set seckill_id = #{record.seckillId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      number = #{record.number,jdbcType=INTEGER},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      goods_id = #{record.goodsId,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=DECIMAL},
+      status = #{record.status,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="org.seckill.entity.Seckill">
     update seckill
     <set>
@@ -155,6 +266,12 @@
       <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
     </set>
     where seckill_id = #{seckillId,jdbcType=BIGINT}
   </update>
@@ -166,7 +283,9 @@
       end_time = #{endTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       goods_id = #{goodsId,jdbcType=INTEGER},
-      price = #{price,jdbcType=DECIMAL}
+      price = #{price,jdbcType=DECIMAL},
+      status = #{status,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR}
     where seckill_id = #{seckillId,jdbcType=BIGINT}
   </update>
 </mapper>

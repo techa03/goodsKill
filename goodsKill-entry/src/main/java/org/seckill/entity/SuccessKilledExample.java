@@ -1,10 +1,11 @@
 package org.seckill.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SuccessKilledExample {
+public class SuccessKilledExample implements Serializable {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -354,16 +355,226 @@ public class SuccessKilledExample {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andServerIpIsNull() {
+            addCriterion("server_ip is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerIpIsNotNull() {
+            addCriterion("server_ip is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerIpEqualTo(String value) {
+            addCriterion("server_ip =", value, "serverIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerIpNotEqualTo(String value) {
+            addCriterion("server_ip <>", value, "serverIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerIpGreaterThan(String value) {
+            addCriterion("server_ip >", value, "serverIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerIpGreaterThanOrEqualTo(String value) {
+            addCriterion("server_ip >=", value, "serverIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerIpLessThan(String value) {
+            addCriterion("server_ip <", value, "serverIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerIpLessThanOrEqualTo(String value) {
+            addCriterion("server_ip <=", value, "serverIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerIpLike(String value) {
+            addCriterion("server_ip like", value, "serverIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerIpNotLike(String value) {
+            addCriterion("server_ip not like", value, "serverIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerIpIn(List<String> values) {
+            addCriterion("server_ip in", values, "serverIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerIpNotIn(List<String> values) {
+            addCriterion("server_ip not in", values, "serverIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerIpBetween(String value1, String value2) {
+            addCriterion("server_ip between", value1, value2, "serverIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerIpNotBetween(String value1, String value2) {
+            addCriterion("server_ip not between", value1, value2, "serverIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIpIsNull() {
+            addCriterion("user_ip is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIpIsNotNull() {
+            addCriterion("user_ip is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIpEqualTo(String value) {
+            addCriterion("user_ip =", value, "userIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIpNotEqualTo(String value) {
+            addCriterion("user_ip <>", value, "userIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIpGreaterThan(String value) {
+            addCriterion("user_ip >", value, "userIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIpGreaterThanOrEqualTo(String value) {
+            addCriterion("user_ip >=", value, "userIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIpLessThan(String value) {
+            addCriterion("user_ip <", value, "userIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIpLessThanOrEqualTo(String value) {
+            addCriterion("user_ip <=", value, "userIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIpLike(String value) {
+            addCriterion("user_ip like", value, "userIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIpNotLike(String value) {
+            addCriterion("user_ip not like", value, "userIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIpIn(List<String> values) {
+            addCriterion("user_ip in", values, "userIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIpNotIn(List<String> values) {
+            addCriterion("user_ip not in", values, "userIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIpBetween(String value1, String value2) {
+            addCriterion("user_ip between", value1, value2, "userIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIpNotBetween(String value1, String value2) {
+            addCriterion("user_ip not between", value1, value2, "userIp");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdIsNull() {
+            addCriterion("user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdIsNotNull() {
+            addCriterion("user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdEqualTo(String value) {
+            addCriterion("user_id =", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdNotEqualTo(String value) {
+            addCriterion("user_id <>", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdGreaterThan(String value) {
+            addCriterion("user_id >", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdGreaterThanOrEqualTo(String value) {
+            addCriterion("user_id >=", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdLessThan(String value) {
+            addCriterion("user_id <", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdLessThanOrEqualTo(String value) {
+            addCriterion("user_id <=", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdLike(String value) {
+            addCriterion("user_id like", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdNotLike(String value) {
+            addCriterion("user_id not like", value, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdIn(List<String> values) {
+            addCriterion("user_id in", values, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdNotIn(List<String> values) {
+            addCriterion("user_id not in", values, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdBetween(String value1, String value2) {
+            addCriterion("user_id between", value1, value2, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserIdNotBetween(String value1, String value2) {
+            addCriterion("user_id not between", value1, value2, "userId");
+            return (Criteria) this;
+        }
     }
 
-    public static class Criteria extends GeneratedCriteria {
+    public static class Criteria extends GeneratedCriteria implements Serializable{
 
         protected Criteria() {
             super();
         }
     }
 
-    public static class Criterion {
+    public static class Criterion implements Serializable{
         private String condition;
 
         private Object value;

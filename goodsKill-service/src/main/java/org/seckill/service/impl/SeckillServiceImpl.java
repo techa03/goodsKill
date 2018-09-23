@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.Redisson;
 import org.redisson.api.RLock;
+import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
 import org.seckill.api.dto.SeckillInfo;
@@ -19,23 +20,22 @@ import org.seckill.dao.SuccessKilledMapper;
 import org.seckill.dao.ext.ExtSeckillMapper;
 import org.seckill.entity.*;
 import org.seckill.service.common.trade.alipay.AlipayRunner;
+import org.seckill.service.inner.SeckillExecutor;
 import org.seckill.service.mq.MqTask;
 import org.seckill.util.common.util.DateUtil;
 import org.seckill.util.common.util.MD5Util;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Session;
 import java.lang.reflect.InvocationTargetException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -49,7 +49,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 @Slf4j
-public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService {
+public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService, SeckillExecutor {
     @Autowired
     private AlipayRunner alipayRunner;
     @Autowired
@@ -62,10 +62,6 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     private GoodsMapper goodsMapper;
     @Resource(name = "taskExecutor")
     private ThreadPoolTaskExecutor taskExecutor;
-    @Autowired
-    private JmsTemplate jmsTemplate;
-    @Autowired
-    private KafkaTemplate kafkaTemplate;
     @Autowired
     private MqTask mqTask;
 
@@ -186,7 +182,6 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
 
     @Override
     public void executeWithSynchronized(Long seckillId, int executeTime) {
-        mqTask.initialFlag();
         CountDownLatch countDownLatch = new CountDownLatch(executeTime);
         for (int i = 0; i < executeTime; i++) {
             int userId = i;
@@ -220,112 +215,28 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     }
 
     @Override
-    public void executeWithProcedure(Long seckillId, int executeTime) {
-        mqTask.initialFlag();
-        Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
-        CountDownLatch countDownLatch = new CountDownLatch(seckill.getNumber());
-        for (int i = 0; i < executeTime; i++) {
-            int userId = i;
-            taskExecutor.execute(() -> {
-                try {
-                    extSeckillMapper.reduceNumberByProcedure(seckillId, userId, new Date());
-                } catch (Exception e) {
-                    log.error(e.getMessage(), e);
-                }
-                countDownLatch.countDown();
-            });
-        }
-        // 等待线程执行完毕，阻塞当前进程
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            log.error(e.getMessage(), e);
-        }
-        mqTask.sendSeckillSuccessTopic(seckillId, "秒杀场景五(存储过程实现)");
+    public void executeWithProcedure(Long seckillId, int executeTime, int userPhone) {
+        dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景五(存储过程实现)");
     }
 
     @Override
-    public void executeWithRedisson(Long seckillId, int executeTime) {
-        mqTask.initialFlag();
+    public void executeWithRedisson(Long seckillId, int executeTime, int userPhone) {
         RLock lock = Redisson.create().getLock(seckillId + "");
-        CountDownLatch countDownLatch = new CountDownLatch(executeTime);
-        for (int i = 0; i < executeTime; i++) {
-            int userId = i;
-            taskExecutor.execute(() -> {
-                lock.lock(10L, TimeUnit.SECONDS);
-                Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
-                if (seckill.getNumber() > 0) {
-                    extSeckillMapper.reduceNumber(seckillId, new Date());
-                    SuccessKilled record = new SuccessKilled();
-                    record.setSeckillId(seckillId);
-                    record.setUserPhone(String.valueOf(userId));
-                    record.setStatus((byte) 1);
-                    record.setCreateTime(new Date());
-                    successKilledMapper.insert(record);
-                } else {
-                    mqTask.sendSeckillSuccessTopic(seckillId, "秒杀场景二(redis分布式锁实现)");
-                    if (log.isDebugEnabled()) {
-                        log.debug("库存不足，无法继续秒杀！");
-                    }
-                }
-                lock.unlock();
-                countDownLatch.countDown();
-            });
-        }
-        // 等待线程执行完毕，阻塞当前进程
+        lock.lock();
         try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            log.error(e.getMessage(), e);
+            dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景二(redis分布式锁实现)");
+        } finally {
+            lock.unlock();
         }
     }
 
-    @Override
-    public void executeWithActiveMq(Long seckillId, int executeTime) {
-        mqTask.initialFlag();
-        CountDownLatch countDownLatch = new CountDownLatch(executeTime);
-        for (int i = 0; i < executeTime; i++) {
-            int userId = i;
-            taskExecutor.execute(() -> {
-                jmsTemplate.send(new MessageCreator() {
-                    @Override
-                    public Message createMessage(Session session) throws JMSException {
-                        countDownLatch.countDown();
-                        Message message = session.createMessage();
-                        message.setLongProperty("seckillId", seckillId);
-                        message.setStringProperty("userPhone", String.valueOf(userId));
-                        return message;
-                    }
-                });
-            });
-        }
-        // 等待线程执行完毕，阻塞当前进程
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            log.error(e.getMessage(), e);
-        }
-    }
 
-    @Override
-    public void executeWithKafkaMq(Long seckillId, int executeTime) {
-        mqTask.initialFlag();
-        CountDownLatch countDownLatch = new CountDownLatch(executeTime);
-        for (int i = 0; i < executeTime; i++) {
-            int userId = i;
-            taskExecutor.execute(() -> {
-                kafkaTemplate.sendDefault(userId, String.valueOf(seckillId));
-                countDownLatch.countDown();
-            });
-        }
-        // 等待线程执行完毕，阻塞当前进程
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            log.error(e.getMessage(), e);
-        }
-    }
-
+    /**
+     * 获取秒杀成功笔数
+     *
+     * @param seckillId 秒杀活动id
+     * @return
+     */
     @Override
     public long getSuccessKillCount(Long seckillId) {
         SuccessKilledExample example = new SuccessKilledExample();
@@ -336,7 +247,39 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
 
     @Override
     public void executeWithZookeeperLock(Long seckillId, int requestCount) {
-
+        //TODO
     }
 
+    @Override
+    public void dealSeckill(long seckillId, String userPhone, String note) {
+        Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
+
+        log.info("当前库存：{}", seckill.getNumber());
+        if (seckill.getNumber() > 0) {
+            extSeckillMapper.reduceNumber(seckillId, new Date());
+            SuccessKilled record = new SuccessKilled();
+            record.setSeckillId(seckillId);
+            record.setUserPhone(userPhone);
+            record.setStatus((byte) 1);
+            record.setCreateTime(new Date());
+            try {
+                InetAddress localHost = InetAddress.getLocalHost();
+                record.setServerIp(localHost.getHostAddress() + ":" + localHost.getHostName());
+            } catch (UnknownHostException e) {
+                log.warn("请求被未知IP处理！", e);
+            }
+            successKilledMapper.insert(record);
+        } else {
+            if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
+                mqTask.sendSeckillSuccessTopic(seckillId, note);
+                Seckill sendTopicResult = new Seckill();
+                sendTopicResult.setSeckillId(seckillId);
+                sendTopicResult.setStatus(SeckillStatusConstant.END);
+                extSeckillMapper.updateByPrimaryKeySelective(sendTopicResult);
+            }
+            if (log.isDebugEnabled()) {
+                log.debug("库存不足，无法继续秒杀！");
+            }
+        }
+    }
 }

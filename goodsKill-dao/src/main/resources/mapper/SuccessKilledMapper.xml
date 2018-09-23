@@ -6,6 +6,9 @@
     <id column="user_phone" jdbcType="VARCHAR" property="userPhone" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="server_ip" jdbcType="VARCHAR" property="serverIp" />
+    <result column="user_ip" jdbcType="VARCHAR" property="userIp" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    seckill_id, user_phone, status, create_time
+    seckill_id, user_phone, status, create_time, server_ip, user_ip, user_id
   </sql>
   <select id="selectByExample" parameterType="org.seckill.entity.SuccessKilledExample" resultMap="BaseResultMap">
     select
@@ -102,9 +105,11 @@
   </delete>
   <insert id="insert" parameterType="org.seckill.entity.SuccessKilled">
     insert into success_killed (seckill_id, user_phone, status, 
-      create_time)
+      create_time, server_ip, user_ip, 
+      user_id)
     values (#{seckillId,jdbcType=BIGINT}, #{userPhone,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{createTime,jdbcType=TIMESTAMP}, #{serverIp,jdbcType=VARCHAR}, #{userIp,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.seckill.entity.SuccessKilled">
     insert into success_killed
@@ -121,6 +126,15 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="serverIp != null">
+        server_ip,
+      </if>
+      <if test="userIp != null">
+        user_ip,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="seckillId != null">
@@ -134,6 +148,15 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serverIp != null">
+        #{serverIp,jdbcType=VARCHAR},
+      </if>
+      <if test="userIp != null">
+        #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -158,6 +181,15 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.serverIp != null">
+        server_ip = #{record.serverIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userIp != null">
+        user_ip = #{record.userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -168,7 +200,10 @@
     set seckill_id = #{record.seckillId,jdbcType=BIGINT},
       user_phone = #{record.userPhone,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      server_ip = #{record.serverIp,jdbcType=VARCHAR},
+      user_ip = #{record.userIp,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -182,6 +217,15 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="serverIp != null">
+        server_ip = #{serverIp,jdbcType=VARCHAR},
+      </if>
+      <if test="userIp != null">
+        user_ip = #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
     </set>
     where seckill_id = #{seckillId,jdbcType=BIGINT}
       and user_phone = #{userPhone,jdbcType=VARCHAR}
@@ -189,7 +233,10 @@
   <update id="updateByPrimaryKey" parameterType="org.seckill.entity.SuccessKilled">
     update success_killed
     set status = #{status,jdbcType=TINYINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      server_ip = #{serverIp,jdbcType=VARCHAR},
+      user_ip = #{userIp,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR}
     where seckill_id = #{seckillId,jdbcType=BIGINT}
       and user_phone = #{userPhone,jdbcType=VARCHAR}
   </update>
