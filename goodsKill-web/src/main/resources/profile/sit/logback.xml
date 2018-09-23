@@ -4,7 +4,6 @@
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoder 默认配置为PatternLayoutEncoder -->
         <encoder>
-            <charset>UTF-8</charset>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
@@ -22,14 +21,27 @@
         <prudent>false</prudent>
     </appender>
 
-    <logger name="org.seckill" level="DEBUG" additivity="true"/>
-    <logger name="org.springframework" level="WARN" additivity="true"/>
-    <logger name="java.sql" level="DEBUG" additivity="true"/>
-    <logger name="org.apache.kafka" level="ERROR" additivity="true"/>
+    <!-- Configure the Sentry appender, overriding the logging threshold to the WARN level -->
+    <!--<appender name="Sentry" class="io.sentry.logback.SentryAppender">-->
+        <!--<filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+            <!--<level>WARN</level>-->
+        <!--</filter>-->
+        <!--<dsn>https://8361689ddd2f48d2aac3927e0857aa1b:d7a5ed75a00240009d563b4a7309a62c@sentry.io/186531</dsn>-->
+    <!--</appender>-->
 
+    <!--<logger name="java.sql.Connection" level="DEBUG" additivity="false"/>-->
+    <!--<logger name="java.sql.Statement" level="DEBUG" additivity="false"/>-->
+    <!--<logger name="java.sql.PreparedStatement" level="DEBUG" additivity="false"/>-->
+    <!--<logger name="druid.sql.Statement" level="DEBUG" additivity="false"/>-->
+    <!--<logger name="org.apache.zookeeper" level="WARN" additivity="false"/>-->
+    <!--<logger name="org.seckill" level="DEBUG" additivity="false"/>-->
+
+
+    <!-- 必须设置为debug否则sql不打印 -->
     <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="rollingAppender" />
+        <!--<appender-ref ref="Sentry" />-->
     </root>
 
 </configuration>
