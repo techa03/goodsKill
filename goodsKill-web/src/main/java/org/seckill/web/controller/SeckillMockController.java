@@ -46,7 +46,7 @@ public class SeckillMockController {
      * 通过同步锁控制秒杀并发（秒杀未完成阻塞主线程）
      * 场景一：初始化当前库存为1000，通过线程池调度，模拟总共有2000人参与秒杀，期望值为最后成功笔数为1000
      * 结果：多次运行，最终的结果为1000
-     * 总结：加上同步锁可以很好的解决秒杀问题，适用于单机模式，扩展性差。
+     * 总结：加上同步锁可以解决秒杀问题，适用于单机模式，扩展性差。
      *
      * @param seckillId 秒杀活动id
      */
@@ -79,7 +79,7 @@ public class SeckillMockController {
      * 通过同步锁控制秒杀并发（秒杀未完成阻塞主线程）
      * 场景一：初始化当前库存为1000，通过线程池调度，模拟总共有2000人参与秒杀，期望值为最后成功笔数为1000
      * 结果：多次运行，最终的结果为1000
-     * 总结：加上同步锁可以很好的解决秒杀问题，适用于分布式环境，但速度不如加同步锁。
+     * 总结：加上同步锁可以解决秒杀问题，适用于分布式环境，但速度不如加同步锁。
      *
      * @param seckillId 秒杀活动id
      */
@@ -146,6 +146,11 @@ public class SeckillMockController {
         log.info("秒杀活动开始，秒杀场景四(kafka消息队列实现)时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         kafkaTemplate.sendDefault(atomicInteger.incrementAndGet(), String.valueOf(seckillId));
+        for (int i = 0; i < requestCount; i++) {
+            taskExecutor.execute(() -> {
+                kafkaTemplate.sendDefault(atomicInteger.incrementAndGet(), String.valueOf(seckillId));
+            });
+        }
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
