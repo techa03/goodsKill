@@ -26,6 +26,7 @@
                 #{seckillId,jdbcType=BIGINT,mode=IN},
                 #{phone,jdbcType=BIGINT,mode=IN},
                 #{killTime,jdbcType=TIMESTAMP,mode=IN},
+                #{serverIp,jdbcType=VARCHAR,mode=IN},
                 #{result,jdbcType=INTEGER,mode=OUT}
         )
     </select>

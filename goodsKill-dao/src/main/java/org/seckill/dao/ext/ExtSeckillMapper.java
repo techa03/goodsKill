@@ -35,8 +35,9 @@ public interface ExtSeckillMapper extends SeckillMapper {
      * @param seckillId
      * @param killTime
      * @param phone
+     * @param serverIp
      * @return
      */
     void reduceNumberByProcedure(@Param("seckillId") long seckillId, @Param("phone") long phone,
-                                 @Param("killTime") Date killTime);
+                                 @Param("killTime") Date killTime,@Param("serverIp") String serverIp);
 }

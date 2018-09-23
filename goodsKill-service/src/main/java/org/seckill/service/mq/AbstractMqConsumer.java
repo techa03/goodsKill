@@ -39,19 +39,13 @@ public class AbstractMqConsumer implements SeckillExecutor {
         log.info("当前库存：{}", seckill.getNumber());
         if (seckill.getNumber() > 0) {
             //存储过程实现，适用于分布式环境
-            extSeckillMapper.reduceNumberByProcedure(seckillId, Long.valueOf(userPhone), new Date());
-            SuccessKilled record = new SuccessKilled();
-            record.setSeckillId(seckillId);
-            record.setUserPhone(userPhone);
-            record.setStatus((byte) 1);
-            record.setCreateTime(new Date());
+            InetAddress localHost = null;
             try {
-                InetAddress localHost = InetAddress.getLocalHost();
-                record.setServerIp(localHost.getHostAddress() + ":" + localHost.getHostName());
+                localHost = InetAddress.getLocalHost();
             } catch (UnknownHostException e) {
                 log.warn("请求被未知IP处理！", e);
             }
-            successKilledMapper.insert(record);
+            extSeckillMapper.reduceNumberByProcedure(seckillId, Long.valueOf(userPhone), new Date(), localHost.getHostAddress() + ":" + localHost.getHostName());
         } else {
             if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
                 mqTask.sendSeckillSuccessTopic(seckillId, note);
