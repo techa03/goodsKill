@@ -47,7 +47,7 @@ public class SeckillMockController {
         prepareSeckill(seckillId, seckillCount);
         log.info("秒杀活动开始，秒杀场景一(sychronized同步锁实现)时间：{},秒杀id：{}", new Date(), seckillId);
         seckillService.executeWithSynchronized(seckillId, requestCount);
-        log.info("秒杀活动结束，秒杀场景一(sychronized同步锁实现)时间：{},秒杀id：{}", new Date(), seckillId);
+        //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
     /**
