@@ -27,9 +27,10 @@ public class AbstractMqConsumer implements SeckillExecutor {
 
     /**
      * 处理用户秒杀请求
+     *
      * @param seckillId 秒杀活动id
      * @param userPhone
-     * @param note 秒杀备注信息
+     * @param note      秒杀备注信息
      */
     @Override
     public void dealSeckill(long seckillId, String userPhone, String note) {
@@ -37,7 +38,8 @@ public class AbstractMqConsumer implements SeckillExecutor {
 
         log.info("当前库存：{}", seckill.getNumber());
         if (seckill.getNumber() > 0) {
-            extSeckillMapper.reduceNumber(seckillId, new Date());
+            //存储过程实现，适用于分布式环境
+            extSeckillMapper.reduceNumberByProcedure(seckillId, Long.valueOf(userPhone), new Date());
             SuccessKilled record = new SuccessKilled();
             record.setSeckillId(seckillId);
             record.setUserPhone(userPhone);
@@ -45,13 +47,13 @@ public class AbstractMqConsumer implements SeckillExecutor {
             record.setCreateTime(new Date());
             try {
                 InetAddress localHost = InetAddress.getLocalHost();
-                record.setServerIp(localHost.getHostAddress()+":"+localHost.getHostName());
+                record.setServerIp(localHost.getHostAddress() + ":" + localHost.getHostName());
             } catch (UnknownHostException e) {
                 log.warn("请求被未知IP处理！", e);
             }
             successKilledMapper.insert(record);
         } else {
-            if(!SeckillStatusConstant.END.equals(seckill.getStatus())){
+            if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
                 mqTask.sendSeckillSuccessTopic(seckillId, note);
                 Seckill sendTopicResult = new Seckill();
                 sendTopicResult.setSeckillId(seckillId);

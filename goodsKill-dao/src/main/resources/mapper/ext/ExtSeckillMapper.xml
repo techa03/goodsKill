@@ -11,6 +11,16 @@
         AND end_time <![CDATA[ >= ]]> #{killTime,jdbcType=TIMESTAMP}
         AND number <![CDATA[ > ]]> 0
     </update>
+    <update id="reduceNumberOptimized">
+        UPDATE
+        seckill
+        SET
+        number = number -1
+        WHERE seckill_id = #{seckillId,jdbcType=BIGINT}
+        AND start_time <![CDATA[ <= ]]> #{killTime,jdbcType=TIMESTAMP}
+        AND end_time <![CDATA[ >= ]]> #{killTime,jdbcType=TIMESTAMP}
+        AND number <![CDATA[ > ]]> 0 AND number=#{number,jdbcType=INTEGER}
+    </update>
     <select id="reduceNumberByProcedure" statementType="CALLABLE">
         CALL execute_seckill(
                 #{seckillId,jdbcType=BIGINT,mode=IN},
