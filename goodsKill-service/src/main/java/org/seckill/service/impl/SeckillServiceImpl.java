@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.Redisson;
 import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
@@ -22,12 +24,12 @@ import org.seckill.entity.*;
 import org.seckill.service.common.trade.alipay.AlipayRunner;
 import org.seckill.service.inner.SeckillExecutor;
 import org.seckill.service.mq.MqTask;
+import org.seckill.service.util.PropertiesUtil;
 import org.seckill.util.common.util.DateUtil;
 import org.seckill.util.common.util.MD5Util;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsTemplate;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +40,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -49,7 +50,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 @Slf4j
-public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService, SeckillExecutor {
+public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService, SeckillExecutor, InitializingBean {
     @Autowired
     private AlipayRunner alipayRunner;
     @Autowired
@@ -64,6 +65,10 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     private ThreadPoolTaskExecutor taskExecutor;
     @Autowired
     private MqTask mqTask;
+    @Autowired
+    private PropertiesUtil propertiesUtil;
+
+    private RedissonClient redissonClient;
 
     public void setAlipayRunner(AlipayRunner alipayRunner) {
         this.alipayRunner = alipayRunner;
@@ -221,7 +226,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
 
     @Override
     public void executeWithRedisson(Long seckillId, int executeTime, int userPhone) {
-        RLock lock = Redisson.create().getLock(seckillId + "");
+        RLock lock = redissonClient.getLock(seckillId + "");
         lock.lock();
         try {
             dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景二(redis分布式锁实现)");
@@ -281,5 +286,12 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
                 log.debug("库存不足，无法继续秒杀！");
             }
         }
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        Config config = new Config();
+        config.useSingleServer().setAddress(propertiesUtil.getProperty("cache_ip_address"));
+        redissonClient = Redisson.create();
     }
 }
