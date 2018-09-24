@@ -279,7 +279,14 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
         } catch (InvocationTargetException e) {
             log.error(e.getMessage(), e);
         } catch (NoSuchMethodException e) {
-            log.error(e.getMessage(), e);
+            Method selectByPrimaryKey = null;
+            try {
+                selectByPrimaryKey = mapper.getClass().getDeclaredMethod("selectByPrimaryKey", Long.class);
+                Object result = selectByPrimaryKey.invoke(mapper, Long.valueOf(id));
+                return (Entity) result;
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e1) {
+                log.warn(e.getMessage(), e);
+            }
         }
 
         return null;

@@ -1,11 +1,10 @@
 package org.seckill.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.seckill.api.service.GoodsService;
 import org.seckill.dao.GoodsMapper;
 import org.seckill.entity.Goods;
 import org.seckill.entity.GoodsExample;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +16,10 @@ import java.util.List;
  * Created by heng on 2017/1/7.
  */
 @Service
-public class GoodsServiceImpl extends AbstractServiceImpl<GoodsMapper, GoodsExample, Goods> implements GoodsService{
+@Slf4j
+public class GoodsServiceImpl extends AbstractServiceImpl<GoodsMapper, GoodsExample, Goods> implements GoodsService {
     @Autowired
     private GoodsMapper goodsMapper;
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public void setGoodsMapper(GoodsMapper goodsMapper) {
         this.goodsMapper = goodsMapper;
@@ -31,7 +30,7 @@ public class GoodsServiceImpl extends AbstractServiceImpl<GoodsMapper, GoodsExam
         Goods goods = new Goods();
         goods.setGoodsId((int) goodsId);
         goods.setPhotoImage(bytes);
-        logger.info(goods.toString());
+        log.info(goods.toString());
         goodsMapper.updateByPrimaryKeySelective(goods);
     }
 

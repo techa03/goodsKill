@@ -1,11 +1,10 @@
 package org.seckill.service.mq;
 
 import lombok.extern.slf4j.Slf4j;
+import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.dao.SuccessKilledMapper;
 import org.seckill.dao.ext.ExtSeckillMapper;
 import org.seckill.entity.Seckill;
-import org.seckill.entity.SuccessKilled;
-import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.service.inner.SeckillExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,7 +16,7 @@ import java.util.Date;
  *
  */
 @Slf4j
-public class AbstractMqConsumer implements SeckillExecutor {
+public abstract class AbstractMqConsumer implements SeckillExecutor {
     @Autowired
     private ExtSeckillMapper extSeckillMapper;
     @Autowired
