@@ -30,7 +30,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -77,13 +76,7 @@ public class SeckillController {
             return "redirect:/seckill/list";
         }
         SeckillInfo seckillInfo = null;
-        try {
-            seckillInfo = seckillService.getById(seckillId);
-        } catch (InvocationTargetException e) {
-            logger.error("the error is :", e);
-        } catch (IllegalAccessException e) {
-            logger.error("the error is :", e);
-        }
+        seckillInfo = seckillService.getById(seckillId);
         if (seckillInfo == null) {
             return "forward:/seckill/list";
         }
@@ -162,13 +155,7 @@ public class SeckillController {
     @Transactional
     @GetMapping(value = "/{seckillId}/edit")
     public String edit(Model model, @PathVariable("seckillId") Long seckillId) {
-        try {
-            model.addAttribute("seckillInfo", seckillService.getById(seckillId));
-        } catch (InvocationTargetException e) {
-            logger.error("the error is :", e);
-        } catch (IllegalAccessException e) {
-            logger.error("the error is :", e);
-        }
+        model.addAttribute("seckillInfo", seckillService.getById(seckillId));
         return "seckill/edit";
     }
 
@@ -307,7 +294,7 @@ public class SeckillController {
             List<RolePermission> rolePermissionList = rolePermissionService.selectByExample(rolePermissionExample);
             for (RolePermission rolePermission : rolePermissionList) {
                 Permission permission = permissionService.selectByPrimaryKey(rolePermission.getPermissionId());
-                if("Y".equals(permission.getIsDir())){
+                if ("Y".equals(permission.getIsDir())) {
                     set.add(permission);
                 }
             }

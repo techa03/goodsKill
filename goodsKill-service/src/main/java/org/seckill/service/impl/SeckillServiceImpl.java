@@ -96,7 +96,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     }
 
     @Override
-    public SeckillInfo getById(long seckillId) throws InvocationTargetException, IllegalAccessException {
+    public SeckillInfo getById(long seckillId) {
         Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
         SeckillInfo seckillInfo = new SeckillInfo();
         BeanUtils.copyProperties(seckill, seckillInfo);
