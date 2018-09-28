@@ -13,7 +13,7 @@
 
 本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证，前端页面基于bootstrap框架搭建，并使用bootstrap-validator插件进行表单验证。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，数据库密码采用AES加密保护（默认未开启）。采用dubbo+zookeeper实现服务分布式部署及调用。集成了支付宝支付功能（详见service模块），用户完成秒杀操作成功之后即可通过二维码扫码完成支付（本demo基于支付宝沙箱环境）。
 
-本项目扩展了秒杀功能，集成了jmock完成service层的测试，同时项目使用travis持续集成，提交更新后即可触发travis自动构建并完成项目测试覆盖率报告。
+本项目扩展了秒杀功能，集成了jmock完成service层的测试，支持数据库读写分离，同时项目使用travis持续集成，提交更新后即可触发travis自动构建并完成项目测试覆盖率报告。
 
 ## 分支介绍
 本项目目前主要有两个分支，`dev_gradle`分支为使用gradle构建工具管理项目依赖，`dev_maven`分支对应maven构建工具（目前为主分支），`dev_maven`部署方法见底部。本分支集成了druid，swagger2以及pageHelper等功能，该项目功能目前比较简陋，功能还有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下~~~~。
@@ -108,6 +108,8 @@ mvn clean install -Plocal
 ```
 - 支付宝二维码接入指南：https://blog.csdn.net/techa/article/details/71003519
 
+- 默认启用了读写分离，如不需要此功能请修改connections.properties，使从库与主库数据库地址保持一致即可
+
 #### 并发场景：
 目前实现了几种秒杀方案
 
@@ -143,6 +145,8 @@ goodsKill
 |   |   |   |   |   |   |--api
 |   |   |   |   |   |   |   |--annotation
 |   |   |   |   |   |   |   |   |--BaseService.java
+|   |   |   |   |   |   |   |--constant
+|   |   |   |   |   |   |   |   |--SeckillStatusConstant.java
 |   |   |   |   |   |   |   |--dto
 |   |   |   |   |   |   |   |   |--Exposer.java
 |   |   |   |   |   |   |   |   |--SeckillExecution.java
@@ -174,6 +178,9 @@ goodsKill
 |   |   |   |   |   |--seckill
 |   |   |   |   |   |   |--dao
 |   |   |   |   |   |   |   |--BaseMapper.java
+|   |   |   |   |   |   |   |--common
+|   |   |   |   |   |   |   |   |--DataSourceEnum.java
+|   |   |   |   |   |   |   |   |--DynamicDataSource.java
 |   |   |   |   |   |   |   |--ext
 |   |   |   |   |   |   |   |   |--ExtSeckillMapper.java
 |   |   |   |   |   |   |   |--GoodsMapper.java
@@ -212,6 +219,8 @@ goodsKill
 |   |   |   |   |   |   |   |--test
 |   |   |   |   |   |   |   |   |--base
 |   |   |   |   |   |   |   |   |   |--BaseMapperTestConfig.java
+|   |   |   |--resources
+|   |   |   |   |--connections_test.properties
 |--goodsKill-entry
 |   |--pom.xml
 |   |--src
@@ -240,16 +249,6 @@ goodsKill
 |--goodsKill-generator
 |   |--generatorConfig.xml
 |   |--pom.xml
-|   |--src
-|   |   |--main
-|   |   |   |--java
-|   |   |   |   |--org
-|   |   |   |   |   |--seckill
-|   |   |   |   |   |   |--generator
-|   |   |   |   |   |   |   |--plugins
-|   |   |   |--resources
-|   |   |--test
-|   |   |   |--java
 |--goodsKill-service
 |   |--pom.xml
 |   |--src
@@ -258,17 +257,16 @@ goodsKill
 |   |   |   |   |--org
 |   |   |   |   |   |--seckill
 |   |   |   |   |   |   |--service
-|   |   |   |   |   |   |   |--aspect
-|   |   |   |   |   |   |   |   |--DefaultUsageTracked.java
-|   |   |   |   |   |   |   |   |--ParamLogAspect.java
-|   |   |   |   |   |   |   |   |--UsageTracked.java
+|   |   |   |   |   |   |   |--aop
+|   |   |   |   |   |   |   |   |--aspect
+|   |   |   |   |   |   |   |   |   |--DataSourceEntryAspect.java
 |   |   |   |   |   |   |   |--common
 |   |   |   |   |   |   |   |   |--trade
 |   |   |   |   |   |   |   |   |   |--alipay
 |   |   |   |   |   |   |   |   |   |   |--AlipayRunner.java
 |   |   |   |   |   |   |   |--GoodsKillRpcServiceApplication.java
 |   |   |   |   |   |   |   |--impl
-|   |   |   |   |   |   |   |   |--CommonServiceImpl.java
+|   |   |   |   |   |   |   |   |--AbstractServiceImpl.java
 |   |   |   |   |   |   |   |   |--GoodsServiceImpl.java
 |   |   |   |   |   |   |   |   |--PermissionServiceImpl.java
 |   |   |   |   |   |   |   |   |--RolePermissionServiceImpl.java
@@ -276,14 +274,16 @@ goodsKill
 |   |   |   |   |   |   |   |   |--SeckillServiceImpl.java
 |   |   |   |   |   |   |   |   |--UserAccountServiceImpl.java
 |   |   |   |   |   |   |   |   |--UserRoleServiceImpl.java
+|   |   |   |   |   |   |   |--inner
+|   |   |   |   |   |   |   |   |--SeckillExecutor.java
 |   |   |   |   |   |   |   |--mq
-|   |   |   |   |   |   |   |--org
+|   |   |   |   |   |   |   |   |--AbstractMqConsumer.java
+|   |   |   |   |   |   |   |   |--MqTask.java
+|   |   |   |   |   |   |   |   |--SeckillActiveConsumer.java
+|   |   |   |   |   |   |   |   |--SekcillKafkaConsumer.java
 |   |   |   |   |   |   |   |--util
-|   |   |   |   |   |   |   |   |--AopTest.java
 |   |   |   |   |   |   |   |   |--ApplicationContextUtil.java
-|   |   |   |   |   |   |   |   |--HashMapTest.java
-|   |   |   |   |   |   |   |   |--Pojo.java
-|   |   |   |   |   |   |   |   |--SimplePojo.java
+|   |   |   |   |   |   |   |   |--PropertiesUtil.java
 |   |   |   |--resources
 |   |   |   |   |--lib
 |   |   |   |   |--logback.xml
@@ -303,6 +303,7 @@ goodsKill
 |   |   |   |   |   |   |--connections.properties
 |   |   |   |   |   |--sit
 |   |   |   |   |   |   |--connections.properties
+|   |   |   |   |   |   |--logback.xml
 |   |   |   |   |   |--uat
 |   |   |   |   |   |   |--connections.properties
 |   |   |   |   |--zfbinfo.properties
@@ -312,10 +313,11 @@ goodsKill
 |   |   |   |   |   |--seckill
 |   |   |   |   |   |   |--service
 |   |   |   |   |   |   |   |--impl
-|   |   |   |   |   |   |   |   |--mock
-|   |   |   |   |   |   |   |   |   |--GoodsServiceImplTest.java
-|   |   |   |   |   |   |   |   |   |--SeckillServiceImplTest.java
-|   |   |   |   |   |   |   |   |   |--UserAccountServiceImplTest.java
+|   |   |   |   |   |   |   |   |--test
+|   |   |   |   |   |   |   |   |   |--mock
+|   |   |   |   |   |   |   |   |   |   |--GoodsServiceImplTest.java
+|   |   |   |   |   |   |   |   |   |   |--SeckillServiceImplTest.java
+|   |   |   |   |   |   |   |   |   |   |--UserAccountServiceImplTest.java
 |   |   |   |   |   |   |   |--test
 |   |   |   |   |   |   |   |   |--base
 |   |   |   |   |   |   |   |   |   |--BaseServiceConfigForTest.java
@@ -358,6 +360,8 @@ goodsKill
 |   |   |   |   |   |   |   |   |--PermissionDto.java
 |   |   |   |   |   |   |   |   |--ResponseDto.java
 |   |   |   |   |   |   |   |   |--RoleDto.java
+|   |   |   |   |   |   |   |--mqlistener
+|   |   |   |   |   |   |   |   |--SeckillTopicListener.java
 |   |   |   |   |   |   |   |--swagger
 |   |   |   |   |   |   |   |   |--RestApiConfig.java
 |   |   |   |   |   |   |   |--util
@@ -373,13 +377,16 @@ goodsKill
 |   |   |   |   |   |   |--goodsKill-server.properties
 |   |   |   |   |   |--sit
 |   |   |   |   |   |   |--goodsKill-server.properties
+|   |   |   |   |   |   |--logback.xml
 |   |   |   |   |   |--uat
 |   |   |   |   |   |   |--goodsKill-server.properties
 |   |   |   |   |--spring
 |   |   |   |   |   |--spring-dubbo-consumer.xml
 |   |   |   |   |   |--spring-shiro-web.xml
+|   |   |   |   |   |--spring-web-mq.xml
 |   |   |   |   |   |--spring-web.xml
 |   |   |   |--sql
+|   |   |   |   |--procedure.sql
 |   |   |   |   |--seckill.sql
 |   |   |   |--webapp
 |   |   |   |   |--html
@@ -390,7 +397,6 @@ goodsKill
 |   |   |   |   |   |   |--role.html
 |   |   |   |   |   |   |--user.html
 |   |   |   |   |   |   |--userRole.html
-|   |   |   |   |   |--common
 |   |   |   |   |   |--css
 |   |   |   |   |   |   |--awesomeStyle
 |   |   |   |   |   |   |   |--awesome.css
@@ -468,6 +474,7 @@ goodsKill
 |   |   |   |   |   |   |   |--payByQrcode.jsp
 |   |   |   |   |   |   |--upload.jsp
 |   |   |   |   |   |--web.xml
+|--hs_err_pid12412.log
 |--LICENSE
 |--pom.xml
 |--README.md
