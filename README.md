@@ -5,9 +5,6 @@
 [![release](https://img.shields.io/github/release/techa03/goodsKill.svg)](https://github.com/techa03/goodsKill/releases)
 [![codecov](https://codecov.io/gh/techa03/goodsKill/branch/dev_maven/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
 
-[![GitHub stars](https://img.shields.io/github/stars/techa03/goodsKill.svg?style=social&label=Stars)](https://github.com/techa03/goodsKill)
-[![GitHub forks](https://img.shields.io/github/forks/techa03/goodsKill.svg?style=social&label=Fork)](https://github.com/techa03/goodsKill)
-
 # 前言
 项目命名为goodsKill一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为good skill，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来，方便学习和查阅。
 
