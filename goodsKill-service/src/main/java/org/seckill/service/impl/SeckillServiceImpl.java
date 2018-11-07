@@ -2,6 +2,7 @@ package org.seckill.service.impl;
 
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.redisson.Redisson;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -25,6 +26,7 @@ import org.seckill.service.common.trade.alipay.AlipayRunner;
 import org.seckill.service.inner.SeckillExecutor;
 import org.seckill.service.mq.MqTask;
 import org.seckill.service.util.PropertiesUtil;
+import org.seckill.service.util.ZookeeperLockUtil;
 import org.seckill.util.common.util.DateUtil;
 import org.seckill.util.common.util.MD5Util;
 import org.springframework.beans.BeanUtils;
@@ -67,6 +69,8 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     private MqTask mqTask;
     @Autowired
     private PropertiesUtil propertiesUtil;
+    @Autowired
+    private ZookeeperLockUtil zookeeperLockUtil;
 
     private RedissonClient redissonClient;
 
@@ -251,8 +255,14 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     }
 
     @Override
-    public void executeWithZookeeperLock(Long seckillId, int requestCount) {
-        //TODO
+    public void executeWithZookeeperLock(Long seckillId, int executeTime, int userPhone) {
+        log.info("进入");
+        zookeeperLockUtil.lock(seckillId);
+        try {
+            dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景七(zookeeper分布式锁)");
+        } finally {
+            zookeeperLockUtil.releaseLock(seckillId);
+        }
     }
 
     @Override

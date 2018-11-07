@@ -117,6 +117,7 @@ mvn clean install -Plocal
 - 场景四：kafkamq实现
 - 场景五：存储过程实现
 - 场景六：实时等待秒杀处理结果
+- 场景七：zookeeper分布式锁
 
 #### 编译部署注意事项：
 

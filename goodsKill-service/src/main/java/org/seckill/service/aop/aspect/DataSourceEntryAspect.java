@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  * @date 2018/09/28
  */
 @Aspect
-@Component
+//@Component
 @Order(Ordered.LOWEST_PRECEDENCE-1)
 @Slf4j
 public class DataSourceEntryAspect {

@@ -215,13 +215,18 @@ public class SeckillMockController {
     }
 
 
-//    @PostMapping("/activemq/reply/{seckillId}")
-//    @ResponseBody
-//    public void doWithZookeeperLock(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
-//                                      @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) {
-//        prepareSeckill(seckillId, seckillCount);
-//        log.info("秒杀活动开始，秒杀场景五(存储过程实现)时间：{},秒杀id：{}", new Date(), seckillId);
-//        seckillService.executeWithZookeeperLock(seckillId, requestCount);
-//    }
+    @PostMapping("/zookeeperLock/{seckillId}")
+    @ResponseBody
+    public void doWithZookeeperLock(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
+                                      @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) {
+        prepareSeckill(seckillId, seckillCount);
+        log.info("秒杀活动开始，秒杀场景七(zookeeper分布式锁)时间：{},秒杀id：{}", new Date(), seckillId);
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        for (int i = 0; i < requestCount; i++) {
+            taskExecutor.execute(() -> {
+                seckillService.executeWithZookeeperLock(seckillId, 1, atomicInteger.addAndGet(1));
+            });
+        }
+    }
 
 }
