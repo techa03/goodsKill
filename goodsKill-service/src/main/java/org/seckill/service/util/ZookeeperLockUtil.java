@@ -9,7 +9,8 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -18,27 +19,17 @@ public class ZookeeperLockUtil implements InitializingBean {
 
     private CuratorFramework client;
     private String ROOT_LOCK_PATH = "/goodsKill";
-    private ConcurrentHashMap<Long, InterProcessMutex> lockMap = new ConcurrentHashMap();
-
-
-    public static void main(String[] args) {
-//        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-//        client = CuratorFrameworkFactory.newClient(PropertiesUtil.getProperty("zookeeper_ip"), retryPolicy);
-//        client.start();
-//
-//        long seckillId = 1003L;
-//        lock = new InterProcessMutex(client, ROOT_LOCK_PATH + "/" + String.valueOf(seckillId));
-//        new ZookeeperLockUtil().lock(seckillId);
-//        Thread.sleep(10000);
-//        new ZookeeperLockUtil().releaseLock(seckillId);
-    }
+    private ThreadLocal<Map<Long, InterProcessMutex>> threadLock = new ThreadLocal<>();
 
     public boolean lock(long seckillId) {
         try {
-            if (lockMap.get(seckillId) == null) {
-                lockMap.put(seckillId, new InterProcessMutex(client, ROOT_LOCK_PATH+"/"+String.valueOf(seckillId)));
+            if (threadLock.get() == null) {
+                Map<Long, InterProcessMutex> map = new HashMap();
+                map.put(seckillId,new InterProcessMutex(client,ROOT_LOCK_PATH+"/"+String.valueOf(seckillId)));
+                threadLock.set(map);
+            }else{
+                threadLock.get().get(seckillId).acquire(2L, TimeUnit.SECONDS);
             }
-            lockMap.get(seckillId).acquire(2L, TimeUnit.SECONDS);
             return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -48,7 +39,7 @@ public class ZookeeperLockUtil implements InitializingBean {
 
     public boolean releaseLock(long seckillId) {
         try {
-            lockMap.get(seckillId).release();
+            threadLock.get().get(seckillId).release();
             return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);

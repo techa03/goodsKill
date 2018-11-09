@@ -105,8 +105,6 @@ mvn clean install -Plocal
 ```
 - 支付宝二维码接入指南：https://blog.csdn.net/techa/article/details/71003519
 
-- 默认启用了读写分离，如不需要此功能请修改connections.properties，使从库与主库数据库地址保持一致即可
-
 #### 并发场景：
 目前实现了几种秒杀方案
 
