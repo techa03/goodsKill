@@ -2,7 +2,6 @@ package org.seckill.service.impl;
 
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.redisson.Redisson;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -37,7 +36,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
@@ -256,7 +254,6 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
 
     @Override
     public void executeWithZookeeperLock(Long seckillId, int executeTime, int userPhone) {
-        log.info("进入");
         zookeeperLockUtil.lock(seckillId);
         try {
             dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景七(zookeeper分布式锁)");
