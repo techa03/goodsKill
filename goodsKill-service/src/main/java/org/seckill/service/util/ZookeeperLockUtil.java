@@ -23,11 +23,16 @@ public class ZookeeperLockUtil implements InitializingBean {
 
     public boolean lock(long seckillId) {
         try {
-            if (threadLock.get() == null) {
-                Map<Long, InterProcessMutex> map = new HashMap();
-                map.put(seckillId,new InterProcessMutex(client,ROOT_LOCK_PATH+"/"+String.valueOf(seckillId)));
+            if (threadLock.get().get(seckillId) == null) {
+                Map<Long, InterProcessMutex> map;
+                if (threadLock.get() == null) {
+                    map = new HashMap();
+                } else {
+                    map = threadLock.get();
+                }
+                map.put(seckillId, new InterProcessMutex(client, ROOT_LOCK_PATH + "/" + String.valueOf(seckillId)));
                 threadLock.set(map);
-            }else{
+            } else {
                 threadLock.get().get(seckillId).acquire(2L, TimeUnit.SECONDS);
             }
             return true;
