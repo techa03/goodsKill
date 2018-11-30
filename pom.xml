@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.goodsKill</groupId>
     <artifactId>goodsKill</artifactId>
@@ -16,11 +17,17 @@
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>4.3.20.RELEASE</spring.version>
-        <project.version>2.3.4-SNAPSHOT</project.version>
+        <!--<spring.version>4.3.20.RELEASE</spring.version>-->
+        <project.version>1.0.1-SNAPSHOT</project.version>
         <shiro.version>1.4.0</shiro.version>
-        <curator-version>4.0.1</curator-version>
+        <curator.version>4.0.1</curator.version>
+        <springboot.version>2.1.1.RELEASE</springboot.version>
     </properties>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.7.RELEASE</version>
+    </parent>
     <name>goodsKill Maven Webapp</name>
 
     <!--此处根据环境修改你的配置-->
@@ -87,66 +94,7 @@
                 <artifactId>goodsKill-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-beans</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-aop</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-jdbc</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-jms</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-messaging</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-orm</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-test</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-tx</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-web</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-webmvc</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
+
             <!--日志相关-->
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -156,17 +104,17 @@
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
-                <version>1.1.1</version>
+                <version>1.2.3</version>
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
-                <version>1.1.1</version>
+                <version>1.2.3</version>
             </dependency>
             <dependency>
                 <groupId>commons-logging</groupId>
                 <artifactId>commons-logging</artifactId>
-                <version>1.1.1</version>
+                <version>1.2</version>
             </dependency>
 
             <dependency>
@@ -327,12 +275,12 @@
             <dependency>
                 <groupId>com.google.zxing</groupId>
                 <artifactId>core</artifactId>
-                <version>2.1</version>
+                <version>3.3.0</version>
             </dependency>
             <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
-                <version>2.3.1</version>
+                <version>2.8.5</version>
             </dependency>
             <!--支付宝sdk需要的依赖END-->
             <dependency>
@@ -457,13 +405,13 @@
             <dependency>
                 <groupId>org.springframework.kafka</groupId>
                 <artifactId>spring-kafka</artifactId>
-                <version>1.3.6.RELEASE</version>
+                <version>2.0.7.RELEASE</version>
             </dependency>
             <!--curator-->
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-recipes</artifactId>
-                <version>${curator-version}</version>
+                <version>${curator.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.apache.zookeeper</groupId>
@@ -488,9 +436,9 @@
             </plugin>
 
             <!--<plugin>-->
-                <!--<groupId>com.rimerosolutions.maven.plugins</groupId>-->
-                <!--<artifactId>wrapper-maven-plugin</artifactId>-->
-                <!--<version>0.0.4</version>-->
+            <!--<groupId>com.rimerosolutions.maven.plugins</groupId>-->
+            <!--<artifactId>wrapper-maven-plugin</artifactId>-->
+            <!--<version>0.0.4</version>-->
             <!--</plugin>-->
             <!--<plugin>-->
             <!--<groupId>org.codehaus.mojo</groupId>-->
