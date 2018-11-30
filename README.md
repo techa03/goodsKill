@@ -95,7 +95,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 - 编译好整个项目后使用tomcat发布server模块，端口号18080，上下文环境配置为goodsKill,部署成功后访问
 http://localhost:18080/goodsKill/login，默认管理员账号admin123，密码：aa123456;
 
-- service和server下的resources/profile用于存放不同环境的配置信息，默认使用local目录的properties配置，如需应用其他环境下的配置文件，[请到此处修改配置](https://github.com/techa03/goodsKill/blob/dev_maven/pom.xml#L26-L54);
+- service和server下的resources/profile用于存放不同环境的配置信息，默认使用local目录的properties配置，如需应用其他环境下的配置文件，[请到此处修改配置](https://github.com/techa03/goodsKill/blob/dev_maven/pom.xml#L27-L55);
 
 - 根据不同环境打包项目在根目录中使用maven命令:
 ```

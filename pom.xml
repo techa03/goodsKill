@@ -13,8 +13,7 @@
         <module>goodsKill-api</module>
         <module>goodsKill-util</module>
         <module>goodsKill-generator</module>
-  </modules>
-
+    </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>4.3.20.RELEASE</spring.version>
@@ -23,7 +22,6 @@
         <curator-version>4.0.1</curator-version>
     </properties>
     <name>goodsKill Maven Webapp</name>
-    <url>http://maven.apache.org</url>
 
     <!--此处根据环境修改你的配置-->
     <profiles>
@@ -461,11 +459,6 @@
                 <artifactId>spring-kafka</artifactId>
                 <version>1.3.6.RELEASE</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.curator</groupId>
-                <artifactId>curator-recipes</artifactId>
-                <version>2.10.0</version>
-            </dependency>
             <!--curator-->
             <dependency>
                 <groupId>org.apache.curator</groupId>
@@ -477,11 +470,6 @@
                         <artifactId>zookeeper</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.curator</groupId>
-                <artifactId>curator-recipes</artifactId>
-                <version>4.0.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
