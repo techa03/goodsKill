@@ -1,12 +1,13 @@
 package org.seckill.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import lombok.extern.slf4j.Slf4j;
 import org.seckill.api.service.GoodsService;
 import org.seckill.dao.GoodsMapper;
 import org.seckill.entity.Goods;
 import org.seckill.entity.GoodsExample;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
+@Component
 public class GoodsServiceImpl extends AbstractServiceImpl<GoodsMapper, GoodsExample, Goods> implements GoodsService {
     @Autowired
     private GoodsMapper goodsMapper;

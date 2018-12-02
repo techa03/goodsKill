@@ -86,7 +86,7 @@
       <constructor-arg ref="containerProperties"/>
    </bean>
 
-   <bean id="containerProperties" class="org.springframework.kafka.listener.config.ContainerProperties">
+   <bean id="containerProperties" class="org.springframework.kafka.listener.ContainerProperties">
       <constructor-arg>
          <list>
             <value>goodsKill</value>
