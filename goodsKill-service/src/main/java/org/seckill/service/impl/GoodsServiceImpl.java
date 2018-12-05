@@ -16,7 +16,12 @@ import java.util.List;
 /**
  * Created by heng on 2017/1/7.
  */
-@Service
+@Service(
+        version = "${demo.service.version}",
+        application = "${dubbo.application.id}",
+        protocol = "${dubbo.protocol.id}",
+        registry = "${dubbo.registry.id}"
+)
 @Slf4j
 @Component
 public class GoodsServiceImpl extends AbstractServiceImpl<GoodsMapper, GoodsExample, Goods> implements GoodsService {

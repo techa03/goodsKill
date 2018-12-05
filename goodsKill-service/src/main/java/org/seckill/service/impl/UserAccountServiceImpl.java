@@ -21,7 +21,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-@Service
+@Service(
+        version = "${demo.service.version}",
+        application = "${dubbo.application.id}",
+        protocol = "${dubbo.protocol.id}",
+        registry = "${dubbo.registry.id}"
+)
 @Component
 public class UserAccountServiceImpl extends AbstractServiceImpl<UserMapper, UserExample, User> implements UserAccountService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());

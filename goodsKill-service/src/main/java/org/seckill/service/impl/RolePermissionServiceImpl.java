@@ -8,7 +8,12 @@ import org.seckill.entity.RolePermissionExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Service
+@Service(
+        version = "${demo.service.version}",
+        application = "${dubbo.application.id}",
+        protocol = "${dubbo.protocol.id}",
+        registry = "${dubbo.registry.id}"
+)
 @Component
 public class RolePermissionServiceImpl extends AbstractServiceImpl<RolePermissionMapper, RolePermissionExample, RolePermission> implements RolePermissionService {
 

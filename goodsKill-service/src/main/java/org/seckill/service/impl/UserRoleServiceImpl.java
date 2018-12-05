@@ -8,7 +8,12 @@ import org.seckill.entity.UserRoleExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Service
+@Service(
+        version = "${demo.service.version}",
+        application = "${dubbo.application.id}",
+        protocol = "${dubbo.protocol.id}",
+        registry = "${dubbo.registry.id}"
+)
 @Component
 public class UserRoleServiceImpl extends AbstractServiceImpl<UserRoleMapper, UserRoleExample, UserRole> implements UserRoleService {
     @Autowired

@@ -3,10 +3,6 @@ package org.seckill.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.Redisson;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
-import org.redisson.config.Config;
 import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
@@ -49,7 +45,12 @@ import java.util.concurrent.CountDownLatch;
  * @author heng
  * @date 2016/7/16
  */
-@Service
+@Service(
+        version = "${demo.service.version}",
+        application = "${dubbo.application.id}",
+        protocol = "${dubbo.protocol.id}",
+        registry = "${dubbo.registry.id}"
+)
 @Slf4j
 @Component
 public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService, SeckillExecutor, InitializingBean {
@@ -72,7 +73,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     @Autowired
     private ZookeeperLockUtil zookeeperLockUtil;
 
-    private RedissonClient redissonClient;
+//    private RedissonClient redissonClient;
 
     public void setAlipayRunner(AlipayRunner alipayRunner) {
         this.alipayRunner = alipayRunner;
@@ -230,13 +231,13 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
 
     @Override
     public void executeWithRedisson(Long seckillId, int executeTime, int userPhone) {
-        RLock lock = redissonClient.getLock(seckillId + "");
-        lock.lock();
-        try {
-            dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景二(redis分布式锁实现)");
-        } finally {
-            lock.unlock();
-        }
+//        RLock lock = redissonClient.getLock(seckillId + "");
+//        lock.lock();
+//        try {
+//            dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景二(redis分布式锁实现)");
+//        } finally {
+//            lock.unlock();
+//        }
     }
 
 
@@ -256,11 +257,11 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
 
     @Override
     public void executeWithZookeeperLock(Long seckillId, int executeTime, int userPhone) {
-        zookeeperLockUtil.lock(seckillId);
+//        zookeeperLockUtil.lock(seckillId);
         try {
             dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景七(zookeeper分布式锁)");
         } finally {
-            zookeeperLockUtil.releaseLock(seckillId);
+//            zookeeperLockUtil.releaseLock(seckillId);
         }
     }
 
@@ -299,8 +300,8 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
 
     @Override
     public void afterPropertiesSet() {
-        Config config = new Config();
-        config.useSingleServer().setAddress(propertiesUtil.getProperty("cache_ip_address"));
-        redissonClient = Redisson.create(config);
+//        Config config = new Config();
+//        config.useSingleServer().setAddress(propertiesUtil.getProperty("cache_ip_address"));
+//        redissonClient = Redisson.create(config);
     }
 }

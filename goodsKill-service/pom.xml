@@ -84,20 +84,6 @@
             <artifactId>commons-configuration</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.sgroschupf</groupId>
-            <artifactId>zkclient</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.zookeeper</groupId>
-            <artifactId>zookeeper</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>slf4j-log4j12</artifactId>
-                    <groupId>*</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
@@ -134,31 +120,24 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.redisson</groupId>
-            <artifactId>redisson</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-test</artifactId>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.redisson</groupId>-->
+            <!--<artifactId>redisson</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.apache.curator</groupId>
-            <artifactId>curator-recipes</artifactId>
+            <artifactId>curator-framework</artifactId>
+            <version>2.12.0</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.boot</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.boot</groupId>
-            <artifactId>dubbo-spring-boot-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
     </dependencies>
 
