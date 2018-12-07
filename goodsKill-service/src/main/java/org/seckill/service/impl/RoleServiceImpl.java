@@ -6,7 +6,6 @@ import org.seckill.dao.RoleMapper;
 import org.seckill.entity.Role;
 import org.seckill.entity.RoleExample;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Service(
         version = "${demo.service.version}",
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
         protocol = "${dubbo.protocol.id}",
         registry = "${dubbo.registry.id}"
 )
-@Component
 public class RoleServiceImpl extends AbstractServiceImpl<RoleMapper, RoleExample, Role> implements RoleService {
     @Autowired
     private RoleMapper roleMapper;

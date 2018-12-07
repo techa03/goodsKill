@@ -28,7 +28,7 @@
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>classpath*:spring/spring-*.xml</param-value>
+      <param-value>classpath*:spring/spring-web-mq.xml</param-value>
     </init-param>
   </servlet>
   

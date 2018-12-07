@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -27,7 +26,6 @@ import java.util.Set;
         protocol = "${dubbo.protocol.id}",
         registry = "${dubbo.registry.id}"
 )
-@Component
 public class UserAccountServiceImpl extends AbstractServiceImpl<UserMapper, UserExample, User> implements UserAccountService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired

@@ -49,5 +49,4 @@
    <bean id="seckillActiveConsumer" class="org.seckill.service.mq.SeckillActiveConsumer"/>
 
 
-
 </beans>

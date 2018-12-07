@@ -1,12 +1,30 @@
-package org.seckill.service.util;
-
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
-@Component
-@Slf4j
-public class ZookeeperLockUtil{
-
+//package org.seckill.service.util;
+//
+//import lombok.extern.slf4j.Slf4j;
+//import org.apache.curator.RetryPolicy;
+//import org.apache.curator.framework.CuratorFramework;
+//import org.apache.curator.framework.CuratorFrameworkFactory;
+//import org.apache.curator.framework.recipes.locks.InterProcessMutex;
+//import org.apache.curator.retry.ExponentialBackoffRetry;
+//import org.springframework.beans.BeansException;
+//import org.springframework.beans.factory.InitializingBean;
+//import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+//import org.springframework.beans.factory.config.BeanPostProcessor;
+//import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+//import org.springframework.boot.context.event.ApplicationStartedEvent;
+//import org.springframework.context.ApplicationEvent;
+//import org.springframework.context.ApplicationListener;
+//import org.springframework.stereotype.Component;
+//import org.springframework.util.StringUtils;
+//
+//import java.util.HashMap;
+//import java.util.Map;
+//import java.util.concurrent.TimeUnit;
+//
+//@Component
+//@Slf4j
+//public class ZookeeperLockUtil implements ApplicationListener {
+//
 //    private CuratorFramework client;
 //    private String ROOT_LOCK_PATH = "/goodsKill";
 //    private ThreadLocal<Map<Long, InterProcessMutex>> threadLock = new ThreadLocal<>();
@@ -42,10 +60,17 @@ public class ZookeeperLockUtil{
 //        }
 //    }
 //
-////    @Override
-//    public void afterPropertiesSet() {
-//        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-//        this.client = CuratorFrameworkFactory.newClient(PropertiesUtil.getProperty("zookeeper_ip"), retryPolicy);
-//        client.start();
+//    @Override
+//    public void onApplicationEvent(ApplicationEvent applicationEvent) {
+//        if(applicationEvent instanceof ApplicationStartedEvent){
+//            RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
+//            String zookeeperIp = PropertiesUtil.getProperty("zookeeper_ip");
+//            if(StringUtils.isEmpty(zookeeperIp)){
+//                zookeeperIp = "127.0.0.1:2181";
+//            }
+//            this.client = CuratorFrameworkFactory.newClient(zookeeperIp, retryPolicy);
+//            client.start();
+//        }
 //    }
-}
+//
+//}

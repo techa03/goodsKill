@@ -7,7 +7,6 @@ import org.seckill.dao.GoodsMapper;
 import org.seckill.entity.Goods;
 import org.seckill.entity.GoodsExample;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,7 +22,6 @@ import java.util.List;
         registry = "${dubbo.registry.id}"
 )
 @Slf4j
-@Component
 public class GoodsServiceImpl extends AbstractServiceImpl<GoodsMapper, GoodsExample, Goods> implements GoodsService {
     @Autowired
     private GoodsMapper goodsMapper;

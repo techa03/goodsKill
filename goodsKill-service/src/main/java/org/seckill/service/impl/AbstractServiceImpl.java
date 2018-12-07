@@ -8,14 +8,12 @@ import org.apache.ibatis.annotations.Param;
 import org.seckill.api.annotation.BaseService;
 import org.seckill.api.service.CommonService;
 import org.seckill.service.util.ApplicationContextUtil;
-import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-@Service
 @BaseService
 @Slf4j
 public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements CommonService<Example, Entity> {
