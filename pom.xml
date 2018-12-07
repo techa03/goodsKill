@@ -10,7 +10,7 @@
         <module>goodsKill-service</module>
         <module>goodsKill-dao</module>
         <module>goodsKill-entry</module>
-        <module>goodsKill-web</module>
+        <!--<module>goodsKill-web</module>-->
         <module>goodsKill-api</module>
         <module>goodsKill-util</module>
         <module>goodsKill-generator</module>
@@ -400,18 +400,6 @@
                 <groupId>org.springframework.kafka</groupId>
                 <artifactId>spring-kafka</artifactId>
                 <version>2.2.2.RELEASE</version>
-            </dependency>
-            <!--curator-->
-            <dependency>
-                <groupId>org.apache.curator</groupId>
-                <artifactId>curator-recipes</artifactId>
-                <version>${curator.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.zookeeper</groupId>
-                        <artifactId>zookeeper</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
 
