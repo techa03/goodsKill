@@ -2,7 +2,6 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/techa03/goodsKill/pulls)
 [![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=dev_springboot_2.x)](https://travis-ci.org/techa03/goodsKill)
-[![release](https://img.shields.io/github/release/techa03/goodsKill.svg)](https://github.com/techa03/goodsKill/releases)
 [![codecov](https://codecov.io/gh/techa03/goodsKill/branch/dev_springboot_2.x/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
 
 # 前言
@@ -78,6 +77,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 - MYSQL :8.0+;
 - activemq: 5.8.0
 - kafka: kafka_2.11-2.0.0
+
 其他环境版本暂未测试
 
 
