@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css">
+    <script src="../js/config.js"></script>
+    <script src="../js/jquery-1.10.2.js"></script>
+    <script src="../../layui/layui.all.js"></script>
+    <script>
+        function addUserRole(userId) {
+            var table = layui.table;
+            layer.open({
+                type: 1,
+                title: '管理用户角色',
+                btn: ['确认', '取消'],
+                area: ['340px', '500px'],
+                content: '<div id="userRole" style="margin-top: 20px;margin-right: 60px">\n' +
+                '        <table id="roleList" lay-filter="test1"></table>\n' +
+                '</div>', //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                yes: function (index, layero) {
+                    var checkstatus = table.checkStatus('user');
+                    var checkstatus1 = table.checkStatus('userRole');
+                    var param = {
+                        roleDto: checkstatus1.data
+                    }
+                    $.ajax({
+                        url: Http_port + '/seckill/admin/user/' + userId + '/addRole',
+                        data: JSON.stringify(checkstatus1.data),
+                        type: 'post',
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function () {
+                            layer.msg("分配角色成功！");
+                            layer.close(index);
+                        }
+                    });
+                }
+
+            });
+            table.render({
+                elem: '#userRole' //指定原始表格元素选择器（推荐id选择器）
+                , height: 315 //容器高度
+                , cols: [[ //标题栏
+                    {checkbox: true}
+                    , {field: 'roleId', title: 'ID', width: 80, sort: true}
+                    , {field: 'roleName', title: '角色名称', width: 180}
+                    // , {field: 'createTime', title: '创建时间', width: 180}
+                    // , {field: 'updateTime', title: '修改时间', width: 180}
+                ]]
+                , url: Http_port + '/seckill/admin/roleLess'
+                , page: true
+            });
+            layer.ready(function () {
+                var table = layui.table;
+
+            });
+
+        }
+
+
+        function deleteUser() {
+            var table = layui.table;
+            var checkStatus = table.checkStatus('user');
+            console.log(checkStatus.data);
+            if (checkStatus.data.length != 1) {
+                layer.open({
+                    type: 1,
+                    content: '请选择一条数据！'
+                });
+            } else {
+                $.ajax({
+                    url: Http_port + "/seckill/admin/user/delete/" + checkStatus.data[0].userId,
+                    type: 'get',
+                    success: function (data) {
+                        table.reload('user', {
+                            url: Http_port + "/seckill/admin/user"
+                            , where: {} //设定异步数据接口的额外参数
+                        });
+                    }
+                });
+            }
+        }
+
+        $(function () {
+            layui.table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                if (obj.event === 'updateUserRole') { //删除
+                    addUserRole(obj.data.id);
+                }
+            });
+        })
+    </script>
+</head>
+
+
+<body>
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-xs layui-btn-info" lay-event="updateUserRole">分配角色</a>
+</script>
+
+<div style="margin-left: 20px;margin-top: 30px">
+    <table id='user' class="layui-table"
+           lay-data="{url:'http://localhost:18080/goodsKill/seckill/admin/user', page:true, id:'user',skin:'line', even:true }"
+           lay-filter="test">
+        <thead>
+        <tr>
+            <!--<th lay-data="{checkbox:true}"></th>-->
+            <th lay-data="{field:'id', width:80, sort: true}">ID</th>
+            <th lay-data="{field:'account', width:180}">账号</th>
+            <th lay-data="{field:'username', width:180}">用户名</th>
+            <!--<th lay-data="{field:'locked', width:180}">是否冻结</th>-->
+            <!--<th lay-data="{field:'createTime', width:180}">创建时间</th>-->
+            <th lay-data="{field:'updateTime', width:180}">最近登录时间</th>
+            <th lay-data="{fixed: 'right', width:220, align:'center', toolbar: '#bar'}">操作</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+<script src="../../layui/layui.all.js"></script>
+<script>
+</script>
+</body>
+</html>
+
+<!--<div id="userRole" style="margin-top: 20px;margin-right: 60px">-->
+<!--<form class="layui-form" action="http://localhost:18080/goodsKill/seckill/admin/user/add">-->
+<!--<table id="roleList" lay-filter="test"></table>-->
+<!--</form>-->
+<!--<div class="layui-form-item">-->
+<!--<div class="layui-input-block">-->
+<!--<button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>-->
+<!--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->

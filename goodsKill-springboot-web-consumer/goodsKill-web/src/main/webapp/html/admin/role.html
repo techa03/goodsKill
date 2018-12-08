@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css">
+    <script src="../js/config.js"></script>
+    <script src="../js/jquery-1.10.2.js"></script>
+    <script src="../../layui/layui.all.js"></script>
+    <script type="text/javascript" src="../js/jquery.ztree.all.min.js"></script>
+    <script>
+        function addRole() {
+            layer.open({
+                type: 1,
+                title: '新增角色',
+                area: ['400px', '300px'],
+                content: '<div id="addUser1" style="margin-top: 20px;margin-right: 60px">\n' +
+                '    <form class="layui-form" action="http://localhost:18080/goodsKill/seckill/admin/role/add">\n' +
+                '        <div class="layui-form-item">\n' +
+                '            <label class="layui-form-label">角色名称</label>\n' +
+                '            <div class="layui-input-block">\n' +
+                '                <input type="text" name="roleName" required  lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">\n' +
+                '            </div>\n' +
+                '        </div>\n' +
+                '        <div class="layui-form-item">\n' +
+                '            <div class="layui-input-block">\n' +
+                '                <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>\n' +
+                '                <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
+                '            </div>\n' +
+                '        </div>\n' +
+                '    </form>\n' +
+                '</div>', //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                yes: function (index, layero) {
+                    //do something
+                    layer.close(index); //如果设定了yes回调，需进行手工关闭
+                }
+            });
+        }
+
+        function deleteRole(roleId) {
+            $.ajax({
+                url: Http_port + "/seckill/admin/role/delete/" + roleId,
+                type: 'get',
+                success: function (data) {
+                    layui.table.reload('userRole', {
+                        url: Http_port + "/seckill/admin/role"
+                        , where: {} //设定异步数据接口的额外参数
+                    });
+                }
+            });
+        };
+
+        var data = {}
+
+        $(function () {
+            layui.table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                if (obj.event === 'detail') { //查看
+                    layer.open({
+                        type: 1,
+                        title: '角色权限管理',
+                        area: ['300px', '500px'],
+                        content: $("#rolePemission"),
+                        btnAlign: 'c',
+                        btn: ['确定', '取消'],
+                        yes: function (index, layero) {
+                            var treeObj = $.fn.zTree.getZTreeObj("treeDemo"),
+                                nodes = treeObj.getCheckedNodes(true),
+                                v = "";
+                            var rolePermission = new Array();
+                            var count = 0;
+                            for (var i = 0; i < nodes.length; i++) {
+                                if (nodes[i].level > 0) {
+                                    rolePermission.push(nodes[i].id);
+                                    count++;
+                                }
+                            }
+                            $.ajax({
+                                url : Http_port + '/seckill/admin/role/' + obj.data.roleId+'/updateRolePermission',
+                                type : 'post',
+                                data : JSON.stringify(rolePermission),
+                                dataType: "json",
+                                contentType: "application/json",
+                                success : function () {
+                                    layer.msg('更新成功！');
+                                    layer.close(index);
+                                }
+                            });
+                        },
+                        end: function (index) {
+                            layer.close(index);
+                            $('#rolePemission').hide();
+                        },
+
+                    });
+                    $.ajax({
+                        url: Http_port + '/seckill/admin/permissionTree',
+                        success: function (result) {
+                            data = result.data;
+                            initTree();
+                        }
+                    });
+                    //do somehing
+                } else if (obj.event === 'del') { //删除
+                    layer.confirm('确认删除么？', function (index) {
+                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                        layer.close(index);
+                        deleteRole(obj.data.roleId);
+                    });
+                }
+            });
+        })
+
+
+        var setting = {
+            data: {//表示tree的数据格式
+                simpleData: {
+                    enable: true,//表示使用简单数据模式
+                    idKey: "id",//设置之后id为在简单数据模式中的父子节点关联的桥梁
+                    pidKey: "pId",//设置之后pid为在简单数据模式中的父子节点关联的桥梁和id互相对应
+                    rootId: "a"//pid为null的表示根节点
+                }
+            },
+            view: {//表示tree的显示状态
+                selectMulti: false//表示禁止多选
+            },
+            check: {//表示tree的节点在点击时的相关设置
+                enable: true,//是否显示radio/checkbox
+                chkStyle: "checkbox",//值为checkbox或者radio表示
+                checkboxType: {p: "", s: ""},//表示父子节点的联动效果
+                radioType: "level"//设置tree的分组
+            },
+            callback: {//表示tree的一些事件处理函数
+                // onClick:handlerClick,
+                // onCheck:handlerCheck
+            }
+        }
+
+        function initTree() {
+            var treeData = [];
+            treeData.push({id: "root", name: "目录", pId: "a"});
+            for (var i = 0, il = data.length; i < il; i++) {
+                data[i].pId = data[i].pid;
+                if (data[i].pId == undefined) {
+                    data[i].pId = "root"
+                } else {
+
+                }
+                treeData.push(data[i]);
+            }
+            $.fn.zTree.init($("#treeDemo"), setting, treeData);
+        }
+
+        $(function () {
+            // initTree();
+        })
+    </script>
+
+    <script type="text/html" id="bar">
+        <a class="layui-btn layui-btn-xs" lay-event="detail">角色权限管理</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+</head>
+
+
+<body>
+<div style="margin-left: 20px;margin-top: 30px">
+    <button class="layui-btn layui-btn-sm" onclick="addRole();">新增</button>
+    <table class="layui-table"
+           lay-data="{url:'http://localhost:18080/goodsKill/seckill/admin/roleLess', page:true, id:'userRole', even:true}"
+           lay-filter="test">
+        <thead>
+        <tr>
+            <th lay-data="{checkbox:true}"></th>
+            <th lay-data="{field:'roleId', width:80, sort: true}">ID</th>
+            <th lay-data="{field:'roleName', width:180}">角色名</th>
+            <th lay-data="{fixed: 'right', width:250, align:'center', toolbar: '#bar'}">操作</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+<div id="rolePemission" style="margin-left: 20px;margin-top: 30px" hidden="hidden">
+    <ul id="treeDemo" class="ztree"></ul>
+</div>
+
+<script src="../../layui/layui.all.js"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+    <dubbo:application name="goodsKill-consumer" />
+
+    <!-- 使用zookeeper注册中心暴露服务地址 -->
+    <dubbo:registry address="${zookeeper_address}" />
+
+    <!-- 生成远程服务代理，可以像使用本地bean一样使用userService -->
+    <dubbo:reference id="seckillServiceImpl" interface="org.seckill.api.service.SeckillService"/>
+    <dubbo:reference id="goodsServiceImpl" interface="org.seckill.api.service.GoodsService"/>
+    <dubbo:reference id="userAccountServiceImpl" interface="org.seckill.api.service.UserAccountService"/>
+    <dubbo:reference id="roleServiceImpl" interface="org.seckill.api.service.RoleService"/>
+    <dubbo:reference id="userRoleServiceImpl" interface="org.seckill.api.service.UserRoleService"/>
+    <dubbo:reference id="permissionServiceImpl" interface="org.seckill.api.service.PermissionService"/>
+    <dubbo:reference id="rolePermissionServiceImpl" interface="org.seckill.api.service.RolePermissionService"/>
+</beans>

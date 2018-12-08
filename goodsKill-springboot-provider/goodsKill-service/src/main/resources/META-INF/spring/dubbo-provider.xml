@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd "
+       default-lazy-init="false">
+
+    <dubbo:application name="goodsKill-provider"/>
+
+    <dubbo:registry address="${zookeeper_address}" check="false" subscribe="false" register=""/>
+
+    <dubbo:service ref="userAccountServiceImpl" interface="org.seckill.api.service.UserAccountService" timeout="1000000"/>
+    <!-- 接口服务 -->
+    <dubbo:service ref="goodsServiceImpl" interface="org.seckill.api.service.GoodsService" timeout="1000000"/>
+
+    <dubbo:service ref="seckillServiceImpl" interface="org.seckill.api.service.SeckillService" timeout="1000000" retries="0"/>
+
+    <dubbo:service ref="roleServiceImpl" interface="org.seckill.api.service.RoleService" timeout="1000000" retries="0"/>
+
+    <dubbo:service ref="userRoleServiceImpl" interface="org.seckill.api.service.UserRoleService" timeout="1000000" retries="0"/>
+
+    <dubbo:service ref="permissionServiceImpl" interface="org.seckill.api.service.PermissionService" timeout="1000000" retries="0"/>
+
+    <dubbo:service ref="rolePermissionServiceImpl" interface="org.seckill.api.service.RolePermissionService" timeout="1000000" retries="0"/>
+
+</beans>

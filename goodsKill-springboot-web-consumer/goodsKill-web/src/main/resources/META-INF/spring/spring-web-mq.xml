@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+    <!--activeMQ配置-->
+    <!-- 真正可以产生Connection的ConnectionFactory，由对应的 JMS服务厂商提供 -->
+    <bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="${mq_address}"/>
+    </bean>
+
+    <!-- Spring用于管理真正的ConnectionFactory的ConnectionFactory -->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <property name="targetConnectionFactory" ref="targetConnectionFactory"/>
+    </bean>
+
+    <!-- Spring提供的JMS工具类，它可以进行消息发送、接收等 -->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="queueDestination"/>
+        <property name="receiveTimeout" value="30000"/>
+    </bean>
+
+    <bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="topicDestination"/>
+    </bean>
+
+    <bean id="queueDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg>
+            <value>goodsKill</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="topicDestination" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="seckillTopic"/>
+    </bean>
+
+    <!-- 秒杀成功通知消息监听容器 -->
+    <bean id="jmsContainer"
+          class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="destination" ref="topicDestination" />
+        <property name="messageListener" ref="seckillTopicListener"/>
+    </bean>
+
+    <!--kafka消息队列-->
+    <!--生产者工厂-->
+    <bean id="kafkaProducerFactory" class="org.springframework.kafka.core.DefaultKafkaProducerFactory">
+        <constructor-arg>
+            <map>
+                <entry key="bootstrap.servers" value="${bootstrap.servers}"/>
+                <entry key="retries" value="1"/>
+                <entry key="batch.size" value="16384"/>
+                <entry key="buffer.memory" value="10285760"/>
+            </map>
+        </constructor-arg>
+        <constructor-arg type="org.apache.kafka.common.serialization.Serializer" ref="IntegerSerializer"/>
+        <constructor-arg type="org.apache.kafka.common.serialization.Serializer" ref="StringSerializer"/>
+    </bean>
+
+
+    <bean id="kafkaTemplate" class="org.springframework.kafka.core.KafkaTemplate">
+        <constructor-arg ref="kafkaProducerFactory"/>
+        <property name="defaultTopic" value="goodsKill"></property>
+    </bean>
+
+    <bean id="IntegerSerializer" class="org.apache.kafka.common.serialization.IntegerSerializer"/>
+    <bean id="StringSerializer" class="org.apache.kafka.common.serialization.StringSerializer"/>
+    <bean id="IntegerDeserializer" class="org.apache.kafka.common.serialization.IntegerDeserializer"/>
+    <bean id="StringDeserializer" class="org.apache.kafka.common.serialization.StringDeserializer"/>
+    <bean id="seckillTopicListener" class="org.seckill.web.mqlistener.SeckillTopicListener"/>
+</beans>

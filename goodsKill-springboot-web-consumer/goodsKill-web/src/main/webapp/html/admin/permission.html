@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css">
+    <script src="../js/config.js"></script>
+    <script src="../js/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="../js/jquery.ztree.all.min.js"></script>
+
+    <script>
+        var initCount = 0;
+        function addPermission() {
+            layer.open({
+                type: 1,
+                title: '新增权限',
+                area: ['400px', '600px'],
+                content: $('#addUser1'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                yes: function (index, layero) {
+                    //do something
+                    layer.close(index); //如果设定了yes回调，需进行手工关闭
+                },
+                end: function () {
+                    $('#addUser1').hide();
+                },
+                offset: ['100px', '300px']
+            });
+            layer.ready(function () {
+                $('#reset').click();
+                if(initCount == 0){
+                    $.ajax({
+                        url: Http_port + '/seckill/permission/diretorylist',
+                        dataType: 'json',
+                        type: 'get',
+                        success: function (result) {
+                            for (var i = 0; i < result.data.length; i++) {
+                                var data = result.data[i];
+                                $('#city').append(new Option(data.permissionName, data.permissionId));// 下拉菜单里添加元素
+                            }
+                            var form = layui.form;
+                            form.render('select');
+                            initCount++;
+                        }
+                    });
+                }
+
+            });
+        }
+
+        function deletePermission() {
+            var table = layui.table;
+            var checkStatus = table.checkStatus('userPermission');
+            console.log(checkStatus.data);
+            if (checkStatus.data.length != 1) {
+                layer.open({
+                    type: 1,
+                    content: '请选择一条数据！'
+                });
+            } else {
+                $.ajax({
+                    url: Http_port + "/seckill/admin/permission/delete/" + checkStatus.data[0].permissionId,
+                    type: 'get',
+                    success: function (data) {
+                        table.reload('userPermission', {
+                            url: Http_port + "/seckill/admin/permission"
+                            , where: {} //设定异步数据接口的额外参数
+                        });
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+
+
+<body style="height: 100%;width: 100%">
+<div style="margin-left: 20px;margin-top: 30px;width: 100%;height: 100%">
+    <button class="layui-btn layui-btn-sm" onclick="addPermission();">新增</button>
+    <button class="layui-btn layui-btn-sm layui-btn-danger" onclick="deletePermission();">删除</button>
+    <table class="layui-table"
+           lay-data="{url:'http://localhost:18080/goodsKill/seckill/admin/permission', page:true, id:'userPermission',skin:'line', even:true}"
+           lay-filter="test">
+        <thead>
+        <tr>
+            <th lay-data="{checkbox:true}"></th>
+            <th lay-data="{field:'permissionId', width:80, sort: true}">ID</th>
+            <th lay-data="{field:'permissionName', width:180}">权限详情</th>
+            <th lay-data="{field:'permissionMenu', width:180}">权限菜单</th>
+            <th lay-data="{field:'createTime', width:180}">创建时间</th>
+            <th lay-data="{field:'updateTime', width:180}">最近修改时间</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+
+<div id="addUser1" style="margin-top: 20px;margin-right: 60px" hidden="hidden">
+    <form id="form" class="layui-form" action="http://localhost:18080/goodsKill/seckill/admin/permission/add">
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="permissionName" required lay-verify="required" placeholder="请输入名称"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限菜单</label>
+            <div class="layui-input-block">
+                <input type="text" name="permissionMenu" required lay-verify="required" placeholder="请输入菜单地址"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否为目录</label>
+            <div class="layui-input-block">
+                <input type="radio" name="isDir" value="Y" title="是" checked>
+                <input type="radio" name="isDir" value="N" title="否">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">父目录</label>
+            <div class="layui-input-block">
+                <select id="city" name="city">
+                    <option value=""></option>
+                    <!--<option value="0">北京</option>-->
+                    <!--<option value="1">上海</option>-->
+                    <!--<option value="2">广州</option>-->
+                    <!--<option value="3">深圳</option>-->
+                    <!--<option value="4">杭州</option>-->
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                <button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="../../layui/layui.all.js"></script>
+</body>
+</html>
+
+
+
