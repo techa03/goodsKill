@@ -10,7 +10,7 @@
         <module>goodsKill-service</module>
         <module>goodsKill-dao</module>
         <module>goodsKill-entry</module>
-        <!--<module>goodsKill-web</module>-->
+        <module>goodsKill-web</module>
         <module>goodsKill-api</module>
         <module>goodsKill-util</module>
         <module>goodsKill-generator</module>
@@ -396,12 +396,6 @@
                 <artifactId>redisson</artifactId>
                 <version>3.7.5</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.kafka</groupId>
-                <artifactId>spring-kafka</artifactId>
-                <version>2.2.2.RELEASE</version>
-            </dependency>
-
 
 
             <dependency>
@@ -420,6 +414,11 @@
                 <groupId>com.alibaba.spring</groupId>
                 <artifactId>spring-context-support</artifactId>
                 <version>1.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>2.12.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

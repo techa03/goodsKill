@@ -27,7 +27,7 @@
     <logger name="java.sql" level="DEBUG" additivity="true"/>
     <logger name="org.apache.kafka" level="ERROR" additivity="true"/>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="rollingAppender" />
     </root>

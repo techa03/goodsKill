@@ -1,5 +1,6 @@
 package org.seckill.web.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -20,7 +21,6 @@ import org.seckill.util.common.util.PropertiesUtil;
 import org.seckill.web.dto.ResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -40,17 +40,29 @@ import java.util.*;
 @RequestMapping("/seckill")
 public class SeckillController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     private SeckillService seckillService;
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     private GoodsService goodsService;
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     private RolePermissionService rolePermissionService;
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     private UserRoleService userRoleService;
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     private UserAccountService userAccountService;
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     private PermissionService permissionService;
 
 

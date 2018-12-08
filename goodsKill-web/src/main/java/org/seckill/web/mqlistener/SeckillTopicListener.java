@@ -1,8 +1,8 @@
-package org.seckill.web.mqlistener;
+package org.seckill.web.mqlistener;//package org.seckill.web.mqlistener;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import lombok.extern.slf4j.Slf4j;
 import org.seckill.api.service.SeckillService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -15,7 +15,9 @@ import java.util.Date;
  */
 @Slf4j
 public class SeckillTopicListener implements MessageListener {
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     private SeckillService seckillService;
 
     @Override

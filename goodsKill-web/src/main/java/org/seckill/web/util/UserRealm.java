@@ -1,5 +1,6 @@
 package org.seckill.web.util;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -10,7 +11,6 @@ import org.seckill.api.service.UserAccountService;
 import org.seckill.entity.Permission;
 import org.seckill.entity.Role;
 import org.seckill.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +22,9 @@ public class UserRealm extends AuthorizingRealm {
     /**
      *  用户对应的角色信息与权限信息都保存在数据库中，通过UserService获取数据
      */
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     private UserAccountService userService;
 
     /**
