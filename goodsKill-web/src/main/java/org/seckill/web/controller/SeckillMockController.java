@@ -14,7 +14,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
@@ -39,7 +38,7 @@ public class SeckillMockController {
     private SeckillService seckillService;
     @Autowired
     private JmsTemplate jmsTemplate;
-    @Resource(name = "taskExecutor")
+    @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
     @Autowired
     private KafkaTemplate kafkaTemplate;
