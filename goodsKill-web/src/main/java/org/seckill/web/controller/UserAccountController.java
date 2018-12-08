@@ -1,5 +1,6 @@
 package org.seckill.web.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -13,7 +14,6 @@ import org.seckill.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +22,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Api(tags = "登录注册控制")
 @Controller
 public class UserAccountController {
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     private UserAccountService userAccountService;
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     private GoodsService goodsService;
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     private SeckillService seckillService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());

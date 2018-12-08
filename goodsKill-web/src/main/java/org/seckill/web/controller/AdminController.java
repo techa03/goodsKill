@@ -1,5 +1,6 @@
 package org.seckill.web.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +10,6 @@ import org.seckill.web.dto.PermissionDto;
 import org.seckill.web.dto.ResponseDto;
 import org.seckill.web.dto.RoleDto;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -24,15 +24,25 @@ import java.util.List;
 @RequestMapping("/seckill/admin")
 @Slf4j
 public class AdminController {
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     UserAccountService userService;
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     RoleService roleService;
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     UserRoleService userRoleService;
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     PermissionService permissionService;
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     RolePermissionService rolePermissionService;
 
     @GetMapping("/role")

@@ -1,11 +1,12 @@
 package org.seckill.web.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-
 import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.service.SeckillService;
+import org.seckill.entity.Seckill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
@@ -20,7 +21,6 @@ import javax.jms.Session;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.seckill.entity.Seckill;
 
 /**
  * 模拟秒杀场景，可在swagger界面中触发操作
@@ -33,7 +33,9 @@ import org.seckill.entity.Seckill;
 @Slf4j
 public class SeckillMockController {
 
-    @Autowired
+    @Reference(version = "${demo.service.version}",
+            application = "${dubbo.application.id}",
+            url = "${dubbo.service.url}")
     private SeckillService seckillService;
     @Autowired
     private JmsTemplate jmsTemplate;
