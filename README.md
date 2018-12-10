@@ -89,6 +89,8 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 - 二维码图片存放路径配置信息在goods-util中的seckill.properties文件中修改;
 
+- 项目根目录goodsKill中执行mvn clean install
+
 - 在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务;
 
 - 在web模块使用maven spring-boot插件运行spring-boot:run

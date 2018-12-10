@@ -18,7 +18,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.version>3.0.0-SNAPSHOT</project.version>
-		<goodsKill.version>3.0.3-SNAPSHOT</goodsKill.version>
+		<goodsKill.version>3.0.4-SNAPSHOT</goodsKill.version>
 		<shiro.version>1.4.0</shiro.version>
 		<curator.version>4.0.1</curator.version>
 	</properties>
