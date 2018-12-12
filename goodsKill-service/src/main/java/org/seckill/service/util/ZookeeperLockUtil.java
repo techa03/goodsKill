@@ -13,6 +13,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * zookeeper分布式锁工具类
+ * @author heng
+ */
 @Component
 @Slf4j
 public class ZookeeperLockUtil implements InitializingBean {
@@ -21,6 +25,12 @@ public class ZookeeperLockUtil implements InitializingBean {
     private String ROOT_LOCK_PATH = "/goodsKill";
     private ThreadLocal<Map<Long, InterProcessMutex>> threadLock = new ThreadLocal<>();
 
+    /**
+     * 采用curator提供的互斥锁获取锁方法
+     * 采用线程本地变量的方法解决并发问题
+     * @param seckillId
+     * @return
+     */
     public boolean lock(long seckillId) {
 
         try {
@@ -43,6 +53,11 @@ public class ZookeeperLockUtil implements InitializingBean {
         }
     }
 
+    /**
+     * 采用curator提供的互斥锁释放方法
+     * @param seckillId
+     * @return
+     */
     public boolean releaseLock(long seckillId) {
         try {
             threadLock.get().get(seckillId).release();
@@ -53,6 +68,9 @@ public class ZookeeperLockUtil implements InitializingBean {
         }
     }
 
+    /**
+     * 初始化curator客户端
+     */
     @Override
     public void afterPropertiesSet() {
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
