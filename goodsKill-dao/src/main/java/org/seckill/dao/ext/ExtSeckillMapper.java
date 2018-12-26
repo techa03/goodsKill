@@ -30,18 +30,6 @@ public interface ExtSeckillMapper extends SeckillMapper {
      */
     int reduceNumberOptimized(@Param("seckillId") long seckillId, @Param("killTime") Date killTime, @Param("number") int number);
 
-//    /**
-//     * 调用存储过程
-//     *
-//     * @param seckillId
-//     * @param killTime
-//     * @param phone
-//     * @param serverIp
-//     * @return
-//     */
-//    void reduceNumberByProcedure(@Param("seckillId") long seckillId, @Param("phone") long phone,
-//                                   @Param("killTime") Date killTime, @Param("serverIp") String serverIp);
-
     /**
      * 调用存储过程
      *
