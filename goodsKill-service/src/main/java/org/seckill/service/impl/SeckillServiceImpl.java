@@ -6,7 +6,6 @@ import org.redisson.Redisson;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
-import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
 import org.seckill.api.dto.SeckillInfo;
@@ -36,8 +35,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
@@ -50,7 +47,7 @@ import java.util.concurrent.CountDownLatch;
  */
 @Service
 @Slf4j
-public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService, SeckillExecutor, InitializingBean {
+public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService, InitializingBean {
     @Autowired
     private AlipayRunner alipayRunner;
     @Autowired
@@ -69,6 +66,8 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     private PropertiesUtil propertiesUtil;
     @Autowired
     private ZookeeperLockUtil zookeeperLockUtil;
+    @Autowired
+    private SeckillExecutor seckillExecutor;
 
     private RedissonClient redissonClient;
 
@@ -223,7 +222,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
 
     @Override
     public void executeWithProcedure(Long seckillId, int executeTime, int userPhone) {
-        dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景五(存储过程实现)");
+        seckillExecutor.dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景五(存储过程实现)");
     }
 
     @Override
@@ -231,7 +230,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         RLock lock = redissonClient.getLock(seckillId + "");
         lock.lock();
         try {
-            dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景二(redis分布式锁实现)");
+            seckillExecutor.dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景二(redis分布式锁实现)");
         } finally {
             lock.unlock();
         }
@@ -256,42 +255,9 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     public void executeWithZookeeperLock(Long seckillId, int executeTime, int userPhone) {
         zookeeperLockUtil.lock(seckillId);
         try {
-            dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景七(zookeeper分布式锁)");
+            seckillExecutor.dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景七(zookeeper分布式锁)");
         } finally {
             zookeeperLockUtil.releaseLock(seckillId);
-        }
-    }
-
-    @Override
-    public void dealSeckill(long seckillId, String userPhone, String note) {
-        Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
-
-        log.info("当前库存：{}", seckill.getNumber());
-        if (seckill.getNumber() > 0) {
-            extSeckillMapper.reduceNumber(seckillId, new Date());
-            SuccessKilled record = new SuccessKilled();
-            record.setSeckillId(seckillId);
-            record.setUserPhone(userPhone);
-            record.setStatus((byte) 1);
-            record.setCreateTime(new Date());
-            try {
-                InetAddress localHost = InetAddress.getLocalHost();
-                record.setServerIp(localHost.getHostAddress() + ":" + localHost.getHostName());
-            } catch (UnknownHostException e) {
-                log.warn("请求被未知IP处理！", e);
-            }
-            successKilledMapper.insert(record);
-        } else {
-            if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
-                mqTask.sendSeckillSuccessTopic(seckillId, note);
-                Seckill sendTopicResult = new Seckill();
-                sendTopicResult.setSeckillId(seckillId);
-                sendTopicResult.setStatus(SeckillStatusConstant.END);
-                extSeckillMapper.updateByPrimaryKeySelective(sendTopicResult);
-            }
-            if (log.isDebugEnabled()) {
-                log.debug("库存不足，无法继续秒杀！");
-            }
         }
     }
 
@@ -301,4 +267,5 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         config.useSingleServer().setAddress(propertiesUtil.getProperty("cache_ip_address"));
         redissonClient = Redisson.create(config);
     }
+
 }

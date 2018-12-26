@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.seckill.dao.ext.ExtSeckillMapper">
+    <parameterMap id="param" type="java.util.HashMap">
+        <parameter property="seckillId" jdbcType="VARCHAR"  javaType="java.lang.String"  mode="IN"/>
+        <parameter property="phone" jdbcType="BIGINT"  javaType="java.lang.Integer"  mode="IN"/>
+        <parameter property="killTime" jdbcType="TIMESTAMP"  javaType="java.util.Date"  mode="IN"/>
+        <parameter property="serverIp" jdbcType="VARCHAR"  javaType="java.lang.String"  mode="IN"/>
+        <parameter property="result" jdbcType="INTEGER"  javaType="java.lang.Integer"  mode="OUT"/>
+    </parameterMap>
+
     <update id="reduceNumber">
         UPDATE
         seckill
@@ -21,13 +29,15 @@
         AND end_time <![CDATA[ >= ]]> #{killTime,jdbcType=TIMESTAMP}
         AND number <![CDATA[ > ]]> 0 AND number=#{number,jdbcType=INTEGER}
     </update>
-    <select id="reduceNumberByProcedure" statementType="CALLABLE">
-        CALL execute_seckill(
+    <select id="reduceNumberByProcedure" statementType="CALLABLE" parameterType="org.seckill.entity.SuccessKilled">
+        <![CDATA[
+            {CALL execute_seckill(
                 #{seckillId,jdbcType=BIGINT,mode=IN},
-                #{phone,jdbcType=BIGINT,mode=IN},
-                #{killTime,jdbcType=TIMESTAMP,mode=IN},
+                #{userPhone,jdbcType=BIGINT,mode=IN},
+                #{createTime,jdbcType=TIMESTAMP,mode=IN},
                 #{serverIp,jdbcType=VARCHAR,mode=IN},
-                #{result,jdbcType=INTEGER,mode=OUT}
-        )
+                #{status,jdbcType=INTEGER,mode=OUT}
+            )}
+        ]]>
     </select>
 </mapper>

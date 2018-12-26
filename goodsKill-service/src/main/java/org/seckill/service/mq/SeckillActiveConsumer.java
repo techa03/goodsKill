@@ -3,6 +3,7 @@ package org.seckill.service.mq;
 import lombok.extern.slf4j.Slf4j;
 import org.seckill.dao.SuccessKilledMapper;
 import org.seckill.dao.ext.ExtSeckillMapper;
+import org.seckill.service.inner.SeckillExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.core.JmsTemplate;
@@ -14,7 +15,7 @@ import javax.jms.MessageListener;
 import javax.jms.Session;
 
 @Slf4j
-public class SeckillActiveConsumer extends AbstractMqConsumer implements MessageListener {
+public class SeckillActiveConsumer implements MessageListener {
     @Autowired
     ExtSeckillMapper extSeckillMapper;
     @Autowired
@@ -22,6 +23,8 @@ public class SeckillActiveConsumer extends AbstractMqConsumer implements Message
     @Autowired
     @Qualifier("jmsTemplate")
     private JmsTemplate jmsTemplate;
+    @Autowired
+    private SeckillExecutor seckillExecutor;
 
     /**
      * 监听消息
@@ -41,7 +44,7 @@ public class SeckillActiveConsumer extends AbstractMqConsumer implements Message
         } catch (JMSException e) {
             log.error(e.getMessage(), e);
         }
-        dealSeckill(seckillId, userPhone, note);
+        seckillExecutor.dealSeckill(seckillId, userPhone, note);
 
         // 处理成功后给请求发送回复,前提是请求方要求应答
         try {
