@@ -119,4 +119,9 @@ http://localhost:18080/goodsKill/login，默认管理员账号admin123，密码�
 #### 错误排查
 - 如果发现减少库存无效（update set number=number-1语句），请检查mysql是否为8.0+版本
 
+#### 已知问题
+- zookeeper分布式锁秒杀方案不能正常使用（maven分支中则不存在此问题，估计是依赖版本问题，修复中。。。）
+- 存储过程秒杀方案不能正常使用（该部分可以参考maven分支，maven分支已修复，未同步到本分支，两个版本维护头疼啊ORZ）
+
+
 待补充。。。。
