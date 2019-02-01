@@ -14,10 +14,12 @@ import java.security.SecureRandom;
 
 /**
  * AES加解密工具类
- * Created by shuzheng on 2017/2/5.
+ *
+ * @author shuzheng
+ * @date 2017/2/5
  */
-public class AESUtil {
-    private static Logger logger= LoggerFactory.getLogger(AESUtil.class);
+public class AesUtil {
+    private static Logger logger= LoggerFactory.getLogger(AesUtil.class);
     private static final String ENCODE_RULES = "zheng";
 
     /**

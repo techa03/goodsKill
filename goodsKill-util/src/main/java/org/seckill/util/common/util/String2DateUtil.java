@@ -9,7 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by heng on 2017/3/11.
+ *
+ * @author heng
+ * @date 2017/3/11
  */
 public class String2DateUtil implements Converter<String,Date> {
     private static Logger logger= LoggerFactory.getLogger(String2DateUtil.class);

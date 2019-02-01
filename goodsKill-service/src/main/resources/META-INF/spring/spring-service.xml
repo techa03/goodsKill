@@ -22,4 +22,8 @@
          <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
       </property>
    </bean>
+
+   <bean id="chatServer" class="org.seckill.service.inner.ChatServer">
+      <constructor-arg index="0" value="18083"/>
+   </bean>
 </beans>

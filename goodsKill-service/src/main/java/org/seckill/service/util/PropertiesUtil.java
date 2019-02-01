@@ -10,6 +10,7 @@ import java.util.Properties;
 
 /**
  * Desc:properties文件获取工具类
+ * @author heng
  */
 @Component
 @Slf4j
@@ -26,7 +27,6 @@ public class PropertiesUtil {
         InputStream in = null;
         try {
             in = PropertiesUtil.class.getClassLoader().getResourceAsStream("connections.properties");
-            //in = PropertyUtil.class.getResourceAsStream("/jdbc.properties");
             props.load(in);
         } catch (FileNotFoundException e) {
             log.error("properties文件未找到");

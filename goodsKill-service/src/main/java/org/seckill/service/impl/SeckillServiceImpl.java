@@ -26,7 +26,7 @@ import org.seckill.service.mq.MqTask;
 import org.seckill.service.util.PropertiesUtil;
 import org.seckill.service.util.ZookeeperLockUtil;
 import org.seckill.util.common.util.DateUtil;
-import org.seckill.util.common.util.MD5Util;
+import org.seckill.util.common.util.Md5Util;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +62,6 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     private ThreadPoolTaskExecutor taskExecutor;
     @Autowired
     private MqTask mqTask;
-    @Autowired
-    private PropertiesUtil propertiesUtil;
     @Autowired
     private ZookeeperLockUtil zookeeperLockUtil;
     @Autowired
@@ -116,15 +114,15 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         if (nowTime.getTime() < startTime.getTime() || nowTime.getTime() > endTime.getTime()) {
             return new Exposer(false, seckillId, nowTime.getTime(), startTime.getTime(), endTime.getTime());
         }
-        String md5 = MD5Util.getMD5(seckillId);
+        String md5 = Md5Util.getMD5(seckillId);
         return new Exposer(true, md5, seckillId);
     }
 
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public SeckillExecution executeSeckill(long seckillId, String userPhone, String md5) {
-        if (md5 == null || !md5.equals(MD5Util.getMD5(seckillId))) {
+        if (md5 == null || !md5.equals(Md5Util.getMD5(seckillId))) {
             throw new SeckillException("seckill data rewrite");
         }
         Date nowTime = DateUtil.getNowTime();
@@ -264,7 +262,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     @Override
     public void afterPropertiesSet() {
         Config config = new Config();
-        config.useSingleServer().setAddress(propertiesUtil.getProperty("cache_ip_address"));
+        config.useSingleServer().setAddress(PropertiesUtil.getProperty("cache_ip_address"));
         redissonClient = Redisson.create(config);
     }
 

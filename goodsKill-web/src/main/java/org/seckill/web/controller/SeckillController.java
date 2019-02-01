@@ -307,4 +307,9 @@ public class SeckillController {
         return responseDto;
     }
 
+    @GetMapping(value = "/chatroom")
+    public String chatroom() {
+        return "seckill/chatroom";
+    }
+
 }

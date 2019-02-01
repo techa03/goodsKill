@@ -3,9 +3,11 @@ package org.seckill.util.common.util;
 import org.springframework.util.DigestUtils;
 
 /**
- * Created by heng on 2017/4/25.
+ *
+ * @author heng
+ * @date 2017/4/25
  */
-public class MD5Util {
+public class Md5Util {
     private static final String SLAT = "gfhfghdfsdgdfgsdgh5rtyhgfhgfhyty@$%@$%^";
 
     public static String getMD5(long seckillId) {
@@ -13,6 +15,6 @@ public class MD5Util {
         return DigestUtils.md5DigestAsHex(base.getBytes());
     }
 
-    private MD5Util() {
+    private Md5Util() {
     }
 }

@@ -22,6 +22,10 @@
             <artifactId>mybatis</artifactId>
             <version>3.4.3</version>
         </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-transport</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

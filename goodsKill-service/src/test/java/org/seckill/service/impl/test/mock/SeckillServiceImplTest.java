@@ -83,7 +83,7 @@ public class SeckillServiceImplTest {
 //            oneOf(successKilledMapper).selectByPrimaryKey(1L, "13212343245");
 //            will(returnValue(new SuccessKilled()));
 //        }});
-//        seckillService.executeSeckill(1L, "13212343245", MD5Util.getMD5(1));
+//        seckillService.executeSeckill(1L, "13212343245", Md5Util.getMD5(1));
     }
 
     @Test

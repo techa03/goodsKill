@@ -6,7 +6,9 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Created by heng on 2017/7/4.
+ *
+ * @author heng
+ * @date 2017/7/4
  */
 public class PropertiesUtil {
     private final static String PROPERTY_FILE_LOCATION = "seckill.properties";

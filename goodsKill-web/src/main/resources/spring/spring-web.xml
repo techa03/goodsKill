@@ -49,5 +49,9 @@
         </property>
     </bean>
 
+    <bean id="chatClient" class="org.seckill.web.chat.ChatClient">
+        <constructor-arg index="0" value="127.0.0.1"/>
+        <constructor-arg index="1" value="18083"/>
+    </bean>
 
 </beans>
