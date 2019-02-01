@@ -12,6 +12,8 @@
 
 本项目扩展了秒杀功能，集成了jmock完成service层的测试，支持数据库读写分离，同时项目使用travis持续集成，提交更新后即可触发travis自动构建并完成项目测试覆盖率报告。
 
+- 20190201 秒杀列表页面新增聊天室功能，基于netty实现，支持在线用户实时聊天
+
 ## 分支介绍
 `dev_gradle`分支为使用gradle构建工具管理项目依赖，`dev_maven`分支对应maven构建工具（目前为主分支，springframework版本4.x），`dev_springboot_2.x`分支基于最新springboot2.x构建简化配置（springframework版本5.x）。本分支集成了druid，swagger2以及pageHelper等功能，该项目功能目前比较简陋，功能还有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下~~~~。
 
@@ -41,6 +43,7 @@ Swagger2 | 项目API文档生成及测试工具 | [http://swagger.io/](http://sw
 Jmock | mock类生成测试工具 | [http://www.jmock.org/](http://www.jmock.org/)
 Jacoco | 测试覆盖率报告插件 | [http://www.eclemma.org/jacoco/](http://www.eclemma.org/jacoco/)
 Shiro | 用户权限安全管理框架 | [https://shiro.apache.org/](https://shiro.apache.org/)
+Netty | 异步事件驱动的网络应用程序框架 | [https://netty.io/](https://netty.io/)
 
 ### 前端技术:
 技术 | 名称 | 官网
