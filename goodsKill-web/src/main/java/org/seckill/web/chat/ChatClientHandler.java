@@ -1,10 +1,8 @@
 package org.seckill.web.chat;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.util.CharsetUtil;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import lombok.extern.slf4j.Slf4j;
 import org.seckill.api.dto.ChatMessageDto;
 
@@ -14,8 +12,7 @@ import org.seckill.api.dto.ChatMessageDto;
  */
 @ChannelHandler.Sharable
 @Slf4j
-public class ChatClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
-
+public class ChatClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         ChatMessageDto chatMessageDto = new ChatMessageDto();
@@ -24,8 +21,24 @@ public class ChatClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     }
 
     @Override
-    public void channelRead0(ChannelHandlerContext ctx, ByteBuf in) {
-        System.out.print("Client received: " + in.toString(CharsetUtil.UTF_8));
+    public void channelRead(ChannelHandlerContext ctx, Object obj) {
+        ChatMessageDto msg;
+        if (obj instanceof ChatMessageDto) {
+            msg = (ChatMessageDto) obj;
+        } else {
+            log.error("无法处理该数据！");
+            throw new RuntimeException();
+        }
+        log.info("msg is :{}",msg.toString());
+//        String key = ctx.channel().id().asShortText();
+//        Cache<String, ChatMessageDto> userCache = ChatMessageCacheUtil.userCache;
+//        ChatMessageDto chatMessageDto = userCache.getIfPresent(key);
+//        if (chatMessageDto == null) {
+//            userCache.put(key, msg);
+//        } else {
+//            msg.setMessage(chatMessageDto.getMessage() + msg.getMessage());
+//            userCache.put(key, msg);
+//        }
     }
 
     @Override

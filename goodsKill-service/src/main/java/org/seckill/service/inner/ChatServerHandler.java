@@ -19,7 +19,7 @@ public class ChatServerHandler extends ChannelInboundHandlerAdapter {
     private static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object obj) {
+    public void channelRead(ChannelHandlerContext ctx, Object obj) throws InterruptedException {
         ChatMessageDto msg = null;
         if (obj instanceof ChatMessageDto) {
             msg = (ChatMessageDto) obj;
@@ -27,15 +27,30 @@ public class ChatServerHandler extends ChannelInboundHandlerAdapter {
             log.error("无法处理该数据！");
             throw new RuntimeException();
         }
+        String account = null;
+        if(msg.getUser() == null){
+            account = ctx.channel().remoteAddress().toString();
+        }else{
+            account = msg.getUser().getAccount();
+        }
+        String inMessage = msg.getMessage();
         Channel inComing = ctx.channel();
-
+        String outMessage = null;
         for (Channel channel : channels) {
             if (channel != inComing) {
-                String msg1 = "[用户" + msg.getUser().getAccount() + " 说：]" + msg.getMessage() + "\n";
-                channel.writeAndFlush(Unpooled.copiedBuffer(msg1, CharsetUtil.UTF_8));
+                outMessage = "[用户" + account + " 说]" + inMessage + "\n";
+                msg.setUser(null);
+                msg.setMessage(outMessage);
+                channel.writeAndFlush(msg);
+                // 经测试需要在此睡眠，否则收发消息会出现异常，实际情况为：所有客户端会同时收到同一种消息
+                Thread.sleep(10);
             } else {
-                String msg1 = "[我说：]" + msg.getMessage() + "\n";
-                channel.writeAndFlush(Unpooled.copiedBuffer(msg1, CharsetUtil.UTF_8));
+                outMessage = "[我说]" + inMessage + "\n";
+                msg.setUser(null);
+                msg.setMessage(outMessage);
+                channel.writeAndFlush(msg);
+                // 经测试需要在此睡眠，否则收发消息会出现异常，实际情况为：所有客户端会同时收到同一种消息
+                Thread.sleep(10);
             }
         }
     }

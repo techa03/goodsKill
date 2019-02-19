@@ -21,7 +21,7 @@ public class SekcillKafkaConsumer implements MessageListener {
             ConsumerRecord record = (ConsumerRecord) data;
             String userPhone = record.key().toString();
             long seckillId = Long.parseLong((String) record.value());
-            seckillExecutor.dealSeckill(seckillId,userPhone,"秒杀场景四(kafka消息队列实现)");
+            seckillExecutor.dealSeckill(seckillId, userPhone, "秒杀场景四(kafka消息队列实现)");
         } else {
             log.info("未处理数据：{}", data.toString());
         }

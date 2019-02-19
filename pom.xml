@@ -17,7 +17,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>4.3.20.RELEASE</spring.version>
-        <project.version>2.4.2-SNAPSHOT</project.version>
+        <project.version>2.4.3-SNAPSHOT</project.version>
         <shiro.version>1.4.0</shiro.version>
         <curator-version>4.0.1</curator-version>
         <netty.version>4.1.31.Final</netty.version>

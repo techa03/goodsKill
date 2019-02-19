@@ -53,4 +53,8 @@ public class ChatServer implements InitializingBean {
             }
         });
     }
+
+    public static void main(String[] args) throws InterruptedException {
+        new ChatServer(8080).start();
+    }
 }
