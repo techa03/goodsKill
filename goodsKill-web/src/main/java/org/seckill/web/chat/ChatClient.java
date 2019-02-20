@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -100,33 +101,16 @@ public class ChatClient {
         User user1 = new User();
         user1.setUsername("heng");
         user1.setAccount("heng");
-        User user2 = new User();
-        user2.setUsername("yuan");
-        user2.setAccount("yuan");
         ChatClient c1 = chatClient.getInstance(user1);
-        ChatClient c2 = chatClient.getInstance(user2);
         ChatMessageDto chatMsg = new ChatMessageDto();
         chatMsg.setUser(user1);
-        chatMsg.setMessage("hi");
-        c1.sendMessage(chatMsg);
 
 
-        ChatMessageDto chatMsg2 = new ChatMessageDto();
-        chatMsg2.setUser(user2);
-        chatMsg2.setMessage("ha");
-        c2.sendMessage(chatMsg2);
-
-
-        chatMsg.setMessage("hi2");
-        c1.sendMessage(chatMsg);
-
-        chatMsg2.setMessage("ha2");
-        c2.sendMessage(chatMsg2);
-
-        chatMsg.setMessage("hi3");
-        c1.sendMessage(chatMsg);
-
-        chatMsg2.setMessage("ha3");
-        c2.sendMessage(chatMsg2);
+        while (true) {
+            Scanner scanner = new Scanner(System.in);
+            int a = scanner.nextInt();
+            chatMsg.setMessage(String.valueOf(a));
+            c1.sendMessage(chatMsg);
+        }
     }
 }

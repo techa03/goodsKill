@@ -1,10 +1,12 @@
 package org.seckill.web.chat;
 
+import com.google.common.cache.Cache;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import lombok.extern.slf4j.Slf4j;
 import org.seckill.api.dto.ChatMessageDto;
+import org.seckill.web.cache.ChatMessageCacheUtil;
 
 
 /**
@@ -29,16 +31,18 @@ public class ChatClientHandler extends ChannelInboundHandlerAdapter {
             log.error("无法处理该数据！");
             throw new RuntimeException();
         }
-        log.info("msg is :{}",msg.toString());
-//        String key = ctx.channel().id().asShortText();
-//        Cache<String, ChatMessageDto> userCache = ChatMessageCacheUtil.userCache;
-//        ChatMessageDto chatMessageDto = userCache.getIfPresent(key);
-//        if (chatMessageDto == null) {
-//            userCache.put(key, msg);
-//        } else {
-//            msg.setMessage(chatMessageDto.getMessage() + msg.getMessage());
-//            userCache.put(key, msg);
-//        }
+        if (log.isDebugEnabled()) {
+            log.debug("msg is :{}", msg.toString());
+        }
+        String key = ctx.channel().id().asShortText();
+        Cache<String, ChatMessageDto> userCache = ChatMessageCacheUtil.userCache;
+        ChatMessageDto chatMessageDto = userCache.getIfPresent(key);
+        if (chatMessageDto == null) {
+            userCache.put(key, msg);
+        } else {
+            msg.setMessage(chatMessageDto.getMessage() + msg.getMessage());
+            userCache.put(key, msg);
+        }
     }
 
     @Override

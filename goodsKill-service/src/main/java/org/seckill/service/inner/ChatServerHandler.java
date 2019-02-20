@@ -1,12 +1,10 @@
 package org.seckill.service.inner;
 
-import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import lombok.extern.slf4j.Slf4j;
 import org.seckill.api.dto.ChatMessageDto;
@@ -74,7 +72,9 @@ public class ChatServerHandler extends ChannelInboundHandlerAdapter {
         for (Channel channel : channels) {
             if (channel != inComing) {
                 String msg = "[欢迎: " + inComing.remoteAddress() + "] 进入聊天室！\n";
-                channel.writeAndFlush(Unpooled.copiedBuffer(msg, CharsetUtil.UTF_8));
+                ChatMessageDto chatMessageDto = new ChatMessageDto();
+                chatMessageDto.setMessage(msg);
+                channel.writeAndFlush(chatMessageDto);
             }
         }
         channels.add(inComing);

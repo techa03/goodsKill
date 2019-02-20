@@ -11,6 +11,9 @@
             }
         });
     }
+
+    // 50ms刷新聊天记录页面
+    $(setInterval(getMessageList, 50));
 </script>
 <head>
     <title>用户聊天室</title>
@@ -20,7 +23,7 @@
       style="width: 50%;margin: 0 auto;">
 
     <div class="form-group">
-        <textarea class="form-control" rows="25" readonly name="messageList" id="messageList" onclick="getMessageList();"></textarea>
+        <textarea class="form-control" rows="25" readonly name="messageList" id="messageList"></textarea>
         <div>&nbsp;</div>
         <textarea class="form-control" rows="5" name="message"></textarea>
     </div>
