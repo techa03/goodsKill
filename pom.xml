@@ -16,11 +16,12 @@
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>4.3.20.RELEASE</spring.version>
-        <project.version>2.4.4-SNAPSHOT</project.version>
+        <spring.version>4.3.22.RELEASE</spring.version>
+        <project.version>2.5.0</project.version>
         <shiro.version>1.4.0</shiro.version>
         <curator-version>4.0.1</curator-version>
         <netty.version>4.1.31.Final</netty.version>
+        <springdata.redis.version>1.8.18.RELEASE</springdata.redis.version>
     </properties>
     <name>goodsKill Maven Webapp</name>
 
@@ -482,6 +483,11 @@
                 <groupId>io.netty</groupId>
                 <artifactId>netty-transport</artifactId>
                 <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-redis</artifactId>
+                <version>${springdata.redis.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
