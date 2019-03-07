@@ -224,9 +224,21 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
 
-                <!-- Configuration 里面写配置信息 -->
-
+            <plugin>
+                <!--此插件可打包成可执行的jar-->
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.seckill.service.GoodsKillRpcServiceApplication</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
             </plugin>
         </plugins>
         <!--<resources>-->
