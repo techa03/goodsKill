@@ -1,9 +1,10 @@
 package org.seckill.dao;
 
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SeckillExample;
+
+import java.util.List;
 
 public interface SeckillMapper {
     long countByExample(SeckillExample example);

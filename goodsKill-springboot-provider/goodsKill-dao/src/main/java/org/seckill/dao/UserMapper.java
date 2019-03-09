@@ -1,9 +1,10 @@
 package org.seckill.dao;
 
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.seckill.entity.User;
 import org.seckill.entity.UserExample;
+
+import java.util.List;
 
 public interface UserMapper {
     long countByExample(UserExample example);
