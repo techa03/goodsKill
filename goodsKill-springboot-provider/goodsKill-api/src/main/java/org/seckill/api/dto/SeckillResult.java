@@ -1,10 +1,13 @@
 package org.seckill.api.dto;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
  * Created by heng on 2016/7/23.
  */
+@Data
 public class SeckillResult<T> implements Serializable{
     private static final long serialVersionUID = 1L;
     private boolean success;

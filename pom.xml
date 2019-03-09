@@ -11,7 +11,10 @@
 		<module>goodsKill-springboot-web-consumer</module>
 		<module>goodsKill-springboot-provider</module>
 	</modules>
-	
+
+	<properties>
+		<goodsKill.version>3.0.5</goodsKill.version>
+	</properties>
 
 	<build>
 		<finalName>goodsKill</finalName>

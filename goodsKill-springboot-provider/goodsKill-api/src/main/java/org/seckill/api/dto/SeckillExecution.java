@@ -1,5 +1,6 @@
 package org.seckill.api.dto;
 
+import lombok.Data;
 import org.seckill.api.enums.SeckillStatEnum;
 import org.seckill.entity.SuccessKilled;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
 /**
  * Created by heng on 2016/7/16.
  */
+@Data
 public class SeckillExecution implements Serializable {
     private static final long serialVersionUID = 1L;
     private long seckillId;

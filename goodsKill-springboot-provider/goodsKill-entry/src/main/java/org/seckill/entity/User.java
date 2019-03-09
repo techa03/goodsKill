@@ -2,15 +2,19 @@ package org.seckill.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@Document
 public class User implements Serializable{
 
     private Integer id;
 
+    @Id
     private String account;
 
     private String password;
@@ -79,5 +83,13 @@ public class User implements Serializable{
 
     public void setLocked(String locked) {
         this.locked = locked == null ? null : locked.trim();
+    }
+
+    public User(String account, String password) {
+        this.account = account;
+        this.password = password;
+    }
+
+    public User() {
     }
 }

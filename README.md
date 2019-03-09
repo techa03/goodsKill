@@ -38,6 +38,8 @@ Swagger2 | 项目API文档生成及测试工具 | [http://swagger.io/](http://sw
 Jmock | mock类生成测试工具 | [http://www.jmock.org/](http://www.jmock.org/)
 Jacoco | 测试覆盖率报告插件 | [http://www.eclemma.org/jacoco/](http://www.eclemma.org/jacoco/)
 Shiro | 用户权限安全管理框架 | [https://shiro.apache.org/](https://shiro.apache.org/)
+MongoDb | Mongo数据库 | [https://www.mongodb.com/](https://www.mongodb.com/)
+MySql | MySQL数据库 | [https://www.mysql.com/](https://www.mysql.com/)
 
 ### 前端技术:
 技术 | 名称 | 官网
@@ -73,10 +75,11 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701221505.png)
 
 #### 开发环境版本说明：
-- JDK :JDK1.8+;
-- MYSQL :8.0+;
+- JDK :JDK1.8+
+- MYSQL :8.0+
 - activemq: 5.8.0
 - kafka: kafka_2.11-2.0.0
+- mongoDb: 4.0+
 
 其他环境版本暂未测试
 
