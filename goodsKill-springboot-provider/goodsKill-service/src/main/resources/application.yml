@@ -1,0 +1,37 @@
+spring:
+  profiles:
+    active: local
+  application:
+    name: dubbo-provider-demo
+  main:
+    allow-bean-definition-overriding: true
+  output:
+    ansi:
+      enabled: ALWAYS
+  data:
+    mongodb:
+      database: test
+---
+dubbo:
+  scan:
+    base-packages: org.seckill.service.impl
+  application:
+    id: dubbo-provider-demo
+    name: dubbo-provider-demo
+    qos-port: 22222
+    qos-enable: true
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 12345
+    status: server
+  registry:
+    id: my-registry
+    address: N/A
+---
+demo:
+  service:
+    version: 1.0.0
+---
+server:
+  port: 9090

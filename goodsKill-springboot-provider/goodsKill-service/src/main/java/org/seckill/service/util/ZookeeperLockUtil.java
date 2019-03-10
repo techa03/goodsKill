@@ -57,10 +57,10 @@ public class ZookeeperLockUtil implements ApplicationListener {
 
     @Override
     public void onApplicationEvent(ApplicationEvent applicationEvent) {
-        if(applicationEvent instanceof ApplicationStartedEvent){
+        if (applicationEvent instanceof ApplicationStartedEvent) {
             RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
             String zookeeperIp = PropertiesUtil.getProperty("zookeeper_ip");
-            if(StringUtils.isEmpty(zookeeperIp)){
+            if (StringUtils.isEmpty(zookeeperIp)) {
                 zookeeperIp = "127.0.0.1:2181";
             }
             this.client = CuratorFrameworkFactory.newClient(zookeeperIp, retryPolicy);

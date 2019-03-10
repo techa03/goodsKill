@@ -82,8 +82,8 @@
         <property name="typeAliasesPackage" value="org.seckill.entity"/>
         <property name="mapperLocations">
             <array>
-                <value>classpath*:mapper/ext/*.xml</value>
-                <value>classpath*:mapper/*.xml</value>
+                <value>classpath*:mapper/ext/ExtSeckillMapper.xml</value>
+                <value>classpath*:mapper/GoodsMapper.xml</value>
             </array>
         </property>
         <property name="plugins">

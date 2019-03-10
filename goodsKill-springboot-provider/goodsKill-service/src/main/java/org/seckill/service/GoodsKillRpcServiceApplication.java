@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /**
  * 服务启动类
  * Created by techa03 on 2017/2/3.
+ * @author techa
  */
 @SpringBootApplication
 @ImportResource(value = {"classpath*:META-INF/spring/spring-service.xml",

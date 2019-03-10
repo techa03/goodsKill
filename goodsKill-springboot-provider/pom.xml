@@ -28,37 +28,6 @@
 	</parent>
 	<name>goodsKill provider Maven Webapp</name>
 
-	<!--此处根据环境修改你的配置 -->
-	<profiles>
-		<profile>
-			<id>local</id>
-			<properties>
-				<profiles.active>local</profiles.active>
-			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-		<profile>
-			<id>sit</id>
-			<properties>
-				<profiles.active>sit</profiles.active>
-			</properties>
-		</profile>
-		<profile>
-			<id>uat</id>
-			<properties>
-				<profiles.active>uat</profiles.active>
-			</properties>
-		</profile>
-		<profile>
-			<id>prd</id>
-			<properties>
-				<profiles.active>prd</profiles.active>
-			</properties>
-		</profile>
-	</profiles>
-
 	<!--统一管理项目版本号 -->
 	<dependencyManagement>
 		<dependencies>
@@ -415,6 +384,11 @@
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-annotations</artifactId>
 				<version>2.9.5</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba.boot</groupId>
+				<artifactId>dubbo-spring-boot-actuator</artifactId>
+				<version>0.2.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
