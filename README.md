@@ -86,7 +86,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 #### 项目启动方法：
 
-- 参照redis官网安装redis，mongoDb，本地默认端口启动activemq，kafka，zookeeper（zookeeper无需安装，dubbo已集成）;
+- 参照redis官网安装redis，mongoDb并启动，本地默认端口启动activemq，kafka（可以不装），~~zookeeper~~（zookeeper无需安装，dubbo-springboot已集成）;
 
 - 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作;
 
