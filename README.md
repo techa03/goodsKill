@@ -100,8 +100,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 - 在web模块使用maven spring-boot插件运行spring-boot:run
 
-- 编译好整个项目后使用tomcat发布server模块，端口号18080，上下文环境配置为goodsKill,部署成功后访问
-http://localhost:18080/goodsKill/login，默认管理员账号admin123，密码：aa123456;
+- 启动完成后访问http://localhost:18080/goodsKill/login登录页面，默认管理员账号admin123，密码：aa123456;
 
 - 支付宝二维码接入指南：https://blog.csdn.net/techa/article/details/71003519
 
