@@ -17,10 +17,11 @@ import org.seckill.api.exception.RepeatKillException;
 import org.seckill.api.exception.SeckillCloseException;
 import org.seckill.api.service.*;
 import org.seckill.entity.*;
-import org.seckill.util.common.util.PropertiesUtil;
 import org.seckill.web.dto.ResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -38,6 +39,7 @@ import java.util.*;
 @Api(tags = "秒杀管理")
 @Controller
 @RequestMapping("/seckill")
+@ConfigurationProperties
 public class SeckillController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Reference(version = "${demo.service.version}",
@@ -64,7 +66,8 @@ public class SeckillController {
             application = "${dubbo.application.id}",
             url = "${dubbo.service.url}")
     private PermissionService permissionService;
-
+    @Value("${QRCODE_IMAGE_DIR}")
+    private String qrcode_image_dir;
 
     @ApiOperation(value = "秒杀列表", notes = "分页显示秒杀列表")
     @ApiImplicitParams({@ApiImplicitParam(name = "model", value = "model对象", required = true, dataType = "Model"),
@@ -181,7 +184,7 @@ public class SeckillController {
     @GetMapping(value = "/Qrcode/{QRfilePath}")
     public void showQRcode(@PathVariable("QRfilePath") String QRfilePath, HttpServletResponse response) throws IOException {
         response.setContentType("img/*");
-        try (FileInputStream fi = new FileInputStream(new File(PropertiesUtil.getProperties("QRCODE_IMAGE_DIR") + "\\" + QRfilePath + ".png"));
+        try (FileInputStream fi = new FileInputStream(new File(qrcode_image_dir + "\\" + QRfilePath + ".png"));
              OutputStream os = response.getOutputStream()) {
             int b;
             while ((b = fi.read()) != -1) {

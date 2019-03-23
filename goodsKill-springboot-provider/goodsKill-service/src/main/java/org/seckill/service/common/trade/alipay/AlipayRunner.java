@@ -16,10 +16,11 @@ import org.seckill.dao.GoodsMapper;
 import org.seckill.dao.RedisDao;
 import org.seckill.entity.Goods;
 import org.seckill.entity.Seckill;
-import org.seckill.util.common.util.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -32,10 +33,13 @@ import java.util.List;
  * sdk和demo的意见和问题反馈请联系：liuyang.kly@alipay.com
  */
 @Component
+@ConfigurationProperties
 public class AlipayRunner {
     private static Logger logger = LoggerFactory.getLogger(AlipayRunner.class);
     // 支付宝当面付2.0服务
     private static AlipayTradeService tradeService;
+    @Value("${QRCODE_IMAGE_DIR}")
+    private String qrcode_image_dir;
 
     static {
         /** 一定要在创建AlipayTradeService之前调用Configs.init()设置默认参数
@@ -136,7 +140,7 @@ public class AlipayRunner {
                 dumpResponse(response);
                 String filePath = "";
                 // 需要修改为运行机器上的路径
-                File file = new File(PropertiesUtil.getProperties("QRCODE_IMAGE_DIR"));
+                File file = new File(qrcode_image_dir);
                 if (!file.exists()) {
                     if (file.mkdirs() && file.exists()) {
                         logger.info("二维码存放目录创建成功，请检查！");
@@ -147,7 +151,7 @@ public class AlipayRunner {
                 }
                 int filePathDeepth = 0;
                 if (response != null && StringUtils.isNotEmpty(response.getOutTradeNo())) {
-                    filePath = String.format(PropertiesUtil.getProperties("QRCODE_IMAGE_DIR") + "/qr-%s.png",
+                    filePath = String.format(qrcode_image_dir + "/qr-%s.png",
                             response.getOutTradeNo());
                     filePathDeepth = filePath.split("/").length;
                     logger.info("filePath:" + filePath.split("/")[filePathDeepth - 1]);

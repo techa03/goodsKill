@@ -1,0 +1,60 @@
+application:
+  message: Hello
+demo:
+  service:
+    version: 1.0.0
+dubbo:
+  application:
+    id: dubbo-consumer-demo
+    name: dubbo-consumer-demo
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 12345
+  qos:
+    port: 22223
+  service:
+    url: dubbo://localhost:12345
+endpoints:
+  dubbo:
+    enabled: true
+management:
+  endpoint:
+    dubbo:
+      enabled: true
+    dubbo-configs:
+      enabled: true
+    dubbo-properties:
+      enabled: true
+    dubbo-references:
+      enabled: true
+    dubbo-services:
+      enabled: true
+    dubbo-shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  health:
+    dubbo:
+      status:
+        defaults: memory
+server:
+  port: 18080
+  servlet:
+    context-path: /goodsKill
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    template:
+      default-topic: goodsKill-kafka
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  output:
+    ansi:
+      enabled: always
+#二维码图片存放目录
+QRCODE_IMAGE_DIR: C:/Users/27568/Desktop/QRfile

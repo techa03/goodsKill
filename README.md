@@ -90,9 +90,9 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 - 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作;
 
-- 二维码图片存放路径配置信息在goods-util中的seckill.properties文件中修改;
+- 二维码图片存放路径配置信息在application.yml中的QRCODE_IMAGE_DIR配置中修改;
 
-- 数据库密码需要根据个人密码设置进行更改，数据库密码保存在connections.properties这个配置文件，可以使用AESUtil工具类进行数据库密码加密替换master.password和slave.password（主从数据库信息可以一致）
+- 数据库密码需要根据个人密码设置进行更改，数据库密码保存在application.yml，可以使用AESUtil工具类进行数据库密码加密替换master.password和slave.password（主从数据库信息可以一致）
 
 - 项目根目录goodsKill中执行mvn clean install
 
@@ -126,6 +126,3 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 #### 已知问题
 - zookeeper分布式锁秒杀方案不能正常使用（maven分支中则不存在此问题，估计是依赖版本问题，修复中。。。）
 - 存储过程秒杀方案不能正常使用（该部分可以参考maven分支，maven分支已修复，未同步到本分支，两个版本维护头疼啊ORZ）
-- 强迫症会发现springboot控制台日志不是彩色的（已解决）
-
-待补充。。。。

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
  */
 public class EncryptPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
 
-    private String[] propertyNames = {"master.password","slave.password"};
+    private String[] propertyNames = {"slave.password"};
 
     /**
      * 解密指定propertyName的加密属性值

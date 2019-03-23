@@ -25,13 +25,14 @@ import org.seckill.entity.*;
 import org.seckill.service.common.trade.alipay.AlipayRunner;
 import org.seckill.service.inner.SeckillExecutor;
 import org.seckill.service.mq.MqTask;
-import org.seckill.service.util.PropertiesUtil;
 import org.seckill.service.util.ZookeeperLockUtil;
 import org.seckill.util.common.util.DateUtil;
 import org.seckill.util.common.util.MD5Util;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,6 +56,7 @@ import java.util.concurrent.CountDownLatch;
         registry = "${dubbo.registry.id}"
 )
 @Slf4j
+@ConfigurationProperties
 public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService, SeckillExecutor, InitializingBean {
     @Autowired
     private AlipayRunner alipayRunner;
@@ -71,9 +73,9 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     @Autowired
     private MqTask mqTask;
     @Autowired
-    private PropertiesUtil propertiesUtil;
-    @Autowired
     private ZookeeperLockUtil zookeeperLockUtil;
+    @Value("${cache_ip_address}")
+    private String cache_ip_address;
 
     private RedissonClient redissonClient;
 
@@ -303,7 +305,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     @Override
     public void afterPropertiesSet() {
         Config config = new Config();
-        config.useSingleServer().setAddress(propertiesUtil.getProperty("cache_ip_address"));
+        config.useSingleServer().setAddress(cache_ip_address);
         redissonClient = Redisson.create(config);
     }
 }

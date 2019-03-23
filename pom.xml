@@ -16,6 +16,36 @@
 		<goodsKill.version>3.0.5</goodsKill.version>
 	</properties>
 
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<environment>dev</environment>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<environment>test</environment>
+			</properties>
+		</profile>
+		<profile>
+			<id>pre</id>
+			<properties>
+				<environment>pre</environment>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<environment>prod</environment>
+			</properties>
+		</profile>
+	</profiles>
+
 	<build>
 		<finalName>goodsKill</finalName>
 		<plugins>

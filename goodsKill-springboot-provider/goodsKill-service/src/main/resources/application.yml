@@ -12,6 +12,21 @@ spring:
     mongodb:
       database: test
 ---
+cache_address: localhost
+cache_ip_address: redis://127.0.0.1:6379
+master:
+  driver: com.mysql.cj.jdbc.Driver
+  password: +tkfyiKcqLiFlgt7GSnxtw==
+  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+  username: root
+mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
+slave:
+  driver: com.mysql.cj.jdbc.Driver
+  password: +tkfyiKcqLiFlgt7GSnxtw==
+  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+  username: root
+zookeeper_ip: localhost:12345
+---
 dubbo:
   scan:
     base-packages: org.seckill.service.impl
@@ -41,3 +56,5 @@ spring:
     bootstrap-servers: localhost:9092
     consumer:
       group-id: myGroup
+#二维码图片存放目录
+QRCODE_IMAGE_DIR: C:/Users/27568/Desktop/QRfile
