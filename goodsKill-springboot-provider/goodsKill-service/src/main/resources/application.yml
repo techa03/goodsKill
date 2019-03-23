@@ -19,7 +19,7 @@ dubbo:
     id: dubbo-provider-demo
     name: dubbo-provider-demo
     qos-port: 22222
-    qos-enable: true
+    qos-enable:  true
   protocol:
     id: dubbo
     name: dubbo
@@ -35,3 +35,9 @@ demo:
 ---
 server:
   port: 9090
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: myGroup

@@ -25,7 +25,6 @@
 
     <logger name="org.seckill" level="DEBUG" additivity="true"/>
     <logger name="java.sql" level="DEBUG" additivity="true"/>
-    <logger name="org.apache.kafka" level="ERROR" additivity="true"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />

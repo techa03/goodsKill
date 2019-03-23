@@ -2,6 +2,7 @@ package org.seckill.service;
 
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -11,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Created by techa03 on 2017/2/3.
  * @author techa
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = KafkaAutoConfiguration.class)
 @ImportResource(value = {"classpath*:META-INF/spring/spring-service.xml",
         "classpath*:META-INF/spring/spring-service-mq.xml",
         "classpath*:META-INF/spring/spring-dao.xml"})
