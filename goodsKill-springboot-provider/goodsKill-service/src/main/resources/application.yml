@@ -1,6 +1,15 @@
 spring:
   profiles:
-    active: local
+    active: test
+
+---
+######################本地开发环境配置#####################
+spring:
+  profiles: dev
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: myGroup
   application:
     name: dubbo-provider-demo
   main:
@@ -11,22 +20,6 @@ spring:
   data:
     mongodb:
       database: test
----
-cache_address: localhost
-cache_ip_address: redis://127.0.0.1:6379
-master:
-  driver: com.mysql.cj.jdbc.Driver
-  password: +tkfyiKcqLiFlgt7GSnxtw==
-  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
-  username: root
-mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
-slave:
-  driver: com.mysql.cj.jdbc.Driver
-  password: +tkfyiKcqLiFlgt7GSnxtw==
-  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
-  username: root
-zookeeper_ip: localhost:12345
----
 dubbo:
   scan:
     base-packages: org.seckill.service.impl
@@ -43,18 +36,199 @@ dubbo:
   registry:
     id: my-registry
     address: N/A
----
+
+cache_address: localhost
+cache_ip_address: redis://127.0.0.1:6379
+master:
+  driver: com.mysql.cj.jdbc.Driver
+  password: +tkfyiKcqLiFlgt7GSnxtw==
+  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+  username: root
+mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
+slave:
+  driver: com.mysql.cj.jdbc.Driver
+  password: +tkfyiKcqLiFlgt7GSnxtw==
+  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+  username: root
+zookeeper_ip: localhost:12345
+server:
+  port: 9090
 demo:
   service:
     version: 1.0.0
+#二维码图片存放目录
+QRCODE_IMAGE_DIR: C:/Users/27568/Desktop/QRfile
+
+
 ---
+###################测试环境配置######################
+spring:
+  profiles: test
+  kafka:
+    bootstrap-servers: 192.168.2.247:9092
+    consumer:
+      group-id: myGroup
+  application:
+    name: dubbo-provider-demo
+  main:
+    allow-bean-definition-overriding: true
+  output:
+    ansi:
+      enabled: ALWAYS
+  data:
+    mongodb:
+      database: test
+dubbo:
+  scan:
+    base-packages: org.seckill.service.impl
+  application:
+    id: dubbo-provider-demo
+    name: dubbo-provider-demo
+    qos-port: 22222
+    qos-enable:  true
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 12345
+    status: server
+  registry:
+    id: my-registry
+    address: N/A
+
+cache_address: localhost
+cache_ip_address: redis://127.0.0.1:6379
+master:
+  driver: com.mysql.cj.jdbc.Driver
+  password: +tkfyiKcqLiFlgt7GSnxtw==
+  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+  username: root
+mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
+slave:
+  driver: com.mysql.cj.jdbc.Driver
+  password: +tkfyiKcqLiFlgt7GSnxtw==
+  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+  username: root
+zookeeper_ip: localhost:12345
 server:
   port: 9090
+demo:
+  service:
+    version: 1.0.0
+#二维码图片存放目录
+QRCODE_IMAGE_DIR: C:/Users/27568/Desktop/QRfile
 
+
+---
+#################准生产环境配置#####################
 spring:
+  profiles: pre
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
       group-id: myGroup
+  application:
+    name: dubbo-provider-demo
+  main:
+    allow-bean-definition-overriding: true
+  output:
+    ansi:
+      enabled: ALWAYS
+  data:
+    mongodb:
+      database: test
+dubbo:
+  scan:
+    base-packages: org.seckill.service.impl
+  application:
+    id: dubbo-provider-demo
+    name: dubbo-provider-demo
+    qos-port: 22222
+    qos-enable:  true
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 12345
+    status: server
+  registry:
+    id: my-registry
+    address: N/A
+
+cache_address: localhost
+cache_ip_address: redis://127.0.0.1:6379
+master:
+  driver: com.mysql.cj.jdbc.Driver
+  password: +tkfyiKcqLiFlgt7GSnxtw==
+  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+  username: root
+mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
+slave:
+  driver: com.mysql.cj.jdbc.Driver
+  password: +tkfyiKcqLiFlgt7GSnxtw==
+  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+  username: root
+zookeeper_ip: localhost:12345
+server:
+  port: 9090
+demo:
+  service:
+    version: 1.0.0
+#二维码图片存放目录
+QRCODE_IMAGE_DIR: C:/Users/27568/Desktop/QRfile
+
+
+---
+#####################生产环境配置###########################
+spring:
+  profiles: prod
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: myGroup
+  application:
+    name: dubbo-provider-demo
+  main:
+      allow-bean-definition-overriding: true
+  output:
+    ansi:
+      enabled: ALWAYS
+  data:
+    mongodb:
+      database: test
+dubbo:
+  scan:
+    base-packages: org.seckill.service.impl
+  application:
+    id: dubbo-provider-demo
+    name: dubbo-provider-demo
+    qos-port: 22222
+    qos-enable:  true
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 12345
+    status: server
+  registry:
+    id: my-registry
+    address: N/A
+
+cache_address: localhost
+cache_ip_address: redis://127.0.0.1:6379
+master:
+  driver: com.mysql.cj.jdbc.Driver
+  password: +tkfyiKcqLiFlgt7GSnxtw==
+  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+  username: root
+mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
+slave:
+  driver: com.mysql.cj.jdbc.Driver
+  password: +tkfyiKcqLiFlgt7GSnxtw==
+  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+  username: root
+zookeeper_ip: localhost:12345
+server:
+  port: 9090
+demo:
+  service:
+    version: 1.0.0
 #二维码图片存放目录
 QRCODE_IMAGE_DIR: C:/Users/27568/Desktop/QRfile
