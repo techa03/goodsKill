@@ -111,7 +111,21 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 - 支付宝二维码接入指南：https://blog.csdn.net/techa/article/details/71003519
 
-#### 并发场景：
+#### 打包部署方法
+1. 进入goodsKill项目根目录
+ ```
+ mvn clean package -DskipTests=true -Pdev
+ ```
+2. 启动服务提供方服务
+ ```
+ cd 项目根目录/goodsKill-springboot-provider/goodsKill-service/target
+ java -jar goodsKill-service.jar
+ ```
+3. 启动服务消费方（包含web容器）
+- 找到goodsKill-web.war，重命名为goodsKill.war，使用tomcat 18080端口启动
+
+
+#### 并发方案：
 目前实现了几种秒杀方案
 
 测试地址：http://localhost:18080/goodsKill/swagger-ui.html#/
@@ -123,7 +137,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 - 场景六：实时等待秒杀处理结果
 - 场景七：zookeeper分布式锁
 
-#### 编译部署注意事项：
+#### 备忘：
 - 可通过http://localhost:18080/goodsKill/swagger-ui.html#/访问swagger主页
 
 

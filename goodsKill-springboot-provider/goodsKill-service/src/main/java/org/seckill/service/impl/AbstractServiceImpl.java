@@ -14,6 +14,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+/**
+ * @author heng
+ */
 @BaseService
 @Slf4j
 public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements CommonService<Example, Entity> {

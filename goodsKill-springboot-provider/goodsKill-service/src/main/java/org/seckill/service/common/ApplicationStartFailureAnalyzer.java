@@ -1,4 +1,4 @@
-package org.seckill.service.impl;
+package org.seckill.service.common;
 
 import org.springframework.boot.diagnostics.AbstractFailureAnalyzer;
 import org.springframework.boot.diagnostics.FailureAnalysis;
