@@ -1,8 +1,8 @@
 package org.seckill.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Service;
 import org.redisson.Redisson;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -101,7 +101,6 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
 
     @Override
     public PageInfo getSeckillList(int pageNum, int pageSize) {
-        log.info("hhaa222");
         return selectByPage(new SeckillExample(), pageNum, pageSize);
     }
 

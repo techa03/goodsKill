@@ -1,8 +1,8 @@
 package org.seckill.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.dubbo.config.annotation.Service;
 import org.seckill.api.exception.CommonException;
 import org.seckill.api.exception.SeckillException;
 import org.seckill.api.service.UserAccountService;

@@ -1,6 +1,6 @@
 package org.seckill.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.Service;
 import org.seckill.api.service.UserRoleService;
 import org.seckill.dao.UserRoleMapper;
 import org.seckill.entity.UserRole;

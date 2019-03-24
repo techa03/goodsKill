@@ -1,7 +1,7 @@
 package org.seckill.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Service;
 import org.seckill.api.service.GoodsService;
 import org.seckill.dao.GoodsMapper;
 import org.seckill.entity.Goods;

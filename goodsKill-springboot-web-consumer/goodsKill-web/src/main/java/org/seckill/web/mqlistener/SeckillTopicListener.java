@@ -1,7 +1,7 @@
 package org.seckill.web.mqlistener;//package org.seckill.web.mqlistener;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Reference;
 import org.seckill.api.service.SeckillService;
 
 import javax.jms.JMSException;

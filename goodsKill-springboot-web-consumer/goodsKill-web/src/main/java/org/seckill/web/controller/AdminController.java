@@ -1,9 +1,9 @@
 package org.seckill.web.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Reference;
 import org.seckill.api.service.*;
 import org.seckill.entity.*;
 import org.seckill.web.dto.PermissionDto;

@@ -25,6 +25,7 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
      * @param example
      * @return
      */
+    @Override
     public List<Entity> selectByExample(Example example) {
         mapper = (Mapper) getMapper();
         List<Entity> obj = null;
@@ -40,6 +41,7 @@ public abstract class AbstractServiceImpl<Mapper, Example, Entity> implements Co
      * @param pageSize
      * @return
      */
+    @Override
     public PageInfo selectByPage(Example example, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         mapper = (Mapper) getMapper();

@@ -1,7 +1,7 @@
 package org.seckill.web.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
+import org.apache.dubbo.config.annotation.Reference;
 import org.seckill.api.service.GoodsService;
 import org.seckill.entity.Goods;
 import org.springframework.stereotype.Controller;

@@ -1,7 +1,7 @@
 package org.seckill.web.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
