@@ -12,18 +12,18 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
- *
  * 动态数据源切面
- * @note 需要注意下该切面必须要在事务注解@Transactional之前，由于在开始事务之前就需要确定数据源，所以设置@Order(Ordered.LOWEST_PRECEDENCE-1)，@Transactional的order是最小值
+ *
  * @author heng
+ * @note 需要注意下该切面必须要在事务注解@Transactional之前，由于在开始事务之前就需要确定数据源，所以设置@Order(Ordered.LOWEST_PRECEDENCE-1)，@Transactional的order是最小值
  * @date 2018/09/28
  */
 @Aspect
-//@Component
-@Order(Ordered.LOWEST_PRECEDENCE-1)
+@Component
+@Order(Ordered.LOWEST_PRECEDENCE - 1)
 @Slf4j
 public class DataSourceEntryAspect {
-    @Pointcut("execution(* org.seckill.service.impl.*.*(..))")
+    @Pointcut("execution(* org.seckill.service.impl..*(..))")
     public void servicePointcut() {
     }
 
@@ -55,21 +55,27 @@ public class DataSourceEntryAspect {
     public void serviceGetPointcut() {
     }
 
-    @Before("servicePointcut() && (serviceDeletePointcut() || serviceInsertPointcut()) || serviceUpdatePointcut()")
+    @Before("servicePointcut() && (serviceDeletePointcut() || serviceInsertPointcut() || serviceUpdatePointcut())")
     public void setWriteDataSource() {
         DynamicDataSource.setDatasourceContext(DataSourceEnum.MASTER.getName());
-        log.debug("切换数据源成功！当前数据源{}", DynamicDataSource.getDatasourceContext().get());
+        if (log.isDebugEnabled()) {
+            log.debug("切换数据源成功！当前数据源{}", DynamicDataSource.getDatasourceContext().get());
+        }
     }
 
     @After("servicePointcut()")
     public void removeDataSource() {
         DynamicDataSource.remove();
-        log.debug("数据源还原成功！当前数据源{}", DynamicDataSource.getDatasourceContext().get());
+        if (log.isDebugEnabled()) {
+            log.debug("数据源还原成功！当前数据源{}", DynamicDataSource.getDatasourceContext().get());
+        }
     }
 
-    @Before("servicePointcut() && (serviceSelectPointcut() || serviceCountPointcut() || serviceGetPointcut()) || serviceQueryPointcut()")
+    @Before("servicePointcut() && (serviceSelectPointcut() || serviceCountPointcut() || serviceGetPointcut() || serviceQueryPointcut())")
     public void setReadDataSource() {
         DynamicDataSource.setDatasourceContext(DataSourceEnum.SLAVE.getName());
-        log.debug("切换数据源成功！当前数据源{}", DynamicDataSource.getDatasourceContext().get());
+        if (log.isDebugEnabled()) {
+            log.debug("切换数据源成功！当前数据源{}", DynamicDataSource.getDatasourceContext().get());
+        }
     }
 }
