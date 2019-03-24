@@ -86,13 +86,20 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 #### 项目启动方法：
 
-- 参照redis官网安装redis，mongoDb并启动，本地默认端口启动activemq，kafka（可以不装），~~zookeeper~~（zookeeper无需安装，dubbo-springboot已集成）;
+- 参照官网安装redis，mongoDb，activemq，kafka，zookeeper本地默认端口启动;
 
 - 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作;
 
 - 二维码图片存放路径配置信息在application.yml中的QRCODE_IMAGE_DIR配置中修改;
 
 - 数据库密码需要根据个人密码设置进行更改，数据库密码保存在application.yml，可以使用AESUtil工具类进行数据库密码加密替换master.password和slave.password（主从数据库信息可以一致）
+
+- applicatio.yml已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
+ ```
+ spring:
+   profiles:
+     active: test
+ ```
 
 - 项目根目录goodsKill中执行mvn clean install
 

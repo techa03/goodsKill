@@ -101,6 +101,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
 
     @Override
     public PageInfo getSeckillList(int pageNum, int pageSize) {
+        log.info("hhaa222");
         return selectByPage(new SeckillExample(), pageNum, pageSize);
     }
 

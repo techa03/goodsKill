@@ -6,8 +6,6 @@
         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
-    <!-- 注意:此项配置属性文件路径，不然无法填充${}的属性-->
-    <context:property-placeholder location="classpath:goodsKill-server.properties"/>
 
     <!--<mvc:annotation-driven conversion-service="conversionService"/>-->
     <!--<mvc:default-servlet-handler/>-->

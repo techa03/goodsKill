@@ -1,7 +1,8 @@
 spring:
   profiles:
     active: test
-
+  main:
+    allow-bean-definition-overriding: true
 application:
   message: Hello
 demo:
@@ -54,11 +55,13 @@ spring:
   profiles: dev
   kafka:
     bootstrap-servers: localhost:9092
+mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
 ---
 spring:
   profiles: test
   kafka:
     bootstrap-servers: 192.168.2.247:9092
+mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
 ---
 spring:
   kafka:

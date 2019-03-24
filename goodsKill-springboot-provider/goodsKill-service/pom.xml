@@ -4,6 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>goodsKill-service</artifactId>
 	<version>${goodsKill.version}</version>
+	<packaging>jar</packaging>
 	<parent>
 		<groupId>com.goodsKill</groupId>
 		<artifactId>goodsKill-springboot-provider</artifactId>
@@ -160,6 +161,11 @@
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -198,7 +204,21 @@
 				</executions>
 
 				<!-- Configuration 里面写配置信息 -->
-
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>org.seckill.service.GoodsKillRpcServiceApplication</mainClass>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

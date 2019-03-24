@@ -17,7 +17,7 @@ import java.sql.SQLException;
  * @date 2019/3/23
  */
 @Configuration
-@ConfigurationProperties()
+@ConfigurationProperties
 public class DataSourceConfig {
     @Value("${mq_address}")
     private String mq_address;
