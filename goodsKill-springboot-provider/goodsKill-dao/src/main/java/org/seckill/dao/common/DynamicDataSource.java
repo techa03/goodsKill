@@ -3,6 +3,10 @@ package org.seckill.dao.common;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
+/**
+ * 动态切换数据源类
+ * @author heng
+ */
 @Slf4j
 public class DynamicDataSource extends AbstractRoutingDataSource {
 
