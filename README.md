@@ -137,6 +137,13 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 - 场景六：实时等待秒杀处理结果
 - 场景七：zookeeper分布式锁
 
+可在web控台查看秒杀结果，打印信息类似：
+ ```
+2019-03-25 13:40:42.123  INFO 1016 --- [io-18080-exec-9] o.s.w.controller.SeckillMockController   : 秒杀活动开始，秒杀场景三(activemq消息队列实现)时间：Mon Mar 25 13:40:42 CST 2019,秒杀id：1001
+2019-03-25 13:40:49.050  INFO 1016 --- [ jmsContainer-1] o.s.web.mqlistener.SeckillTopicListener  : 最终成功交易笔数：100
+2019-03-25 13:40:49.050  INFO 1016 --- [ jmsContainer-1] o.s.web.mqlistener.SeckillTopicListener  : 秒杀活动结束，秒杀场景三(activemq消息队列实现)时间：Mon Mar 25 13:40:49 CST 2019,秒杀id：1001
+ ```
+
 #### 备忘：
 - 可通过http://localhost:18080/goodsKill/swagger-ui.html#/访问swagger主页
 

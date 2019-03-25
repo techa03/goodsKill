@@ -6,7 +6,6 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.seckill.dao.RedisDao;
 import org.seckill.util.common.util.AESUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,7 +16,6 @@ import java.sql.SQLException;
  * @date 2019/3/23
  */
 @Configuration
-@ConfigurationProperties
 public class DataSourceConfig {
     @Value("${mq_address}")
     private String mq_address;

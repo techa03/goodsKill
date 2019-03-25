@@ -21,7 +21,6 @@ import org.seckill.web.dto.ResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -39,7 +38,6 @@ import java.util.*;
 @Api(tags = "秒杀管理")
 @Controller
 @RequestMapping("/seckill")
-@ConfigurationProperties
 public class SeckillController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Reference(version = "${demo.service.version}",

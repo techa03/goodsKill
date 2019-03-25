@@ -8,7 +8,6 @@ import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -20,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
-@ConfigurationProperties
 public class ZookeeperLockUtil implements ApplicationListener {
 
     private CuratorFramework client;

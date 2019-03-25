@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -33,7 +32,6 @@ import java.util.List;
  * sdk和demo的意见和问题反馈请联系：liuyang.kly@alipay.com
  */
 @Component
-@ConfigurationProperties
 public class AlipayRunner {
     private static Logger logger = LoggerFactory.getLogger(AlipayRunner.class);
     // 支付宝当面付2.0服务

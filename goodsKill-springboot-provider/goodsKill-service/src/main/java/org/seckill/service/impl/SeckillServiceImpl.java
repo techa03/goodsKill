@@ -32,7 +32,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,7 +55,6 @@ import java.util.concurrent.CountDownLatch;
         registry = "${dubbo.registry.id}"
 )
 @Slf4j
-@ConfigurationProperties
 public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService, SeckillExecutor, InitializingBean {
     @Autowired
     private AlipayRunner alipayRunner;
