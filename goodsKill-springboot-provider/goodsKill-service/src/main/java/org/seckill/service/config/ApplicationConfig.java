@@ -2,10 +2,7 @@ package org.seckill.service.config;
 
 import com.mongodb.MongoClient;
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -17,9 +14,9 @@ import java.util.stream.Stream;
  * @author techa
  * @date 2019/03/09
  */
-@Configuration
-@EnableMongoRepositories("org.seckill.dao.mongo")
-@ConfigurationProperties(prefix = "spring.data.mongodb")
+//@Configuration
+//@EnableMongoRepositories("org.seckill.dao.mongo")
+//@ConfigurationProperties(prefix = "spring.data.mongodb")
 @Data
 public class ApplicationConfig extends AbstractMongoConfiguration {
     private String database;
