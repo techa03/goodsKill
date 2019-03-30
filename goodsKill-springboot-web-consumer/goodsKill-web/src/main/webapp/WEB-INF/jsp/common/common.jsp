@@ -26,6 +26,6 @@
 <script src="http://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
 <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
-<script src="../../html/js/bootstrap-table.js"></script>
-<link href="../../html/js/bootstrap-table.css" rel="stylesheet">
-<script src="../../html/js/bootstrap-table-zh-CN.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.13.5/bootstrap-table.js"></script>
+<link href="https://cdn.bootcss.com/bootstrap-table/1.13.5/bootstrap-table.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/bootstrap-table/1.13.5/locale/bootstrap-table-zh-CN.js"></script>

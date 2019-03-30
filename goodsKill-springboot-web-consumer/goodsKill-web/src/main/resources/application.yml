@@ -1,13 +1,21 @@
 spring:
   profiles:
     active: test
+  session:
+    redis:
+      flush-mode: on_save
+      namespace: spring:session
+    store-type: redis
   main:
     allow-bean-definition-overriding: true
+
 application:
   message: Hello
+
 demo:
   service:
     version: 1.0.0
+
 dubbo:
   application:
     id: dubbo-consumer-demo
@@ -20,6 +28,7 @@ dubbo:
     port: 22223
   service:
     url: dubbo://localhost:12345
+
 endpoints:
   dubbo:
     enabled: true
@@ -46,9 +55,12 @@ management:
     dubbo:
       status:
         defaults: memory
+
 server:
   port: 18080
   servlet:
+    session:
+      timeout: 1
     context-path: /goodsKill
 ---
 spring:

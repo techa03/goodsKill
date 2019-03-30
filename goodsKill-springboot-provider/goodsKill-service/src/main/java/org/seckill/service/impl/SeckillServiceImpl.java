@@ -17,11 +17,11 @@ import org.seckill.api.exception.SeckillCloseException;
 import org.seckill.api.exception.SeckillException;
 import org.seckill.api.service.SeckillService;
 import org.seckill.dao.GoodsMapper;
-import org.seckill.dao.RedisDao;
 import org.seckill.dao.SeckillMapper;
 import org.seckill.dao.SuccessKilledMapper;
 import org.seckill.dao.ext.ExtSeckillMapper;
 import org.seckill.entity.*;
+import org.seckill.service.common.RedisService;
 import org.seckill.service.common.trade.alipay.AlipayRunner;
 import org.seckill.service.inner.SeckillExecutor;
 import org.seckill.service.mq.MqTask;
@@ -63,7 +63,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     @Autowired
     private SuccessKilledMapper successKilledMapper;
     @Autowired
-    private RedisDao redisDao;
+    private RedisService redisService;
     @Autowired
     private GoodsMapper goodsMapper;
     @Resource(name = "taskExecutor")
@@ -89,8 +89,8 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         this.successKilledMapper = successKilledMapper;
     }
 
-    public void setRedisDao(RedisDao redisDao) {
-        this.redisDao = redisDao;
+    public void setRedisService(RedisService redisService) {
+        this.redisService = redisService;
     }
 
     public void setGoodsMapper(GoodsMapper goodsMapper) {
@@ -115,7 +115,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     @Override
     public Exposer exportSeckillUrl(long seckillId) {
         //从redis中获取缓存秒杀信息
-        Seckill seckill = redisDao.getSeckill(seckillId);
+        Seckill seckill = redisService.getSeckill(seckillId);
         Date startTime = seckill.getStartTime();
         Date endTime = seckill.getEndTime();
         Date nowTime = new Date();

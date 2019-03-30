@@ -3,7 +3,6 @@ package org.seckill.service.config;
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.seckill.dao.RedisDao;
 import org.seckill.util.common.util.AESUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -54,12 +53,6 @@ public class DataSourceConfig {
         statFilter.setSlowSqlMillis(10000);
         statFilter.setLogSlowSql(true);
         return statFilter;
-    }
-
-    @Bean
-    public RedisDao redisDao(@Value("${cache_address}") String host) {
-        RedisDao redisDao = new RedisDao(host, 6379);
-        return redisDao;
     }
 
     @Bean

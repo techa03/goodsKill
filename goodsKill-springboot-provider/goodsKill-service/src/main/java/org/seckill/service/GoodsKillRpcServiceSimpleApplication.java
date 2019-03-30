@@ -2,7 +2,6 @@ package org.seckill.service;
 
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -15,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  * @author techa
  */
-@SpringBootApplication(exclude = {KafkaAutoConfiguration.class, ActiveMQAutoConfiguration.class, MongoAutoConfiguration.class})
+@SpringBootApplication(exclude = {KafkaAutoConfiguration.class, MongoAutoConfiguration.class})
 @ImportResource(value = {"classpath*:META-INF/spring/spring-service.xml",
         "classpath*:META-INF/spring/spring-service-mq.xml",
         "classpath*:META-INF/spring/spring-dao.xml"})

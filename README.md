@@ -86,7 +86,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 #### 项目启动方法：
 
-- 参照官网安装redis，mongoDb，activemq，kafka，zookeeper，mysql8.0+本地默认端口启动;
+- 参照官网安装redis/mongoDb/activeMQ/kafkaMQ/zookeeper/mysql8.0+本地默认端口启动;
 
 - 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作;
 
@@ -103,7 +103,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 - 项目根目录goodsKill中执行mvn clean install
 
-- 在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务，不想安装mongoDB，kafkaMQ，activeMQ的同学，可以使用GoodsKillRpcServiceSimpleApplication类启动（只需安装redis，mysql）;
+- 在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务，不想安装mongoDB/kafkaMQ的同学，可以使用GoodsKillRpcServiceSimpleApplication类启动（只需安装redis/mysql/activeMQ）;
 
 - 在web模块使用maven spring-boot插件运行spring-boot:run
 
@@ -158,6 +158,6 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 #### 后续更新计划
 - 使用redis优化秒杀执行过程，异步发送秒杀成功MQ消息完成数据落地，并使用mongo存储秒杀信息提升TPS;
-- 集成spring-session管理会话，目前使用shiro由于只保存在单机上，分布式环境可能需要重新登录；
+- 集成spring-session管理会话，目前使用shiro由于只保存在单机上，重启应用或分布式环境可能需要重新登录；(已完成)
 - 添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，功能比较简单，后续需要完善；
 - 模拟秒杀控台日志显示优化，后续考虑增加一个benchmark跑分功能，依次调用各个秒杀场景方案，最后输出各个方案的用时；

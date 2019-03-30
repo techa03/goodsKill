@@ -1,7 +1,8 @@
 package org.seckill.service.test.mongo;
 
-import java.util.HashSet;
-import java.util.Set;
+import org.seckill.entity.Seckill;
+
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -16,6 +17,7 @@ public class StringCollector implements Collector<String, StringCombiner, String
     private String prefix;
     private String delim;
     private String suffix;
+
     @Override
     public Supplier<StringCombiner> supplier() {
         return () -> new StringCombiner(prefix, delim, suffix);
@@ -32,7 +34,7 @@ public class StringCollector implements Collector<String, StringCombiner, String
     }
 
     @Override
-    public Function<StringCombiner,String> finisher() {
+    public Function<StringCombiner, String> finisher() {
         return StringCombiner::toString;
     }
 
@@ -45,5 +47,17 @@ public class StringCollector implements Collector<String, StringCombiner, String
         this.prefix = prefix;
         this.delim = delim;
         this.suffix = suffix;
+    }
+
+    public static void main(String[] args) {
+        List<Seckill> list = new ArrayList();
+        Random random = new Random();
+        for (int i = 0; i < 100; i++) {
+            Seckill seckill = new Seckill();
+            long e = random.nextInt(1000000) + 1000;
+            seckill.setSeckillId(e);
+            list.add(seckill);
+        }
+        list.stream().mapToLong(Seckill::getSeckillId).forEach(n -> System.out.println(n));
     }
 }

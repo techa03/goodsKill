@@ -31,12 +31,12 @@
             <a class="btn btn-info" href="${context}/html/index.html" target="_blank">管理用户</a>
             <a class="btn btn-info" href="${context}/seckill/signOut" target="_blank">退出登录</a>
         </div>
-        <div style="margin-top: 15px;margin-left: 15px" class="input-group col-sm-3">
-            <input id="goodsName" type="text" class="form-control" placeholder="输入商品名称...">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button" onclick="search();">搜索</button>
-            </span>
-        </div>
+<%--        <div style="margin-top: 15px;margin-left: 15px" class="input-group col-sm-3">--%>
+<%--            <input id="goodsName" type="text" class="form-control" placeholder="输入商品名称...">--%>
+<%--            <span class="input-group-btn">--%>
+<%--                <button class="btn btn-default" type="button" onclick="search();" hidden="true">搜索</button>--%>
+<%--            </span>--%>
+<%--        </div>--%>
         </br>
     </div>
     <div class="panel-body">

@@ -13,9 +13,9 @@ import com.alipay.demo.trade.utils.ZxingUtils;
 import org.apache.commons.lang.StringUtils;
 import org.seckill.api.exception.SeckillException;
 import org.seckill.dao.GoodsMapper;
-import org.seckill.dao.RedisDao;
 import org.seckill.entity.Goods;
 import org.seckill.entity.Seckill;
+import org.seckill.service.common.RedisService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ public class AlipayRunner {
     }
 
     @Autowired
-    private RedisDao redisDao;
+    private RedisService redisService;
     @Autowired
     private GoodsMapper goodsDao;
 
@@ -78,7 +78,7 @@ public class AlipayRunner {
 
         // (必填) 订单标题，粗略描述用户的支付目的。如“xxx品牌xxx门店当面付扫码消费”
         String subject = "xxx数码商城";
-        Seckill seckill = redisDao.getSeckill(seckillId);
+        Seckill seckill = redisService.getSeckill(seckillId);
         Goods goods = goodsDao.selectByPrimaryKey(seckill.getGoodsId());
         // (必填) 订单总金额，单位为元，不能超过1亿元
         // 如果同时传入了【打折金额】,【不可打折金额】,【订单总金额】三者,则必须满足如下条件:【订单总金额】=【打折金额】+【不可打折金额】
