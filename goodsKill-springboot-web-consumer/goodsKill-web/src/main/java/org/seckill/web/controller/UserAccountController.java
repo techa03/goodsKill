@@ -5,6 +5,7 @@ import org.apache.dubbo.config.annotation.Reference;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.seckill.api.service.GoodsService;
@@ -58,11 +59,12 @@ public class UserAccountController {
         UsernamePasswordToken token = new UsernamePasswordToken(user.getAccount(), user.getPassword());
         Subject subject = SecurityUtils.getSubject();
 
+        Session session = subject.getSession();
         try {
             subject.login(token);
-            subject.getSession().setAttribute("user", user);
+            session.setAttribute("user", user);
         } catch (Exception e) {
-            subject.getSession().setAttribute("user", null);
+            session.setAttribute("user", null);
             logger.error(e.getMessage(), e);
             return "redirect:/login";
         }

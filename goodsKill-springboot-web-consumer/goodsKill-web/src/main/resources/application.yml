@@ -6,6 +6,7 @@ spring:
       flush-mode: on_save
       namespace: spring:session
     store-type: redis
+    timeout: 1800
   main:
     allow-bean-definition-overriding: true
 
@@ -59,9 +60,8 @@ management:
 server:
   port: 18080
   servlet:
-    session:
-      timeout: 1
     context-path: /goodsKill
+
 ---
 spring:
   profiles: dev
