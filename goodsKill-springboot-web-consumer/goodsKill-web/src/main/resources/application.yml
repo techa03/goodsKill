@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: test
+    active: dev
   session:
     redis:
       flush-mode: on_save
