@@ -36,6 +36,8 @@ dubbo:
   registry:
     id: my-registry
     address: N/A
+  provider:
+    timeout: 30000
 
 cache_address: localhost
 cache_ip_address: redis://127.0.0.1:6379

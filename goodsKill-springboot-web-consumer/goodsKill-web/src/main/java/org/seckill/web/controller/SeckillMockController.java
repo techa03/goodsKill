@@ -4,10 +4,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
-import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.service.SeckillService;
-import org.seckill.entity.Seckill;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -42,6 +41,8 @@ public class SeckillMockController {
     private ThreadPoolTaskExecutor taskExecutor;
     @Autowired
     private KafkaTemplate kafkaTemplate;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 通过同步锁控制秒杀并发（秒杀未完成阻塞主线程）
@@ -65,15 +66,8 @@ public class SeckillMockController {
      * @param seckillId
      * @param seckillCount
      */
-    private void prepareSeckill(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount) {
-        // 初始化库存数量
-        Seckill entity = new Seckill();
-        entity.setSeckillId(seckillId);
-        entity.setNumber(seckillCount);
-        entity.setStatus(SeckillStatusConstant.IN_PROGRESS);
-        seckillService.updateByPrimaryKeySelective(entity);
-        // 清理已成功秒杀记录
-        seckillService.deleteSuccessKillRecord(seckillId);
+    private void prepareSeckill(Long seckillId, int seckillCount) {
+        seckillService.prepareSeckill(seckillId, seckillCount);
     }
 
     /**
@@ -93,9 +87,9 @@ public class SeckillMockController {
         log.info("秒杀活动开始，秒杀场景二(redis分布式锁实现)时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
-            taskExecutor.execute(() -> {
-                seckillService.executeWithRedisson(seckillId, 1, atomicInteger.addAndGet(1));
-            });
+            taskExecutor.execute(() ->
+                    seckillService.executeWithRedisson(seckillId, 1, atomicInteger.addAndGet(1))
+            );
         }
     }
 
@@ -117,15 +111,15 @@ public class SeckillMockController {
         // 保证用户id不重复
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
-            taskExecutor.execute(() -> {
-                jmsTemplate.send((Session session) -> {
-                    Message message = session.createMessage();
-                    message.setLongProperty("seckillId", seckillId);
-                    message.setStringProperty("userPhone", String.valueOf(atomicInteger.incrementAndGet()));
-                    message.setStringProperty("note", String.valueOf("秒杀场景三(activemq消息队列实现)"));
-                    return message;
-                });
-            });
+            taskExecutor.execute(() ->
+                    jmsTemplate.send((Session session) -> {
+                        Message message = session.createMessage();
+                        message.setLongProperty("seckillId", seckillId);
+                        message.setStringProperty("userPhone", String.valueOf(atomicInteger.incrementAndGet()));
+                        message.setStringProperty("note", "秒杀场景三(activemq消息队列实现)");
+                        return message;
+                    })
+            );
         }
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
@@ -148,7 +142,7 @@ public class SeckillMockController {
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() ->
-                kafkaTemplate.sendDefault(String.valueOf(atomicInteger.incrementAndGet()), String.valueOf(seckillId))
+                    kafkaTemplate.sendDefault(String.valueOf(atomicInteger.incrementAndGet()), String.valueOf(seckillId))
             );
         }
         //待mq监听器处理完成打印日志，不在此处打印日志
@@ -170,9 +164,9 @@ public class SeckillMockController {
         log.info("秒杀活动开始，秒杀场景五(存储过程实现)时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
-            taskExecutor.execute(() -> {
-                seckillService.executeWithProcedure(seckillId, 1, atomicInteger.addAndGet(1));
-            });
+            taskExecutor.execute(() ->
+                    seckillService.executeWithProcedure(seckillId, 1, atomicInteger.addAndGet(1))
+            );
         }
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
@@ -215,18 +209,71 @@ public class SeckillMockController {
     }
 
 
+    /**
+     * @param seckillId
+     * @param seckillCount
+     * @param requestCount
+     */
+    @ApiOperation(value = "秒杀场景七(zookeeper分布式锁)")
     @PostMapping("/zookeeperLock/{seckillId}")
     @ResponseBody
     public void doWithZookeeperLock(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
-                                      @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) {
+                                    @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) {
         prepareSeckill(seckillId, seckillCount);
         log.info("秒杀活动开始，秒杀场景七(zookeeper分布式锁)时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
-            taskExecutor.execute(() -> {
-                seckillService.executeWithZookeeperLock(seckillId, 1, atomicInteger.addAndGet(1));
-            });
+            taskExecutor.execute(() ->
+                    seckillService.executeWithZookeeperLock(seckillId, 1, atomicInteger.addAndGet(1))
+            );
         }
+    }
+
+    /**
+     * 场景八：使用activeMQ发送秒杀请求，收到消息后使用redis缓存执行库存-1操作，最后通过发送MQ完成数据落地（存入mongoDB）
+     *
+     * @param seckillId
+     * @param seckillCount
+     * @param requestCount
+     */
+    @ApiOperation(value = "秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)")
+    @PostMapping("/redisReactiveMongo/{seckillId}")
+    @ResponseBody
+    public void redisReactiveMongo(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
+                                   @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) {
+        prepareSeckill(seckillId, seckillCount);
+        log.info("秒杀活动开始，秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)时间：{},秒杀id：{}", new Date(), seckillId);
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        for (int i = 0; i < requestCount; i++) {
+            taskExecutor.execute(() ->
+                    jmsTemplate.send("GOODSKILL_SENCE8", (Session session) -> {
+                        Message message = session.createMessage();
+                        message.setLongProperty("seckillId", seckillId);
+                        message.setStringProperty("userPhone", String.valueOf(atomicInteger.incrementAndGet()));
+                        message.setStringProperty("note", "秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)");
+                        return message;
+                    })
+            );
+        }
+    }
+
+    /**
+     * 通过同步锁控制秒杀并发（秒杀未完成阻塞主线程）
+     * 场景一：初始化当前库存为1000，通过线程池调度，模拟总共有2000人参与秒杀，期望值为最后成功笔数为1000
+     * 结果：多次运行，最终的结果为1000
+     * 总结：加上同步锁可以解决秒杀问题，适用于单机模式，扩展性差。
+     *
+     * @param seckillId 秒杀活动id
+     */
+    @ApiOperation(value = "各方案性能对比（一键运行）")
+    @PostMapping("/benchmark/{seckillId}")
+    public void benchmark(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
+                          @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
+        doWithSychronized(seckillId, seckillCount, requestCount);
+        doWithActiveMqMessage(seckillId, seckillCount, requestCount);
+        doWithProcedure(seckillId, seckillCount, requestCount);
+        doWithRedissionLock(seckillId, seckillCount, requestCount);
+        doWithSychronized(seckillId, seckillCount, requestCount);
     }
 
 }

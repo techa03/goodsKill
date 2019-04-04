@@ -29,6 +29,9 @@ dubbo:
     port: 22223
   service:
     url: dubbo://localhost:12345
+  consumer:
+    timeout: 30000
+
 
 endpoints:
   dubbo:

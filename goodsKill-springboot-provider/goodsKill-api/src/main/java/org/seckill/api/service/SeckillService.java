@@ -72,4 +72,12 @@ public interface SeckillService extends CommonService<SeckillExample, Seckill> {
      * @param userPhone
      */
     void executeWithZookeeperLock(Long seckillId, int executeTime, int userPhone);
+
+
+    /**
+     * 准备秒杀商品数量
+     * @param seckillId 秒杀商品id
+     * @param seckillCount 秒杀数量
+     */
+    void prepareSeckill(Long seckillId, int seckillCount);
 }

@@ -5,8 +5,11 @@ import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.seckill.util.common.util.AESUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
+import org.springframework.jms.config.JmsListenerContainerFactory;
 
 import java.sql.SQLException;
 
@@ -60,5 +63,14 @@ public class DataSourceConfig {
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
         connectionFactory.setBrokerURL(mq_address);
         return connectionFactory;
+    }
+
+    @Bean
+    public JmsListenerContainerFactory jmsListenerContainerFactory(
+            DefaultJmsListenerContainerFactoryConfigurer configurer) {
+        DefaultJmsListenerContainerFactory factory =
+                new DefaultJmsListenerContainerFactory();
+        configurer.configure(factory, targetConnectionFactory());
+        return factory;
     }
 }
