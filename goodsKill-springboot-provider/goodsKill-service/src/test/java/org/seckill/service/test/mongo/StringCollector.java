@@ -53,7 +53,7 @@ public class StringCollector implements Collector<String, StringCombiner, String
         List<Seckill> list = new ArrayList();
         Random random = new Random();
         for (int i = 0; i < 100; i++) {
-            Seckill seckill = new Seckill();
+            Seckill seckill = Seckill.builder().build();
             long e = random.nextInt(1000000) + 1000;
             seckill.setSeckillId(e);
             list.add(seckill);

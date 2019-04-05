@@ -84,8 +84,9 @@ public class SekcillKafkaConsumer {
             );
         } else {
             if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
+                log.info("秒杀商品暂无库存，发送活动结束消息！");
                 mqTask.sendSeckillSuccessTopic(seckillId, note);
-                Seckill sendTopicResult = new Seckill();
+                Seckill sendTopicResult = Seckill.builder().build();
                 sendTopicResult.setSeckillId(seckillId);
                 sendTopicResult.setStatus(SeckillStatusConstant.END);
                 extSeckillMapper.updateByPrimaryKeySelective(sendTopicResult);

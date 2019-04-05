@@ -31,7 +31,7 @@ public class SeckillActiveConsumer implements MessageListener {
      */
     @Override
     public void onMessage(Message message) {
-        log.info("收到消息{}", message.toString());
+        log.debug("收到消息{}", message.toString());
         long seckillId = 0;
         String userPhone = null;
         String note = null;

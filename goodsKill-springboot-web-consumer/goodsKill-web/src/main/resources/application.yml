@@ -9,6 +9,10 @@ spring:
     timeout: 1800
   main:
     allow-bean-definition-overriding: true
+  activemq:
+    in-memory: true
+    pool:
+      enabled: false
 
 application:
   message: Hello

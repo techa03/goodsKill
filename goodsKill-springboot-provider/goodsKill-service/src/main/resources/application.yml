@@ -1,7 +1,10 @@
 spring:
   profiles:
     active: test
-
+  activemq:
+    in-memory: true
+    pool:
+      enabled: false
 ---
 ######################本地开发环境配置#####################
 spring:

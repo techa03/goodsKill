@@ -1,9 +1,11 @@
 package org.seckill.api.service;
 
 import com.github.pagehelper.PageInfo;
+import org.seckill.api.constant.SeckillSolutionEnum;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
 import org.seckill.api.dto.SeckillInfo;
+import org.seckill.api.dto.SeckillResult;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SeckillExample;
 
@@ -80,4 +82,10 @@ public interface SeckillService extends CommonService<SeckillExample, Seckill> {
      * @param seckillCount 秒杀数量
      */
     void prepareSeckill(Long seckillId, int seckillCount);
+
+    /**
+     * @param seckill
+     */
+    SeckillResult dealSeckill(Seckill seckill, SeckillSolutionEnum seckillSolutionEnum);
+
 }
