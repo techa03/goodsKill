@@ -55,7 +55,6 @@ slave:
   password: +tkfyiKcqLiFlgt7GSnxtw==
   url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
   username: root
-zookeeper_ip: localhost:12345
 server:
   port: 9090
 demo:
@@ -113,7 +112,6 @@ slave:
   password: +tkfyiKcqLiFlgt7GSnxtw==
   url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
   username: root
-zookeeper_ip: localhost:12345
 server:
   port: 9090
 demo:
@@ -174,7 +172,6 @@ slave:
   password: +tkfyiKcqLiFlgt7GSnxtw==
   url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
   username: root
-zookeeper_ip: localhost:12345
 server:
   port: 9090
 demo:
@@ -232,7 +229,6 @@ slave:
   password: +tkfyiKcqLiFlgt7GSnxtw==
   url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
   username: root
-zookeeper_ip: localhost:12345
 server:
   port: 9090
 demo:

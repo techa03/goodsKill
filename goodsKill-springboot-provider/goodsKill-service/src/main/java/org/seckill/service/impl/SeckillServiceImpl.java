@@ -276,7 +276,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
 
     @Override
     public void executeWithZookeeperLock(Long seckillId, int executeTime, int userPhone) {
-        zookeeperLockUtil. lock(seckillId);
+        zookeeperLockUtil.lock(seckillId);
         try {
             seckillExecutor.dealSeckill(seckillId, String.valueOf(userPhone), ZOOKEEPER_LOCK.getName());
         } finally {
