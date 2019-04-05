@@ -86,7 +86,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 #### 项目启动方法：
 
-- 参照官网安装redis/mongoDb/activeMQ/kafkaMQ/zookeeper/mysql8.0+本地默认端口启动;
+- 参照官网安装redis/mongoDb/activeMQ/kafkaMQ/zookeeper/mysql8.0+本地默认端口启动，其中mongoDB和kafka非必须;
 
 - 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作;
 
@@ -98,12 +98,12 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
  ```
  spring:
    profiles:
-     active: test
+     active: dev
  ```
 
 - 项目根目录goodsKill中执行mvn clean install
 
-- 在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务，不想安装mongoDB/kafkaMQ的同学，可以使用GoodsKillRpcServiceSimpleApplication类启动（只需安装redis/mysql/activeMQ）;
+- 在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务，不想安装mongoDB/kafkaMQ的同学，可以使用GoodsKillRpcServiceSimpleApplication类启动（只需安装redis/mysql/activeMQ/zookeeper并启动）;
 
 - 在web模块使用maven spring-boot插件运行spring-boot:run
 
@@ -136,6 +136,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 - 场景五：存储过程实现
 - 场景六：实时等待秒杀处理结果
 - 场景七：zookeeper分布式锁
+- 场景八：使用redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用mongoDb完成数据落地
 
 可在web控台查看秒杀结果，打印信息类似：
  ```
@@ -147,17 +148,8 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 #### 备忘：
 - swagger主页：http://localhost:18080/goodsKill/swagger-ui.html#/
 
-
-#### 错误排查
-- 如果发现减少库存无效（update set number=number-1语句），请检查mysql是否为8.0+版本
-
-#### 已知问题
-- zookeeper分布式锁秒杀方案不能正常使用（maven分支中则不存在此问题，估计是依赖版本问题，修复中。。。）
-- 存储过程秒杀方案不能正常使用（该部分可以参考maven分支，maven分支已修复，未同步到本分支，两个版本维护头疼啊ORZ）
-
-
 #### 后续更新计划
-- 使用redis优化秒杀执行过程，异步发送秒杀成功MQ消息完成数据落地，并使用mongo存储秒杀信息提升TPS;
+- 使用redis优化秒杀执行过程，异步发送秒杀成功MQ消息完成数据落地，并使用mongo存储秒杀信息提升TPS;(已完成，见场景八)
 - 集成spring-session管理会话，目前使用shiro由于只保存在单机上，重启应用或分布式环境可能需要重新登录；(已完成)
 - 添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，功能比较简单，后续需要完善；
 - 模拟秒杀控台日志显示优化，后续考虑增加一个benchmark跑分功能，依次调用各个秒杀场景方案，最后输出各个方案的用时；

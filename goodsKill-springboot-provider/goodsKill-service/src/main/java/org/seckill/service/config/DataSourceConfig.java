@@ -5,8 +5,13 @@ import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.seckill.util.common.util.AESUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
+import org.springframework.jms.config.JmsListenerContainerFactory;
+import org.springframework.jms.connection.CachingConnectionFactory;
+import org.springframework.jms.core.JmsTemplate;
 
 import java.sql.SQLException;
 
@@ -61,4 +66,26 @@ public class DataSourceConfig {
         connectionFactory.setBrokerURL(mq_address);
         return connectionFactory;
     }
+
+    @Bean
+    public JmsListenerContainerFactory jmsListenerContainerFactory(
+            DefaultJmsListenerContainerFactoryConfigurer configurer) {
+        DefaultJmsListenerContainerFactory factory =
+                new DefaultJmsListenerContainerFactory();
+        configurer.configure(factory, targetConnectionFactory());
+        return factory;
+    }
+
+    @Bean
+    public CachingConnectionFactory cachingConnectionFactory() {
+        CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory(targetConnectionFactory());
+        cachingConnectionFactory.setSessionCacheSize(200);
+        return cachingConnectionFactory;
+    }
+
+    @Bean
+    public JmsTemplate jmsTemplate() {
+        return new JmsTemplate(cachingConnectionFactory());
+    }
+
 }

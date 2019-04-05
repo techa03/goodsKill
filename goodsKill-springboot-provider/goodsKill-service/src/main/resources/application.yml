@@ -1,7 +1,10 @@
 spring:
   profiles:
     active: test
-
+  activemq:
+    in-memory: true
+    pool:
+      enabled: false
 ---
 ######################本地开发环境配置#####################
 spring:
@@ -36,6 +39,8 @@ dubbo:
   registry:
     id: my-registry
     address: N/A
+  provider:
+    timeout: 30000
 
 cache_address: localhost
 cache_ip_address: redis://127.0.0.1:6379
@@ -50,7 +55,6 @@ slave:
   password: +tkfyiKcqLiFlgt7GSnxtw==
   url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
   username: root
-zookeeper_ip: localhost:12345
 server:
   port: 9090
 demo:
@@ -108,7 +112,6 @@ slave:
   password: +tkfyiKcqLiFlgt7GSnxtw==
   url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
   username: root
-zookeeper_ip: localhost:12345
 server:
   port: 9090
 demo:
@@ -169,7 +172,6 @@ slave:
   password: +tkfyiKcqLiFlgt7GSnxtw==
   url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
   username: root
-zookeeper_ip: localhost:12345
 server:
   port: 9090
 demo:
@@ -227,7 +229,6 @@ slave:
   password: +tkfyiKcqLiFlgt7GSnxtw==
   url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
   username: root
-zookeeper_ip: localhost:12345
 server:
   port: 9090
 demo:

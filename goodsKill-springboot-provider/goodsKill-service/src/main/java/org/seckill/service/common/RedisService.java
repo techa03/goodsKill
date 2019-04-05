@@ -14,7 +14,6 @@ import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
  * @author heng
  * @date 2019/2/25
  */
@@ -45,11 +44,11 @@ public class RedisService {
         }
     }
 
-    private void putSeckill(Seckill seckill) {
+    public void putSeckill(Seckill seckill) {
         String key = "seckill:" + seckill.getSeckillId();
         byte[] bytes = ProtostuffIOUtil.toByteArray(seckill, schema, LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE));
         int timeout = 60;
-        redisTemplate.restore(key.getBytes(), bytes, timeout, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(key.getBytes(), bytes, timeout, TimeUnit.SECONDS);
     }
 
 }

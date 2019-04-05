@@ -10,10 +10,13 @@
 	<modules>
 		<module>goodsKill-springboot-web-consumer</module>
 		<module>goodsKill-springboot-provider</module>
-	</modules>
+        <module>goodsKill-common</module>
+        <module>goodsKill-mongo-provider</module>
+    </modules>
 
 	<properties>
-		<goodsKill.version>3.1.1</goodsKill.version>
+		<goodsKill.version>3.2.0</goodsKill.version>
+		<springboot.version>2.1.3.RELEASE</springboot.version>
 	</properties>
 
 	<build>
@@ -38,4 +41,15 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-parent</artifactId>
+				<version>${springboot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

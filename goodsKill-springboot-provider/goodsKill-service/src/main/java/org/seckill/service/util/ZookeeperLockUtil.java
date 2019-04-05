@@ -6,32 +6,37 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
-public class ZookeeperLockUtil implements ApplicationListener {
+public class ZookeeperLockUtil implements InitializingBean {
 
     private CuratorFramework client;
     private String ROOT_LOCK_PATH = "/goodsKill";
-    @Value("${zookeeper_ip}")
+    @Value("${zookeeper_ip:127.0.0.1:2181}")
     private String zookeeperIP;
     private ThreadLocal<Map<Long, InterProcessMutex>> threadLock = new ThreadLocal<>();
 
+
+    /**
+     * 采用curator提供的互斥锁获取锁方法
+     * 采用线程本地变量的方法解决并发问题
+     *
+     * @param seckillId
+     * @return
+     */
     public boolean lock(long seckillId) {
         try {
             Map<Long, InterProcessMutex> map;
             if (threadLock.get() == null) {
-                map = new HashMap();
+                map = new ConcurrentHashMap();
                 map.put(seckillId, new InterProcessMutex(client, ROOT_LOCK_PATH + "/" + String.valueOf(seckillId)));
                 threadLock.set(map);
             } else {
@@ -39,8 +44,8 @@ public class ZookeeperLockUtil implements ApplicationListener {
                     map = threadLock.get();
                     map.put(seckillId, new InterProcessMutex(client, ROOT_LOCK_PATH + "/" + String.valueOf(seckillId)));
                 }
-                threadLock.get().get(seckillId).acquire(2L, TimeUnit.SECONDS);
             }
+            threadLock.get().get(seckillId).acquire(5000L, TimeUnit.MILLISECONDS);
             return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -48,6 +53,12 @@ public class ZookeeperLockUtil implements ApplicationListener {
         }
     }
 
+    /**
+     * 采用curator提供的互斥锁释放方法
+     *
+     * @param seckillId
+     * @return
+     */
     public boolean releaseLock(long seckillId) {
         try {
             threadLock.get().get(seckillId).release();
@@ -58,16 +69,12 @@ public class ZookeeperLockUtil implements ApplicationListener {
         }
     }
 
+
     @Override
-    public void onApplicationEvent(ApplicationEvent applicationEvent) {
-        if (applicationEvent instanceof ApplicationStartedEvent) {
-            RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-            if (StringUtils.isEmpty(zookeeperIP)) {
-                zookeeperIP = "127.0.0.1:2181";
-            }
-            this.client = CuratorFrameworkFactory.newClient(zookeeperIP, retryPolicy);
-            client.start();
-        }
+    public void afterPropertiesSet() {
+        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
+        this.client = CuratorFrameworkFactory.newClient(zookeeperIP, retryPolicy);
+        client.start();
     }
 
 }

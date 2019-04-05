@@ -9,6 +9,10 @@ spring:
     timeout: 1800
   main:
     allow-bean-definition-overriding: true
+  activemq:
+    in-memory: true
+    pool:
+      enabled: false
 
 application:
   message: Hello
@@ -29,6 +33,9 @@ dubbo:
     port: 22223
   service:
     url: dubbo://localhost:12345
+  consumer:
+    timeout: 30000
+
 
 endpoints:
   dubbo:

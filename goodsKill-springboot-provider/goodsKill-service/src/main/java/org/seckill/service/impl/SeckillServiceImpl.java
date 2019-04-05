@@ -7,10 +7,12 @@ import org.redisson.Redisson;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.seckill.api.constant.SeckillSolutionEnum;
 import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
 import org.seckill.api.dto.SeckillInfo;
+import org.seckill.api.dto.SeckillResult;
 import org.seckill.api.enums.SeckillStatEnum;
 import org.seckill.api.exception.RepeatKillException;
 import org.seckill.api.exception.SeckillCloseException;
@@ -32,14 +34,17 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import javax.jms.Message;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
+
+import static org.seckill.api.constant.SeckillSolutionEnum.*;
 
 
 /**
@@ -55,7 +60,7 @@ import java.util.concurrent.CountDownLatch;
         registry = "${dubbo.registry.id}"
 )
 @Slf4j
-public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService, SeckillExecutor, InitializingBean {
+public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, SeckillExample, Seckill> implements SeckillService, InitializingBean {
     @Autowired
     private AlipayRunner alipayRunner;
     @Autowired
@@ -74,6 +79,12 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     private ZookeeperLockUtil zookeeperLockUtil;
     @Value("${cache_ip_address}")
     private String cache_ip_address;
+    @Autowired
+    private RedisTemplate redisTemplate;
+    @Autowired
+    SeckillExecutor seckillExecutor;
+    @Autowired
+    JmsTemplate jmsTemplate;
 
     private RedissonClient redissonClient;
 
@@ -209,7 +220,13 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
                         record.setCreateTime(new Date());
                         successKilledMapper.insert(record);
                     } else {
-                        mqTask.sendSeckillSuccessTopic(seckillId, "秒杀场景一(sychronized同步锁实现)");
+                        if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
+                            mqTask.sendSeckillSuccessTopic(seckillId, SYCHRONIZED.getName());
+                            Seckill sendTopicResult = Seckill.builder().build();
+                            sendTopicResult.setSeckillId(seckillId);
+                            sendTopicResult.setStatus(SeckillStatusConstant.END);
+                            extSeckillMapper.updateByPrimaryKeySelective(sendTopicResult);
+                        }
                         if (log.isDebugEnabled()) {
                             log.debug("库存不足，无法继续秒杀！");
                         }
@@ -228,7 +245,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
 
     @Override
     public void executeWithProcedure(Long seckillId, int executeTime, int userPhone) {
-        dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景五(存储过程实现)");
+        seckillExecutor.dealSeckill(seckillId, String.valueOf(userPhone), SQL_PROCEDURE.getName());
     }
 
     @Override
@@ -236,7 +253,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         RLock lock = redissonClient.getLock(seckillId + "");
         lock.lock();
         try {
-            dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景二(redis分布式锁实现)");
+            seckillExecutor.dealSeckill(seckillId, String.valueOf(userPhone), REDISSION_LOCK.getName());
         } finally {
             lock.unlock();
         }
@@ -261,43 +278,68 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     public void executeWithZookeeperLock(Long seckillId, int executeTime, int userPhone) {
         zookeeperLockUtil.lock(seckillId);
         try {
-            dealSeckill(seckillId, String.valueOf(userPhone), "秒杀场景七(zookeeper分布式锁)");
+            seckillExecutor.dealSeckill(seckillId, String.valueOf(userPhone), ZOOKEEPER_LOCK.getName());
         } finally {
             zookeeperLockUtil.releaseLock(seckillId);
         }
     }
 
     @Override
-    public void dealSeckill(long seckillId, String userPhone, String note) {
-        Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
-
-        log.info("当前库存：{}", seckill.getNumber());
-        if (seckill.getNumber() > 0) {
-            extSeckillMapper.reduceNumber(seckillId, new Date());
-            SuccessKilled record = new SuccessKilled();
-            record.setSeckillId(seckillId);
-            record.setUserPhone(userPhone);
-            record.setStatus((byte) 1);
-            record.setCreateTime(new Date());
-            try {
-                InetAddress localHost = InetAddress.getLocalHost();
-                record.setServerIp(localHost.getHostAddress() + ":" + localHost.getHostName());
-            } catch (UnknownHostException e) {
-                log.warn("请求被未知IP处理！", e);
-            }
-            successKilledMapper.insert(record);
-        } else {
-            if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
-                mqTask.sendSeckillSuccessTopic(seckillId, note);
-                Seckill sendTopicResult = new Seckill();
-                sendTopicResult.setSeckillId(seckillId);
-                sendTopicResult.setStatus(SeckillStatusConstant.END);
-                extSeckillMapper.updateByPrimaryKeySelective(sendTopicResult);
-            }
-            if (log.isDebugEnabled()) {
-                log.debug("库存不足，无法继续秒杀！");
-            }
+    public void prepareSeckill(Long seckillId, int seckillCount) {
+        // 初始化库存数量
+        Seckill entity = Seckill.builder().build();
+        entity.setSeckillId(seckillId);
+        entity.setNumber(seckillCount);
+        entity.setStatus(SeckillStatusConstant.IN_PROGRESS);
+        this.updateByPrimaryKeySelective(entity);
+        // 清理已成功秒杀记录
+        this.deleteSuccessKillRecord(seckillId);
+        Seckill seckill = redisService.getSeckill(seckillId);
+        redisTemplate.opsForValue().increment(seckillId);
+        while (redisTemplate.opsForValue().decrement(seckillId) > 1) {
+            redisTemplate.opsForValue().decrement(seckillId);
         }
+        seckill.setStatus(SeckillStatusConstant.IN_PROGRESS);
+        redisService.putSeckill(seckill);
+    }
+
+    @Override
+    public SeckillResult dealSeckill(Seckill seckill, SeckillSolutionEnum seckillSolutionEnum) {
+        Long seckillId = seckill.getSeckillId();
+        switch (seckillSolutionEnum) {
+            case REDIS_MONGO_REACTIVE:
+                seckill = redisService.getSeckill(seckillId);
+                if (redisTemplate.opsForValue().increment(seckillId) < seckill.getNumber()) {
+                    taskExecutor.execute(() ->
+                            jmsTemplate.send("GOODSKILL_MONGO_SENCE8", session -> {
+                                Message message = session.createMessage();
+                                message.setLongProperty("seckillId", seckillId);
+                                message.setStringProperty("userPhone", String.valueOf(1));
+                                message.setStringProperty("note", REDIS_MONGO_REACTIVE.getName());
+                                return message;
+                            })
+                    );
+                    log.info("已发送");
+                } else {
+                    synchronized (this) {
+                        seckill = redisService.getSeckill(seckillId);
+                        if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
+                            log.info("秒杀商品暂无库存，发送活动结束消息！");
+                            mqTask.sendSeckillSuccessTopic(seckillId, seckillSolutionEnum.getName());
+                            Seckill sendTopicResult = Seckill.builder().build();
+                            sendTopicResult.setSeckillId(seckillId);
+                            sendTopicResult.setStatus(SeckillStatusConstant.END);
+                            extSeckillMapper.updateByPrimaryKeySelective(sendTopicResult);
+                            seckill.setStatus(SeckillStatusConstant.END);
+                            redisService.putSeckill(seckill);
+                        }
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        return null;
     }
 
     @Override
@@ -306,4 +348,5 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         config.useSingleServer().setAddress(cache_ip_address);
         redissonClient = Redisson.create(config);
     }
+
 }
