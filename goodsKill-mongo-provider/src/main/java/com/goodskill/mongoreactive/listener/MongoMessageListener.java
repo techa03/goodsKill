@@ -12,15 +12,20 @@ import javax.jms.Message;
 import java.math.BigInteger;
 
 /**
+ * mq监听器，监听秒杀成功消息，收到消息插入mongo，使用reactive nio模型
  * @author techa03
  * @date 2019/4/3
  */
 @Component
 @Slf4j
-public class MessageListener {
+public class MongoMessageListener {
     @Autowired
     ReactiveMongoTemplate ops;
 
+    /**
+     * 监听指定队列，并发数10-20
+     * @param message
+     */
     @JmsListener(destination = "GOODSKILL_MONGO_SENCE8", concurrency = "10-20")
     public void processMessage(Message message) {
         long seckillId = 0;
@@ -33,7 +38,11 @@ public class MessageListener {
         } catch (JMSException e) {
             log.error(e.getMessage(), e);
         }
-        ops.insert(SuccessKilled.builder().seckillId(BigInteger.valueOf(seckillId)).userPhone(userPhone).build()).subscribe();
+        ops.insert(SuccessKilled.builder().seckillId(BigInteger.valueOf(seckillId)).userPhone(userPhone).build())
+                .subscribe();
+        if (log.isDebugEnabled()) {
+            log.debug("任务已结束！");
+        }
     }
 
 }

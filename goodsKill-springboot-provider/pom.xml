@@ -18,7 +18,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.version>3.0.0-SNAPSHOT</project.version>
 		<shiro.version>1.4.0</shiro.version>
-		<curator.version>4.0.1</curator.version>
 		<springboot.version>2.1.3.RELEASE</springboot.version>
 		<dubbo.version>2.7.0</dubbo.version>
 	</properties>
