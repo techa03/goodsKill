@@ -56,6 +56,7 @@ server:
 
 #二维码图片存放目录
 QRCODE_IMAGE_DIR: C:/Users/27568/Desktop/QRfile
+
 ---
 spring:
   profiles: dev
