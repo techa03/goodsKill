@@ -1,9 +1,10 @@
-package com.goodskill.mongoreactive.entity;
+package com.goodskill.mongo.entity;
 
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 
@@ -14,7 +15,7 @@ import java.util.Date;
 @Data
 @Document
 @Builder
-public class SuccessKilled {
+public class SuccessKilledDto implements Serializable {
     private BigInteger seckillId;
 
     private String userPhone;

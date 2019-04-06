@@ -1,13 +1,11 @@
 package org.seckill.entity;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Builder
 @Data
 public class Seckill implements Serializable {
     private Long seckillId;

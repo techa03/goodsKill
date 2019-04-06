@@ -9,23 +9,18 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>goodsKill-common</artifactId>
+    <artifactId>goodskill-chatservice-provider</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-bom</artifactId>
-            <version>Bismuth-RELEASE</version>
-            <type>pom</type>
-            <scope>import</scope>
+            <groupId>com.goodsKill</groupId>
+            <artifactId>goodsKill-entry</artifactId>
+            <version>3.2.0</version>
         </dependency>
         <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-test</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -33,11 +28,8 @@
             <artifactId>guava</artifactId>
             <version>27.0.1-jre</version>
         </dependency>
-        <dependency>
-            <groupId>com.goodsKill</groupId>
-            <artifactId>goodsKill-api</artifactId>
-            <version>${goodsKill.version}</version>
-        </dependency>
+
     </dependencies>
+
 
 </project>

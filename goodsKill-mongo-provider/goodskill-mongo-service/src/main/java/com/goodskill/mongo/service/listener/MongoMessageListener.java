@@ -1,6 +1,6 @@
-package com.goodskill.mongoreactive.listener;
+package com.goodskill.mongo.service.listener;
 
-import com.goodskill.mongoreactive.entity.SuccessKilled;
+import com.goodskill.mongo.entity.SuccessKilledDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
@@ -13,6 +13,7 @@ import java.math.BigInteger;
 
 /**
  * mq监听器，监听秒杀成功消息，收到消息插入mongo，使用reactive nio模型
+ *
  * @author techa03
  * @date 2019/4/3
  */
@@ -24,6 +25,7 @@ public class MongoMessageListener {
 
     /**
      * 监听指定队列，并发数10-20
+     *
      * @param message
      */
     @JmsListener(destination = "GOODSKILL_MONGO_SENCE8", concurrency = "10-20")
@@ -38,8 +40,8 @@ public class MongoMessageListener {
         } catch (JMSException e) {
             log.error(e.getMessage(), e);
         }
-        ops.insert(SuccessKilled.builder().seckillId(BigInteger.valueOf(seckillId)).userPhone(userPhone).build())
-                .subscribe();
+        ops.insert(SuccessKilledDto.builder().seckillId(BigInteger.valueOf(seckillId)).userPhone(userPhone).build())
+                .doOnSuccess(n -> log.info("mongo秒杀记录插入成功:{}", n.toString())).subscribe();
         if (log.isDebugEnabled()) {
             log.debug("任务已结束！");
         }

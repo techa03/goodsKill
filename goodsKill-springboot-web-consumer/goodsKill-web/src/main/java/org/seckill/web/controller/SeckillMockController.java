@@ -35,9 +35,7 @@ import static org.seckill.api.constant.SeckillSolutionEnum.*;
 @Slf4j
 public class SeckillMockController {
 
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     private SeckillService seckillService;
     @Autowired
     private JmsTemplate jmsTemplate;
@@ -61,7 +59,7 @@ public class SeckillMockController {
     public void doWithSychronized(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
                                   @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
         prepareSeckill(seckillId, seckillCount);
-        log.info(SYCHRONIZED.getName() + "时间：{},秒杀id：{}", new Date(), seckillId);
+        log.info(SYCHRONIZED.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         seckillService.executeWithSynchronized(seckillId, requestCount);
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
@@ -88,7 +86,7 @@ public class SeckillMockController {
                                     @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
         // 初始化库存数量
         prepareSeckill(seckillId, seckillCount);
-        log.info(REDISSION_LOCK.getName() + "时间：{},秒杀id：{}", new Date(), seckillId);
+        log.info(REDISSION_LOCK.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() ->
@@ -111,7 +109,7 @@ public class SeckillMockController {
                                       @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
         // 初始化库存数量
         prepareSeckill(seckillId, seckillCount);
-        log.info(ACTIVE_MQ.getName() + "时间：{},秒杀id：{}", new Date(), seckillId);
+        log.info(ACTIVE_MQ.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         // 保证用户id不重复
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
@@ -142,7 +140,7 @@ public class SeckillMockController {
                                      @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
         // 初始化库存数量
         prepareSeckill(seckillId, seckillCount);
-        log.info(KAFKA_MQ.getName() + "时间：{},秒杀id：{}", new Date(), seckillId);
+        log.info(KAFKA_MQ.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() ->
@@ -165,7 +163,7 @@ public class SeckillMockController {
     public void doWithProcedure(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
                                 @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
         prepareSeckill(seckillId, seckillCount);
-        log.info(SQL_PROCEDURE.getName() + "时间：{},秒杀id：{}", new Date(), seckillId);
+        log.info(SQL_PROCEDURE.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() ->
@@ -224,7 +222,7 @@ public class SeckillMockController {
     public void doWithZookeeperLock(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
                                     @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) {
         prepareSeckill(seckillId, seckillCount);
-        log.info(ZOOKEEPER_LOCK.getName() + "时间：{},秒杀id：{}", new Date(), seckillId);
+        log.info(ZOOKEEPER_LOCK.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() ->
@@ -246,11 +244,13 @@ public class SeckillMockController {
     public void redisReactiveMongo(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
                                    @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) {
         prepareSeckill(seckillId, seckillCount);
-        log.info(REDIS_MONGO_REACTIVE.getName() + "时间：{},秒杀id：{}", new Date(), seckillId);
+        log.info(REDIS_MONGO_REACTIVE.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
+        Seckill seckill = new Seckill();
+        seckill.setSeckillId(seckillId);
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() ->
-                    seckillService.dealSeckill(Seckill.builder().seckillId(seckillId).build(), SeckillSolutionEnum.REDIS_MONGO_REACTIVE)
+                    seckillService.dealSeckill(seckill, SeckillSolutionEnum.REDIS_MONGO_REACTIVE)
             );
         }
     }

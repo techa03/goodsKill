@@ -115,6 +115,8 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 - 支付宝二维码接入指南：https://blog.csdn.net/techa/article/details/71003519
 
+- 如已安装mongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
+
 #### 打包部署方法
 1. 进入goodsKill项目根目录
  ```

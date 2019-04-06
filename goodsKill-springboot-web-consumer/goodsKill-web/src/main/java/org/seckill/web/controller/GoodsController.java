@@ -19,9 +19,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/seckill/goods")
 public class GoodsController {
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     private GoodsService goodsService;
 
     @GetMapping("/new")

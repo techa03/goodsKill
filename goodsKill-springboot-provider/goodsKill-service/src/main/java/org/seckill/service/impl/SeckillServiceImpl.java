@@ -1,7 +1,10 @@
 package org.seckill.service.impl;
 
 import com.github.pagehelper.PageInfo;
+import com.goodskill.mongo.api.SuccessKilledMongoService;
+import com.goodskill.mongo.entity.SuccessKilledDto;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.redisson.Redisson;
 import org.redisson.api.RLock;
@@ -41,6 +44,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.jms.Message;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
@@ -85,6 +89,8 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     SeckillExecutor seckillExecutor;
     @Autowired
     JmsTemplate jmsTemplate;
+    @Reference(version = "1.0.0", check = false)
+    SuccessKilledMongoService successKilledMongoService;
 
     private RedissonClient redissonClient;
 
@@ -222,7 +228,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
                     } else {
                         if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
                             mqTask.sendSeckillSuccessTopic(seckillId, SYCHRONIZED.getName());
-                            Seckill sendTopicResult = Seckill.builder().build();
+                            Seckill sendTopicResult = new Seckill();
                             sendTopicResult.setSeckillId(seckillId);
                             sendTopicResult.setStatus(SeckillStatusConstant.END);
                             extSeckillMapper.updateByPrimaryKeySelective(sendTopicResult);
@@ -271,6 +277,9 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         SuccessKilledExample example = new SuccessKilledExample();
         example.createCriteria().andSeckillIdEqualTo(seckillId);
         long count = successKilledMapper.countByExample(example);
+        if (count == 0) {
+            count = successKilledMongoService.count(SuccessKilledDto.builder().seckillId(BigInteger.valueOf(seckillId)).build());
+        }
         return count;
     }
 
@@ -287,7 +296,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
     @Override
     public void prepareSeckill(Long seckillId, int seckillCount) {
         // 初始化库存数量
-        Seckill entity = Seckill.builder().build();
+        Seckill entity = new Seckill();
         entity.setSeckillId(seckillId);
         entity.setNumber(seckillCount);
         entity.setStatus(SeckillStatusConstant.IN_PROGRESS);
@@ -301,6 +310,8 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         }
         seckill.setStatus(SeckillStatusConstant.IN_PROGRESS);
         redisService.putSeckill(seckill);
+        // 清理mongo表数据
+        successKilledMongoService.deleteRecord(seckillId);
     }
 
     @Override
@@ -326,7 +337,7 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
                         if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
                             log.info("秒杀商品暂无库存，发送活动结束消息！");
                             mqTask.sendSeckillSuccessTopic(seckillId, seckillSolutionEnum.getName());
-                            Seckill sendTopicResult = Seckill.builder().build();
+                            Seckill sendTopicResult = new Seckill();
                             sendTopicResult.setSeckillId(seckillId);
                             sendTopicResult.setStatus(SeckillStatusConstant.END);
                             extSeckillMapper.updateByPrimaryKeySelective(sendTopicResult);

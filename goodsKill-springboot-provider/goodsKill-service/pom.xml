@@ -19,6 +19,10 @@
 			<groupId>com.goodsKill</groupId>
 			<artifactId>goodsKill-dao</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.goodsKill</groupId>
+			<artifactId>goodskill-mongo-api</artifactId>
+		</dependency>
 		<!-- 支付宝sdk本地引入 -->
 		<dependency>
 			<groupId>com.alibaba.alipay</groupId>
@@ -168,6 +172,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.sgroschupf</groupId>
+			<artifactId>zkclient</artifactId>
 		</dependency>
 	</dependencies>
 
