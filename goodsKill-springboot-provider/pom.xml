@@ -18,9 +18,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.version>3.0.0-SNAPSHOT</project.version>
 		<shiro.version>1.4.0</shiro.version>
-		<curator.version>4.0.1</curator.version>
 		<springboot.version>2.1.3.RELEASE</springboot.version>
-		<dubbo.version>2.7.0</dubbo.version>
 	</properties>
 	<parent>
 		<groupId>com.goodsKill</groupId>
@@ -59,7 +57,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.goodsKill</groupId>
-				<artifactId>goodsKill-service</artifactId>
+				<artifactId>goodskill-mongo-api</artifactId>
 				<version>${goodsKill.version}</version>
 			</dependency>
 
@@ -327,11 +325,6 @@
 				<groupId>commons-codec</groupId>
 				<artifactId>commons-codec</artifactId>
 				<version>1.11</version>
-			</dependency>
-			<dependency>
-				<groupId>org.projectlombok</groupId>
-				<artifactId>lombok</artifactId>
-				<version>1.16.22</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.shiro</groupId>

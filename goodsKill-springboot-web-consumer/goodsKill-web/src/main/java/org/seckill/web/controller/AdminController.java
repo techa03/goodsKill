@@ -24,25 +24,15 @@ import java.util.List;
 @RequestMapping("/seckill/admin")
 @Slf4j
 public class AdminController {
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     UserAccountService userService;
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     RoleService roleService;
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     UserRoleService userRoleService;
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     PermissionService permissionService;
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     RolePermissionService rolePermissionService;
 
     @GetMapping("/role")

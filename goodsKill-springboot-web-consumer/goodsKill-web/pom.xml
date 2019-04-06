@@ -111,6 +111,14 @@
 			<groupId>io.lettuce</groupId>
 			<artifactId>lettuce-core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-recipes</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.sgroschupf</groupId>
+			<artifactId>zkclient</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

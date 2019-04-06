@@ -22,9 +22,7 @@ public class UserRealm extends AuthorizingRealm {
     /**
      *  用户对应的角色信息与权限信息都保存在数据库中，通过UserService获取数据
      */
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     private UserAccountService userService;
 
     /**

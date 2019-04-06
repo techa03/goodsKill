@@ -23,17 +23,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Api(tags = "登录注册控制")
 @Controller
 public class UserAccountController {
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     private UserAccountService userAccountService;
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     private GoodsService goodsService;
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     private SeckillService seckillService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());

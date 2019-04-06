@@ -51,7 +51,7 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
                 // 高并发时限制只能发一次秒杀完成通知
                 if (!SeckillStatusConstant.END.equals(seckill.getStatus()) && sendTopicTimes.getAndIncrement() == 0) {
                     mqTask.sendSeckillSuccessTopic(seckillId, note);
-                    Seckill sendTopicResult = Seckill.builder().build();
+                    Seckill sendTopicResult = new Seckill();
                     sendTopicResult.setSeckillId(seckillId);
                     sendTopicResult.setStatus(SeckillStatusConstant.END);
                     extSeckillMapper.updateByPrimaryKeySelective(sendTopicResult);

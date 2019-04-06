@@ -37,7 +37,7 @@ public class AlipayRunner {
     // 支付宝当面付2.0服务
     private static AlipayTradeService tradeService;
     @Value("${QRCODE_IMAGE_DIR}")
-    private String qrcode_image_dir;
+    private String QRCODE_IMAGE_DIR;
 
     static {
         /** 一定要在创建AlipayTradeService之前调用Configs.init()设置默认参数
@@ -138,7 +138,7 @@ public class AlipayRunner {
                 dumpResponse(response);
                 String filePath = "";
                 // 需要修改为运行机器上的路径
-                File file = new File(qrcode_image_dir);
+                File file = new File(QRCODE_IMAGE_DIR);
                 if (!file.exists()) {
                     if (file.mkdirs() && file.exists()) {
                         logger.info("二维码存放目录创建成功，请检查！");
@@ -149,7 +149,7 @@ public class AlipayRunner {
                 }
                 int filePathDeepth = 0;
                 if (response != null && StringUtils.isNotEmpty(response.getOutTradeNo())) {
-                    filePath = String.format(qrcode_image_dir + "/qr-%s.png",
+                    filePath = String.format(QRCODE_IMAGE_DIR + "/qr-%s.png",
                             response.getOutTradeNo());
                     filePathDeepth = filePath.split("/").length;
                     logger.info("filePath:" + filePath.split("/")[filePathDeepth - 1]);

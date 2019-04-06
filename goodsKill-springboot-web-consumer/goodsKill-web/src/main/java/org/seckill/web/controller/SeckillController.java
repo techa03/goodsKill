@@ -40,32 +40,20 @@ import java.util.*;
 @RequestMapping("/seckill")
 public class SeckillController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     private SeckillService seckillService;
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     private GoodsService goodsService;
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     private RolePermissionService rolePermissionService;
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     private UserRoleService userRoleService;
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     private UserAccountService userAccountService;
-    @Reference(version = "${demo.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${dubbo.service.url}")
+    @Reference(version = "${demo.service.version}")
     private PermissionService permissionService;
     @Value("${QRCODE_IMAGE_DIR}")
-    private String qrcode_image_dir;
+    private String QRCODE_IMAGE_DIR;
 
     @ApiOperation(value = "秒杀列表", notes = "分页显示秒杀列表")
     @ApiImplicitParams({@ApiImplicitParam(name = "model", value = "model对象", required = true, dataType = "Model"),
@@ -182,7 +170,7 @@ public class SeckillController {
     @GetMapping(value = "/Qrcode/{QRfilePath}")
     public void showQRcode(@PathVariable("QRfilePath") String QRfilePath, HttpServletResponse response) throws IOException {
         response.setContentType("img/*");
-        try (FileInputStream fi = new FileInputStream(new File(qrcode_image_dir + "\\" + QRfilePath + ".png"));
+        try (FileInputStream fi = new FileInputStream(new File(QRCODE_IMAGE_DIR + "\\" + QRfilePath + ".png"));
              OutputStream os = response.getOutputStream()) {
             int b;
             while ((b = fi.read()) != -1) {

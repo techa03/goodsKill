@@ -12,11 +12,13 @@
 		<module>goodsKill-springboot-provider</module>
         <module>goodsKill-common</module>
         <module>goodsKill-mongo-provider</module>
-    </modules>
+		<module>goodskill-chatservice-provider</module>
+	</modules>
 
 	<properties>
 		<goodsKill.version>3.2.0</goodsKill.version>
 		<springboot.version>2.1.3.RELEASE</springboot.version>
+		<dubbo.version>2.7.0</dubbo.version>
 	</properties>
 
 	<build>
@@ -47,6 +49,13 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-parent</artifactId>
 				<version>${springboot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.dubbo</groupId>
+				<artifactId>dubbo-dependencies-bom</artifactId>
+				<version>${dubbo.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>

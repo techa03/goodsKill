@@ -4,6 +4,8 @@
 [![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=dev_springboot_2.x)](https://travis-ci.org/techa03/goodsKill)
 [![codecov](https://codecov.io/gh/techa03/goodsKill/branch/dev_springboot_2.x/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
 
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=techa03_goodsKill)](https://sonarcloud.io/dashboard?id=techa03_goodsKill)
+
 # 前言
 项目命名为goodsKill一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为good skill，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来，方便学习和查阅。
 
@@ -12,7 +14,7 @@
 本项目扩展了秒杀功能，集成了jmock完成service层的测试，支持数据库读写分离，同时项目使用travis持续集成，提交更新后即可触发travis自动构建并完成项目测试覆盖率报告。
 
 ## 分支介绍
-`dev_gradle`分支为使用gradle构建工具管理项目依赖，`dev_maven`分支对应maven构建工具（目前为主分支，springframework版本4.x），`dev_springboot_2.x`分支基于最新springboot2.x构建简化配置（springframework版本5.x）。本分支集成了druid，swagger2以及pageHelper等功能，该项目功能目前比较简陋，功能还有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下~~~~。
+`dev_gradle`分支为使用gradle构建工具管理项目依赖，`dev_maven`分支对应maven构建工具（springframework版本4.x），`dev_springboot_2.x`分支基于最新springboot2.x构建简化配置（springframework版本5.x）。该项目功能目前比较简陋，功能还有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下~~~~。
 
 ## 技术选型
 
@@ -40,6 +42,8 @@ Jacoco | 测试覆盖率报告插件 | [http://www.eclemma.org/jacoco/](http://w
 Shiro | 用户权限安全管理框架 | [https://shiro.apache.org/](https://shiro.apache.org/)
 MongoDb | Mongo数据库 | [https://www.mongodb.com/](https://www.mongodb.com/)
 MySql | MySQL数据库 | [https://www.mysql.com/](https://www.mysql.com/)
+Reactor | 响应式开发 | [https://projectreactor.io/](https://projectreactor.io/)
+Spring Session | Spring会话管理 | [https://spring.io/projects/spring-session](https://spring.io/projects/spring-session)
 
 ### 前端技术:
 技术 | 名称 | 官网
@@ -111,6 +115,8 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 - 支付宝二维码接入指南：https://blog.csdn.net/techa/article/details/71003519
 
+- 如已安装mongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
+
 #### 打包部署方法
 1. 进入goodsKill项目根目录
  ```
@@ -122,7 +128,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
  java -jar goodsKill-service.jar
  ```
 3. 启动服务消费方（包含web容器）
-- 找到goodsKill-web.war，重命名为goodsKill.war，使用tomcat 18080端口启动
+- target目录找到goodsKill.war，使用tomcat 18080端口启动
 
 
 #### 并发方案：

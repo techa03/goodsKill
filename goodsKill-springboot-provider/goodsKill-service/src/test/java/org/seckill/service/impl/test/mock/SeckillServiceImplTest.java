@@ -75,13 +75,13 @@
 ////            Date date = new Date();
 ////            oneOf(seckillMapper).reduceNumber(1, new Date(100));
 ////            will(returnValue(1));
-////            SuccessKilled record = new SuccessKilled();
+////            SuccessKilledDto record = new SuccessKilledDto();
 ////            record.setSeckillId(1L);
 ////            record.setUserPhone("13212343245");
 ////            oneOf(successKilledMapper).insertSelective(record);
 ////            will(returnValue(1));
 ////            oneOf(successKilledMapper).selectByPrimaryKey(1L, "13212343245");
-////            will(returnValue(new SuccessKilled()));
+////            will(returnValue(new SuccessKilledDto()));
 ////        }});
 ////        seckillService.executeSeckill(1L, "13212343245", MD5Util.getMD5(1));
 //    }
