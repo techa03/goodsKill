@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.goodsKill</groupId>
-	<artifactId>goodsKill-springboot-provider</artifactId>
+	<artifactId>goodsKill-spring-boot-provider</artifactId>
 	<packaging>pom</packaging>
 	<modules>
 		<module>goodsKill-service</module>

@@ -123,7 +123,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
  ```
 2. 启动服务提供方服务
  ```
- cd 项目根目录/goodsKill-springboot-provider/goodsKill-service/target
+ cd 项目根目录/goodsKill-spring-boot-provider/goodsKill-service/target
  java -jar goodsKill-service.jar
  ```
 3. 启动服务消费方（包含web容器）
