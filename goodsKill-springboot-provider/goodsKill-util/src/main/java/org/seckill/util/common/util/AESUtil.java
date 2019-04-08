@@ -111,7 +111,7 @@ public class AESUtil {
 
     public static void main(String[] args) {
         String[] keys = {
-                "", "275688"
+                "", "root"
         };
         System.out.println("key | aesEncode | aesDecode");
         for (String key : keys) {

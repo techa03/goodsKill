@@ -170,7 +170,7 @@ public class SeckillController {
     @GetMapping(value = "/Qrcode/{QRfilePath}")
     public void showQRcode(@PathVariable("QRfilePath") String QRfilePath, HttpServletResponse response) throws IOException {
         response.setContentType("img/*");
-        try (FileInputStream fi = new FileInputStream(new File(QRCODE_IMAGE_DIR + "\\" + QRfilePath + ".png"));
+        try (FileInputStream fi = new FileInputStream(new File(QRCODE_IMAGE_DIR + "\\" + QRfilePath ));
              OutputStream os = response.getOutputStream()) {
             int b;
             while ((b = fi.read()) != -1) {

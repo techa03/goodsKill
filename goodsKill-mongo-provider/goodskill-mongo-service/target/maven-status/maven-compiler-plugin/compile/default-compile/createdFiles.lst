@@ -1,0 +1,4 @@
+com\goodskill\mongo\repository\SuccessKilledRepository.class
+com\goodskill\mongo\service\listener\MongoMessageListener.class
+com\goodskill\mongo\MongoReactiveApplication.class
+com\goodskill\mongo\service\SuceessKillMongoService.class

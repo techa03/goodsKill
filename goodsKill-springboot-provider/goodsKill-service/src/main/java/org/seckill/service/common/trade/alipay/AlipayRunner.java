@@ -1,6 +1,12 @@
 package org.seckill.service.common.trade.alipay;
 
+import com.alipay.api.AlipayClient;
 import com.alipay.api.AlipayResponse;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.domain.AlipayTradePayModel;
+import com.alipay.api.request.AlipayTradePayRequest;
+import com.alipay.api.request.AlipayTradePrecreateRequest;
+import com.alipay.api.response.AlipayTradePayResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.demo.trade.config.Configs;
 import com.alipay.demo.trade.model.ExtendParams;
@@ -103,7 +109,7 @@ public class AlipayRunner {
 
         // 业务扩展参数，目前可添加由支付宝分配的系统商编号(通过setSysServiceProviderId方法)，详情请咨询支付宝技术支持
         ExtendParams extendParams = new ExtendParams();
-        extendParams.setSysServiceProviderId("2088100200300400500");
+        extendParams.setSysServiceProviderId("2088102177423861");
 
         // 支付超时，定义为120分钟
         String timeoutExpress = "120m";
@@ -120,57 +126,62 @@ public class AlipayRunner {
 //        GoodsDetail goods2 = GoodsDetail.newInstance("goods_id002", "xxx牙刷", 500, 2);
 //        goodsDetailList.add(goods2);
 
+        AlipayClient alipayClient = new
+                DefaultAlipayClient("https://openapi.alipaydev.com/gateway.do", "2016092600603960",
+                "MIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQCCELbaf3KKTlPGcTyZCjP+jGj63QdV+lQBWdedM0qkPsqMR2363GA3kL3VH8UpdlzjIw7c4QHsfENiRK3kyheAeeHUkccQ6R759rPOp/UZ9X22ZkQnIL2h/TU4Kyp7WuyUnhJsUAj+aQO6xjQ6h212PLPoGWb/FhdppP3/0C1j/CrOqb3KW/nUJrFc/ttMuVmNTvtjyyuAakzaPAaCAO4mk+1P4Jqk5rTkDkVD5Wi5qeYZ7rhHZVN0KYzyZp/FtyuW8adrb8a8A1QZjv5js44H/0w3z0o/4sqgglQxr6PdUghXKAo2J4BT4ctOSD4qj/1JqltuFXIhKZ2pLkubezH7AgMBAAECgf9ElovWrV65kJSdERnjmn3QvjqeD/DOZjPmgnoxa9rwwiwNzZ0xrQUQSEPTH+3Y75IMNXChCgb5ro3aRF1vSSMbnSp57mYLhOPQ7Ufksq2OAudISKWn/JwD0INAG4NLiac4uCL++zXC854D4IGqW8BdmaVFwB+QZRXzoA5R2HYXQyK9QGm3fKSB94ZuNJzYjmC3U3K7VbQ3QSGCb2+NpULrS6qFf8VBif0vraVopjqUBxEfw9cpkbzhh+MlaM0dG9TKvhvBoTMy0F5H9Ez+Mo+6eVoO7ORgBRQnW7ejdQ43yk8JtDGLMS3k4ZIPPafPeAZotjjBDcRYw5d7KgVF3tkCgYEAvQZapU0bxSGgP4a1gBLXmWtckIOsXPiUbQfMsmdVHLpo+z8/tOx1iXDQhJVs2+QDteuGxVW+luVVc+Urx7x8MgH5Rq6qw46WXjXi4nFNPDf94/WjDlz9oqTAfwhDL14FyAXTbZZjkuaneCfbvzfTdMzCS/VJ6jnH4pz7IBQAZt0CgYEAsCZjqpBnWLy/RXf7hr5NakhvQvGZPV4yIqPZn/pHqm0CA3qCALulzSgFLoBmRj11jrVco2/tFrnvFd8n+xLh9BTUiYJ7I72EiZ7LPi4i5d02WfmWhUWraCDaup6pt3vMM16UpaLTn4Pea+oZmWYsugXwWIs8UgxM/PQCz62csrcCgYB1TWInPsjC9vEZOyGbTxYYkTWqQOxP7bs+Rh7Tf6ij4VKQyFlij3MJTcc43/nkI4Xh+T1zbJiPz9XNzCP1GZUA+5SUNoSmQvAxmsMnvyQtAJpAQwljOnXz3sXOj3QSCwkPbf4c/bzhRt4ahLGr4psI2qCgvqGWBzFyAfUdnQv6yQKBgE5qmJ3asRcw11leo2uFlkMFQfqkQRqvr1P6aywrp/G3m1jfFbar0pC1CzF7WYxVWdsQ48+iSQJ//W5YLJ0597rH9yHMI3Nyr+jv9vyUX1bDFqoRUS+9JyQw1A6WCWm0Q+Bub3AZP2pYsxCJY6IFeU3KzQct3MmNzkwheIrpd8ObAoGBAKaUrS6pfgFpGrnrIn0v2pcfIUPSLrsBPoetHlzoeZ1optQ2pebu8j0nva6wQyq9iIuYc/xQhzm2TSuWLvHuxGpmzbmMkMOnnYVB/3C6ugbGUXzwoWfWIE2+U9oPQb1s9bSIqV8d1AcIg8LlLAZE7gPVtAIwiwYtGq6En+9z0ZsF",
+                "json", "utf-8",
+                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw8lDRYz3RcEwFzEjMC/wuI25NsLk/HTggwRNqfGfao/11qvU9IcGmdz4esE7+sscCGsV84vb42OVjGogw/qv82XvmqsL11b7dlbiGLJ9c9Hj+EBb/G/1JsNclwiYc1QJX9t6xf2elIipAkDfDSiTyMsO0PY0ZCxKmo1OJe5JGY2vjfrPX8I2J+YGRHQEN4WoCtYVImGPqtH/gukIZ9BSsxI6mwLlD0nZhl36gXlSYd1dZc4/ugoGGZsQUR9hMewwBSAMDxg4/84irMW01ZjzbIJ6i8hKN2YqrZ/kVoiTlpwHPQgoGyZedeqlyUddP9ULGMHhaUONNNog5zGmYLegIwIDAQAB", "RSA2");
+
+        AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
+        AlipayTradePayModel model = new AlipayTradePayModel();
+        request.setBizModel(model);
+
         // 创建扫码支付请求builder，设置请求参数
-        AlipayTradePrecreateRequestBuilder builder = new AlipayTradePrecreateRequestBuilder()
-                .setSubject(subject).setTotalAmount(totalAmount).setOutTradeNo(outTradeNo)
-                .setUndiscountableAmount(undiscountableAmount).setSellerId(sellerId).setBody(body)
-                .setOperatorId(operatorId).setStoreId(storeId).setExtendParams(extendParams)
-                .setTimeoutExpress(timeoutExpress)
-                //                .setNotifyUrl("http://www.test-notify-url.com")//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
-                .setGoodsDetailList(goodsDetailList);
+        model.setSubject(subject);
+        model.setTotalAmount(totalAmount);
+        model.setOutTradeNo(outTradeNo);
+        model.setUndiscountableAmount(undiscountableAmount);
+        model.setSellerId(sellerId);
+        model.setBody(body);
+        model.setOperatorId(operatorId);
+        model.setStoreId(storeId);
+        model.setTimeoutExpress(timeoutExpress);
+        //                .setNotifyUrl("http://www.test-notify-url.com")//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
 
-        AlipayF2FPrecreateResult result = tradeService.tradePrecreate(builder);
-        switch (result.getTradeStatus()) {
-            case SUCCESS:
-                logger.info("支付宝预下单成功: )");
-
-                AlipayTradePrecreateResponse response = result.getResponse();
-                dumpResponse(response);
-                String filePath = "";
-                // 需要修改为运行机器上的路径
-                File file = new File(QRCODE_IMAGE_DIR);
-                if (!file.exists()) {
-                    if (file.mkdirs() && file.exists()) {
-                        logger.info("二维码存放目录创建成功，请检查！");
-                    } else if (!file.exists()) {
-                        logger.error("创建目录失败，请检查用户权限！");
-                        throw new SeckillException("创建目录失败，请检查用户权限！");
-                    }
-                }
-                int filePathDeepth = 0;
-                if (response != null && StringUtils.isNotEmpty(response.getOutTradeNo())) {
-                    filePath = String.format(QRCODE_IMAGE_DIR + "/qr-%s.png",
-                            response.getOutTradeNo());
-                    filePathDeepth = filePath.split("/").length;
-                    logger.info("filePath:" + filePath.split("/")[filePathDeepth - 1]);
-                }
-                if (response != null && StringUtils.isNotEmpty(response.getQrCode())) {
-                    ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
-                }
-                return filePath.split("/")[filePathDeepth - 1];
-
-            case FAILED:
-                logger.error("支付宝预下单失败!!!");
-                return null;
-
-            case UNKNOWN:
-                logger.error("系统异常，预下单状态未知!!!");
-                return null;
-
-            default:
-                logger.error("不支持的交易状态，交易返回异常!!!");
-                return null;
+    //    model.setGoodsDetail(goodsDetailList);
+        AlipayTradePrecreateResponse response = null;
+        try {
+            response = alipayClient.execute(request);
+            dumpResponse(response);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-    }
+        logger.info("支付宝预下单成功: )");
 
+        String filePath = "";
+        // 需要修改为运行机器上的路径
+        File file = new File(QRCODE_IMAGE_DIR);
+        if (!file.exists()) {
+            if (file.mkdirs() && file.exists()) {
+                logger.info("二维码存放目录创建成功，请检查！");
+            } else if (!file.exists()) {
+                logger.error("创建目录失败，请检查用户权限！");
+                throw new SeckillException("创建目录失败，请检查用户权限！");
+            }
+        }
+        int filePathDeepth = 0;
+        if (response != null && StringUtils.isNotEmpty(response.getOutTradeNo())) {
+            filePath = String.format(QRCODE_IMAGE_DIR + "/qr-%s.png",
+                    response.getOutTradeNo());
+            filePathDeepth = filePath.split("/").length;
+            logger.info("filePath:" + filePath.split("/")[filePathDeepth - 1]);
+        }
+        if (response != null && StringUtils.isNotEmpty(response.getQrCode())) {
+            ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
+        }
+        return filePath.split("/")[filePathDeepth - 1];
+
+    }
 }
+
+

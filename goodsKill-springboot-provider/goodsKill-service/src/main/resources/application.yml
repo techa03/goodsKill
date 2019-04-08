@@ -7,7 +7,7 @@ spring:
       enabled: false
 
 #二维码图片存放目录
-QRCODE_IMAGE_DIR: C:/Users/27568/Desktop/QRfile
+QRCODE_IMAGE_DIR: D:/t/QRfile
 ---
 
 ######################本地开发环境配置#####################
@@ -48,13 +48,13 @@ cache_address: localhost
 cache_ip_address: redis://127.0.0.1:6379
 master:
   driver: com.mysql.cj.jdbc.Driver
-  password: +tkfyiKcqLiFlgt7GSnxtw==
+  password: wf1GGDEdzE1eaaMEUev4Cw
   url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
   username: root
 mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
 slave:
   driver: com.mysql.cj.jdbc.Driver
-  password: +tkfyiKcqLiFlgt7GSnxtw==
+  password: wf1GGDEdzE1eaaMEUev4Cw
   url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
   username: root
 server:

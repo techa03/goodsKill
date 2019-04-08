@@ -1,0 +1,73 @@
+spring:
+  profiles:
+    active: dev
+  session:
+    redis:
+      flush-mode: on_save
+      namespace: spring:session
+    store-type: redis
+    timeout: 1800
+  main:
+    allow-bean-definition-overriding: true
+  activemq:
+    in-memory: true
+    pool:
+      enabled: false
+  kafka:
+    template:
+      default-topic: goodsKill-kafka
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  output:
+    ansi:
+      enabled: always
+application:
+  message: Hello
+
+demo:
+  service:
+    version: 1.0.0
+
+dubbo:
+  application:
+    id: dubbo-consumer-demo
+    name: dubbo-consumer-demo
+  protocol:
+    id: dubbo
+    name: dubbo
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  consumer:
+    timeout: 30000
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+server:
+  port: 18080
+  servlet:
+    context-path: /goodsKill
+
+#二维码图片存放目录
+QRCODE_IMAGE_DIR: C:/Users/27568/Desktop/QRfile
+
+---
+spring:
+  profiles: dev
+  kafka:
+    bootstrap-servers: localhost:9092
+mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
+---
+spring:
+  profiles: test
+  kafka:
+    bootstrap-servers: 192.168.2.247:9092
+mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
+---
+
