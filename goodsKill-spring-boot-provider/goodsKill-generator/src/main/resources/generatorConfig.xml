@@ -11,15 +11,10 @@
 			<property name="suppressAllComments" value="true" />
 		</commentGenerator>
 		<!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
-		<!-- 
-		<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
-			connectionURL="jdbc:oracle:thin:@150.16.17.22:1521/wsbs" userId="hr"
-			password="hr123">
-		</jdbcConnection>-->
 		<jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-			connectionURL="jdbc:mysql://192.168.6.118:3306/seckill?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC&amp;useSSL=false" 
-			userId="root"
-			password="******">
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC&amp;useSSL=false"
+                        userId="root"
+                        password="****">
 		</jdbcConnection> 
  
 		<!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和 
