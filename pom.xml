@@ -14,11 +14,12 @@
         <module>goodsKill-mongo-provider</module>
 		<module>goodskill-chat-provider</module>
 		<module>goodskill-spring-boot-starter</module>
+		<module>goodsKill-es-provider</module>
 	</modules>
 
 	<properties>
 		<goodsKill.version>3.2.0</goodsKill.version>
-		<springboot.version>2.1.3.RELEASE</springboot.version>
+		<springboot.version>2.1.5.RELEASE</springboot.version>
 		<dubbo.version>2.7.0</dubbo.version>
 		<sonar.exclusions>
 			src/main/webapp/.../**/*
