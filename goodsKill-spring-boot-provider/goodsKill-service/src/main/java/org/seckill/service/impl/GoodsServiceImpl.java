@@ -1,11 +1,15 @@
 package org.seckill.service.impl;
 
+import com.goodskill.es.api.GoodsEsService;
+import com.goodskill.es.dto.GoodsDto;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.seckill.api.service.GoodsService;
 import org.seckill.dao.GoodsMapper;
 import org.seckill.entity.Goods;
 import org.seckill.entity.GoodsExample;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
@@ -25,6 +29,8 @@ import java.util.List;
 public class GoodsServiceImpl extends AbstractServiceImpl<GoodsMapper, GoodsExample, Goods> implements GoodsService {
     @Autowired
     private GoodsMapper goodsMapper;
+    @Reference(version = "1.0.0", check = true)
+    private GoodsEsService goodsEsService;
 
     public void setGoodsMapper(GoodsMapper goodsMapper) {
         this.goodsMapper = goodsMapper;
@@ -50,6 +56,9 @@ public class GoodsServiceImpl extends AbstractServiceImpl<GoodsMapper, GoodsExam
     public void addGoods(Goods goods, byte[] bytes) {
         goods.setPhotoImage(bytes);
         goodsMapper.insert(goods);
+        GoodsDto goodsDto = new GoodsDto();
+        BeanUtils.copyProperties(goods, goodsDto);
+        goodsEsService.save(goodsDto);
     }
 
     @Override

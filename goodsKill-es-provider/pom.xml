@@ -15,6 +15,7 @@
     <modules>
         <module>goodskill-es-api</module>
         <module>goodskill-es-service</module>
+        <module>goodskill-es-dao</module>
     </modules>
     <packaging>pom</packaging>
 

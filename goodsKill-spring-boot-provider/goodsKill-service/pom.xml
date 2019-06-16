@@ -23,6 +23,10 @@
 			<groupId>com.goodsKill</groupId>
 			<artifactId>goodskill-mongo-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.goodsKill</groupId>
+			<artifactId>goodskill-es-api</artifactId>
+		</dependency>
 		<!-- 支付宝sdk本地引入 -->
 		<dependency>
 			<groupId>com.alibaba.alipay</groupId>

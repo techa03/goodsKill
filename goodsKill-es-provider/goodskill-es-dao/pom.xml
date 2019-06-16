@@ -10,13 +10,12 @@
     <modelVersion>4.0.0</modelVersion>
     <version>${goodsKill.version}</version>
 
-    <artifactId>goodskill-es-api</artifactId>
+    <artifactId>goodskill-es-dao</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.goodsKill</groupId>
-            <artifactId>goodskill-es-dao</artifactId>
-            <version>${goodsKill.version}</version>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-elasticsearch</artifactId>
         </dependency>
     </dependencies>
 
