@@ -4,5 +4,7 @@ jdk:
 script:
   - mvn clean package
   - mvn install
+  - mvn sonar:sonar -Dsonar.java.binaries=target/sonar -Dsonar.projectKey=techa03_goodsKill -Dsonar.organization=techa03-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=b3d2be2dd269afa0fa8fb3f0908fb3160f948c5f
+
 after_success:
   - bash <(curl -s https://codecov.io/bash) -t 68b421a2-d84c-4269-9c25-c3907b9d8c35
