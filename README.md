@@ -43,6 +43,7 @@ MongoDb | Mongo数据库 | [https://www.mongodb.com/](https://www.mongodb.com/)
 MySql | MySQL数据库 | [https://www.mysql.com/](https://www.mysql.com/)
 Reactor | 响应式开发 | [https://projectreactor.io/](https://projectreactor.io/)
 Spring Session | Spring会话管理 | [https://spring.io/projects/spring-session](https://spring.io/projects/spring-session)
+ElasticSearch | 全文搜索引擎 | [https://www.elastic.co](https://www.elastic.co)
 
 ### 前端技术:
 技术 | 名称 | 官网
@@ -76,6 +77,29 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 #### 支付宝二维码扫码支付：
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701221505.png)
+
+#### 项目模块介绍
+```
+goodsKill
+|--goodskill-chat-provider                  ||聊天室服务提供者（待完成）
+|--goodsKill-common                         ||项目公共服务（待补充）
+|--goodsKill-es-provider                    ||elasticsearch搜索服务提供者
+|   |--goodskill-es-api                     
+|   |--goodskill-es-dao                     
+|   |--goodskill-es-service                 
+|--goodsKill-mongo-provider                 ||mongo存储服务提供者
+|   |--goodskill-mongo-service              
+|--goodsKill-spring-boot-provider           ||订单、用户、登录、商品管理服务提供者（待拆分）
+|   |--goodsKill-api                        
+|   |--goodsKill-dao                        
+|   |--goodsKill-entry                      
+|   |--goodsKill-generator                  
+|   |--goodsKill-service                    
+|   |--goodsKill-util                       
+|--goodskill-spring-boot-starter            ||项目配置自动装配（待完成）
+|--goodsKill-spring-boot-web-consumer       ||提供页面客户端访问，controller层在这一模块
+|   |--goodsKill-web    
+```
 
 #### 开发环境版本说明：
 - JDK :JDK1.8+
