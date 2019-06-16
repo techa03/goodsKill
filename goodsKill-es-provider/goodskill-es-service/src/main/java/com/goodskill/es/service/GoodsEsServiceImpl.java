@@ -20,10 +20,10 @@ public class GoodsEsServiceImpl implements GoodsEsService {
 
 
     @Override
-    public Goods save(GoodsDto goodsDto) {
+    public void save(GoodsDto goodsDto) {
         BeanCopier beanCopier = BeanCopier.create(GoodsDto.class, Goods.class, false);
         Goods goods = new Goods();
         beanCopier.copy(goodsDto, goods, null);
-        return goodsRepository.save(goods);
+        goodsRepository.save(goods);
     }
 }

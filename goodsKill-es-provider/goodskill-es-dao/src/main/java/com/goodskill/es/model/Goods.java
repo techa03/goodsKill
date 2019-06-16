@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @author heng
@@ -17,6 +18,8 @@ public class Goods implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    private long id;
+
     private Integer goodsId;
 
     private String photoUrl;
@@ -31,6 +34,13 @@ public class Goods implements Serializable {
 
     private byte[] photoImage;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public Integer getGoodsId() {
         return goodsId;
@@ -89,41 +99,6 @@ public class Goods implements Serializable {
     }
 
     @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        Goods other = (Goods) that;
-        return (this.getGoodsId() == null ? other.getGoodsId() == null : this.getGoodsId().equals(other.getGoodsId()))
-                && (this.getPhotoUrl() == null ? other.getPhotoUrl() == null : this.getPhotoUrl().equals(other.getPhotoUrl()))
-                && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-                && (this.getPrice() == null ? other.getPrice() == null : this.getPrice().equals(other.getPrice()))
-                && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-                && (this.getIntroduce() == null ? other.getIntroduce() == null : this.getIntroduce().equals(other.getIntroduce()))
-                && (Arrays.equals(this.getPhotoImage(), other.getPhotoImage()));
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getGoodsId() == null) ? 0 : getGoodsId().hashCode());
-        result = prime * result + ((getPhotoUrl() == null) ? 0 : getPhotoUrl().hashCode());
-        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + ((getPrice() == null) ? 0 : getPrice().hashCode());
-        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
-        result = prime * result + ((getIntroduce() == null) ? 0 : getIntroduce().hashCode());
-        result = prime * result + (Arrays.hashCode(getPhotoImage()));
-        return result;
-    }
-
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
@@ -139,5 +114,31 @@ public class Goods implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Goods goods = (Goods) o;
+        return id == goods.id &&
+                Objects.equals(goodsId, goods.goodsId) &&
+                Objects.equals(photoUrl, goods.photoUrl) &&
+                Objects.equals(name, goods.name) &&
+                Objects.equals(price, goods.price) &&
+                Objects.equals(createTime, goods.createTime) &&
+                Objects.equals(introduce, goods.introduce) &&
+                Arrays.equals(photoImage, goods.photoImage);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, goodsId, photoUrl, name, price, createTime, introduce);
+        result = 31 * result + Arrays.hashCode(photoImage);
+        return result;
     }
 }

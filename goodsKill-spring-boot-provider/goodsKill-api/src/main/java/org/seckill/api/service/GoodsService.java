@@ -3,7 +3,6 @@ package org.seckill.api.service;
 import org.seckill.entity.Goods;
 import org.seckill.entity.GoodsExample;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -11,7 +10,7 @@ import java.util.List;
  */
 public interface GoodsService extends CommonService<GoodsExample, Goods> {
 
-    void uploadGoodsPhoto(long goodsId, byte[] bytes) throws IOException;
+    void uploadGoodsPhoto(long goodsId, byte[] bytes);
 
     byte[] getPhotoImage(int goodsId);
 

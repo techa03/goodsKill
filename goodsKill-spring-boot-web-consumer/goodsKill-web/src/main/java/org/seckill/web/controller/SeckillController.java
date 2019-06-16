@@ -236,11 +236,7 @@ public class SeckillController {
     @RequestMapping(value = "/upload/{seckillId}/create", method = RequestMethod.POST)
     public String uploadPhoto(@RequestParam("file") CommonsMultipartFile file, @RequestParam("seckillId") Long seckillId) {
         Seckill seckill = seckillService.selectById(seckillId);
-        try {
-            goodsService.uploadGoodsPhoto(seckill.getGoodsId(), file.getBytes());
-        } catch (IOException e) {
-            logger.error("上传文件失败：" + e);
-        }
+        goodsService.uploadGoodsPhoto(seckill.getGoodsId(), file.getBytes());
         return "redirect:/seckill/list";
     }
 

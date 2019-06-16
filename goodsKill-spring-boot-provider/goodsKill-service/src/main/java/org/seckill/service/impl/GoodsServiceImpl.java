@@ -1,5 +1,6 @@
 package org.seckill.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.es.dto.GoodsDto;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,6 @@ import org.seckill.entity.GoodsExample;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
 import java.util.List;
 
 
@@ -29,15 +29,19 @@ import java.util.List;
 public class GoodsServiceImpl extends AbstractServiceImpl<GoodsMapper, GoodsExample, Goods> implements GoodsService {
     @Autowired
     private GoodsMapper goodsMapper;
-    @Reference(version = "1.0.0", check = true)
+    @Reference(version = "1.0.0", check = false)
     private GoodsEsService goodsEsService;
 
     public void setGoodsMapper(GoodsMapper goodsMapper) {
         this.goodsMapper = goodsMapper;
     }
 
+    public void setGoodsEsService(GoodsEsService goodsEsService) {
+        this.goodsEsService = goodsEsService;
+    }
+
     @Override
-    public void uploadGoodsPhoto(long goodsId, byte[] bytes) throws IOException {
+    public void uploadGoodsPhoto(long goodsId, byte[] bytes) {
         Goods goods = new Goods();
         goods.setGoodsId((int) goodsId);
         goods.setPhotoImage(bytes);
@@ -57,6 +61,7 @@ public class GoodsServiceImpl extends AbstractServiceImpl<GoodsMapper, GoodsExam
         goods.setPhotoImage(bytes);
         goodsMapper.insert(goods);
         GoodsDto goodsDto = new GoodsDto();
+        goodsDto.setId(IdWorker.getId());
         BeanUtils.copyProperties(goods, goodsDto);
         goodsEsService.save(goodsDto);
     }
