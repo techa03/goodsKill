@@ -107,6 +107,7 @@ goodsKill
 - activemq: 5.8.0
 - kafka: kafka_2.11-2.0.0
 - mongoDb: 4.0+
+- elasticsearch: 6.4.3
 
 其他环境版本暂未测试
 
