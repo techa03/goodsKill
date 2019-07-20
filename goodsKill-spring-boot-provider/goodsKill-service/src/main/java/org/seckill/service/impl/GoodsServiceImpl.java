@@ -63,7 +63,11 @@ public class GoodsServiceImpl extends AbstractServiceImpl<GoodsMapper, GoodsExam
         GoodsDto goodsDto = new GoodsDto();
         goodsDto.setId(IdWorker.getId());
         BeanUtils.copyProperties(goods, goodsDto);
-        goodsEsService.save(goodsDto);
+        try {
+            goodsEsService.save(goodsDto);
+        } catch (Exception e) {
+            log.error("es服务不可用，请检查！", e);
+        }
     }
 
     @Override
