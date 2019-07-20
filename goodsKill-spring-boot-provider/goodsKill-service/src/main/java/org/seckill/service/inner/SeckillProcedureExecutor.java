@@ -47,7 +47,7 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
             extSeckillMapper.reduceNumberByProcedure(successKilled);
             if (successKilled.getStatus() < 1) {
                 Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
-                log.info("当前库存：{}", seckill.getNumber());
+                log.debug("当前库存：{}", seckill.getNumber());
                 // 高并发时限制只能发一次秒杀完成通知
                 if (!SeckillStatusConstant.END.equals(seckill.getStatus()) && sendTopicTimes.getAndIncrement() == 0) {
                     mqTask.sendSeckillSuccessTopic(seckillId, note);
@@ -58,7 +58,7 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
                     // 重置发送成功通知次数
                     sendTopicTimes.set(0);
                 }
-                if (log.isDebugEnabled() && seckill.getNumber() <= 0) {
+                if (seckill.getNumber() <= 0) {
                     log.debug("库存不足，无法继续秒杀！");
                 }
             }

@@ -278,7 +278,11 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         example.createCriteria().andSeckillIdEqualTo(seckillId);
         long count = successKilledMapper.countByExample(example);
         if (count == 0) {
-            count = successKilledMongoService.count(SuccessKilledDto.builder().seckillId(BigInteger.valueOf(seckillId)).build());
+            try {
+                count = successKilledMongoService.count(SuccessKilledDto.builder().seckillId(BigInteger.valueOf(seckillId)).build());
+            } catch (Exception e) {
+                log.error("mongo服务不可用，请检查！", e);
+            }
         }
         return count;
     }
@@ -310,8 +314,13 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         }
         seckill.setStatus(SeckillStatusConstant.IN_PROGRESS);
         redisService.putSeckill(seckill);
+
         // 清理mongo表数据
-        successKilledMongoService.deleteRecord(seckillId);
+        try {
+            successKilledMongoService.deleteRecord(seckillId);
+        } catch (Exception e) {
+            log.error("mongo服务不可用请检查！", e);
+        }
     }
 
     @Override
