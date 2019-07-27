@@ -234,13 +234,5 @@ public class SeckillServiceImpl extends AbstractServiceImpl<SeckillMapper, Secki
         }
     }
 
-        // 清理mongo表数据
-        try {
-            successKilledMongoService.deleteRecord(seckillId);
-        } catch (Exception e) {
-            log.error("mongo服务不可用请检查！", e);
-        }
-    }
-
 
 }
