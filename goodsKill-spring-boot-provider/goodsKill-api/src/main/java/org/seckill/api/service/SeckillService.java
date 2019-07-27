@@ -1,11 +1,10 @@
 package org.seckill.api.service;
 
 import com.github.pagehelper.PageInfo;
-import org.seckill.api.constant.SeckillSolutionEnum;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
 import org.seckill.api.dto.SeckillInfo;
-import org.seckill.api.dto.SeckillResult;
+import org.seckill.api.dto.SeckillMockRequestDto;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SeckillExample;
 
@@ -41,51 +40,27 @@ public interface SeckillService extends CommonService<SeckillExample, Seckill> {
     /**
      * 执行秒杀，通过同步来控制并发
      *
-     * @param seckillId   秒杀活动id
-     * @param executeTime 执行秒杀次数
+     * @param requestDto 秒杀请求
+     * @param strategyNumber        秒杀策略编码
      */
-    void executeWithSynchronized(Long seckillId, int executeTime);
+    void execute(SeckillMockRequestDto requestDto, int strategyNumber);
 
-    /**
-     * 执行秒杀，内部使用存储过程实现,无锁
-     *  @param seckillId   秒杀活动id
-     * @param executeTime 执行秒杀次数
-     * @param userPhone
-     */
-    void executeWithProcedure(Long seckillId, int executeTime, int userPhone);
-
-    /**
-     * 执行秒杀，通过同步来控制并发
-     *  @param seckillId   秒杀活动id
-     * @param executeTime 执行秒杀次数
-     * @param userPhone
-     */
-    void executeWithRedisson(Long seckillId, int executeTime, int userPhone);
 
     /**
      * 获取成功秒杀记录数
+     *
      * @param seckillId 秒杀活动id
      */
     long getSuccessKillCount(Long seckillId);
 
-    /**
-     * @param seckillId
-     * @param executeTime
-     * @param userPhone
-     */
-    void executeWithZookeeperLock(Long seckillId, int executeTime, int userPhone);
-
 
     /**
      * 准备秒杀商品数量
-     * @param seckillId 秒杀商品id
+     *
+     * @param seckillId    秒杀商品id
      * @param seckillCount 秒杀数量
      */
     void prepareSeckill(Long seckillId, int seckillCount);
 
-    /**
-     * @param seckill
-     */
-    SeckillResult dealSeckill(Seckill seckill, SeckillSolutionEnum seckillSolutionEnum);
 
 }
