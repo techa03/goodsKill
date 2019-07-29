@@ -256,8 +256,8 @@ public class SeckillMockController {
      *
      * @param seckillId 秒杀活动id
      */
-    @ApiOperation(value = "各方案性能对比（一键运行）")
-    @PostMapping("/benchmark/{seckillId}")
+//    @ApiOperation(value = "各方案性能对比（一键运行）")
+//    @PostMapping("/benchmark/{seckillId}")
     public void benchmark(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
                           @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
         doWithSychronized(seckillId, seckillCount, requestCount);
