@@ -7,7 +7,7 @@ spring:
       enabled: false
 
 #二维码图片存放目录
-QRCODE_IMAGE_DIR: C:/Users/27568/Desktop/QRfile
+QRCODE_IMAGE_DIR: D:/QRfile
 ---
 
 ######################本地开发环境配置#####################

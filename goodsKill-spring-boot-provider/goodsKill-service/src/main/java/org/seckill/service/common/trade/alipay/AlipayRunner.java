@@ -143,8 +143,8 @@ public class AlipayRunner {
                     if (file.mkdirs() && file.exists()) {
                         logger.info("二维码存放目录创建成功，请检查！");
                     } else if (!file.exists()) {
-                        logger.error("创建目录失败，请检查用户权限！");
-                        throw new SeckillException("创建目录失败，请检查用户权限！");
+                        logger.error("创建目录失败，请手动创建{}目录！", file.getName());
+                        throw new SeckillException("创建目录失败！");
                     }
                 }
                 int filePathDeepth = 0;
