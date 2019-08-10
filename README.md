@@ -1,7 +1,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/112fce7b6cb54af0b2f8efaaf8da4c26)](https://app.codacy.com/app/275688448/goodsKill?utm_source=github.com&utm_medium=referral&utm_content=techa03/goodsKill&utm_campaign=Badge_Grade_Dashboard)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/techa03/goodsKill/pulls)
-[![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=dev_springboot_2.x)](https://travis-ci.org/techa03/goodsKill)
+[![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=master)](https://travis-ci.org/techa03/goodsKill)
 [![codecov](https://codecov.io/gh/techa03/goodsKill/branch/dev_springboot_2.x/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=techa03_goodsKill&metric=alert_status)](https://sonarcloud.io/dashboard?id=techa03_goodsKill)
 
