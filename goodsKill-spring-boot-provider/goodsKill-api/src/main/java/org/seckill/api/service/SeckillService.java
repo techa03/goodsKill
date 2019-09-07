@@ -1,17 +1,19 @@
 package org.seckill.api.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
 import org.seckill.api.dto.SeckillInfo;
 import org.seckill.api.dto.SeckillMockRequestDto;
 import org.seckill.entity.Seckill;
-import org.seckill.entity.SeckillExample;
 
 /**
- * Created by heng on 2016/7/16.
+ *
+ * @author heng
+ * @date 2016/7/16
  */
-public interface SeckillService extends CommonService<SeckillExample, Seckill> {
+public interface SeckillService extends IService<Seckill> {
 
     PageInfo getSeckillList(int pageNum, int pageSize);
 

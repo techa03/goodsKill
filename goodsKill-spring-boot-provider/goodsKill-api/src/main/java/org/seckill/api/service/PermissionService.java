@@ -1,7 +1,10 @@
 package org.seckill.api.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.seckill.entity.Permission;
-import org.seckill.entity.PermissionExample;
 
-public interface PermissionService extends CommonService<PermissionExample, Permission> {
+/**
+ * @author heng
+ */
+public interface PermissionService extends IService<Permission> {
 }

@@ -18,8 +18,8 @@
 	</modules>
 
 	<properties>
-		<goodsKill.version>3.3.0</goodsKill.version>
-		<springboot.version>2.1.5.RELEASE</springboot.version>
+		<goodsKill.version>3.4.0-SNAPSHOT</goodsKill.version>
+		<springboot.version>2.1.8.RELEASE</springboot.version>
 		<dubbo.version>2.7.0</dubbo.version>
 		<sonar.exclusions>
 			src/main/webapp/.../**/*

@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="configLocation" value="classpath:mybatis-config.xml"/>
-        <property name="typeAliasesPackage" value="org.seckill.entity"/>
-        <property name="mapperLocations">
-            <array>
-                <value>classpath*:mapper/ext/*.xml</value>
-                <value>classpath*:mapper/*.xml</value>
-            </array>
-        </property>
         <property name="plugins">
             <array>
                 <bean class="com.github.pagehelper.PageInterceptor">
@@ -32,7 +24,7 @@
     </bean>
 
     <!-- 动态数据源 -->
-    <bean id="dataSource" class="org.seckill.dao.common.DynamicDataSource">
+    <bean id="dataSource" class="org.seckill.service.datasource.DynamicDataSource">
         <property name="targetDataSources">
             <map key-type="java.lang.String">
                 <!-- 可配置多个数据源 -->
@@ -48,8 +40,6 @@
         <property name="basePackage" value="org.seckill.dao;org.seckill.dao.ext"/>
     </bean>
 
-
-    <context:component-scan base-package="org.seckill.dao;org.seckill.dao.ext"/>
 
     <!--spring事务处理-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

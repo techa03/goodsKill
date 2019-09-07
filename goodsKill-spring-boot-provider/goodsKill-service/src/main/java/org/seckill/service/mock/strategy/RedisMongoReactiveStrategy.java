@@ -3,8 +3,8 @@ package org.seckill.service.mock.strategy;
 import lombok.extern.slf4j.Slf4j;
 import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.dto.SeckillMockRequestDto;
-import org.seckill.dao.ext.ExtSeckillMapper;
 import org.seckill.entity.Seckill;
+import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.service.common.RedisService;
 import org.seckill.service.inner.SeckillExecutor;
 import org.seckill.service.mq.MqTask;
@@ -39,7 +39,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
     @Autowired
     MqTask mqTask;
     @Autowired
-    ExtSeckillMapper extSeckillMapper;
+    SeckillMapper extSeckillMapper;
 
     @Override
     public void execute(SeckillMockRequestDto requestDto) {
@@ -65,7 +65,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
                     Seckill sendTopicResult = new Seckill();
                     sendTopicResult.setSeckillId(seckillId);
                     sendTopicResult.setStatus(SeckillStatusConstant.END);
-                    extSeckillMapper.updateByPrimaryKeySelective(sendTopicResult);
+                    extSeckillMapper.updateById(sendTopicResult);
                     seckill.setStatus(SeckillStatusConstant.END);
                     redisService.putSeckill(seckill);
                 }

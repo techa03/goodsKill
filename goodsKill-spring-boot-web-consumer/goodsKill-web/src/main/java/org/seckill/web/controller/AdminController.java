@@ -1,6 +1,8 @@
 package org.seckill.web.controller;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
@@ -39,9 +41,10 @@ public class AdminController {
     @ResponseBody
     public ResponseDto role(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                             @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
-        PageInfo<Role> pageInfo = roleService.selectByPage(new RoleExample(), offset, limit);
+        Page page = new Page(offset, limit);
+        IPage<Role> pageInfo = roleService.page(page);
         ResponseDto<Role> responseDto = new ResponseDto<>();
-        responseDto.setData(pageInfo.getList().toArray(new Role[pageInfo.getList().size()]));
+        responseDto.setData(pageInfo.getRecords().toArray(new Role[pageInfo.getRecords().size()]));
         responseDto.setCount((int) pageInfo.getTotal());
         return responseDto;
     }
@@ -50,9 +53,10 @@ public class AdminController {
     @ResponseBody
     public ResponseDto roleLess(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                                 @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
-        PageInfo<Role> pageInfo = roleService.selectByPage(new RoleExample(), offset, limit);
+        Page page = new Page(offset, limit);
+        IPage<Role> pageInfo = roleService.page(page);
         ResponseDto<RoleDto> responseDto = new ResponseDto<>();
-        List<Role> list = pageInfo.getList();
+        List<Role> list = pageInfo.getRecords();
         List<RoleDto> result = new ArrayList();
         for (Role role : list) {
             RoleDto roleDto = new RoleDto();
@@ -68,16 +72,17 @@ public class AdminController {
     public String addRole(Role role) {
         role.setCreateTime(new Date());
         role.setUpdateTime(new Date());
-        roleService.insert(role);
+        roleService.save(role);
         return "redirect:/html/admin/role.html";
     }
 
     @RequestMapping(value = "/role/delete/{roleId}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseDto deleteRole(@PathVariable("roleId") int roleId) {
-        int count = roleService.deleteByPrimaryKey(roleId);
+        Role entity = new Role();
+        entity.setRoleId(roleId);
+        roleService.remove(new QueryWrapper<>(entity));
         ResponseDto<Role> responseDto = new ResponseDto<>();
-        responseDto.setCount(count);
         return responseDto;
     }
 
@@ -85,9 +90,10 @@ public class AdminController {
     @ResponseBody
     public ResponseDto permission(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                                   @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
-        PageInfo<Permission> pageInfo = permissionService.selectByPage(new PermissionExample(), offset, limit);
+        Page page = new Page(offset, limit);
+        IPage<Permission> pageInfo = roleService.page(page);
         ResponseDto<Permission> responseDto = new ResponseDto<>();
-        responseDto.setData(pageInfo.getList().toArray(new Permission[pageInfo.getList().size()]));
+        responseDto.setData(pageInfo.getRecords().toArray(new Permission[pageInfo.getRecords().size()]));
         responseDto.setCount((int) pageInfo.getTotal());
         return responseDto;
     }
@@ -96,8 +102,9 @@ public class AdminController {
     @ResponseBody
     public ResponseDto permissionTree(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                                       @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
-        PageInfo<Permission> pageInfo = permissionService.selectByPage(new PermissionExample(), offset, limit);
-        List<Permission> permissions = pageInfo.getList();
+        Page page = new Page(offset, limit);
+        IPage<Permission> pageInfo = roleService.page(page);
+        List<Permission> permissions = pageInfo.getRecords();
         List<PermissionDto> permissionDtoList = new ArrayList<>();
         for (Permission permission : permissions) {
             PermissionDto permissionDto = new PermissionDto();
@@ -118,16 +125,15 @@ public class AdminController {
     public String addPermission(Permission permission) {
         permission.setCreateTime(new Date());
         permission.setUpdateTime(new Date());
-        permissionService.insert(permission);
+        permissionService.save(permission);
         return "redirect:/html/admin/permission.html";
     }
 
     @RequestMapping(value = "/permission/delete/{permissionId}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseDto deletePermission(@PathVariable("permissionId") int permissionId) {
-        int count = permissionService.deleteByPrimaryKey(permissionId);
+        permissionService.removeById(permissionId);
         ResponseDto<Permission> responseDto = new ResponseDto<>();
-        responseDto.setCount(count);
         return responseDto;
     }
 
@@ -135,9 +141,10 @@ public class AdminController {
     @ResponseBody
     public ResponseDto user(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                             @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
-        PageInfo<User> pageInfo = userService.selectByPage(new UserExample(), offset, limit);
+        Page page = new Page(offset, limit);
+        IPage<User> pageInfo = roleService.page(page);
         ResponseDto<User> responseDto = new ResponseDto<>();
-        responseDto.setData(pageInfo.getList().toArray(new User[pageInfo.getList().size()]));
+        responseDto.setData(pageInfo.getRecords().toArray(new User[pageInfo.getRecords().size()]));
         responseDto.setCount((int) pageInfo.getTotal());
         return responseDto;
     }
@@ -145,9 +152,8 @@ public class AdminController {
     @RequestMapping(value = "/user/delete/{userId}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseDto deleteUser(@PathVariable("userId") int userId) {
-        int count = userService.deleteByPrimaryKey(userId);
+        userService.removeById(userId);
         ResponseDto<User> responseDto = new ResponseDto<>();
-        responseDto.setCount(count);
         return responseDto;
     }
 
@@ -155,17 +161,17 @@ public class AdminController {
     @ResponseBody
     @Transactional
     public ResponseDto addRole(@PathVariable("userId") int userId, @RequestBody RoleDto[] roleDto) {
-        UserRoleExample example = new UserRoleExample();
         for (RoleDto dto : roleDto) {
-            example.clear();
             UserRole record = new UserRole();
             record.setUserId(userId);
             record.setRoleId(dto.getRoleId());
-            example.createCriteria().andUserIdEqualTo(userId).andRoleIdEqualTo(dto.getRoleId());
-            userRoleService.deleteByExample(example);
+            UserRole entity = new UserRole();
+            entity.setUserId(userId);
+            entity.setRoleId(dto.getRoleId());
+            userRoleService.remove(new QueryWrapper<>(entity));
             record.setCreateTime(new Date());
             record.setUpdateTime(new Date());
-            userRoleService.insertSelective(record);
+            userRoleService.save(record);
         }
         ResponseDto<User> responseDto = new ResponseDto<>();
         return responseDto;
@@ -175,17 +181,16 @@ public class AdminController {
     @ResponseBody
     @Transactional
     public ResponseDto updateRolePermission(@PathVariable("roleId") int roleId, @RequestBody String[] permissionIds) {
-        UserRoleExample example = new UserRoleExample();
-        RolePermissionExample rolePermissionExample = new RolePermissionExample();
-        rolePermissionExample.createCriteria().andRoleIdEqualTo(roleId);
-        rolePermissionService.deleteByExample(rolePermissionExample);
+        RolePermission example = new RolePermission();
+        example.setRoleId(roleId);
+        rolePermissionService.remove(new QueryWrapper<>(example));
         for (String permissionId : permissionIds) {
             RolePermission record = new RolePermission();
             record.setRoleId(roleId);
             record.setPermissionId(Integer.valueOf(permissionId));
             record.setCreateTime(new Date());
             record.setUpdateTime(new Date());
-            rolePermissionService.insertSelective(record);
+            rolePermissionService.save(record);
         }
         ResponseDto<User> responseDto = new ResponseDto<>();
         return responseDto;

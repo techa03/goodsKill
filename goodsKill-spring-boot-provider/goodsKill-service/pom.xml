@@ -17,7 +17,15 @@
 		</dependency>
 		<dependency>
 			<groupId>com.goodsKill</groupId>
-			<artifactId>goodsKill-dao</artifactId>
+			<artifactId>goodsKill-util</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.goodsKill</groupId>
+			<artifactId>goodsKill-entry</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.goodsKill</groupId>
+			<artifactId>goodsKill-mp-dao</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.goodsKill</groupId>
@@ -189,13 +197,48 @@
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>1.10.19</version>
-            <scope>test</scope>
-        </dependency>
-
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.dyuproject.protostuff</groupId>
+			<artifactId>protostuff-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.dyuproject.protostuff</groupId>
+			<artifactId>protostuff-runtime</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -232,7 +275,6 @@
 						</goals>
 					</execution>
 				</executions>
-
 				<!-- Configuration 里面写配置信息 -->
 			</plugin>
 			<plugin>

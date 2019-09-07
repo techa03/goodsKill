@@ -4,8 +4,8 @@ import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.ProtostuffIOUtil;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
 import lombok.extern.slf4j.Slf4j;
-import org.seckill.dao.SeckillMapper;
 import org.seckill.entity.Seckill;
+import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -35,7 +35,7 @@ public class RedisService {
             ProtostuffIOUtil.mergeFrom(bytes, seckill, schema);
             return seckill;
         } else {
-            Seckill seckill = seckillMapper.selectByPrimaryKey(seckillId);
+            Seckill seckill = seckillMapper.selectById(seckillId);
             if (seckill == null) {
                 throw new RuntimeException("秒杀活动不存在！");
             }

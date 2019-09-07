@@ -3,10 +3,10 @@ package org.seckill.service.mock.strategy;
 import lombok.extern.slf4j.Slf4j;
 import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.dto.SeckillMockRequestDto;
-import org.seckill.dao.SuccessKilledMapper;
-import org.seckill.dao.ext.ExtSeckillMapper;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
+import org.seckill.mp.dao.mapper.SeckillMapper;
+import org.seckill.mp.dao.mapper.SuccessKilledMapper;
 import org.seckill.service.mq.MqTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -28,7 +28,7 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
     @Resource(name = "taskExecutor")
     private ThreadPoolTaskExecutor taskExecutor;
     @Autowired
-    ExtSeckillMapper extSeckillMapper;
+    SeckillMapper seckillMapper;
     @Autowired
     SuccessKilledMapper successKilledMapper;
     @Autowired
@@ -43,13 +43,13 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
             int userId = i;
             taskExecutor.execute(() -> {
                 synchronized (this) {
-                    Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
+                    Seckill seckill = seckillMapper.selectById(seckillId);
                     if (seckill.getNumber() > 0) {
-                        extSeckillMapper.reduceNumber(seckillId, new Date());
+                        seckillMapper.reduceNumber(seckillId, new Date());
                         SuccessKilled record = new SuccessKilled();
                         record.setSeckillId(seckillId);
                         record.setUserPhone(String.valueOf(userId));
-                        record.setStatus((byte) 1);
+                        record.setStatus(1);
                         record.setCreateTime(new Date());
                         successKilledMapper.insert(record);
                     } else {
@@ -58,7 +58,7 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
                             Seckill sendTopicResult = new Seckill();
                             sendTopicResult.setSeckillId(seckillId);
                             sendTopicResult.setStatus(SeckillStatusConstant.END);
-                            extSeckillMapper.updateByPrimaryKeySelective(sendTopicResult);
+                            seckillMapper.updateById(sendTopicResult);
                         }
                         if (log.isDebugEnabled()) {
                             log.debug("库存不足，无法继续秒杀！");

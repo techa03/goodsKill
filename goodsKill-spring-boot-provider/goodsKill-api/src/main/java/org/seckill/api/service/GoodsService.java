@@ -1,14 +1,16 @@
 package org.seckill.api.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.seckill.entity.Goods;
-import org.seckill.entity.GoodsExample;
 
 import java.util.List;
 
 /**
- * Created by heng on 2017/1/7.
+ *
+ * @author heng
+ * @date 2017/1/7
  */
-public interface GoodsService extends CommonService<GoodsExample, Goods> {
+public interface GoodsService extends IService<Goods> {
 
     void uploadGoodsPhoto(long goodsId, byte[] bytes);
 

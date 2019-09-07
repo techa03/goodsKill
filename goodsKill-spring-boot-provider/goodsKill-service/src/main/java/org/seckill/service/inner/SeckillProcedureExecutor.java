@@ -2,9 +2,9 @@ package org.seckill.service.inner;
 
 import lombok.extern.slf4j.Slf4j;
 import org.seckill.api.constant.SeckillStatusConstant;
-import org.seckill.dao.ext.ExtSeckillMapper;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
+import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.service.mq.MqTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SeckillProcedureExecutor implements SeckillExecutor {
 
     @Autowired
-    private ExtSeckillMapper extSeckillMapper;
+    private SeckillMapper seckillMapper;
     @Autowired
     private MqTask mqTask;
 
@@ -44,9 +44,9 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
             successKilled.setUserPhone(userPhone);
             successKilled.setCreateTime(new Date());
             successKilled.setServerIp(localHost.getHostAddress() + ":" + localHost.getHostName());
-            extSeckillMapper.reduceNumberByProcedure(successKilled);
+            seckillMapper.reduceNumberByProcedure(successKilled);
             if (successKilled.getStatus() < 1) {
-                Seckill seckill = extSeckillMapper.selectByPrimaryKey(seckillId);
+                Seckill seckill = seckillMapper.selectById(seckillId);
                 log.debug("当前库存：{}", seckill.getNumber());
                 // 高并发时限制只能发一次秒杀完成通知
                 if (!SeckillStatusConstant.END.equals(seckill.getStatus()) && sendTopicTimes.getAndIncrement() == 0) {
@@ -54,7 +54,7 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
                     Seckill sendTopicResult = new Seckill();
                     sendTopicResult.setSeckillId(seckillId);
                     sendTopicResult.setStatus(SeckillStatusConstant.END);
-                    extSeckillMapper.updateByPrimaryKeySelective(sendTopicResult);
+                    seckillMapper.updateById(sendTopicResult);
                     // 重置发送成功通知次数
                     sendTopicTimes.set(0);
                 }

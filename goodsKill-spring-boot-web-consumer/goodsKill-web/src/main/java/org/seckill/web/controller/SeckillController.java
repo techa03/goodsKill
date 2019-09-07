@@ -1,5 +1,6 @@
 package org.seckill.web.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -10,7 +11,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
-import org.seckill.api.dto.SeckillInfo;
 import org.seckill.api.dto.SeckillResult;
 import org.seckill.api.enums.SeckillStatEnum;
 import org.seckill.api.exception.RepeatKillException;
@@ -76,7 +76,7 @@ public class SeckillController {
         if (seckillId == null) {
             return "redirect:/seckill/list";
         }
-        SeckillInfo seckillInfo = null;
+        Seckill seckillInfo = null;
         seckillInfo = seckillService.getById(seckillId);
         if (seckillInfo == null) {
             return "forward:/seckill/list";
@@ -253,22 +253,20 @@ public class SeckillController {
         Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getSession().getAttribute("user");
         user = userAccountService.findByUserAccount(user.getAccount());
-        UserRoleExample example = new UserRoleExample();
-        example.createCriteria().andUserIdEqualTo(user.getId());
-        List<UserRole> userRoleList = userRoleService.selectByExample(example);
-        RolePermissionExample rolePermissionExample = new RolePermissionExample();
+        UserRole example = new UserRole();
+        example.setUserId(user.getId());
+        List<UserRole> userRoleList = userRoleService.list(new QueryWrapper<>(example));
+        RolePermission rolePermissionExample = new RolePermission();
         Set<Permission> set = new HashSet<>();
         for (UserRole userRole : userRoleList) {
-            rolePermissionExample.clear();
-            rolePermissionExample.createCriteria().andRoleIdEqualTo(userRole.getRoleId());
-            List<RolePermission> rolePermissionList = rolePermissionService.selectByExample(rolePermissionExample);
+            rolePermissionExample.setRoleId(userRole.getRoleId());
+            List<RolePermission> rolePermissionList = rolePermissionService.list(new QueryWrapper<>(rolePermissionExample));
             for (RolePermission rolePermission : rolePermissionList) {
-                set.add(permissionService.selectByPrimaryKey(rolePermission.getPermissionId()));
+                set.add(permissionService.getById(rolePermission.getPermissionId()));
             }
         }
         ResponseDto<Permission> responseDto = new ResponseDto<>();
         List<Permission> permissions = new ArrayList<>(set);
-        Collections.sort(permissions);
         logger.info(user.toString());
         responseDto.setData(permissions.toArray(new Permission[permissions.size()]));
         return responseDto;
@@ -280,17 +278,16 @@ public class SeckillController {
         Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getSession().getAttribute("user");
         user = userAccountService.findByUserAccount(user.getAccount());
-        UserRoleExample example = new UserRoleExample();
-        example.createCriteria().andUserIdEqualTo(user.getId());
-        List<UserRole> userRoleList = userRoleService.selectByExample(example);
-        RolePermissionExample rolePermissionExample = new RolePermissionExample();
+        UserRole example = new UserRole();
+        example.setUserId(user.getId());
+        List<UserRole> userRoleList = userRoleService.list(new QueryWrapper<>(example));
+        RolePermission rolePermissionExample = new RolePermission();
         Set<Permission> set = new HashSet<>();
         for (UserRole userRole : userRoleList) {
-            rolePermissionExample.clear();
-            rolePermissionExample.createCriteria().andRoleIdEqualTo(userRole.getRoleId());
-            List<RolePermission> rolePermissionList = rolePermissionService.selectByExample(rolePermissionExample);
+            rolePermissionExample.setRoleId(userRole.getRoleId());
+            List<RolePermission> rolePermissionList = rolePermissionService.list(new QueryWrapper<>(rolePermissionExample));
             for (RolePermission rolePermission : rolePermissionList) {
-                Permission permission = permissionService.selectByPrimaryKey(rolePermission.getPermissionId());
+                Permission permission = permissionService.getById(rolePermission.getPermissionId());
                 if ("Y".equals(permission.getIsDir())) {
                     set.add(permission);
                 }
@@ -298,7 +295,6 @@ public class SeckillController {
         }
         ResponseDto<Permission> responseDto = new ResponseDto<>();
         List<Permission> permissions = new ArrayList<>(set);
-        Collections.sort(permissions);
         logger.info(user.toString());
         responseDto.setData(permissions.toArray(new Permission[permissions.size()]));
         return responseDto;

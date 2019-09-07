@@ -27,9 +27,14 @@ spring:
   data:
     mongodb:
       database: test
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: root
+    password: +tkfyiKcqLiFlgt7GSnxtw==
 dubbo:
   scan:
-    base-packages: org.seckill.service.impl
+    base-packages: org.seckill.service.mp.impl
   application:
     id: dubbo-provider-demo
     name: dubbo-provider-demo
@@ -62,3 +67,4 @@ server:
 demo:
   service:
     version: 1.0.0
+

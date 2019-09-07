@@ -3,8 +3,8 @@ package org.seckill.service.mq;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.seckill.api.constant.SeckillStatusConstant;
-import org.seckill.dao.ext.ExtSeckillMapper;
 import org.seckill.entity.Seckill;
+import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.service.common.RedisService;
 import org.seckill.service.inner.SeckillExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class SekcillKafkaConsumer {
     @Autowired
     RedisTemplate redisTemplate;
     @Autowired
-    ExtSeckillMapper extSeckillMapper;
+    SeckillMapper seckillMapper;
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
     @Autowired
@@ -89,7 +89,7 @@ public class SekcillKafkaConsumer {
                 Seckill sendTopicResult = new Seckill();
                 sendTopicResult.setSeckillId(seckillId);
                 sendTopicResult.setStatus(SeckillStatusConstant.END);
-                extSeckillMapper.updateByPrimaryKeySelective(sendTopicResult);
+                seckillMapper.updateById(sendTopicResult);
                 seckill.setStatus(SeckillStatusConstant.END);
                 redisService.putSeckill(seckill);
             }

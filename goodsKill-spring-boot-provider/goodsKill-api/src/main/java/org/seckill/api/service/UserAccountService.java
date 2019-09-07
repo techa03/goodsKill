@@ -1,16 +1,19 @@
 package org.seckill.api.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import org.seckill.api.exception.SeckillException;
 import org.seckill.entity.Permission;
 import org.seckill.entity.Role;
 import org.seckill.entity.User;
-import org.seckill.entity.UserExample;
 
 import java.util.Set;
 
 
-public interface UserAccountService extends CommonService<UserExample, User> {
+/**
+ * @author heng
+ */
+public interface UserAccountService extends IService<User> {
 	void register(User user);
 
 	void login(User user) throws SeckillException;

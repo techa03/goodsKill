@@ -7,7 +7,6 @@
    <!--aop支持,支持方法内部调用,proxy-target-class="true"使用CGLIB代理-->
    <!--<aop:aspectj-autoproxy expose-proxy="true"/>-->
 
-   <!--<context:component-scan base-package="org.seckill.service;" />-->
 
    <!--线程池-->
    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">

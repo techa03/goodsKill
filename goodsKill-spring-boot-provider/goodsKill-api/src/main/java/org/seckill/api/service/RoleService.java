@@ -1,7 +1,10 @@
 package org.seckill.api.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.seckill.entity.Role;
-import org.seckill.entity.RoleExample;
 
-public interface RoleService extends CommonService<RoleExample, Role> {
+/**
+ * @author heng
+ */
+public interface RoleService extends IService<Role> {
 }

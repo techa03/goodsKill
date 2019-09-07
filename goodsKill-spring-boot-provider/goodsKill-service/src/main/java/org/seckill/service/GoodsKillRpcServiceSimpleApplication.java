@@ -1,5 +1,6 @@
 package org.seckill.service;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "classpath*:META-INF/spring/spring-service-mq.xml",
         "classpath*:META-INF/spring/spring-dao.xml"})
 @EnableTransactionManagement
+@MapperScan("org.seckill.mp.dao")
 public class GoodsKillRpcServiceSimpleApplication {
 
     public static void main(String[] args) {

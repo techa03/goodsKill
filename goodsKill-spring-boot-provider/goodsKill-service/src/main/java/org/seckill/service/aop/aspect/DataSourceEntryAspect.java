@@ -5,8 +5,8 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.seckill.dao.common.DataSourceEnum;
-import org.seckill.dao.common.DynamicDataSource;
+import org.seckill.service.datasource.DataSourceEnum;
+import org.seckill.service.datasource.DynamicDataSource;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Order(Ordered.LOWEST_PRECEDENCE - 1)
 @Slf4j
 public class DataSourceEntryAspect {
-    @Pointcut("execution(* org.seckill.service.impl..*(..))")
+    @Pointcut("execution(* org.seckill.service.mp.impl..*(..))")
     public void servicePointcut() {
     }
 
