@@ -141,23 +141,25 @@ CREATE TABLE `seckill` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `goods_id` int(11) DEFAULT NULL,
   `price` decimal(10,2) DEFAULT NULL,
+  `status` varchar(5) DEFAULT NULL,
+  `create_user` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`seckill_id`),
   KEY `idx_start_time` (`start_time`),
   KEY `idx_end_time` (`end_time`),
   KEY `idx_create_time` (`create_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=1008 DEFAULT CHARSET=utf8 COMMENT='秒杀库存表';
+) ENGINE=InnoDB AUTO_INCREMENT=1010 DEFAULT CHARSET=utf8 COMMENT='秒杀库存表';
+
 
 -- ----------------------------
 -- Records of seckill
 -- ----------------------------
-INSERT INTO `seckill` VALUES ('1000', 'iphone6', '127', '2017-07-04 11:19:00', '2027-06-25 12:00:00', '2016-06-24 19:46:06', '1', '8000000.00');
-INSERT INTO `seckill` VALUES ('1001', 'ipad2', '98', '2018-08-19 22:25:35', '2027-06-25 12:00:00', '2016-06-24 19:46:06', '2', '3000.00');
-INSERT INTO `seckill` VALUES ('1002', '小米4', '0', '2018-08-19 22:30:22', '2027-06-25 12:00:00', '2016-06-24 19:46:06', '3', '1000.00');
-INSERT INTO `seckill` VALUES ('1003', '红米note', '398', '2018-08-19 22:25:40', '2027-06-25 12:00:00', '2016-06-24 19:46:06', '4', '400.00');
-INSERT INTO `seckill` VALUES ('1004', '小米6', '10', '2018-08-19 22:25:44', '2027-06-25 12:00:00', '2017-06-09 00:13:54', '5', '2000.00');
-INSERT INTO `seckill` VALUES ('1005', '小米max2', '1000', '2018-08-19 22:25:45', '2027-06-25 12:00:00', '2017-06-10 11:14:49', '6', '1499.00');
-INSERT INTO `seckill` VALUES ('1006', '小米5c', '100', '2018-08-19 22:25:47', '2027-06-25 12:00:00', '2017-06-10 11:16:48', '7', '1299.00');
-INSERT INTO `seckill` VALUES ('1007', 'oppo R11', '50', '2018-08-19 22:25:56', '2027-06-25 12:00:00', '2017-06-10 11:24:07', '8', '3099.00');
+INSERT INTO seckill.seckill (seckill_id, name, number, start_time, end_time, create_time, goods_id, price, status, create_user) VALUES (1000, 'iphone6', 1247, '2017-07-03 23:19:00', '2027-06-25 00:00:00', '2016-06-24 19:46:06', 1, 8000000.00, null, null);
+INSERT INTO seckill.seckill (seckill_id, name, number, start_time, end_time, create_time, goods_id, price, status, create_user) VALUES (1001, 'ipad2', 0, '2018-08-19 22:25:35', '2027-06-25 12:00:00', '2016-06-24 19:46:06', 2, 3000.00, '2', null);
+INSERT INTO seckill.seckill (seckill_id, name, number, start_time, end_time, create_time, goods_id, price, status, create_user) VALUES (1002, '小米4', 100, '2018-08-19 22:30:22', '2027-06-25 12:00:00', '2016-06-24 19:46:06', 3, 1000.00, '1', null);
+INSERT INTO seckill.seckill (seckill_id, name, number, start_time, end_time, create_time, goods_id, price, status, create_user) VALUES (1003, '红米note', 9, '2018-08-19 22:25:40', '2027-06-25 12:00:00', '2016-06-24 19:46:06', 4, 400.00, '1', null);
+INSERT INTO seckill.seckill (seckill_id, name, number, start_time, end_time, create_time, goods_id, price, status, create_user) VALUES (1004, '小米6', 10, '2018-08-19 22:25:44', '2027-06-25 12:00:00', '2017-06-09 00:13:54', 5, 2000.00, '1', null);
+INSERT INTO seckill.seckill (seckill_id, name, number, start_time, end_time, create_time, goods_id, price, status, create_user) VALUES (1005, '小米max2', 1000, '2018-08-19 22:25:45', '2027-06-25 12:00:00', '2017-06-10 11:14:49', 6, 1499.00, null, null);
+INSERT INTO seckill.seckill (seckill_id, name, number, start_time, end_time, create_time, goods_id, price, status, create_user) VALUES (1006, '小米5c', 100, '2018-08-19 22:25:47', '2027-06-25 12:00:00', '2017-06-10 11:16:48', 7, 1299.00, null, null);
 
 -- ----------------------------
 -- Table structure for success_killed

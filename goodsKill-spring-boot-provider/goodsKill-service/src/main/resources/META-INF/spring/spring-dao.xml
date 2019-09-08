@@ -9,6 +9,11 @@
 
     <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations">
+            <array>
+                <value>classpath*:mapper/*Mapper.xml</value>
+            </array>
+        </property>
         <property name="plugins">
             <array>
                 <bean class="com.github.pagehelper.PageInterceptor">
@@ -37,7 +42,7 @@
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-        <property name="basePackage" value="org.seckill.dao;org.seckill.dao.ext"/>
+        <property name="basePackage" value="org.seckill.mp.dao.mapper"/>
     </bean>
 
 

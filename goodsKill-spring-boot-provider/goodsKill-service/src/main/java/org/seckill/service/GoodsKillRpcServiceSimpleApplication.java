@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "classpath*:META-INF/spring/spring-service-mq.xml",
         "classpath*:META-INF/spring/spring-dao.xml"})
 @EnableTransactionManagement
-@MapperScan("org.seckill.mp.dao")
+@MapperScan("org.seckill.mp.dao.mapper")
 public class GoodsKillRpcServiceSimpleApplication {
 
     public static void main(String[] args) {

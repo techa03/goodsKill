@@ -8,6 +8,7 @@
 //import org.seckill.api.dto.SeckillInfo;
 //import org.seckill.api.service.SeckillService;
 //import org.seckill.entity.Seckill;
+//import org.seckill.mp.dao.mapper.SeckillMapper;
 //import org.seckill.service.GoodsKillRpcServiceSimpleApplication;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +25,9 @@
 //@Transactional(rollbackFor = Exception.class)
 //public class SeckillServiceImplTest {
 //    @Autowired
-//    private SeckillService seckillService;
+//    SeckillService seckillService;
+//    @Autowired
+//    SeckillMapper seckillMapper;
 //
 //    @Test
 //    public void getSeckillList() {
@@ -71,7 +74,10 @@
 //    }
 //
 //    @Test
+//    @Transactional
 //    public void updateSeckill() {
+//        int count = seckillMapper.reduceNumber(1001L, new Date());
+//        System.out.println(count);
 //    }
 //
 //    @Test

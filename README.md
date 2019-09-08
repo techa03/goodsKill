@@ -12,6 +12,8 @@
 
 本项目扩展了秒杀功能，集成了jmock完成service层的测试，支持数据库读写分离，同时项目使用travis持续集成，提交更新后即可触发travis自动构建并完成项目测试覆盖率报告。
 
+集成内嵌式H2数据库，方便独立进行单元功能测试。
+
 ## 分支介绍
 `dev_gradle`分支为使用gradle构建工具管理项目依赖，`dev_maven`分支对应maven构建工具（springframework版本4.x），`dev_springboot_2.x`分支基于最新springboot2.x构建简化配置（springframework版本5.x）。该项目功能目前比较简陋，功能还有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下~~~~。
 
@@ -22,7 +24,7 @@
 ----|------|----
 SpringBoot |  框架 | [https://spring.io/projects/spring-boot](https://spring.io/projects/spring-boot)
 MyBatis | ORM框架  | [http://www.mybatis.org/mybatis-3/zh/index.html](http://www.mybatis.org/mybatis-3/zh/index.html)
-MyBatis Generator | 代码生成  | [http://www.mybatis.org/generator/index.html](http://www.mybatis.org/generator/index.html)
+MyBatis-Plus | MyBatis增强工具  | [https://mp.baomidou.com/](https://mp.baomidou.com/)
 PageHelper | MyBatis物理分页插件  | [http://git.oschina.net/free/Mybatis_PageHelper](http://git.oschina.net/free/Mybatis_PageHelper)
 Druid | 数据库监控连接池  | [https://github.com/alibaba/druid](https://github.com/alibaba/druid)
 ZooKeeper | 分布式协调服务  | [http://zookeeper.apache.org/](http://zookeeper.apache.org/)
@@ -44,6 +46,7 @@ MySql | MySQL数据库 | [https://www.mysql.com/](https://www.mysql.com/)
 Reactor | 响应式开发 | [https://projectreactor.io/](https://projectreactor.io/)
 Spring Session | Spring会话管理 | [https://spring.io/projects/spring-session](https://spring.io/projects/spring-session)
 ElasticSearch | 全文搜索引擎 | [https://www.elastic.co](https://www.elastic.co)
+H2 | H2数据库 | [http://www.h2database.com/html/main.html](http://www.h2database.com/html/main.html)
 
 ### 前端技术:
 技术 | 名称 | 官网
@@ -90,8 +93,9 @@ goodsKill
 |--goodsKill-mongo-provider                 ||mongo存储服务提供者
 |   |--goodskill-mongo-service              
 |--goodsKill-spring-boot-provider           ||订单、用户、登录、商品管理服务提供者（待拆分）
-|   |--goodsKill-api                        
-|   |--goodsKill-dao                        
+|   |--goodsKill-api
+|   |--goodsKill-dao                        ||已移除
+|   |--goodsKill-mp-dao                     ||使用MyBatis-Plus访问MySql数据源，替换原goodsKill-dao模块   
 |   |--goodsKill-entry                      
 |   |--goodsKill-generator                  
 |   |--goodsKill-service                    
@@ -181,5 +185,5 @@ goodsKill
 #### 后续更新计划
 - 使用redis优化秒杀执行过程，异步发送秒杀成功MQ消息完成数据落地，并使用mongo存储秒杀信息提升TPS;(已完成，见场景八)
 - 集成spring-session管理会话，目前使用shiro由于只保存在单机上，重启应用或分布式环境可能需要重新登录；(已完成)
-- 添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，功能比较简单，后续需要完善；
+- 添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成；
 - 模拟秒杀控台日志显示优化，后续考虑增加一个benchmark跑分功能，依次调用各个秒杀场景方案，最后输出各个方案的用时；
