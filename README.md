@@ -105,6 +105,10 @@ goodsKill
 |   |--goodsKill-web    
 ```
 
+#### 数据库表结构
+![image](model_table.png)
+
+
 #### 开发环境版本说明：
 - JDK :JDK1.8+
 - MYSQL :8.0+
