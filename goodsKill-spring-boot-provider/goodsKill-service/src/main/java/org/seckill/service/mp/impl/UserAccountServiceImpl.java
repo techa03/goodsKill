@@ -2,11 +2,8 @@ package org.seckill.service.mp.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.apache.dubbo.config.annotation.Service;
 import org.seckill.api.exception.CommonException;
-import org.seckill.api.exception.SeckillException;
 import org.seckill.api.service.UserAccountService;
 import org.seckill.entity.*;
 import org.seckill.mp.dao.mapper.*;
@@ -58,17 +55,6 @@ public class UserAccountServiceImpl extends ServiceImpl<UserMapper, User> implem
     }
 
     @Override
-    public void login(User user) throws SeckillException {
-        User entity = new User();
-        entity.setAccount(user.getAccount());
-        entity.setPassword(user.getPassword());
-        List<User> list = baseMapper.selectList(new QueryWrapper(entity));
-        if (list.size() != 1) {
-            throw new SeckillException("login fail");
-        }
-    }
-
-    @Override
     public Set<Role> findRoles(String account) {
         User entity = new User();
         entity.setAccount(account);
@@ -115,14 +101,6 @@ public class UserAccountServiceImpl extends ServiceImpl<UserMapper, User> implem
         } else {
             return null;
         }
-    }
-
-    @Override
-    public PageInfo<User> getSeckillList(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<User> list = baseMapper.selectList(null);
-        PageInfo pageInfo = new PageInfo(list);
-        return pageInfo;
     }
 
 }

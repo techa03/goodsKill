@@ -7,7 +7,7 @@ import org.seckill.entity.Seckill;
 import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.service.common.RedisService;
 import org.seckill.service.inner.SeckillExecutor;
-import org.seckill.service.mq.MqTask;
+import org.seckill.service.mq.ActiveMqMessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jms.core.JmsTemplate;
@@ -37,7 +37,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
     @Autowired
     JmsTemplate jmsTemplate;
     @Autowired
-    MqTask mqTask;
+    ActiveMqMessageSender activeMqMessageSender;
     @Autowired
     SeckillMapper extSeckillMapper;
 
@@ -61,7 +61,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
                 seckill = redisService.getSeckill(seckillId);
                 if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
                     log.info("秒杀商品暂无库存，发送活动结束消息！");
-                    mqTask.sendSeckillSuccessTopic(seckillId, REDIS_MONGO_REACTIVE.getName());
+                    activeMqMessageSender.sendSeckillSuccessTopic(seckillId, REDIS_MONGO_REACTIVE.getName());
                     Seckill sendTopicResult = new Seckill();
                     sendTopicResult.setSeckillId(seckillId);
                     sendTopicResult.setStatus(SeckillStatusConstant.END);

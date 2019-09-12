@@ -12,6 +12,11 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 
+/**
+ * ActiveMq消息队列监听消费者，用于处理秒杀请求
+ *
+ * @author heng
+ */
 @Slf4j
 public class SeckillActiveConsumer implements MessageListener {
     @Autowired

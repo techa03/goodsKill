@@ -2,6 +2,7 @@ package org.seckill.api.constant;
 
 /**
  * 秒杀活动状态
+ * @author heng
  */
 public class SeckillStatusConstant {
     /**

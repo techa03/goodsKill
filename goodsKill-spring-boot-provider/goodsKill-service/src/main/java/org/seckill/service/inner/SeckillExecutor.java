@@ -1,5 +1,8 @@
 package org.seckill.service.inner;
 
+/**
+ * @author heng
+ */
 public interface SeckillExecutor {
 
     /**

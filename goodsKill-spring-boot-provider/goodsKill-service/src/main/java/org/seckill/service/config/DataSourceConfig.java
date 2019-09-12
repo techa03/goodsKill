@@ -2,6 +2,7 @@ package org.seckill.service.config;
 
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.pool.DruidDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.seckill.util.common.util.AESUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,22 +21,21 @@ import java.sql.SQLException;
  * @date 2019/3/23
  */
 @Configuration
+@Slf4j
 public class DataSourceConfig {
     @Value("${mq_address}")
-    private String mq_address;
+    private String mqAddress;
 
     @Bean
     public DruidDataSource masterDataSource(@Value("${master.driver}") String driverClassName,
                                             @Value("${master.url}") String url,
                                             @Value("${master.username}") String username,
                                             @Value("${master.password}") String password) throws SQLException {
-        DruidDataSource master = new DruidDataSource();
-        master.setDriverClassName(driverClassName);
-        master.setUrl(url);
-        master.setUsername(username);
-        master.setPassword(AESUtil.aesDecode(password));
-        master.setFilters("stat,slf4j");
-        return master;
+        DruidDataSource master = getDruidDataSource(driverClassName, url, username, password);
+        if (master != null) {
+            return master;
+        }
+        return null;
     }
 
     @Bean
@@ -43,13 +43,32 @@ public class DataSourceConfig {
                                            @Value("${slave.url}") String url,
                                            @Value("${slave.username}") String username,
                                            @Value("${slave.password}") String password) throws SQLException {
-        DruidDataSource master = new DruidDataSource();
-        master.setDriverClassName(driverClassName);
-        master.setUrl(url);
-        master.setUsername(username);
-        master.setPassword(AESUtil.aesDecode(password));
-        master.setFilters("stat,slf4j");
-        return master;
+        DruidDataSource slave = getDruidDataSource(driverClassName, url, username, password);
+        if (slave != null) return slave;
+        return null;
+    }
+
+    /**
+     * 获取datasource
+     *
+     * @param driverClassName 驱动类
+     * @param url             数据库url
+     * @param username        用户名
+     * @param password        密码
+     * @return druid数据源
+     */
+    private DruidDataSource getDruidDataSource(@Value("${slave.driver}") String driverClassName, @Value("${slave.url}") String url, @Value("${slave.username}") String username, @Value("${slave.password}") String password) {
+        try (DruidDataSource dataSource = new DruidDataSource()) {
+            dataSource.setDriverClassName(driverClassName);
+            dataSource.setUrl(url);
+            dataSource.setUsername(username);
+            dataSource.setPassword(AESUtil.aesDecode(password));
+            dataSource.setFilters("stat,slf4j");
+            return dataSource;
+        } catch (SQLException e) {
+            log.error(e.getMessage(), e);
+        }
+        return null;
     }
 
     @Bean
@@ -61,15 +80,14 @@ public class DataSourceConfig {
     }
 
     @Bean
-    public ActiveMQConnectionFactory targetConnectionFactory(){
+    public ActiveMQConnectionFactory targetConnectionFactory() {
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-        connectionFactory.setBrokerURL(mq_address);
+        connectionFactory.setBrokerURL(mqAddress);
         return connectionFactory;
     }
 
     @Bean
-    public JmsListenerContainerFactory jmsListenerContainerFactory(
-            DefaultJmsListenerContainerFactoryConfigurer configurer) {
+    public JmsListenerContainerFactory jmsListenerContainerFactory(DefaultJmsListenerContainerFactoryConfigurer configurer) {
         DefaultJmsListenerContainerFactory factory =
                 new DefaultJmsListenerContainerFactory();
         configurer.configure(factory, targetConnectionFactory());

@@ -7,7 +7,7 @@ import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
-import org.seckill.service.mq.MqTask;
+import org.seckill.service.mq.ActiveMqMessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
@@ -32,7 +32,7 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
     @Autowired
     SuccessKilledMapper successKilledMapper;
     @Autowired
-    MqTask mqTask;
+    ActiveMqMessageSender activeMqMessageSender;
 
     @Override
     public void execute(SeckillMockRequestDto requestDto) {
@@ -54,7 +54,7 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
                         successKilledMapper.insert(record);
                     } else {
                         if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
-                            mqTask.sendSeckillSuccessTopic(seckillId, SYCHRONIZED.getName());
+                            activeMqMessageSender.sendSeckillSuccessTopic(seckillId, SYCHRONIZED.getName());
                             Seckill sendTopicResult = new Seckill();
                             sendTopicResult.setSeckillId(seckillId);
                             sendTopicResult.setStatus(SeckillStatusConstant.END);
@@ -73,6 +73,7 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
             countDownLatch.await();
         } catch (InterruptedException e) {
             log.error(e.getMessage(), e);
+            Thread.currentThread().interrupt();
         }
     }
 }

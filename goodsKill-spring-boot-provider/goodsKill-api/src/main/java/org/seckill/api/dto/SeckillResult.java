@@ -5,7 +5,9 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * Created by heng on 2016/7/23.
+ *
+ * @author heng
+ * @date 2016/7/23
  */
 @Data
 public class SeckillResult<T> implements Serializable{

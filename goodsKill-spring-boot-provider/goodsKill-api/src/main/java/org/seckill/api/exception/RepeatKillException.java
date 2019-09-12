@@ -1,7 +1,9 @@
 package org.seckill.api.exception;
 
 /**
- * Created by heng on 2016/7/16.
+ *
+ * @author heng
+ * @date 2016/7/16
  */
 public class RepeatKillException extends SeckillException {
 

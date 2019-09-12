@@ -8,8 +8,13 @@ import org.springframework.stereotype.Component;
 
 import javax.jms.Message;
 
+/**
+ * ActiveMq消息发送者
+ *
+ * @author heng
+ */
 @Component
-public class MqTask {
+public class ActiveMqMessageSender {
     @Autowired
     @Qualifier("jmsTopicTemplate")
     private JmsTemplate jmsTopicTemplate;

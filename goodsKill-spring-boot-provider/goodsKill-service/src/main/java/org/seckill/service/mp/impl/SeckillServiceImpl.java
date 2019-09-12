@@ -143,18 +143,18 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     }
 
     @Override
-    public int addSeckill(Seckill seckill) {
-        return baseMapper.insert(seckill);
+    public void addSeckill(Seckill seckill) {
+        baseMapper.insert(seckill);
     }
 
     @Override
-    public int deleteSeckill(Long seckillId) {
-        return baseMapper.deleteById(seckillId);
+    public void deleteSeckill(Long seckillId) {
+        baseMapper.deleteById(seckillId);
     }
 
     @Override
-    public int updateSeckill(Seckill seckill) {
-        return baseMapper.updateById(seckill);
+    public void updateSeckill(Seckill seckill) {
+        baseMapper.updateById(seckill);
     }
 
     @Override
@@ -163,10 +163,10 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     }
 
     @Override
-    public int deleteSuccessKillRecord(long seckillId) {
+    public void deleteSuccessKillRecord(long seckillId) {
         SuccessKilled example = new SuccessKilled();
         example.setSeckillId(seckillId);
-        return successKilledMapper.delete(new QueryWrapper<>(example));
+        successKilledMapper.delete(new QueryWrapper<>(example));
     }
 
     @Override

@@ -1,6 +1,13 @@
 package org.seckill.api.enums;
 
+/**
+ * 用户账户登录状态枚举
+ * @author heng
+ */
 public enum UserAccountEnum {
+	/**
+	 *
+	 */
 	LOGIN_SUCCESS(1, "登录成功"), LOGIN_FAIL(0, "登录失败");
 	private int state;
 	private String stateInfo;

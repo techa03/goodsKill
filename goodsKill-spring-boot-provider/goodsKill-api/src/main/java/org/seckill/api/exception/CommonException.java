@@ -1,11 +1,10 @@
 package org.seckill.api.exception;
 
+/**
+ * 自定义普通异常
+ * @author heng
+ */
 public class CommonException extends RuntimeException {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4816083750833621384L;
 
 	public CommonException(String message, Throwable cause) {
 		super(message, cause);

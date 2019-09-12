@@ -19,8 +19,10 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 
 /**
- * 秒杀请求监听器
- * Created by heng on 18/09/02.
+ * kafka秒杀请求监听器
+ *
+ * @author heng
+ * @date 18/09/02
  */
 @Slf4j
 @Component
@@ -38,7 +40,7 @@ public class SekcillKafkaConsumer {
     @Autowired
     SeckillExecutor seckillExecutor;
     @Autowired
-    MqTask mqTask;
+    ActiveMqMessageSender activeMqMessageSender;
 
     @KafkaListener(topics = "goodsKill-kafka")
     public void onMessage(Object data) {
@@ -52,9 +54,13 @@ public class SekcillKafkaConsumer {
         }
     }
 
+    /**
+     * 此为ActiveMq消息监听器（监听模拟秒杀场景八消息队列）
+     * @param message 消息
+     */
     @JmsListener(destination = "GOODSKILL_SENCE8")
     public void processMessage(Message message) {
-        log.debug("收到消息{}", message.toString());
+        log.debug("收到消息{}", message);
         long seckillId = 0;
         String userPhone = null;
         String note = null;
@@ -69,7 +75,14 @@ public class SekcillKafkaConsumer {
 
     }
 
-    public void dealSeckill(long seckillId, String userPhone, String note) {
+    /**
+     * 内部处理秒杀请求
+     *
+     * @param seckillId 秒杀活动id
+     * @param userPhone 用户手机号
+     * @param note 备注
+     */
+    private void dealSeckill(long seckillId, String userPhone, String note) {
         Seckill seckill = redisService.getSeckill(seckillId);
         long number = redisTemplate.opsForValue().increment(seckillId);
         if (number < seckill.getNumber()) {
@@ -85,7 +98,7 @@ public class SekcillKafkaConsumer {
         } else {
             if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
                 log.info("秒杀商品暂无库存，发送活动结束消息！");
-                mqTask.sendSeckillSuccessTopic(seckillId, note);
+                activeMqMessageSender.sendSeckillSuccessTopic(seckillId, note);
                 Seckill sendTopicResult = new Seckill();
                 sendTopicResult.setSeckillId(seckillId);
                 sendTopicResult.setStatus(SeckillStatusConstant.END);

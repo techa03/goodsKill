@@ -1,6 +1,8 @@
 package org.seckill.api.enums;
 
 /**
+ * 秒杀场景枚举
+ *
  * @author techa03
  * @date 2019/4/4
  */

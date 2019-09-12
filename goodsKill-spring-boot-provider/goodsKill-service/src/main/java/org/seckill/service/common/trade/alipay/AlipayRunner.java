@@ -60,12 +60,11 @@ public class AlipayRunner {
     // 简单打印应答
     private void dumpResponse(AlipayResponse response) {
         if (response != null) {
-            logger.info(String.format("code:%s, msg:%s", response.getCode(), response.getMsg()));
+            logger.info("code:{}, msg:{}", response.getCode(), response.getMsg());
             if (StringUtils.isNotEmpty(response.getSubCode())) {
-                logger.info(String.format("subCode:%s, subMsg:%s", response.getSubCode(),
-                        response.getSubMsg()));
+                logger.info("subCode:{}, subMsg:{}", response.getSubCode(), response.getSubMsg());
             }
-            logger.info("body:" + response.getBody());
+            logger.info("body:{}", response.getBody());
         }
     }
 
@@ -93,7 +92,7 @@ public class AlipayRunner {
         String sellerId = "";
 
         // 订单描述，可以对交易或商品进行一个详细地描述，比如填写"购买商品2件共15.00元"
-        String body = new StringBuffer("购买商品1件共").append(seckill.getPrice()) + "元";
+        String body = "购买商品1件共" + seckill.getPrice() + "元";
 
         // 商户操作员编号，添加此参数可以为商户操作员做销售统计
         String operatorId = "test_operator_id";
@@ -115,10 +114,6 @@ public class AlipayRunner {
         GoodsDetail goods1 = GoodsDetail.newInstance(String.valueOf(seckill.getGoodsId()), goods.getName(), seckill.getPrice().intValue() * 100L, 1);
         // 创建好一个商品后添加至商品明细列表
         goodsDetailList.add(goods1);
-
-        // 继续创建并添加第一条商品信息，用户购买的产品为“黑人牙刷”，单价为5.00元，购买了两件
-//        GoodsDetail goods2 = GoodsDetail.newInstance("goods_id002", "xxx牙刷", 500, 2);
-//        goodsDetailList.add(goods2);
 
         // 创建扫码支付请求builder，设置请求参数
         AlipayTradePrecreateRequestBuilder builder = new AlipayTradePrecreateRequestBuilder()
@@ -152,7 +147,7 @@ public class AlipayRunner {
                     filePath = String.format(QRCODE_IMAGE_DIR + "/qr-%s.png",
                             response.getOutTradeNo());
                     filePathDeepth = filePath.split("/").length;
-                    logger.info("filePath:" + filePath.split("/")[filePathDeepth - 1]);
+                    logger.info("filePath:{}", filePath.split("/")[filePathDeepth - 1]);
                 }
                 if (response != null && StringUtils.isNotEmpty(response.getQrCode())) {
                     ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);

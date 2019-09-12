@@ -1,8 +1,6 @@
 package org.seckill.api.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.github.pagehelper.PageInfo;
-import org.seckill.api.exception.SeckillException;
 import org.seckill.entity.Permission;
 import org.seckill.entity.Role;
 import org.seckill.entity.User;
@@ -14,15 +12,35 @@ import java.util.Set;
  * @author heng
  */
 public interface UserAccountService extends IService<User> {
-	void register(User user);
+    /**
+     * 注册用户信息
+     *
+     * @param user 用户信息
+     */
+    void register(User user);
 
-	void login(User user) throws SeckillException;
+    /**
+     * 获取当前用户所有角色
+     *
+     * @param username 用户名
+     * @return 用户角色集合
+     */
+    Set<Role> findRoles(String username);
 
-	Set<Role> findRoles(String username);
+    /**
+     * 获取用户权限集合
+     *
+     * @param username 用户名
+     * @return 用户权限集合
+     */
+    Set<Permission> findPermissions(String username);
 
-	Set<Permission> findPermissions(String username);
+    /**
+     * 获取用户账户信息
+     *
+     * @param username 用户名
+     * @return 用户信息
+     */
+    User findByUserAccount(String username);
 
-	User findByUserAccount(String username);
-
-    PageInfo<User> getSeckillList(int pageNum, int pageSize);
 }

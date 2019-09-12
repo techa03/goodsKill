@@ -25,34 +25,42 @@ import org.springframework.stereotype.Component;
 public class DataSourceEntryAspect {
     @Pointcut("execution(* org.seckill.service.mp.impl..*(..))")
     public void servicePointcut() {
+        //
     }
 
     @Pointcut("execution(* insert*(..))")
     public void serviceInsertPointcut() {
+        //
     }
 
     @Pointcut("execution(* update*(..))")
     public void serviceUpdatePointcut() {
+        //
     }
 
     @Pointcut("execution(* delete*(..))")
     public void serviceDeletePointcut() {
+        //
     }
 
     @Pointcut("execution(* select*(..))")
     public void serviceSelectPointcut() {
+        //
     }
 
     @Pointcut("execution(* query*(..))")
     public void serviceQueryPointcut() {
+        //
     }
 
     @Pointcut("execution(* count*(..))")
     public void serviceCountPointcut() {
+        //
     }
 
     @Pointcut("execution(* get*(..))")
     public void serviceGetPointcut() {
+        //
     }
 
     @Before("servicePointcut() && (serviceDeletePointcut() || serviceInsertPointcut() || serviceUpdatePointcut())")
