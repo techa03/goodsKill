@@ -24,14 +24,12 @@ import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
 import org.seckill.service.common.RedisService;
 import org.seckill.service.common.trade.alipay.AlipayRunner;
-import org.seckill.service.inner.SeckillExecutor;
 import org.seckill.service.mock.strategy.GoodsKillStrategyEnum;
 import org.seckill.util.common.util.DateUtil;
 import org.seckill.util.common.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
@@ -55,12 +53,8 @@ import java.util.List;
 @Slf4j
 public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> implements SeckillService {
 
-    @Autowired
-    SeckillExecutor seckillExecutor;
-    @Autowired
-    JmsTemplate jmsTemplate;
     @Reference(version = "1.0.0", check = false)
-    SuccessKilledMongoService successKilledMongoService;
+    private SuccessKilledMongoService successKilledMongoService;
     @Autowired
     private AlipayRunner alipayRunner;
     @Autowired

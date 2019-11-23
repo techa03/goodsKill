@@ -79,14 +79,6 @@ public class SeckillServiceImplTest {
     }
 
     @Test
-    public void execute() {
-//        SeckillMockRequestDto requestDto = new SeckillMockRequestDto(1L, 10, "1324");
-//        when().thenReturn(null);
-//        doNothing(seckillExecutor.dealSeckill(1L, "1324", SQL_PROCEDURE.getName()));
-//        seckillService.execute(requestDto, GoodsKillStrategyEnum.PROCEDURE.getCode());
-    }
-
-    @Test
     public void getSuccessKillCount() {
         when(successKilledMapper.selectCount(any())).thenReturn(0);
         when(successKilledMongoService.count(any())).thenReturn(1L);

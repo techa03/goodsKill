@@ -1,8 +1,6 @@
 package org.seckill.service.mq;
 
 import lombok.extern.slf4j.Slf4j;
-import org.seckill.mp.dao.mapper.SeckillMapper;
-import org.seckill.mp.dao.mapper.SuccessKilledMapper;
 import org.seckill.service.inner.SeckillExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,10 +18,6 @@ import javax.jms.MessageListener;
  */
 @Slf4j
 public class SeckillActiveConsumer implements MessageListener {
-    @Autowired
-    private SeckillMapper seckillMapper;
-    @Autowired
-    private SuccessKilledMapper successKilledMapper;
     @Autowired
     @Qualifier("jmsTemplate")
     private JmsTemplate jmsTemplate;

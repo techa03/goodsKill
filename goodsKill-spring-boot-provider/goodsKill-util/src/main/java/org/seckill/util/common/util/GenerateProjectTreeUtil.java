@@ -12,7 +12,6 @@ import java.util.List;
  *
  */
 public class GenerateProjectTreeUtil {
-    private static StringBuffer sb = new StringBuffer("|--");
     private static List<String> regExpList = new ArrayList<>();
     private static List<String> regDirExpList = new ArrayList<>();
 

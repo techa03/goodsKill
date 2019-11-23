@@ -6,7 +6,6 @@ import org.seckill.api.dto.SeckillMockRequestDto;
 import org.seckill.entity.Seckill;
 import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.service.common.RedisService;
-import org.seckill.service.inner.SeckillExecutor;
 import org.seckill.service.mq.ActiveMqMessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,8 +25,6 @@ import static org.seckill.api.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
 @Component
 @Slf4j
 public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
-    @Autowired
-    private SeckillExecutor seckillExecutor;
     @Autowired
     private RedisService redisService;
     @Autowired

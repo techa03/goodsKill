@@ -31,7 +31,4 @@ public class SeckillMapperTest {
         assertTrue(count >= 0);
     }
 
-    @Test
-    public void reduceNumberByProcedure() {
-    }
 }

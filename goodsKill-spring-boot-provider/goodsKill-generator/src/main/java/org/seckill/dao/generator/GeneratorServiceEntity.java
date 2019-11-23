@@ -44,7 +44,6 @@ public class GeneratorServiceEntity {
 
 
         final String username = System.getProperty("user.name");
-        final String projectLocalPath = System.getProperty("user.dir");
         config.setActiveRecord(false)
                 .setAuthor(username)
                 .setEnableCache(false)

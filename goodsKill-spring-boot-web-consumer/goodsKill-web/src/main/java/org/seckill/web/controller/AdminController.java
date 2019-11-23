@@ -27,15 +27,15 @@ import java.util.List;
 @Slf4j
 public class AdminController {
     @Reference(version = "${demo.service.version}")
-    UserAccountService userService;
+    private UserAccountService userService;
     @Reference(version = "${demo.service.version}")
-    RoleService roleService;
+    private RoleService roleService;
     @Reference(version = "${demo.service.version}")
-    UserRoleService userRoleService;
+    private UserRoleService userRoleService;
     @Reference(version = "${demo.service.version}")
-    PermissionService permissionService;
+    private PermissionService permissionService;
     @Reference(version = "${demo.service.version}")
-    RolePermissionService rolePermissionService;
+    private RolePermissionService rolePermissionService;
 
     @GetMapping("/role")
     @ResponseBody

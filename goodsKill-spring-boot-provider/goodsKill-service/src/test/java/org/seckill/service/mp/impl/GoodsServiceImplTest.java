@@ -9,7 +9,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.seckill.entity.Goods;
 import org.seckill.mp.dao.mapper.GoodsMapper;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
@@ -33,6 +32,6 @@ public class GoodsServiceImplTest {
     public void addGoods() {
         Goods goods = new Goods();
         goodsService.addGoods(goods, new byte[100]);
-        assertTrue(true);
+        verify(goodsEsService, only()).save(any());
     }
 }

@@ -2,7 +2,6 @@ package com.goodskill.mongo.service.listener;
 
 import com.goodskill.mongo.entity.SuccessKilledDto;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
@@ -20,8 +19,11 @@ import java.math.BigInteger;
 @Component
 @Slf4j
 public class MongoMessageListener {
-    @Autowired
-    ReactiveMongoTemplate ops;
+    private final ReactiveMongoTemplate ops;
+
+    public MongoMessageListener(ReactiveMongoTemplate ops) {
+        this.ops = ops;
+    }
 
     /**
      * 监听指定队列，并发数10-20

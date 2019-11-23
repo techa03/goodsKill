@@ -14,6 +14,7 @@ import javax.jms.Message;
 
 import static org.mockito.Mockito.*;
 
+
 @RunWith(MockitoJUnitRunner.class)
 public class SeckillActiveConsumerTest {
     @InjectMocks

@@ -56,6 +56,7 @@ public class SekcillKafkaConsumer {
 
     /**
      * 此为ActiveMq消息监听器（监听模拟秒杀场景八消息队列）
+     *
      * @param message 消息
      */
     @JmsListener(destination = "GOODSKILL_SENCE8")
@@ -80,9 +81,10 @@ public class SekcillKafkaConsumer {
      *
      * @param seckillId 秒杀活动id
      * @param userPhone 用户手机号
-     * @param note 备注
+     * @param note      备注
      */
     private void dealSeckill(long seckillId, String userPhone, String note) {
+        log.info("seckillId:{},userphone:{}", seckillId, userPhone);
         Seckill seckill = redisService.getSeckill(seckillId);
         long number = redisTemplate.opsForValue().increment(seckillId);
         if (number < seckill.getNumber()) {
