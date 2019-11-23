@@ -12,8 +12,7 @@ import org.seckill.entity.User;
 import org.seckill.entity.UserRole;
 import org.seckill.mp.dao.mapper.*;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -57,6 +56,6 @@ public class UserAccountServiceImplTest {
 
     @Test
     public void findByUserAccount() {
-        assertNotNull(userAccountService.findByUserAccount("1"));
+        assertNull(userAccountService.findByUserAccount("1"));
     }
 }

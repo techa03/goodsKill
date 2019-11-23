@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.core.JmsTemplate;
 
+import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
@@ -20,9 +21,9 @@ import javax.jms.MessageListener;
 @Slf4j
 public class SeckillActiveConsumer implements MessageListener {
     @Autowired
-    SeckillMapper seckillMapper;
+    private SeckillMapper seckillMapper;
     @Autowired
-    SuccessKilledMapper successKilledMapper;
+    private SuccessKilledMapper successKilledMapper;
     @Autowired
     @Qualifier("jmsTemplate")
     private JmsTemplate jmsTemplate;
@@ -51,8 +52,9 @@ public class SeckillActiveConsumer implements MessageListener {
 
         // 处理成功后给请求发送回复,前提是请求方要求应答
         try {
-            if (message.getJMSReplyTo() != null) {
-                jmsTemplate.send(message.getJMSReplyTo(), session -> {
+            Destination jmsReplyTo = message.getJMSReplyTo();
+            if (jmsReplyTo != null) {
+                jmsTemplate.send(jmsReplyTo, session -> {
                     Message mes = session.createMessage();
                     mes.setJMSCorrelationID(message.getJMSCorrelationID());
                     mes.setStringProperty("message", "dealSuccess!");

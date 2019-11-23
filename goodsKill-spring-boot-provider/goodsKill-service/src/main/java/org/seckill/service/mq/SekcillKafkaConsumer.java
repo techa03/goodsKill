@@ -28,19 +28,19 @@ import javax.jms.Message;
 @Component
 public class SekcillKafkaConsumer {
     @Autowired
-    JmsTemplate jmsTemplate;
+    private JmsTemplate jmsTemplate;
     @Autowired
-    RedisService redisService;
+    private RedisService redisService;
     @Autowired
-    RedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate;
     @Autowired
-    SeckillMapper seckillMapper;
+    private SeckillMapper seckillMapper;
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
     @Autowired
-    SeckillExecutor seckillExecutor;
+    private SeckillExecutor seckillExecutor;
     @Autowired
-    ActiveMqMessageSender activeMqMessageSender;
+    private ActiveMqMessageSender activeMqMessageSender;
 
     @KafkaListener(topics = "goodsKill-kafka")
     public void onMessage(Object data) {
