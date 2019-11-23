@@ -27,19 +27,19 @@ import static org.seckill.api.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
 @Slf4j
 public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
     @Autowired
-    SeckillExecutor seckillExecutor;
+    private SeckillExecutor seckillExecutor;
     @Autowired
-    RedisService redisService;
+    private RedisService redisService;
     @Autowired
-    RedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate;
     @Resource(name = "taskExecutor")
-    ThreadPoolTaskExecutor taskExecutor;
+    private ThreadPoolTaskExecutor taskExecutor;
     @Autowired
-    JmsTemplate jmsTemplate;
+    private JmsTemplate jmsTemplate;
     @Autowired
-    ActiveMqMessageSender activeMqMessageSender;
+    private ActiveMqMessageSender activeMqMessageSender;
     @Autowired
-    SeckillMapper extSeckillMapper;
+    private SeckillMapper extSeckillMapper;
 
     @Override
     public void execute(SeckillMockRequestDto requestDto) {

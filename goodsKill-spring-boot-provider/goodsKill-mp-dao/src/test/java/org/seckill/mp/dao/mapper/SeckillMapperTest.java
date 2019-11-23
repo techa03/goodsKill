@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 @Transactional
 public class SeckillMapperTest {
     @Autowired
-    SeckillMapper seckillMapper;
+    private SeckillMapper seckillMapper;
 
     @Test
     public void reduceNumber() {

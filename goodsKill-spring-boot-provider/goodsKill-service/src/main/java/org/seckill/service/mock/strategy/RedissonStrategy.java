@@ -25,7 +25,7 @@ public class RedissonStrategy implements GoodsKillStrategy, InitializingBean {
     @Value("${cache_ip_address}")
     private String cacheIpAddress;
     @Autowired
-    SeckillExecutor seckillExecutor;
+    private SeckillExecutor seckillExecutor;
 
 
     @Override

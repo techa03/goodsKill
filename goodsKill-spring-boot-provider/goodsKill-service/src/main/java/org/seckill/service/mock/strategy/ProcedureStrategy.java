@@ -16,7 +16,7 @@ import static org.seckill.api.enums.SeckillSolutionEnum.SQL_PROCEDURE;
 @Slf4j
 public class ProcedureStrategy implements GoodsKillStrategy {
     @Autowired
-    SeckillExecutor seckillExecutor;
+    private SeckillExecutor seckillExecutor;
 
     @Override
     public void execute(SeckillMockRequestDto requestDto) {

@@ -19,7 +19,7 @@ public class ZookeeperLockStrategy implements GoodsKillStrategy {
     @Autowired
     private ZookeeperLockUtil zookeeperLockUtil;
     @Autowired
-    SeckillExecutor seckillExecutor;
+    private SeckillExecutor seckillExecutor;
 
     @Override
     public void execute(SeckillMockRequestDto requestDto) {

@@ -28,11 +28,11 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
     @Resource(name = "taskExecutor")
     private ThreadPoolTaskExecutor taskExecutor;
     @Autowired
-    SeckillMapper seckillMapper;
+    private SeckillMapper seckillMapper;
     @Autowired
-    SuccessKilledMapper successKilledMapper;
+    private SuccessKilledMapper successKilledMapper;
     @Autowired
-    ActiveMqMessageSender activeMqMessageSender;
+    private ActiveMqMessageSender activeMqMessageSender;
 
     @Override
     public void execute(SeckillMockRequestDto requestDto) {

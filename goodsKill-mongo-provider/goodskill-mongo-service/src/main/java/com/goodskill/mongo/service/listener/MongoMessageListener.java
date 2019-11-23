@@ -32,11 +32,9 @@ public class MongoMessageListener {
     public void processMessage(Message message) {
         long seckillId = 0;
         String userPhone = null;
-        String note = null;
         try {
             seckillId = message.getLongProperty("seckillId");
             userPhone = message.getStringProperty("userPhone");
-            note = message.getStringProperty("note");
         } catch (JMSException e) {
             log.error(e.getMessage(), e);
         }

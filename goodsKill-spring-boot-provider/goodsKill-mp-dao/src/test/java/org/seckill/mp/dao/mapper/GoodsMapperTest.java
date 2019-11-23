@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest(classes = Application.class)
 public class GoodsMapperTest {
     @Autowired
-    GoodsMapper goodsMapper;
+    private GoodsMapper goodsMapper;
 
     @Test
     public void test() {
