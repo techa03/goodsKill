@@ -12,6 +12,8 @@ import org.seckill.entity.User;
 import org.seckill.entity.UserRole;
 import org.seckill.mp.dao.mapper.*;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -34,13 +36,14 @@ public class UserAccountServiceImplTest {
     public void register() {
         User user = new User();
         userAccountService.register(user);
+        assertTrue(true);
     }
 
     @Test
     public void findRoles() {
         when(baseMapper.selectList(any())).thenReturn(Lists.newArrayList(new User()));
         when(userRoleMapper.selectList(any())).thenReturn(Lists.newArrayList(new UserRole()));
-        userAccountService.findRoles("1");
+        assertNotNull(userAccountService.findRoles("1"));
     }
 
     @Test
@@ -49,11 +52,11 @@ public class UserAccountServiceImplTest {
         when(userRoleMapper.selectList(any())).thenReturn(Lists.newArrayList(new UserRole()));
         when(roleMapper.selectById(any())).thenReturn(new Role());
         when(rolePermissionMapper.selectList(any())).thenReturn(Lists.newArrayList(new RolePermission()));
-        userAccountService.findPermissions("1");
+        assertNotNull(userAccountService.findPermissions("1"));
     }
 
     @Test
     public void findByUserAccount() {
-        userAccountService.findByUserAccount("1");
+        assertNotNull(userAccountService.findByUserAccount("1"));
     }
 }
