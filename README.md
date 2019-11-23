@@ -31,27 +31,27 @@ ZooKeeper | 分布式协调服务  | [http://zookeeper.apache.org/](http://zooke
 Dubbo | 分布式服务框架  | [http://dubbo.io/](http://dubbo.io/)
 Redis | 分布式缓存数据库  | [https://redis.io/](https://redis.io/)
 ActiveMQ | 消息队列  | [http://activemq.apache.org/](http://activemq.apache.org/)
-KafkaMQ | 消息队列  | [http://kafka.apache.org/](http://kafka.apache.org/)
+Kafka | 消息队列  | [http://kafka.apache.org/](http://kafka.apache.org/)
 Logback | 日志组件  | [https://logback.qos.ch/](https://logback.qos.ch/)
 Protobuf & json | 数据序列化  | [https://github.com/google/protobuf](https://github.com/google/protobuf)
 Jenkins | 持续集成工具  | [https://jenkins.io/index.html](https://jenkins.io/index.html)
 Maven | 项目构建管理  | [http://maven.apache.org/](http://maven.apache.org/)
 SonarQube | 项目代码质量监控 | [https://www.sonarqube.org/](https://www.sonarqube.org/)
 Swagger2 | 项目API文档生成及测试工具 | [http://swagger.io/](http://swagger.io/)
-Jmock | mock类生成测试工具 | [http://www.jmock.org/](http://www.jmock.org/)
+Mockito | mock类生成测试工具 | [https://site.mockito.org/](https://site.mockito.org/)
 Jacoco | 测试覆盖率报告插件 | [http://www.eclemma.org/jacoco/](http://www.eclemma.org/jacoco/)
 Shiro | 用户权限安全管理框架 | [https://shiro.apache.org/](https://shiro.apache.org/)
-MongoDb | Mongo数据库 | [https://www.mongodb.com/](https://www.mongodb.com/)
-MySql | MySQL数据库 | [https://www.mysql.com/](https://www.mysql.com/)
+MongoDB | Mongo数据库 | [https://www.mongodb.com/](https://www.mongodb.com/)
+MySQL | MySQL数据库 | [https://www.mysql.com/](https://www.mysql.com/)
 Reactor | 响应式开发 | [https://projectreactor.io/](https://projectreactor.io/)
 Spring Session | Spring会话管理 | [https://spring.io/projects/spring-session](https://spring.io/projects/spring-session)
-ElasticSearch | 全文搜索引擎 | [https://www.elastic.co](https://www.elastic.co)
+Elasticsearch | 全文搜索引擎 | [https://www.elastic.co](https://www.elastic.co)
 H2 | H2数据库 | [http://www.h2database.com/html/main.html](http://www.h2database.com/html/main.html)
 
 ### 前端技术:
 技术 | 名称 | 官网
 ----|------|----
-jQuery | 函式库  | [http://jquery.com/](http://jquery.com/)
+JQuery | 函式库  | [http://jquery.com/](http://jquery.com/)
 Bootstrap | 前端框架  | [http://getbootstrap.com/](http://getbootstrap.com/)
 LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
@@ -94,7 +94,6 @@ goodsKill
 |   |--goodskill-mongo-service              
 |--goodsKill-spring-boot-provider           ||订单、用户、登录、商品管理服务提供者（待拆分）
 |   |--goodsKill-api
-|   |--goodsKill-dao                        ||已移除
 |   |--goodsKill-mp-dao                     ||使用MyBatis-Plus访问MySql数据源，替换原goodsKill-dao模块   
 |   |--goodsKill-entry                      
 |   |--goodsKill-generator                  
@@ -111,18 +110,18 @@ goodsKill
 
 #### 开发环境版本说明：
 - JDK :JDK1.8+
-- MYSQL :8.0+
-- activemq: 5.8.0
-- kafka: kafka_2.11-2.0.0
-- mongoDb: 4.0+
-- elasticsearch: 6.4.3
+- MySQL :8.0+
+- ActiveMQ: 5.8.0
+- Kafka: kafka_2.11-2.0.0
+- MongoDB: 4.0+
+- Elasticsearch: 6.4.3
 
 其他环境版本暂未测试
 
 
 #### 项目启动方法：
 
-- 参照官网安装redis/mongoDb/activeMQ/kafkaMQ/zookeeper/mysql8.0+本地默认端口启动，其中mongoDB和kafka非必须;
+- 参照官网安装Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+本地默认端口启动，其中MongoDB和Kafka非必须;
 
 - 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作;
 
@@ -147,7 +146,7 @@ goodsKill
 
 - 支付宝二维码接入指南：https://blog.csdn.net/techa/article/details/71003519
 
-- 如已安装mongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
+- 如已安装MongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
 
 #### 打包部署方法
 1. 进入goodsKill项目根目录
@@ -169,12 +168,12 @@ goodsKill
 测试地址：http://localhost:18080/goodsKill/swagger-ui.html#/
 - 场景一：sychronized同步锁实现
 - 场景二：redisson分布式锁实现
-- 场景三：activemq实现
-- 场景四：kafkamq实现
+- 场景三：ActiveMQ实现
+- 场景四：KafkaMQ实现
 - 场景五：存储过程实现
 - 场景六：实时等待秒杀处理结果
 - 场景七：zookeeper分布式锁
-- 场景八：使用redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用mongoDb完成数据落地
+- 场景八：使用redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用mongoDB完成数据落地
 
 可在web控台查看秒杀结果，打印信息类似：
  ```
