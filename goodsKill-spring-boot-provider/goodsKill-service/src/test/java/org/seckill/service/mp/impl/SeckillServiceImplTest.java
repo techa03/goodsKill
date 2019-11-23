@@ -1,102 +1,107 @@
-//package org.seckill.service.mp.impl;
-//
-//import com.github.pagehelper.PageInfo;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.seckill.api.dto.Exposer;
-//import org.seckill.api.dto.SeckillExecution;
-//import org.seckill.api.dto.SeckillInfo;
-//import org.seckill.api.service.SeckillService;
-//import org.seckill.entity.Seckill;
-//import org.seckill.mp.dao.mapper.SeckillMapper;
-//import org.seckill.service.GoodsKillRpcServiceSimpleApplication;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.junit4.SpringRunner;
-//import org.springframework.transaction.annotation.Transactional;
-//
-//import java.math.BigDecimal;
-//import java.util.Date;
-//
-//import static org.junit.Assert.*;
-//
-//@SpringBootTest(classes = GoodsKillRpcServiceSimpleApplication.class)
-//@RunWith(SpringRunner.class)
-//@Transactional(rollbackFor = Exception.class)
-//public class SeckillServiceImplTest {
-//    @Autowired
-//    SeckillService seckillService;
-//    @Autowired
-//    SeckillMapper seckillMapper;
-//
-//    @Test
-//    public void getSeckillList() {
-//        PageInfo pageInfo = seckillService.getSeckillList(1,1);
-//        assertEquals(pageInfo.getList().size(), 1);
-//    }
-//
-//    @Test
-//    public void getById() {
-//        SeckillInfo seckill = seckillService.getById(1001L);
-//        assertEquals(1001L, (long) seckill.getSeckillId());
-//    }
-//
-//    @Test
-//    public void exportSeckillUrl() {
-//        Exposer exposer = seckillService.exportSeckillUrl(1001L);
-//        assertNotNull(exposer.getMd5());
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void executeSeckill() {
-//        SeckillExecution seckillExecution = seckillService.executeSeckill(1001L, "1", "fdf");
-//        assertNotNull(seckillExecution);
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void addSeckill() {
-//        Seckill seckill = new Seckill();
-//        seckill.setSeckillId(1100L);
-//        seckill.setName("1");
-//        seckill.setPrice(BigDecimal.TEN);
-//        seckill.setCreateTime(new Date());
-//        seckill.setGoodsId(1);
-//        seckill.setNumber(1);
-//        seckill.setStatus("1");
-//        assertTrue(seckillService.addSeckill(seckill) > 0);;
-//    }
-//
-//    @Test
-//    public void deleteSeckill() {
-//        assertTrue(seckillService.deleteSeckill(1001L) > 0);;
-//    }
-//
-//    @Test
-//    @Transactional
-//    public void updateSeckill() {
-//        int count = seckillMapper.reduceNumber(1001L, new Date());
-//        System.out.println(count);
-//    }
-//
-//    @Test
-//    public void selectById() {
-//    }
-//
-//    @Test
-//    public void deleteSuccessKillRecord() {
-//    }
-//
-//    @Test
-//    public void execute() {
-//    }
-//
-//    @Test
-//    public void getSuccessKillCount() {
-//    }
-//
-//    @Test
-//    public void prepareSeckill() {
-//    }
-//}
+package org.seckill.service.mp.impl;
+
+import com.goodskill.mongo.api.SuccessKilledMongoService;
+import com.google.common.collect.Lists;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.seckill.entity.Seckill;
+import org.seckill.entity.SuccessKilled;
+import org.seckill.mp.dao.mapper.SeckillMapper;
+import org.seckill.mp.dao.mapper.SuccessKilledMapper;
+import org.seckill.service.common.RedisService;
+import org.seckill.service.common.trade.alipay.AlipayRunner;
+import org.seckill.util.common.util.MD5Util;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+
+import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
+
+@RunWith(MockitoJUnitRunner.class)
+public class SeckillServiceImplTest {
+    @InjectMocks
+    SeckillServiceImpl seckillService;
+    @Mock
+    SeckillMapper baseMapper;
+    @Mock
+    RedisService redisService;
+    @Mock
+    SuccessKilledMapper successKilledMapper;
+    @Mock
+    AlipayRunner alipayRunner;
+    @Mock
+    SuccessKilledMongoService successKilledMongoService;
+    @Mock
+    RedisTemplate redisTemplate;
+
+    @Test
+    public void getSeckillList() {
+        when(baseMapper.selectList(null)).thenReturn(Lists.newArrayList());
+        assertNotNull(seckillService.getSeckillList(1, 1));
+    }
+
+    @Test
+    public void exportSeckillUrl() {
+        Seckill t = new Seckill();
+        t.setStartTime(new Date());
+        t.setEndTime(new Date());
+        when(redisService.getSeckill(1L)).thenReturn(t);
+        assertNotNull(seckillService.exportSeckillUrl(1L));
+    }
+
+    @Test
+    public void executeSeckill() {
+        long seckillId = 1L;
+        String userPhone = "123213";
+        String md5 = MD5Util.getMD5(seckillId);
+        when(baseMapper.reduceNumber(eq(seckillId), any())).thenReturn(1);
+        SuccessKilled successKilled = new SuccessKilled();
+        successKilled.setSeckillId(seckillId);
+        successKilled.setUserPhone(userPhone);
+        when(successKilledMapper.insert(successKilled)).thenReturn(1);
+        when(alipayRunner.trade_precreate(seckillId)).thenReturn("1");
+        when(successKilledMapper.selectOne(any())).thenReturn(new SuccessKilled());
+        assertNotNull(seckillService.executeSeckill(seckillId, userPhone, md5));
+    }
+
+    @Test
+    public void deleteSuccessKillRecord() {
+        seckillService.deleteSuccessKillRecord(1L);
+    }
+
+    @Test
+    public void execute() {
+//        SeckillMockRequestDto requestDto = new SeckillMockRequestDto(1L, 10, "1324");
+//        when().thenReturn(null);
+//        doNothing(seckillExecutor.dealSeckill(1L, "1324", SQL_PROCEDURE.getName()));
+//        seckillService.execute(requestDto, GoodsKillStrategyEnum.PROCEDURE.getCode());
+    }
+
+    @Test
+    public void getSuccessKillCount() {
+        when(successKilledMapper.selectCount(any())).thenReturn(0);
+        when(successKilledMongoService.count(any())).thenReturn(1L);
+        assertEquals(seckillService.getSuccessKillCount(1L), 1L);
+    }
+
+    @Test
+    public void prepareSeckill() {
+        long seckillId = 1L;
+        ValueOperations valueOperations = mock(ValueOperations.class);
+        Seckill t = new Seckill();
+        when(redisService.getSeckill(seckillId)).thenReturn(t);
+        when(redisTemplate.opsForValue()).thenReturn(valueOperations);
+        when(valueOperations.increment(seckillId)).thenReturn(2L);
+        when(valueOperations.decrement(seckillId)).thenReturn(10L,9L,1L);
+        seckillService.prepareSeckill(seckillId, 10);
+        verify(valueOperations, times(3)).decrement(seckillId);
+    }
+}

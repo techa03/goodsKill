@@ -10,10 +10,8 @@ import org.seckill.mp.dao.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -38,8 +36,6 @@ public class UserAccountServiceImpl extends ServiceImpl<UserMapper, User> implem
     private PermissionMapper permissionMapper;
     @Autowired
     private RoleMapper roleMapper;
-    @Resource
-    private JmsTemplate jmsTemplate;
 
     @Override
     public void register(User user) {

@@ -12,8 +12,6 @@ import org.seckill.entity.Goods;
 import org.seckill.mp.dao.mapper.GoodsMapper;
 import org.springframework.beans.BeanUtils;
 
-import java.util.List;
-
 /**
  * <p>
  *  服务实现类
@@ -44,13 +42,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public byte[] getPhotoImage(int goodsId) {
-        Goods good = baseMapper.selectById(goodsId);
-        return good.getPhotoImage();
-    }
-
-
-    @Override
     public void addGoods(Goods goods, byte[] bytes) {
         goods.setPhotoImage(bytes);
         baseMapper.insert(goods);
@@ -64,13 +55,4 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         }
     }
 
-    @Override
-    public List<Goods> queryAll() {
-        return baseMapper.selectList(null);
-    }
-
-    @Override
-    public Goods queryByGoodsId(long goodsId) {
-        return baseMapper.selectById((int) goodsId);
-    }
 }

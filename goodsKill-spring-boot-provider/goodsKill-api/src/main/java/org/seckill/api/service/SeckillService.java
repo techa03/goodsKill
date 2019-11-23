@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
-import org.seckill.api.dto.SeckillInfo;
 import org.seckill.api.dto.SeckillMockRequestDto;
 import org.seckill.entity.Seckill;
 
@@ -24,13 +23,6 @@ public interface SeckillService extends IService<Seckill> {
      */
     PageInfo getSeckillList(int pageNum, int pageSize);
 
-    /**
-     * 根据id获取秒杀信息
-     *
-     * @param seckillId 秒杀活动id
-     * @return 秒杀信息
-     */
-    SeckillInfo getById(long seckillId);
 
     /**
      * 暴露秒杀活动url
@@ -48,35 +40,6 @@ public interface SeckillService extends IService<Seckill> {
      * @return 秒杀执行状态
      */
     SeckillExecution executeSeckill(long seckillId, String userPhone, String md5);
-
-    /**
-     * 增加秒杀活动
-     *
-     * @param seckill 秒杀活动
-     */
-    void addSeckill(Seckill seckill);
-
-    /**
-     * 删除秒杀活动
-     *
-     * @param seckillId 秒杀活动id
-     */
-    void deleteSeckill(Long seckillId);
-
-    /**
-     * 更新秒杀信息
-     *
-     * @param seckill 秒杀信息
-     */
-    void updateSeckill(Seckill seckill);
-
-    /**
-     * 根据id查询
-     *
-     * @param seckillId 活动id
-     * @return 秒杀信息
-     */
-    Seckill selectById(Long seckillId);
 
     /**
      * 根据秒杀id删除成功记录

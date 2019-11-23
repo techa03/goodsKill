@@ -12,17 +12,14 @@ import org.apache.dubbo.config.annotation.Service;
 import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
-import org.seckill.api.dto.SeckillInfo;
 import org.seckill.api.dto.SeckillMockRequestDto;
 import org.seckill.api.enums.SeckillStatEnum;
 import org.seckill.api.exception.RepeatKillException;
 import org.seckill.api.exception.SeckillCloseException;
 import org.seckill.api.exception.SeckillException;
 import org.seckill.api.service.SeckillService;
-import org.seckill.entity.Goods;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
-import org.seckill.mp.dao.mapper.GoodsMapper;
 import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
 import org.seckill.service.common.RedisService;
@@ -31,9 +28,9 @@ import org.seckill.service.inner.SeckillExecutor;
 import org.seckill.service.mock.strategy.GoodsKillStrategyEnum;
 import org.seckill.util.common.util.DateUtil;
 import org.seckill.util.common.util.MD5Util;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,8 +68,6 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Autowired
     private RedisService redisService;
     @Autowired
-    private GoodsMapper goodsMapper;
-    @Autowired
     private RedisTemplate redisTemplate;
 
     @Override
@@ -80,16 +75,6 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         PageHelper.startPage(pageNum, pageSize);
         List<Seckill> list = baseMapper.selectList(null);
         return new PageInfo(list);
-    }
-
-    @Override
-    public SeckillInfo getById(long seckillId) {
-        Seckill seckill = baseMapper.selectById(seckillId);
-        SeckillInfo seckillInfo = new SeckillInfo();
-        BeanUtils.copyProperties(seckill, seckillInfo);
-        Goods goods = goodsMapper.selectById(seckill.getGoodsId());
-        seckillInfo.setGoodsName(goods.getName());
-        return seckillInfo;
     }
 
     @Override
@@ -143,26 +128,6 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     }
 
     @Override
-    public void addSeckill(Seckill seckill) {
-        baseMapper.insert(seckill);
-    }
-
-    @Override
-    public void deleteSeckill(Long seckillId) {
-        baseMapper.deleteById(seckillId);
-    }
-
-    @Override
-    public void updateSeckill(Seckill seckill) {
-        baseMapper.updateById(seckill);
-    }
-
-    @Override
-    public Seckill selectById(Long seckillId) {
-        return baseMapper.selectById(seckillId);
-    }
-
-    @Override
     public void deleteSuccessKillRecord(long seckillId) {
         SuccessKilled example = new SuccessKilled();
         example.setSeckillId(seckillId);
@@ -206,9 +171,10 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         // 清理已成功秒杀记录
         this.deleteSuccessKillRecord(seckillId);
         Seckill seckill = redisService.getSeckill(seckillId);
-        redisTemplate.opsForValue().increment(seckillId);
-        while (redisTemplate.opsForValue().decrement(seckillId) > 1) {
-            redisTemplate.opsForValue().decrement(seckillId);
+        ValueOperations valueOperations = redisTemplate.opsForValue();
+        valueOperations.increment(seckillId);
+        while (valueOperations.decrement(seckillId) > 1) {
+            valueOperations.decrement(seckillId);
         }
         seckill.setStatus(SeckillStatusConstant.IN_PROGRESS);
         redisService.putSeckill(seckill);

@@ -138,7 +138,7 @@ public class SeckillController {
 
     @PostMapping(value = "/create")
     public String addSeckill(Seckill seckill) {
-        seckillService.addSeckill(seckill);
+        seckillService.save(seckill);
         return "redirect:list";
     }
 
@@ -149,7 +149,7 @@ public class SeckillController {
 
     @GetMapping(value = "/{seckillId}/delete")
     public String delete(@PathVariable("seckillId") Long seckillId) {
-        seckillService.deleteSeckill(seckillId);
+        seckillService.removeById(seckillId);
         return "redirect:/seckill/list";
     }
 
@@ -163,7 +163,7 @@ public class SeckillController {
     @Transactional
     @PostMapping(value = "/{seckillId}/update")
     public String update(Seckill seckill) {
-        seckillService.updateSeckill(seckill);
+        seckillService.saveOrUpdate(seckill);
         return "redirect:/seckill/list";
     }
 
@@ -205,8 +205,8 @@ public class SeckillController {
     @RequestMapping(value = "/img/seckill/{seckillId}", method = RequestMethod.GET)
     public void loadImg(@PathVariable("seckillId") Long seckillId, HttpServletRequest request,
                         HttpServletResponse response) throws IOException {
-        Seckill seckill = seckillService.selectById(seckillId);
-        byte[] goodsPhotoImage = goodsService.getPhotoImage(seckill.getGoodsId());
+        Seckill seckill = seckillService.getById(seckillId);
+        byte[] goodsPhotoImage = goodsService.getById(seckill.getGoodsId()).getPhotoImage();
         response.setContentType("img/*");
         OutputStream os = response.getOutputStream();
         os.write(goodsPhotoImage);
@@ -235,7 +235,7 @@ public class SeckillController {
     @Transactional
     @RequestMapping(value = "/upload/{seckillId}/create", method = RequestMethod.POST)
     public String uploadPhoto(@RequestParam("file") CommonsMultipartFile file, @RequestParam("seckillId") Long seckillId) {
-        Seckill seckill = seckillService.selectById(seckillId);
+        Seckill seckill = seckillService.getById(seckillId);
         goodsService.uploadGoodsPhoto(seckill.getGoodsId(), file.getBytes());
         return "redirect:/seckill/list";
     }

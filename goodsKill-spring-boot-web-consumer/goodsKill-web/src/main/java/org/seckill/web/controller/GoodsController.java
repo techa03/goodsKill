@@ -39,13 +39,13 @@ public class GoodsController {
             "application/json;charset=UTF-8"})
     @ResponseBody
     public List<Goods> list(){
-        return goodsService.queryAll();
+        return goodsService.list();
     }
 
     @RequestMapping(value = "/{goodsId}", method = RequestMethod.GET, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
     public Goods getGoodsById(@PathVariable(value = "goodsId") long goodsId) {
-        return goodsService.queryByGoodsId(goodsId);
+        return goodsService.getById(goodsId);
     }
 }
