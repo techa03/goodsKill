@@ -12,7 +12,6 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -32,6 +31,5 @@ public class SeckillActiveConsumerTest {
         seckillActiveConsumer.onMessage(message);
         verify(seckillExecutor, times(1)).dealSeckill(eq(0L), isNull(), isNull());
         verify(jmsTemplate, atLeastOnce()).send(eq(destination), isNotNull());
-        assertTrue(true);
     }
 }

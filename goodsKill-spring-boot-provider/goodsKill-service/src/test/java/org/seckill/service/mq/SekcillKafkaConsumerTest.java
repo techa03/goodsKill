@@ -16,7 +16,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import javax.jms.Message;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -42,7 +41,6 @@ public class SekcillKafkaConsumerTest {
     public void onMessage() {
         sekcillKafkaConsumer.onMessage(new ConsumerRecord("1", 1, 0L, "key", "1"));
         verify(seckillExecutor, only()).dealSeckill(anyLong(),any(),any());
-        assertTrue(true);
     }
 
     @Test
@@ -57,7 +55,6 @@ public class SekcillKafkaConsumerTest {
         sekcillKafkaConsumer.processMessage(message);
         verify(activeMqMessageSender, only()).sendSeckillSuccessTopic(anyLong(), isNull());
         verify(seckillMapper, only()).updateById(any());
-        assertTrue(true);
     }
 
     @Test
@@ -71,6 +68,5 @@ public class SekcillKafkaConsumerTest {
         Message message = mock(Message.class);
         sekcillKafkaConsumer.processMessage(message);
         verify(taskExecutor, only()).execute(any());
-        assertTrue(true);
     }
 }

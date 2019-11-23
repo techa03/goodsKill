@@ -8,7 +8,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.seckill.api.service.SeckillService;
 import org.springframework.jms.core.JmsTemplate;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
@@ -28,6 +27,5 @@ public class ActiveMqMessageSenderTest {
         activeMqMessageSender.sendSeckillSuccessTopic(seckillId,"test");
         verify(jmsTopicTemplate, only()).send(any());
         verify(seckillService, only()).getSuccessKillCount(seckillId);
-        assertTrue(true);
     }
 }

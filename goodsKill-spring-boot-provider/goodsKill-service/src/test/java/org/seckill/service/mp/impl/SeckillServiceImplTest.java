@@ -19,7 +19,8 @@ import org.springframework.data.redis.core.ValueOperations;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -74,7 +75,7 @@ public class SeckillServiceImplTest {
     @Test
     public void deleteSuccessKillRecord() {
         seckillService.deleteSuccessKillRecord(1L);
-        assertTrue(true);
+        verify(successKilledMapper, only()).delete(any());
     }
 
     @Test

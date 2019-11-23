@@ -12,9 +12,10 @@ import org.seckill.entity.User;
 import org.seckill.entity.UserRole;
 import org.seckill.mp.dao.mapper.*;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserAccountServiceImplTest {
@@ -35,7 +36,7 @@ public class UserAccountServiceImplTest {
     public void register() {
         User user = new User();
         userAccountService.register(user);
-        assertTrue(true);
+        verify(baseMapper,only()).insert(any());
     }
 
     @Test

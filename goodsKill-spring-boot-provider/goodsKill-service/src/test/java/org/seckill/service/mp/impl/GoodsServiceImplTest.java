@@ -10,6 +10,9 @@ import org.seckill.entity.Goods;
 import org.seckill.mp.dao.mapper.GoodsMapper;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.only;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GoodsServiceImplTest {
@@ -23,7 +26,7 @@ public class GoodsServiceImplTest {
     @Test
     public void uploadGoodsPhoto() {
         goodsService.uploadGoodsPhoto(1L, new byte[100]);
-        assertTrue(true);
+        verify(baseMapper, only()).updateById(any());
     }
 
     @Test
