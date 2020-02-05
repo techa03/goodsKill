@@ -17,7 +17,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.version>3.0.0-SNAPSHOT</project.version>
-		<shiro.version>1.4.0</shiro.version>
+		<shiro.version>1.5.0</shiro.version>
 		<mybatis-plus.version>3.2.0</mybatis-plus.version>
 	</properties>
 	<parent>
