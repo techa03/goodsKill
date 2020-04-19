@@ -8,15 +8,15 @@ public enum GoodsKillStrategyEnum {
     /**
      *
      */
-    SYNCHRONIZED(1, "Synchronized同步锁", new SynchronizedLockStrategy()),
+    SYNCHRONIZED(1, "Synchronized同步锁", SynchronizedLockStrategy.class.getName()),
 
-    REDISSON(2, "redis分布式锁", new RedissonStrategy()),
+    REDISSON(2, "redis分布式锁", RedissonStrategy.class.getName()),
 
-    PROCEDURE(5, "数据库存储过程", new ProcedureStrategy()),
+    PROCEDURE(5, "数据库存储过程", ProcedureStrategy.class.getName()),
 
-    ZOOKEEPER_LOCK(7, "zookeeper分布式锁", new ZookeeperLockStrategy()),
+    ZOOKEEPER_LOCK(7, "zookeeper分布式锁", ZookeeperLockStrategy.class.getName()),
 
-    REDIS_MONGO_REACTIVE(8, "秒杀商品存放redis减库存，异步发送秒杀成功MQ", new RedisMongoReactiveStrategy()),
+    REDIS_MONGO_REACTIVE(8, "秒杀商品存放redis减库存，异步发送秒杀成功MQ", RedisMongoReactiveStrategy.class.getName()),
     ;
 
 
@@ -24,24 +24,24 @@ public enum GoodsKillStrategyEnum {
 
     private String strategyName;
 
-    private GoodsKillStrategy goodsKillStrategy;
+    private String className;
 
     public String getStrategyName() {
         return strategyName;
     }
 
-    public GoodsKillStrategy getGoodsKillStrategy() {
-        return goodsKillStrategy;
+    public String getClassName() {
+        return className;
     }
 
     public int getCode() {
         return code;
     }
 
-    GoodsKillStrategyEnum(int code, String strategyName, GoodsKillStrategy goodsKillStrategy) {
+    GoodsKillStrategyEnum(int code, String strategyName, String className) {
         this.code = code;
         this.strategyName = strategyName;
-        this.goodsKillStrategy = goodsKillStrategy;
+        this.className = className;
     }
 
     public static GoodsKillStrategyEnum stateOf(int code) {

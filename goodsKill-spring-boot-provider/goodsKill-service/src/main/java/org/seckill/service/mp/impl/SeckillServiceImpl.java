@@ -24,6 +24,7 @@ import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
 import org.seckill.service.common.RedisService;
 import org.seckill.service.common.trade.alipay.AlipayRunner;
+import org.seckill.service.mock.strategy.GoodsKillStrategy;
 import org.seckill.service.mock.strategy.GoodsKillStrategyEnum;
 import org.seckill.util.common.util.DateUtil;
 import org.seckill.util.common.util.MD5Util;
@@ -35,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -63,6 +65,8 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private RedisService redisService;
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private List<GoodsKillStrategy> goodsKillStrategies;
 
     @Override
     public PageInfo getSeckillList(int pageNum, int pageSize) {
@@ -130,7 +134,8 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
 
     @Override
     public void execute(SeckillMockRequestDto requestDto, int strategyNumber) {
-        GoodsKillStrategyEnum.stateOf(strategyNumber).getGoodsKillStrategy().execute(requestDto);
+        Optional<GoodsKillStrategy> first = goodsKillStrategies.stream().filter(n -> GoodsKillStrategyEnum.stateOf(strategyNumber).getClassName().equals(n.getClass().getName())).findFirst();
+        first.ifPresent(n -> n.execute(requestDto));
     }
 
     /**

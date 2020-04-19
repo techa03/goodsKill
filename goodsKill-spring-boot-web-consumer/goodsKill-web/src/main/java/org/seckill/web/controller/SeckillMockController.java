@@ -57,7 +57,7 @@ public class SeckillMockController {
                                   @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
         prepareSeckill(seckillId, seckillCount);
         log.info(SYCHRONIZED.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
-        seckillService.execute(new SeckillMockRequestDto(seckillId, seckillCount, null), SYCHRONIZED.getCode());
+        seckillService.execute(new SeckillMockRequestDto(seckillId, requestCount, null), SYCHRONIZED.getCode());
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
