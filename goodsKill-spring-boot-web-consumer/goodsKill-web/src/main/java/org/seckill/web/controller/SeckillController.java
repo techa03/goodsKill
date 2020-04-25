@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by heng on 2016/7/23.
@@ -255,12 +256,13 @@ public class SeckillController {
         user = userAccountService.findByUserAccount(user.getAccount());
         UserRole example = new UserRole();
         example.setUserId(user.getId());
-        List<UserRole> userRoleList = userRoleService.list(new QueryWrapper<>(example));
+        User finalUser = user;
+        List<UserRole> userRoleList = userRoleService.list().stream().filter(n -> finalUser.getId().equals(n.getUserId())).collect(Collectors.toList());
         RolePermission rolePermissionExample = new RolePermission();
         Set<Permission> set = new HashSet<>();
         for (UserRole userRole : userRoleList) {
             rolePermissionExample.setRoleId(userRole.getRoleId());
-            List<RolePermission> rolePermissionList = rolePermissionService.list(new QueryWrapper<>(rolePermissionExample));
+            List<RolePermission> rolePermissionList = rolePermissionService.list().stream().filter(n -> userRole.getRoleId().equals(n.getRoleId())).collect(Collectors.toList());
             for (RolePermission rolePermission : rolePermissionList) {
                 set.add(permissionService.getById(rolePermission.getPermissionId()));
             }
