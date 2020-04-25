@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
 import static org.seckill.api.enums.SeckillSolutionEnum.SYCHRONIZED;
@@ -33,6 +34,7 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
     private SuccessKilledMapper successKilledMapper;
     @Autowired
     private ActiveMqMessageSender activeMqMessageSender;
+    private final ConcurrentHashMap<Long, Object> seckillIdList = new ConcurrentHashMap<>();
 
     @Override
     public void execute(SeckillMockRequestDto requestDto) {
@@ -42,7 +44,13 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
         for (int i = 0; i < executeTime; i++) {
             int userId = i;
             taskExecutor.execute(() -> {
-                synchronized (this) {
+                // 此处已优化，锁单个商品而不是整个方法
+                Object seckillMonitor = seckillIdList.get(seckillId);
+                if (seckillMonitor == null) {
+                    Object value = new Object();
+                    seckillIdList.put(seckillId, value);
+                }
+                synchronized (seckillIdList.get(seckillId)) {
                     Seckill seckill = seckillMapper.selectById(seckillId);
                     if (seckill.getNumber() > 0) {
                         seckillMapper.reduceNumber(seckillId, new Date());
