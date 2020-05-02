@@ -91,7 +91,7 @@ public class AdminController {
     public ResponseDto permission(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                                   @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
         Page page = new Page(offset, limit);
-        IPage<Permission> pageInfo = roleService.page(page);
+        IPage<Permission> pageInfo = permissionService.page(page);
         ResponseDto<Permission> responseDto = new ResponseDto<>();
         responseDto.setData(pageInfo.getRecords().toArray(new Permission[pageInfo.getRecords().size()]));
         responseDto.setCount((int) pageInfo.getTotal());
@@ -103,7 +103,7 @@ public class AdminController {
     public ResponseDto permissionTree(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                                       @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
         Page page = new Page(offset, limit);
-        IPage<Permission> pageInfo = roleService.page(page);
+        IPage<Permission> pageInfo = permissionService.page(page);
         List<Permission> permissions = pageInfo.getRecords();
         List<PermissionDto> permissionDtoList = new ArrayList<>();
         for (Permission permission : permissions) {
@@ -142,7 +142,7 @@ public class AdminController {
     public ResponseDto user(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                             @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
         Page page = new Page(offset, limit);
-        IPage<User> pageInfo = roleService.page(page);
+        IPage<User> pageInfo = userService.page(page);
         ResponseDto<User> responseDto = new ResponseDto<>();
         responseDto.setData(pageInfo.getRecords().toArray(new User[pageInfo.getRecords().size()]));
         responseDto.setCount((int) pageInfo.getTotal());

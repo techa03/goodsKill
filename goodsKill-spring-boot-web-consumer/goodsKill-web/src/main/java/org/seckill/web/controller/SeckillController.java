@@ -268,7 +268,7 @@ public class SeckillController {
             }
         }
         ResponseDto<Permission> responseDto = new ResponseDto<>();
-        List<Permission> permissions = new ArrayList<>(set);
+        List<Permission> permissions = set.stream().sorted(Comparator.comparing(Permission::getPermissionId).reversed()).collect(Collectors.toList());
         logger.info(user.toString());
         responseDto.setData(permissions.toArray(new Permission[permissions.size()]));
         return responseDto;
