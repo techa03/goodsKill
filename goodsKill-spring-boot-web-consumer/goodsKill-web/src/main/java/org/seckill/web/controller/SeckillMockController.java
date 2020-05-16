@@ -77,7 +77,7 @@ public class SeckillMockController {
      *
      * @param seckillId 秒杀活动id
      */
-    @ApiOperation(value = "秒杀场景二(redis分布式锁实现)")
+    @ApiOperation(value = "秒杀场景二(redis分布式锁实现)", notes = "秒杀场景二(redis分布式锁实现)", httpMethod = "POST")
     @PostMapping("/redisson/{seckillId}")
     public void doWithRedissionLock(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
                                     @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {

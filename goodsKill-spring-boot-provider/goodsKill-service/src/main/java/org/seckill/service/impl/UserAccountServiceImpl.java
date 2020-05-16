@@ -1,6 +1,8 @@
-package org.seckill.service.mp.impl;
+package org.seckill.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.dubbo.config.annotation.Service;
 import org.seckill.api.exception.CommonException;
@@ -42,7 +44,7 @@ public class UserAccountServiceImpl extends ServiceImpl<UserMapper, User> implem
         try {
             user.setPassword(user.getPassword());
             user.setUsername(user.getAccount());
-            baseMapper.insert(user);
+            this.save(user);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw new CommonException(null);
@@ -97,6 +99,16 @@ public class UserAccountServiceImpl extends ServiceImpl<UserMapper, User> implem
         } else {
             return null;
         }
+    }
+
+    @Override
+    public IPage<User> page(Page<User> page) {
+        return super.page(page);
+    }
+
+    @Override
+    public boolean removeById(int userId) {
+        return super.removeById(userId);
     }
 
 }

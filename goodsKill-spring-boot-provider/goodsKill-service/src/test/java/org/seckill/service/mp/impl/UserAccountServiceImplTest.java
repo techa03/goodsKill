@@ -11,6 +11,7 @@ import org.seckill.entity.RolePermission;
 import org.seckill.entity.User;
 import org.seckill.entity.UserRole;
 import org.seckill.mp.dao.mapper.*;
+import org.seckill.service.impl.UserAccountServiceImpl;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;

@@ -1,6 +1,7 @@
 package org.seckill.api.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.seckill.entity.Permission;
 import org.seckill.entity.Role;
 import org.seckill.entity.User;
@@ -11,7 +12,7 @@ import java.util.Set;
 /**
  * @author heng
  */
-public interface UserAccountService extends IService<User> {
+public interface UserAccountService {
     /**
      * 注册用户信息
      *
@@ -43,4 +44,7 @@ public interface UserAccountService extends IService<User> {
      */
     User findByUserAccount(String username);
 
+    IPage<User> page(Page<User> page);
+
+    boolean removeById(int userId);
 }

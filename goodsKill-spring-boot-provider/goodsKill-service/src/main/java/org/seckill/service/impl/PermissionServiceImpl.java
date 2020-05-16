@@ -1,5 +1,6 @@
-package org.seckill.service.mp.impl;
+package org.seckill.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.dubbo.config.annotation.Service;
 import org.seckill.api.service.PermissionService;
@@ -21,5 +22,15 @@ import org.seckill.mp.dao.mapper.PermissionMapper;
         registry = "${dubbo.registry.id}"
 )
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements PermissionService {
+
+    @Override
+    public IPage<Permission> page(IPage<Permission> page) {
+        return super.page(page);
+    }
+
+    @Override
+    public boolean removeById(int permissionId) {
+        return super.removeById(permissionId);
+    }
 
 }

@@ -1,7 +1,6 @@
 package org.seckill.service.mp.impl;
 
 import com.goodskill.mongo.api.SuccessKilledMongoService;
-import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -13,6 +12,7 @@ import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
 import org.seckill.service.common.RedisService;
 import org.seckill.service.common.trade.alipay.AlipayRunner;
+import org.seckill.service.impl.SeckillServiceImpl;
 import org.seckill.util.common.util.MD5Util;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -44,7 +44,6 @@ public class SeckillServiceImplTest {
 
     @Test
     public void getSeckillList() {
-        when(baseMapper.selectList(null)).thenReturn(Lists.newArrayList());
         assertNotNull(seckillService.getSeckillList(1, 1));
     }
 

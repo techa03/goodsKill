@@ -1,5 +1,6 @@
-package org.seckill.service.mp.impl;
+package org.seckill.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.dubbo.config.annotation.Service;
 import org.seckill.api.service.RoleService;
@@ -22,4 +23,14 @@ import org.seckill.mp.dao.mapper.RoleMapper;
 )
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
+
+    @Override
+    public IPage<Role> page(IPage<Role> page) {
+        return super.page(page);
+    }
+
+    @Override
+    public boolean remove(Role entity) {
+        return this.removeById(entity.getRoleId());
+    }
 }

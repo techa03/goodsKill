@@ -1,10 +1,19 @@
 package org.seckill.api.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import org.seckill.entity.RolePermission;
+
+import java.util.List;
 
 /**
  * @author heng
  */
-public interface RolePermissionService extends IService<RolePermission> {
+public interface RolePermissionService {
+
+    boolean remove(int roleId);
+
+    boolean save(RolePermission record);
+
+    List<RolePermission> list();
+
+    List<RolePermission> list(Integer roleId);
 }

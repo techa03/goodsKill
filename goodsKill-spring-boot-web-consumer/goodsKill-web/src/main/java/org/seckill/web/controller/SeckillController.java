@@ -1,6 +1,5 @@
 package org.seckill.web.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -254,15 +253,12 @@ public class SeckillController {
         Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getSession().getAttribute("user");
         user = userAccountService.findByUserAccount(user.getAccount());
-        UserRole example = new UserRole();
-        example.setUserId(user.getId());
-        User finalUser = user;
-        List<UserRole> userRoleList = userRoleService.list().stream().filter(n -> finalUser.getId().equals(n.getUserId())).collect(Collectors.toList());
+        List<UserRole> userRoleList = userRoleService.list(user.getId());
         RolePermission rolePermissionExample = new RolePermission();
         Set<Permission> set = new HashSet<>();
         for (UserRole userRole : userRoleList) {
             rolePermissionExample.setRoleId(userRole.getRoleId());
-            List<RolePermission> rolePermissionList = rolePermissionService.list().stream().filter(n -> userRole.getRoleId().equals(n.getRoleId())).collect(Collectors.toList());
+            List<RolePermission> rolePermissionList = rolePermissionService.list(userRole.getRoleId());
             for (RolePermission rolePermission : rolePermissionList) {
                 set.add(permissionService.getById(rolePermission.getPermissionId()));
             }
@@ -282,12 +278,12 @@ public class SeckillController {
         user = userAccountService.findByUserAccount(user.getAccount());
         UserRole example = new UserRole();
         example.setUserId(user.getId());
-        List<UserRole> userRoleList = userRoleService.list(new QueryWrapper<>(example));
+        List<UserRole> userRoleList = userRoleService.list(user.getId());
         RolePermission rolePermissionExample = new RolePermission();
         Set<Permission> set = new HashSet<>();
         for (UserRole userRole : userRoleList) {
             rolePermissionExample.setRoleId(userRole.getRoleId());
-            List<RolePermission> rolePermissionList = rolePermissionService.list(new QueryWrapper<>(rolePermissionExample));
+            List<RolePermission> rolePermissionList = rolePermissionService.list(userRole.getRoleId());
             for (RolePermission rolePermission : rolePermissionList) {
                 Permission permission = permissionService.getById(rolePermission.getPermissionId());
                 if ("Y".equals(permission.getIsDir())) {

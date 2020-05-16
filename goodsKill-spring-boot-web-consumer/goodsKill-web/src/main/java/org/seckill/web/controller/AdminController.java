@@ -1,6 +1,5 @@
 package org.seckill.web.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -81,7 +80,7 @@ public class AdminController {
     public ResponseDto deleteRole(@PathVariable("roleId") int roleId) {
         Role entity = new Role();
         entity.setRoleId(roleId);
-        roleService.remove(new QueryWrapper<>(entity));
+        roleService.remove(entity);
         ResponseDto<Role> responseDto = new ResponseDto<>();
         return responseDto;
     }
@@ -168,7 +167,7 @@ public class AdminController {
             UserRole entity = new UserRole();
             entity.setUserId(userId);
             entity.setRoleId(dto.getRoleId());
-            userRoleService.remove(new QueryWrapper<>(entity));
+            userRoleService.remove(entity);
             record.setCreateTime(new Date());
             record.setUpdateTime(new Date());
             userRoleService.save(record);
@@ -181,9 +180,7 @@ public class AdminController {
     @ResponseBody
     @Transactional
     public ResponseDto updateRolePermission(@PathVariable("roleId") int roleId, @RequestBody String[] permissionIds) {
-        RolePermission example = new RolePermission();
-        example.setRoleId(roleId);
-        rolePermissionService.remove(new QueryWrapper<>(example));
+        rolePermissionService.remove(roleId);
         for (String permissionId : permissionIds) {
             RolePermission record = new RolePermission();
             record.setRoleId(roleId);

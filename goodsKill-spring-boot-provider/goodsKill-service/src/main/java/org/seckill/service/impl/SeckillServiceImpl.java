@@ -1,4 +1,4 @@
-package org.seckill.service.mp.impl;
+package org.seckill.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -71,7 +71,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Override
     public PageInfo getSeckillList(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Seckill> list = baseMapper.selectList(null);
+        List<Seckill> list = this.list();
         return new PageInfo(list);
     }
 

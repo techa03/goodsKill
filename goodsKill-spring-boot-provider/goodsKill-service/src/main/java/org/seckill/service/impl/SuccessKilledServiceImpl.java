@@ -1,4 +1,4 @@
-package org.seckill.service.mp.impl;
+package org.seckill.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.dubbo.config.annotation.Service;

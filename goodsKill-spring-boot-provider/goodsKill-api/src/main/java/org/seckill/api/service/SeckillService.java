@@ -1,18 +1,19 @@
 package org.seckill.api.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
 import org.seckill.api.dto.SeckillMockRequestDto;
 import org.seckill.entity.Seckill;
 
+import java.io.Serializable;
+
 /**
  * 秒杀服务
  * @author heng
  * @date 2016/7/16
  */
-public interface SeckillService extends IService<Seckill> {
+public interface SeckillService {
 
     /**
      * 获取秒杀活动列表
@@ -75,4 +76,11 @@ public interface SeckillService extends IService<Seckill> {
     void prepareSeckill(Long seckillId, int seckillCount);
 
 
+    Seckill getById(Serializable seckillId);
+
+    boolean saveOrUpdate(Seckill seckill);
+
+    boolean removeById(Serializable seckillId);
+
+    boolean save(Seckill seckill);
 }

@@ -29,12 +29,12 @@ spring:
       database: test
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
     username: root
     password: +tkfyiKcqLiFlgt7GSnxtw==
 dubbo:
   scan:
-    base-packages: org.seckill.service.mp.impl
+    base-packages: org.seckill.service.impl
   application:
     id: dubbo-provider-demo
     name: dubbo-provider-demo
@@ -54,13 +54,13 @@ cache_ip_address: redis://127.0.0.1:6379
 master:
   driver: com.mysql.cj.jdbc.Driver
   password: +tkfyiKcqLiFlgt7GSnxtw==
-  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
   username: root
 mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
 slave:
   driver: com.mysql.cj.jdbc.Driver
   password: +tkfyiKcqLiFlgt7GSnxtw==
-  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
   username: root
 server:
   port: 9090

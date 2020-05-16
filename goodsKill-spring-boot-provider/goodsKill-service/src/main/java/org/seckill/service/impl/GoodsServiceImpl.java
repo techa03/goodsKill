@@ -1,4 +1,4 @@
-package org.seckill.service.mp.impl;
+package org.seckill.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -11,6 +11,9 @@ import org.seckill.api.service.GoodsService;
 import org.seckill.entity.Goods;
 import org.seckill.mp.dao.mapper.GoodsMapper;
 import org.springframework.beans.BeanUtils;
+import org.springframework.scheduling.annotation.Scheduled;
+
+import java.util.List;
 
 /**
  * <p>
@@ -33,18 +36,19 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     private GoodsEsService goodsEsService;
 
     @Override
+    @Scheduled
     public void uploadGoodsPhoto(long goodsId, byte[] bytes) {
         Goods goods = new Goods();
         goods.setGoodsId((int) goodsId);
         goods.setPhotoImage(bytes);
         log.info(goods.toString());
-        baseMapper.updateById(goods);
+        this.updateById(goods);
     }
 
     @Override
     public void addGoods(Goods goods, byte[] bytes) {
         goods.setPhotoImage(bytes);
-        baseMapper.insert(goods);
+        this.save(goods);
         GoodsDto goodsDto = new GoodsDto();
         goodsDto.setId(IdWorker.getId());
         BeanUtils.copyProperties(goods, goodsDto);
@@ -53,6 +57,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         } catch (Exception e) {
             log.error("es服务不可用，请检查！", e);
         }
+    }
+
+    @Override
+    public List<Goods> list() {
+        return super.list();
     }
 
 }
