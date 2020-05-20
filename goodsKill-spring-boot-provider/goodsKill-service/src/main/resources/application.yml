@@ -60,7 +60,7 @@ mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
 slave:
   driver: com.mysql.cj.jdbc.Driver
   password: +tkfyiKcqLiFlgt7GSnxtw==
-  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=yes
   username: root
 server:
   port: 9090

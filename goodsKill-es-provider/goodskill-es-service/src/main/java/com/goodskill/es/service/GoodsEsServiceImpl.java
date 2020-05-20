@@ -8,6 +8,7 @@ import com.goodskill.es.repository.GoodsRepository;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 
 /**
  * @author techa03
@@ -17,6 +18,8 @@ import org.springframework.cglib.beans.BeanCopier;
 public class GoodsEsServiceImpl implements GoodsEsService {
     @Autowired
     GoodsRepository goodsRepository;
+    @Autowired
+    ElasticsearchRestTemplate elasticsearchRestTemplate;
 
 
     @Override

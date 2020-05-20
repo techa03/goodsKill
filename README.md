@@ -26,7 +26,7 @@ SpringBoot |  框架 | [https://spring.io/projects/spring-boot](https://spring.i
 MyBatis | ORM框架  | [http://www.mybatis.org/mybatis-3/zh/index.html](http://www.mybatis.org/mybatis-3/zh/index.html)
 MyBatis-Plus | MyBatis增强工具  | [https://mp.baomidou.com/](https://mp.baomidou.com/)
 PageHelper | MyBatis物理分页插件  | [http://git.oschina.net/free/Mybatis_PageHelper](http://git.oschina.net/free/Mybatis_PageHelper)
-Druid | 数据库监控连接池  | [https://github.com/alibaba/druid](https://github.com/alibaba/druid)
+Hikari | 数据库连接池 | [https://github.com/brettwooldridge/HikariCP](https://github.com/brettwooldridge/HikariCP)
 ZooKeeper | 分布式协调服务  | [http://zookeeper.apache.org/](http://zookeeper.apache.org/)
 Dubbo | 分布式服务框架  | [http://dubbo.io/](http://dubbo.io/)
 Redis | 分布式缓存数据库  | [https://redis.io/](https://redis.io/)
@@ -114,7 +114,7 @@ goodsKill
 - ActiveMQ: 5.8.0
 - Kafka: kafka_2.11-2.0.0
 - MongoDB: 4.0+
-- Elasticsearch: 6.4.3
+- Elasticsearch: 7.7.0
 
 其他环境版本暂未测试
 

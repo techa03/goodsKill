@@ -3,6 +3,8 @@ package com.goodskill.es.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -12,35 +14,27 @@ import java.util.Objects;
 /**
  * @author heng
  */
-@Document(indexName = "goods", type = "goods", shards = 1, replicas = 0, refreshInterval = "-1")
+@Document(indexName = "goods", shards = 3)
 public class Goods implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    private long id;
-
     private Integer goodsId;
 
     private String photoUrl;
 
+    @Field(type = FieldType.Text)
     private String name;
 
     private String price;
 
     private Date createTime;
 
+    @Field(type = FieldType.Text)
     private String introduce;
 
     private byte[] photoImage;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public Integer getGoodsId() {
         return goodsId;
@@ -118,15 +112,10 @@ public class Goods implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Goods goods = (Goods) o;
-        return id == goods.id &&
-                Objects.equals(goodsId, goods.goodsId) &&
+        return Objects.equals(goodsId, goods.goodsId) &&
                 Objects.equals(photoUrl, goods.photoUrl) &&
                 Objects.equals(name, goods.name) &&
                 Objects.equals(price, goods.price) &&
@@ -137,7 +126,7 @@ public class Goods implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, goodsId, photoUrl, name, price, createTime, introduce);
+        int result = Objects.hash(goodsId, photoUrl, name, price, createTime, introduce);
         result = 31 * result + Arrays.hashCode(photoImage);
         return result;
     }
