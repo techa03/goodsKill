@@ -116,12 +116,32 @@ goodsKill
 - MongoDB: 4.0+
 - Elasticsearch: 7.7.0
 
-其他环境版本暂未测试
+注:其他环境版本暂未测试，使用最新版应该也没毛病
+
+##### 推荐使用docker-compose命令，无需手动下载软件安装包
+
+- 进入项目根目录(确保已安装compose以支持docker-compose命令)，执行以下命令：
+ ```
+docker-compose up
+or
+docker-compose up -d //-d后台运行
+ ```
+**注**:此命令会自动拉取docker镜像并以默认端口运行
+
+镜像 | 版本 | 端口 | 用户名密码
+---|---|---|---
+Redis | latest | 6379 | 无
+Mongo | 4.2.6 | 27017 | root:root
+MySQL | 8.0 | 3306 | root:Password123
+Zookeeper | latest | 2181 | 无
+Elasticsearch | 7.7.0 | 9200 9300 | 无
+Kibana | 7.7.0 | 5601 | 无
+
 
 
 #### 项目启动方法：
 
-- 参照官网安装Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+本地默认端口启动，其中MongoDB和Kafka非必须;
+- 参照官网安装Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+本地默认端口启动，或通过以上docker-compose命令安装;
 
 - 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作;
 
@@ -138,7 +158,7 @@ goodsKill
 
 - 项目根目录goodsKill中执行mvn clean install
 
-- 在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务，不想安装mongoDB/kafkaMQ的同学，可以使用GoodsKillRpcServiceSimpleApplication类启动（只需安装redis/mysql/activeMQ/zookeeper并启动）;
+- 在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务;
 
 - 在web模块使用maven spring-boot插件运行spring-boot:run
 
