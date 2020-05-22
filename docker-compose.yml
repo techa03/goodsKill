@@ -22,59 +22,31 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
     container_name: elasticsearch
     environment:
-      - node.name=es01 # 节点名称
-      - discovery.seed_hosts=elasticsearch1 # 发现机制
-      - cluster.initial_master_nodes=es01,es02 # 集群发现顺序
-      - cluster.name=docker-cluster # 集群名称
+      - node.name=es01
+      - discovery.seed_hosts=elasticsearch1
+      - cluster.initial_master_nodes=es01,es02
+      - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" # 运行内存, 感觉没有生效
-    #      - node.name=es01
-    #      - node.master=true
-    #      - node.data=true
-    #      - discovery.seed_hosts=es02
-    #      - cluster.initial_master_nodes=es01,es02
-    #      - cluster.name=docker-cluster
-    #      - bootstrap.memory_lock=true
-    #      - http.port=9200
-    #      - transport.tcp.port=9300
-    #      - cluster.remote.connect=false
-    #      - xpack.security.enabled=true
-    #      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1
         hard: -1
     ports:
-      # 端口映射
       - 9200:9200
       - 9300:9300
     networks:
-      # 网段名称, 需要相互关联的容器必须处于同一个network中
       - somenetwork
   elasticsearch1:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
     container_name: elasticsearch1
     environment:
       - node.name=es02
-      # elasticSearch也是容器名称
       - discovery.seed_hosts=elasticsearch
-      # 集群发现的顺序
       - cluster.initial_master_nodes=es01,es02
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    #      - node.name=es02
-    #      - discovery.seed_hosts=es01
-    #      - cluster.initial_master_nodes=es01,es02
-    #      - node.master=true
-    #      - node.data=true
-    #      - cluster.name=docker-cluster
-    #      - bootstrap.memory_lock=true
-    #      - http.port=9201
-    #      - transport.tcp.port=9301
-    #      - cluster.remote.connect=false
-    #      - xpack.security.enabled=true
-    #      - ES_JAVA_OPTS=-Xms512m -Xmx512m
     ulimits:
       memlock:
         soft: -1
@@ -85,14 +57,12 @@ services:
     networks:
       - somenetwork
 
-  kibana7.0.1:
-    image: docker.elastic.co/kibana/kibana:7.7.0
+  kibana:
+    image: kibana:7.7.0
     container_name: kibana
     ports:
       - 5601:5601
     environment:
-      # - server.name=kibana
-      # elasticSearch是容器名称, 这里, 集群要保证主节点对应的这个
       - elasticsearch.hosts=http://elasticsearch:9200
       - i18n.locale=zh-CN
     networks:

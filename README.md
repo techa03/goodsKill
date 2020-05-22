@@ -145,8 +145,6 @@ Kibana | 7.7.0 | 5601 | 无
 
 - 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作;
 
-- 二维码图片存放路径配置信息在application.yml中的QRCODE_IMAGE_DIR配置中修改;
-
 - 数据库密码需要根据个人密码设置进行更改，数据库密码保存在application.yml，可以使用AESUtil工具类进行数据库密码加密替换master.password和slave.password（主从数据库信息可以一致）
 
 - applicatio.yml已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
