@@ -18,38 +18,55 @@ services:
     ports:
       - "6379:6379"
 
-  es01:
+  elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
-    container_name: es01
-    restart: always
+    container_name: elasticsearch
     environment:
       - node.name=es01
+      - discovery.seed_hosts=elasticsearch1
+      - cluster.initial_master_nodes=es01,es02
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
-      - xpack.security.enabled=false
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1
         hard: -1
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - somenetwork
+  elasticsearch1:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
+    container_name: elasticsearch1
+    environment:
+      - node.name=es02
+      - discovery.seed_hosts=elasticsearch
+      - cluster.initial_master_nodes=es01,es02
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - 9201:9200
+      - 9301:9300
+    networks:
+      - somenetwork
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.7.0
+    image: kibana:7.7.0
     container_name: kibana
     ports:
       - 5601:5601
     environment:
-      - SERVER_NAME=kibana
-      - ELASTICSEARCH_URL=http://es01:9200
-      - I18N_LOCALE=zh-CN
-      - XPACK_MONITORING_ENABLED=true
-    depends_on:
-      - es01
-    external_links:
-      - es01
+      - elasticsearch.hosts=http://elasticsearch:9200
+      - i18n.locale=zh-CN
+    networks:
+      - somenetwork
 
   mysql:
     image: mysql:8.0
@@ -61,7 +78,9 @@ services:
       --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: "Password123"
-
+      MYSQL_DATABASE: "seckill"
+      MYSQL_USER: "seckill"
+      MYSQL_PASSWORD: "Password123"
 
   mongo:
     image: mongo:4.2.6
@@ -73,3 +92,6 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
 
+networks:
+  somenetwork:
+    driver: bridge
