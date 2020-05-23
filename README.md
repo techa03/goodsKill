@@ -72,6 +72,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 #### 商品查询:
 > 搜索框下拉商品候选信息基于elasticsearch实现，支持关键词高亮显示
+
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200523214633.png)
 
 #### 用户角色权限管理：
