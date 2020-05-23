@@ -89,7 +89,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 goodsKill
 |--goodskill-chat-provider                  ||聊天室服务提供者（待完成）
 |--goodsKill-common                         ||项目公共服务（待补充）
-|--goodsKill-es-provider                    ||elasticsearch搜索服务提供者
+|--goodsKill-es-provider                    ||elasticsearch搜索服务提供者，目前提供根据商品名称检索商品库
 |   |--goodskill-es-api                     
 |   |--goodskill-es-dao                     
 |   |--goodskill-es-service                 
@@ -121,6 +121,7 @@ goodsKill
 
 注:其他环境版本暂未测试，使用最新版应该也没毛病
 
+#### 项目启动方法：
 ##### 推荐使用docker-compose命令，无需手动下载软件安装包
 
 - 进入项目根目录(确保已安装compose以支持docker-compose命令)，执行以下命令：
@@ -129,7 +130,7 @@ docker-compose up
 or
 docker-compose up -d //-d后台运行
  ```
-**注**:此命令会自动拉取docker镜像并以默认端口运行
+> **注**:此命令会自动拉取docker镜像并以默认端口运行，Kafka和ActiveMQ需要自行下载安装
 
 镜像 | 版本 | 端口 | 用户名密码
 ---|---|---|---
@@ -140,13 +141,9 @@ Zookeeper | latest | 2181 | 无
 Elasticsearch | 7.7.0 | 9200 9300 | 无
 Kibana | 7.7.0 | 5601 | 无
 
+- 如无docker运行环境，可参照官网安装Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+本地默认端口启动
 
-
-#### 项目启动方法：
-
-- 参照官网安装Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+本地默认端口启动，或通过以上docker-compose命令安装;
-
-- 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作;
+- 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
 
 - 数据库密码需要根据个人密码设置进行更改，数据库密码保存在application.yml，可以使用AESUtil工具类进行数据库密码加密替换master.password和slave.password（主从数据库信息可以一致）
 
@@ -159,28 +156,33 @@ Kibana | 7.7.0 | 5601 | 无
 
 - 项目根目录goodsKill中执行mvn clean install
 
-- 在service模块中找到GoodsKillRpcServiceApplication类main方法启动远程服务;
+- 找到EsApplication类main方法启动远程服务
 
-- 在web模块使用maven spring-boot插件运行spring-boot:run
+- 找到GoodsKillRpcServiceApplication类main方法启动远程服务
 
-- 启动完成后访问http://localhost:18080/goodsKill/login登录页面，默认管理员账号admin123，密码：aa123456;
+- 进入goodsKill-web模块根目录模块，运行命令
+ ```
+mvn spring-boot:run
+ ```
 
-- 支付宝二维码接入指南：https://blog.csdn.net/techa/article/details/71003519
+- 启动完成后访问登录页面[http://localhost:18080/goodsKill/login](http://localhost:18080/goodsKill/login)，默认管理员账号admin123，密码：aa123456
+ 
+
+- 支付宝二维码接入指南：[https://blog.csdn.net/techa/article/details/71003519](https://blog.csdn.net/techa/article/details/71003519)
 
 - 如已安装MongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
 
 #### 打包部署方法
-1. 进入goodsKill项目根目录
+- 进入goodsKill项目根目录，**skipTests=true**跳过执行单元测试
  ```
  mvn clean package -DskipTests=true -Pdev
  ```
-2. 启动服务提供方服务
+- 启动服务提供方服务
  ```
  cd 项目根目录/goodsKill-spring-boot-provider/goodsKill-service/target
  java -jar goodsKill-service.jar
  ```
-3. 启动服务消费方（包含web容器）
-- target目录找到goodsKill.war，使用tomcat 18080端口启动
+- target目录找到goodsKill.war，使用tomcat 18080端口启动，启动服务消费方（包含web容器）
 
 
 #### 并发方案：
@@ -204,7 +206,7 @@ Kibana | 7.7.0 | 5601 | 无
  ```
 
 #### 备忘：
-- swagger主页：http://localhost:18080/goodsKill/swagger-ui.html#/
+- swagger主页：[http://localhost:18080/goodsKill/swagger-ui.html#/](http://localhost:18080/goodsKill/swagger-ui.html#/)
 
 #### 后续更新计划
 - 添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成；
