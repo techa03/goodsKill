@@ -23,7 +23,6 @@
 技术 | 名称 | 官网
 ----|------|----
 SpringBoot |  框架 | [https://spring.io/projects/spring-boot](https://spring.io/projects/spring-boot)
-MyBatis | ORM框架  | [http://www.mybatis.org/mybatis-3/zh/index.html](http://www.mybatis.org/mybatis-3/zh/index.html)
 MyBatis-Plus | MyBatis增强工具  | [https://mp.baomidou.com/](https://mp.baomidou.com/)
 PageHelper | MyBatis物理分页插件  | [http://git.oschina.net/free/Mybatis_PageHelper](http://git.oschina.net/free/Mybatis_PageHelper)
 Hikari | 数据库连接池 | [https://github.com/brettwooldridge/HikariCP](https://github.com/brettwooldridge/HikariCP)
@@ -34,7 +33,6 @@ ActiveMQ | 消息队列  | [http://activemq.apache.org/](http://activemq.apache.
 Kafka | 消息队列  | [http://kafka.apache.org/](http://kafka.apache.org/)
 Logback | 日志组件  | [https://logback.qos.ch/](https://logback.qos.ch/)
 Protobuf & json | 数据序列化  | [https://github.com/google/protobuf](https://github.com/google/protobuf)
-Jenkins | 持续集成工具  | [https://jenkins.io/index.html](https://jenkins.io/index.html)
 Maven | 项目构建管理  | [http://maven.apache.org/](http://maven.apache.org/)
 SonarQube | 项目代码质量监控 | [https://www.sonarqube.org/](https://www.sonarqube.org/)
 Swagger2 | 项目API文档生成及测试工具 | [http://swagger.io/](http://swagger.io/)
@@ -71,6 +69,10 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
 #### 主页：
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215849.png)
+
+#### 商品查询:
+> 搜索框下拉商品候选信息基于elasticsearch实现，支持关键词高亮显示
+![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200523214633.png)
 
 #### 用户角色权限管理：
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155310.png)
@@ -109,8 +111,8 @@ goodsKill
 
 
 #### 开发环境版本说明：
-- JDK :JDK1.8+
-- MySQL :8.0+
+- JDK: JDK8+
+- MySQL: 8.0+
 - ActiveMQ: 5.8.0
 - Kafka: kafka_2.11-2.0.0
 - MongoDB: 4.0+
@@ -204,7 +206,5 @@ Kibana | 7.7.0 | 5601 | 无
 - swagger主页：http://localhost:18080/goodsKill/swagger-ui.html#/
 
 #### 后续更新计划
-- 使用redis优化秒杀执行过程，异步发送秒杀成功MQ消息完成数据落地，并使用mongo存储秒杀信息提升TPS;(已完成，见场景八)
-- 集成spring-session管理会话，目前使用shiro由于只保存在单机上，重启应用或分布式环境可能需要重新登录；(已完成)
 - 添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成；
 - 模拟秒杀控台日志显示优化，后续考虑增加一个benchmark跑分功能，依次调用各个秒杀场景方案，最后输出各个方案的用时.

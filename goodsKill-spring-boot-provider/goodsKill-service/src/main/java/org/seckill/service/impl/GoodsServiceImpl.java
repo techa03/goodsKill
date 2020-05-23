@@ -31,7 +31,6 @@ import java.util.List;
 )
 @Slf4j
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements GoodsService {
-
     @Reference(version = "1.0.0", check = false)
     private GoodsEsService goodsEsService;
 

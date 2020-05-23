@@ -20,9 +20,10 @@ public interface SeckillService {
      *
      * @param pageNum 页码
      * @param pageSize 每页数量
+     * @param goodsName 商品名称，模糊匹配
      * @return
      */
-    PageInfo getSeckillList(int pageNum, int pageSize);
+    PageInfo getSeckillList(int pageNum, int pageSize, String goodsName);
 
 
     /**

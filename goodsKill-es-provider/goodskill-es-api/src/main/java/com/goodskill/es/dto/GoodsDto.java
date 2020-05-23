@@ -27,6 +27,8 @@ public class GoodsDto implements Serializable {
 
     private String introduce;
 
+    private String rawName;
+
     private byte[] photoImage;
 
     public long getId() {
@@ -93,6 +95,13 @@ public class GoodsDto implements Serializable {
         this.photoImage = photoImage;
     }
 
+    public String getRawName() {
+        return rawName;
+    }
+
+    public void setRawName(String rawName) {
+        this.rawName = rawName;
+    }
 
     @Override
     public String toString() {

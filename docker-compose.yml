@@ -1,6 +1,15 @@
 version: "3"
 
 services:
+#  非官方镜像，拉不下来，可使用镜像加速服务试试
+#  activemq:
+#    image: rmohr/activemq:5.15.9
+#    container_name: activemq
+#    restart: always
+#    ports:
+#      - 61616:61616
+#      - 8161:8161
+
   zookeeper:
     image: zookeeper:latest
     container_name: zookeeper
@@ -24,7 +33,7 @@ services:
     environment:
       - node.name=es01
       - discovery.seed_hosts=elasticsearch1
-      - cluster.initial_master_nodes=es01,es02
+      - cluster.initial_master_nodes=es01
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -43,7 +52,7 @@ services:
     environment:
       - node.name=es02
       - discovery.seed_hosts=elasticsearch
-      - cluster.initial_master_nodes=es01,es02
+      - cluster.initial_master_nodes=es01
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -54,6 +63,8 @@ services:
     ports:
       - 9201:9200
       - 9301:9300
+    depends_on:
+      - elasticsearch
     networks:
       - somenetwork
 
@@ -62,6 +73,8 @@ services:
     container_name: kibana
     ports:
       - 5601:5601
+    depends_on:
+      - elasticsearch
     environment:
       - elasticsearch.hosts=http://elasticsearch:9200
       - i18n.locale=zh-CN

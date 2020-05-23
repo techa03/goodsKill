@@ -50,7 +50,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.goodsKill</groupId>
-				<artifactId>goodsKill-service</artifactId>
+				<artifactId>goodskill-es-api</artifactId>
 				<version>${goodsKill.version}</version>
 			</dependency>
 			<dependency>

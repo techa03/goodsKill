@@ -7,6 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.goodskill.mongo.api.SuccessKilledMongoService;
 import com.goodskill.mongo.entity.SuccessKilledDto;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.seckill.api.constant.SeckillStatusConstant;
@@ -69,9 +70,13 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private List<GoodsKillStrategy> goodsKillStrategies;
 
     @Override
-    public PageInfo getSeckillList(int pageNum, int pageSize) {
+    public PageInfo getSeckillList(int pageNum, int pageSize, String goodsName) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Seckill> list = this.list();
+        QueryWrapper<Seckill> queryWrapper = new QueryWrapper<>();
+        if (StringUtils.isNotBlank(goodsName)) {
+            queryWrapper.lambda().like(Seckill::getName, goodsName);
+        }
+        List<Seckill> list = this.list(queryWrapper);
         return new PageInfo(list);
     }
 

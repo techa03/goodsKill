@@ -7,13 +7,31 @@
     <title>秒杀列表页</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="application/javascript">
+        function searchByName() {
+            var goodsName = $("#goodsName").val();
+            window.location.href = "${context}/seckill/list?goodsName=" + goodsName;
+        }
+
         function changePageNum() {
             var pageNum = $("#pageNum").val();
             window.location.href = "${context}/seckill/list?limit=" + pageNum;
         }
+
         function search() {
             $.ajax({
-
+                url: "${context}/seckill/goods/search/" + $("#goodsName").val(),
+                type: "GET",
+                success: function (result) {
+                    var data = result.data;
+                    // 成功
+                    var innerHTML = '';
+                    if (result.code == "0000") {
+                        for (var i = 0; i < data.length; i++) {
+                            innerHTML += "<option value=\"" + data[i].rawName + "\"></option>";
+                        }
+                        $("#nameList").html(innerHTML);
+                    }
+                }
             });
         }
     </script>
@@ -31,12 +49,14 @@
             <a class="btn btn-info" href="${context}/html/index.html" target="_blank">管理用户</a>
             <a class="btn btn-info" href="${context}/seckill/signOut" target="_blank">退出登录</a>
         </div>
-<%--        <div style="margin-top: 15px;margin-left: 15px" class="input-group col-sm-3">--%>
-<%--            <input id="goodsName" type="text" class="form-control" placeholder="输入商品名称...">--%>
-<%--            <span class="input-group-btn">--%>
-<%--                <button class="btn btn-default" type="button" onclick="search();" hidden="true">搜索</button>--%>
-<%--            </span>--%>
-<%--        </div>--%>
+        <div style="margin-top: 15px;margin-left: 15px" class="input-group col-sm-3">
+            <input id="goodsName" type="text" class="form-control" onkeyup="search()" placeholder="输入商品名称..." list="nameList" />
+            <datalist id="nameList">
+            </datalist>
+            <span class="input-group-btn">
+                <button id="input" class="btn btn-default" type="button" onclick="searchByName();" hidden="true">搜索</button>
+            </span>
+        </div>
         </br>
     </div>
     <div class="panel-body">
@@ -91,7 +111,7 @@
                                 </a>
                             </li>
                             <c:forEach var="i" begin="1" end="${pageNum}">
-                                <li><a href="${context}/seckill/list?offset=${i}&limit=4">${i}</a></li>
+                                <li><a href="${context}/seckill/list?offset=${i}&limit=${limit}">${i}</a></li>
                             </c:forEach>
                             <li>
                                 <a href="#" aria-label="Next">

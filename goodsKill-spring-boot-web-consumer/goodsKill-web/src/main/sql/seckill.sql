@@ -234,10 +234,6 @@ INSERT INTO `user_role` VALUES ('81', '14', '2', '2018-08-19 19:40:36', '2018-08
 INSERT INTO `user_role` VALUES ('82', '14', '7', '2018-08-19 19:40:36', '2018-08-19 19:40:36');
 INSERT INTO `user_role` VALUES ('83', '14', '8', '2018-08-19 19:40:36', '2018-08-19 19:40:36');
 
-ALTER TABLE `seckill`.`seckill`
-ADD COLUMN `status` VARCHAR(5) NULL AFTER `price`,
-ADD COLUMN `create_user` VARCHAR(45) NULL AFTER `status`;
-
 ALTER TABLE `seckill`.`success_killed`
 ADD COLUMN `server_ip` VARCHAR(200) NULL AFTER `create_time`,
 ADD COLUMN `user_ip` VARCHAR(200) NULL AFTER `server_ip`,

@@ -111,13 +111,13 @@ public class AESUtil {
 
     public static void main(String[] args) {
         String[] keys = {
-                "", "275688"
+                "Password123"
         };
         System.out.println("key | aesEncode | aesDecode");
         for (String key : keys) {
-            System.out.println(key + " | ");
+            System.out.print(key + " | ");
             String encryptString = aesEncode(key);
-            System.out.println(encryptString + " | ");
+            System.out.print(encryptString + " | ");
             String decryptString = aesDecode(encryptString);
             System.out.println(decryptString);
         }

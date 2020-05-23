@@ -132,7 +132,11 @@
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
         </dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.goodsKill</groupId>
+            <artifactId>goodskill-es-api</artifactId>
+        </dependency>
+    </dependencies>
 	<build>
 		<plugins>
 			<plugin>

@@ -15,7 +15,6 @@
                 async: false,
                 success: function (result) {
                     var data = result.data;
-                    console.log(data);
                     var innerHtml = '';
                     for (var i = 0; i < data.length; i++) {
                         if (data[i].isDir == 'Y') {

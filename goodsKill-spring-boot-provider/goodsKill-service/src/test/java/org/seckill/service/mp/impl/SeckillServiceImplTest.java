@@ -44,7 +44,7 @@ public class SeckillServiceImplTest {
 
     @Test
     public void getSeckillList() {
-        assertNotNull(seckillService.getSeckillList(1, 1));
+        assertNotNull(seckillService.getSeckillList(1, 1, ""));
     }
 
     @Test

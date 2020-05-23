@@ -1,6 +1,7 @@
 package org.seckill.web.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.goodskill.es.api.GoodsEsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -52,6 +53,8 @@ public class SeckillController {
     private UserAccountService userAccountService;
     @Reference(version = "${demo.service.version}")
     private PermissionService permissionService;
+    @Reference(version = "${demo.service.version}")
+    private GoodsEsService goodsEsService;
     @Value("${QRCODE_IMAGE_DIR}")
     private String QRCODE_IMAGE_DIR;
 
@@ -61,13 +64,15 @@ public class SeckillController {
             @ApiImplicitParam(name = "limit", value = "每页显示的记录数", required = true, dataType = "int")})
     @GetMapping(value = "/list")
     public String list(Model model, @RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
-                       @RequestParam(name = "limit", required = false, defaultValue = "4") int limit) {
-        PageInfo<Seckill> pageInfo = seckillService.getSeckillList(offset, limit);
+                       @RequestParam(name = "limit", required = false, defaultValue = "4") int limit,
+                       @RequestParam(name = "goodsName", required = false) String goodsName) {
+        PageInfo<Seckill> pageInfo = seckillService.getSeckillList(offset, limit, goodsName);
         long totalNum = pageInfo.getTotal();
         long pageNum = (totalNum % limit == 0) ? totalNum / limit : totalNum / limit + 1;
         model.addAttribute("list", pageInfo.getList());
         model.addAttribute("totalNum", totalNum);
         model.addAttribute("pageNum", pageNum);
+        model.addAttribute("limit", limit);
         return "list";
     }
 
@@ -295,6 +300,20 @@ public class SeckillController {
         List<Permission> permissions = new ArrayList<>(set);
         logger.info(user.toString());
         responseDto.setData(permissions.toArray(new Permission[permissions.size()]));
+        return responseDto;
+    }
+
+    /**
+     * 根据商品名称检索商品
+     * @param goodsName 商品名称，模糊匹配
+     * @return 包含商品名称和高亮显示的商品名称html内容
+     */
+    @GetMapping(value = "/goods/search/{goodsName}")
+    @ResponseBody
+    public ResponseDto searchGoods(@PathVariable("goodsName") String goodsName) {
+        List goodsList = goodsEsService.searchWithNameByPage(goodsName);
+        ResponseDto responseDto = ResponseDto.ok();
+        responseDto.setData(goodsList.toArray());
         return responseDto;
     }
 
