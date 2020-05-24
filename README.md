@@ -165,7 +165,7 @@ Kibana | 7.7.0 | 5601 | 无
 mvn spring-boot:run
  ```
 
-- 启动完成后访问登录页面[http://localhost:18080/goodsKill/login](http://localhost:18080/goodsKill/login)，默认管理员账号admin123，密码：aa123456
+- 启动完成后访问登录页面[http://localhost:8080/goodsKill/login](http://localhost:8080/goodsKill/login)，默认管理员账号admin123，密码：aa123456
  
 
 - 支付宝二维码接入指南：[https://blog.csdn.net/techa/article/details/71003519](https://blog.csdn.net/techa/article/details/71003519)
@@ -182,13 +182,13 @@ mvn spring-boot:run
  cd 项目根目录/goodsKill-spring-boot-provider/goodsKill-service/target
  java -jar goodsKill-service.jar
  ```
-- target目录找到goodsKill.war，使用tomcat 18080端口启动，启动服务消费方（包含web容器）
+- target目录找到goodsKill.war，使用tomcat 8080端口启动，启动服务消费方（包含web容器）
 
 
 #### 并发方案：
 目前实现了几种秒杀方案
 
-测试地址：http://localhost:18080/goodsKill/swagger-ui.html#/
+测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
 - 场景一：sychronized同步锁实现
 - 场景二：redisson分布式锁实现
 - 场景三：ActiveMQ实现
@@ -206,7 +206,7 @@ mvn spring-boot:run
  ```
 
 #### 备忘：
-- swagger主页：[http://localhost:18080/goodsKill/swagger-ui.html#/](http://localhost:18080/goodsKill/swagger-ui.html#/)
+- swagger主页：[http://localhost:8080/goodsKill/swagger-ui.html#/](http://localhost:8080/goodsKill/swagger-ui.html#/)
 
 #### 后续更新计划
 - 添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成；

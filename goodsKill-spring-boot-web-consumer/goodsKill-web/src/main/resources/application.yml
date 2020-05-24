@@ -48,7 +48,7 @@ management:
         include: '*'
 
 server:
-  port: 18080
+  port: 8080
   servlet:
     context-path: /goodsKill
 
@@ -72,7 +72,6 @@ admin:
     address: zookeeper://127.0.0.1:2181
   registry:
     address: zookeeper://127.0.0.1:2181
-
 ---
 spring:
   profiles: test
@@ -103,4 +102,3 @@ admin:
   config-center: zookeeper://zookeeper:2181
   metadata-report:
     address: zookeeper://zookeeper:2181
-
