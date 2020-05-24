@@ -148,7 +148,7 @@ ActiveMQ | 5.4.18 | 2181 61616| 无
 
 - 如无docker运行环境，可参照官网安装Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+/Elasticsearch本地默认端口启动，Kafka不安装不影响项目启动
 
-######导入项目基础数据
+###### 导入项目基础数据
 
 - 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
 
