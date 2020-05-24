@@ -149,14 +149,6 @@ services:
     networks:
       - somenetwork
 
-  tomcat:
-    image: tomcat:9.0.35-jdk8
-    ports:
-      - 8080:8080
-    container_name: tomcat
-    networks:
-      - somenetwork
-
   goodsweb:
     build: ./goodsKill-spring-boot-web-consumer
     container_name: goodsweb
@@ -165,7 +157,8 @@ services:
       - zookeeper
       - activemq
       - redis
-      - tomcat
+    ports:
+      - 8080:8080
     networks:
       - somenetwork
 
