@@ -5,14 +5,6 @@ spring:
     in-memory: true
     pool:
       enabled: false
-
-#二维码图片存放目录
-QRCODE_IMAGE_DIR: D:/QRfile
----
-
-######################本地开发环境配置#####################
-spring:
-  profiles: dev
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
@@ -27,11 +19,6 @@ spring:
   data:
     mongodb:
       database: test
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
-    username: root
-    password: +tkfyiKcqLiFlgt7GSnxtw==
 dubbo:
   scan:
     base-packages: org.seckill.service.impl
@@ -41,30 +28,90 @@ dubbo:
   protocol:
     id: dubbo
     name: dubbo
+    ### 服务暴露端口
     port: -1
     status: server
   registry:
     id: my-registry
-    address: zookeeper://127.0.0.1:2181
   provider:
     timeout: 30000
 
-cache_address: localhost
-cache_ip_address: redis://127.0.0.1:6379
-master:
-  driver: com.mysql.cj.jdbc.Driver
-  password: +tkfyiKcqLiFlgt7GSnxtw==
-  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=no
-  username: root
-mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
-slave:
-  driver: com.mysql.cj.jdbc.Driver
-  password: +tkfyiKcqLiFlgt7GSnxtw==
-  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=no
-  username: root
+
 server:
   port: 9090
 demo:
   service:
     version: 1.0.0
+#二维码图片存放目录
+QRCODE_IMAGE_DIR: D:/QRfile
 
+---
+
+######################本地开发环境配置#####################
+spring:
+  profiles: dev
+  kafka:
+    bootstrap-servers: localhost:9092
+dubbo:
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  provider:
+    timeout: 30000
+
+zookeeper_ip: 127.0.0.1:2181
+cache_ip_address: redis://127.0.0.1:6379
+master:
+  driver: com.mysql.cj.jdbc.Driver
+  password: BMWDLL/CakHboXNiS8PYRw==
+  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=no
+  username: root
+mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
+slave:
+  driver: com.mysql.cj.jdbc.Driver
+  password: BMWDLL/CakHboXNiS8PYRw==
+  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=no
+  username: root
+###dubbo注册中心配置
+admin:
+  config-center: zookeeper://127.0.0.1:2181
+  metadata-report:
+    address: zookeeper://127.0.0.1:2181
+  registry:
+    address: zookeeper://127.0.0.1:2181
+---
+######################docker环境配置#####################
+spring:
+  profiles: docker
+  kafka:
+    bootstrap-servers: kafka:9092
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: BMWDLL/CakHboXNiS8PYRw==
+dubbo:
+  registry:
+    address: zookeeper://zookeeper:2181
+  provider:
+    timeout: 30000
+
+zookeeper_ip: zookeeper:2181
+cache_ip_address: redis://redis:6379
+
+master:
+  driver: com.mysql.cj.jdbc.Driver
+  password: BMWDLL/CakHboXNiS8PYRw==
+  url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=no
+  username: root
+mq_address: failover:(tcp://activemq:61616)?initialReconnectDelay=100
+slave:
+  driver: com.mysql.cj.jdbc.Driver
+  password: BMWDLL/CakHboXNiS8PYRw==
+  url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=no
+  username: root
+admin:
+  config-center: zookeeper://zookeeper:2181
+  metadata-report:
+    address: zookeeper://zookeeper:2181
+  registry:
+    address: zookeeper://zookeeper:2181

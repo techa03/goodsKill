@@ -18,5 +18,11 @@ public interface SuccessKilledMongoService {
      * @param successKilledDto
      * @return
      */
+    void saveRecord(SuccessKilledDto successKilledDto);
+
+    /**
+     * @param successKilledDto
+     * @return
+     */
     long count(SuccessKilledDto successKilledDto);
 }

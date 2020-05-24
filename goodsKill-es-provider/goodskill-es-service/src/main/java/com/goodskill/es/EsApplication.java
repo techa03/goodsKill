@@ -16,7 +16,7 @@ public class EsApplication {
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(EsApplication.class)
-                .web(WebApplicationType.NONE)
+                .web(WebApplicationType.NONE).build()
                 .run(args);
     }
 

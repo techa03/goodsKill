@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: docker
   session:
     redis:
       flush-mode: on_save
@@ -37,8 +37,6 @@ dubbo:
   protocol:
     id: dubbo
     name: dubbo
-  registry:
-    address: zookeeper://127.0.0.1:2181
   consumer:
     timeout: 30000
 
@@ -50,24 +48,68 @@ management:
         include: '*'
 
 server:
-  port: 18080
+  port: 8080
   servlet:
     context-path: /goodsKill
 
 #二维码图片存放目录
 QRCODE_IMAGE_DIR: D:/QRfile
-
 ---
 spring:
   profiles: dev
   kafka:
     bootstrap-servers: localhost:9092
+  data:
+    redis:
+      repositories:
+        enabled: true
+dubbo:
+  registry:
+    address: zookeeper://127.0.0.1:2181
+
 mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
+
+admin:
+  config-center: zookeeper://127.0.0.1:2181
+  metadata-report:
+    address: zookeeper://127.0.0.1:2181
+  registry:
+    address: zookeeper://127.0.0.1:2181
+redis:
+  address: 127.0.0.1
+  port: 6379
 ---
 spring:
   profiles: test
   kafka:
     bootstrap-servers: 192.168.2.247:9092
-mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
----
+dubbo:
+  registry:
+    address: zookeeper://127.0.0.1:2181
 
+mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
+admin:
+  config-center: zookeeper://127.0.0.1:2181
+  metadata-report:
+    address: zookeeper://127.0.0.1:2181
+  registry:
+    address: zookeeper://127.0.0.1:2181
+redis:
+  address: 127.0.0.1
+  port: 6379
+---
+spring:
+  profiles: docker
+dubbo:
+  registry:
+    address: zookeeper://zookeeper:2181
+mq_address: failover:(tcp://activemq:61616)?initialReconnectDelay=100
+admin:
+  registry:
+    address: zookeeper://zookeeper:2181
+  config-center: zookeeper://zookeeper:2181
+  metadata-report:
+    address: zookeeper://zookeeper:2181
+redis:
+  address: redis
+  port: 6379

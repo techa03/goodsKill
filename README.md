@@ -122,15 +122,19 @@ goodsKill
 注:其他环境版本暂未测试，使用最新版应该也没毛病
 
 #### 项目启动方法：
-##### 推荐使用docker-compose命令，无需手动下载软件安装包
-
+- 项目根目录goodsKill中执行mvn clean install
 - 进入项目根目录(确保已安装compose以支持docker-compose命令)，执行以下命令：
+###### 推荐使用docker-compose命令，无需手动下载软件安装包，开箱即用
  ```
-docker-compose up
+docker-compose up （第一次运行只需执行此命令）
 or
 docker-compose up -d //-d后台运行
+or
+docker-compose up -d build //build重新构建镜像文件，针对项目自定义镜像配置需要修改的情况
+or
+docker-compose up -d --no-recreate //如上次以构建容器，则此次会跳过构建容器
  ```
-> **注**:此命令会自动拉取docker镜像并以默认端口运行，Kafka和ActiveMQ需要自行下载安装
+> **注**:此命令会自动拉取docker镜像并以默认端口运行
 
 镜像 | 版本 | 端口 | 用户名密码
 ---|---|---|---
@@ -140,8 +144,11 @@ MySQL | 8.0 | 3306 | root:Password123
 Zookeeper | latest | 2181 | 无
 Elasticsearch | 7.7.0 | 9200 9300 | 无
 Kibana | 7.7.0 | 5601 | 无
+ActiveMQ | 5.4.18 | 2181 61616| 无
 
-- 如无docker运行环境，可参照官网安装Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+本地默认端口启动
+- 如无docker运行环境，可参照官网安装Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+/Elasticsearch本地默认端口启动，Kafka不安装不影响项目启动
+
+######导入项目基础数据
 
 - 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
 
@@ -154,7 +161,7 @@ Kibana | 7.7.0 | 5601 | 无
      active: dev
  ```
 
-- 项目根目录goodsKill中执行mvn clean install
+> **注**:以下步骤docker-compose已执行可跳过，直接访问项目地址即可http://localhost:8080/goodsKill/login
 
 - 找到EsApplication类main方法启动远程服务
 
@@ -165,7 +172,7 @@ Kibana | 7.7.0 | 5601 | 无
 mvn spring-boot:run
  ```
 
-- 启动完成后访问登录页面[http://localhost:18080/goodsKill/login](http://localhost:18080/goodsKill/login)，默认管理员账号admin123，密码：aa123456
+- 启动完成后访问登录页面[http://localhost:8080/goodsKill/login](http://localhost:8080/goodsKill/login)，默认管理员账号admin123，密码：aa123456
  
 
 - 支付宝二维码接入指南：[https://blog.csdn.net/techa/article/details/71003519](https://blog.csdn.net/techa/article/details/71003519)
@@ -173,22 +180,13 @@ mvn spring-boot:run
 - 如已安装MongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
 
 #### 打包部署方法
-- 进入goodsKill项目根目录，**skipTests=true**跳过执行单元测试
- ```
- mvn clean package -DskipTests=true -Pdev
- ```
-- 启动服务提供方服务
- ```
- cd 项目根目录/goodsKill-spring-boot-provider/goodsKill-service/target
- java -jar goodsKill-service.jar
- ```
-- target目录找到goodsKill.war，使用tomcat 18080端口启动，启动服务消费方（包含web容器）
+- 可参考Dockerfile文件
 
 
 #### 并发方案：
 目前实现了几种秒杀方案
 
-测试地址：http://localhost:18080/goodsKill/swagger-ui.html#/
+测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
 - 场景一：sychronized同步锁实现
 - 场景二：redisson分布式锁实现
 - 场景三：ActiveMQ实现
@@ -206,7 +204,7 @@ mvn spring-boot:run
  ```
 
 #### 备忘：
-- swagger主页：[http://localhost:18080/goodsKill/swagger-ui.html#/](http://localhost:18080/goodsKill/swagger-ui.html#/)
+- swagger主页：[http://localhost:8080/goodsKill/swagger-ui.html#/](http://localhost:8080/goodsKill/swagger-ui.html#/)
 
 #### 后续更新计划
 - 添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成；

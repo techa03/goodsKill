@@ -1,0 +1,50 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: es-service-provider
+dubbo:
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  scan:
+    base-packages: com.goodskill.es.service
+es:
+  service:
+    version: 1.0.0
+logging:
+  level:
+    org:
+      elasticsearch:
+        client:
+          RestClient: debug
+
+elasticsearch:
+  rest:
+    client:
+      address: localhost:9200
+---
+spring:
+  profiles: dev
+
+dubbo:
+  registry:
+    address: zookeeper://127.0.0.1:2181
+###自定义es连接设置
+elasticsearch:
+  rest:
+    client:
+      address: localhost:9200
+---
+spring:
+  profiles: docker
+dubbo:
+  registry:
+    address: zookeeper://zookeeper:2181
+###自定义es连接设置
+elasticsearch:
+  rest:
+    client:
+      address: elasticsearch:9200

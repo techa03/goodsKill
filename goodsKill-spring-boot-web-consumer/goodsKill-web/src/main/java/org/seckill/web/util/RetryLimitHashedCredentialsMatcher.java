@@ -44,7 +44,7 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
 
     public static void main(String[] args) {
         String hashAlgorithmName = "MD5";
-        String credentials = "275688";
+        String credentials = "123456";
         int hashIterations = 2;
         ByteSource credentialsSalt = ByteSource.Util.bytes("techa03");
         Object obj = new SimpleHash(hashAlgorithmName, credentials, credentialsSalt, hashIterations);

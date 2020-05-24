@@ -79,7 +79,7 @@
     <button class="layui-btn layui-btn-sm" onclick="addPermission();">新增</button>
     <button class="layui-btn layui-btn-sm layui-btn-danger" onclick="deletePermission();">删除</button>
     <table class="layui-table"
-           lay-data="{url:'http://localhost:18080/goodsKill/seckill/admin/permission', page:true, id:'userPermission',skin:'line', even:true}"
+           lay-data="{url:'http://localhost:8080/goodsKill/seckill/admin/permission', page:true, id:'userPermission',skin:'line', even:true}"
            lay-filter="test">
         <thead>
         <tr>
@@ -96,7 +96,7 @@
 
 
 <div id="addUser1" style="margin-top: 20px;margin-right: 60px" hidden="hidden">
-    <form id="form" class="layui-form" action="http://localhost:18080/goodsKill/seckill/admin/permission/add">
+    <form id="form" class="layui-form" action="http://localhost:8080/goodsKill/seckill/admin/permission/add">
         <div class="layui-form-item">
             <label class="layui-form-label">权限名称</label>
             <div class="layui-input-block">
