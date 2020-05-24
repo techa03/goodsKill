@@ -2,18 +2,19 @@ package com.goodskill.mongo.entity;
 
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 
 /**
  * @author techa03
- * @date 2019/4/3
+ * @date 2020/5/24
  */
 @Data
 @Builder
-public class SuccessKilledDto implements Serializable {
+@Document
+public class SuccessKilled {
     private BigInteger seckillId;
 
     private String userPhone;

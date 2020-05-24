@@ -1,0 +1,37 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: mongo-service-provider
+demo:
+  service:
+    version: 1.0.0
+dubbo:
+  protocol:
+    name: dubbo
+    port: -1
+  scan:
+    base-packages: com.goodskill.mongo.service
+---
+spring:
+  profiles: dev
+  activemq:
+    broker-url: tcp://127.0.0.1:61616
+  data:
+    mongodb:
+      database: test
+dubbo:
+  registry:
+    address: zookeeper://127.0.0.1:2181
+---
+spring:
+  profiles: docker
+  activemq:
+    broker-url: tcp://activemq:61616
+  data:
+    mongodb:
+      database: test
+      uri: mongodb://mongo
+dubbo:
+  registry:
+    address: zookeeper://zookeeper:2181

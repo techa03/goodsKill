@@ -10,6 +10,8 @@
 		<artifactId>goodsKill-spring-boot-provider</artifactId>
 		<version>3.0.0-SNAPSHOT</version>
 	</parent>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>com.goodsKill</groupId>
@@ -140,10 +142,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
@@ -218,6 +216,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>goodsKill-service</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class ZookeeperLockUtil implements InitializingBean {
 
     private CuratorFramework client;
-    @Value("${zookeeper_ip:127.0.0.1:2181}")
+    @Value("${zookeeper_ip}")
     private String zookeeperIP;
     private ThreadLocal<Map<Long, InterProcessMutex>> threadLock = new ThreadLocal<>();
 

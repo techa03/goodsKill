@@ -141,7 +141,7 @@ Zookeeper | latest | 2181 | 无
 Elasticsearch | 7.7.0 | 9200 9300 | 无
 Kibana | 7.7.0 | 5601 | 无
 
-- 如无docker运行环境，可参照官网安装Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+本地默认端口启动
+- 如无docker运行环境，可参照官网安装Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+/Elasticsearch本地默认端口启动
 
 - 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
 

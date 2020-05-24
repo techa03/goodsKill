@@ -1,22 +1,27 @@
 version: "3"
 
 services:
-#  非官方镜像，拉不下来，可使用镜像加速服务试试
-#  activemq:
-#    image: rmohr/activemq:5.15.9
-#    container_name: activemq
-#    restart: always
-#    ports:
-#      - 61616:61616
-#      - 8161:8161
+  activemq:
+    image: webcenter/activemq
+    container_name: activemq
+    restart: always
+    ports:
+      - 61616:61616
+      - 8161:8161
+    networks:
+      - somenetwork
 
   zookeeper:
     image: zookeeper:latest
     container_name: zookeeper
     restart: always
+    depends_on:
+      - elasticsearch
     ports:
       - 2181:2181
       - 12181:12181
+    networks:
+      - somenetwork
 
   redis:
     image: redis
@@ -26,6 +31,8 @@ services:
       - TZ=Asia/Shanghai
     ports:
       - "6379:6379"
+    networks:
+      - somenetwork
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
@@ -94,6 +101,8 @@ services:
       MYSQL_DATABASE: "seckill"
       MYSQL_USER: "seckill"
       MYSQL_PASSWORD: "Password123"
+    networks:
+      - somenetwork
 
   mongo:
     image: mongo:4.2.6
@@ -101,9 +110,55 @@ services:
     restart: always
     ports:
       - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+    networks:
+      - somenetwork
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: root
+
+  goodses:
+    build: ./goodsKill-es-provider
+    container_name: goodses
+    depends_on:
+      - elasticsearch
+      - zookeeper
+      - elasticsearch1
+    networks:
+      - somenetwork
+
+  goodsmongo:
+    build: ./goodsKill-mongo-provider
+    container_name: goodsmongo
+    depends_on:
+      - zookeeper
+      - activemq
+      - mongo
+    networks:
+      - somenetwork
+
+  goodsservice:
+    build: ./goodsKill-spring-boot-provider
+    container_name: goodsservice
+    depends_on:
+      - elasticsearch
+      - zookeeper
+      - goodsmongo
+      - goodses
+      - activemq
+      - redis
+    networks:
+      - somenetwork
+
+  goodsweb:
+    build: ./goodsKill-spring-boot-web-consumer
+    container_name: goodsweb
+    depends_on:
+      - goodsservice
+      - zookeeper
+      - activemq
+      - redis
+    networks:
+      - somenetwork
 
 networks:
   somenetwork:

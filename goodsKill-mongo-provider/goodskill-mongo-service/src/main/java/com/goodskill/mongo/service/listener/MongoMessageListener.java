@@ -1,6 +1,6 @@
 package com.goodskill.mongo.service.listener;
 
-import com.goodskill.mongo.entity.SuccessKilledDto;
+import com.goodskill.mongo.entity.SuccessKilled;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.jms.annotation.JmsListener;
@@ -40,7 +40,7 @@ public class MongoMessageListener {
         } catch (JMSException e) {
             log.error(e.getMessage(), e);
         }
-        ops.insert(SuccessKilledDto.builder().seckillId(BigInteger.valueOf(seckillId)).userPhone(userPhone).build())
+        ops.insert(SuccessKilled.builder().seckillId(BigInteger.valueOf(seckillId)).userPhone(userPhone).build())
                 .doOnSuccess(n -> log.info("mongo秒杀记录插入成功:{}", n.toString())).subscribe();
         if (log.isDebugEnabled()) {
             log.debug("任务已结束！");
