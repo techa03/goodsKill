@@ -59,7 +59,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 ### API接口说明
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png)
 
-### 页面展示
+## 页面展示
 
 #### 登录：
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215746.png)
@@ -84,7 +84,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 #### 支付宝二维码扫码支付：
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701221505.png)
 
-#### 项目模块介绍
+## 项目模块介绍
 ```
 goodsKill
 |--goodskill-chat-provider                  ||聊天室服务提供者（待完成）
@@ -107,86 +107,88 @@ goodsKill
 |   |--goodsKill-web    
 ```
 
-#### 数据库表结构
+## 数据库表结构
 ![image](model_table.png)
 
 
-#### 开发环境版本说明：
-- JDK: JDK8+
+
+## 开发环境版本说明
+- JDK: JDK8（JDK9会卡在编译阶段，原因不明）
 - MySQL: 8.0+
 - ActiveMQ: 5.8.0
 - Kafka: kafka_2.11-2.0.0
 - MongoDB: 4.0+
 - Elasticsearch: 7.7.0
 
-注:其他环境版本暂未测试，使用最新版应该也没毛病
+> **注**:其他环境版本暂未测试，使用最新版应该也没毛病
 
-#### 项目启动方法：
-- 项目根目录goodsKill中执行mvn clean install
-- 进入项目根目录(确保已安装compose以支持docker-compose命令)，执行以下命令：
-###### 推荐使用docker-compose命令，无需手动下载软件安装包，开箱即用
- ```
-docker-compose up （第一次运行只需执行此命令）
-or
-docker-compose up -d //-d后台运行
-or
-docker-compose up -d build //build重新构建镜像文件，针对项目自定义镜像配置需要修改的情况
-or
-docker-compose up -d --no-recreate //如上次以构建容器，则此次会跳过构建容器
- ```
-> **注**:此命令会自动拉取docker镜像并以默认端口运行
+## 项目启动方法
+> #### 编译并构建镜像
 
-镜像 | 版本 | 端口 | 用户名密码
----|---|---|---
-Redis | latest | 6379 | 无
-Mongo | 4.2.6 | 27017 | root:root
-MySQL | 8.0 | 3306 | root:Password123
-Zookeeper | latest | 2181 | 无
-Elasticsearch | 7.7.0 | 9200 9300 | 无
-Kibana | 7.7.0 | 5601 | 无
-ActiveMQ | 5.4.18 | 2181 61616| 无
+1. 项目根目录goodsKill中执行mvn clean install
+2. 进入项目根目录(确保已安装compose以支持docker-compose命令)，执行以下命令：
+     ```
+    docker-compose up （第一次运行只需执行此命令）
+    or
+    docker-compose up -d //-d后台运行
+    or
+    docker-compose up -d build //build重新构建镜像文件，针对项目自定义镜像配置需要修改的情况
+    or
+    docker-compose up -d --no-recreate //如上次以构建容器，则此次会跳过构建容器
+     ```
+    **注**:推荐使用docker-compose命令，无需手动下载软件安装包，开箱即用。此命令会自动拉取docker镜像并以默认端口运行
 
-- 如无docker运行环境，可参照官网安装Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+/Elasticsearch本地默认端口启动，Kafka不安装不影响项目启动
+    镜像 | 版本 | 端口 | 用户名密码
+    ---|---|---|---
+    Redis | latest | 6379 | 无
+    Mongo | 4.2.6 | 27017 | root:root
+    MySQL | 8.0 | 3306 | root:Password123
+    Zookeeper | latest | 2181 | 无
+    Elasticsearch | 7.7.0 | 9200 9300 | 无
+    Kibana | 7.7.0 | 5601 | 无
+    ActiveMQ | 5.4.18 | 2181 61616| 无
 
-###### 导入项目基础数据
+3. 如无docker运行环境，可参照官网安装Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+/Elasticsearch本地默认端口启动，Kafka不安装不影响项目启动
 
-- 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
+> #### 导入项目基础数据并配置环境  
 
-- 数据库密码需要根据个人密码设置进行更改，数据库密码保存在application.yml，可以使用AESUtil工具类进行数据库密码加密替换master.password和slave.password（主从数据库信息可以一致）
+1. 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
 
-- applicatio.yml已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
- ```
- spring:
-   profiles:
-     active: dev
- ```
+2. 数据库密码需要根据个人密码设置进行更改，数据库密码保存在application.yml，可以使用AESUtil工具类进行数据库密码加密替换master.password和slave.password（主从数据库信息可以一致）
 
-> **注**:以下步骤docker-compose已执行可跳过，直接访问项目地址即可http://localhost:8080/goodsKill/login
+3. applicatio.yml已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
+     ```
+     spring:
+       profiles:
+         active: dev
+     ```
 
-- 找到EsApplication类main方法启动远程服务
+ **注**:以下步骤如docker-compose已执行可直接跳过，直接访问项目地址即可http://localhost:8080/goodsKill/login
 
-- 找到GoodsKillRpcServiceApplication类main方法启动远程服务
+> #### 在开发环境中运行项目
 
-- 进入goodsKill-web模块根目录模块，运行命令
- ```
-mvn spring-boot:run
- ```
+1. 找到EsApplication类main方法启动远程服务
 
-- 启动完成后访问登录页面[http://localhost:8080/goodsKill/login](http://localhost:8080/goodsKill/login)，默认管理员账号admin123，密码：aa123456
- 
+2. 找到GoodsKillRpcServiceApplication类main方法启动远程服务
 
-- 支付宝二维码接入指南：[https://blog.csdn.net/techa/article/details/71003519](https://blog.csdn.net/techa/article/details/71003519)
+3. 进入goodsKill-web模块根目录模块，运行命令
+     ```
+    mvn spring-boot:run
+     ```
 
-- 如已安装MongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
+4. 启动完成后访问登录页面[http://localhost:8080/goodsKill/login](http://localhost:8080/goodsKill/login)，默认管理员账号admin123，密码：aa123456
+    > 支付宝二维码接入指南：[https://blog.csdn.net/techa/article/details/71003519](https://blog.csdn.net/techa/article/details/71003519)
 
-#### 打包部署方法
+5. 如已安装MongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
+
+## 打包部署方法
 - 可参考Dockerfile文件
 
 
-#### 并发方案：
+## 并发方案
 目前实现了几种秒杀方案
 
-测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
+swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
 - 场景一：sychronized同步锁实现
 - 场景二：redisson分布式锁实现
 - 场景三：ActiveMQ实现
@@ -202,10 +204,7 @@ mvn spring-boot:run
 2019-03-25 13:40:49.050  INFO 1016 --- [ jmsContainer-1] o.s.web.mqlistener.SeckillTopicListener  : 最终成功交易笔数：100
 2019-03-25 13:40:49.050  INFO 1016 --- [ jmsContainer-1] o.s.web.mqlistener.SeckillTopicListener  : 秒杀活动结束，秒杀场景三(activemq消息队列实现)时间：Mon Mar 25 13:40:49 CST 2019,秒杀id：1001
  ```
-
-#### 备忘：
-- swagger主页：[http://localhost:8080/goodsKill/swagger-ui.html#/](http://localhost:8080/goodsKill/swagger-ui.html#/)
-
-#### 后续更新计划
-- 添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成；
-- 模拟秒杀控台日志显示优化，后续考虑增加一个benchmark跑分功能，依次调用各个秒杀场景方案，最后输出各个方案的用时.
+ 
+## 后续更新计划
+- [ ]  添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成
+- [ ]  模拟秒杀控台日志显示优化，后续考虑增加一个benchmark跑分功能，依次调用各个秒杀场景方案，最后输出各个方案的用时
