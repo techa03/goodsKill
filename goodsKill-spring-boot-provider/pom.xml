@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.goodsKill</groupId>
+	<groupId>com.goodskill</groupId>
 	<artifactId>goodsKill-spring-boot-provider</artifactId>
 	<packaging>pom</packaging>
 	<modules>
@@ -21,8 +21,8 @@
 		<mybatis-plus.version>3.2.0</mybatis-plus.version>
 	</properties>
 	<parent>
-		<groupId>com.goodsKill</groupId>
-		<artifactId>goodsKill</artifactId>
+		<groupId>com.goodskill</groupId>
+		<artifactId>goodskill</artifactId>
 		<version>3.0.0-SNAPSHOT</version>
 	</parent>
 	<name>goodsKill provider Maven Webapp</name>
@@ -31,37 +31,37 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>com.goodsKill</groupId>
+				<groupId>com.goodskill</groupId>
 				<artifactId>goodsKill-api</artifactId>
 				<version>${goodsKill.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.goodsKill</groupId>
+				<groupId>com.goodskill</groupId>
 				<artifactId>goodsKill-util</artifactId>
 				<version>${goodsKill.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.goodsKill</groupId>
+				<groupId>com.goodskill</groupId>
 				<artifactId>goodsKill-server</artifactId>
 				<version>${goodsKill.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.goodsKill</groupId>
+				<groupId>com.goodskill</groupId>
 				<artifactId>goodsKill-entry</artifactId>
 				<version>${goodsKill.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.goodsKill</groupId>
+				<groupId>com.goodskill</groupId>
 				<artifactId>goodskill-mongo-api</artifactId>
 				<version>${goodsKill.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.goodsKill</groupId>
+				<groupId>com.goodskill</groupId>
 				<artifactId>goodskill-es-api</artifactId>
 				<version>${goodsKill.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.goodsKill</groupId>
+				<groupId>com.goodskill</groupId>
 				<artifactId>goodsKill-mp-dao</artifactId>
 				<version>${goodsKill.version}</version>
 			</dependency>

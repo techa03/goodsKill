@@ -6,7 +6,7 @@
 	<version>${goodsKill.version}</version>
 	<packaging>jar</packaging>
 	<parent>
-		<groupId>com.goodsKill</groupId>
+		<groupId>com.goodskill</groupId>
 		<artifactId>goodsKill-spring-boot-provider</artifactId>
 		<version>3.0.0-SNAPSHOT</version>
 	</parent>
@@ -14,27 +14,27 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.goodsKill</groupId>
+			<groupId>com.goodskill</groupId>
 			<artifactId>goodsKill-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.goodsKill</groupId>
+			<groupId>com.goodskill</groupId>
 			<artifactId>goodsKill-util</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.goodsKill</groupId>
+			<groupId>com.goodskill</groupId>
 			<artifactId>goodsKill-entry</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.goodsKill</groupId>
+			<groupId>com.goodskill</groupId>
 			<artifactId>goodsKill-mp-dao</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.goodsKill</groupId>
+			<groupId>com.goodskill</groupId>
 			<artifactId>goodskill-mongo-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.goodsKill</groupId>
+			<groupId>com.goodskill</groupId>
 			<artifactId>goodskill-es-api</artifactId>
 		</dependency>
 		<!-- 支付宝sdk本地引入 -->

@@ -4,7 +4,7 @@
     <artifactId>goodsKill-util</artifactId>
     <version>${goodsKill.version}</version>
     <parent>
-        <groupId>com.goodsKill</groupId>
+        <groupId>com.goodskill</groupId>
         <artifactId>goodsKill-spring-boot-provider</artifactId>
         <version>3.0.0-SNAPSHOT</version>
     </parent>

@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>goodsKill</artifactId>
-        <groupId>com.goodsKill</groupId>
+        <artifactId>goodskill</artifactId>
+        <groupId>com.goodskill</groupId>
         <version>3.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -34,7 +34,7 @@
             <version>27.0.1-jre</version>
         </dependency>
         <dependency>
-            <groupId>com.goodsKill</groupId>
+            <groupId>com.goodskill</groupId>
             <artifactId>goodsKill-api</artifactId>
             <version>${goodsKill.version}</version>
         </dependency>
