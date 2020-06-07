@@ -24,11 +24,12 @@ public class ZookeeperLockStrategy implements GoodsKillStrategy {
     @Override
     public void execute(SeckillMockRequestDto requestDto) {
         long seckillId = requestDto.getSeckillId();
-        zookeeperLockUtil.lock(seckillId);
-        try {
-            seckillExecutor.dealSeckill(seckillId, requestDto.getPhoneNumber(), ZOOKEEPER_LOCK.getName());
-        } finally {
-            zookeeperLockUtil.releaseLock(seckillId);
+        if (zookeeperLockUtil.lock(seckillId)) {
+            try {
+                seckillExecutor.dealSeckill(seckillId, requestDto.getPhoneNumber(), ZOOKEEPER_LOCK.getName());
+            } finally {
+                zookeeperLockUtil.releaseLock(seckillId);
+            }
         }
     }
 }

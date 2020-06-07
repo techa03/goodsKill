@@ -172,7 +172,7 @@ goodsKill
 
 3. 进入goodsKill-web模块根目录模块，运行命令
      ```
-    mvn spring-boot:run
+    mvn spring-boot:run -Dspring.profiles.active=dev
      ```
 
 4. 启动完成后访问登录页面[http://localhost:8080/goodsKill/login](http://localhost:8080/goodsKill/login)，默认管理员账号admin123，密码：aa123456

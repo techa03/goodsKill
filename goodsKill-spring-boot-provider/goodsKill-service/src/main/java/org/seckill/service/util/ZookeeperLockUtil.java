@@ -6,26 +6,28 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * zk分布式锁工具类
+ *
  * @author heng
  */
-@Component
 @Slf4j
-public class ZookeeperLockUtil implements InitializingBean {
+@Component
+public class ZookeeperLockUtil {
 
     private CuratorFramework client;
     @Value("${zookeeper_ip}")
-    private String zookeeperIP;
+    private String ZOOKEEPER_IP;
     private ThreadLocal<Map<Long, InterProcessMutex>> threadLock = new ThreadLocal<>();
-
 
     /**
      * 采用curator提供的互斥锁获取锁方法
@@ -37,7 +39,7 @@ public class ZookeeperLockUtil implements InitializingBean {
     public boolean lock(long seckillId) {
         try {
             Map<Long, InterProcessMutex> map;
-            String rootLockPath = "/goodsKill";
+            String rootLockPath = "/goodskill";
             if (threadLock.get() == null) {
                 map = new ConcurrentHashMap();
                 map.put(seckillId, new InterProcessMutex(client, rootLockPath + "/" + seckillId));
@@ -48,10 +50,13 @@ public class ZookeeperLockUtil implements InitializingBean {
                     map.put(seckillId, new InterProcessMutex(client, rootLockPath + "/" + seckillId));
                 }
             }
-            threadLock.get().get(seckillId).acquire(5000L, TimeUnit.MILLISECONDS);
-            return true;
+            boolean acquire = threadLock.get().get(seckillId).acquire(5000L, TimeUnit.MILLISECONDS);
+            if (log.isDebugEnabled()) {
+                log.debug("成功获取到zk锁,秒杀id{}", seckillId);
+            }
+            return acquire;
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.warn("获取zk锁异常:{}", e.getMessage());
             return false;
         }
     }
@@ -65,20 +70,33 @@ public class ZookeeperLockUtil implements InitializingBean {
     public boolean releaseLock(long seckillId) {
         try {
             threadLock.get().get(seckillId).release();
+            // 释放内存资源
+            threadLock.get().put(seckillId, null);
+            if (log.isDebugEnabled()) {
+                log.debug("zk锁已释放，秒杀id{}", seckillId);
+            }
             return true;
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.warn("释放zk锁异常:{}", e.getMessage());
             return false;
         }
     }
 
-
-    @Override
-    public void afterPropertiesSet() {
+    @PostConstruct
+    private void init() {
         // 初始化Curator客户端
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-        this.client = CuratorFrameworkFactory.newClient(zookeeperIP, retryPolicy);
+        this.client = CuratorFrameworkFactory.newClient(ZOOKEEPER_IP, retryPolicy);
         client.start();
+    }
+
+    @PreDestroy
+    private void destroy() {
+        threadLock.remove();
+        client.close();
+    }
+
+    private ZookeeperLockUtil() {
     }
 
 }
