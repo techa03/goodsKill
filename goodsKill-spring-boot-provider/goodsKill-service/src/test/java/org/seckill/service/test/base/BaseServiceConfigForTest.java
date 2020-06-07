@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seckill.api.service.GoodsService;
 import org.seckill.api.service.SeckillService;
 import org.seckill.service.GoodsKillRpcServiceSimpleApplication;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,8 +21,6 @@ import javax.annotation.Resource;
 public class BaseServiceConfigForTest {
     @Resource
     private SeckillService seckillService;
-    @Resource
-    private GoodsService goodsService;
 
     @Test
     public void test(){

@@ -26,7 +26,7 @@ public class ZookeeperLockUtil {
 
     private CuratorFramework client;
     @Value("${zookeeper_ip}")
-    private String ZOOKEEPER_IP;
+    private String zookeeperIp;
     private ThreadLocal<Map<Long, InterProcessMutex>> threadLock = new ThreadLocal<>();
 
     /**
@@ -83,15 +83,15 @@ public class ZookeeperLockUtil {
     }
 
     @PostConstruct
-    private void init() {
+    private void initClient() {
         // 初始化Curator客户端
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-        this.client = CuratorFrameworkFactory.newClient(ZOOKEEPER_IP, retryPolicy);
+        this.client = CuratorFrameworkFactory.newClient(zookeeperIp, retryPolicy);
         client.start();
     }
 
     @PreDestroy
-    private void destroy() {
+    private void stopLocal() {
         threadLock.remove();
         client.close();
     }

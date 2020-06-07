@@ -53,7 +53,7 @@ public class SeckillController {
     private UserAccountService userAccountService;
     @Reference(version = "${demo.service.version}")
     private PermissionService permissionService;
-    @Reference(version = "${demo.service.version}")
+    @Reference(version = "${demo.service.version}", check = false)
     private GoodsEsService goodsEsService;
     @Value("${QRCODE_IMAGE_DIR}")
     private String QRCODE_IMAGE_DIR;
