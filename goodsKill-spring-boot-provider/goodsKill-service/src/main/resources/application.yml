@@ -50,6 +50,9 @@ QRCODE_IMAGE_DIR: D:/QRfile
 ######################本地开发环境配置#####################
 spring:
   profiles: dev
+  redis:
+    host: localhost
+    port: 6379
   kafka:
     bootstrap-servers: localhost:9092
 dubbo:
@@ -82,6 +85,9 @@ admin:
 ######################docker环境配置#####################
 spring:
   profiles: docker
+  redis:
+    host: redis
+    port: 6379
   kafka:
     bootstrap-servers: kafka:9092
   datasource:

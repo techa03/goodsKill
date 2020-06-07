@@ -57,6 +57,9 @@ QRCODE_IMAGE_DIR: D:/QRfile
 ---
 spring:
   profiles: dev
+  redis:
+    host: 127.0.0.1
+    port: 6379
   kafka:
     bootstrap-servers: localhost:9092
   data:
@@ -75,31 +78,13 @@ admin:
     address: zookeeper://127.0.0.1:2181
   registry:
     address: zookeeper://127.0.0.1:2181
-redis:
-  address: 127.0.0.1
-  port: 6379
----
-spring:
-  profiles: test
-  kafka:
-    bootstrap-servers: 192.168.2.247:9092
-dubbo:
-  registry:
-    address: zookeeper://127.0.0.1:2181
 
-mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
-admin:
-  config-center: zookeeper://127.0.0.1:2181
-  metadata-report:
-    address: zookeeper://127.0.0.1:2181
-  registry:
-    address: zookeeper://127.0.0.1:2181
-redis:
-  address: 127.0.0.1
-  port: 6379
 ---
 spring:
   profiles: docker
+  redis:
+    host: redis
+    port: 6379
 dubbo:
   registry:
     address: zookeeper://zookeeper:2181
@@ -110,6 +95,3 @@ admin:
   config-center: zookeeper://zookeeper:2181
   metadata-report:
     address: zookeeper://zookeeper:2181
-redis:
-  address: redis
-  port: 6379
