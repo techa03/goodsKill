@@ -27,7 +27,7 @@ public class ZookeeperLockUtil {
     private CuratorFramework client;
     @Value("${zookeeper_ip}")
     private String zookeeperIp;
-    private ThreadLocal<Map<Long, InterProcessMutex>> threadLock = new ThreadLocal<>();
+    private ThreadLocal<Map<Long, InterProcessMutex>> threadLock = ThreadLocal.withInitial(ConcurrentHashMap::new);
 
     /**
      * 采用curator提供的互斥锁获取锁方法
@@ -40,17 +40,11 @@ public class ZookeeperLockUtil {
         try {
             Map<Long, InterProcessMutex> map;
             String rootLockPath = "/goodskill";
-            if (threadLock.get() == null) {
-                map = new ConcurrentHashMap();
-                map.put(seckillId, new InterProcessMutex(client, rootLockPath + "/" + seckillId));
-                threadLock.set(map);
-            } else {
-                if (threadLock.get().get(seckillId) == null) {
-                    map = threadLock.get();
-                    map.put(seckillId, new InterProcessMutex(client, rootLockPath + "/" + seckillId));
-                }
+            Map<Long, InterProcessMutex> processMutexMap = threadLock.get();
+            if (processMutexMap.get(seckillId) == null) {
+                processMutexMap.put(seckillId, new InterProcessMutex(client, rootLockPath + "/" + seckillId));
             }
-            boolean acquire = threadLock.get().get(seckillId).acquire(5000L, TimeUnit.MILLISECONDS);
+            boolean acquire = processMutexMap.get(seckillId).acquire(5000L, TimeUnit.MILLISECONDS);
             if (log.isDebugEnabled()) {
                 log.debug("成功获取到zk锁,秒杀id{}", seckillId);
             }
@@ -69,9 +63,10 @@ public class ZookeeperLockUtil {
      */
     public boolean releaseLock(long seckillId) {
         try {
-            threadLock.get().get(seckillId).release();
+            Map<Long, InterProcessMutex> processMutexMap = threadLock.get();
+            processMutexMap.get(seckillId).release();
             // 释放内存资源
-            threadLock.get().put(seckillId, null);
+            processMutexMap.remove(seckillId);
             if (log.isDebugEnabled()) {
                 log.debug("zk锁已释放，秒杀id{}", seckillId);
             }
@@ -94,6 +89,7 @@ public class ZookeeperLockUtil {
     private void stopLocal() {
         threadLock.remove();
         client.close();
+        log.info("zk锁资源已释放！");
     }
 
     private ZookeeperLockUtil() {

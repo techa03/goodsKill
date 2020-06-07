@@ -1,5 +1,6 @@
 package org.seckill.service.util;
 
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -21,26 +22,24 @@ class ZookeeperLockUtilTest {
 
     @Test
     void lock() throws InterruptedException {
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
         CountDownLatch countDownLatch = new CountDownLatch(1000);
         for (int i = 0; i < 1000; i++) {
             executorService.execute(() -> {
                 if(zookeeperLockUtil.lock(10000L)) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(10);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     zookeeperLockUtil.releaseLock(10000L);
+                    countDownLatch.countDown();
                 }
-                countDownLatch.countDown();
             });
         }
         countDownLatch.await();
         executorService.shutdown();
+        Assert.assertTrue(countDownLatch.getCount() == 0);
     }
 
-    @Test
-    void releaseLock() {
-    }
 }
