@@ -66,7 +66,7 @@ public class ZookeeperLockUtil {
             Map<Long, InterProcessMutex> processMutexMap = threadLock.get();
             processMutexMap.get(seckillId).release();
             // 释放内存资源
-            processMutexMap.remove(seckillId);
+            threadLock.remove();
             if (log.isDebugEnabled()) {
                 log.debug("zk锁已释放，秒杀id{}", seckillId);
             }
@@ -87,9 +87,8 @@ public class ZookeeperLockUtil {
 
     @PreDestroy
     private void stopLocal() {
-        threadLock.remove();
         client.close();
-        log.info("zk锁资源已释放！");
+        log.info("zkClient已关闭");
     }
 
     private ZookeeperLockUtil() {
