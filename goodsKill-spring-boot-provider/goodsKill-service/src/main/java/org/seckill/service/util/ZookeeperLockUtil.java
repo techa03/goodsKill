@@ -44,9 +44,11 @@ public class ZookeeperLockUtil {
             if (processMutexMap.get(seckillId) == null) {
                 processMutexMap.put(seckillId, new InterProcessMutex(client, rootLockPath + "/" + seckillId));
             }
-            boolean acquire = processMutexMap.get(seckillId).acquire(5000L, TimeUnit.MILLISECONDS);
-            if (log.isDebugEnabled()) {
+            boolean acquire = processMutexMap.get(seckillId).acquire(1000L, TimeUnit.MILLISECONDS);
+            if (log.isDebugEnabled() && acquire) {
                 log.debug("成功获取到zk锁,秒杀id{}", seckillId);
+            } else {
+                log.debug("未获取到zk锁,秒杀id{}", seckillId);
             }
             return acquire;
         } catch (Exception e) {

@@ -1,5 +1,6 @@
 package org.seckill.service.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import java.util.concurrent.Executors;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GoodsKillRpcServiceSimpleApplication.class)
 @Ignore
+@Slf4j
 class ZookeeperLockUtilTest {
     @Autowired
     private ZookeeperLockUtil zookeeperLockUtil;
@@ -23,8 +25,9 @@ class ZookeeperLockUtilTest {
     @Test
     void lock() throws InterruptedException {
         ExecutorService executorService = Executors.newFixedThreadPool(10);
-        CountDownLatch countDownLatch = new CountDownLatch(1000);
-        for (int i = 0; i < 1000; i++) {
+        int count = 200;
+        CountDownLatch countDownLatch = new CountDownLatch(count);
+        for (int i = 0; i < count/2; i++) {
             executorService.execute(() -> {
                 if(zookeeperLockUtil.lock(10000L)) {
                     try {
@@ -33,6 +36,19 @@ class ZookeeperLockUtilTest {
                         e.printStackTrace();
                     }
                     zookeeperLockUtil.releaseLock(10000L);
+                    log.debug("计数器当前值{}", countDownLatch.getCount());
+                    countDownLatch.countDown();
+                }
+            });
+            executorService.execute(() -> {
+                if(zookeeperLockUtil.lock(10001L)) {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    zookeeperLockUtil.releaseLock(10001L);
+                    log.debug("计数器当前值{}", countDownLatch.getCount());
                     countDownLatch.countDown();
                 }
             });
