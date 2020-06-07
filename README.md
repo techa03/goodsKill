@@ -132,7 +132,7 @@ goodsKill
     or
     docker-compose up -d //-d后台运行
     or
-    docker-compose up -d build //build重新构建镜像文件，针对项目自定义镜像配置需要修改的情况
+    docker-compose up -d --build //build重新构建镜像文件，针对项目自定义镜像配置需要修改的情况
     or
     docker-compose up -d --no-recreate //如上次以构建容器，则此次会跳过构建容器
      ```
