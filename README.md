@@ -140,7 +140,7 @@ goodsKill
     镜像 | 版本 | 端口 | 用户名密码
     ---|---|---|---
     Redis | latest | 6379 | 无
-    Mongo | 4.2.6 | 27017 | root:root
+    Mongo | 4.2.6 | 27017 | 无
     MySQL | 8.0 | 3306 | root:Password123
     Zookeeper | latest | 2181 | 无
     Elasticsearch | 7.7.0 | 9200 9300 | 无
