@@ -35,7 +35,7 @@ services:
       - somenetwork
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
+    image: elasticsearch:7.7.0
     container_name: elasticsearch
     environment:
       - node.name=es01
