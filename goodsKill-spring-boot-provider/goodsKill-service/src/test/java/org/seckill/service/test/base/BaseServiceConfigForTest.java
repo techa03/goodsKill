@@ -3,6 +3,7 @@ package org.seckill.service.test.base;
 import com.github.pagehelper.PageInfo;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seckill.api.service.SeckillService;
@@ -30,7 +31,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 @SpringBootTest(classes = GoodsKillRpcServiceSimpleApplication.class)
 @RunWith(SpringRunner.class)
-//@Ignore
+@Ignore
 @Transactional
 public class BaseServiceConfigForTest {
     @Resource
