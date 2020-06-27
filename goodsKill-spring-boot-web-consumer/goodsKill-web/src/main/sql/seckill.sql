@@ -238,3 +238,72 @@ ALTER TABLE `seckill`.`success_killed`
 ADD COLUMN `server_ip` VARCHAR(200) NULL AFTER `create_time`,
 ADD COLUMN `user_ip` VARCHAR(200) NULL AFTER `server_ip`,
 ADD COLUMN `user_id` VARCHAR(45) NULL AFTER `user_ip`;
+
+
+create schema seckill_01 collate utf8mb4_0900_ai_ci;
+
+create table success_killed_0
+(
+	seckill_id bigint not null comment '秒杀商品',
+	user_phone varchar(20) not null comment '用户手机号',
+	status tinyint default -1 not null comment '状态标示：-1：无效   0：成功   1：已付款',
+	create_time timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '创建时间',
+	server_ip varchar(200) null,
+	user_ip varchar(200) null,
+	user_id varchar(45) null,
+	primary key (seckill_id, user_phone)
+)
+comment '秒杀成功明细表' charset=utf8;
+
+create index idx_create_time
+	on success_killed_0 (create_time);
+
+create table success_killed_1
+(
+	seckill_id bigint not null comment '秒杀商品',
+	user_phone varchar(20) not null comment '用户手机号',
+	status tinyint default -1 not null comment '状态标示：-1：无效   0：成功   1：已付款',
+	create_time timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '创建时间',
+	server_ip varchar(200) null,
+	user_ip varchar(200) null,
+	user_id varchar(45) null,
+	primary key (seckill_id, user_phone)
+)
+comment '秒杀成功明细表' charset=utf8;
+
+create index idx_create_time
+	on success_killed_1 (create_time);
+
+create table seckill.success_killed_0
+(
+	seckill_id bigint not null comment '秒杀商品',
+	user_phone varchar(20) not null comment '用户手机号',
+	status tinyint default -1 not null comment '状态标示：-1：无效   0：成功   1：已付款',
+	create_time timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '创建时间',
+	server_ip varchar(200) null,
+	user_ip varchar(200) null,
+	user_id varchar(45) null,
+	primary key (seckill_id, user_phone)
+)
+comment '秒杀成功明细表' charset=utf8;
+
+create index idx_create_time
+	on seckill.success_killed_0 (create_time);
+
+create table seckill.success_killed_1
+(
+	seckill_id bigint not null comment '秒杀商品',
+	user_phone varchar(20) not null comment '用户手机号',
+	status tinyint default -1 not null comment '状态标示：-1：无效   0：成功   1：已付款',
+	create_time timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '创建时间',
+	server_ip varchar(200) null,
+	user_ip varchar(200) null,
+	user_id varchar(45) null,
+	primary key (seckill_id, user_phone)
+)
+comment '秒杀成功明细表' charset=utf8;
+
+create index idx_create_time
+	on seckill.success_killed_1 (create_time);
+
+

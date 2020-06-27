@@ -1,0 +1,23 @@
+#spring:
+#  shardingsphere:
+#    datasource:
+#      ds0:
+#        driver-class-name: org.h2.Driver
+#        password:
+#        type: com.zaxxer.hikari.HikariDataSource
+#        jdbcUrl: jdbc:h2:mem:test
+#        username: SA
+#      ds1:
+#        driver-class-name: org.h2.Driver
+#        password:
+#        type: com.zaxxer.hikari.HikariDataSource
+#        jdbcUrl: jdbc:h2:mem:test
+#        username: SA
+#      names: ds0,ds1
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    #使用内存模式
+#    url: jdbc:h2:mem:test
+#    username: SA
+#    schema: classpath:/schema-h2.sql
+#    data: classpath:/data-h2.sql

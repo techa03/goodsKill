@@ -20,9 +20,9 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 public class GeneratorServiceEntity {
 
     public static void main(String[] args) {
-        String packageName = "org.seckill.dao.mp";
+        String packageName = "org.seckill.mp.dao";
         boolean serviceNameStartWithI = false;
-        String tableNames [] = new String[]{"goods","permission","role","role_permission","seckill","success_killed","user","user_role"};
+        String tableNames [] = new String[]{"t_order_0"};
         generateByTables(serviceNameStartWithI, packageName, tableNames);
     }
 
@@ -33,7 +33,7 @@ public class GeneratorServiceEntity {
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
                 .setUsername("root")
-                .setPassword("******")
+                .setPassword("Password123")
                 .setDriverName("com.mysql.cj.jdbc.Driver");
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig
@@ -48,10 +48,10 @@ public class GeneratorServiceEntity {
                 .setAuthor(username)
                 .setEnableCache(false)
                 .setBaseResultMap(false)
-                .setOutputDir("G:\\goodsKill\\goodsKill-spring-boot-provider\\goodsKill-mp-dao\\src\\main\\java")
+                .setOutputDir("C:\\Users\\heng\\IdeaProjects\\1\\goodsKill\\goodsKill-spring-boot-provider\\goodsKill-mp-dao\\src\\main\\java")
                 .setFileOverride(true);
         if (!serviceNameStartWithI) {
-            config.setServiceName("%sService");
+            config.setServiceName("");
         }
         new AutoGenerator().setGlobalConfig(config)
                 .setDataSource(dataSourceConfig)
@@ -59,7 +59,7 @@ public class GeneratorServiceEntity {
                 .setPackageInfo(
                         new PackageConfig()
                                 .setParent(packageName)
-                                .setController("controller")
+                                .setController("")
                                 .setEntity("entity")
                 ).execute();
     }

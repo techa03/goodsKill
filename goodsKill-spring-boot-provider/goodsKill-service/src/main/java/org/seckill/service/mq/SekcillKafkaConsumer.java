@@ -12,11 +12,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * kafka秒杀请求监听器
@@ -36,7 +36,7 @@ public class SekcillKafkaConsumer {
     @Autowired
     private SeckillMapper seckillMapper;
     @Autowired
-    private ThreadPoolTaskExecutor taskExecutor;
+    private ThreadPoolExecutor taskExecutor;
     @Autowired
     private SeckillExecutor seckillExecutor;
     @Autowired

@@ -9,13 +9,13 @@ import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
 import org.seckill.service.mq.ActiveMqMessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import static org.seckill.api.enums.SeckillSolutionEnum.SYCHRONIZED;
 
@@ -27,7 +27,7 @@ import static org.seckill.api.enums.SeckillSolutionEnum.SYCHRONIZED;
 @Slf4j
 public class SynchronizedLockStrategy implements GoodsKillStrategy {
     @Resource(name = "taskExecutor")
-    private ThreadPoolTaskExecutor taskExecutor;
+    private ThreadPoolExecutor taskExecutor;
     @Autowired
     private SeckillMapper seckillMapper;
     @Autowired

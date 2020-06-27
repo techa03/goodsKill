@@ -3,6 +3,7 @@ package org.seckill.service;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -12,9 +13,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Created by techa03 on 2017/2/3.
  * @author techa
  */
-@SpringBootApplication
-@ImportResource(value = {"classpath*:META-INF/spring/spring-service.xml",
-        "classpath*:META-INF/spring/spring-service-mq.xml",
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@ImportResource(value = {
         "classpath*:META-INF/spring/spring-dao.xml"})
 @EnableTransactionManagement
 @MapperScan("org.seckill.mp.dao.mapper")

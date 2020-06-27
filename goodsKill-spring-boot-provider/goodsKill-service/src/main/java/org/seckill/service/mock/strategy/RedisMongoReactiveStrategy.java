@@ -10,11 +10,11 @@ import org.seckill.service.mq.ActiveMqMessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.jms.Message;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import static org.seckill.api.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
 
@@ -30,7 +30,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
     @Autowired
     private RedisTemplate redisTemplate;
     @Resource(name = "taskExecutor")
-    private ThreadPoolTaskExecutor taskExecutor;
+    private ThreadPoolExecutor taskExecutor;
     @Autowired
     private JmsTemplate jmsTemplate;
     @Autowired

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:sharding="http://shardingsphere.apache.org/schema/shardingsphere/sharding"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-
-         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+        http://shardingsphere.apache.org/schema/shardingsphere/sharding
+        http://shardingsphere.apache.org/schema/shardingsphere/sharding/sharding.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource" ref="shardingDataSource"/>
         <property name="mapperLocations">
             <array>
-                <value>classpath*:mapper/*Mapper.xml</value>
+                <value>classpath*:mapper/*.xml</value>
             </array>
         </property>
         <property name="plugins">
@@ -28,30 +29,10 @@
         </property>
     </bean>
 
-    <!-- 动态数据源 -->
-    <bean id="dataSource" class="org.seckill.service.datasource.DynamicDataSource">
-        <property name="targetDataSources">
-            <map key-type="java.lang.String">
-                <!-- 可配置多个数据源 -->
-                <entry value-ref="masterDataSource" key="masterDataSource"></entry>
-                <entry value-ref="slaveDataSource" key="slaveDataSource"></entry>
-            </map>
-        </property>
-        <property name="defaultTargetDataSource" ref="masterDataSource"></property>
-    </bean>
-
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <property name="basePackage" value="org.seckill.mp.dao.mapper"/>
     </bean>
-
-
-    <!--spring事务处理-->
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!-- 国际化需要的类-->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
@@ -62,4 +43,49 @@
         </property>
     </bean>
 
+<!--    <bean id="ds0" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">-->
+<!--        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>-->
+<!--        <property name="jdbcUrl"-->
+<!--                  value="jdbc:mysql://localhost:3306/seckill?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC&amp;useSSL=false"/>-->
+<!--        <property name="username" value="root"/>-->
+<!--        <property name="password" value="Password123"/>-->
+<!--    </bean>-->
+<!--    &lt;!&ndash; 配置第 2 个数据源 &ndash;&gt;-->
+<!--    <bean id="ds1" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">-->
+<!--        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>-->
+<!--        <property name="jdbcUrl"-->
+<!--                  value="jdbc:mysql://localhost:3306/seckill_01?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC&amp;useSSL=false"/>-->
+<!--        <property name="username" value="root"/>-->
+<!--        <property name="password" value="Password123"/>-->
+<!--    </bean>-->
+
+    <!-- 配置分库策略 -->
+    <sharding:inline-strategy id="dbStrategy" sharding-column="seckill_id" algorithm-expression="ds$->{seckill_id % 2}"/>
+
+    <!-- 配置分表策略 -->
+    <sharding:inline-strategy id="tableStrategy" sharding-column="user_phone"
+                              algorithm-expression="success_killed_$->{user_phone.toLong() % 2}"/>
+
+    <!-- 配置ShardingSphereDataSource -->
+    <sharding:data-source id="shardingDataSource">
+        <!-- 配置分片规则，未配置分片规则的表使用ds0数据源 -->
+        <sharding:sharding-rule data-source-names="ds0,ds1" default-data-source-name="ds0">
+            <sharding:table-rules>
+                <!-- 配置 t_order 表规则 -->
+                <sharding:table-rule logic-table="success_killed" actual-data-nodes="ds$->{0..1}.success_killed_$->{0..1}"
+                                     database-strategy-ref="dbStrategy" table-strategy-ref="tableStrategy"/>
+            </sharding:table-rules>
+        </sharding:sharding-rule>
+        <sharding:props>
+            <!-- 打印sharding执行的sql语句 -->
+            <prop key="sql.show">true</prop>
+        </sharding:props>
+    </sharding:data-source>
+
+    <!--spring事务处理-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="shardingDataSource"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>
