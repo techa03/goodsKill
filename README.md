@@ -120,7 +120,7 @@ goodsKill
 - Kafka: kafka_2.11-2.0.0
 - MongoDB: 4.0+
 - Elasticsearch: 7.7.0
-- Sharding-JDBC: 4.4.1
+- Sharding-JDBC: 4.1.1
 
 > **注**:其他环境版本暂未测试
 
