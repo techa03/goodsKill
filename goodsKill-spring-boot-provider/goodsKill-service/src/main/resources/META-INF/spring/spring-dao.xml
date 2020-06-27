@@ -42,6 +42,22 @@
         </property>
     </bean>
 
+    <bean id="ds0" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="jdbcUrl"
+                  value="jdbc:mysql://localhost:3306/seckill?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC&amp;useSSL=false"/>
+        <property name="username" value="root"/>
+        <property name="password" value="Password123"/>
+    </bean>
+    <!-- 配置第 2 个数据源 -->
+    <bean id="ds1" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="jdbcUrl"
+                  value="jdbc:mysql://localhost:3306/seckill_01?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC&amp;useSSL=false"/>
+        <property name="username" value="root"/>
+        <property name="password" value="Password123"/>
+    </bean>
+
     <!-- 配置分库策略 -->
     <sharding:inline-strategy id="dbStrategy" sharding-column="seckill_id" algorithm-expression="ds$->{seckill_id % 2}"/>
 
