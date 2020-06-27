@@ -40,5 +40,6 @@ public interface SeckillMapper extends BaseMapper<Seckill> {
      *
      * @return
      */
+    @Deprecated
     void reduceNumberByProcedure(SuccessKilled successKilled);
 }

@@ -3,9 +3,8 @@
 [![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=master)](https://travis-ci.org/techa03/goodsKill)
 [![codecov](https://codecov.io/gh/techa03/goodsKill/branch/master/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=techa03_goodsKill&metric=alert_status)](https://sonarcloud.io/dashboard?id=techa03_goodsKill)
-## Stargazers over time
 
-[![Stargazers over time](https://starchart.cc/techa03/goodsKill.svg)](https://starchart.cc/techa03/goodsKill)
+
 # 前言
 项目命名为goodsKill一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为good skill，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来，方便学习和查阅。
 
@@ -191,6 +190,12 @@ COPY goodsKill-service/target/goodsKill-service.jar /app/goodsKill-service.jar
 WORKDIR /app
 CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", "goodsKill-service.jar"]
 ```
+
+## 分库分表情况说明
+表 | 数据库 | 是否分库 | 分库字段 | 是否分表 | 分表字段
+---|---|---|---|---|---
+success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01两个库） | seckill_id | 是（分为success_killed_0,success_kill_1两张表） | user_phone
+**注**:其他表均未分库分表，默认使用seckill作为主库
 
 ## 并发方案
 目前实现了几种秒杀方案

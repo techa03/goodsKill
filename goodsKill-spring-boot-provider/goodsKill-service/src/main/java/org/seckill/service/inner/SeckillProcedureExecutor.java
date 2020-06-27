@@ -2,6 +2,7 @@ package org.seckill.service.inner;
 
 import lombok.extern.slf4j.Slf4j;
 import org.seckill.api.constant.SeckillStatusConstant;
+import org.seckill.api.service.SeckillService;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.mp.dao.mapper.SeckillMapper;
@@ -25,6 +26,8 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
     private SeckillMapper seckillMapper;
     @Autowired
     private ActiveMqMessageSender activeMqMessageSender;
+    @Autowired
+    private SeckillService seckillService;
 
     /**
      * 发送秒杀成功通知次数
@@ -47,8 +50,7 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
             successKilled.setUserPhone(userPhone);
             successKilled.setCreateTime(new Date());
             successKilled.setServerIp(localHost.getHostAddress() + ":" + localHost.getHostName());
-            seckillMapper.reduceNumberByProcedure(successKilled);
-            if (successKilled.getStatus() < 1) {
+            if (seckillService.reduceNumber(successKilled) < 1) {
                 Seckill seckill = seckillMapper.selectById(seckillId);
                 log.debug("当前库存：{}", seckill.getNumber());
                 // 高并发时限制只能发一次秒杀完成通知

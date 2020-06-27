@@ -1,6 +1,7 @@
 package org.seckill.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -68,6 +69,8 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private RedisTemplate redisTemplate;
     @Autowired
     private List<GoodsKillStrategy> goodsKillStrategies;
+    @Autowired
+    private SeckillService seckillService;
 
     @Override
     public PageInfo getSeckillList(int pageNum, int pageSize, String goodsName) {
@@ -188,6 +191,37 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
             successKilledMongoService.deleteRecord(seckillId);
         } catch (Exception e) {
             log.error("mongo服务不可用请检查！", e);
+        }
+    }
+
+    @Override
+    public int reduceNumber(SuccessKilled successKilled) {
+        int count = 0;
+        try {
+            count = seckillService.reduceNumberInner(successKilled);
+        } catch (Exception e) {
+            log.warn(e.getMessage());
+        }
+        return count;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int reduceNumberInner(SuccessKilled successKilled) {
+        successKilledMapper.insert(successKilled);
+
+        Seckill wrapper = new Seckill();
+        wrapper.setSeckillId(successKilled.getSeckillId());
+        UpdateWrapper updateWrapper = new UpdateWrapper(wrapper);
+//        updateWrapper.gt("end_time", successKilled.getCreateTime());
+//        updateWrapper.lt("start_time", successKilled.getCreateTime());
+        updateWrapper.gt("number", 0);
+        updateWrapper.setSql("number = number - 1");
+        int update = baseMapper.update(null, updateWrapper);
+        if (update <= 0) {
+            throw new SeckillCloseException("seckill is closed");
+        } else {
+            return update;
         }
     }
 }

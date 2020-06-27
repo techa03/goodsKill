@@ -2,10 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:sharding="http://shardingsphere.apache.org/schema/shardingsphere/sharding"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
         http://shardingsphere.apache.org/schema/shardingsphere/sharding
-        http://shardingsphere.apache.org/schema/shardingsphere/sharding/sharding.xsd">
+        http://shardingsphere.apache.org/schema/shardingsphere/sharding/sharding.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
         <property name="dataSource" ref="shardingDataSource"/>
@@ -67,8 +68,8 @@
 
     <!-- 配置ShardingSphereDataSource -->
     <sharding:data-source id="shardingDataSource">
-        <!-- 配置分片规则 -->
-        <sharding:sharding-rule data-source-names="ds0,ds1">
+        <!-- 配置分片规则，未配置分片规则的表使用ds0数据源 -->
+        <sharding:sharding-rule data-source-names="ds0,ds1" default-data-source-name="ds0">
             <sharding:table-rules>
                 <!-- 配置 t_order 表规则 -->
                 <sharding:table-rule logic-table="success_killed" actual-data-nodes="ds$->{0..1}.success_killed_$->{0..1}"
@@ -80,4 +81,11 @@
             <prop key="sql.show">true</prop>
         </sharding:props>
     </sharding:data-source>
+
+    <!--spring事务处理-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="shardingDataSource"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>

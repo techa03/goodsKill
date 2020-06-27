@@ -5,6 +5,7 @@ import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
 import org.seckill.api.dto.SeckillMockRequestDto;
 import org.seckill.entity.Seckill;
+import org.seckill.entity.SuccessKilled;
 
 import java.io.Serializable;
 
@@ -84,4 +85,13 @@ public interface SeckillService {
     boolean removeById(Serializable seckillId);
 
     boolean save(Seckill seckill);
+
+    /**
+     * 减商品库存
+     * @param successKilled
+     * @return 1代表成功，小于1为失败
+     */
+    int reduceNumber(SuccessKilled successKilled);
+
+    int reduceNumberInner(SuccessKilled successKilled);
 }
