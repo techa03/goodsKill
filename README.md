@@ -195,6 +195,7 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
 表 | 数据库 | 是否分库 | 分库字段 | 是否分表 | 分表字段
 ---|---|---|---|---|---
 success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01两个库） | seckill_id | 是（分为success_killed_0,success_kill_1两张表） | user_phone
+
 **注**:其他表均未分库分表，默认使用seckill作为主库
 
 ## 并发方案
