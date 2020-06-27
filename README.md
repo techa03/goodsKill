@@ -99,7 +99,7 @@ goodsKill
 |   |--goodskill-mongo-service              
 |--goodsKill-spring-boot-provider           ||订单、用户、登录、商品管理服务提供者（待拆分）
 |   |--goodsKill-api
-|   |--goodsKill-mp-dao                     ||使用MyBatis-Plus访问MySql数据源，替换原goodsKill-dao模块   
+|   |--goodsKill-mp-dao                     ||使用MyBatis-Plus访问MySql数据源  
 |   |--goodsKill-entry                      
 |   |--goodsKill-generator                  
 |   |--goodsKill-service                    
@@ -120,8 +120,9 @@ goodsKill
 - Kafka: kafka_2.11-2.0.0
 - MongoDB: 4.0+
 - Elasticsearch: 7.7.0
+- Sharding-JDBC: 4.4.1
 
-> **注**:其他环境版本暂未测试，使用最新版应该也没毛病
+> **注**:其他环境版本暂未测试
 
 ## 项目启动方法
 > #### 编译并构建镜像
