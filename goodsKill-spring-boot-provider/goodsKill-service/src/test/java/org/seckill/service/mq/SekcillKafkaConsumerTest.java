@@ -12,9 +12,9 @@ import org.seckill.service.common.RedisService;
 import org.seckill.service.inner.SeckillExecutor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import javax.jms.Message;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -31,7 +31,7 @@ public class SekcillKafkaConsumerTest {
     @Mock
     private SeckillMapper seckillMapper;
     @Mock
-    private ThreadPoolTaskExecutor taskExecutor;
+    private ThreadPoolExecutor taskExecutor;
     @Mock
     private SeckillExecutor seckillExecutor;
     @Mock

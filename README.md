@@ -3,20 +3,22 @@
 [![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=master)](https://travis-ci.org/techa03/goodsKill)
 [![codecov](https://codecov.io/gh/techa03/goodsKill/branch/master/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=techa03_goodsKill&metric=alert_status)](https://sonarcloud.io/dashboard?id=techa03_goodsKill)
+## Stargazers over time
 
+[![Stargazers over time](https://starchart.cc/techa03/goodsKill.svg)](https://starchart.cc/techa03/goodsKill)
 # 前言
 项目命名为goodsKill一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为good skill，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来，方便学习和查阅。
 
-本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证，前端页面基于bootstrap框架搭建，并使用bootstrap-validator插件进行表单验证。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，数据库密码采用AES加密保护（默认未开启）。采用dubbo+zookeeper实现服务分布式部署及调用。集成了支付宝支付功能（详见service模块），用户完成秒杀操作成功之后即可通过二维码扫码完成支付（本demo基于支付宝沙箱环境）。
+本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证，前端页面基于bootstrap框架搭建，并使用bootstrap-validator插件进行表单验证。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，采用dubbo+zookeeper实现服务分布式部署及调用。集成了支付宝支付功能（详见service模块），用户完成秒杀操作成功之后即可通过二维码扫码完成支付（本demo基于支付宝沙箱环境）。
 
 本项目扩展了秒杀功能，集成了jmock完成service层的测试，支持数据库读写分离，同时项目使用travis持续集成，提交更新后即可触发travis自动构建并完成项目测试覆盖率报告。
 
 集成内嵌式H2数据库，方便独立进行单元功能测试。
 
 ## 分支介绍
-`dev_gradle`分支为使用gradle构建工具管理项目依赖，`dev_maven`分支对应maven构建工具（springframework版本4.x），`dev_springboot_2.x`分支基于最新springboot2.x构建简化配置（springframework版本5.x）。该项目功能目前比较简陋，功能还有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下~~~~。
+`dev_gradle`分支为使用gradle构建工具管理项目依赖（已停更），`dev_maven`分支对应maven构建工具（springframework版本4.x，已停更），`master`分支基于最新springboot2.3.x构建。该项目功能目前比较简陋，功能还有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下~~~~。
 
-> 附：码云项目链接[https://gitee.com/techa/goodsKill](https://gitee.com/techa/goodsKill) ,clone速度慢的用码云仓库拉吧，不定期同步到码云，顺便给个星呗，佛系经营~
+> 附：码云项目链接[https://gitee.com/techa/goodsKill](https://gitee.com/techa/goodsKill) ,clone速度慢的用码云仓库拉吧，不定期同步到码云，走过路过顺便给个星呗~
 ## 技术选型
 
 ### 后端技术:
@@ -45,6 +47,7 @@ Reactor | 响应式开发 | [https://projectreactor.io/](https://projectreactor.
 Spring Session | Spring会话管理 | [https://spring.io/projects/spring-session](https://spring.io/projects/spring-session)
 Elasticsearch | 全文搜索引擎 | [https://www.elastic.co](https://www.elastic.co)
 H2 | H2数据库 | [http://www.h2database.com/html/main.html](http://www.h2database.com/html/main.html)
+Sharding-JDBC | 分库分表组件 | [https://shardingsphere.apache.org/document/legacy/4.x/document/cn/overview/#sharding-jdbc](https://shardingsphere.apache.org/document/legacy/4.x/document/cn/overview/#sharding-jdbc)
 
 ### 前端技术:
 技术 | 名称 | 官网
@@ -109,7 +112,6 @@ goodsKill
 
 ## 数据库表结构
 ![image](model_table.png)
-
 
 
 ## 开发环境版本说明
@@ -182,8 +184,13 @@ goodsKill
 5. 如已安装MongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
 
 ## 打包部署方法
-- 可参考Dockerfile文件
-
+- 可参考Dockerfile文件，如:
+```
+FROM java:8-jre-alpine
+COPY goodsKill-service/target/goodsKill-service.jar /app/goodsKill-service.jar
+WORKDIR /app
+CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", "goodsKill-service.jar"]
+```
 
 ## 并发方案
 目前实现了几种秒杀方案
@@ -207,4 +214,6 @@ swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
  
 ## 后续更新计划
 - [ ]  添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成
-- [ ]  模拟秒杀控台日志显示优化，后续考虑增加一个benchmark跑分功能，依次调用各个秒杀场景方案，最后输出各个方案的用时
+- [ ]  集成spring cloud alibaba组件
+- [ ]  基于配置中心改造项目配置
+- [ ]  丰富项目文档

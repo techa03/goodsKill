@@ -5,6 +5,7 @@ import org.seckill.service.inner.SeckillExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.stereotype.Component;
 
 import javax.jms.Destination;
 import javax.jms.JMSException;
@@ -17,6 +18,7 @@ import javax.jms.MessageListener;
  * @author heng
  */
 @Slf4j
+@Component
 public class SeckillActiveConsumer implements MessageListener {
     @Autowired
     @Qualifier("jmsTemplate")

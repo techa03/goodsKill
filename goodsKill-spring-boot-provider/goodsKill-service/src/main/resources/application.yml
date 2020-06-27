@@ -19,6 +19,46 @@ spring:
   data:
     mongodb:
       database: test
+  shardingsphere:
+    datasource:
+      ds0:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: Password123
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbcUrl: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        username: root
+      ds1:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: Password123
+        type: com.zaxxer.hikari.HikariDataSource
+        jdbcUrl: jdbc:mysql://localhost:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        username: root
+      names: ds0,ds1
+      sharding:
+        sharding-algorithms:
+          database_inline:
+            props:
+              algorithm:
+                expression: ds_${seckill_id % 2}
+            type: INLINE
+          table_inline:
+            props:
+              algorithm:
+                expression: success_killed_${seq_no % 2 + 1}
+            type: INLINE
+        rules:
+          tables:
+            success_killed:
+              actual-data-nodes: ds$->{0..1}.success_killed_$->{1..2}
+              database-strategy:
+                standard:
+                  sharding-algorithm-name: database_inline
+                  sharding-column: seckill_id
+              table-strategy:
+                standard:
+                  sharding-algorithm-name: table_inline
+                  sharding-column: seq_no
+
 dubbo:
   scan:
     base-packages: org.seckill.service.impl
@@ -45,6 +85,17 @@ demo:
 #二维码图片存放目录
 QRCODE_IMAGE_DIR: D:/QRfile
 
+#Pagehelper配置
+mapper:
+  identity: MYSQL
+  not-empty: false
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+pagehelper:
+  helperDialect: mysql
+  params: count=countSql
+  reasonable: true
+  supportMethodsArguments: true
 ---
 
 ######################本地开发环境配置#####################
@@ -55,6 +106,16 @@ spring:
     port: 6379
   kafka:
     bootstrap-servers: localhost:9092
+  shardingsphere:
+    datasource:
+      ds0:
+        password: Password123
+        jdbcUrl: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        username: root
+      ds1:
+        password: Password123
+        jdbcUrl: jdbc:mysql://localhost:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        username: root
 dubbo:
   registry:
     address: zookeeper://127.0.0.1:2181
@@ -63,17 +124,7 @@ dubbo:
 
 zookeeper_ip: 127.0.0.1:2181
 cache_ip_address: redis://127.0.0.1:6379
-master:
-  driver: com.mysql.cj.jdbc.Driver
-  password: BMWDLL/CakHboXNiS8PYRw==
-  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=no
-  username: root
 mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
-slave:
-  driver: com.mysql.cj.jdbc.Driver
-  password: BMWDLL/CakHboXNiS8PYRw==
-  url: jdbc:mysql://127.0.0.1:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=no
-  username: root
 ###dubbo注册中心配置
 admin:
   config-center: zookeeper://127.0.0.1:2181
@@ -90,11 +141,16 @@ spring:
     port: 6379
   kafka:
     bootstrap-servers: kafka:9092
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
-    username: root
-    password: BMWDLL/CakHboXNiS8PYRw==
+  shardingsphere:
+    datasource:
+      ds0:
+        password: Password123
+        jdbcUrl: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        username: root
+      ds1:
+        password: Password123
+        jdbcUrl: jdbc:mysql://mysql:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        username: root
 dubbo:
   registry:
     address: zookeeper://zookeeper:2181
@@ -104,20 +160,27 @@ dubbo:
 zookeeper_ip: zookeeper:2181
 cache_ip_address: redis://redis:6379
 
-master:
-  driver: com.mysql.cj.jdbc.Driver
-  password: BMWDLL/CakHboXNiS8PYRw==
-  url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=no
-  username: root
 mq_address: failover:(tcp://activemq:61616)?initialReconnectDelay=100
-slave:
-  driver: com.mysql.cj.jdbc.Driver
-  password: BMWDLL/CakHboXNiS8PYRw==
-  url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=no
-  username: root
 admin:
   config-center: zookeeper://zookeeper:2181
   metadata-report:
     address: zookeeper://zookeeper:2181
   registry:
     address: zookeeper://zookeeper:2181
+
+---
+######################test环境配置#####################
+spring:
+  profiles: test
+  shardingsphere:
+    datasource:
+      ds0:
+        driver-class-name: org.h2.Driver
+        password:
+        jdbcUrl: jdbc:h2:mem:test
+        username: SA
+      ds1:
+        driver-class-name: org.h2.Driver
+        password:
+        jdbcUrl: jdbc:h2:mem:test
+        username: SA

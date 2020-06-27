@@ -2,18 +2,22 @@ package org.seckill.service.test.base;
 
 import com.github.pagehelper.PageInfo;
 import org.junit.Assert;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seckill.api.service.SeckillService;
 import org.seckill.entity.Seckill;
+import org.seckill.entity.SuccessKilled;
 import org.seckill.mp.dao.mapper.SeckillMapper;
+import org.seckill.mp.dao.mapper.SuccessKilledMapper;
 import org.seckill.service.GoodsKillRpcServiceSimpleApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -26,7 +30,8 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 @SpringBootTest(classes = GoodsKillRpcServiceSimpleApplication.class)
 @RunWith(SpringRunner.class)
-@Ignore
+//@Ignore
+@Transactional
 public class BaseServiceConfigForTest {
     @Resource
     private SeckillService seckillService;
@@ -34,6 +39,9 @@ public class BaseServiceConfigForTest {
     private RedisTemplate redisTemplate;
     @Resource
     private SeckillMapper seckillMapper;
+    @Resource
+    private SuccessKilledMapper successKilledMapper;
+
     private AtomicBoolean atomicBoolean = new AtomicBoolean(false);
     private AtomicBoolean signal = new AtomicBoolean(false);
     private Map<Thread, BlockingQueue> taskQueue = new ConcurrentHashMap(100);
@@ -159,5 +167,53 @@ public class BaseServiceConfigForTest {
         seckillMapper.updateById(entity);
         signal.set(false);
         condition.signalAll();
+    }
+
+//    @Test
+    public void testInsertSuccessKilled() {
+        SuccessKilled entity = new SuccessKilled();
+        entity.setSeckillId(1L);
+        entity.setUserPhone("2");
+        entity.setStatus(0);
+        entity.setCreateTime(new Date());
+        entity.setServerIp("1");
+        entity.setUserIp("1");
+        entity.setUserId("1");
+        successKilledMapper.insert(entity);
+        entity.setSeckillId(1L);
+        entity.setUserPhone("3");
+        entity.setStatus(0);
+        entity.setCreateTime(new Date());
+        entity.setServerIp("1");
+        entity.setUserIp("1");
+        entity.setUserId("1");
+        successKilledMapper.insert(entity);
+        entity.setSeckillId(2L);
+        entity.setUserPhone("2");
+        entity.setStatus(0);
+        entity.setCreateTime(new Date());
+        entity.setServerIp("1");
+        entity.setUserIp("1");
+        entity.setUserId("1");
+        successKilledMapper.insert(entity);
+        entity.setSeckillId(2L);
+        entity.setUserPhone("3");
+        entity.setStatus(0);
+        entity.setCreateTime(new Date());
+        entity.setServerIp("1");
+        entity.setUserIp("1");
+        entity.setUserId("1");
+        successKilledMapper.insert(entity);
+    }
+
+
+    @Test
+    public void testInsertOrder() {
+        Assert.assertTrue(successKilledMapper.selectList(null).size() > 0);
+    }
+
+    @Before
+    public void before() {
+        testInsertSuccessKilled();
     }
 }

@@ -19,6 +19,7 @@
 		<project.version>3.0.0-SNAPSHOT</project.version>
 		<shiro.version>1.5.0</shiro.version>
 		<mybatis-plus.version>3.2.0</mybatis-plus.version>
+		<shardingsphere.version>4.1.1</shardingsphere.version>
 	</properties>
 	<parent>
 		<groupId>com.goodskill</groupId>
@@ -394,6 +395,22 @@
 				<groupId>com.baomidou</groupId>
 				<artifactId>mybatis-plus-annotation</artifactId>
 				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shardingsphere</groupId>
+				<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+				<version>${shardingsphere.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shardingsphere</groupId>
+				<artifactId>sharding-jdbc-spring-namespace</artifactId>
+				<version>${shardingsphere.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>1.4.199</version>
+				<scope>test</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

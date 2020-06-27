@@ -8,6 +8,7 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
  * @author heng
  */
 @Slf4j
+@Deprecated
 public class DynamicDataSource extends AbstractRoutingDataSource {
 
     private static ThreadLocal<String> DATASOURCE_CONTEXT = new ThreadLocal<>();

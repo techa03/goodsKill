@@ -2,14 +2,10 @@ package org.seckill.service.aop.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.seckill.service.datasource.DataSourceEnum;
 import org.seckill.service.datasource.DynamicDataSource;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 /**
  * 动态数据源切面
@@ -18,10 +14,11 @@ import org.springframework.stereotype.Component;
  * @note 需要注意下该切面必须要在事务注解@Transactional之前，由于在开始事务之前就需要确定数据源，所以设置@Order(Ordered.LOWEST_PRECEDENCE-1)，@Transactional的order是最小值
  * @date 2018/09/28
  */
-@Aspect
-@Component
-@Order(Ordered.LOWEST_PRECEDENCE - 1)
+//@Aspect
+//@Component
+//@Order(Ordered.LOWEST_PRECEDENCE - 1)
 @Slf4j
+@Deprecated
 public class DataSourceEntryAspect {
     @Pointcut("execution(* org.seckill.service.mp.impl..*(..))")
     public void servicePointcut() {
