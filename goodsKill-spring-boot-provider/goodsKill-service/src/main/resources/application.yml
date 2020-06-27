@@ -33,31 +33,6 @@ spring:
         type: com.zaxxer.hikari.HikariDataSource
         jdbcUrl: jdbc:mysql://localhost:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
         username: root
-      names: ds0,ds1
-      sharding:
-        sharding-algorithms:
-          database_inline:
-            props:
-              algorithm:
-                expression: ds_${seckill_id % 2}
-            type: INLINE
-          table_inline:
-            props:
-              algorithm:
-                expression: success_killed_${seq_no % 2 + 1}
-            type: INLINE
-        rules:
-          tables:
-            success_killed:
-              actual-data-nodes: ds$->{0..1}.success_killed_$->{1..2}
-              database-strategy:
-                standard:
-                  sharding-algorithm-name: database_inline
-                  sharding-column: seckill_id
-              table-strategy:
-                standard:
-                  sharding-algorithm-name: table_inline
-                  sharding-column: seq_no
 
 dubbo:
   scan:

@@ -213,8 +213,8 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         Seckill wrapper = new Seckill();
         wrapper.setSeckillId(successKilled.getSeckillId());
         UpdateWrapper updateWrapper = new UpdateWrapper(wrapper);
-//        updateWrapper.gt("end_time", successKilled.getCreateTime());
-//        updateWrapper.lt("start_time", successKilled.getCreateTime());
+        updateWrapper.gt("end_time", successKilled.getCreateTime());
+        updateWrapper.lt("start_time", successKilled.getCreateTime());
         updateWrapper.gt("number", 0);
         updateWrapper.setSql("number = number - 1");
         int update = baseMapper.update(null, updateWrapper);
