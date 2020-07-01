@@ -15,7 +15,8 @@
 		<module>goodskill-chat-provider</module>
 		<module>goodskill-spring-boot-starter</module>
 		<module>goodsKill-es-provider</module>
-	</modules>
+        <module>goodsKill-service-dubbo-cloud</module>
+    </modules>
 
 	<properties>
 		<goodsKill.version>3.4.0-SNAPSHOT</goodsKill.version>
