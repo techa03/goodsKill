@@ -46,7 +46,7 @@ Reactor | 响应式开发 | [https://projectreactor.io/](https://projectreactor.
 Spring Session | Spring会话管理 | [https://spring.io/projects/spring-session](https://spring.io/projects/spring-session)
 Elasticsearch | 全文搜索引擎 | [https://www.elastic.co](https://www.elastic.co)
 H2 | H2数据库 | [http://www.h2database.com/html/main.html](http://www.h2database.com/html/main.html)
-Sharding-JDBC | 分库分表组件 | [https://shardingsphere.apache.org/document/legacy/4.x/document/cn/overview/#sharding-jdbc](https://shardingsphere.apache.org/document/legacy/4.x/document/cn/overview/#sharding-jdbc)
+Sharding-JDBC | 分库分表组件 | [https://shardingsphere.apache.org](https://shardingsphere.apache.org)
 
 ### 前端技术:
 技术 | 名称 | 官网
