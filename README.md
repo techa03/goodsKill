@@ -113,7 +113,7 @@ goodsKill
 
 
 ## 开发环境版本说明
-- JDK: openJDK11
+- JDK: OpenJDK11
 - MySQL: 8.0+
 - ActiveMQ: 5.8.0
 - Kafka: kafka_2.11-2.0.0
