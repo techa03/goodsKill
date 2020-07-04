@@ -42,6 +42,7 @@ public class SeckillTopicListener implements MessageListener {
                 }
             } catch (InterruptedException e) {
                 log.error(e.getMessage(), e);
+                Thread.currentThread().interrupt();
             }
         }
     }
