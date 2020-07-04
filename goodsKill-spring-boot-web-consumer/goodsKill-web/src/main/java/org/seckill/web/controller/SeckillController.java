@@ -41,19 +41,19 @@ import java.util.stream.Collectors;
 @RequestMapping("/seckill")
 public class SeckillController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private SeckillService seckillService;
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private GoodsService goodsService;
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private RolePermissionService rolePermissionService;
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private UserRoleService userRoleService;
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private UserAccountService userAccountService;
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private PermissionService permissionService;
-    @Reference(version = "${demo.service.version}", check = false)
+    @Reference(check = false)
     private GoodsEsService goodsEsService;
     @Value("${QRCODE_IMAGE_DIR}")
     private String QRCODE_IMAGE_DIR;
@@ -172,7 +172,14 @@ public class SeckillController {
         return "redirect:/seckill/list";
     }
 
+    /**
+     * @deprecated 2020/7/4移除，原来的支付宝sdk太老了，新的sdk需要再研究一下集成进来
+     * @param QRfilePath
+     * @param response
+     * @throws IOException
+     */
     @GetMapping(value = "/Qrcode/{QRfilePath}")
+    @Deprecated
     public void showQRcode(@PathVariable("QRfilePath") String QRfilePath, HttpServletResponse response) throws IOException {
         response.setContentType("img/*");
         try (FileInputStream fi = new FileInputStream(new File(QRCODE_IMAGE_DIR + "\\" + QRfilePath + ".png"));

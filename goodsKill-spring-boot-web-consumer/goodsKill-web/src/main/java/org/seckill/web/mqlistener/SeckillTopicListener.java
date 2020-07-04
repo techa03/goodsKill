@@ -16,7 +16,7 @@ import java.util.Date;
  */
 @Slf4j
 public class SeckillTopicListener implements MessageListener {
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private SeckillService seckillService;
 
     @Override
@@ -42,6 +42,7 @@ public class SeckillTopicListener implements MessageListener {
                 }
             } catch (InterruptedException e) {
                 log.error(e.getMessage(), e);
+                Thread.currentThread().interrupt();
             }
         }
     }

@@ -10,7 +10,7 @@ spring:
     consumer:
       group-id: myGroup
   application:
-    name: dubbo-provider-demo
+    name: goodskill-service-provider
   main:
     allow-bean-definition-overriding: true
   output:
@@ -38,8 +38,8 @@ dubbo:
   scan:
     base-packages: org.seckill.service.impl
   application:
-    id: dubbo-provider-demo
-    name: dubbo-provider-demo
+    id: goodskill-service-provider
+    name: goodskill-service-provider
   protocol:
     id: dubbo
     name: dubbo
@@ -50,13 +50,12 @@ dubbo:
     id: my-registry
   provider:
     timeout: 30000
-
+  ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@Reference(check=false)会失效
+  cloud:
+    subscribed-services: "*"
 
 server:
   port: 9090
-demo:
-  service:
-    version: 1.0.0
 #二维码图片存放目录
 QRCODE_IMAGE_DIR: D:/QRfile
 
@@ -93,20 +92,13 @@ spring:
         username: root
 dubbo:
   registry:
-    address: zookeeper://127.0.0.1:2181
+    address: spring-cloud://localhost
   provider:
     timeout: 30000
 
 zookeeper_ip: 127.0.0.1:2181
 cache_ip_address: redis://127.0.0.1:6379
 mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
-###dubbo注册中心配置
-admin:
-  config-center: zookeeper://127.0.0.1:2181
-  metadata-report:
-    address: zookeeper://127.0.0.1:2181
-  registry:
-    address: zookeeper://127.0.0.1:2181
 ---
 ######################docker环境配置#####################
 spring:
@@ -126,9 +118,12 @@ spring:
         password: Password123
         jdbcUrl: jdbc:mysql://mysql:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
         username: root
+  cloud:
+    nacos:
+      server-addr: nacos:8848
 dubbo:
   registry:
-    address: zookeeper://zookeeper:2181
+    address: spring-cloud://localhost
   provider:
     timeout: 30000
 
@@ -136,12 +131,6 @@ zookeeper_ip: zookeeper:2181
 cache_ip_address: redis://redis:6379
 
 mq_address: failover:(tcp://activemq:61616)?initialReconnectDelay=100
-admin:
-  config-center: zookeeper://zookeeper:2181
-  metadata-report:
-    address: zookeeper://zookeeper:2181
-  registry:
-    address: zookeeper://zookeeper:2181
 
 ---
 ######################test环境配置#####################

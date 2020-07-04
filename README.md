@@ -8,7 +8,7 @@
 # 前言
 项目命名为goodsKill一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为good skill，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来，方便学习和查阅。
 
-本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证，前端页面基于bootstrap框架搭建，并使用bootstrap-validator插件进行表单验证。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，采用dubbo+zookeeper实现服务分布式部署及调用。集成了支付宝支付功能（详见service模块），用户完成秒杀操作成功之后即可通过二维码扫码完成支付（本demo基于支付宝沙箱环境）。
+本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证，前端页面基于bootstrap框架搭建，并使用bootstrap-validator插件进行表单验证。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，采用dubbo+zookeeper实现服务分布式部署及调用。
 
 本项目扩展了秒杀功能，集成了jmock完成service层的测试，支持数据库读写分离，同时项目使用travis持续集成，提交更新后即可触发travis自动构建并完成项目测试覆盖率报告。
 
@@ -47,6 +47,7 @@ Spring Session | Spring会话管理 | [https://spring.io/projects/spring-session
 Elasticsearch | 全文搜索引擎 | [https://www.elastic.co](https://www.elastic.co)
 H2 | H2数据库 | [http://www.h2database.com/html/main.html](http://www.h2database.com/html/main.html)
 Sharding-JDBC | 分库分表组件 | [https://shardingsphere.apache.org](https://shardingsphere.apache.org)
+Spring Cloud Alibaba | SpringCloud组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
 
 ### 前端技术:
 技术 | 名称 | 官网
@@ -83,8 +84,6 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155400.png)
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155408.png)
 
-#### 支付宝二维码扫码支付：
-![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701221505.png)
 
 ## 项目模块介绍
 ```
@@ -114,7 +113,7 @@ goodsKill
 
 
 ## 开发环境版本说明
-- JDK: JDK8（JDK9会卡在编译阶段，原因不明）
+- JDK: openJDK11
 - MySQL: 8.0+
 - ActiveMQ: 5.8.0
 - Kafka: kafka_2.11-2.0.0
@@ -142,6 +141,7 @@ goodsKill
 
     镜像 | 版本 | 端口 | 用户名密码
     ---|---|---|---
+    Nacos | latest | 8848 | 无
     Redis | latest | 6379 | 无
     Mongo | 4.2.6 | 27017 | 无
     MySQL | 8.0 | 3306 | root:Password123
@@ -150,7 +150,7 @@ goodsKill
     Kibana | 7.7.0 | 5601 | 无
     ActiveMQ | 5.4.18 | 2181 61616| 无
 
-3. 如无docker运行环境，可参照官网安装Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+/Elasticsearch本地默认端口启动，Kafka不安装不影响项目启动
+3. 如无docker运行环境，可参照官网安装Nacos server/Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+/Elasticsearch本地默认端口启动，Kafka不安装不影响项目启动
 
 > #### 导入项目基础数据并配置环境  
 
@@ -178,14 +178,13 @@ goodsKill
      ```
 
 4. 启动完成后访问登录页面[http://localhost:8080/goodsKill/login](http://localhost:8080/goodsKill/login)，默认管理员账号admin123，密码：aa123456
-    > 支付宝二维码接入指南：[https://blog.csdn.net/techa/article/details/71003519](https://blog.csdn.net/techa/article/details/71003519)
 
 5. 如已安装MongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
 
 ## 打包部署方法
 - 可参考Dockerfile文件，如:
 ```
-FROM java:8-jre-alpine
+FROM openjdk:11.0.7-jre
 COPY goodsKill-service/target/goodsKill-service.jar /app/goodsKill-service.jar
 WORKDIR /app
 CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", "goodsKill-service.jar"]
@@ -206,7 +205,7 @@ swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
 - 场景二：redisson分布式锁实现
 - 场景三：ActiveMQ实现
 - 场景四：KafkaMQ实现
-- 场景五：存储过程实现
+- 场景五：本地事务实现
 - 场景六：实时等待秒杀处理结果
 - 场景七：zookeeper分布式锁
 - 场景八：使用redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用mongoDB完成数据落地
@@ -220,6 +219,6 @@ swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
  
 ## 后续更新计划
 - [ ]  添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成
-- [ ]  集成spring cloud alibaba组件
+- [x]  集成spring cloud alibaba组件
 - [ ]  基于配置中心改造项目配置
 - [ ]  丰富项目文档

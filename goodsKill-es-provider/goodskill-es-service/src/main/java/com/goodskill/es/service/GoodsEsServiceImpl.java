@@ -14,7 +14,6 @@ import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.query.HighlightQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -28,14 +27,12 @@ import java.util.stream.Collectors;
  * @author techa03
  * @date 2019/6/15
  */
-@Service(version = "${es.service.version}")
+@Service
 public class GoodsEsServiceImpl implements GoodsEsService {
     @Autowired
-    GoodsRepository goodsRepository;
+    private GoodsRepository goodsRepository;
     @Autowired
-    ElasticsearchOperations elasticsearchOperations;
-    @Autowired
-    ElasticsearchRestTemplate elasticsearchRestTemplate;
+    private ElasticsearchOperations elasticsearchOperations;
 
     private BeanCopier beanCopier = BeanCopier.create(GoodsDto.class, Goods.class, false);
 

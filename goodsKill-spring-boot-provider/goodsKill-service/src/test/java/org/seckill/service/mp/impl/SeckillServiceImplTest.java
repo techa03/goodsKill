@@ -66,7 +66,6 @@ public class SeckillServiceImplTest {
         successKilled.setSeckillId(seckillId);
         successKilled.setUserPhone(userPhone);
         when(successKilledMapper.insert(successKilled)).thenReturn(1);
-        when(alipayRunner.trade_precreate(seckillId)).thenReturn("1");
         when(successKilledMapper.selectOne(any())).thenReturn(new SuccessKilled());
         assertNotNull(seckillService.executeSeckill(seckillId, userPhone, md5));
     }

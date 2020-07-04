@@ -274,7 +274,7 @@ comment '秒杀成功明细表' charset=utf8;
 create index idx_create_time
 	on success_killed_1 (create_time);
 
-create table seckill.success_killed_0
+create table seckill_01.success_killed_0
 (
 	seckill_id bigint not null comment '秒杀商品',
 	user_phone varchar(20) not null comment '用户手机号',
@@ -288,9 +288,9 @@ create table seckill.success_killed_0
 comment '秒杀成功明细表' charset=utf8;
 
 create index idx_create_time
-	on seckill.success_killed_0 (create_time);
+	on seckill_01.success_killed_0 (create_time);
 
-create table seckill.success_killed_1
+create table seckill_01.success_killed_1
 (
 	seckill_id bigint not null comment '秒杀商品',
 	user_phone varchar(20) not null comment '用户手机号',
@@ -304,6 +304,6 @@ create table seckill.success_killed_1
 comment '秒杀成功明细表' charset=utf8;
 
 create index idx_create_time
-	on seckill.success_killed_1 (create_time);
+	on seckill_01.success_killed_1 (create_time);
 
 

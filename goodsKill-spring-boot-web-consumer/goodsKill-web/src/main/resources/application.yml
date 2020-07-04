@@ -1,6 +1,8 @@
 spring:
   profiles:
     active: docker
+  application:
+    name: goodskill-web
   session:
     redis:
       flush-mode: on_save
@@ -26,10 +28,6 @@ spring:
 application:
   message: Hello
 
-demo:
-  service:
-    version: 1.0.0
-
 dubbo:
   application:
     id: dubbo-consumer-demo
@@ -37,9 +35,12 @@ dubbo:
   protocol:
     id: dubbo
     name: dubbo
+    port: -1
   consumer:
     timeout: 30000
-
+  ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@Reference(check=false)会失效
+  cloud:
+    subscribed-services: "*"
 
 management:
   endpoints:
@@ -68,16 +69,10 @@ spring:
         enabled: true
 dubbo:
   registry:
-    address: zookeeper://127.0.0.1:2181
+    address: spring-cloud://localhost
 
 mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
 
-admin:
-  config-center: zookeeper://127.0.0.1:2181
-  metadata-report:
-    address: zookeeper://127.0.0.1:2181
-  registry:
-    address: zookeeper://127.0.0.1:2181
 
 ---
 spring:
@@ -85,13 +80,10 @@ spring:
   redis:
     host: redis
     port: 6379
+  cloud:
+    nacos:
+      server-addr: nacos:8848
 dubbo:
   registry:
-    address: zookeeper://zookeeper:2181
+    address: spring-cloud://localhost
 mq_address: failover:(tcp://activemq:61616)?initialReconnectDelay=100
-admin:
-  registry:
-    address: zookeeper://zookeeper:2181
-  config-center: zookeeper://zookeeper:2181
-  metadata-report:
-    address: zookeeper://zookeeper:2181

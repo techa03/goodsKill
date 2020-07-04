@@ -2,7 +2,6 @@ package com.goodskill.autoconfigure.mysql;
 
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.pool.DruidDataSource;
-import org.seckill.util.common.util.AESUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +25,7 @@ public class GoodskillMysqlAutoConfiguration {
         master.setDriverClassName(driverClassName);
         master.setUrl(url);
         master.setUsername(username);
-        master.setPassword(AESUtil.aesDecode(password));
+        master.setPassword(password);
         master.setFilters("stat,slf4j");
         return master;
     }
@@ -40,7 +39,7 @@ public class GoodskillMysqlAutoConfiguration {
         master.setDriverClassName(driverClassName);
         master.setUrl(url);
         master.setUsername(username);
-        master.setPassword(AESUtil.aesDecode(password));
+        master.setPassword(password);
         master.setFilters("stat,slf4j");
         return master;
     }

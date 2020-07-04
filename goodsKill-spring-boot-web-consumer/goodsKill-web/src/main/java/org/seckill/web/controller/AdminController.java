@@ -25,15 +25,15 @@ import java.util.List;
 @RequestMapping("/seckill/admin")
 @Slf4j
 public class AdminController {
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private UserAccountService userService;
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private RoleService roleService;
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private UserRoleService userRoleService;
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private PermissionService permissionService;
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private RolePermissionService rolePermissionService;
 
     @GetMapping("/role")

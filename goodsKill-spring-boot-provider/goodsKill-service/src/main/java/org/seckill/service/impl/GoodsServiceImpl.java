@@ -23,15 +23,10 @@ import java.util.List;
  * @author heng
  * @since 2019-09-07
  */
-@Service(
-        version = "${demo.service.version}",
-        application = "${dubbo.application.id}",
-        protocol = "${dubbo.protocol.id}",
-        registry = "${dubbo.registry.id}"
-)
+@Service
 @Slf4j
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements GoodsService {
-    @Reference(version = "1.0.0", check = false)
+    @Reference(check = false)
     private GoodsEsService goodsEsService;
 
     @Override

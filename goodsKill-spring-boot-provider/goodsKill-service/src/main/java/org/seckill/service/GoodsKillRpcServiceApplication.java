@@ -1,10 +1,9 @@
 package org.seckill.service;
 
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -21,9 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class GoodsKillRpcServiceApplication {
 
     public static void main(String[] args) {
-        new SpringApplicationBuilder(GoodsKillRpcServiceApplication.class)
-                .web(WebApplicationType.NONE)
-                .run(args);
+        SpringApplication.run(GoodsKillRpcServiceApplication.class, args);
     }
 
 }

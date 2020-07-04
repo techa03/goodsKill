@@ -14,12 +14,7 @@ import org.seckill.service.mp.UserService;
  * @author heng
  * @since 2019-09-07
  */
-@Service(
-        version = "${demo.service.version}",
-        application = "${dubbo.application.id}",
-        protocol = "${dubbo.protocol.id}",
-        registry = "${dubbo.registry.id}"
-)
+@Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
 }

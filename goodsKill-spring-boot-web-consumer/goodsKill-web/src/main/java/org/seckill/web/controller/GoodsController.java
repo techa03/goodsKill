@@ -19,7 +19,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/seckill/goods")
 public class GoodsController {
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private GoodsService goodsService;
 
     @GetMapping("/new")
