@@ -47,6 +47,7 @@ Spring Session | Spring会话管理 | [https://spring.io/projects/spring-session
 Elasticsearch | 全文搜索引擎 | [https://www.elastic.co](https://www.elastic.co)
 H2 | H2数据库 | [http://www.h2database.com/html/main.html](http://www.h2database.com/html/main.html)
 Sharding-JDBC | 分库分表组件 | [https://shardingsphere.apache.org](https://shardingsphere.apache.org)
+spring-cloud-alibaba | spring-cloud-alibaba组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
 
 ### 前端技术:
 技术 | 名称 | 官网
@@ -140,6 +141,7 @@ goodsKill
 
     镜像 | 版本 | 端口 | 用户名密码
     ---|---|---|---
+    Nacos | latest | 8848 | 无
     Redis | latest | 6379 | 无
     Mongo | 4.2.6 | 27017 | 无
     MySQL | 8.0 | 3306 | root:Password123
@@ -148,7 +150,7 @@ goodsKill
     Kibana | 7.7.0 | 5601 | 无
     ActiveMQ | 5.4.18 | 2181 61616| 无
 
-3. 如无docker运行环境，可参照官网安装Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+/Elasticsearch本地默认端口启动，Kafka不安装不影响项目启动
+3. 如无docker运行环境，可参照官网安装Nacos server/Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+/Elasticsearch本地默认端口启动，Kafka不安装不影响项目启动
 
 > #### 导入项目基础数据并配置环境  
 
@@ -217,6 +219,6 @@ swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
  
 ## 后续更新计划
 - [ ]  添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成
-- [ ]  集成spring cloud alibaba组件
+- [x]  集成spring cloud alibaba组件
 - [ ]  基于配置中心改造项目配置
 - [ ]  丰富项目文档
