@@ -37,21 +37,6 @@
 			<groupId>com.goodskill</groupId>
 			<artifactId>goodskill-es-api</artifactId>
 		</dependency>
-		<!-- 支付宝sdk本地引入 -->
-		<dependency>
-			<groupId>com.alibaba.alipay</groupId>
-			<artifactId>alipay-sdk</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/resources/lib/alipay-sdk-java20161213173952.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba.alipay</groupId>
-			<artifactId>alipay-trade</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/resources/lib/alipay-trade-sdk-20161215.jar</systemPath>
-		</dependency>
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
@@ -200,20 +185,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-<!--			<dependency>-->
-<!--				<groupId>com.alibaba.cloud</groupId>-->
-<!--				<artifactId>spring-cloud-alibaba-dependencies</artifactId>-->
-<!--				<version>${spring-cloud-alibaba.version}</version>-->
-<!--				<type>pom</type>-->
-<!--				<scope>import</scope>-->
-<!--			</dependency>-->
-<!--			<dependency>-->
-<!--				<groupId>org.springframework.boot</groupId>-->
-<!--				<artifactId>spring-boot-dependencies</artifactId>-->
-<!--				<version>${springboot.version}</version>-->
-<!--				<type>pom</type>-->
-<!--				<scope>import</scope>-->
-<!--			</dependency>-->
 		</dependencies>
 	</dependencyManagement>
 
@@ -259,7 +230,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<mainClass>org.seckill.service.GoodsKillRpcServiceApplication</mainClass>
-					<includeSystemScope>true</includeSystemScope>
 				</configuration>
 				<executions>
 					<execution>
@@ -281,6 +251,14 @@
 							<Implementation-Title>MyApp</Implementation-Title>
 						</manifestEntries>
 					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<release>11</release>
 				</configuration>
 			</plugin>
 		</plugins>

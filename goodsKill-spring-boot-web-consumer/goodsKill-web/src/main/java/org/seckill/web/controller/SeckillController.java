@@ -172,7 +172,14 @@ public class SeckillController {
         return "redirect:/seckill/list";
     }
 
+    /**
+     * @deprecated 2020/7/4移除，原来的支付宝sdk太老了，新的sdk需要再研究一下集成进来
+     * @param QRfilePath
+     * @param response
+     * @throws IOException
+     */
     @GetMapping(value = "/Qrcode/{QRfilePath}")
+    @Deprecated
     public void showQRcode(@PathVariable("QRfilePath") String QRfilePath, HttpServletResponse response) throws IOException {
         response.setContentType("img/*");
         try (FileInputStream fi = new FileInputStream(new File(QRCODE_IMAGE_DIR + "\\" + QRfilePath + ".png"));

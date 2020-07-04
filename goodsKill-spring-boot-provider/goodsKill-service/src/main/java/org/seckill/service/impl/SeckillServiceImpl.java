@@ -25,7 +25,6 @@ import org.seckill.entity.SuccessKilled;
 import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
 import org.seckill.service.common.RedisService;
-import org.seckill.service.common.trade.alipay.AlipayRunner;
 import org.seckill.service.mock.strategy.GoodsKillStrategy;
 import org.seckill.service.mock.strategy.GoodsKillStrategyEnum;
 import org.seckill.util.common.util.DateUtil;
@@ -54,8 +53,6 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
 
     @Reference(check = false)
     private SuccessKilledMongoService successKilledMongoService;
-    @Autowired
-    private AlipayRunner alipayRunner;
     @Autowired
     private SuccessKilledMapper successKilledMapper;
     @Autowired
@@ -109,14 +106,14 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
                 successKilled.setSeckillId(seckillId);
                 successKilled.setUserPhone(userPhone);
                 int insertCount = successKilledMapper.insert(successKilled);
-                String qrfilepath = alipayRunner.trade_precreate(seckillId);
                 if (insertCount <= 0) {
                     throw new RepeatKillException("seckill repeated");
                 } else {
                     SuccessKilled key = new SuccessKilled();
                     key.setSeckillId(seckillId);
                     key.setUserPhone(userPhone);
-                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilledMapper.selectOne(new QueryWrapper<>(key)), qrfilepath);
+                    // TODO 支付宝扫码待集成
+                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilledMapper.selectOne(new QueryWrapper<>(key)), "");
                 }
             }
         } catch (SeckillCloseException | RepeatKillException e1) {
