@@ -21,6 +21,7 @@
 		<mybatis-plus.version>3.2.0</mybatis-plus.version>
 		<shardingsphere.version>4.1.1</shardingsphere.version>
 		<jackson.version>2.11.0</jackson.version>
+		<spring.cloud.alibaba.version>2.2.1.RELEASE</spring.cloud.alibaba.version>
 	</properties>
 	<parent>
 		<groupId>com.goodskill</groupId>
@@ -376,6 +377,16 @@
 				<artifactId>h2</artifactId>
 				<version>1.4.199</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+				<version>${spring.cloud.alibaba.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-starter-dubbo</artifactId>
+				<version>${spring.cloud.alibaba.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
