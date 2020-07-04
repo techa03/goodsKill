@@ -15,6 +15,7 @@ dubbo:
     base-packages: com.goodskill.mongo.service
   cloud:
     subscribed-services: ""
+
 ---
 spring:
   profiles: dev
@@ -23,6 +24,9 @@ spring:
   data:
     mongodb:
       database: test
+  cloud:
+    nacos:
+      server-addr: localhost:8848
 dubbo:
   registry:
     address: spring-cloud://localhost
@@ -35,6 +39,9 @@ spring:
     mongodb:
       database: test
       uri: mongodb://mongo
+  cloud:
+    nacos:
+      server-addr: nacos:8848
 dubbo:
   registry:
     address: spring-cloud://localhost

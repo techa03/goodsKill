@@ -118,6 +118,9 @@ spring:
         password: Password123
         jdbcUrl: jdbc:mysql://mysql:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
         username: root
+  cloud:
+    nacos:
+      server-addr: nacos:8848
 dubbo:
   registry:
     address: spring-cloud://localhost
