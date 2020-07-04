@@ -15,13 +15,12 @@
 		<module>goodskill-chat-provider</module>
 		<module>goodskill-spring-boot-starter</module>
 		<module>goodsKill-es-provider</module>
-        <module>goodsKill-service-dubbo-cloud</module>
     </modules>
 
 	<properties>
 		<goodsKill.version>3.4.0-SNAPSHOT</goodsKill.version>
 		<springboot.version>2.3.0.RELEASE</springboot.version>
-		<dubbo.version>2.7.0</dubbo.version>
+		<dubbo.version>2.7.6</dubbo.version>
 		<sonar.exclusions>
 			src/main/webapp/.../**/*
 			src/main/sql/.../**/*

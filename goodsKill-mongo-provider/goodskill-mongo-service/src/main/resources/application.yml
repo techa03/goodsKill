@@ -10,8 +10,11 @@ dubbo:
   protocol:
     name: dubbo
     port: -1
+    id: dubbo
   scan:
     base-packages: com.goodskill.mongo.service
+  cloud:
+    subscribed-services: ""
 ---
 spring:
   profiles: dev
@@ -22,7 +25,7 @@ spring:
       database: test
 dubbo:
   registry:
-    address: zookeeper://127.0.0.1:2181
+    address: spring-cloud://localhost
 ---
 spring:
   profiles: docker
@@ -34,4 +37,4 @@ spring:
       uri: mongodb://mongo
 dubbo:
   registry:
-    address: zookeeper://zookeeper:2181
+    address: spring-cloud://localhost

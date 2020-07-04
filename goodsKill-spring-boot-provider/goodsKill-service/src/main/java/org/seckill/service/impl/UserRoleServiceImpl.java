@@ -17,12 +17,7 @@ import java.util.List;
  * @author heng
  * @since 2019-09-07
  */
-@Service(
-        version = "${demo.service.version}",
-        application = "${dubbo.application.id}",
-        protocol = "${dubbo.protocol.id}",
-        registry = "${dubbo.registry.id}"
-)
+@Service
 public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {
 
     @Override

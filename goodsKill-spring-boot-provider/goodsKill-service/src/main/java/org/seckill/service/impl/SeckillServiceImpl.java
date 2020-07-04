@@ -48,16 +48,11 @@ import java.util.Optional;
  * @author heng
  * @since 2019-09-07
  */
-@Service(
-        version = "${demo.service.version}",
-        application = "${dubbo.application.id}",
-        protocol = "${dubbo.protocol.id}",
-        registry = "${dubbo.registry.id}"
-)
+@Service
 @Slf4j
 public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> implements SeckillService {
 
-    @Reference(version = "1.0.0", check = false)
+    @Reference(check = false)
     private SuccessKilledMongoService successKilledMongoService;
     @Autowired
     private AlipayRunner alipayRunner;

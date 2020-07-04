@@ -14,12 +14,7 @@ import org.seckill.service.mp.SuccessKilledService;
  * @author heng
  * @since 2019-09-07
  */
-@Service(
-        version = "${demo.service.version}",
-        application = "${dubbo.application.id}",
-        protocol = "${dubbo.protocol.id}",
-        registry = "${dubbo.registry.id}"
-)
+@Service
 public class SuccessKilledServiceImpl extends ServiceImpl<SuccessKilledMapper, SuccessKilled> implements SuccessKilledService {
 
 }

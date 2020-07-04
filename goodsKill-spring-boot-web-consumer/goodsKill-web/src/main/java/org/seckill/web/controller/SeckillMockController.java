@@ -34,7 +34,7 @@ import static org.seckill.api.enums.SeckillSolutionEnum.*;
 @Slf4j
 public class SeckillMockController {
 
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private SeckillService seckillService;
     @Autowired
     private JmsTemplate jmsTemplate;

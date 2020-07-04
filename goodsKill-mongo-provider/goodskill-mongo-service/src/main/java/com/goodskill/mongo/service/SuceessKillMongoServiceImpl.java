@@ -17,7 +17,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 /**
  * @author heng
  */
-@Service(version = "1.0.0")
+@Service
 @Slf4j
 public class SuceessKillMongoServiceImpl implements SuccessKilledMongoService {
     @Autowired

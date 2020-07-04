@@ -22,12 +22,7 @@ import java.util.Set;
 /**
  * @author heng
  */
-@Service(
-        version = "${demo.service.version}",
-        application = "${dubbo.application.id}",
-        protocol = "${dubbo.protocol.id}",
-        registry = "${dubbo.registry.id}"
-)
+@Service
 public class UserAccountServiceImpl extends ServiceImpl<UserMapper, User> implements UserAccountService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired

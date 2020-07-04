@@ -3,24 +3,26 @@ spring:
     active: dev
   application:
     name: es-service-provider
+## dubbo服务注册和发现
 dubbo:
   protocol:
     name: dubbo
     port: -1
+    id: dubbo
   registry:
-    address: zookeeper://127.0.0.1:2181
+    address: spring-cloud://localhost
   scan:
     base-packages: com.goodskill.es.service
-es:
-  service:
-    version: 1.0.0
+  cloud:
+    subscribed-services: "*"
+## 日志级别
 logging:
   level:
     org:
       elasticsearch:
         client:
           RestClient: debug
-
+## es客户端配置
 elasticsearch:
   rest:
     client:
@@ -28,11 +30,9 @@ elasticsearch:
 ---
 spring:
   profiles: dev
-
 dubbo:
   registry:
-    address: zookeeper://127.0.0.1:2181
-###自定义es连接设置
+    address: spring-cloud://localhost
 elasticsearch:
   rest:
     client:
@@ -42,8 +42,7 @@ spring:
   profiles: docker
 dubbo:
   registry:
-    address: zookeeper://zookeeper:2181
-###自定义es连接设置
+    address: spring-cloud://localhost
 elasticsearch:
   rest:
     client:

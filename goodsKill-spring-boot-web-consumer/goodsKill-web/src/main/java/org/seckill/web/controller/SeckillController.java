@@ -41,19 +41,19 @@ import java.util.stream.Collectors;
 @RequestMapping("/seckill")
 public class SeckillController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private SeckillService seckillService;
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private GoodsService goodsService;
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private RolePermissionService rolePermissionService;
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private UserRoleService userRoleService;
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private UserAccountService userAccountService;
-    @Reference(version = "${demo.service.version}")
+    @Reference
     private PermissionService permissionService;
-    @Reference(version = "${demo.service.version}", check = false)
+    @Reference(check = false)
     private GoodsEsService goodsEsService;
     @Value("${QRCODE_IMAGE_DIR}")
     private String QRCODE_IMAGE_DIR;
