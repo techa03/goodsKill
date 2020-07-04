@@ -114,7 +114,7 @@ goodsKill
 
 
 ## 开发环境版本说明
-- JDK: JDK8（JDK9会卡在编译阶段，原因不明）
+- JDK: JDK11
 - MySQL: 8.0+
 - ActiveMQ: 5.8.0
 - Kafka: kafka_2.11-2.0.0
@@ -185,7 +185,7 @@ goodsKill
 ## 打包部署方法
 - 可参考Dockerfile文件，如:
 ```
-FROM java:8-jre-alpine
+FROM openjdk:11.0.7-jre
 COPY goodsKill-service/target/goodsKill-service.jar /app/goodsKill-service.jar
 WORKDIR /app
 CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", "goodsKill-service.jar"]
