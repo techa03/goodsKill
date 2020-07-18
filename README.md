@@ -32,6 +32,7 @@ Dubbo | 分布式服务框架  | [http://dubbo.io/](http://dubbo.io/)
 Redis | 分布式缓存数据库  | [https://redis.io/](https://redis.io/)
 ActiveMQ | 消息队列  | [http://activemq.apache.org/](http://activemq.apache.org/)
 Kafka | 消息队列  | [http://kafka.apache.org/](http://kafka.apache.org/)
+RabbitMQ | 消息队列  | [https://www.rabbitmq.com/](https://www.rabbitmq.com/)
 Logback | 日志组件  | [https://logback.qos.ch/](https://logback.qos.ch/)
 Protobuf & json | 数据序列化  | [https://github.com/google/protobuf](https://github.com/google/protobuf)
 Maven | 项目构建管理  | [http://maven.apache.org/](http://maven.apache.org/)
@@ -48,6 +49,7 @@ Elasticsearch | 全文搜索引擎 | [https://www.elastic.co](https://www.elasti
 H2 | H2数据库 | [http://www.h2database.com/html/main.html](http://www.h2database.com/html/main.html)
 Sharding-JDBC | 分库分表组件 | [https://shardingsphere.apache.org](https://shardingsphere.apache.org)
 Spring Cloud Alibaba | SpringCloud组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
+Kotlin | Kotlin | [https://kotlinlang.org/](https://kotlinlang.org/)
 
 ### 前端技术:
 技术 | 名称 | 官网
@@ -55,35 +57,6 @@ Spring Cloud Alibaba | SpringCloud组件 | [https://spring.io/projects/spring-cl
 JQuery | 函式库  | [http://jquery.com/](http://jquery.com/)
 Bootstrap | 前端框架  | [http://getbootstrap.com/](http://getbootstrap.com/)
 LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
-
-### API接口
-![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png)
-
-### API接口说明
-![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png)
-
-## 页面展示
-
-#### 登录：
-![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215746.png)
-
-#### 注册：
-![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215804.png)
-
-#### 主页：
-![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215849.png)
-
-#### 商品查询:
-> 搜索框下拉商品候选信息基于elasticsearch实现，支持关键词高亮显示
-
-![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200523214633.png)
-
-#### 用户角色权限管理：
-![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155310.png)
-![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155353.png)
-![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155400.png)
-![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155408.png)
-
 
 ## 项目模块介绍
 ```
@@ -108,10 +81,6 @@ goodsKill
 |   |--goodsKill-web    
 ```
 
-## 数据库表结构
-![image](model_table.png)
-
-
 ## 开发环境版本说明
 - JDK: OpenJDK11
 - MySQL: 8.0+
@@ -120,6 +89,9 @@ goodsKill
 - MongoDB: 4.0+
 - Elasticsearch: 7.7.0
 - Sharding-JDBC: 4.1.1
+- Rabbitmq: 3.8.5
+- SpringCloud: Hoxton.SR6
+- SpringBoot: 2.3.1.RELEASE
 
 > **注**:其他环境版本暂未测试
 
@@ -209,6 +181,7 @@ swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
 - 场景六：实时等待秒杀处理结果
 - 场景七：zookeeper分布式锁
 - 场景八：使用redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用mongoDB完成数据落地
+- 场景九：SpringCloudStream Rabbitmq实现
 
 可在web控台查看秒杀结果，打印信息类似：
  ```
@@ -218,7 +191,38 @@ swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
  ```
  
 ## 后续更新计划
-- [ ]  添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成
 - [x]  集成spring cloud alibaba组件
+- [ ]  添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成
 - [ ]  基于配置中心改造项目配置
 - [ ]  丰富项目文档
+
+### API接口
+![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png)
+
+### API接口说明
+![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png)
+
+## 页面展示
+
+#### 登录：
+![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215746.png)
+
+#### 注册：
+![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215804.png)
+
+#### 主页：
+![image](https://github.com/techa03/learngit/blob/techa03-patch-1/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215849.png)
+
+#### 商品查询:
+> 搜索框下拉商品候选信息基于elasticsearch实现，支持关键词高亮显示
+
+![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200523214633.png)
+
+#### 用户角色权限管理：
+![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155310.png)
+![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155353.png)
+![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155400.png)
+![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155408.png)
+
+## 数据库表结构
+![image](model_table.png)

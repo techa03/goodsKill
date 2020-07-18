@@ -1,6 +1,16 @@
 version: "3"
 
 services:
+  rabbitmq-management:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - somenetwork
+
   nacos:
     image: nacos/nacos-server:latest
     container_name: nacos

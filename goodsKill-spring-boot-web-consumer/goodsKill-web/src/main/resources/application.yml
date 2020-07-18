@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: docker
+    active: dev
   application:
     name: goodskill-web
   session:
@@ -25,6 +25,11 @@ spring:
   output:
     ansi:
       enabled: always
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 application:
   message: Hello
 
@@ -83,6 +88,11 @@ spring:
   cloud:
     nacos:
       server-addr: nacos:8848
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
 dubbo:
   registry:
     address: spring-cloud://localhost

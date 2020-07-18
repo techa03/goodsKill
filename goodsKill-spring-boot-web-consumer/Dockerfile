@@ -1,2 +1,4 @@
-FROM tomcat:9.0.35-jdk11
-COPY goodsKill-web/target/goodsKill.war /usr/local/tomcat/webapps/goodsKill.war
+FROM openjdk:11.0.7-jre
+COPY goodsKill-web/target/goodsKill.war /app/goodsKill.war
+WORKDIR /app
+CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", "goodsKill.war"]

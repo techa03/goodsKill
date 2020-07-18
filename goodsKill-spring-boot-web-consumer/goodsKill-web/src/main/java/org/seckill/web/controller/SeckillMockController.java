@@ -8,9 +8,10 @@ import org.seckill.api.dto.SeckillMockRequestDto;
 import org.seckill.api.service.SeckillService;
 import org.seckill.entity.Seckill;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +43,8 @@ public class SeckillMockController {
     private ThreadPoolTaskExecutor taskExecutor;
     @Autowired
     private KafkaTemplate kafkaTemplate;
+    @Autowired
+    private Source source;
 
     /**
      * 通过同步锁控制秒杀并发（秒杀未完成阻塞主线程）
@@ -185,19 +188,16 @@ public class SeckillMockController {
         prepareSeckill(seckillId, 10);
         log.info(ACTIVE_MQ_MESSAGE_WITH_REPLY.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
 
-        Message mes = jmsTemplate.sendAndReceive(new MessageCreator() {
-            @Override
-            public Message createMessage(Session session) throws JMSException {
-                Message message = session.createMessage();
-                message.setLongProperty("seckillId", seckillId);
-                message.setStringProperty("userPhone", userPhone);
-                // 指定服务方应答到临时队列中，请求方最终从临时队列获取消息
-                message.setJMSReplyTo(session.createTemporaryQueue());
-                // 消息超时时间设置为5分钟
-                message.setJMSExpiration(5 * 60 * 1000L);
-                message.setJMSCorrelationID(UUID.randomUUID().toString());
-                return message;
-            }
+        Message mes = jmsTemplate.sendAndReceive(session -> {
+            Message message = session.createMessage();
+            message.setLongProperty("seckillId", seckillId);
+            message.setStringProperty("userPhone", userPhone);
+            // 指定服务方应答到临时队列中，请求方最终从临时队列获取消息
+            message.setJMSReplyTo(session.createTemporaryQueue());
+            // 消息超时时间设置为5分钟
+            message.setJMSExpiration(5 * 60 * 1000L);
+            message.setJMSCorrelationID(UUID.randomUUID().toString());
+            return message;
         });
         String result = "";
         try {
@@ -211,6 +211,7 @@ public class SeckillMockController {
 
 
     /**
+     *
      */
     @ApiOperation(value = "秒杀场景七(zookeeper分布式锁)")
     @PostMapping("/zookeeperLock/{seckillId}")
@@ -230,7 +231,6 @@ public class SeckillMockController {
 
     /**
      * 场景八：使用activeMQ发送秒杀请求，收到消息后使用redis缓存执行库存-1操作，最后通过发送MQ完成数据落地（存入mongoDB）
-     *
      */
     @ApiOperation(value = "秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)")
     @PostMapping("/redisReactiveMongo/{seckillId}")
@@ -265,6 +265,27 @@ public class SeckillMockController {
         doWithProcedure(seckillId, seckillCount, requestCount);
         doWithRedissionLock(seckillId, seckillCount, requestCount);
         doWithSychronized(seckillId, seckillCount, requestCount);
+    }
+
+    /**
+     * @param seckillId 秒杀活动id
+     */
+    @ApiOperation(value = "秒杀场景九(rabbitmq)")
+    @PostMapping("/rabbitmq/{seckillId}")
+    public void doWithRabbitmq(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
+                               @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
+        // 初始化库存数量
+        prepareSeckill(seckillId, seckillCount);
+        log.info(RABBIT_MQ.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        for (int i = 0; i < requestCount; i++) {
+            taskExecutor.execute(() -> {
+                        SeckillMockRequestDto payload = new SeckillMockRequestDto(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1)));
+                        source.output().send(MessageBuilder.withPayload(payload).build());
+                    }
+            );
+        }
+        //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
 }

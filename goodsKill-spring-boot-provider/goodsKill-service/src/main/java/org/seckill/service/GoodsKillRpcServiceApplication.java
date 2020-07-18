@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Created by techa03 on 2017/2/3.
  * @author techa
  */
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @ImportResource(value = {
         "classpath*:META-INF/spring/spring-dao.xml"})
 @EnableTransactionManagement
