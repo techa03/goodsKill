@@ -66,7 +66,7 @@ dubbo:
     subscribed-services: "*"
 
 server:
-  port: 9090
+  port: 19090
 #二维码图片存放目录
 QRCODE_IMAGE_DIR: D:/QRfile
 

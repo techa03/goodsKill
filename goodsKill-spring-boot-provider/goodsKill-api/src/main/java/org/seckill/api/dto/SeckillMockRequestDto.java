@@ -37,4 +37,6 @@ public class SeckillMockRequestDto implements Serializable {
         this.count = count;
         this.phoneNumber = phoneNumber;
     }
+
+    public SeckillMockRequestDto() {}
 }

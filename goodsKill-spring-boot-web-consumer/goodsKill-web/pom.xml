@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>goodsKill-web</artifactId>
 	<version>${goodsKill.version}</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>goodsKill-web</name>
 
 	<properties>
@@ -76,11 +76,7 @@
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
+			<artifactId>springfox-boot-starter</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.github.xiaoymin</groupId>

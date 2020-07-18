@@ -7,9 +7,8 @@ import org.apache.dubbo.config.annotation.Reference;
 import org.seckill.api.dto.SeckillMockRequestDto;
 import org.seckill.api.service.SeckillService;
 import org.seckill.entity.Seckill;
-import org.seckill.web.dto.SeckillTopic;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.support.MessageBuilder;
@@ -34,9 +33,6 @@ import static org.seckill.api.enums.SeckillSolutionEnum.*;
 @Api(tags = "模拟秒杀场景(无需登录)")
 @RestController("/seckill")
 @Slf4j
-@EnableBinding(value = {
-        SeckillTopic.class
-})
 public class SeckillMockController {
 
     @Reference
@@ -48,7 +44,7 @@ public class SeckillMockController {
     @Autowired
     private KafkaTemplate kafkaTemplate;
     @Autowired
-    private SeckillTopic seckillTopic;
+    private Source source;
 
     /**
      * 通过同步锁控制秒杀并发（秒杀未完成阻塞主线程）
@@ -285,7 +281,7 @@ public class SeckillMockController {
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() -> {
                         SeckillMockRequestDto payload = new SeckillMockRequestDto(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1)));
-                        seckillTopic.output().send(MessageBuilder.withPayload(payload).build());
+                        source.output().send(MessageBuilder.withPayload(payload).build());
                     }
             );
         }

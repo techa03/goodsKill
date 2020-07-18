@@ -21,7 +21,7 @@ public enum SeckillSolutionEnum {
     RABBIT_MQ(9, "秒杀场景九(基于springcloud stream rabbitmq)");
 
     private int code;
-    public String name;
+    private String name;
 
     SeckillSolutionEnum(int code, String name) {
         this.code = code;
