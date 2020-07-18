@@ -37,7 +37,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * <p>
@@ -134,8 +133,9 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
 
     @Override
     public void execute(SeckillMockRequestDto requestDto, int strategyNumber) {
-        Optional<GoodsKillStrategy> first = goodsKillStrategies.stream().filter(n -> GoodsKillStrategyEnum.stateOf(strategyNumber).getClassName().equals(n.getClass().getName())).findFirst();
-        first.ifPresent(n -> n.execute(requestDto));
+        goodsKillStrategies.stream()
+                .filter(n -> GoodsKillStrategyEnum.stateOf(strategyNumber).getClassName().equals(n.getClass().getName()))
+                .findFirst().ifPresent(n -> n.execute(requestDto));
     }
 
     /**
@@ -204,7 +204,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
 
         Seckill wrapper = new Seckill();
         wrapper.setSeckillId(successKilled.getSeckillId());
-        UpdateWrapper updateWrapper = new UpdateWrapper(wrapper);
+        UpdateWrapper<Seckill> updateWrapper = new UpdateWrapper(wrapper);
         updateWrapper.gt("end_time", successKilled.getCreateTime());
         updateWrapper.lt("start_time", successKilled.getCreateTime());
         updateWrapper.gt("number", 0);
