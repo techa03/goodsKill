@@ -89,7 +89,7 @@ goodsKill
 - MongoDB: 4.0+
 - Elasticsearch: 7.7.0
 - Sharding-JDBC: 4.1.1
-- Rabbitmq: 3.8.5
+- RabbitMQ: 3.8.5
 - SpringCloud: Hoxton.SR6
 - SpringBoot: 2.3.1.RELEASE
 
