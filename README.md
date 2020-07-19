@@ -85,7 +85,7 @@ goodsKill
 - JDK: OpenJDK11
 - MySQL: 8.0+
 - ActiveMQ: 5.8.0
-- Kafka: kafka_2.11-2.0.0
+- Kafka: 2.5.0
 - MongoDB: 4.0+
 - Elasticsearch: 7.7.0
 - Sharding-JDBC: 4.1.1
@@ -115,6 +115,7 @@ goodsKill
     ---|---|---|---
     Nacos | latest | 8848 | 无
     Redis | latest | 6379 | 无
+    Kafka | latest | 9200 | 无
     Mongo | 4.2.6 | 27017 | 无
     MySQL | 8.0 | 3306 | root:Password123
     Zookeeper | latest | 2181 | 无
@@ -176,7 +177,7 @@ swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
 - 场景一：sychronized同步锁实现
 - 场景二：redisson分布式锁实现
 - 场景三：ActiveMQ实现
-- 场景四：KafkaMQ实现
+- 场景四：Kafka实现
 - 场景五：本地事务实现
 - 场景六：实时等待秒杀处理结果
 - 场景七：zookeeper分布式锁
