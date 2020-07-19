@@ -123,7 +123,7 @@ goodsKill
     Kibana | 7.7.0 | 5601 | 无
     ActiveMQ | 5.4.18 | 2181 61616| 无
 
-3. 如无docker运行环境，可参照官网安装Nacos server/Redis/mongoDB/ActiveMQ/Kafka/Zookeeper/MySQL8.0+/Elasticsearch本地默认端口启动，Kafka不安装不影响项目启动
+3. 如无docker运行环境，可参照官网安装上述应用，本地默认端口启动
 
 > #### 导入项目基础数据并配置环境  
 
@@ -143,7 +143,10 @@ goodsKill
 
 1. 找到EsApplication类main方法启动远程服务
 
-2. 找到GoodsKillRpcServiceApplication类main方法启动远程服务
+2. 找到GoodsKillRpcServiceApplication类main方法启动远程服务，并且需要在host中加入以下信息，否则kafka连接不上
+     ```
+     127.0.0.1 kafka
+     ```
 
 3. 进入goodsKill-web模块根目录模块，运行命令
      ```
@@ -227,3 +230,6 @@ swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
 
 ## 数据库表结构
 ![image](model_table.png)
+
+## 参考文档
+- 解决Docker容器连接 Kafka 连接失败问题：https://www.cnblogs.com/hellxz/p/why_cnnect_to_kafka_always_failure.html
