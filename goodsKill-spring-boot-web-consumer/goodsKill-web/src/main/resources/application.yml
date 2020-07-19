@@ -15,9 +15,6 @@ spring:
     in-memory: true
     pool:
       enabled: false
-  kafka:
-    template:
-      default-topic: goodsKill-kafka
   mvc:
     view:
       prefix: /WEB-INF/jsp/
@@ -88,6 +85,8 @@ spring:
   cloud:
     nacos:
       server-addr: nacos:8848
+  kafka:
+    bootstrap-servers: kafka:9092
   rabbitmq:
     host: rabbitmq
     port: 5672

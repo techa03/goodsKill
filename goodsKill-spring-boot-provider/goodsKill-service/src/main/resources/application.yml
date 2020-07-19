@@ -8,7 +8,9 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
-      group-id: myGroup
+      group-id: seckill
+      ##ensures the new consumer group gets the messages we sent
+      auto-offset-reset: earliest
   application:
     name: goodskill-service-provider
   main:

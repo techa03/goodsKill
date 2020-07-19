@@ -11,7 +11,7 @@ import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
-import org.seckill.service.GoodsKillRpcServiceSimpleApplication;
+import org.seckill.service.GoodsKillRpcServiceApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -29,7 +29,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Created by heng on 2017/6/28.
  */
-@SpringBootTest(classes = GoodsKillRpcServiceSimpleApplication.class)
+@SpringBootTest(classes = GoodsKillRpcServiceApplication.class)
 @RunWith(SpringRunner.class)
 @Ignore
 @Transactional

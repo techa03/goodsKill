@@ -144,8 +144,7 @@ public class SeckillMockController {
         log.info(KAFKA_MQ.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
-            taskExecutor.execute(() ->
-                    kafkaTemplate.sendDefault(String.valueOf(atomicInteger.incrementAndGet()), String.valueOf(seckillId))
+            taskExecutor.execute(() -> kafkaTemplate.send("goodsKill-kafka", String.valueOf(atomicInteger.incrementAndGet()), String.valueOf(seckillId))
             );
         }
         //待mq监听器处理完成打印日志，不在此处打印日志

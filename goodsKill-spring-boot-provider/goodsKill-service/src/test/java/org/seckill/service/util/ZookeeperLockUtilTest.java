@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.seckill.service.GoodsKillRpcServiceSimpleApplication;
+import org.seckill.service.GoodsKillRpcServiceApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = GoodsKillRpcServiceSimpleApplication.class)
+@SpringBootTest(classes = GoodsKillRpcServiceApplication.class)
 @Ignore
 @Slf4j
 class ZookeeperLockUtilTest {
