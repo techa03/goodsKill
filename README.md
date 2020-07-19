@@ -115,7 +115,7 @@ goodsKill
     ---|---|---|---
     Nacos | latest | 8848 | 无
     Redis | latest | 6379 | 无
-    Kafka | latest | 9200 | 无
+    Kafka | latest | 9092 | 无
     Mongo | 4.2.6 | 27017 | 无
     MySQL | 8.0 | 3306 | root:Password123
     Zookeeper | latest | 2181 | 无
