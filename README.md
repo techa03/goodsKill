@@ -122,6 +122,7 @@ goodsKill
     Elasticsearch | 7.7.0 | 9200 9300 | 无
     Kibana | 7.7.0 | 5601 | 无
     ActiveMQ | 5.4.18 | 2181 61616| 无
+    RabbitMQ | latest | 5672 15672 | 无
 
 3. 如无docker运行环境，可参照官网安装上述应用，本地默认端口启动
 
@@ -148,7 +149,7 @@ goodsKill
      127.0.0.1 kafka
      ```
 
-3. 进入goodsKill-web模块根目录模块，运行命令
+3. 进入goodsKill-web模块根目录，运行命令
      ```
     mvn spring-boot:run -Dspring.profiles.active=dev
      ```
