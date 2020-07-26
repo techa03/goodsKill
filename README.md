@@ -6,19 +6,19 @@
 
 
 # 前言
-项目命名为goodsKill一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为good skill，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来，方便学习和查阅。
+项目命名为goodsKill一方面有商品秒杀项目的意思(好像有点chinglish的味道)，另外也可理解为good skill，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来（偏向于后端技术），方便学习和查阅。
 
 本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证，前端页面基于bootstrap框架搭建，并使用bootstrap-validator插件进行表单验证。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，采用springcloud dubbo实现服务分布式服务调用，服务注册发现使用nacos server。
 
-本项目扩展了秒杀功能，集成了jmock完成service层的测试，支持数据库分库分表，同时项目使用travis持续集成，提交更新后即可触发travis自动构建并完成项目测试覆盖率报告。
+本项目扩展了秒杀功能，集成了jmock完成service层的测试，支持数据库分库分表，并提供基本的秒杀解决方案（通过模拟接口实现）。
 
-集成内嵌式H2数据库，方便独立进行单元功能测试。
+集成了内嵌式H2数据库，方便独立进行单元功能测试。
 
 ## 分支介绍
-`dev_gradle`分支为使用gradle构建工具管理项目依赖（已停更），`dev_maven`分支对应maven构建工具（springframework版本4.x，已停更），`master`分支基于最新springboot2.3.x构建。该项目功能目前比较简陋，功能还有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下~~~~。
+`dev_gradle`分支为使用gradle构建工具管理项目依赖（已停更），`dev_maven`分支对应maven构建工具（springframework版本4.x，已停更），`master`分支基于最新springcloud体系构建。该项目功能目前比较简陋，功能还有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
 
-> 附：码云项目链接[https://gitee.com/techa/goodsKill](https://gitee.com/techa/goodsKill) ,clone速度慢的用码云仓库拉吧，不定期同步到码云，走过路过顺便给个星呗~
-## 技术选型
+> 附：码云项目链接[https://gitee.com/techa/goodsKill](https://gitee.com/techa/goodsKill) ,clone速度慢的用码云仓库拉吧，不定期同步到码云~
+## 技术选型✨
 
 ### 后端技术:
 技术 | 名称 | 官网
@@ -93,13 +93,14 @@ goodsKill
 - SpringCloud: Hoxton.SR6
 - SpringBoot: 2.3.1.RELEASE
 
+
 > **注**:其他环境版本暂未测试
 
-## 项目启动方法
+## 如何启动项目
 > #### 编译并构建镜像
 
-1. 项目根目录goodsKill中执行mvn clean install
-2. 进入项目根目录(确保已安装compose以支持docker-compose命令)，执行以下命令：
+- 项目根目录goodsKill中执行mvn clean install
+- 进入项目根目录(确保已安装compose以支持docker-compose命令)，执行以下命令：
      ```
     docker-compose up （第一次运行只需执行此命令）
     or
@@ -124,14 +125,14 @@ goodsKill
     ActiveMQ | 5.4.18 | 2181 61616| 无
     RabbitMQ | latest | 5672 15672 | 无
 
-3. 如无docker运行环境，可参照官网安装上述应用，本地默认端口启动
+- 如无docker运行环境，可参照官网安装上述应用，本地默认端口启动
 
 > #### 导入项目基础数据并配置环境  
 
-1. 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
+- 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
 
 
-2. applicatio.yml已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
+- applicatio.yml已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
      ```
      spring:
        profiles:
@@ -142,21 +143,21 @@ goodsKill
 
 > #### 在开发环境中运行项目
 
-1. 找到EsApplication类main方法启动远程服务
+- 找到EsApplication类main方法启动远程服务
 
-2. 找到GoodsKillRpcServiceApplication类main方法启动远程服务，并且需要在host中加入以下信息，否则kafka连接不上
+- 找到GoodsKillRpcServiceApplication类main方法启动远程服务，并且需要在host中加入以下信息，否则kafka连接不上
      ```
      127.0.0.1 kafka
      ```
 
-3. 进入goodsKill-web模块根目录，运行命令
+- 进入goodsKill-web模块根目录，运行命令
      ```
     mvn spring-boot:run -Dspring.profiles.active=dev
      ```
 
-4. 启动完成后访问登录页面[http://localhost:8080/goodsKill/login](http://localhost:8080/goodsKill/login)，默认管理员账号admin123，密码：aa123456
+- 启动完成后访问登录页面[http://localhost:8080/goodsKill/login](http://localhost:8080/goodsKill/login)，默认管理员账号admin123，密码：aa123456
 
-5. 如已安装MongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
+- 如已安装MongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
 
 ## 打包部署方法
 - 可参考Dockerfile文件，如:
@@ -174,8 +175,8 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 
 **注**:其他表均未分库分表，默认使用seckill作为主库
 
-## 并发方案
-目前实现了几种秒杀方案
+## 秒杀方案🔥🔥
+目前实现了几种秒杀方案，通过SeckillMockController提供测试接口
 
 swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
 - 场景一：sychronized同步锁实现
@@ -195,11 +196,11 @@ swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
 2019-03-25 13:40:49.050  INFO 1016 --- [ jmsContainer-1] o.s.web.mqlistener.SeckillTopicListener  : 秒杀活动结束，秒杀场景三(activemq消息队列实现)时间：Mon Mar 25 13:40:49 CST 2019,秒杀id：1001
  ```
  
-## 后续更新计划
-- [x]  集成spring cloud alibaba组件
-- [ ]  添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成
-- [ ]  基于配置中心改造项目配置
-- [ ]  丰富项目文档
+## 后续更新计划🔨
+- 集成spring cloud alibaba组件✅
+- 添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成⏳
+- 基于配置中心改造项目配置⏳
+- 丰富项目文档⏳
 
 ### API接口
 ![image](https://github.com/techa03/learngit/blob/techa03-patch-1/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png)
