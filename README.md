@@ -97,7 +97,7 @@ goodsKill
 > **注**:其他环境版本暂未测试
 
 ## 如何启动项目
-> #### 编译并构建镜像
+> #### 方法一：使用Docker镜像构建脚本
 
 - 项目根目录goodsKill中执行mvn clean install
 - 进入项目根目录(确保已安装compose以支持docker-compose命令)，执行以下命令：
@@ -125,23 +125,12 @@ goodsKill
     ActiveMQ | 5.4.18 | 2181 61616| 无
     RabbitMQ | latest | 5672 15672 | 无
 
+
+ **注**:除以上镜像外，docker-compose文件还包含项目构建命令，目前暂未列出，如果项目容器启动失败，手动启动一下即可，可参考方法二的启动顺序
+
+> #### 方法二：使用IDEA运行项目
+
 - 如无docker运行环境，可参照官网安装上述应用，本地默认端口启动
-
-> #### 导入项目基础数据并配置环境  
-
-- 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
-
-
-- applicatio.yml已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
-     ```
-     spring:
-       profiles:
-         active: dev
-     ```
-
- **注**:以下步骤如docker-compose已执行可直接跳过，直接访问项目地址即可http://localhost:8080/goodsKill/login
-
-> #### 在开发环境中运行项目
 
 - 找到EsApplication类main方法启动远程服务
 
@@ -155,9 +144,21 @@ goodsKill
     mvn spring-boot:run -Dspring.profiles.active=dev
      ```
 
+- 如已安装MongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
+
+> #### 导入项目数据库基础数据 ⚠️
+
+- 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
+
+
+- applicatio.yml已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
+     ```
+     spring:
+       profiles:
+         active: dev
+     ```
 - 启动完成后访问登录页面[http://localhost:8080/goodsKill/login](http://localhost:8080/goodsKill/login)，默认管理员账号admin123，密码：aa123456
 
-- 如已安装MongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
 
 ## 打包部署方法
 - 可参考Dockerfile文件，如:
