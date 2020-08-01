@@ -8,7 +8,9 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
-      group-id: myGroup
+      group-id: seckill
+      ##ensures the new consumer group gets the messages we sent
+      auto-offset-reset: earliest
   application:
     name: goodskill-service-provider
   main:
@@ -33,6 +35,14 @@ spring:
         type: com.zaxxer.hikari.HikariDataSource
         jdbcUrl: jdbc:mysql://localhost:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
         username: root
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      default-binder: rabbit
 
 dubbo:
   scan:
@@ -47,6 +57,9 @@ dubbo:
     port: -1
     status: server
   registry:
+    address: spring-cloud://localhost
+    provider:
+      timeout: 30000
     id: my-registry
   provider:
     timeout: 30000
@@ -55,7 +68,7 @@ dubbo:
     subscribed-services: "*"
 
 server:
-  port: 9090
+  port: 19090
 #二维码图片存放目录
 QRCODE_IMAGE_DIR: D:/QRfile
 
@@ -121,6 +134,11 @@ spring:
   cloud:
     nacos:
       server-addr: nacos:8848
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
 dubbo:
   registry:
     address: spring-cloud://localhost

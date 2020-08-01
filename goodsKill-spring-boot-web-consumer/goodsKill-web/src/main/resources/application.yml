@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: docker
+    active: dev
   application:
     name: goodskill-web
   session:
@@ -15,9 +15,6 @@ spring:
     in-memory: true
     pool:
       enabled: false
-  kafka:
-    template:
-      default-topic: goodsKill-kafka
   mvc:
     view:
       prefix: /WEB-INF/jsp/
@@ -25,6 +22,11 @@ spring:
   output:
     ansi:
       enabled: always
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 application:
   message: Hello
 
@@ -83,6 +85,13 @@ spring:
   cloud:
     nacos:
       server-addr: nacos:8848
+  kafka:
+    bootstrap-servers: kafka:9092
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
 dubbo:
   registry:
     address: spring-cloud://localhost

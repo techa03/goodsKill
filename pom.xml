@@ -19,13 +19,14 @@
 
 	<properties>
 		<goodsKill.version>3.4.0-SNAPSHOT</goodsKill.version>
-		<springboot.version>2.3.0.RELEASE</springboot.version>
-		<dubbo.version>2.7.6</dubbo.version>
+		<springboot.version>2.3.1.RELEASE</springboot.version>
+		<spring-cloud.version>Hoxton.SR6</spring-cloud.version>
 		<spring.cloud.alibaba.version>2.2.1.RELEASE</spring.cloud.alibaba.version>
 		<sonar.exclusions>
 			src/main/webapp/.../**/*
 			src/main/sql/.../**/*
 		</sonar.exclusions>
+		<kotlin.version>1.3.72</kotlin.version>
 	</properties>
 
 	<build>
@@ -44,7 +45,31 @@
 				<artifactId>sonar-maven-plugin</artifactId>
 				<version>3.6.0.1398</version>
 			</plugin>
- 		</plugins>
+			<plugin>
+				<groupId>org.jetbrains.kotlin</groupId>
+				<artifactId>kotlin-maven-plugin</artifactId>
+				<version>${kotlin.version}</version>
+				<executions>
+					<execution>
+						<id>compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>test-compile</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>test-compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<jvmTarget>1.8</jvmTarget>
+				</configuration>
+			</plugin>
+		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -64,13 +89,36 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+<!--			<dependency>-->
+<!--				<groupId>org.apache.dubbo</groupId>-->
+<!--				<artifactId>dubbo-dependencies-bom</artifactId>-->
+<!--				<version>${dubbo.version}</version>-->
+<!--				<type>pom</type>-->
+<!--				<scope>import</scope>-->
+<!--			</dependency>-->
 			<dependency>
-				<groupId>org.apache.dubbo</groupId>
-				<artifactId>dubbo-dependencies-bom</artifactId>
-				<version>${dubbo.version}</version>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-stdlib-jdk8</artifactId>
+			<version>${kotlin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-test</artifactId>
+			<version>${kotlin.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+
 </project>

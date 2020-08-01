@@ -13,6 +13,11 @@
     <artifactId>goodskill-es-api</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>com.goodskill</groupId>
+            <artifactId>goodsKill-mp-dao</artifactId>
+            <version>${goodsKill.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -185,11 +185,6 @@
 				<version>1.9.4</version>
 			</dependency>
 			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>fastjson</artifactId>
-				<version>1.2.47</version>
-			</dependency>
-			<dependency>
 				<groupId>org.apache.zookeeper</groupId>
 				<artifactId>zookeeper</artifactId>
 				<version>3.4.14</version>
@@ -265,7 +260,7 @@
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
-				<version>8.0.11</version>
+				<version>8.0.16</version>
 				<scope>runtime</scope>
 			</dependency>
 
