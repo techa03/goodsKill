@@ -23,6 +23,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.seckill.api.enums.SeckillSolutionEnum.*;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
  * 模拟秒杀场景，可在swagger界面中触发操作
@@ -181,7 +182,8 @@ public class SeckillMockController {
      * @param seckillId 秒杀活动id
      */
     @ApiOperation(value = "秒杀场景六(返回执行结果的秒杀,30秒超时,activeMq实现)")
-    @PostMapping("/activemq/reply/{seckillId}")
+    @RequestMapping(value = "/activemq/reply/{seckillId}", method = POST, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     public String doWithActiveMqMessageWithReply(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "userPhone") String userPhone) {
         prepareSeckill(seckillId, 10);
@@ -213,7 +215,8 @@ public class SeckillMockController {
      *
      */
     @ApiOperation(value = "秒杀场景七(zookeeper分布式锁)")
-    @PostMapping("/zookeeperLock/{seckillId}")
+    @RequestMapping(value = "/zookeeperLock/{seckillId}", method = POST, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     public void doWithZookeeperLock(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
                                     @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) {
@@ -232,7 +235,8 @@ public class SeckillMockController {
      * 场景八：使用activeMQ发送秒杀请求，收到消息后使用redis缓存执行库存-1操作，最后通过发送MQ完成数据落地（存入mongoDB）
      */
     @ApiOperation(value = "秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)")
-    @PostMapping("/redisReactiveMongo/{seckillId}")
+    @RequestMapping(value = "/redisReactiveMongo/{seckillId}", method = POST, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     public void redisReactiveMongo(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
                                    @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) {

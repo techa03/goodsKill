@@ -139,7 +139,7 @@ goodsKill
      127.0.0.1 kafka
      ```
 
-- 进入goodsKill-web模块根目录，运行命令
+- 进入goodsKill-web模块根目录，运行命令或直接通过SampleWebJspApplication类main方法启动
      ```
     mvn spring-boot:run -Dspring.profiles.active=dev
      ```
@@ -168,6 +168,10 @@ COPY goodsKill-service/target/goodsKill-service.jar /app/goodsKill-service.jar
 WORKDIR /app
 CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", "goodsKill-service.jar"]
 ```
+
+## 常见问题
+- 使用idea启动SampleWebJspApplication类(goodsKill-web模块)时会出现访问不了页面的问题，eclipse无此问题。
+解决办法：配置启动类的工作目录为goodsKill-web
 
 ## 分库分表情况说明
 表 | 数据库 | 是否分库 | 分库字段 | 是否分表 | 分表字段

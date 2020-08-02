@@ -1,5 +1,6 @@
 package org.seckill.web.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.github.pagehelper.PageInfo;
 import com.goodskill.es.api.GoodsEsService;
 import io.swagger.annotations.Api;
@@ -63,6 +64,7 @@ public class SeckillController {
             @ApiImplicitParam(name = "offset", value = "当前页数", required = true, dataType = "int"),
             @ApiImplicitParam(name = "limit", value = "每页显示的记录数", required = true, dataType = "int")})
     @GetMapping(value = "/list")
+    @SentinelResource("seckillList")
     public String list(Model model, @RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
                        @RequestParam(name = "limit", required = false, defaultValue = "4") int limit,
                        @RequestParam(name = "goodsName", required = false) String goodsName) {
@@ -253,13 +255,15 @@ public class SeckillController {
     }
 
 
-    @RequestMapping(value = "/user/{phoneNum}/phoneCode", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/{phoneNum}/phoneCode", method = RequestMethod.POST, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     public void userPhoneCode(@PathVariable("phoneNum") Long phoneNum) {
 
     }
 
-    @RequestMapping(value = "/permission/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/permission/list", method = RequestMethod.GET, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto getPermissionList() {
         Subject subject = SecurityUtils.getSubject();
@@ -282,7 +286,8 @@ public class SeckillController {
         return responseDto;
     }
 
-    @RequestMapping(value = "/permission/diretorylist", method = RequestMethod.GET)
+    @RequestMapping(value = "/permission/diretorylist", method = RequestMethod.GET, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto getDirectoryPermissionList() {
         Subject subject = SecurityUtils.getSubject();
@@ -315,7 +320,8 @@ public class SeckillController {
      * @param goodsName 商品名称，模糊匹配
      * @return 包含商品名称和高亮显示的商品名称html内容
      */
-    @GetMapping(value = "/goods/search/{goodsName}")
+    @GetMapping(value = "/goods/search/{goodsName}", produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto searchGoods(@PathVariable("goodsName") String goodsName) {
         List goodsList = goodsEsService.searchWithNameByPage(goodsName);

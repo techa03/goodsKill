@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
 @Api(tags = "角色权限管理")
 @Controller
 @RequestMapping("/seckill/admin")
@@ -36,7 +39,8 @@ public class AdminController {
     @Reference
     private RolePermissionService rolePermissionService;
 
-    @GetMapping("/role")
+    @RequestMapping(value = "/role", method = GET, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto role(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                             @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
@@ -48,7 +52,8 @@ public class AdminController {
         return responseDto;
     }
 
-    @GetMapping("/roleLess")
+    @RequestMapping(value = "/roleLess", method = GET, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto roleLess(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                                 @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
@@ -75,7 +80,8 @@ public class AdminController {
         return "redirect:/html/admin/role.html";
     }
 
-    @RequestMapping(value = "/role/delete/{roleId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/role/delete/{roleId}", method = GET, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto deleteRole(@PathVariable("roleId") int roleId) {
         Role entity = new Role();
@@ -85,7 +91,8 @@ public class AdminController {
         return responseDto;
     }
 
-    @GetMapping("/permission")
+    @RequestMapping(value = "/permission", method = GET, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto permission(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                                   @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
@@ -97,7 +104,8 @@ public class AdminController {
         return responseDto;
     }
 
-    @GetMapping("/permissionTree")
+    @RequestMapping(value = "/permissionTree", method = GET, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto permissionTree(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                                       @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
@@ -128,7 +136,8 @@ public class AdminController {
         return "redirect:/html/admin/permission.html";
     }
 
-    @RequestMapping(value = "/permission/delete/{permissionId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/permission/delete/{permissionId}", method = GET, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto deletePermission(@PathVariable("permissionId") int permissionId) {
         permissionService.removeById(permissionId);
@@ -136,7 +145,8 @@ public class AdminController {
         return responseDto;
     }
 
-    @GetMapping("/user")
+    @RequestMapping(value = "/user", method = GET, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto user(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                             @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
@@ -148,7 +158,8 @@ public class AdminController {
         return responseDto;
     }
 
-    @RequestMapping(value = "/user/delete/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/delete/{userId}", method = GET, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto deleteUser(@PathVariable("userId") int userId) {
         userService.removeById(userId);
@@ -156,7 +167,8 @@ public class AdminController {
         return responseDto;
     }
 
-    @PostMapping(value = "/user/{userId}/addRole")
+    @RequestMapping(value = "/user/{userId}/addRole", method = POST, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     @Transactional
     public ResponseDto addRole(@PathVariable("userId") int userId, @RequestBody RoleDto[] roleDto) {
@@ -176,7 +188,8 @@ public class AdminController {
         return responseDto;
     }
 
-    @PostMapping(value = "/role/{roleId}/updateRolePermission")
+    @RequestMapping(value = "/role/{roleId}/updateRolePermission", method = POST, produces = {
+            "application/json;charset=UTF-8"})
     @ResponseBody
     @Transactional
     public ResponseDto updateRolePermission(@PathVariable("roleId") int roleId, @RequestBody String[] permissionIds) {
