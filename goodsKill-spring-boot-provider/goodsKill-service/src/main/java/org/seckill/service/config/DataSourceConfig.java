@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 /**
  * @author techa03
@@ -33,7 +32,6 @@ public class DataSourceConfig {
     private String password1;
 
     @Bean
-    @Profile({"dev","docker"})
     public HikariDataSource ds0() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName(driverClassName0);
@@ -44,7 +42,6 @@ public class DataSourceConfig {
     }
 
     @Bean
-    @Profile({"dev","docker"})
     public HikariDataSource ds1() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName(driverClassName1);

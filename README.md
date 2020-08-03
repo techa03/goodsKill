@@ -28,7 +28,6 @@ MyBatis-Plus | MyBatis增强工具  | [https://mp.baomidou.com/](https://mp.baom
 PageHelper | MyBatis物理分页插件  | [http://git.oschina.net/free/Mybatis_PageHelper](http://git.oschina.net/free/Mybatis_PageHelper)
 Hikari | 数据库连接池 | [https://github.com/brettwooldridge/HikariCP](https://github.com/brettwooldridge/HikariCP)
 ZooKeeper | 分布式协调服务  | [http://zookeeper.apache.org/](http://zookeeper.apache.org/)
-Dubbo | 分布式服务框架  | [http://dubbo.io/](http://dubbo.io/)
 Redis | 分布式缓存数据库  | [https://redis.io/](https://redis.io/)
 ActiveMQ | 消息队列  | [http://activemq.apache.org/](http://activemq.apache.org/)
 Kafka | 消息队列  | [http://kafka.apache.org/](http://kafka.apache.org/)
@@ -48,7 +47,9 @@ Spring Session | Spring会话管理 | [https://spring.io/projects/spring-session
 Elasticsearch | 全文搜索引擎 | [https://www.elastic.co](https://www.elastic.co)
 H2 | H2数据库 | [http://www.h2database.com/html/main.html](http://www.h2database.com/html/main.html)
 Sharding-JDBC | 分库分表组件 | [https://shardingsphere.apache.org](https://shardingsphere.apache.org)
-Spring Cloud Alibaba | SpringCloud组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
+Spring Cloud Dubbo | SpringCloud组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
+Spring Cloud Sentinel | SpringCloud组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
+Spring Cloud Nacos | SpringCloud组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
 Kotlin | Kotlin | [https://kotlinlang.org/](https://kotlinlang.org/)
 
 ### 前端技术:
@@ -92,7 +93,7 @@ goodsKill
 - RabbitMQ: 3.8.5
 - SpringCloud: Hoxton.SR6
 - SpringBoot: 2.3.1.RELEASE
-
+- SpringCloudAlibaba: 2.2.1.RELEASE
 
 > **注**:其他环境版本暂未测试
 
@@ -145,7 +146,7 @@ goodsKill
      ```
 
 - 如已安装MongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
-
+  
 > #### 导入项目数据库基础数据 ⚠️
 
 - 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作

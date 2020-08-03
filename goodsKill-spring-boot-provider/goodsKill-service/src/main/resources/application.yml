@@ -6,7 +6,6 @@ spring:
     pool:
       enabled: false
   kafka:
-    bootstrap-servers: localhost:9092
     consumer:
       group-id: seckill
       ##ensures the new consumer group gets the messages we sent
@@ -36,7 +35,6 @@ spring:
         jdbcUrl: jdbc:mysql://localhost:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
         username: root
   rabbitmq:
-    host: localhost
     port: 5672
     username: guest
     password: guest
@@ -48,6 +46,7 @@ spring:
         port: 8719
         ## 默认端口8080，已改为自定义18088端口，通过http://127.0.0.1:18088/#/dashboard访问
         dashboard: localhost:18088
+
 
 dubbo:
   scan:
@@ -74,8 +73,6 @@ dubbo:
 
 server:
   port: 19090
-#二维码图片存放目录
-QRCODE_IMAGE_DIR: D:/QRfile
 
 #Pagehelper配置
 mapper:
@@ -156,18 +153,34 @@ cache_ip_address: redis://redis:6379
 mq_address: failover:(tcp://activemq:61616)?initialReconnectDelay=100
 
 ---
-######################test环境配置#####################
 spring:
   profiles: test
+  redis:
+    host: 192.168.2.22
+    port: 6379
+  kafka:
+    bootstrap-servers: 192.168.2.22:9092
+  rabbitmq:
+    host: 192.168.2.22
   shardingsphere:
     datasource:
       ds0:
-        driver-class-name: org.h2.Driver
-        password:
-        jdbcUrl: jdbc:h2:mem:test
-        username: SA
+        password: Password123
+        jdbcUrl: jdbc:mysql://192.168.2.22:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        username: root
       ds1:
-        driver-class-name: org.h2.Driver
-        password:
-        jdbcUrl: jdbc:h2:mem:test
-        username: SA
+        password: Password123
+        jdbcUrl: jdbc:mysql://192.168.2.22:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        username: root
+  cloud:
+    nacos:
+      server-addr: 192.168.2.22:8848
+dubbo:
+  registry:
+    address: spring-cloud://192.168.2.22
+  provider:
+    timeout: 30000
+
+zookeeper_ip: 192.168.2.22:2181
+cache_ip_address: redis://192.168.2.22:6379
+mq_address: failover:(tcp://192.168.2.22:61616)?initialReconnectDelay=100

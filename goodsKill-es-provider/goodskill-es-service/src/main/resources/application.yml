@@ -50,3 +50,16 @@ elasticsearch:
   rest:
     client:
       address: elasticsearch:9200
+---
+spring:
+  profiles: test
+  cloud:
+    nacos:
+      server-addr: 192.168.2.22:8848
+dubbo:
+  registry:
+    address: spring-cloud://192.168.2.22
+elasticsearch:
+  rest:
+    client:
+      address: 192.168.2.22:9200

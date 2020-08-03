@@ -21,7 +21,6 @@ import org.seckill.entity.*;
 import org.seckill.web.dto.ResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -30,7 +29,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -56,8 +56,6 @@ public class SeckillController {
     private PermissionService permissionService;
     @Reference(check = false)
     private GoodsEsService goodsEsService;
-    @Value("${QRCODE_IMAGE_DIR}")
-    private String QRCODE_IMAGE_DIR;
 
     @ApiOperation(value = "秒杀列表", notes = "分页显示秒杀列表")
     @ApiImplicitParams({@ApiImplicitParam(name = "model", value = "model对象", required = true, dataType = "Model"),
@@ -183,16 +181,16 @@ public class SeckillController {
     @GetMapping(value = "/Qrcode/{QRfilePath}")
     @Deprecated
     public void showQRcode(@PathVariable("QRfilePath") String QRfilePath, HttpServletResponse response) throws IOException {
-        response.setContentType("img/*");
-        try (FileInputStream fi = new FileInputStream(new File(QRCODE_IMAGE_DIR + "\\" + QRfilePath + ".png"));
-             OutputStream os = response.getOutputStream()) {
-            int b;
-            while ((b = fi.read()) != -1) {
-                os.write(b);
-            }
-        } catch (FileNotFoundException e) {
-            logger.error("the error is :", e);
-        }
+//        response.setContentType("img/*");
+//        try (FileInputStream fi = new FileInputStream(new File(QRCODE_IMAGE_DIR + "\\" + QRfilePath + ".png"));
+//             OutputStream os = response.getOutputStream()) {
+//            int b;
+//            while ((b = fi.read()) != -1) {
+//                os.write(b);
+//            }
+//        } catch (FileNotFoundException e) {
+//            logger.error("the error is :", e);
+//        }
     }
 
     /**

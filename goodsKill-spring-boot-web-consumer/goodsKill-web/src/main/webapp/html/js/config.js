@@ -1,1 +1,1 @@
-var Http_port='http://localhost:8080/goodsKill';
+var Http_context='/goodsKill';

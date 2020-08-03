@@ -40,11 +40,11 @@
 
         function deleteRole(roleId) {
             $.ajax({
-                url: Http_port + "/seckill/admin/role/delete/" + roleId,
+                url: Http_context + "/seckill/admin/role/delete/" + roleId,
                 type: 'get',
                 success: function (data) {
                     layui.table.reload('userRole', {
-                        url: Http_port + "/seckill/admin/role"
+                        url: Http_context + "/seckill/admin/role"
                         , where: {} //设定异步数据接口的额外参数
                     });
                 }
@@ -76,7 +76,7 @@
                                 }
                             }
                             $.ajax({
-                                url : Http_port + '/seckill/admin/role/' + obj.data.roleId+'/updateRolePermission',
+                                url : Http_context + '/seckill/admin/role/' + obj.data.roleId+'/updateRolePermission',
                                 type : 'post',
                                 data : JSON.stringify(rolePermission),
                                 dataType: "json",
@@ -94,7 +94,7 @@
 
                     });
                     $.ajax({
-                        url: Http_port + '/seckill/admin/permissionTree',
+                        url: Http_context + '/seckill/admin/permissionTree',
                         success: function (result) {
                             data = result.data;
                             initTree();

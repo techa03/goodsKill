@@ -68,14 +68,15 @@ QRCODE_IMAGE_DIR: D:/QRfile
 spring:
   profiles: dev
   redis:
-    host: 127.0.0.1
+    host: localhost
     port: 6379
+  rabbitmq:
+    host: localhost
   kafka:
     bootstrap-servers: localhost:9092
-  data:
-    redis:
-      repositories:
-        enabled: true
+  cloud:
+    nacos:
+      server-addr: localhost:8848
 dubbo:
   registry:
     address: spring-cloud://localhost
@@ -103,3 +104,24 @@ dubbo:
   registry:
     address: spring-cloud://localhost
 mq_address: failover:(tcp://activemq:61616)?initialReconnectDelay=100
+
+---
+spring:
+  profiles: test
+  redis:
+    host: 192.168.2.22
+    port: 6379
+  rabbitmq:
+    host: 192.168.2.22
+  kafka:
+    bootstrap-servers: 192.168.2.22:9092
+  cloud:
+    nacos:
+      server-addr: 192.168.2.22:8848
+dubbo:
+  registry:
+    address: spring-cloud://192.168.2.22
+
+mq_address: failover:(tcp://192.168.2.22:61616)?initialReconnectDelay=100
+
+

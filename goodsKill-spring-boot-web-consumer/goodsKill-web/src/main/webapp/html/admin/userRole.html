@@ -26,7 +26,7 @@
                         roleDto: checkstatus1.data
                     }
                     $.ajax({
-                        url: Http_port + '/seckill/admin/user/' + userId + '/addRole',
+                        url: Http_context + '/seckill/admin/user/' + userId + '/addRole',
                         data: JSON.stringify(checkstatus1.data),
                         type: 'post',
                         dataType: "json",
@@ -49,7 +49,7 @@
                     // , {field: 'createTime', title: '创建时间', width: 180}
                     // , {field: 'updateTime', title: '修改时间', width: 180}
                 ]]
-                , url: Http_port + '/seckill/admin/roleLess'
+                , url: Http_context + '/seckill/admin/roleLess'
                 , page: true
             });
             layer.ready(function () {
@@ -71,11 +71,11 @@
                 });
             } else {
                 $.ajax({
-                    url: Http_port + "/seckill/admin/user/delete/" + checkStatus.data[0].userId,
+                    url: Http_context + "/seckill/admin/user/delete/" + checkStatus.data[0].userId,
                     type: 'get',
                     success: function (data) {
                         table.reload('user', {
-                            url: Http_port + "/seckill/admin/user"
+                            url: Http_context + "/seckill/admin/user"
                             , where: {} //设定异步数据接口的额外参数
                         });
                     }

@@ -33,10 +33,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -65,12 +67,17 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
 
     @Override
     public PageInfo getSeckillList(int pageNum, int pageSize, String goodsName) {
-        PageHelper.startPage(pageNum, pageSize);
-        QueryWrapper<Seckill> queryWrapper = new QueryWrapper<>();
-        if (StringUtils.isNotBlank(goodsName)) {
-            queryWrapper.lambda().like(Seckill::getName, goodsName);
+        String key = "seckill:list:" + pageNum + ":" + pageSize + ":" + goodsName;
+        List list = (List) redisTemplate.opsForValue().get(key);
+        if (CollectionUtils.isEmpty(list)) {
+            PageHelper.startPage(pageNum, pageSize);
+            QueryWrapper<Seckill> queryWrapper = new QueryWrapper<>();
+            if (StringUtils.isNotBlank(goodsName)) {
+                queryWrapper.lambda().like(Seckill::getName, goodsName);
+            }
+            list = this.list(queryWrapper);
+            redisTemplate.opsForValue().set(key, list, 5, TimeUnit.MINUTES);
         }
-        List<Seckill> list = this.list(queryWrapper);
         return new PageInfo(list);
     }
 

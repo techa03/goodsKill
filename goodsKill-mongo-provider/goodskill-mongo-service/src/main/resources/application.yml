@@ -45,3 +45,18 @@ spring:
 dubbo:
   registry:
     address: spring-cloud://localhost
+---
+spring:
+  profiles: test
+  activemq:
+    broker-url: tcp://192.168.2.22:61616
+  data:
+    mongodb:
+      database: test
+      host: 192.168.2.22
+  cloud:
+    nacos:
+      server-addr: 192.168.2.22:8848
+dubbo:
+  registry:
+    address: spring-cloud://192.168.2.22
