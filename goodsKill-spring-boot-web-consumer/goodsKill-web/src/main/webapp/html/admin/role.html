@@ -16,7 +16,7 @@
                 title: '新增角色',
                 area: ['400px', '300px'],
                 content: '<div id="addUser1" style="margin-top: 20px;margin-right: 60px">\n' +
-                '    <form class="layui-form" action="http://localhost:8080/goodsKill/seckill/admin/role/add">\n' +
+                '    <form class="layui-form" action="/goodsKill/seckill/admin/role/add">\n' +
                 '        <div class="layui-form-item">\n' +
                 '            <label class="layui-form-label">角色名称</label>\n' +
                 '            <div class="layui-input-block">\n' +
@@ -167,7 +167,7 @@
 <div style="margin-left: 20px;margin-top: 30px">
     <button class="layui-btn layui-btn-sm" onclick="addRole();">新增</button>
     <table class="layui-table"
-           lay-data="{url:'http://localhost:8080/goodsKill/seckill/admin/roleLess', page:true, id:'userRole', even:true}"
+           lay-data="{url:'/goodsKill/seckill/admin/roleLess', page:true, id:'userRole', even:true}"
            lay-filter="test">
         <thead>
         <tr>
