@@ -1,8 +1,6 @@
 spring:
   profiles:
     active: dev
-  application:
-    name: goodskill-web
   session:
     redis:
       flush-mode: on_save
@@ -37,7 +35,7 @@ spring:
       datasource:
         ds0:
           nacos:
-            data-id: goodskill-web-flow-rules
+            data-id: ${spring.application.name}-flow-rules
             data-type: json
             group-id: DEFAULT_GROUP
             rule-type: flow
@@ -70,8 +68,6 @@ server:
   servlet:
     context-path: /goodsKill
 
-#二维码图片存放目录
-QRCODE_IMAGE_DIR: D:/QRfile
 ---
 spring:
   profiles: dev
@@ -136,6 +132,7 @@ spring:
         ds0:
           nacos:
             server-addr: 192.168.2.22:8848
+
 dubbo:
   registry:
     address: spring-cloud://192.168.2.22
