@@ -10,8 +10,6 @@ spring:
       group-id: seckill
       ##ensures the new consumer group gets the messages we sent
       auto-offset-reset: earliest
-  application:
-    name: goodskill-service-provider
   main:
     allow-bean-definition-overriding: true
   output:
@@ -46,6 +44,15 @@ spring:
         port: 8719
         ## 默认端口8080，已改为自定义18088端口，通过http://127.0.0.1:18088/#/dashboard访问
         dashboard: localhost:18088
+      ##使用nacos配置中心存储限流规则
+      datasource:
+        ds0:
+          nacos:
+            data-id: ${spring.application.name}-flow-rules
+            data-type: json
+            group-id: DEFAULT_GROUP
+            rule-type: flow
+            server-addr: 127.0.0.1:8848
 
 
 dubbo:
@@ -175,6 +182,12 @@ spring:
   cloud:
     nacos:
       server-addr: 192.168.2.22:8848
+    sentinel:
+      ##使用nacos配置中心存储限流规则
+      datasource:
+        ds0:
+          nacos:
+            server-addr: 192.168.2.22:8848
 dubbo:
   registry:
     address: spring-cloud://192.168.2.22

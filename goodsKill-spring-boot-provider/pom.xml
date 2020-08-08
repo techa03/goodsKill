@@ -383,6 +383,16 @@
 				<artifactId>apollo-client</artifactId>
 				<version>1.7.0</version>
 			</dependency>
+			<dependency>
+				<groupId>com.alibaba.csp</groupId>
+				<artifactId>sentinel-apache-dubbo-adapter</artifactId>
+				<version>1.7.2</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba.csp</groupId>
+				<artifactId>sentinel-datasource-nacos</artifactId>
+				<version>1.7.2</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
