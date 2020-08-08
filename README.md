@@ -48,7 +48,7 @@ Elasticsearch | 全文搜索引擎 | [https://www.elastic.co](https://www.elasti
 H2 | H2数据库 | [http://www.h2database.com/html/main.html](http://www.h2database.com/html/main.html)
 Sharding-JDBC | 分库分表组件 | [https://shardingsphere.apache.org](https://shardingsphere.apache.org)
 Spring Cloud Dubbo | SpringCloud组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
-Spring Cloud Sentinel | SpringCloud组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
+Spring Cloud Sentinel | SpringCloud限流降级组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
 Spring Cloud Nacos | SpringCloud组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
 Kotlin | Kotlin | [https://kotlinlang.org/](https://kotlinlang.org/)
 
@@ -111,7 +111,7 @@ goodsKill
     or
     docker-compose up -d --no-recreate //如上次以构建容器，则此次会跳过构建容器
      ```
-    **注**:推荐使用docker-compose命令（推荐电脑运行内存16G以上，es比较吃内存），无需手动下载软件安装包，开箱即用。此命令会自动拉取docker镜像并以默认端口运行
+    **注**:推荐使用docker-compose命令（推荐电脑运行内存16G以上），无需手动下载软件安装包，开箱即用。此命令会自动拉取docker镜像并以默认端口运行
 
     镜像 | 版本 | 端口 | 用户名密码
     ---|---|---|---
@@ -135,9 +135,10 @@ goodsKill
 
 - 找到EsApplication类main方法启动远程服务
 
-- 找到GoodsKillRpcServiceApplication类main方法启动远程服务，并且需要在host中加入以下信息，否则kafka连接不上
+- 找到GoodsKillRpcServiceApplication类main方法启动远程服务，并且需要在host中加入以下信息
      ```
      127.0.0.1 kafka
+     127.0.0.1 nacos
      ```
 
 - 进入goodsKill-web模块根目录，运行命令或直接通过SampleWebJspApplication类main方法启动
@@ -149,7 +150,7 @@ goodsKill
   
 > #### 导入项目数据库基础数据 ⚠️
 
-- 找到seckill.sql,procedure.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
+- 找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
 
 
 - applicatio.yml已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
@@ -160,6 +161,8 @@ goodsKill
      ```
 - 启动完成后访问登录页面[http://localhost:8080/goodsKill/login](http://localhost:8080/goodsKill/login)，默认管理员账号admin123，密码：aa123456
 
+> #### 额外功能（可选）
+- 已集成sentinel限流组件，支持nacos配置中心方式推送限流规则，使用时需启动sentinel控制台，并以18088端口启动，docker环境暂不支持。
 
 ## 打包部署方法
 - 可参考Dockerfile文件，如:
@@ -173,6 +176,33 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
 ## 常见问题
 - 使用idea启动SampleWebJspApplication类(goodsKill-web模块)时会出现访问不了页面的问题，eclipse无此问题。
 解决办法：配置启动类的工作目录为goodsKill-web
+- 新版支付宝SDK已集成，使用时需将AlipayRunner中的alipay对应配置替换成你的支付宝应用配置（本项目基于沙箱环境）
+```
+    //为了防止启动项目报错默认配置为1，可参考官方文档修改对应配置
+    @Value("${alipay.merchantPrivateKey:1}")
+    private String merchantPrivateKey;
+
+    @Value("${alipay.alipayPublicKey:1}")
+    private String alipayPublicKey;
+
+    @Value("${alipay.notifyUrl:1}")
+    private String notifyUrl;
+
+    @Value("${alipay.encryptKey:1}")
+    private String encryptKey;
+
+    @Value("${alipay.appId:1}")
+    private String appId;
+
+    @Value("${alipay.gatewayHost:openapi.alipaydev.com}")
+    private String gatewayHost;
+
+    @Value("${alipay.signType:RSA2}")
+    private String signType;
+
+    @Value("${alipay.qrcodeImagePath:1}")
+    private String qrcodeImagePath;
+```
 
 ## 分库分表情况说明
 表 | 数据库 | 是否分库 | 分库字段 | 是否分表 | 分表字段
@@ -204,8 +234,9 @@ swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
  
 ## 后续更新计划🔨
 - 集成spring cloud alibaba组件✅
+- 基于配置中心改造项目配置（支付宝配置保存于nacos配置中心，防止配置泄露）✅
+- 新版支付宝SDK集成，使用当面扫完成付款✅
 - 添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成⏳
-- 基于配置中心改造项目配置⏳
 - 丰富项目文档⏳
 
 ### API接口
@@ -229,6 +260,9 @@ swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
 > 搜索框下拉商品候选信息基于elasticsearch实现，支持关键词高亮显示
 
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200523214633.png)
+
+#### 商品列表限流：
+![image](./doc/shortcut/微信截图_20200802182806.png)
 
 #### 用户角色权限管理：
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155310.png)

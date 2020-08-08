@@ -22,6 +22,7 @@ services:
       - ./nacos-docker/init.d/custom.properties:/home/nacos/init.d/custom.properties
     ports:
       - "8848:8848"
+    restart: always
     networks:
       - somenetwork
   prometheus:
@@ -75,6 +76,7 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
     depends_on:
       - zookeeper
+    restart: always
     networks:
       - somenetwork
 
@@ -99,6 +101,7 @@ services:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    restart: always
     ulimits:
       memlock:
         soft: -1

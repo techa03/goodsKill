@@ -38,11 +38,11 @@ public class SeckillServiceImplTest {
     @Mock
     private SuccessKilledMapper successKilledMapper;
     @Mock
-    private AlipayRunner alipayRunner;
-    @Mock
     private SuccessKilledMongoService successKilledMongoService;
     @Mock
     private RedisTemplate redisTemplate;
+    @Mock
+    private AlipayRunner alipayRunner;
 
     @Test
     @Ignore
@@ -74,6 +74,7 @@ public class SeckillServiceImplTest {
         successKilled.setUserPhone(userPhone);
         when(successKilledMapper.insert(successKilled)).thenReturn(1);
         when(successKilledMapper.selectOne(any())).thenReturn(new SuccessKilled());
+        when(alipayRunner.tradePrecreate(seckillId)).thenReturn("1");
         assertNotNull(seckillService.executeSeckill(seckillId, userPhone, md5));
     }
 

@@ -66,6 +66,7 @@
                 <th>名称</th>
                 <th>图片</th>
                 <th>库存</th>
+                <th>秒杀价格</th>
                 <th>开始时间</th>
                 <th>结束时间</th>
                 <th>创建时间</th>
@@ -79,6 +80,7 @@
                     <td><img alt="图片" src="${context}/seckill/img/seckill/${sk.seckillId}"
                              style="width: 80px;height: 80px;"></td>
                     <td>${sk.number}</td>
+                    <td>${sk.price}</td>
                     <td>
                         <fmt:formatDate value="${sk.startTime}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
                     </td>

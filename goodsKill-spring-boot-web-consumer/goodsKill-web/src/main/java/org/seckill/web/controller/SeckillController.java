@@ -12,6 +12,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.seckill.api.dto.Exposer;
 import org.seckill.api.dto.SeckillExecution;
+import org.seckill.api.dto.SeckillResponseDto;
 import org.seckill.api.dto.SeckillResult;
 import org.seckill.api.enums.SeckillStatEnum;
 import org.seckill.api.exception.RepeatKillException;
@@ -29,6 +30,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
@@ -161,7 +163,7 @@ public class SeckillController {
     @Transactional
     @GetMapping(value = "/{seckillId}/edit")
     public String edit(Model model, @PathVariable("seckillId") Long seckillId) {
-        model.addAttribute("seckillInfo", seckillService.getById(seckillId));
+        model.addAttribute("seckillInfo", seckillService.getInfoById(seckillId));
         return "seckill/edit";
     }
 
@@ -173,24 +175,22 @@ public class SeckillController {
     }
 
     /**
-     * @deprecated 2020/7/4移除，原来的支付宝sdk太老了，新的sdk需要再研究一下集成进来
-     * @param QRfilePath
+     * 显示二维码
+     *
+     * @param filename
      * @param response
      * @throws IOException
      */
     @GetMapping(value = "/Qrcode/{QRfilePath}")
     @Deprecated
-    public void showQRcode(@PathVariable("QRfilePath") String QRfilePath, HttpServletResponse response) throws IOException {
-//        response.setContentType("img/*");
-//        try (FileInputStream fi = new FileInputStream(new File(QRCODE_IMAGE_DIR + "\\" + QRfilePath + ".png"));
-//             OutputStream os = response.getOutputStream()) {
-//            int b;
-//            while ((b = fi.read()) != -1) {
-//                os.write(b);
-//            }
-//        } catch (FileNotFoundException e) {
-//            logger.error("the error is :", e);
-//        }
+    public void showQRcode(@PathVariable("QRfilePath") String filename, HttpServletResponse response) throws IOException {
+        response.setContentType("img/*");
+        SeckillResponseDto responseDto = seckillService.getQrcode(filename);
+        try (OutputStream os = response.getOutputStream()) {
+            os.write(responseDto.getData());
+        } catch (FileNotFoundException e) {
+            logger.error("the error is :", e);
+        }
     }
 
     /**

@@ -12,29 +12,36 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.seckill.api.constant.SeckillStatusConstant;
-import org.seckill.api.dto.Exposer;
-import org.seckill.api.dto.SeckillExecution;
-import org.seckill.api.dto.SeckillMockRequestDto;
+import org.seckill.api.dto.*;
 import org.seckill.api.enums.SeckillStatEnum;
 import org.seckill.api.exception.RepeatKillException;
 import org.seckill.api.exception.SeckillCloseException;
 import org.seckill.api.exception.SeckillException;
+import org.seckill.api.service.GoodsService;
 import org.seckill.api.service.SeckillService;
+import org.seckill.entity.Goods;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
 import org.seckill.service.common.RedisService;
+import org.seckill.service.common.trade.alipay.AlipayRunner;
 import org.seckill.service.mock.strategy.GoodsKillStrategy;
 import org.seckill.service.mock.strategy.GoodsKillStrategyEnum;
 import org.seckill.util.common.util.DateUtil;
 import org.seckill.util.common.util.MD5Util;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
@@ -64,6 +71,12 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private List<GoodsKillStrategy> goodsKillStrategies;
     @Autowired
     private SeckillService seckillService;
+    @Autowired
+    private AlipayRunner alipayRunner;
+    @Autowired
+    private GoodsService goodsService;
+    @Value("${alipay.qrcodeImagePath:1}")
+    private String qrcodeImagePath;
 
     @Override
     public PageInfo getSeckillList(int pageNum, int pageSize, String goodsName) {
@@ -112,14 +125,14 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
                 successKilled.setSeckillId(seckillId);
                 successKilled.setUserPhone(userPhone);
                 int insertCount = successKilledMapper.insert(successKilled);
+                String qrfilepath = alipayRunner.tradePrecreate(seckillId);
                 if (insertCount <= 0) {
                     throw new RepeatKillException("seckill repeated");
                 } else {
                     SuccessKilled key = new SuccessKilled();
                     key.setSeckillId(seckillId);
                     key.setUserPhone(userPhone);
-                    // TODO 支付宝扫码待集成
-                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilledMapper.selectOne(new QueryWrapper<>(key)), "");
+                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilledMapper.selectOne(new QueryWrapper<>(key)), qrfilepath);
                 }
             }
         } catch (SeckillCloseException | RepeatKillException e1) {
@@ -222,5 +235,31 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         } else {
             return update;
         }
+    }
+
+    @Override
+    public SeckillResponseDto getQrcode(String fileName) throws IOException {
+        SeckillResponseDto seckillResponseDto = new SeckillResponseDto();
+        FileInputStream inputStream = new FileInputStream(new File(qrcodeImagePath + "/" + fileName + ".png"));
+        int b;
+        // 二维码一般不超过10KB
+        byte[] data = new byte[1024*10];
+        int i = 0;
+        while ((b = inputStream.read()) != -1) {
+            data[i] = (byte) b;
+            i++;
+        }
+        seckillResponseDto.setData(data);
+        return seckillResponseDto;
+    }
+
+    @Override
+    public SeckillInfo getInfoById(Serializable seckillId) {
+        SeckillInfo seckillInfo = new SeckillInfo();
+        Seckill seckill = seckillService.getById(seckillId);
+        Goods goods = goodsService.getById(seckill.getGoodsId());
+        BeanUtils.copyProperties(seckill, seckillInfo);
+        seckillInfo.setGoodsName(goods.getName());
+        return seckillInfo;
     }
 }
