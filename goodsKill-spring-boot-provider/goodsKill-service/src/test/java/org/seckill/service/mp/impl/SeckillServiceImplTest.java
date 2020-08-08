@@ -12,6 +12,7 @@ import org.seckill.entity.SuccessKilled;
 import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
 import org.seckill.service.common.RedisService;
+import org.seckill.service.common.trade.alipay.AlipayRunner;
 import org.seckill.service.impl.SeckillServiceImpl;
 import org.seckill.util.common.util.MD5Util;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -40,6 +41,8 @@ public class SeckillServiceImplTest {
     private SuccessKilledMongoService successKilledMongoService;
     @Mock
     private RedisTemplate redisTemplate;
+    @Mock
+    private AlipayRunner alipayRunner;
 
     @Test
     @Ignore
@@ -71,6 +74,7 @@ public class SeckillServiceImplTest {
         successKilled.setUserPhone(userPhone);
         when(successKilledMapper.insert(successKilled)).thenReturn(1);
         when(successKilledMapper.selectOne(any())).thenReturn(new SuccessKilled());
+        when(alipayRunner.tradePrecreate(seckillId)).thenReturn("1");
         assertNotNull(seckillService.executeSeckill(seckillId, userPhone, md5));
     }
 
