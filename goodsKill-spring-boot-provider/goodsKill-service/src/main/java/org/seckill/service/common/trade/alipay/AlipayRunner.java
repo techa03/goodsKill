@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * 支付宝扫一扫SDK，根据官方示例改造，基于apollo配置中心注入配置
+ * 支付宝扫一扫SDK，根据官方示例改造，基于nacos配置中心注入配置
+ * 官方文档
+ *      https://opendocs.alipay.com/open/00y8k9
  *
  * @author heng
  */
