@@ -12,7 +12,6 @@ import org.seckill.entity.SuccessKilled;
 import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
 import org.seckill.service.common.RedisService;
-import org.seckill.service.common.trade.alipay.AlipayRunner;
 import org.seckill.service.impl.SeckillServiceImpl;
 import org.seckill.util.common.util.MD5Util;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -37,8 +36,6 @@ public class SeckillServiceImplTest {
     private RedisService redisService;
     @Mock
     private SuccessKilledMapper successKilledMapper;
-    @Mock
-    private AlipayRunner alipayRunner;
     @Mock
     private SuccessKilledMongoService successKilledMongoService;
     @Mock

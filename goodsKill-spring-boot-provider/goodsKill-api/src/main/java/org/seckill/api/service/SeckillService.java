@@ -1,12 +1,11 @@
 package org.seckill.api.service;
 
 import com.github.pagehelper.PageInfo;
-import org.seckill.api.dto.Exposer;
-import org.seckill.api.dto.SeckillExecution;
-import org.seckill.api.dto.SeckillMockRequestDto;
+import org.seckill.api.dto.*;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -94,4 +93,20 @@ public interface SeckillService {
     int reduceNumber(SuccessKilled successKilled);
 
     int reduceNumberInner(SuccessKilled successKilled);
+
+    /**
+     * 获取二维码
+     *
+     * @param fileName 二维码图片名称
+     * @return SeckillResponseDto
+     */
+    SeckillResponseDto getQrcode(String fileName) throws IOException;
+
+    /**
+     * 根据秒杀id获取秒杀活动信息
+     *
+     * @param seckillId
+     * @return
+     */
+    SeckillInfo getInfoById(Serializable seckillId);
 }

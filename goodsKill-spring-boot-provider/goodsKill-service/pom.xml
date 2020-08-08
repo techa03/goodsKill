@@ -195,6 +195,11 @@
 			<artifactId>alipay-easysdk</artifactId>
 			<version>2.0.1</version>
 		</dependency>
+		<!--携程apollo客户端-->
+		<dependency>
+			<groupId>com.ctrip.framework.apollo</groupId>
+			<artifactId>apollo-client</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

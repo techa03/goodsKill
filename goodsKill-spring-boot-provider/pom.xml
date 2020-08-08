@@ -373,6 +373,11 @@
 				<version>1.4.199</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+				<groupId>com.ctrip.framework.apollo</groupId>
+				<artifactId>apollo-client</artifactId>
+				<version>1.7.0</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
