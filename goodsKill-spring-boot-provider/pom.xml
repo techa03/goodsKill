@@ -393,6 +393,11 @@
 				<artifactId>sentinel-datasource-nacos</artifactId>
 				<version>1.7.2</version>
 			</dependency>
+			<dependency>
+				<groupId>com.goodskill</groupId>
+				<artifactId>goodskill-spring-boot-starter</artifactId>
+				<version>${goodsKill.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

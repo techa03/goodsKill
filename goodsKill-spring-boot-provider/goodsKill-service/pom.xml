@@ -206,6 +206,10 @@
 			<groupId>com.alibaba.csp</groupId>
 			<artifactId>sentinel-datasource-nacos</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.goodskill</groupId>
+			<artifactId>goodskill-spring-boot-starter</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
