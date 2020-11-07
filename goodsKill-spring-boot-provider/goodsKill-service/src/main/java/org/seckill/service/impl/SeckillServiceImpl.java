@@ -9,7 +9,6 @@ import com.goodskill.mongo.api.SuccessKilledMongoService;
 import com.goodskill.mongo.entity.SuccessKilledDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.dto.*;
@@ -35,9 +34,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
+import javax.jms.Message;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -45,7 +47,10 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import static org.seckill.api.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
 
 /**
  * <p>
@@ -59,7 +64,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> implements SeckillService {
 
-    @Reference(check = false)
+    @Resource
     private SuccessKilledMongoService successKilledMongoService;
     @Autowired
     private SuccessKilledMapper successKilledMapper;
@@ -75,6 +80,10 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private AlipayRunner alipayRunner;
     @Autowired
     private GoodsService goodsService;
+    @Resource(name = "taskExecutor")
+    private ThreadPoolExecutor taskExecutor;
+    @Autowired
+    private JmsTemplate jmsTemplate;
     @Value("${alipay.qrcodeImagePath:1}")
     private String qrcodeImagePath;
 
@@ -220,7 +229,16 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int reduceNumberInner(SuccessKilled successKilled) {
-        successKilledMapper.insert(successKilled);
+        taskExecutor.execute(() ->
+                jmsTemplate.send("SUCCESS_KILLED_RESULT", session -> {
+                    Message message = session.createMessage();
+                    message.setLongProperty("seckillId", successKilled.getSeckillId());
+                    message.setStringProperty("userPhone", String.valueOf(1));
+                    message.setStringProperty("note", REDIS_MONGO_REACTIVE.getName());
+                    return message;
+                })
+        );
+        log.info("已发送");
 
         Seckill wrapper = new Seckill();
         wrapper.setSeckillId(successKilled.getSeckillId());

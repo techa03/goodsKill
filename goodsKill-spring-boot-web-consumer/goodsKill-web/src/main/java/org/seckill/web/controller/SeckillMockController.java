@@ -232,7 +232,7 @@ public class SeckillMockController {
     }
 
     /**
-     * 场景八：使用activeMQ发送秒杀请求，收到消息后使用redis缓存执行库存-1操作，最后通过发送MQ完成数据落地（存入mongoDB）
+     * 场景八：使用redis缓存执行库存-1操作，最后通过发送MQ完成数据落地（存入mongoDB）
      */
     @ApiOperation(value = "秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)")
     @RequestMapping(value = "/redisReactiveMongo/{seckillId}", method = POST, produces = {

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -28,10 +29,23 @@ public class SuceessKillMongoServiceImpl implements SuccessKilledMongoService {
     @Override
     public long deleteRecord(long sekcillId) {
         AtomicLong deleteCount = new AtomicLong();
+        CountDownLatch countDownLatch = new CountDownLatch(1);
         mongoTemplate
-                .remove(query(where("seckillId").is(String.valueOf(sekcillId))), SuccessKilledDto.class)
-                .map(DeleteResult::getDeletedCount).doOnSuccess(deleteCount::set).defaultIfEmpty(0L)
+                .remove(query(where("seckillId").is(String.valueOf(sekcillId))), SuccessKilled.class)
+                .map(DeleteResult::getDeletedCount)
+                .doOnSuccess(it -> {
+                    log.info("删除秒杀成功记录数:{}", it);
+                    deleteCount.set(it);
+                    countDownLatch.countDown();
+                })
+                .defaultIfEmpty(0L)
                 .subscribe();
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            log.warn(e.getMessage(), e);
+            Thread.currentThread().interrupt();
+        }
         return deleteCount.get();
     }
 
@@ -44,11 +58,20 @@ public class SuceessKillMongoServiceImpl implements SuccessKilledMongoService {
     @Override
     public long count(SuccessKilledDto successKilledDto) {
         AtomicLong count = new AtomicLong();
-        mongoTemplate
-                .count(query(where("seckillId").is(successKilledDto.getSeckillId())), SuccessKilledDto.class)
-                .doOnSuccess(count::set)
-                .defaultIfEmpty(0L)
-                .subscribe();
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        mongoTemplate.count(query(where("seckillId").is(successKilledDto.getSeckillId())), SuccessKilled.class)
+                .doOnSuccess(it -> {
+                    log.info("秒杀成功数:{}", it);
+                    count.set(it);
+                    countDownLatch.countDown();
+                }).subscribe();
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            log.warn(e.getMessage(), e);
+            Thread.currentThread().interrupt();
+        }
         return count.get();
     }
+
 }

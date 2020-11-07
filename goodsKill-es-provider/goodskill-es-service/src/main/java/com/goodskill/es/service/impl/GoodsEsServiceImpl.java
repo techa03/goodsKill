@@ -1,4 +1,4 @@
-package com.goodskill.es.service;
+package com.goodskill.es.service.impl;
 
 
 import com.goodskill.es.api.GoodsEsService;

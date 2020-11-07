@@ -1,5 +1,6 @@
 package com.goodskill.mongo.service.listener;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.goodskill.mongo.entity.SuccessKilled;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
@@ -30,7 +31,8 @@ public class MongoMessageListener {
      *
      * @param message
      */
-    @JmsListener(destination = "GOODSKILL_MONGO_SENCE8", concurrency = "10-20")
+    @JmsListener(destination = "SUCCESS_KILLED_RESULT", concurrency = "10-20")
+    @SentinelResource("SUCCESS_KILLED_RESULT")
     public void processMessage(Message message) {
         long seckillId = 0;
         String userPhone = null;

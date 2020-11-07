@@ -44,7 +44,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
         Seckill seckill = redisService.getSeckill(seckillId);
         if (redisTemplate.opsForValue().increment(seckillId) < seckill.getNumber()) {
             taskExecutor.execute(() ->
-                    jmsTemplate.send("GOODSKILL_MONGO_SENCE8", session -> {
+                    jmsTemplate.send("SUCCESS_KILLED_RESULT", session -> {
                         Message message = session.createMessage();
                         message.setLongProperty("seckillId", seckillId);
                         message.setStringProperty("userPhone", String.valueOf(1));

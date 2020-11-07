@@ -21,6 +21,12 @@ public class ActiveMqMessageSender {
     @Autowired
     private SeckillService seckillService;
 
+    /**
+     * 发送秒杀成功通知，会在最后一次秒杀成功后发出
+     *
+     * @param seckillId 秒杀活动id
+     * @param note 通知内容
+     */
     public void sendSeckillSuccessTopic(long seckillId, String note) {
         seckillService.getSuccessKillCount(seckillId);
         long finalSeckillId = seckillId;
