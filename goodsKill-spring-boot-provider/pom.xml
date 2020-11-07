@@ -21,7 +21,6 @@
 		<mybatis-plus.version>3.2.0</mybatis-plus.version>
 		<shardingsphere.version>4.1.1</shardingsphere.version>
 		<jackson.version>2.11.0</jackson.version>
-		<spring.cloud.alibaba.version>2.2.1.RELEASE</spring.cloud.alibaba.version>
 	</properties>
 	<parent>
 		<groupId>com.goodskill</groupId>
@@ -41,11 +40,6 @@
 			<dependency>
 				<groupId>com.goodskill</groupId>
 				<artifactId>goodsKill-util</artifactId>
-				<version>${goodsKill.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.goodskill</groupId>
-				<artifactId>goodsKill-server</artifactId>
 				<version>${goodsKill.version}</version>
 			</dependency>
 			<dependency>
@@ -133,21 +127,10 @@
 				<artifactId>mybatis-spring</artifactId>
 				<version>2.0.2</version>
 			</dependency>
-
-			<dependency>
-				<groupId>taglibs</groupId>
-				<artifactId>standard</artifactId>
-				<version>1.1.2</version>
-			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-databind</artifactId>
 				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-core</artifactId>
-				<version>4.3.8.Final</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.validation</groupId>
@@ -382,16 +365,6 @@
 				<groupId>com.ctrip.framework.apollo</groupId>
 				<artifactId>apollo-client</artifactId>
 				<version>1.7.0</version>
-			</dependency>
-			<dependency>
-				<groupId>com.alibaba.csp</groupId>
-				<artifactId>sentinel-apache-dubbo-adapter</artifactId>
-				<version>1.7.2</version>
-			</dependency>
-			<dependency>
-				<groupId>com.alibaba.csp</groupId>
-				<artifactId>sentinel-datasource-nacos</artifactId>
-				<version>1.7.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.goodskill</groupId>

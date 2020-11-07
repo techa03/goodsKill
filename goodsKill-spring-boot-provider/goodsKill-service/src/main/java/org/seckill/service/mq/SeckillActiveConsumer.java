@@ -27,7 +27,7 @@ public class SeckillActiveConsumer implements MessageListener {
     private SeckillExecutor seckillExecutor;
 
     /**
-     * 监听消息
+     * 监听秒杀请求消息
      *
      * @param message
      */

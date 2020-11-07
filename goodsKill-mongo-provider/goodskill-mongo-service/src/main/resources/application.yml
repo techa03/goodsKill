@@ -1,8 +1,25 @@
+server:
+  port: 19091
 spring:
   profiles:
     active: dev
   application:
     name: mongo-service-provider
+  cloud:
+    sentinel:
+      transport:
+        port: 8719
+        ## 默认端口8080，已改为自定义18088端口，通过http://127.0.0.1:18088/#/dashboard访问
+        dashboard: localhost:18088
+      ##使用nacos配置中心存储限流规则
+      datasource:
+        ds0:
+          nacos:
+            data-id: ${spring.application.name}-flow-rules
+            data-type: json
+            group-id: DEFAULT_GROUP
+            rule-type: flow
+            server-addr: 127.0.0.1:8848
 demo:
   service:
     version: 1.0.0
@@ -15,6 +32,14 @@ dubbo:
     base-packages: com.goodskill.mongo.service
   cloud:
     subscribed-services: ""
+  provider:
+    timeout: 30000
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb: debug
 
 ---
 spring:
