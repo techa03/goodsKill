@@ -81,7 +81,7 @@ goodsKill
 |   |--goodsKill-generator                  
 |   |--goodsKill-service                    
 |   |--goodsKill-util                       
-|--goodskill-spring-boot-starter            ||项目配置自动装配（待完成）
+|--goodskill-spring-boot-starter            ||项目配置自动装配
 |--goodsKill-spring-boot-web-consumer       ||提供页面客户端访问，controller层在这一模块
 |   |--goodsKill-web    
 ```
@@ -95,8 +95,8 @@ goodsKill
 - Elasticsearch: 7.7.0
 - Sharding-JDBC: 4.1.1
 - RabbitMQ: 3.8.5
-- SpringCloud: Hoxton.SR6
-- SpringBoot: 2.3.1.RELEASE
+- SpringCloud: Hoxton.SR8
+- SpringBoot: 2.3.4.RELEASE
 - SpringCloudAlibaba: 2.2.1.RELEASE
 
 > **注**:其他环境版本暂未测试
@@ -219,6 +219,8 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 目前实现了几种秒杀方案，通过SeckillMockController提供测试接口
 
 swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
+swagger增强主页测试地址：http://localhost:8080/goodsKill/doc.html
+
 - 场景一：sychronized同步锁实现
 - 场景二：redisson分布式锁实现
 - 场景三：ActiveMQ实现

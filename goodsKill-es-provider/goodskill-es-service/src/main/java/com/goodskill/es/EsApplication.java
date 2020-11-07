@@ -1,8 +1,9 @@
 package com.goodskill.es;
 
-import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 /**
@@ -12,12 +13,12 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
  */
 @SpringBootApplication
 @EnableElasticsearchRepositories(basePackages = "com.goodskill.es.repository")
+@EnableFeignClients(basePackages = "com.goodskill.*.api")
+@EnableDiscoveryClient
 public class EsApplication {
 
     public static void main(String[] args) {
-        new SpringApplicationBuilder(EsApplication.class)
-                .web(WebApplicationType.NONE).build()
-                .run(args);
+        SpringApplication.run(EsApplication.class, args);
     }
 
 }

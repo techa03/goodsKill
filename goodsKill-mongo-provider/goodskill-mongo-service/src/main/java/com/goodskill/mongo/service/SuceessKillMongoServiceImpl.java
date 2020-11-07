@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -19,6 +20,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
  */
 @Service
 @Slf4j
+@RestController
 public class SuceessKillMongoServiceImpl implements SuccessKilledMongoService {
     @Autowired
     private ReactiveMongoTemplate mongoTemplate;

@@ -1,3 +1,6 @@
+server:
+  port: 19091
+
 spring:
   profiles:
     active: dev
@@ -15,6 +18,7 @@ dubbo:
     base-packages: com.goodskill.mongo.service
   cloud:
     subscribed-services: ""
+
 
 ---
 spring:

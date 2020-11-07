@@ -1,3 +1,6 @@
+server:
+  port: 19092
+
 spring:
   profiles:
     active: dev
@@ -27,6 +30,8 @@ elasticsearch:
   rest:
     client:
       address: localhost:9200
+
+
 ---
 spring:
   profiles: dev

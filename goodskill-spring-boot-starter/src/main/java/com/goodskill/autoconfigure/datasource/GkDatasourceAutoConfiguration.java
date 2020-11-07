@@ -13,12 +13,12 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020/9/20
  */
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnProperty(prefix = "spring.shardingsphere.datasource.ds0", name = "type",
-        havingValue = "com.zaxxer.hikari.HikariDataSource")
 @EnableConfigurationProperties(GkDatasourceProperties.class)
 public class GkDatasourceAutoConfiguration {
 
     @Bean
+    @ConditionalOnProperty(prefix = "spring.shardingsphere.datasource.ds0", name = "type",
+            havingValue = "com.zaxxer.hikari.HikariDataSource")
     public HikariDataSource ds0(GkDatasourceProperties properties) {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setUsername(properties.getDs0().getUsername());
@@ -29,6 +29,8 @@ public class GkDatasourceAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnProperty(prefix = "spring.shardingsphere.datasource.ds1", name = "type",
+            havingValue = "com.zaxxer.hikari.HikariDataSource")
     public HikariDataSource ds1(GkDatasourceProperties properties) {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setUsername(properties.getDs1().getUsername());
