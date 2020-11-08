@@ -5,9 +5,9 @@ import com.goodskill.mongo.entity.SuccessKilled;
 import com.goodskill.mongo.entity.SuccessKilledDto;
 import com.mongodb.client.result.DeleteResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicLong;
@@ -18,9 +18,8 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 /**
  * @author heng
  */
-//@Service
+@Service
 @Slf4j
-@RestController
 public class SuceessKillMongoServiceImpl implements SuccessKilledMongoService {
     @Autowired
     private ReactiveMongoTemplate mongoTemplate;
