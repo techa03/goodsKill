@@ -10,9 +10,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   activemq:
-    in-memory: true
-    pool:
-      enabled: false
+    broker-url: failover:(tcp://localhost:61616)?initialReconnectDelay=100
   mvc:
     view:
       prefix: /WEB-INF/jsp/
@@ -76,6 +74,8 @@ spring:
     port: 6379
   rabbitmq:
     host: localhost
+  activemq:
+    broker-url: failover:(tcp://localhost:61616)?initialReconnectDelay=100
   kafka:
     bootstrap-servers: localhost:9092
   cloud:
@@ -85,8 +85,6 @@ dubbo:
   registry:
     address: spring-cloud://localhost
 
-mq_address: failover:(tcp://localhost:61616)?initialReconnectDelay=100
-
 
 ---
 spring:
@@ -94,6 +92,8 @@ spring:
   redis:
     host: redis
     port: 6379
+  activemq:
+    broker-url: failover:(tcp://activemq:61616)?initialReconnectDelay=100
   cloud:
     nacos:
       server-addr: nacos:8848
@@ -107,7 +107,6 @@ spring:
 dubbo:
   registry:
     address: spring-cloud://localhost
-mq_address: failover:(tcp://activemq:61616)?initialReconnectDelay=100
 
 ---
 spring:
@@ -115,6 +114,8 @@ spring:
   redis:
     host: 192.168.2.22
     port: 6379
+  activemq:
+    broker-url: failover:(tcp://192.168.2.22:61616)?initialReconnectDelay=100
   rabbitmq:
     host: 192.168.2.22
   kafka:

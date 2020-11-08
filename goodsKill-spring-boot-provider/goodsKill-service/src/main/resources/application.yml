@@ -5,8 +5,6 @@ spring:
   profiles:
     active: dev
   activemq:
-    pool:
-      enabled: false
     broker-url: failover:(tcp://localhost:61615)?initialReconnectDelay=100
   kafka:
     consumer:

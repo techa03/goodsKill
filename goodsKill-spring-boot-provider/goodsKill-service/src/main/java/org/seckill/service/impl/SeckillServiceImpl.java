@@ -180,7 +180,9 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         long count = successKilledMapper.selectCount(new QueryWrapper<>(example));
         if (count == 0) {
             try {
-                count = successKilledMongoService.count(SuccessKilledDto.builder().seckillId(BigInteger.valueOf(seckillId)).build());
+                SuccessKilledDto successKilledDto = new SuccessKilledDto();
+                successKilledDto.setSeckillId(BigInteger.valueOf(seckillId));
+                count = successKilledMongoService.count(successKilledDto);
             } catch (Exception e) {
                 log.error("mongo服务不可用，请检查！", e);
             }

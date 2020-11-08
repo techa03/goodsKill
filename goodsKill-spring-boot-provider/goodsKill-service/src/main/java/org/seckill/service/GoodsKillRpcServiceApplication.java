@@ -1,9 +1,11 @@
 package org.seckill.service;
 
+import com.goodskill.autoconfigure.activemq.GkActivemqAutoConfiguration;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ImportResource;
@@ -14,7 +16,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Created by techa03 on 2017/2/3.
  * @author techa
  */
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, ActiveMQAutoConfiguration.class,
+        GkActivemqAutoConfiguration.class})
 @ImportResource(value = {
         "classpath*:META-INF/spring/spring-dao.xml"})
 @EnableTransactionManagement
