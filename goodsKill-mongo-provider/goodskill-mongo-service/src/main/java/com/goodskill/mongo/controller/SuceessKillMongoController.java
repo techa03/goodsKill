@@ -1,4 +1,4 @@
-package com.goodskill.mongo.service;
+package com.goodskill.mongo.controller;
 
 import com.goodskill.mongo.api.SuccessKilledMongoService;
 import com.goodskill.mongo.entity.SuccessKilled;
@@ -7,6 +7,7 @@ import com.mongodb.client.result.DeleteResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicLong;
@@ -17,9 +18,9 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 /**
  * @author heng
  */
-//@Service
 @Slf4j
-public class SuceessKillMongoServiceImpl implements SuccessKilledMongoService {
+@RestController
+public class SuceessKillMongoController implements SuccessKilledMongoService {
     @Autowired
     private ReactiveMongoTemplate mongoTemplate;
 
