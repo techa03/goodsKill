@@ -180,7 +180,9 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         long count = successKilledMapper.selectCount(new QueryWrapper<>(example));
         if (count == 0) {
             try {
-                count = successKilledMongoService.count(SuccessKilledDto.builder().seckillId(BigInteger.valueOf(seckillId)).build());
+                SuccessKilledDto successKilledDto = new SuccessKilledDto();
+                successKilledDto.setSeckillId(BigInteger.valueOf(seckillId));
+                count = successKilledMongoService.count(successKilledDto);
             } catch (Exception e) {
                 log.error("mongo服务不可用，请检查！", e);
             }
@@ -229,17 +231,6 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int reduceNumberInner(SuccessKilled successKilled) {
-        taskExecutor.execute(() ->
-                jmsTemplate.send("SUCCESS_KILLED_RESULT", session -> {
-                    Message message = session.createMessage();
-                    message.setLongProperty("seckillId", successKilled.getSeckillId());
-                    message.setStringProperty("userPhone", String.valueOf(1));
-                    message.setStringProperty("note", REDIS_MONGO_REACTIVE.getName());
-                    return message;
-                })
-        );
-        log.info("已发送");
-
         Seckill wrapper = new Seckill();
         wrapper.setSeckillId(successKilled.getSeckillId());
         UpdateWrapper<Seckill> updateWrapper = new UpdateWrapper(wrapper);
@@ -251,6 +242,16 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         if (update <= 0) {
             throw new SeckillCloseException("seckill is closed");
         } else {
+            taskExecutor.execute(() ->
+                    jmsTemplate.send("SUCCESS_KILLED_RESULT", session -> {
+                        Message message = session.createMessage();
+                        message.setLongProperty("seckillId", successKilled.getSeckillId());
+                        message.setStringProperty("userPhone", String.valueOf(1));
+                        message.setStringProperty("note", REDIS_MONGO_REACTIVE.getName());
+                        return message;
+                    })
+            );
+            log.info("已发送");
             return update;
         }
     }

@@ -1,19 +1,15 @@
-package org.seckill.service.config;
+package org.seckill.web.config;
 
 import lombok.Setter;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
-import org.seckill.service.mq.SeckillActiveConsumer;
+import org.seckill.web.mqlistener.SeckillTopicListener;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
-
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author techa03
@@ -21,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Configuration
 @ConfigurationProperties(prefix = "spring.activemq")
-public class ActivemqConfig {
+public class ActivemqWebConfig {
 
     @Setter
     private String brokerUrl;
@@ -30,8 +26,7 @@ public class ActivemqConfig {
 
     @Bean
     public ActiveMQQueue queueDestination() {
-        ActiveMQQueue goodsKill = new ActiveMQQueue("goodsKill");
-        return goodsKill;
+        return new ActiveMQQueue("goodsKill");
     }
 
     @Bean
@@ -55,6 +50,15 @@ public class ActivemqConfig {
         return jmsTemplate;
     }
 
+    @Bean
+    public DefaultMessageListenerContainer jmsContainer(SeckillTopicListener seckillTopicListener) {
+        DefaultMessageListenerContainer jmsContainer = new DefaultMessageListenerContainer();
+        jmsContainer.setConnectionFactory(targetConnectionFactory());
+        jmsContainer.setDestination(topicDestination());
+        jmsContainer.setMessageListener(seckillTopicListener);
+        return jmsContainer;
+    }
+
     public synchronized ActiveMQConnectionFactory targetConnectionFactory() {
         if (targetConnectionFactory != null ) {
             return targetConnectionFactory;
@@ -65,17 +69,4 @@ public class ActivemqConfig {
         return connectionFactory;
     }
 
-    @Bean
-    public DefaultMessageListenerContainer jmsContainer(SeckillActiveConsumer seckillActiveConsumer) {
-        DefaultMessageListenerContainer jmsContainer = new DefaultMessageListenerContainer();
-        jmsContainer.setConnectionFactory(targetConnectionFactory());
-        jmsContainer.setDestination(queueDestination());
-        jmsContainer.setMessageListener(seckillActiveConsumer);
-        return jmsContainer;
-    }
-
-    @Bean
-    public ThreadPoolExecutor taskExecutor() {
-        return new ThreadPoolExecutor(10, 20, 1, TimeUnit.MINUTES, new LinkedBlockingDeque<>(100), new ThreadPoolExecutor.CallerRunsPolicy());
-    }
 }

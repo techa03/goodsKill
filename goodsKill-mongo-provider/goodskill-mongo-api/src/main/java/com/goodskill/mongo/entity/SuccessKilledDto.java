@@ -1,6 +1,5 @@
 package com.goodskill.mongo.entity;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,8 +11,9 @@ import java.util.Date;
  * @date 2019/4/3
  */
 @Data
-@Builder
 public class SuccessKilledDto implements Serializable {
+    private static final long serialVersionUID=1L;
+
     private BigInteger seckillId;
 
     private String userPhone;
@@ -27,4 +27,5 @@ public class SuccessKilledDto implements Serializable {
     private String userIp;
 
     private String userId;
+
 }

@@ -1,4 +1,4 @@
-package com.goodskill.mongo.service.listener;
+package com.goodskill.mongo.listener;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.goodskill.mongo.entity.SuccessKilled;

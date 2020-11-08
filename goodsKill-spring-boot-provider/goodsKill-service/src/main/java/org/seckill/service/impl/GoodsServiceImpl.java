@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.es.dto.GoodsDto;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.seckill.api.service.GoodsService;
 import org.seckill.entity.Goods;
@@ -13,6 +12,7 @@ import org.seckill.mp.dao.mapper.GoodsMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -26,7 +26,7 @@ import java.util.List;
 @Service
 @Slf4j
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements GoodsService {
-    @Reference(check = false)
+    @Resource
     private GoodsEsService goodsEsService;
 
     @Override

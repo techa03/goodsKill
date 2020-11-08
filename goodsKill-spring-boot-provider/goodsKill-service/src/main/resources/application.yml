@@ -5,8 +5,6 @@ spring:
   profiles:
     active: dev
   activemq:
-    pool:
-      enabled: false
     broker-url: failover:(tcp://localhost:61615)?initialReconnectDelay=100
   kafka:
     consumer:
@@ -79,7 +77,7 @@ dubbo:
     timeout: 30000
   ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@Reference(check=false)会失效
   cloud:
-    subscribed-services: "mongo-service-provider,es-service-provider"
+    subscribed-services: "*"
 
 #Pagehelper配置
 mapper:

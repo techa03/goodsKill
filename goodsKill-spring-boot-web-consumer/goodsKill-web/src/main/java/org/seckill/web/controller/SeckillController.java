@@ -28,6 +28,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
@@ -56,7 +57,7 @@ public class SeckillController {
     private UserAccountService userAccountService;
     @Reference
     private PermissionService permissionService;
-    @Reference(check = false)
+    @Resource
     private GoodsEsService goodsEsService;
 
     @ApiOperation(value = "秒杀列表", notes = "分页显示秒杀列表")

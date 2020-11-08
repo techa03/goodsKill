@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.seckill.api.enums.SeckillSolutionEnum;
 import org.seckill.api.service.SeckillService;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -16,12 +18,14 @@ import java.util.Date;
  * Created by heng on 18/09/02.
  */
 @Slf4j
+@Component
 public class SeckillTopicListener implements MessageListener {
     @Reference
     private SeckillService seckillService;
 
     @SneakyThrows
     @Override
+    @JmsListener(destination = "seckillTopic")
     public void onMessage(Message message) {
         long seckillId = 0;
         boolean status = false;

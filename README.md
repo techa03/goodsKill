@@ -96,7 +96,7 @@ goodsKill
 - Sharding-JDBC: 4.1.1
 - RabbitMQ: 3.8.5
 - SpringCloud: Hoxton.SR8
-- SpringBoot: 2.3.4.RELEASE
+- SpringBoot: 2.3.x.RELEASE
 - SpringCloudAlibaba: 2.2.1.RELEASE
 
 > **注**:其他环境版本暂未测试

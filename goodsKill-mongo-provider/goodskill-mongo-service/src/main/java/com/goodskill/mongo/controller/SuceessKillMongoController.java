@@ -1,4 +1,4 @@
-package com.goodskill.mongo.service;
+package com.goodskill.mongo.controller;
 
 import com.goodskill.mongo.api.SuccessKilledMongoService;
 import com.goodskill.mongo.entity.SuccessKilled;
@@ -18,10 +18,9 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 /**
  * @author heng
  */
-//@Service
 @Slf4j
 @RestController
-public class SuceessKillMongoServiceImpl implements SuccessKilledMongoService {
+public class SuceessKillMongoController implements SuccessKilledMongoService {
     @Autowired
     private ReactiveMongoTemplate mongoTemplate;
 

@@ -6,7 +6,6 @@ import com.goodskill.es.dto.GoodsDto;
 import com.goodskill.es.model.Goods;
 import com.goodskill.es.repository.GoodsRepository;
 import org.apache.dubbo.common.utils.StringUtils;
-import org.apache.dubbo.config.annotation.Service;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.query.HighlightQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * @author techa03
  * @date 2019/6/15
  */
-@Service
+@RestController
 public class GoodsEsServiceImpl implements GoodsEsService {
     @Autowired
     private GoodsRepository goodsRepository;

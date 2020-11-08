@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.seckill.service.inner.SeckillExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,7 @@ public class SeckillActiveConsumer implements MessageListener {
      * @param message
      */
     @Override
+    @JmsListener(destination = "goodsKill")
     public void onMessage(Message message) {
         log.debug("收到消息{}", message.toString());
         long seckillId = 0;
