@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @MapperScan("org.seckill.mp.dao.mapper")
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients("com.goodskill.*.api")
 public class GoodsKillRpcServiceApplication {
 
     public static void main(String[] args) {

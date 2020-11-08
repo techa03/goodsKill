@@ -1,5 +1,6 @@
 package org.seckill.web.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,7 @@ public class SeckillMockController {
      *
      * @param seckillId 秒杀活动id
      */
+    @ApiOperationSupport(order = 1)
     @ApiOperation(value = "秒杀场景一(sychronized同步锁实现)")
     @PostMapping("/sychronized/{seckillId}")
     public void doWithSychronized(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
@@ -81,6 +83,7 @@ public class SeckillMockController {
      *
      * @param seckillId 秒杀活动id
      */
+    @ApiOperationSupport(order = 2)
     @ApiOperation(value = "秒杀场景二(redis分布式锁实现)", notes = "秒杀场景二(redis分布式锁实现)", httpMethod = "POST")
     @PostMapping("/redisson/{seckillId}")
     public void doWithRedissionLock(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
@@ -105,6 +108,7 @@ public class SeckillMockController {
      *
      * @param seckillId 秒杀活动id
      */
+    @ApiOperationSupport(order = 3)
     @ApiOperation(value = "秒杀场景三(activemq消息队列实现)")
     @PostMapping("/activemq/{seckillId}")
     public void doWithActiveMqMessage(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
@@ -136,6 +140,7 @@ public class SeckillMockController {
      *
      * @param seckillId 秒杀活动id
      */
+    @ApiOperationSupport(order = 4)
     @ApiOperation(value = "秒杀场景四(kafka消息队列实现)")
     @PostMapping("/kafkamq/{seckillId}")
     public void doWithKafkaMqMessage(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
@@ -159,6 +164,7 @@ public class SeckillMockController {
      *
      * @param seckillId 秒杀活动id
      */
+    @ApiOperationSupport(order = 5)
     @ApiOperation(value = "秒杀场景五(存储过程实现)")
     @PostMapping("/procedure/{seckillId}")
     public void doWithProcedure(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
@@ -181,6 +187,7 @@ public class SeckillMockController {
      *
      * @param seckillId 秒杀活动id
      */
+    @ApiOperationSupport(order = 6)
     @ApiOperation(value = "秒杀场景六(返回执行结果的秒杀,30秒超时,activeMq实现)")
     @RequestMapping(value = "/activemq/reply/{seckillId}", method = POST, produces = {
             "application/json;charset=UTF-8"})
@@ -214,6 +221,7 @@ public class SeckillMockController {
     /**
      *
      */
+    @ApiOperationSupport(order = 7)
     @ApiOperation(value = "秒杀场景七(zookeeper分布式锁)")
     @RequestMapping(value = "/zookeeperLock/{seckillId}", method = POST, produces = {
             "application/json;charset=UTF-8"})
@@ -234,6 +242,7 @@ public class SeckillMockController {
     /**
      * 场景八：使用redis缓存执行库存-1操作，最后通过发送MQ完成数据落地（存入mongoDB）
      */
+    @ApiOperationSupport(order = 8)
     @ApiOperation(value = "秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)")
     @RequestMapping(value = "/redisReactiveMongo/{seckillId}", method = POST, produces = {
             "application/json;charset=UTF-8"})
@@ -273,6 +282,7 @@ public class SeckillMockController {
     /**
      * @param seckillId 秒杀活动id
      */
+    @ApiOperationSupport(order = 9)
     @ApiOperation(value = "秒杀场景九(rabbitmq)")
     @PostMapping("/rabbitmq/{seckillId}")
     public void doWithRabbitmq(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
