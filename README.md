@@ -240,11 +240,15 @@ swagger增强主页测试地址：http://localhost:8080/goodsKill/doc.html
  ```
  
 ## 后续更新计划🔨
-- 集成spring cloud alibaba组件✅
-- 基于配置中心改造项目配置（支付宝配置保存于nacos配置中心，防止配置泄露）✅
-- 新版支付宝SDK集成，使用当面扫完成付款✅
-- 添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成⏳
-- 丰富项目文档⏳
+✅ 集成spring cloud alibaba组件
+
+✅ 基于配置中心改造项目配置（支付宝配置保存于nacos配置中心，防止配置泄露）
+
+✅ 新版支付宝SDK集成，使用当面扫完成付款
+
+⏳ 添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成
+
+⏳ 丰富项目文档
 
 ### API接口
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png)
