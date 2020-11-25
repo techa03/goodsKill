@@ -21,6 +21,14 @@ public interface GoodsEsService {
     void save(@RequestBody GoodsDto goodsDto);
 
     /**
+     * 保存
+     * @param list
+     * @return
+     */
+    @PutMapping("/saveBatch")
+    void saveBatch(@RequestBody List<GoodsDto> list);
+
+    /**
      * 删除商品
      */
     @DeleteMapping("/delete")

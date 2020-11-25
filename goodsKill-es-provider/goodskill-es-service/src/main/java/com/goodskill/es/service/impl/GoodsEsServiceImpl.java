@@ -47,6 +47,16 @@ public class GoodsEsServiceImpl implements GoodsEsService {
     }
 
     @Override
+    public void saveBatch(List<GoodsDto> list) {
+        List<Goods> collect = list.stream().map(dto -> {
+            Goods goods = new Goods();
+            beanCopier.copy(dto, goods, null);
+            return goods;
+        }).collect(Collectors.toList());
+        goodsRepository.saveAll(collect);
+    }
+
+    @Override
     public void delete(GoodsDto goodsDto) {
         goodsRepository.deleteById(goodsDto.getGoodsId());
     }
