@@ -97,6 +97,11 @@ spring:
   cloud:
     nacos:
       server-addr: nacos:8848
+    sentinel:
+      datasource:
+        ds0:
+          nacos:
+            server-addr: nacos:8848
   kafka:
     bootstrap-servers: kafka:9092
   rabbitmq:

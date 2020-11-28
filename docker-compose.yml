@@ -182,7 +182,7 @@ services:
     container_name: goodses
     depends_on:
       - elasticsearch
-      - zookeeper
+      - nacos
 #      - elasticsearch1
     networks:
       - somenetwork
@@ -191,7 +191,7 @@ services:
     build: ./goodsKill-mongo-provider
     container_name: goodsmongo
     depends_on:
-      - zookeeper
+      - nacos
       - activemq
       - mongo
     networks:
@@ -207,6 +207,7 @@ services:
       - goodses
       - activemq
       - redis
+      - nacos
     networks:
       - somenetwork
 
@@ -218,6 +219,7 @@ services:
       - zookeeper
       - activemq
       - redis
+      - nacos
     ports:
       - 8080:8080
     networks:

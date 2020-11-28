@@ -62,7 +62,13 @@ spring:
   profiles: docker
   cloud:
     nacos:
-      server-addr: nacos:8848
+      discovery:
+        server-addr: nacos:8848
+    sentinel:
+      datasource:
+        ds0:
+          nacos:
+            server-addr: nacos:8848
 dubbo:
   registry:
     address: spring-cloud://localhost
