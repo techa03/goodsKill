@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/seckill")
 public class SeckillController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Reference
+    @Resource
     private SeckillService seckillService;
     @Reference
     private GoodsService goodsService;

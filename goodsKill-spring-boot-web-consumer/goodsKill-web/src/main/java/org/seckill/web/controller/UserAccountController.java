@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.annotation.Resource;
+
 @Api(tags = "登录注册控制")
 @Controller
 public class UserAccountController {
@@ -27,7 +29,7 @@ public class UserAccountController {
     private UserAccountService userAccountService;
     @Reference
     private GoodsService goodsService;
-    @Reference
+    @Resource
     private SeckillService seckillService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());

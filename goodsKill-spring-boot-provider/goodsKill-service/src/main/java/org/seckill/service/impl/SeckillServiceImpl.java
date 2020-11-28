@@ -37,6 +37,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.jms.Message;
@@ -60,8 +61,9 @@ import static org.seckill.api.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
  * @author heng
  * @since 2019-09-07
  */
-@Service
 @Slf4j
+@RestController
+@Service
 public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> implements SeckillService {
 
     @Resource
@@ -262,7 +264,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         FileInputStream inputStream = new FileInputStream(new File(qrcodeImagePath + "/" + fileName + ".png"));
         int b;
         // 二维码一般不超过10KB
-        byte[] data = new byte[1024*10];
+        byte[] data = new byte[1024 * 10];
         int i = 0;
         while ((b = inputStream.read()) != -1) {
             data[i] = (byte) b;

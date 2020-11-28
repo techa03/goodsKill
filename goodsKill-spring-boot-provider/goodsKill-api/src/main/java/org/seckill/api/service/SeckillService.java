@@ -4,44 +4,56 @@ import com.github.pagehelper.PageInfo;
 import org.seckill.api.dto.*;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.Serializable;
 
 /**
  * 秒杀服务
+ *
  * @author heng
  * @date 2016/7/16
  */
+@FeignClient("goodskill-service-provider")
 public interface SeckillService {
 
     /**
      * 获取秒杀活动列表
      *
-     * @param pageNum 页码
-     * @param pageSize 每页数量
+     * @param pageNum   页码
+     * @param pageSize  每页数量
      * @param goodsName 商品名称，模糊匹配
      * @return
      */
-    PageInfo getSeckillList(int pageNum, int pageSize, String goodsName);
+    @GetMapping("/getSeckillList")
+    PageInfo getSeckillList(@RequestParam("pageNum") int pageNum,
+                            @RequestParam("pageSize") int pageSize,
+                            @RequestParam("goodsName") String goodsName);
 
 
     /**
      * 暴露秒杀活动url
+     *
      * @param seckillId 秒杀活动id
      * @return 活动信息
      */
-    Exposer exportSeckillUrl(long seckillId);
+    @PostMapping("/exportSeckillUrl")
+    Exposer exportSeckillUrl(@RequestParam("seckillId") long seckillId);
 
     /**
      * 执行秒杀
      *
      * @param seckillId 秒杀活动id
      * @param userPhone 用户手机号
-     * @param md5 md5值
+     * @param md5       md5值
      * @return 秒杀执行状态
      */
-    SeckillExecution executeSeckill(long seckillId, String userPhone, String md5);
+    @PostMapping("/executeSeckill")
+    SeckillExecution executeSeckill(@RequestParam("seckillId") long seckillId,
+                                    @RequestParam("userPhone") String userPhone,
+                                    @RequestParam("md5") String md5);
 
     /**
      * 根据秒杀id删除成功记录
@@ -49,15 +61,18 @@ public interface SeckillService {
      * @param seckillId 秒杀活动id
      * @return 删除数量
      */
-    void deleteSuccessKillRecord(long seckillId);
+    @DeleteMapping("/deleteSuccessKillRecord")
+    void deleteSuccessKillRecord(@RequestParam("seckillId") long seckillId);
 
     /**
      * 执行秒杀，通过同步来控制并发
      *
-     * @param requestDto 秒杀请求
-     * @param strategyNumber        秒杀策略编码
+     * @param requestDto     秒杀请求
+     * @param strategyNumber 秒杀策略编码
      */
-    void execute(SeckillMockRequestDto requestDto, int strategyNumber);
+    @PostMapping("/execute")
+    void execute(@RequestBody SeckillMockRequestDto requestDto,
+                 @RequestParam("strategyNumber") int strategyNumber);
 
 
     /**
@@ -65,7 +80,8 @@ public interface SeckillService {
      *
      * @param seckillId 秒杀活动id
      */
-    long getSuccessKillCount(Long seckillId);
+    @GetMapping("/getSuccessKillCount")
+    long getSuccessKillCount(@RequestParam("seckillId") Long seckillId);
 
 
     /**
@@ -74,25 +90,34 @@ public interface SeckillService {
      * @param seckillId    秒杀商品id
      * @param seckillCount 秒杀数量
      */
-    void prepareSeckill(Long seckillId, int seckillCount);
+    @PostMapping("/prepareSeckill")
+    void prepareSeckill(@RequestParam("seckillId") Long seckillId,
+                        @RequestParam("seckillCount") int seckillCount);
 
 
-    Seckill getById(Serializable seckillId);
+    @GetMapping("/getById")
+    Seckill getById(@RequestParam("seckillId") Serializable seckillId);
 
-    boolean saveOrUpdate(Seckill seckill);
+    @PostMapping("/saveOrUpdate")
+    boolean saveOrUpdate(@RequestBody Seckill seckill);
 
-    boolean removeById(Serializable seckillId);
+    @DeleteMapping("/removeById")
+    boolean removeById(@RequestParam("seckillId") Serializable seckillId);
 
-    boolean save(Seckill seckill);
+    @PostMapping("/save")
+    boolean save(@RequestBody Seckill seckill);
 
     /**
      * 减商品库存
+     *
      * @param successKilled
      * @return 1代表成功，小于1为失败
      */
-    int reduceNumber(SuccessKilled successKilled);
+    @PostMapping("/reduceNumber")
+    int reduceNumber(@RequestBody SuccessKilled successKilled);
 
-    int reduceNumberInner(SuccessKilled successKilled);
+    @PostMapping("/reduceNumberInner")
+    int reduceNumberInner(@RequestBody SuccessKilled successKilled);
 
     /**
      * 获取二维码
@@ -100,7 +125,8 @@ public interface SeckillService {
      * @param fileName 二维码图片名称
      * @return SeckillResponseDto
      */
-    SeckillResponseDto getQrcode(String fileName) throws IOException;
+    @GetMapping("/getQrcode")
+    SeckillResponseDto getQrcode(@RequestParam("fileName") String fileName) throws IOException;
 
     /**
      * 根据秒杀id获取秒杀活动信息
@@ -108,5 +134,6 @@ public interface SeckillService {
      * @param seckillId
      * @return
      */
-    SeckillInfo getInfoById(Serializable seckillId);
+    @GetMapping("/getInfoById")
+    SeckillInfo getInfoById(@RequestParam("seckillId") Serializable seckillId);
 }

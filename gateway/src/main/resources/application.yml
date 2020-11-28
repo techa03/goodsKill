@@ -1,0 +1,32 @@
+server:
+  port: 65000
+spring:
+  application:
+    name: goodskill-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+#      routes:
+#      - id: es-service
+#        uri: lb://es-service-provider
+#        predicates:
+#        - Path=/yml/**
+#        filters:
+#        - StripPrefix=1
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  security:
+    enabled: false
+
+
+

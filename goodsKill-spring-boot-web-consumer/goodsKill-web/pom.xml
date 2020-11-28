@@ -174,7 +174,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.3.0.RELEASE</version>
+				<version>${springboot.version}</version>
 				<configuration>
 					<jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
 				</configuration>

@@ -91,26 +91,36 @@ services:
     networks:
       - somenetwork
 
-  elasticsearch:
-    image: elasticsearch:7.7.0
-    container_name: elasticsearch
-    environment:
-      - node.name=es01
-      - discovery.seed_hosts=elasticsearch1
-      - cluster.initial_master_nodes=es01
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    restart: always
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
+  elk:
+    image: sebp/elk
+    container_name: elk
     ports:
-      - 9200:9200
-      - 9300:9300
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
     networks:
       - somenetwork
+
+#  elasticsearch:
+#    image: elasticsearch:7.7.0
+#    container_name: elasticsearch
+#    environment:
+#      - node.name=es01
+#      - discovery.seed_hosts=elasticsearch1
+#      - cluster.initial_master_nodes=es01
+#      - cluster.name=docker-cluster
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    restart: always
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    ports:
+#      - 9200:9200
+#      - 9300:9300
+#    networks:
+#      - somenetwork
 
 
 ##放开注释即为es双节点模式
@@ -136,18 +146,18 @@ services:
 #    networks:
 #      - somenetwork
 
-  kibana:
-    image: kibana:7.7.0
-    container_name: kibana
-    ports:
-      - 5601:5601
-    depends_on:
-      - elasticsearch
-    environment:
-      - elasticsearch.hosts=http://elasticsearch:9200
-      - i18n.locale=zh-CN
-    networks:
-      - somenetwork
+#  kibana:
+#    image: kibana:7.7.0
+#    container_name: kibana
+#    ports:
+#      - 5601:5601
+#    depends_on:
+#      - elasticsearch
+#    environment:
+#      - elasticsearch.hosts=http://elasticsearch:9200
+#      - i18n.locale=zh-CN
+#    networks:
+#      - somenetwork
 
   mysql:
     image: mysql:8.0
@@ -181,7 +191,7 @@ services:
     build: ./goodsKill-es-provider
     container_name: goodses
     depends_on:
-      - elasticsearch
+      - elk
       - zookeeper
 #      - elasticsearch1
     networks:
@@ -201,7 +211,6 @@ services:
     build: ./goodsKill-spring-boot-provider
     container_name: goodsservice
     depends_on:
-      - elasticsearch
       - zookeeper
       - goodsmongo
       - goodses
@@ -218,6 +227,7 @@ services:
       - zookeeper
       - activemq
       - redis
+      - goodses
     ports:
       - 8080:8080
     networks:

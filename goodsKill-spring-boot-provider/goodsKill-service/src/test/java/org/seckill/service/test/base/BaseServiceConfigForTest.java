@@ -59,7 +59,7 @@ public class BaseServiceConfigForTest {
 
     @Test
     public void test1() throws InterruptedException {
-//        redisTemplate.opsForValue().set("1000", seckillMapper.selectById(1000L));
+//        redisTemplate.opsForValue().set("10", seckillMapper.selectById(1000L));
 
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 10, 1, TimeUnit.MINUTES,
                 new ArrayBlockingQueue(50), Thread::new, new ThreadPoolExecutor.DiscardPolicy());
