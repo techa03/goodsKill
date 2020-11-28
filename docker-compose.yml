@@ -180,6 +180,8 @@ services:
   goodses:
     build: ./goodsKill-es-provider
     container_name: goodses
+    volumes:
+      - /logs/goods-es/:/logs/goodsKill
     depends_on:
       - elasticsearch
       - nacos
@@ -190,6 +192,8 @@ services:
   goodsmongo:
     build: ./goodsKill-mongo-provider
     container_name: goodsmongo
+    volumes:
+      - /logs/goods-mongo/:/logs/goodsKill
     depends_on:
       - nacos
       - activemq
@@ -200,6 +204,8 @@ services:
   goodsservice:
     build: ./goodsKill-spring-boot-provider
     container_name: goodsservice
+    volumes:
+      - /logs/goods-service/:/logs/goodsKill
     depends_on:
       - elasticsearch
       - zookeeper
@@ -214,6 +220,8 @@ services:
   goodsweb:
     build: ./goodsKill-spring-boot-web-consumer
     container_name: goodsweb
+    volumes:
+      - /logs/goods-web/:/logs/goodsKill
     depends_on:
       - goodsservice
       - zookeeper
