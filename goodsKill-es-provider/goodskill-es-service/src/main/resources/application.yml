@@ -21,10 +21,6 @@ spring:
             group-id: DEFAULT_GROUP
             rule-type: flow
             server-addr: 127.0.0.1:8848
-    gateway:
-      discovery:
-        locator:
-          enabled: true
 
 ## dubbo服务注册和发现
 dubbo:
