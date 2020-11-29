@@ -233,6 +233,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int reduceNumberInner(SuccessKilled successKilled) {
+        successKilledMapper.insert(successKilled);
         Seckill wrapper = new Seckill();
         wrapper.setSeckillId(successKilled.getSeckillId());
         UpdateWrapper<Seckill> updateWrapper = new UpdateWrapper(wrapper);
