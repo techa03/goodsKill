@@ -25,26 +25,26 @@ services:
     restart: always
     networks:
       - somenetwork
-  prometheus:
-    container_name: prometheus
-    image: prom/prometheus:latest
-    volumes:
-      - ./nacos-docker/prometheus/prometheus-standalone.yaml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
-    depends_on:
-      - nacos
-    restart: on-failure
-    networks:
-      - somenetwork
-  grafana:
-    container_name: grafana
-    image: grafana/grafana:latest
-    ports:
-      - 3000:3000
-    restart: on-failure
-    networks:
-      - somenetwork
+#  prometheus:
+#    container_name: prometheus
+#    image: prom/prometheus:latest
+#    volumes:
+#      - ./nacos-docker/prometheus/prometheus-standalone.yaml:/etc/prometheus/prometheus.yml
+#    ports:
+#      - "9090:9090"
+#    depends_on:
+#      - nacos
+#    restart: on-failure
+#    networks:
+#      - somenetwork
+#  grafana:
+#    container_name: grafana
+#    image: grafana/grafana:latest
+#    ports:
+#      - 3000:3000
+#    restart: on-failure
+#    networks:
+#      - somenetwork
 
   activemq:
     image: webcenter/activemq
@@ -204,6 +204,7 @@ services:
   goodsservice:
     build: ./goodsKill-spring-boot-provider
     container_name: goodsservice
+    restart: on-failure:3
     volumes:
       - /logs/goods-service/:/logs/goodsKill
     depends_on:
@@ -220,6 +221,7 @@ services:
   goodsweb:
     build: ./goodsKill-spring-boot-web-consumer
     container_name: goodsweb
+    restart: on-failure:3
     volumes:
       - /logs/goods-web/:/logs/goodsKill
     depends_on:
