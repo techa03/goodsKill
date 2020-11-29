@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.seckill.api.dto.SeckillMockRequestDto;
+import org.seckill.api.dto.SeckillResult;
 import org.seckill.api.service.SeckillService;
 import org.seckill.entity.Seckill;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,11 +60,12 @@ public class SeckillMockController {
     @ApiOperationSupport(order = 1)
     @ApiOperation(value = "秒杀场景一(sychronized同步锁实现)")
     @PostMapping("/sychronized/{seckillId}")
-    public void doWithSychronized(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
-                                  @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
+    public SeckillResult doWithSychronized(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
+                                           @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
         prepareSeckill(seckillId, seckillCount);
         log.info(SYCHRONIZED.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         seckillService.execute(new SeckillMockRequestDto(seckillId, requestCount, null), SYCHRONIZED.getCode());
+        return SeckillResult.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -86,7 +88,7 @@ public class SeckillMockController {
     @ApiOperationSupport(order = 2)
     @ApiOperation(value = "秒杀场景二(redis分布式锁实现)", notes = "秒杀场景二(redis分布式锁实现)", httpMethod = "POST")
     @PostMapping("/redisson/{seckillId}")
-    public void doWithRedissionLock(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
+    public SeckillResult doWithRedissionLock(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
                                     @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
         // 初始化库存数量
         prepareSeckill(seckillId, seckillCount);
@@ -98,6 +100,7 @@ public class SeckillMockController {
                             REDISSION_LOCK.getCode())
             );
         }
+        return SeckillResult.ok();
     }
 
     /**
@@ -111,8 +114,8 @@ public class SeckillMockController {
     @ApiOperationSupport(order = 3)
     @ApiOperation(value = "秒杀场景三(activemq消息队列实现)")
     @PostMapping("/activemq/{seckillId}")
-    public void doWithActiveMqMessage(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
-                                      @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
+    public SeckillResult doWithActiveMqMessage(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
+                                             @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
         // 初始化库存数量
         prepareSeckill(seckillId, seckillCount);
         log.info(ACTIVE_MQ.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
@@ -129,6 +132,7 @@ public class SeckillMockController {
                     })
             );
         }
+        return SeckillResult.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -143,7 +147,7 @@ public class SeckillMockController {
     @ApiOperationSupport(order = 4)
     @ApiOperation(value = "秒杀场景四(kafka消息队列实现)")
     @PostMapping("/kafkamq/{seckillId}")
-    public void doWithKafkaMqMessage(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
+    public SeckillResult doWithKafkaMqMessage(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
                                      @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
         // 初始化库存数量
         prepareSeckill(seckillId, seckillCount);
@@ -153,6 +157,7 @@ public class SeckillMockController {
             taskExecutor.execute(() -> kafkaTemplate.send("goodsKill-kafka", String.valueOf(atomicInteger.incrementAndGet()), String.valueOf(seckillId))
             );
         }
+        return SeckillResult.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -167,7 +172,7 @@ public class SeckillMockController {
     @ApiOperationSupport(order = 5)
     @ApiOperation(value = "秒杀场景五(存储过程实现)")
     @PostMapping("/procedure/{seckillId}")
-    public void doWithProcedure(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
+    public SeckillResult doWithProcedure(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
                                 @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
         prepareSeckill(seckillId, seckillCount);
         log.info(SQL_PROCEDURE.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
@@ -178,6 +183,7 @@ public class SeckillMockController {
                             SQL_PROCEDURE.getCode())
             );
         }
+        return SeckillResult.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -226,7 +232,7 @@ public class SeckillMockController {
     @RequestMapping(value = "/zookeeperLock/{seckillId}", method = POST, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public void doWithZookeeperLock(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
+    public SeckillResult doWithZookeeperLock(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
                                     @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) {
         prepareSeckill(seckillId, seckillCount);
         log.info(ZOOKEEPER_LOCK.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
@@ -237,6 +243,7 @@ public class SeckillMockController {
                             ZOOKEEPER_LOCK.getCode())
             );
         }
+        return SeckillResult.ok();
     }
 
     /**
@@ -247,7 +254,7 @@ public class SeckillMockController {
     @RequestMapping(value = "/redisReactiveMongo/{seckillId}", method = POST, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public void redisReactiveMongo(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
+    public SeckillResult redisReactiveMongo(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
                                    @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) {
         prepareSeckill(seckillId, seckillCount);
         log.info(REDIS_MONGO_REACTIVE.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
@@ -258,6 +265,7 @@ public class SeckillMockController {
                     seckillService.execute(new SeckillMockRequestDto(seckillId, requestCount, "123"), REDIS_MONGO_REACTIVE.getCode())
             );
         }
+        return SeckillResult.ok();
     }
 
     /**
@@ -285,7 +293,7 @@ public class SeckillMockController {
     @ApiOperationSupport(order = 9)
     @ApiOperation(value = "秒杀场景九(rabbitmq)")
     @PostMapping("/rabbitmq/{seckillId}")
-    public void doWithRabbitmq(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
+    public SeckillResult doWithRabbitmq(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
                                @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
         // 初始化库存数量
         prepareSeckill(seckillId, seckillCount);
@@ -298,6 +306,7 @@ public class SeckillMockController {
                     }
             );
         }
+        return SeckillResult.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
