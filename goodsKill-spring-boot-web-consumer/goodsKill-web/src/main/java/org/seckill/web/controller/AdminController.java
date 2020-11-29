@@ -11,6 +11,7 @@ import org.seckill.web.dto.PermissionDto;
 import org.seckill.web.dto.ResponseDto;
 import org.seckill.web.dto.RoleDto;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Api(tags = "角色权限管理")
-@RestController
+@Controller
 @RequestMapping("/seckill/admin")
 @Slf4j
 public class AdminController {

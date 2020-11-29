@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import org.apache.dubbo.config.annotation.Reference;
 import org.seckill.api.service.GoodsService;
 import org.seckill.entity.Goods;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -15,7 +16,7 @@ import java.util.List;
  *  Created by heng on 17/1/18.
  */
 @Api(tags = "商品管理")
-@RestController
+@Controller
 @RequestMapping("/seckill/goods")
 public class GoodsController {
     @Reference
