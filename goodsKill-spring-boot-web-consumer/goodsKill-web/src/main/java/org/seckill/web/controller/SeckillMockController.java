@@ -34,7 +34,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  * @date 2018/09/02
  */
 @Api(tags = "模拟秒杀场景(无需登录)")
-@RestController("/seckill")
+@RestController
 @Slf4j
 public class SeckillMockController {
 

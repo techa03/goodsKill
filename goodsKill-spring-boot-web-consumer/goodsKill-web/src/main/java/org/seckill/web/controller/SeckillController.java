@@ -22,7 +22,6 @@ import org.seckill.entity.*;
 import org.seckill.web.dto.ResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +40,7 @@ import java.util.stream.Collectors;
  * Created by heng on 2016/7/23.
  */
 @Api(tags = "秒杀管理")
-@Controller
+@RestController
 @RequestMapping("/seckill")
 public class SeckillController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
