@@ -164,7 +164,7 @@ goodsKill
 
   **注**:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
 
-- applicatio.yml已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
+- application.yml已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
      ```
      spring:
        profiles:
