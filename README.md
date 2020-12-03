@@ -155,7 +155,7 @@ goodsKill
 > #### 导入项目数据库基础数据 ⚠️
 
 - 找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
-
+  **注**:docker-compose启动方式会自动执行初始化脚本
 
 - applicatio.yml已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
      ```
