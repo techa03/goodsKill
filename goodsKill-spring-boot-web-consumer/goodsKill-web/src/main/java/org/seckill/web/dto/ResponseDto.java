@@ -22,6 +22,12 @@ public class ResponseDto<T> implements Serializable {
         return getResponseDto(ResponseInfo.SUCCESS);
     }
 
+    public static <T> ResponseDto ok(T[] obj) {
+        ResponseDto responseDto = getResponseDto(ResponseInfo.SUCCESS);
+        responseDto.setData(obj);
+        return responseDto;
+    }
+
     public static ResponseDto fail() {
         return getResponseDto(ResponseInfo.FAIL);
     }
