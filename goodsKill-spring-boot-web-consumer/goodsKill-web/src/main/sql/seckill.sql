@@ -12,7 +12,7 @@ File Encoding         : 65001
 
 Date: 2018-08-19 22:50:02
 */
-
+SET NAMES 'utf8';
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------

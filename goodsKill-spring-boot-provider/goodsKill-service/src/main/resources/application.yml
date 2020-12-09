@@ -5,7 +5,7 @@ spring:
   profiles:
     active: dev
   activemq:
-    broker-url: failover:(tcp://localhost:61615)?initialReconnectDelay=100
+    broker-url: failover:(tcp://localhost:61616)?initialReconnectDelay=100
   kafka:
     consumer:
       group-id: seckill

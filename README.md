@@ -19,7 +19,7 @@
 - 集成了新版支付宝easySDK，通过当面扫完成扫码付款
 
 ## 分支介绍
-`dev_gradle`分支为使用gradle构建工具管理项目依赖（已停更），`dev_maven`分支对应maven构建工具（springframework版本4.x，已停更），`master`分支基于最新springcloud体系构建。该项目功能目前比较简陋，功能还有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
+`dev_gradle`分支为使用gradle构建工具管理项目依赖（已停更），`dev_maven`分支对应maven构建工具（springframework版本4.x，已停更），`master`分支基于最新springcloud体系构建。本项目功能目前比较简陋且有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
 
 > 附：码云项目链接[https://gitee.com/techa/goodsKill](https://gitee.com/techa/goodsKill) ,clone速度慢的用码云仓库拉吧，不定期同步到码云~
 ## 技术选型✨
@@ -46,7 +46,7 @@ Jacoco | 测试覆盖率报告插件 | [http://www.eclemma.org/jacoco/](http://w
 Shiro | 用户权限安全管理框架 | [https://shiro.apache.org/](https://shiro.apache.org/)
 MongoDB | Mongo数据库 | [https://www.mongodb.com/](https://www.mongodb.com/)
 MySQL | MySQL数据库 | [https://www.mysql.com/](https://www.mysql.com/)
-Reactor | 响应式开发 | [https://projectreactor.io/](https://projectreactor.io/)
+Reactor | 反应式异步编程 | [https://projectreactor.io/](https://projectreactor.io/)
 Spring Session | Spring会话管理 | [https://spring.io/projects/spring-session](https://spring.io/projects/spring-session)
 Elasticsearch | 全文搜索引擎 | [https://www.elastic.co](https://www.elastic.co)
 H2 | H2数据库 | [http://www.h2database.com/html/main.html](http://www.h2database.com/html/main.html)
@@ -95,7 +95,7 @@ goodsKill
 - Elasticsearch: 7.7.0
 - Sharding-JDBC: 4.1.1
 - RabbitMQ: 3.8.5
-- SpringCloud: Hoxton.SR8
+- SpringCloud: Hoxton.SR9
 - SpringBoot: 2.3.x.RELEASE
 - SpringCloudAlibaba: 2.2.1.RELEASE
 
@@ -104,7 +104,13 @@ goodsKill
 ## 如何启动项目
 > #### 方法一：使用Docker镜像构建脚本
 
-- 项目根目录goodsKill中执行mvn clean install
+- 项目根目录goodsKill中执行
+  ```
+  mvn clean install
+  或 
+  #跳过单元测试
+  mvn clean install -DskipTests
+  ```
 - 进入项目根目录(确保已安装compose以支持docker-compose命令)，执行以下命令：
      ```
     docker-compose up （第一次运行只需执行此命令）
@@ -131,7 +137,7 @@ goodsKill
     RabbitMQ | latest | 5672 15672 | 无
 
 
- **注**:除以上镜像外，docker-compose文件还包含项目构建命令，目前暂未列出，如果项目容器启动失败，手动启动一下即可，可参考方法二的启动顺序
+ **注**:除以上镜像外，docker-compose文件还包含项目构建命令，目前暂未列出
 
 > #### 方法二：使用IDEA运行项目
 
@@ -156,8 +162,9 @@ goodsKill
 
 - 找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
 
+  **注**:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
 
-- applicatio.yml已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
+- application.yml已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
      ```
      spring:
        profiles:
