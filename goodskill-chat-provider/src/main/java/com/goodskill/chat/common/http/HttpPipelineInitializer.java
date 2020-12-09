@@ -5,7 +5,9 @@ import com.goodskill.chat.server.handler.ChatServerHandler;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
-import io.netty.handler.codec.http.*;
+import io.netty.handler.codec.http.HttpClientCodec;
+import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpServerCodec;
 
 /**
  *
@@ -21,21 +23,21 @@ public class HttpPipelineInitializer extends ChannelInitializer<Channel> {
     protected void initChannel(Channel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
         if (client) {
-            // http消息聚合
+            // http消息解压
+//            pipeline.addLast("decompressor",
+//                    new HttpContentDecompressor());
             pipeline.addLast("codec", new HttpClientCodec());
+            // http消息聚合
             pipeline.addLast("aggregator",
                     new HttpObjectAggregator(512 * 1024));
-            // http消息压缩
-            pipeline.addLast("decompressor",
-                    new HttpContentDecompressor());
             pipeline.addLast(new ChatClientHandler());
         } else {
+//            pipeline.addLast("compressor",
+//                    new HttpContentCompressor());
             pipeline.addLast("codec", new HttpServerCodec());
             pipeline.addLast("aggregator",
                     new HttpObjectAggregator(512 * 1024));
             pipeline.addLast(new ChatServerHandler());
-            pipeline.addLast("compressor",
-                    new HttpContentCompressor());
         }
         System.out.println(pipeline);
     }

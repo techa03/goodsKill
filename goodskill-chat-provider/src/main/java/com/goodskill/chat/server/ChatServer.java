@@ -56,15 +56,6 @@ public class ChatServer implements InitializingBean {
     }
 
     public static void main(String[] args) throws InterruptedException {
-//        User user = new User();
-//        user.setAccount("1as");
-//        user.setUsername("张三");
-//        user.setId(1);
-//        BeanUtil.beanToMap(user);
-//
-//        String token = JwtUtils.createToken(BeanUtil.beanToMap(user));
-//        System.out.println(token);
-//        JwtUtils.parseToken("eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzNhYmIwZS00MGFkLTQxYWItYWEyMC0wNjFhZjI0YWRjOWQiLCJpYXQiOjE2MDc0MTEyODQsImV4cCI6MTYwNzQxNDg4NCwibmFtZSI6ImRmZHNmIiwidXNlciI6IuW8oOS4iSJ9.E1S3apj9SZwCVffQ8eji0qSXh0Cv3fSzIZA6h4VS9do");
         new ChatServer(8080).start();
     }
 }
