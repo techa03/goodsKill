@@ -2,7 +2,6 @@ package com.goodskill.chat.dto;
 
 
 import lombok.Data;
-import org.seckill.entity.User;
 
 import java.io.Serializable;
 
@@ -11,7 +10,15 @@ import java.io.Serializable;
  */
 @Data
 public class ChatMessageDto implements Serializable {
-    private User user;
+
+    /**
+     * 待发送的消息
+     */
     private String message;
+
+    /**
+     * 请求token
+     */
+    private String token;
 
 }

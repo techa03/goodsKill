@@ -10,12 +10,17 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.*;
+import io.netty.handler.codec.http.multipart.Attribute;
+import io.netty.handler.codec.http.multipart.FileUpload;
+import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
+import io.netty.handler.codec.http.multipart.InterfaceHttpData;
 import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.seckill.entity.User;
 
+import java.io.IOException;
 import java.util.Map;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
@@ -31,21 +36,42 @@ public class ChatServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object obj) throws InterruptedException {
         ChatMessageDto msg = new ChatMessageDto();
+        User user;
         if (obj instanceof FullHttpRequest) {
             String token = ((FullHttpRequest) obj).headers().get("token");
-            System.out.println("token: " + token);
+            String message = ((FullHttpRequest) obj).headers().get("msg");
+            new HttpRequestDecoder();
+            log.info("token: {}", token);
             Map map = JwtUtils.parseToken(token);
-            User user = BeanUtil.mapToBean(map, User.class, false, null);
-            msg.setUser(user);
+            user = BeanUtil.mapToBean(map, User.class, false, null);
+
+            HttpPostRequestDecoder decoder = new HttpPostRequestDecoder((HttpRequest) obj);
+            while (decoder.hasNext()) {
+                InterfaceHttpData httpData = decoder.next();
+                if (httpData instanceof Attribute) {
+                    Attribute attr = (Attribute) httpData;
+                    log.info("收到mutlipart属性：" + attr);
+                    try {
+                        msg.setMessage(attr.getValue());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else if (httpData instanceof FileUpload) {
+                    FileUpload fileUpload = (FileUpload) httpData;
+                    log.info("收到multipart文件：" + fileUpload);
+                    // TODO 处理文件上传
+                }
+            }
+            decoder.destroy();
         } else {
             log.error("无法处理该数据！");
             throw new RuntimeException();
         }
         String account;
-        if (msg.getUser() == null) {
+        if (user == null) {
             account = ctx.channel().remoteAddress().toString();
         } else {
-            account = msg.getUser().getAccount();
+            account = user.getAccount();
         }
         String inMessage = msg.getMessage();
         Channel inComing = ctx.channel();
@@ -57,12 +83,9 @@ public class ChatServerHandler extends ChannelInboundHandlerAdapter {
                 outMessage = "[我说]" + inMessage + "\n";
             }
             System.out.println(outMessage);
-            msg.setUser(null);
             msg.setMessage(outMessage);
             FullHttpResponse response = getFullHttpResponse((HttpMessage) obj, outMessage);
             channel.writeAndFlush(response);
-            // 经测试需要在此睡眠，否则收发消息会出现异常，实际情况为：所有客户端会同时收到同一种消息
-            Thread.sleep(10);
         }
     }
 
