@@ -25,12 +25,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -38,13 +39,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Created by heng on 2016/7/23.
+ * @author techa03
+ * @date 2016/7/23
  */
 @Api(tags = "秒杀管理")
 @Controller
 @RequestMapping("/seckill")
+@Validated
 public class SeckillController {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Reference
     private SeckillService seckillService;
     @Reference
@@ -61,14 +64,16 @@ public class SeckillController {
     private GoodsEsService goodsEsService;
 
     @ApiOperation(value = "秒杀列表", notes = "分页显示秒杀列表")
-    @ApiImplicitParams({@ApiImplicitParam(name = "model", value = "model对象", required = true, dataType = "Model"),
+    @ApiImplicitParams({
             @ApiImplicitParam(name = "offset", value = "当前页数", required = true, dataType = "int"),
             @ApiImplicitParam(name = "limit", value = "每页显示的记录数", required = true, dataType = "int")})
     @GetMapping(value = "/list")
     @SentinelResource("seckillList")
-    public String list(Model model, @RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
-                       @RequestParam(name = "limit", required = false, defaultValue = "4") int limit,
-                       @RequestParam(name = "goodsName", required = false) String goodsName) {
+    public String list(
+            Model model,
+            @RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
+            @RequestParam(name = "limit", required = false, defaultValue = "4") int limit,
+            @RequestParam(name = "goodsName", required = false) String goodsName) {
         PageInfo<Seckill> pageInfo = seckillService.getSeckillList(offset, limit, goodsName);
         long totalNum = pageInfo.getTotal();
         long pageNum = (totalNum % limit == 0) ? totalNum / limit : totalNum / limit + 1;
@@ -139,13 +144,14 @@ public class SeckillController {
     }
 
     @GetMapping(value = "/time/now")
+    @ResponseBody
     public SeckillResult<Long> time() {
         Date now = new Date();
         return new SeckillResult(true, now.getTime());
     }
 
     @PostMapping(value = "/create")
-    public String addSeckill(Seckill seckill) {
+    public String addSeckill(@Valid Seckill seckill) {
         seckillService.save(seckill);
         return "redirect:list";
     }
@@ -211,12 +217,11 @@ public class SeckillController {
      * 根据秒杀id加载对应图片
      *
      * @param seckillId 秒杀id
-     * @param request
      * @param response
      * @throws IOException
      */
     @RequestMapping(value = "/img/seckill/{seckillId}", method = RequestMethod.GET)
-    public void loadImg(@PathVariable("seckillId") Long seckillId, HttpServletRequest request,
+    public void loadImg(@PathVariable("seckillId") Long seckillId,
                         HttpServletResponse response) throws IOException {
         Seckill seckill = seckillService.getById(seckillId);
         byte[] goodsPhotoImage = goodsService.getById(seckill.getGoodsId()).getPhotoImage();
@@ -227,12 +232,12 @@ public class SeckillController {
         os.close();
     }
 
-    @RequestMapping(value = "/uploadPhoto/{seckillId}", method = RequestMethod.GET)
-    public String toUploadPhoto(@PathVariable("seckillId") Long seckillId, Model model) {
+    @GetMapping(value = "/uploadPhoto/{seckillId}")
+    public String toUploadPhoto(@PathVariable("seckillId") Long seckillId) {
         return "redirect:/seckill/upload/" + seckillId;
     }
 
-    @RequestMapping(value = "/upload/{seckillId}", method = RequestMethod.GET)
+    @GetMapping(value = "/upload/{seckillId}")
     public String upload(@PathVariable("seckillId") Long seckillId, Model model) {
         model.addAttribute("seckillId", seckillId);
         return "upload";
@@ -316,6 +321,7 @@ public class SeckillController {
 
     /**
      * 根据商品名称检索商品
+     *
      * @param goodsName 商品名称，模糊匹配
      * @return 包含商品名称和高亮显示的商品名称html内容
      */

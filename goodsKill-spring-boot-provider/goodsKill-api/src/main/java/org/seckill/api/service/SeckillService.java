@@ -30,7 +30,7 @@ public interface SeckillService {
     @GetMapping("/getSeckillList")
     PageInfo getSeckillList(@RequestParam("pageNum") int pageNum,
                             @RequestParam("pageSize") int pageSize,
-                            @RequestParam("goodsName") String goodsName);
+                            @RequestParam(value = "goodsName", required = false) String goodsName);
 
 
     /**

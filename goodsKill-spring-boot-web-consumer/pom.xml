@@ -39,6 +39,11 @@
 				<version>${goodsKill.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>com.goodskill</groupId>
+				<artifactId>goodsKill-common</artifactId>
+				<version>${goodsKill.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.apache.shiro</groupId>
 				<artifactId>shiro-core</artifactId>
 				<version>${shiro.version}</version>

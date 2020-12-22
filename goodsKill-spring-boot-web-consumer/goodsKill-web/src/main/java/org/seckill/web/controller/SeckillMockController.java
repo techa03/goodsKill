@@ -15,6 +15,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.jms.JMSException;
@@ -36,6 +37,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @Api(tags = "模拟秒杀场景(无需登录)")
 @RestController
 @Slf4j
+@Validated
 public class SeckillMockController {
 
     @Reference
@@ -198,7 +200,7 @@ public class SeckillMockController {
     @RequestMapping(value = "/activemq/reply/{seckillId}", method = POST, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public String doWithActiveMqMessageWithReply(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "userPhone") String userPhone) {
+    public SeckillResult doWithActiveMqMessageWithReply(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "userPhone") String userPhone) {
         prepareSeckill(seckillId, 10);
         log.info(ACTIVE_MQ_MESSAGE_WITH_REPLY.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
 
@@ -220,7 +222,7 @@ public class SeckillMockController {
             log.warn(e.getMessage(), e);
         }
         log.info(ACTIVE_MQ_MESSAGE_WITH_REPLY.getName() + "结束时间：{},秒杀id：{}", new Date(), seckillId);
-        return result;
+        return SeckillResult.ok(result);
     }
 
 
@@ -294,7 +296,7 @@ public class SeckillMockController {
     @ApiOperation(value = "秒杀场景九(rabbitmq)")
     @PostMapping("/rabbitmq/{seckillId}")
     public SeckillResult doWithRabbitmq(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
-                               @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
+                               @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) {
         // 初始化库存数量
         prepareSeckill(seckillId, seckillCount);
         log.info(RABBIT_MQ.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
