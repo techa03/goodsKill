@@ -73,8 +73,8 @@ public class SeckillController {
             Model model,
             @RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
             @RequestParam(name = "limit", required = false, defaultValue = "4") int limit,
-            @RequestParam(name = "goodsName", required = false) String goodsName) {
-        PageInfo<Seckill> pageInfo = seckillService.getSeckillList(offset, limit, goodsName);
+            @RequestParam(name = "goodsName", required = false) Date goodsName) {
+        PageInfo<Seckill> pageInfo = seckillService.getSeckillList(offset, limit, "goodsName");
         long totalNum = pageInfo.getTotal();
         long pageNum = (totalNum % limit == 0) ? totalNum / limit : totalNum / limit + 1;
         model.addAttribute("list", pageInfo.getList());
@@ -151,7 +151,7 @@ public class SeckillController {
     }
 
     @PostMapping(value = "/create")
-    public String addSeckill(@Valid Seckill seckill) {
+    public String addSeckill(@RequestBody @Valid Seckill seckill) {
         seckillService.save(seckill);
         return "redirect:list";
     }

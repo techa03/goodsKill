@@ -15,6 +15,11 @@ spring:
     view:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
+    # 请求前台到后台的格式转换
+    format:
+      date: dd/MM/yyyy
+      date-time: yyyy-MM-dd HH:mm:ss
+      time: HH:mm:ss
   output:
     ansi:
       enabled: always
@@ -53,7 +58,7 @@ dubbo:
     timeout: 30000
   ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@Reference(check=false)会失效
   cloud:
-    subscribed-services: "goodskill-service-provider"
+    subscribed-services: "*"
 
 management:
   endpoints:
