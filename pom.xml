@@ -16,7 +16,7 @@
 		<module>goodskill-spring-boot-starter</module>
 		<module>goodsKill-es-provider</module>
         <module>gookskill-job</module>
-		<module>gateway</module>
+		<module>goodskill-gateway</module>
 	</modules>
 
 	<properties>

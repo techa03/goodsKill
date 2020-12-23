@@ -9,6 +9,11 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+      routes:
+      - id: mongotest
+        uri: lb://mongo-service-provider
+        predicates:
+        - Query=red2
 #      routes:
 #      - id: es-service
 #        uri: lb://es-service-provider
@@ -16,6 +21,7 @@ spring:
 #        - Path=/yml/**
 #        filters:
 #        - StripPrefix=1
+
 
 management:
   endpoint:
@@ -27,6 +33,4 @@ management:
         include: '*'
   security:
     enabled: false
-
-
 

@@ -7,6 +7,8 @@ import com.mongodb.client.result.DeleteResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.CountDownLatch;
@@ -58,6 +60,25 @@ public class SuceessKillMongoController implements SuccessKilledMongoService {
         AtomicLong count = new AtomicLong();
         CountDownLatch countDownLatch = new CountDownLatch(1);
         mongoTemplate.count(query(where("seckillId").is(successKilledDto.getSeckillId())), SuccessKilled.class)
+                .doOnSuccess(it -> {
+                    log.info("秒杀成功数:{}", it);
+                    count.set(it);
+                    countDownLatch.countDown();
+                }).subscribe();
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            log.warn(e.getMessage(), e);
+            Thread.currentThread().interrupt();
+        }
+        return count.get();
+    }
+
+    @GetMapping("/counttest")
+    public long count(@RequestParam(value = "red2") String red) {
+        AtomicLong count = new AtomicLong();
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        mongoTemplate.count(query(where("seckillId").is(red)), SuccessKilled.class)
                 .doOnSuccess(it -> {
                     log.info("秒杀成功数:{}", it);
                     count.set(it);

@@ -69,7 +69,7 @@ management:
 server:
   port: 8080
   servlet:
-    context-path: /goodsKill
+    context-path: /goodskill
 
 ---
 spring:

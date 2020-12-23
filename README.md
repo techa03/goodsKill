@@ -170,7 +170,7 @@ goodsKill
        profiles:
          active: dev
      ```
-- 启动完成后访问登录页面[http://localhost:8080/goodsKill/login](http://localhost:8080/goodsKill/login)，默认管理员账号admin123，密码：aa123456
+- 启动完成后访问登录页面[http://localhost:8080/goodskill/login](http://localhost:8080/goodskill/login)，默认管理员账号admin123，密码：aa123456
 
 > #### 额外功能（可选）
 - 已集成sentinel限流组件，支持nacos配置中心方式推送限流规则，使用时需启动sentinel控制台，并以18088端口启动，docker环境暂不支持。
@@ -225,9 +225,9 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 ## 秒杀方案🔥🔥
 目前实现了几种秒杀方案，通过SeckillMockController提供测试接口
 
-swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
+swagger主页测试地址：http://localhost:8080/goodskill/swagger-ui.html#/
 
-swagger增强主页测试地址：http://localhost:8080/goodsKill/doc.html
+swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
 
 - 场景一：sychronized同步锁实现
 - 场景二：redisson分布式锁实现
