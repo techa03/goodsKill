@@ -44,8 +44,6 @@ logging:
 ---
 spring:
   profiles: dev
-  activemq:
-    broker-url: tcp://127.0.0.1:61616
   data:
     mongodb:
       database: test
@@ -58,8 +56,6 @@ dubbo:
 ---
 spring:
   profiles: docker
-  activemq:
-    broker-url: tcp://activemq:61616
   data:
     mongodb:
       database: test
@@ -78,8 +74,6 @@ dubbo:
 ---
 spring:
   profiles: test
-  activemq:
-    broker-url: tcp://192.168.2.22:61616
   data:
     mongodb:
       database: test

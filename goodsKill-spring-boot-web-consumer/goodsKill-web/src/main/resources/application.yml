@@ -9,8 +9,6 @@ spring:
     timeout: 1800
   main:
     allow-bean-definition-overriding: true
-  activemq:
-    broker-url: failover:(tcp://localhost:61616)?initialReconnectDelay=100
   mvc:
     view:
       prefix: /WEB-INF/jsp/
@@ -79,8 +77,6 @@ spring:
     port: 6379
   rabbitmq:
     host: localhost
-  activemq:
-    broker-url: failover:(tcp://localhost:61616)?initialReconnectDelay=100
   kafka:
     bootstrap-servers: localhost:9092
   cloud:
@@ -97,8 +93,6 @@ spring:
   redis:
     host: redis
     port: 6379
-  activemq:
-    broker-url: failover:(tcp://activemq:61616)?initialReconnectDelay=100
   cloud:
     nacos:
       server-addr: nacos:8848
@@ -124,8 +118,6 @@ spring:
   redis:
     host: 192.168.2.22
     port: 6379
-  activemq:
-    broker-url: failover:(tcp://192.168.2.22:61616)?initialReconnectDelay=100
   rabbitmq:
     host: 192.168.2.22
   kafka:
@@ -148,6 +140,5 @@ dubbo:
   registry:
     address: spring-cloud://192.168.2.22
 
-mq_address: failover:(tcp://192.168.2.22:61616)?initialReconnectDelay=100
 
 
