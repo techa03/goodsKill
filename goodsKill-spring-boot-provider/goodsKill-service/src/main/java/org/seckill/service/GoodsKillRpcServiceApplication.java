@@ -1,6 +1,5 @@
 package org.seckill.service;
 
-import com.goodskill.autoconfigure.activemq.GkActivemqAutoConfiguration;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
