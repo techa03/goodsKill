@@ -2,16 +2,19 @@ package com.goodskill.common;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 /**
  * JSON Web Token 工具类
  */
+@Slf4j
 public class JwtUtils {
 
     /**
@@ -53,19 +56,19 @@ public class JwtUtils {
             Jwts.parserBuilder().setSigningKey(generateKey()).build().parseClaimsJws(token);
             return 0;
         } catch (ExpiredJwtException e) {
-            e.printStackTrace();
+            log.warn(e.getMessage(), e);
             return 1;
         } catch (UnsupportedJwtException e) {
-            e.printStackTrace();
+            log.warn(e.getMessage(), e);
             return 2;
         } catch (MalformedJwtException e) {
-            e.printStackTrace();
+            log.warn(e.getMessage(), e);
             return 3;
         } catch (SignatureException e) {
-            e.printStackTrace();
+            log.warn(e.getMessage(), e);
             return 4;
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            log.warn(e.getMessage(), e);
             return 5;
         }
     }
@@ -94,9 +97,13 @@ public class JwtUtils {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        String token = createToken(null);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("name","1");
+        map.put("age","1");
+        String token = createToken(map);
         System.out.println(token);
         Thread.sleep(2000);
-        System.out.println(verifyToken(token));
+        System.out.println(parseToken(token));
     }
 }

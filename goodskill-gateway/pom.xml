@@ -36,6 +36,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.goodskill</groupId>
+            <artifactId>goodsKill-common</artifactId>
+            <version>${goodsKill.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

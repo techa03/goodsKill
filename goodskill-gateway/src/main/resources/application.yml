@@ -1,5 +1,5 @@
 server:
-  port: 65000
+  port: 80
 spring:
   application:
     name: goodskill-gateway
@@ -14,6 +14,10 @@ spring:
         uri: lb://mongo-service-provider
         predicates:
         - Query=red2
+        filters:
+        - JwtAuth
+
+#        - RemoteAddr=172.21.12.1/24
 #      routes:
 #      - id: es-service
 #        uri: lb://es-service-provider
