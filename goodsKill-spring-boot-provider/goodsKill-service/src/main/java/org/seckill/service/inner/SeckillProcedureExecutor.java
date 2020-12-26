@@ -6,7 +6,6 @@ import org.seckill.api.service.SeckillService;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.mp.dao.mapper.SeckillMapper;
-import org.seckill.service.mq.ActiveMqMessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +23,6 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
 
     @Autowired
     private SeckillMapper seckillMapper;
-    @Autowired
-    private ActiveMqMessageSender activeMqMessageSender;
     @Autowired
     private SeckillService seckillService;
 
@@ -55,7 +52,8 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
                 log.debug("当前库存：{}", seckill.getNumber());
                 // 高并发时限制只能发一次秒杀完成通知
                 if (!SeckillStatusConstant.END.equals(seckill.getStatus()) && sendTopicTimes.getAndIncrement() == 0) {
-                    activeMqMessageSender.sendSeckillSuccessTopic(seckillId, note);
+                    // FIXME: 2020/12/26 去除activemq，使用其他mq替代
+//                    activeMqMessageSender.sendSeckillSuccessTopic(seckillId, note);
                     Seckill sendTopicResult = new Seckill();
                     sendTopicResult.setSeckillId(seckillId);
                     sendTopicResult.setStatus(SeckillStatusConstant.END);

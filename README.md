@@ -33,7 +33,6 @@ PageHelper | MyBatis物理分页插件  | [http://git.oschina.net/free/Mybatis_P
 Hikari | 数据库连接池 | [https://github.com/brettwooldridge/HikariCP](https://github.com/brettwooldridge/HikariCP)
 ZooKeeper | 分布式协调服务  | [http://zookeeper.apache.org/](http://zookeeper.apache.org/)
 Redis | 分布式缓存数据库  | [https://redis.io/](https://redis.io/)
-ActiveMQ | 消息队列  | [http://activemq.apache.org/](http://activemq.apache.org/)
 Kafka | 消息队列  | [http://kafka.apache.org/](http://kafka.apache.org/)
 RabbitMQ | 消息队列  | [https://www.rabbitmq.com/](https://www.rabbitmq.com/)
 Logback | 日志组件  | [https://logback.qos.ch/](https://logback.qos.ch/)
@@ -89,7 +88,6 @@ goodsKill
 ## 开发环境版本说明
 - JDK: OpenJDK11
 - MySQL: 8.0+
-- ActiveMQ: 5.8.0
 - Kafka: 2.5.0
 - MongoDB: 4.0+
 - Elasticsearch: 7.7.0
@@ -133,7 +131,6 @@ goodsKill
     Zookeeper | latest | 2181 | 无
     Elasticsearch | 7.7.0 | 9200 9300 | 无
     Kibana | 7.7.0 | 5601 | 无
-    ActiveMQ | 5.4.18 | 2181 61616| 无
     RabbitMQ | latest | 5672 15672 | 无
 
 
@@ -231,10 +228,10 @@ swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
 
 - 场景一：sychronized同步锁实现
 - 场景二：redisson分布式锁实现
-- 场景三：ActiveMQ实现
+- 场景三：ActiveMQ实现(已废弃)
 - 场景四：Kafka实现
 - 场景五：本地事务实现
-- 场景六：实时等待秒杀处理结果
+- 场景六：实时等待秒杀处理结果(已废弃)
 - 场景七：zookeeper分布式锁
 - 场景八：使用redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用mongoDB完成数据落地
 - 场景九：SpringCloudStream Rabbitmq实现
