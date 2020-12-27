@@ -15,7 +15,7 @@
 		<module>goodskill-chat-provider</module>
 		<module>goodskill-spring-boot-starter</module>
 		<module>goodsKill-es-provider</module>
-        <module>gookskill-job</module>
+        <module>goodskill-job</module>
 		<module>goodskill-gateway</module>
 	</modules>
 

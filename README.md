@@ -53,6 +53,7 @@ Sharding-JDBC | 分库分表组件 | [https://shardingsphere.apache.org](https:/
 Spring Cloud Dubbo | SpringCloud组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
 Spring Cloud Sentinel | SpringCloud限流降级组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
 Spring Cloud Nacos | SpringCloud组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
+Spring Cloud Gateway | SpringCloud网关组件 | [https://spring.io/projects/spring-cloud-gateway](https://spring.io/projects/spring-cloud-gateway)
 Kotlin | Kotlin | [https://kotlinlang.org/](https://kotlinlang.org/)
 
 ### 前端技术:
