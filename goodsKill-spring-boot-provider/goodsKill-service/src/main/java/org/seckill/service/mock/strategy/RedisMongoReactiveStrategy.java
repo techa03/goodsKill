@@ -1,5 +1,7 @@
 package org.seckill.service.mock.strategy;
 
+import com.goodskill.mongo.topic.SeckillMockSaveTopic;
+import com.goodskill.mongo.vo.SeckillMockSaveVo;
 import lombok.extern.slf4j.Slf4j;
 import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.dto.SeckillMockRequestDto;
@@ -35,22 +37,25 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
     private SeckillMapper extSeckillMapper;
     @Autowired
     private Source source;
+    @Autowired
+    private SeckillMockSaveTopic seckillMockSaveTopic;
 
     @Override
     public void execute(SeckillMockRequestDto requestDto) {
         long seckillId = requestDto.getSeckillId();
         Seckill seckill = redisService.getSeckill(seckillId);
-        if (redisTemplate.opsForValue().increment(seckillId) < seckill.getNumber()) {
+        if (redisTemplate.opsForValue().increment(seckillId) <= seckill.getNumber()) {
             taskExecutor.execute(() ->
-                    source.output().send(MessageBuilder.withPayload(
-                            SeckillMockResponseDto
+                    seckillMockSaveTopic.output().send(MessageBuilder.withPayload(
+                            SeckillMockSaveVo
                                     .builder()
                                     .seckillId(seckillId)
+                                    .userPhone(requestDto.getPhoneNumber())
                                     .note(REDIS_MONGO_REACTIVE.getName())
                                     .build())
                             .build())
             );
-            log.info("已发送");
+            log.debug("已发送");
         } else {
             synchronized (this) {
                 seckill = redisService.getSeckill(seckillId);
@@ -59,6 +64,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
                     source.output().send(MessageBuilder.withPayload(
                             SeckillMockResponseDto
                                     .builder()
+                                    .status(true)
                                     .seckillId(seckillId)
                                     .note(REDIS_MONGO_REACTIVE.getName())
                                     .build())

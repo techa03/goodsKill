@@ -7,6 +7,7 @@ import com.mongodb.client.result.DeleteResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 
 import java.util.concurrent.CountDownLatch;
@@ -20,6 +21,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
  */
 @Service
 @Slf4j
+@Primary
 public class SuceessKillMongoServiceImpl implements SuccessKilledMongoService {
     @Autowired
     private ReactiveMongoTemplate mongoTemplate;

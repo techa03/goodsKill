@@ -51,4 +51,9 @@ public class RedisService {
         redisTemplate.opsForValue().set(key.getBytes(), bytes, timeout, TimeUnit.SECONDS);
     }
 
+    public void removeSeckill(long seckillId) {
+        String key = "seckill:" + seckillId;
+        redisTemplate.delete(key.getBytes());
+    }
+
 }
