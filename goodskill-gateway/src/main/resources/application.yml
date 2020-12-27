@@ -13,7 +13,7 @@ spring:
       - id: mongotest
         uri: lb://mongo-service-provider
         predicates:
-        - Query=red2
+        - Query=red
         filters:
         - JwtAuth
 

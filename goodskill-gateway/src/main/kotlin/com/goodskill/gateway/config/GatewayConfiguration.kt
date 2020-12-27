@@ -1,5 +1,7 @@
 package com.goodskill.gateway.config
 
+import com.goodskill.gateway.filter.JwtAuthGatewayFilter
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cloud.gateway.route.RouteLocator
 import org.springframework.cloud.gateway.route.builder.GatewayFilterSpec
 import org.springframework.cloud.gateway.route.builder.PredicateSpec
@@ -12,6 +14,8 @@ import java.time.ZonedDateTime
 
 @Configuration
 open class GatewayConfiguration {
+    @Autowired
+    private lateinit var jwtAuthGatewayFilter: JwtAuthGatewayFilter
 
     @Bean
     @Order
@@ -22,7 +26,7 @@ open class GatewayConfiguration {
                     .path("/goodskill/es/**")
                     // 路径根据"/"分割符去掉前几位
                     .filters { f: GatewayFilterSpec ->
-                        f.stripPrefix(2)
+                        f.stripPrefix(2).filter(jwtAuthGatewayFilter)
                     }
                     // 访问的负载均衡地址
                     .uri("lb://goodskill-es-provider")
@@ -31,7 +35,7 @@ open class GatewayConfiguration {
                 r.after(ZonedDateTime.now().plusSeconds(6L)).and()
                     .path("/goodskill/mongo/**")
                     .filters { f: GatewayFilterSpec ->
-                        f.stripPrefix(2)
+                        f.stripPrefix(2).filter(jwtAuthGatewayFilter)
                     }
                     .uri("lb://mongo-service-provider").id("mongo")
             }
