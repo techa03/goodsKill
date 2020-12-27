@@ -67,6 +67,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 goodsKill
 |--goodskill-chat-provider                  ||聊天室服务提供者（待完成）
 |--goodsKill-common                         ||项目公共服务（待补充）
+|--goodskill-gateway                        ||微服务网关
 |--goodsKill-es-provider                    ||elasticsearch搜索服务提供者，目前提供根据商品名称检索商品库
 |   |--goodskill-es-api                     
 |   |--goodskill-es-dao                     
@@ -82,7 +83,8 @@ goodsKill
 |   |--goodsKill-util                       
 |--goodskill-spring-boot-starter            ||项目配置自动装配
 |--goodsKill-spring-boot-web-consumer       ||提供页面客户端访问，controller层在这一模块
-|   |--goodsKill-web    
+|   |--goodsKill-web   
+|--goodskill-job                            ||elastic-job定时任务 
 ```
 
 ## 开发环境版本说明
