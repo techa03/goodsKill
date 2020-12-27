@@ -219,9 +219,10 @@ public class SeckillMockController {
         log.info(REDIS_MONGO_REACTIVE.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         Seckill seckill = new Seckill();
         seckill.setSeckillId(seckillId);
+        AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() ->
-                    seckillService.execute(new SeckillMockRequestDto(seckillId, requestCount, "123"), REDIS_MONGO_REACTIVE.getCode())
+                    seckillService.execute(new SeckillMockRequestDto(seckillId, requestCount, String.valueOf(atomicInteger.addAndGet(1))), REDIS_MONGO_REACTIVE.getCode())
             );
         }
         return SeckillResult.ok();

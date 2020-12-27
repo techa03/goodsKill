@@ -4,10 +4,9 @@ import org.seckill.api.dto.SeckillMockRequestDto
 import org.seckill.api.enums.SeckillSolutionEnum
 import org.seckill.service.inner.SeckillExecutor
 import org.slf4j.LoggerFactory
-import org.springframework.cloud.stream.annotation.EnableBinding
 import org.springframework.cloud.stream.annotation.StreamListener
 import org.springframework.cloud.stream.messaging.Sink
-import org.springframework.cloud.stream.messaging.Source
+import org.springframework.stereotype.Component
 import javax.annotation.Resource
 
 /**
@@ -16,7 +15,7 @@ import javax.annotation.Resource
  * @author techa03
  * @date 2020/7/18
  */
-@EnableBinding(value = [Sink::class, Source::class])
+@Component
 open class StreamMessageConsumer {
     private val log = LoggerFactory.getLogger(this.javaClass)
 

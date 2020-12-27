@@ -7,6 +7,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.goodskill.mongo.api.SuccessKilledMongoService;
 import com.goodskill.mongo.entity.SuccessKilledDto;
+import com.goodskill.mongo.topic.SeckillMockSaveTopic;
+import com.goodskill.mongo.vo.SeckillMockSaveVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
@@ -86,6 +88,8 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private ThreadPoolExecutor taskExecutor;
     @Autowired
     private Source source;
+    @Autowired
+    private SeckillMockSaveTopic seckillMockSaveTopic;
     @Value("${alipay.qrcodeImagePath:1}")
     private String qrcodeImagePath;
 
@@ -203,6 +207,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         this.updateById(entity);
         // 清理已成功秒杀记录
         this.deleteSuccessKillRecord(seckillId);
+        redisService.removeSeckill(seckillId);
         Seckill seckill = redisService.getSeckill(seckillId);
         ValueOperations valueOperations = redisTemplate.opsForValue();
         valueOperations.increment(seckillId);
@@ -248,10 +253,11 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
             throw new SeckillCloseException("seckill is closed");
         } else {
             taskExecutor.execute(() ->
-                    source.output().send(MessageBuilder.withPayload(
-                            SeckillMockResponseDto
+                    seckillMockSaveTopic.output().send(MessageBuilder.withPayload(
+                            SeckillMockSaveVo
                                     .builder()
                                     .seckillId(successKilled.getSeckillId())
+                                    .userPhone(successKilled.getUserPhone())
                                     .note(REDIS_MONGO_REACTIVE.getName())
                                     .build())
                             .build())
