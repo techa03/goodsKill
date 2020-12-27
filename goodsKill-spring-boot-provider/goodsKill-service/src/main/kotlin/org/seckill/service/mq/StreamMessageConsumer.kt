@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.cloud.stream.annotation.EnableBinding
 import org.springframework.cloud.stream.annotation.StreamListener
 import org.springframework.cloud.stream.messaging.Sink
+import org.springframework.cloud.stream.messaging.Source
 import javax.annotation.Resource
 
 /**
@@ -15,7 +16,7 @@ import javax.annotation.Resource
  * @author techa03
  * @date 2020/7/18
  */
-@EnableBinding(value = [Sink::class])
+@EnableBinding(value = [Sink::class, Source::class])
 open class StreamMessageConsumer {
     private val log = LoggerFactory.getLogger(this.javaClass)
 
@@ -23,10 +24,10 @@ open class StreamMessageConsumer {
     private lateinit var seckillExecutor: SeckillExecutor
 
     @StreamListener(Sink.INPUT)
-    fun consumer(payload: SeckillMockRequestDto?) {
+    fun consumer(payload: SeckillMockRequestDto) {
         log.info("收到秒杀请求:$payload")
-        val userPhone = payload?.phoneNumber
-        val seckillId = payload?.seckillId as Long
+        val userPhone = payload.phoneNumber
+        val seckillId = payload.seckillId
         seckillExecutor.dealSeckill(seckillId, userPhone, SeckillSolutionEnum.RABBIT_MQ.name)
     }
 }

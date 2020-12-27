@@ -3,17 +3,17 @@ package org.seckill.service.mock.strategy;
 import lombok.extern.slf4j.Slf4j;
 import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.dto.SeckillMockRequestDto;
+import org.seckill.api.dto.SeckillMockResponseDto;
 import org.seckill.entity.Seckill;
 import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.service.common.RedisService;
-import org.seckill.service.mq.ActiveMqMessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.jms.core.JmsTemplate;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import javax.jms.Message;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import static org.seckill.api.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
@@ -32,11 +32,9 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
     @Resource(name = "taskExecutor")
     private ThreadPoolExecutor taskExecutor;
     @Autowired
-    private JmsTemplate jmsTemplate;
-    @Autowired
-    private ActiveMqMessageSender activeMqMessageSender;
-    @Autowired
     private SeckillMapper extSeckillMapper;
+    @Autowired
+    private Source source;
 
     @Override
     public void execute(SeckillMockRequestDto requestDto) {
@@ -44,13 +42,13 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
         Seckill seckill = redisService.getSeckill(seckillId);
         if (redisTemplate.opsForValue().increment(seckillId) < seckill.getNumber()) {
             taskExecutor.execute(() ->
-                    jmsTemplate.send("SUCCESS_KILLED_RESULT", session -> {
-                        Message message = session.createMessage();
-                        message.setLongProperty("seckillId", seckillId);
-                        message.setStringProperty("userPhone", String.valueOf(1));
-                        message.setStringProperty("note", REDIS_MONGO_REACTIVE.getName());
-                        return message;
-                    })
+                    source.output().send(MessageBuilder.withPayload(
+                            SeckillMockResponseDto
+                                    .builder()
+                                    .seckillId(seckillId)
+                                    .note(REDIS_MONGO_REACTIVE.getName())
+                                    .build())
+                            .build())
             );
             log.info("已发送");
         } else {
@@ -58,7 +56,14 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
                 seckill = redisService.getSeckill(seckillId);
                 if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
                     log.info("秒杀商品暂无库存，发送活动结束消息！");
-                    activeMqMessageSender.sendSeckillSuccessTopic(seckillId, REDIS_MONGO_REACTIVE.getName());
+                    source.output().send(MessageBuilder.withPayload(
+                            SeckillMockResponseDto
+                                    .builder()
+                                    .seckillId(seckillId)
+                                    .note(REDIS_MONGO_REACTIVE.getName())
+                                    .build())
+                            .build());
+
                     Seckill sendTopicResult = new Seckill();
                     sendTopicResult.setSeckillId(seckillId);
                     sendTopicResult.setStatus(SeckillStatusConstant.END);

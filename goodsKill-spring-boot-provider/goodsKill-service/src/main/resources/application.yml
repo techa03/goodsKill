@@ -4,8 +4,6 @@ server:
 spring:
   profiles:
     active: dev
-  activemq:
-    broker-url: failover:(tcp://localhost:61615)?initialReconnectDelay=100
   kafka:
     consumer:
       group-id: seckill
@@ -98,8 +96,6 @@ spring:
   redis:
     host: localhost
     port: 6379
-  activemq:
-    broker-url: failover:(tcp://localhost:61616)?initialReconnectDelay=100
   kafka:
     bootstrap-servers: localhost:9092
   shardingsphere:
@@ -127,8 +123,6 @@ spring:
   redis:
     host: redis
     port: 6379
-  activemq:
-    broker-url: failover:(tcp://activemq:61616)?initialReconnectDelay=100
   kafka:
     bootstrap-servers: kafka:9092
   shardingsphere:
@@ -169,8 +163,6 @@ spring:
   redis:
     host: 192.168.2.22
     port: 6379
-  activemq:
-    broker-url: failover:(tcp://192.168.2.22:61616)?initialReconnectDelay=100
   kafka:
     bootstrap-servers: 192.168.2.22:9092
   rabbitmq:

@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.goodskill.autoconfigure.datasource.GkDatasourceAutoConfiguration,\
-com.goodskill.autoconfigure.activemq.GkActivemqAutoConfiguration
+com.goodskill.autoconfigure.datasource.GkDatasourceAutoConfiguration

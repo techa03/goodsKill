@@ -32,14 +32,15 @@ import org.seckill.util.common.util.MD5Util;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.jms.core.JmsTemplate;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.jms.Message;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -60,8 +61,9 @@ import static org.seckill.api.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
  * @author heng
  * @since 2019-09-07
  */
-@Service
 @Slf4j
+@RestController
+@Service
 public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> implements SeckillService {
 
     @Resource
@@ -83,7 +85,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Resource(name = "taskExecutor")
     private ThreadPoolExecutor taskExecutor;
     @Autowired
-    private JmsTemplate jmsTemplate;
+    private Source source;
     @Value("${alipay.qrcodeImagePath:1}")
     private String qrcodeImagePath;
 
@@ -185,6 +187,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
                 count = successKilledMongoService.count(successKilledDto);
             } catch (Exception e) {
                 log.error("mongo服务不可用，请检查！", e);
+                throw e;
             }
         }
         return count;
@@ -214,6 +217,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
             successKilledMongoService.deleteRecord(seckillId);
         } catch (Exception e) {
             log.error("mongo服务不可用请检查！", e);
+            throw e;
         }
     }
 
@@ -244,13 +248,13 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
             throw new SeckillCloseException("seckill is closed");
         } else {
             taskExecutor.execute(() ->
-                    jmsTemplate.send("SUCCESS_KILLED_RESULT", session -> {
-                        Message message = session.createMessage();
-                        message.setLongProperty("seckillId", successKilled.getSeckillId());
-                        message.setStringProperty("userPhone", String.valueOf(1));
-                        message.setStringProperty("note", REDIS_MONGO_REACTIVE.getName());
-                        return message;
-                    })
+                    source.output().send(MessageBuilder.withPayload(
+                            SeckillMockResponseDto
+                                    .builder()
+                                    .seckillId(successKilled.getSeckillId())
+                                    .note(REDIS_MONGO_REACTIVE.getName())
+                                    .build())
+                            .build())
             );
             log.info("已发送");
             return update;
@@ -263,7 +267,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         FileInputStream inputStream = new FileInputStream(new File(qrcodeImagePath + "/" + fileName + ".png"));
         int b;
         // 二维码一般不超过10KB
-        byte[] data = new byte[1024*10];
+        byte[] data = new byte[1024 * 10];
         int i = 0;
         while ((b = inputStream.read()) != -1) {
             data[i] = (byte) b;

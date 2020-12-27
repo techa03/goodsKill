@@ -1,5 +1,5 @@
 server:
-  port: 19092
+  port: 19093
 
 spring:
   profiles:
@@ -21,6 +21,7 @@ spring:
             group-id: DEFAULT_GROUP
             rule-type: flow
             server-addr: 127.0.0.1:8848
+
 ## dubbo服务注册和发现
 dubbo:
   protocol:
@@ -75,7 +76,7 @@ dubbo:
 elasticsearch:
   rest:
     client:
-      address: elasticsearch:9200
+      address: elk:9200
 ---
 spring:
   profiles: test

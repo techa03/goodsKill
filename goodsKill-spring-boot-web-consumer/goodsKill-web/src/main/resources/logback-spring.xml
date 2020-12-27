@@ -11,16 +11,13 @@
     </appender>
 
     <appender name="rollingAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/logs/goodsKill/goodsKill.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/logs/goodsKill-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>/logs/goodsKill/goodsKill-%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder><!-- 必须指定，否则不会往文件输出内容 -->
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
         </encoder>
-        <append>false</append>
-        <prudent>false</prudent>
     </appender>
 
     <logger name="io.swagger" level="ERROR" additivity="false">

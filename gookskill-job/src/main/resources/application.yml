@@ -1,0 +1,26 @@
+elasticjob:
+  reg-center:
+    server-lists: localhost:2181
+    namespace: elasticjob-lite-springboot
+  jobs:
+    simpleJob:
+      elasticJobClass: com.goodskill.job.simple.MyJob
+#      5秒执行一次
+      cron: 0/5 * * * * ?
+      shardingTotalCount: 1
+      shardingItemParameters: 0=Shanghai
+spring:
+  application:
+    name: goodskill-job
+
+dubbo:
+  protocol:
+    name: dubbo
+    port: -1
+    id: dubbo
+  cloud:
+    subscribed-services: "goodskill-service-provider"
+  provider:
+    timeout: 30000
+server:
+  port: 19094

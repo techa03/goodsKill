@@ -22,7 +22,7 @@ import org.springframework.context.annotation.ImportResource;
 @ImportResource(value = {"classpath*:META-INF/spring/spring-web.xml", "classpath*:META-INF/spring/spring-shiro-web.xml"})
 @EnableBinding(value = {Source.class})
 @EnableDiscoveryClient
-@EnableFeignClients("com.goodskill.*.api")
+@EnableFeignClients(value = {"com.goodskill.*.api", "org.seckill.api"})
 public class SampleWebJspApplication extends SpringBootServletInitializer {
 
     @Override

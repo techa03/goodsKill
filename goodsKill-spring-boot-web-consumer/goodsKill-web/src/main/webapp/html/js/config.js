@@ -1,1 +1,1 @@
-var Http_context='/goodsKill';
+var Http_context='/goodskill';

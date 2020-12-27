@@ -33,7 +33,6 @@ PageHelper | MyBatis物理分页插件  | [http://git.oschina.net/free/Mybatis_P
 Hikari | 数据库连接池 | [https://github.com/brettwooldridge/HikariCP](https://github.com/brettwooldridge/HikariCP)
 ZooKeeper | 分布式协调服务  | [http://zookeeper.apache.org/](http://zookeeper.apache.org/)
 Redis | 分布式缓存数据库  | [https://redis.io/](https://redis.io/)
-ActiveMQ | 消息队列  | [http://activemq.apache.org/](http://activemq.apache.org/)
 Kafka | 消息队列  | [http://kafka.apache.org/](http://kafka.apache.org/)
 RabbitMQ | 消息队列  | [https://www.rabbitmq.com/](https://www.rabbitmq.com/)
 Logback | 日志组件  | [https://logback.qos.ch/](https://logback.qos.ch/)
@@ -68,6 +67,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 goodsKill
 |--goodskill-chat-provider                  ||聊天室服务提供者（待完成）
 |--goodsKill-common                         ||项目公共服务（待补充）
+|--goodskill-gateway                        ||微服务网关
 |--goodsKill-es-provider                    ||elasticsearch搜索服务提供者，目前提供根据商品名称检索商品库
 |   |--goodskill-es-api                     
 |   |--goodskill-es-dao                     
@@ -83,13 +83,13 @@ goodsKill
 |   |--goodsKill-util                       
 |--goodskill-spring-boot-starter            ||项目配置自动装配
 |--goodsKill-spring-boot-web-consumer       ||提供页面客户端访问，controller层在这一模块
-|   |--goodsKill-web    
+|   |--goodsKill-web   
+|--goodskill-job                            ||elastic-job定时任务 
 ```
 
 ## 开发环境版本说明
 - JDK: OpenJDK11
 - MySQL: 8.0+
-- ActiveMQ: 5.8.0
 - Kafka: 2.5.0
 - MongoDB: 4.0+
 - Elasticsearch: 7.7.0
@@ -133,7 +133,6 @@ goodsKill
     Zookeeper | latest | 2181 | 无
     Elasticsearch | 7.7.0 | 9200 9300 | 无
     Kibana | 7.7.0 | 5601 | 无
-    ActiveMQ | 5.4.18 | 2181 61616| 无
     RabbitMQ | latest | 5672 15672 | 无
 
 
@@ -170,7 +169,7 @@ goodsKill
        profiles:
          active: dev
      ```
-- 启动完成后访问登录页面[http://localhost:8080/goodsKill/login](http://localhost:8080/goodsKill/login)，默认管理员账号admin123，密码：aa123456
+- 启动完成后访问登录页面[http://localhost:8080/goodskill/login](http://localhost:8080/goodskill/login)，默认管理员账号admin123，密码：aa123456
 
 > #### 额外功能（可选）
 - 已集成sentinel限流组件，支持nacos配置中心方式推送限流规则，使用时需启动sentinel控制台，并以18088端口启动，docker环境暂不支持。
@@ -225,16 +224,16 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 ## 秒杀方案🔥🔥
 目前实现了几种秒杀方案，通过SeckillMockController提供测试接口
 
-swagger主页测试地址：http://localhost:8080/goodsKill/swagger-ui.html#/
+swagger主页测试地址：http://localhost:8080/goodskill/swagger-ui.html#/
 
-swagger增强主页测试地址：http://localhost:8080/goodsKill/doc.html
+swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
 
 - 场景一：sychronized同步锁实现
 - 场景二：redisson分布式锁实现
-- 场景三：ActiveMQ实现
+- 场景三：ActiveMQ实现(已废弃)
 - 场景四：Kafka实现
 - 场景五：本地事务实现
-- 场景六：实时等待秒杀处理结果
+- 场景六：实时等待秒杀处理结果(已废弃)
 - 场景七：zookeeper分布式锁
 - 场景八：使用redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用mongoDB完成数据落地
 - 场景九：SpringCloudStream Rabbitmq实现

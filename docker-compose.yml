@@ -46,16 +46,6 @@ services:
 #    networks:
 #      - somenetwork
 
-  activemq:
-    image: webcenter/activemq
-    container_name: activemq
-    restart: always
-    ports:
-      - 61616:61616
-      - 8161:8161
-    networks:
-      - somenetwork
-
   zookeeper:
     image: zookeeper
     container_name: zookeeper
@@ -200,7 +190,6 @@ services:
       - /logs/goods-mongo/:/logs/goodsKill
     depends_on:
       - nacos
-      - activemq
       - mongo
     networks:
       - somenetwork
@@ -216,7 +205,6 @@ services:
       - zookeeper
       - goodsmongo
       - goodses
-      - activemq
       - redis
       - nacos
     networks:
@@ -231,7 +219,6 @@ services:
     depends_on:
       - goodsservice
       - zookeeper
-      - activemq
       - redis
       - nacos
     ports:
