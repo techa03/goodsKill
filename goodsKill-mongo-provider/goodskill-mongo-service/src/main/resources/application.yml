@@ -1,5 +1,5 @@
 server:
-  port: 19091
+  port: 0
 spring:
   profiles:
     active: dev
@@ -68,6 +68,8 @@ spring:
         ds0:
           nacos:
             server-addr: nacos:8848
+  zipkin:
+    base-url: https://zipkin:9411/
 dubbo:
   registry:
     address: spring-cloud://localhost

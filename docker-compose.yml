@@ -171,6 +171,15 @@ services:
 #      MONGO_INITDB_ROOT_USERNAME: root
 #      MONGO_INITDB_ROOT_PASSWORD: root
 
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    restart: always
+    ports:
+      - "9411:9411"
+    networks:
+      - somenetwork
+
   goodses:
     build: ./goodsKill-es-provider
     container_name: goodses
@@ -223,6 +232,17 @@ services:
       - nacos
     ports:
       - 8080:8080
+    networks:
+      - somenetwork
+
+  goodsgateway:
+    build: ./goodskill-gateway
+    container_name: goodsgateway
+    restart: on-failure:3
+    volumes:
+      - /logs/goods-gateway/:/logs/goodsKill
+    ports:
+      - 80:80
     networks:
       - somenetwork
 
