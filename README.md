@@ -99,6 +99,7 @@ goodsKill
 - SpringCloud: Hoxton.SR9
 - SpringBoot: 2.3.x.RELEASE
 - SpringCloudAlibaba: 2.2.1.RELEASE
+- Kotlin: 1.4.20
 
 > **注**:其他环境版本暂未测试
 

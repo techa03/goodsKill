@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class SekcillKafkaConsumer {
+public class SeckillKafkaConsumer {
     @Autowired
     private SeckillExecutor seckillExecutor;
 
