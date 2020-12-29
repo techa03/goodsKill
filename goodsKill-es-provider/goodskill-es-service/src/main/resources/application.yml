@@ -71,7 +71,7 @@ spring:
           nacos:
             server-addr: nacos:8848
   zipkin:
-    base-url: https://zipkin:9411/
+    base-url: http://zipkin:9411/
 dubbo:
   registry:
     address: spring-cloud://localhost
