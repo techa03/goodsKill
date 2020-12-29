@@ -243,6 +243,8 @@ services:
       - /logs/goods-gateway/:/logs/goodsKill
     ports:
       - 80:80
+    depends_on:
+      - nacos
     networks:
       - somenetwork
 
