@@ -245,6 +245,7 @@ services:
       - 80:80
     depends_on:
       - nacos
+      - zipkin
     networks:
       - somenetwork
 
