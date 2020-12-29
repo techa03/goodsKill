@@ -3,14 +3,19 @@ package com.goodskill.mongo.controller;
 import com.goodskill.mongo.api.SuccessKilledMongoService;
 import com.goodskill.mongo.entity.SuccessKilled;
 import com.goodskill.mongo.entity.SuccessKilledDto;
+import com.goodskill.mongo.topic.SeckillMockSaveTopic;
+import com.goodskill.mongo.vo.SeckillMockSaveVo;
 import com.mongodb.client.result.DeleteResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -25,6 +30,10 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 public class SuceessKillMongoController implements SuccessKilledMongoService {
     @Autowired
     private ReactiveMongoTemplate mongoTemplate;
+    @Autowired
+    private SeckillMockSaveTopic seckillMockSaveTopic;
+    @Autowired
+    private Source source;
 
     @Override
     public long deleteRecord(long sekcillId) {
@@ -75,7 +84,8 @@ public class SuceessKillMongoController implements SuccessKilledMongoService {
     }
 
     @GetMapping("/counttest")
-    public long count(@RequestParam(value = "red2") String red) {
+    public long count(@RequestParam(value = "red2") String red, HttpServletRequest request) {
+        System.out.println(request.getSession().getId());
         AtomicLong count = new AtomicLong();
         CountDownLatch countDownLatch = new CountDownLatch(1);
         mongoTemplate.count(query(where("seckillId").is(red)), SuccessKilled.class)
@@ -91,6 +101,13 @@ public class SuceessKillMongoController implements SuccessKilledMongoService {
             Thread.currentThread().interrupt();
         }
         return count.get();
+    }
+
+    @GetMapping("/test")
+    public void test() {
+        SeckillMockSaveVo vo = SeckillMockSaveVo.builder()
+                .seckillId(1001).userPhone("1").note("test").build();
+        source.output().send(MessageBuilder.withPayload(vo).build());
     }
 
 }

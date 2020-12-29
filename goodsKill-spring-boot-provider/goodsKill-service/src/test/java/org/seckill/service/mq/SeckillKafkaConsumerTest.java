@@ -14,15 +14,15 @@ import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SekcillKafkaConsumerTest {
+public class SeckillKafkaConsumerTest {
     @InjectMocks
-    private SekcillKafkaConsumer sekcillKafkaConsumer;
+    private SeckillKafkaConsumer seckillKafkaConsumer;
     @Mock
     private SeckillExecutor seckillExecutor;
 
     @Test
     public void onMessage() {
-        sekcillKafkaConsumer.onMessage(new ConsumerRecord("1", 1, 0L, "key", "1"));
+        seckillKafkaConsumer.onMessage(new ConsumerRecord("1", 1, 0L, "key", "1"));
         verify(seckillExecutor, only()).dealSeckill(anyLong(),any(),any());
     }
 
