@@ -241,7 +241,7 @@ swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
 - 场景六：实时等待秒杀处理结果(已废弃)
 - 场景七：zookeeper分布式锁
 - 场景八：使用redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用mongoDB完成数据落地
-- 场景九：SpringCloudStream Rabbitmq实现
+- 场景九：SpringCloudStream RabbitMQ实现
 
 可在web控台查看秒杀结果，打印信息类似：
  ```
