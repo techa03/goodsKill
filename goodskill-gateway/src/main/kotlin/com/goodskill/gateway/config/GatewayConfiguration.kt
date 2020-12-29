@@ -39,6 +39,14 @@ open class GatewayConfiguration {
                     }
                     .uri("lb://mongo-service-provider").id("mongo")
             }
+            .route { r: PredicateSpec ->
+                r.after(ZonedDateTime.now().plusSeconds(6L)).and()
+                    .path("/goodskill/**")
+                    .filters { f: GatewayFilterSpec ->
+                        f.stripPrefix(1)
+                    }
+                    .uri("lb://goodskill-service-provider").id("goods-service")
+            }
             .build()
     }
 

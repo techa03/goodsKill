@@ -5,6 +5,7 @@ import com.goodskill.common.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -34,6 +35,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BindException.class)
     @ResponseStatus(HttpStatus.OK)
     public ApiResult exception(BindException e) {
+        String errorMsg = e.getBindingResult().getFieldErrors().stream()
+                .map(errorInfo -> errorInfo.getField() + errorInfo.getDefaultMessage()).collect(Collectors.joining(","));
+        log.warn(e.getMessage());
+        return ApiResult.error(ResultCode.C500.getCode(), "参数校验失败:" + errorMsg);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResult exception(MethodArgumentNotValidException e) {
         String errorMsg = e.getBindingResult().getFieldErrors().stream()
                 .map(errorInfo -> errorInfo.getField() + errorInfo.getDefaultMessage()).collect(Collectors.joining(","));
         log.warn(e.getMessage());

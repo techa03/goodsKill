@@ -34,11 +34,6 @@
             <version>${goodsKill.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.goodskill</groupId>
-            <artifactId>goodsKill-api</artifactId>
-            <version>${goodsKill.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.sgroschupf</groupId>
             <artifactId>zkclient</artifactId>
             <version>0.1</version>
@@ -74,11 +69,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.goodskill</groupId>
-            <artifactId>goodskill-mongo-api</artifactId>
-            <version>${goodsKill.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

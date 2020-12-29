@@ -8,15 +8,17 @@
 # 前言
 项目命名为goodsKill一方面有商品秒杀项目的意思(好像有点chinglish的味道)，另外也可理解为good skill，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来（偏向于后端技术），方便学习和查阅。
 
-本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证，前端页面基于bootstrap框架搭建，并使用bootstrap-validator插件进行表单验证。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，采用springcloud dubbo实现服务分布式服务调用，服务注册发现使用nacos server。
+本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，采用springcloud dubbo实现服务分布式服务调用，服务注册发现使用nacos server。
 
 本项目扩展了秒杀功能，集成了jmock完成service层的测试，支持数据库分库分表，并提供基本的秒杀解决方案（通过模拟接口实现）。
 
-- 集成了内嵌式H2数据库，方便独立进行单元功能测试
+- 集成内嵌式H2数据库，方便独立进行单元功能测试
 
-- 集成了sentinel限流组件，可以针对http请求以及dubbo rpc调用限流
+- 集成sentinel限流组件，可以针对http请求以及dubbo rpc调用限流
 
-- 集成了新版支付宝easySDK，通过当面扫完成扫码付款
+- 集成新版支付宝easySDK，通过当面扫完成扫码付款
+
+- 集成服务网关，采用Spring Cloud Gateway网关组件，并提供JWT用户鉴权功能
 
 ## 分支介绍
 `dev_gradle`分支为使用gradle构建工具管理项目依赖（已停更），`dev_maven`分支对应maven构建工具（springframework版本4.x，已停更），`master`分支基于最新springcloud体系构建。本项目功能目前比较简陋且有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
@@ -136,6 +138,7 @@ goodsKill
     Elasticsearch | 7.7.0 | 9200 9300 | 无
     Kibana | 7.7.0 | 5601 | 无
     RabbitMQ | latest | 5672 15672 | 无
+    Zipkin | latest | 9411 | 无
 
 
  **注**:除以上镜像外，docker-compose文件还包含项目构建命令，目前暂未列出
@@ -143,6 +146,8 @@ goodsKill
 > #### 方法二：使用IDEA运行项目
 
 - 如无docker运行环境，可参照官网安装上述应用，本地默认端口启动
+
+- 进入goodskill-gateway模块，通过GatewayApplication类main方法启动服务网关
 
 - 找到EsApplication类main方法启动远程服务
 
@@ -223,6 +228,14 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 
 **注**:其他表均未分库分表，默认使用seckill作为主库
 
+## 服务网关说明
+- http://localhost/goodskill/mongo 对应goodsKill-mongo-provider服务
+- http://localhost/goodskill/es 对应goodsKill-es-provider服务
+- http://localhost/goodskill 对应goodsKill-service-provider服务
+
+- 通过[http://localhost/goodskill/token](http://localhost/goodskill/token)接口获取token
+- 通过[http://localhost/goodskill/refresh](http://localhost/goodskill/refresh)刷新用户token
+
 ## 秒杀方案🔥🔥
 目前实现了几种秒杀方案，通过SeckillMockController提供测试接口
 
@@ -238,7 +251,7 @@ swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
 - 场景六：实时等待秒杀处理结果(已废弃)
 - 场景七：zookeeper分布式锁
 - 场景八：使用redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用mongoDB完成数据落地
-- 场景九：SpringCloudStream Rabbitmq实现
+- 场景九：SpringCloudStream RabbitMQ实现
 
 可在web控台查看秒杀结果，打印信息类似：
  ```
@@ -248,15 +261,15 @@ swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
  ```
  
 ## 后续更新计划🔨
-✅ 集成spring cloud alibaba组件
-
-✅ 基于配置中心改造项目配置（支付宝配置保存于nacos配置中心，防止配置泄露）
-
-✅ 新版支付宝SDK集成，使用当面扫完成付款
-
-⏳ 添加秒杀用户聊天室功能，使用netty网络通信，maven分支已经实现，master分支待集成
-
-⏳ 丰富项目文档
+功能 | 进度 | 完成时间 | 说明
+---|---|---|---
+集成spring cloud alibaba组件 | ✅ | 2020.5 | 目前已集成nacos、sentinel、dubbo组件
+基于配置中心改造项目配置| ✅ | 2020.7 | 支付宝配置保存于nacos配置中心，防止配置泄露
+新版支付宝SDK集成 | ✅ | 2020.7 | 使用当面扫完成付款
+聊天室功能 | ⏳ |  | 使用netty网络通信，maven分支已经实现，master分支待集成 |
+完善jwt用户鉴权，并提供通用服务接口 | ⏳ | | 
+前后端分离 | ⏳ | | 目前前后端全部放在gooskill-web模块，不利于部署
+丰富项目文档 | ⏳ |  | 
 
 ### API接口
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png)
