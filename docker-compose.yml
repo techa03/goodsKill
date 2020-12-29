@@ -188,6 +188,7 @@ services:
     depends_on:
       - elasticsearch
       - nacos
+      - zipkin
 #      - elasticsearch1
     networks:
       - somenetwork
@@ -200,6 +201,7 @@ services:
     depends_on:
       - nacos
       - mongo
+      - zipkin
     networks:
       - somenetwork
 
@@ -216,6 +218,7 @@ services:
       - goodses
       - redis
       - nacos
+      - zipkin
     networks:
       - somenetwork
 
@@ -230,6 +233,7 @@ services:
       - zookeeper
       - redis
       - nacos
+      - zipkin
     ports:
       - 8080:8080
     networks:
