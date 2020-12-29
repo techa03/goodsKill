@@ -147,6 +147,8 @@ goodsKill
 
 - 如无docker运行环境，可参照官网安装上述应用，本地默认端口启动
 
+- 进入goodskill-gateway模块，通过GatewayApplication类main方法启动服务网关
+
 - 找到EsApplication类main方法启动远程服务
 
 - 找到GoodsKillRpcServiceApplication类main方法启动远程服务，并且需要在host中加入以下信息
@@ -225,6 +227,14 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
 success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01两个库） | seckill_id | 是（分为success_killed_0,success_kill_1两张表） | user_phone
 
 **注**:其他表均未分库分表，默认使用seckill作为主库
+
+## 服务网关说明
+- http://localhost/goodskill/mongo 对应goodsKill-mongo-provider服务
+- http://localhost/goodskill/es 对应goodsKill-es-provider服务
+- http://localhost/goodskill 对应goodsKill-service-provider服务
+
+- 通过[http://localhost/goodskill/token](http://localhost/goodskill/token)接口获取token
+- 通过[http://localhost/goodskill/refresh](http://localhost/goodskill/refresh)刷新用户token
 
 ## 秒杀方案🔥🔥
 目前实现了几种秒杀方案，通过SeckillMockController提供测试接口

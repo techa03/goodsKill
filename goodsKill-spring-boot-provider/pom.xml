@@ -21,6 +21,7 @@
 		<mybatis-plus.version>3.2.0</mybatis-plus.version>
 		<shardingsphere.version>4.1.1</shardingsphere.version>
 		<jackson.version>2.11.0</jackson.version>
+		<jacoco.version>0.8.6</jacoco.version>
 	</properties>
 	<parent>
 		<groupId>com.goodskill</groupId>
@@ -240,13 +241,6 @@
 				<artifactId>activemq-core</artifactId>
 				<version>5.7.0</version>
 			</dependency>
-			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-				<version>8.0.16</version>
-				<scope>runtime</scope>
-			</dependency>
-
 			<!--测试相关-->
 			<dependency>
 				<groupId>org.mockito</groupId>
@@ -283,7 +277,7 @@
 			<dependency>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.1</version>
+				<version>${jacoco.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -357,14 +351,14 @@
 				<version>2.0.1</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ctrip.framework.apollo</groupId>
-				<artifactId>apollo-client</artifactId>
-				<version>1.7.0</version>
-			</dependency>
-			<dependency>
 				<groupId>com.goodskill</groupId>
 				<artifactId>goodskill-spring-boot-starter</artifactId>
 				<version>${goodsKill.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-all</artifactId>
+				<version>5.5.1</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

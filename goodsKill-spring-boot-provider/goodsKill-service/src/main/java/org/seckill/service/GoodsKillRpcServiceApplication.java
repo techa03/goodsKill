@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("org.seckill.mp.dao.mapper")
 @EnableDiscoveryClient
 @EnableBinding(value = {Sink.class, Source.class, SeckillMockSaveTopic.class})
-@EnableFeignClients("com.goodskill.*.api")
+@EnableFeignClients({"com.goodskill.*.api", "org.seckill.api.service"})
 public class GoodsKillRpcServiceApplication {
 
     public static void main(String[] args) {

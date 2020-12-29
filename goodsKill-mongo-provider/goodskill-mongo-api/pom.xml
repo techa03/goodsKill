@@ -28,6 +28,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-stream</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
