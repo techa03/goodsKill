@@ -61,7 +61,7 @@
     </dependencies>
 
     <build>
-        <finalName>goodsKill-mongo-service</finalName>
+        <finalName>goodskill-job</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -8,15 +8,17 @@
 # 前言
 项目命名为goodsKill一方面有商品秒杀项目的意思(好像有点chinglish的味道)，另外也可理解为good skill，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来（偏向于后端技术），方便学习和查阅。
 
-本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证，前端页面基于bootstrap框架搭建，并使用bootstrap-validator插件进行表单验证。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，采用springcloud dubbo实现服务分布式服务调用，服务注册发现使用nacos server。
+本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，采用springcloud dubbo实现服务分布式服务调用，服务注册发现使用nacos server。
 
 本项目扩展了秒杀功能，集成了jmock完成service层的测试，支持数据库分库分表，并提供基本的秒杀解决方案（通过模拟接口实现）。
 
-- 集成了内嵌式H2数据库，方便独立进行单元功能测试
+- 集成内嵌式H2数据库，方便独立进行单元功能测试
 
-- 集成了sentinel限流组件，可以针对http请求以及dubbo rpc调用限流
+- 集成sentinel限流组件，可以针对http请求以及dubbo rpc调用限流
 
-- 集成了新版支付宝easySDK，通过当面扫完成扫码付款
+- 集成新版支付宝easySDK，通过当面扫完成扫码付款
+
+- 集成服务网关，采用Spring Cloud Gateway网关组件，并提供JWT用户鉴权功能
 
 ## 分支介绍
 `dev_gradle`分支为使用gradle构建工具管理项目依赖（已停更），`dev_maven`分支对应maven构建工具（springframework版本4.x，已停更），`master`分支基于最新springcloud体系构建。本项目功能目前比较简陋且有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
