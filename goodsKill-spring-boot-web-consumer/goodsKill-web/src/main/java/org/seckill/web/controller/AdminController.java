@@ -3,6 +3,8 @@ package org.seckill.web.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.seckill.api.service.*;
@@ -39,11 +41,16 @@ public class AdminController {
     @Reference
     private RolePermissionService rolePermissionService;
 
+    @ApiOperation("分页查询角色")
     @RequestMapping(value = "/role", method = GET, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public ResponseDto role(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
-                            @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
+    public ResponseDto role(
+            Model model,
+            @ApiParam("分页当前页码")
+            @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
+            @ApiParam("分页每页显示数量")
+            @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
         Page page = new Page(offset, limit);
         IPage<Role> pageInfo = roleService.page(page);
         ResponseDto<Role> responseDto = new ResponseDto<>();
@@ -52,11 +59,16 @@ public class AdminController {
         return responseDto;
     }
 
+    @ApiOperation("分页查询角色部分信息")
     @RequestMapping(value = "/roleLess", method = GET, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public ResponseDto roleLess(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
-                                @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
+    public ResponseDto roleLess(
+            Model model,
+            @ApiParam("分页当前页码")
+            @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
+            @ApiParam("分页每页显示数量")
+            @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
         Page page = new Page(offset, limit);
         IPage<Role> pageInfo = roleService.page(page);
         ResponseDto<RoleDto> responseDto = new ResponseDto<>();
@@ -72,6 +84,7 @@ public class AdminController {
         return responseDto;
     }
 
+    @ApiOperation("新增角色")
     @GetMapping("/role/add")
     public String addRole(Role role) {
         role.setCreateTime(new Date());
