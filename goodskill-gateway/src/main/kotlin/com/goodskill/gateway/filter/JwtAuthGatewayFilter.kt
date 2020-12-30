@@ -8,7 +8,6 @@ import org.springframework.core.Ordered
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
-import java.lang.RuntimeException
 
 
 /**
@@ -21,8 +20,8 @@ class JwtAuthGatewayFilter: GatewayFilter, Ordered {
     @Autowired
     private lateinit var authService: AuthService
 
-    override fun filter(exchange: ServerWebExchange?, chain: GatewayFilterChain?): Mono<Void> {
-        val token = exchange!!.request.headers["token"]!![0].toString()
+    override fun filter(exchange: ServerWebExchange, chain: GatewayFilterChain): Mono<Void> {
+        val token = exchange.request.headers["token"]!![0].toString()
         val result = try {
             authService.verifyToken(token)
         } catch (e: Exception) {
@@ -31,7 +30,7 @@ class JwtAuthGatewayFilter: GatewayFilter, Ordered {
         if (result.code != "200") {
             throw RuntimeException(result.message)
         }
-        return chain!!.filter(exchange)
+        return chain.filter(exchange)
     }
 
     override fun getOrder(): Int {
