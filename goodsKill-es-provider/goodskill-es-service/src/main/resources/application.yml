@@ -33,7 +33,7 @@ dubbo:
   scan:
     base-packages: com.goodskill.es.service
   cloud:
-    subscribed-services: "*"
+    subscribed-services: ""
 ## 日志级别
 logging:
   level:

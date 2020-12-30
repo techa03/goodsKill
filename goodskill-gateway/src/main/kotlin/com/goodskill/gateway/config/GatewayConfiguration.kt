@@ -1,25 +1,24 @@
 package com.goodskill.gateway.config
 
 import com.goodskill.gateway.filter.JwtAuthGatewayFilter
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.ObjectProvider
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters
 import org.springframework.cloud.gateway.route.RouteLocator
 import org.springframework.cloud.gateway.route.builder.GatewayFilterSpec
 import org.springframework.cloud.gateway.route.builder.PredicateSpec
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.annotation.Order
+import org.springframework.http.converter.HttpMessageConverter
 import java.time.ZonedDateTime
+import java.util.stream.Collectors
 
 
 @Configuration
 open class GatewayConfiguration {
-    @Autowired
-    private lateinit var jwtAuthGatewayFilter: JwtAuthGatewayFilter
-
     @Bean
-    @Order
-    open fun customizedLocator(builder: RouteLocatorBuilder): RouteLocator {
+    open fun customizedLocator(builder: RouteLocatorBuilder, jwtAuthGatewayFilter: JwtAuthGatewayFilter): RouteLocator {
         return builder.routes()
             .route { r: PredicateSpec ->
                 r.after(ZonedDateTime.now().plusSeconds(20L)).and()
@@ -48,6 +47,15 @@ open class GatewayConfiguration {
                     .uri("lb://goodskill-service-provider").id("goods-service")
             }
             .build()
+    }
+
+    /**
+     * 修复使用feign client远程调用服务时报HttpMessageConverters缺失问题
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    open fun messageConverters(converters: ObjectProvider<HttpMessageConverter<*>?>): HttpMessageConverters? {
+        return HttpMessageConverters(converters.orderedStream().collect(Collectors.toList()))
     }
 
 }

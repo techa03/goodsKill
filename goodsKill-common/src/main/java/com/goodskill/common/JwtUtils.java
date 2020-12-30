@@ -16,7 +16,6 @@ import java.util.UUID;
  */
 @Slf4j
 public class JwtUtils {
-
     /**
      * key（按照签名算法的字节长度设置key）
      */
@@ -99,8 +98,8 @@ public class JwtUtils {
     public static void main(String[] args) throws InterruptedException {
 
         Map<String, Object> map = new HashMap<>();
-        map.put("name","1");
-        map.put("age","1");
+        map.put("name", "1");
+        map.put("age", "1");
         String token = createToken(map);
         System.out.println(token);
         Thread.sleep(2000);
