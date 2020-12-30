@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory
-import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 
-@Component
+/**
+ * 过滤器工厂，可应用于配置文件中，使用JwtAuth前缀配置，使用时需要注入spring容器
+ */
+//@Component
 class JwtAuthGatewayFilterFactory :
     AbstractGatewayFilterFactory<JwtAuthGatewayFilterFactory.Config>(Config::class.java) {
 
