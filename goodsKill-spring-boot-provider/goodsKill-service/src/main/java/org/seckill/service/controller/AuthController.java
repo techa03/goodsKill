@@ -39,6 +39,7 @@ public class AuthController implements AuthService {
                 ByteSource.Util.bytes(userName), 2).toString();
         User user = userService.getOne(new LambdaQueryWrapper<User>()
                 .eq(User::getUsername, userName).eq(User::getPassword, passwordEncrypt));
+        user.setPassword(null);
         String token = JwtUtils.createToken(BeanUtil.beanToMap(user));
         String refreshKey = UuidUtils.generateUuid();
         redisTemplate.opsForValue().set(refreshKey, token, Duration.ofHours(2L));
@@ -51,9 +52,16 @@ public class AuthController implements AuthService {
     }
 
     @Override
-    public AuthResponseDTO verify(String token, String userName) {
-        User user = BeanUtil.mapToBean(JwtUtils.parseToken(token), User.class, true, null);
-        if (userName.equals(user.getUsername())) {
+    public AuthResponseDTO verifyUser(String token, String userName) {
+        User user = null;
+        String errorMsg = null;
+        try {
+            user = BeanUtil.mapToBean(JwtUtils.parseToken(token), User.class, true, null);
+        } catch (Exception e) {
+            errorMsg = e.getMessage();
+            log.warn(e.getMessage(), e);
+        }
+        if (user != null && userName.equals(user.getUsername())) {
             return AuthResponseDTO.builder()
                     .token(token)
                     .userName(userName)
@@ -62,23 +70,57 @@ public class AuthController implements AuthService {
         } else {
             return AuthResponseDTO.builder()
                     .token(token)
-                    .userName(userName)
                     .code("500")
+                    .message(errorMsg)
                     .build();
         }
     }
 
     @Override
-    public AuthResponseDTO refresh(String refreshKey, String userName, String password) {
-        String token = redisTemplate.opsForValue().get(refreshKey);
-        if (StringUtils.isEmpty(token)) {
-            return token(userName, password);
+    public AuthResponseDTO verifyToken(String token) {
+        User user = null;
+        String errorMsg = null;
+        try {
+            user = BeanUtil.mapToBean(JwtUtils.parseToken(token), User.class, true, null);
+        } catch (Exception e) {
+            errorMsg = e.getMessage();
+            log.warn(e.getMessage(), e);
+        }
+        if (user != null) {
+            return AuthResponseDTO.builder()
+                    .token(token)
+                    .userName(user.getUsername())
+                    .code("200")
+                    .build();
         } else {
             return AuthResponseDTO.builder()
                     .token(token)
+                    .code("500")
+                    .message(errorMsg)
+                    .build();
+        }
+    }
+
+    @Override
+    public AuthResponseDTO refresh(String refreshKey) {
+        String token = redisTemplate.opsForValue().get(refreshKey);
+        if (!StringUtils.isEmpty(token)) {
+            User user = BeanUtil.mapToBean(JwtUtils.parseToken(token), User.class, true, null);
+            token = JwtUtils.createToken(BeanUtil.beanToMap(user));
+            redisTemplate.delete(refreshKey);
+            refreshKey = UuidUtils.generateUuid();
+            redisTemplate.opsForValue().set(refreshKey, token, Duration.ofHours(2L));
+            return AuthResponseDTO.builder()
+                    .token(token)
+                    .userName(user.getUsername())
                     .refreshKey(refreshKey)
-                    .userName(userName)
                     .code("200")
+                    .build();
+        } else {
+            return AuthResponseDTO.builder()
+                    .token(token)
+                    .code("500")
+                    .message("invalid refresh key!")
                     .build();
         }
     }

@@ -22,7 +22,7 @@ public interface AuthService {
      * @return AuthResponseDTO
      */
     @PostMapping("/token")
-    AuthResponseDTO token(@RequestParam String userName, @RequestParam String password);
+    AuthResponseDTO token(@RequestParam("userName") String userName, @RequestParam("password") String password);
 
     /**
      * 验证用户口令合法性
@@ -31,19 +31,25 @@ public interface AuthService {
      * @param token    待验证口令
      * @return AuthResponseDTO
      */
-    @PostMapping("/verify")
-    AuthResponseDTO verify(@RequestParam String token, @RequestParam String userName);
+    @PostMapping("/verifyUser")
+    AuthResponseDTO verifyUser(@RequestParam("token") String token, @RequestParam("userName") String userName);
+
+    /**
+     * 验证用户口令合法性
+     *
+     * @param token    待验证口令
+     * @return AuthResponseDTO
+     */
+    @PostMapping("/verifyToken")
+    AuthResponseDTO verifyToken(@RequestParam("token") String token);
 
     /**
      * 刷新token，如未过期则获取原token，过期重新生成token
      *
-     * @param userName   待验证用户名
      * @param refreshKey 待刷新的token主键
-     * @param password   密码
      * @return AuthResponseDTO
      */
     @PostMapping("/refresh")
-    AuthResponseDTO refresh(@RequestParam String refreshKey, @RequestParam String userName,
-                            @RequestParam String password);
+    AuthResponseDTO refresh(@RequestParam("refreshKey") String refreshKey);
 
 }
