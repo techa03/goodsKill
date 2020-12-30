@@ -3,22 +3,25 @@ package org.seckill.web.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean;
 
-import javax.validation.ValidatorFactory;
+import javax.validation.Validator;
 
 /**
  * @author techa03
- * @date 2019/3/23
+ * @since 2019/3/23
  */
 @Configuration
-@EnableRedisHttpSession
 public class DataSourceConfig {
 
+    /**
+     * 可以解决启动报错问题
+     * Parameter 1 of method messageHandlerMethodFactory in org.springframework.cloud.stream.config.BinderFactoryAutoConfiguration
+     * required a single bean, but 2 were found:
+     */
     @Bean
     @Primary
-    public ValidatorFactory getValidatorFactory() {
+    public Validator validator() {
         return new OptionalValidatorFactoryBean();
     }
 
