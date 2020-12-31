@@ -184,7 +184,7 @@ goodsKill
 ## 打包部署方法
 - 可参考Dockerfile文件，如:
 ```
-FROM openjdk:11.0.7-jre
+FROM openjdk:11.0.9.1-jdk
 COPY goodsKill-service/target/goodsKill-service.jar /app/goodsKill-service.jar
 WORKDIR /app
 CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", "goodsKill-service.jar"]

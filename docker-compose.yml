@@ -17,6 +17,9 @@ services:
     environment:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
+      - JVM_XMN=300m
+      - JVM_XMX=650m
+      - JVM_XMS=650m
     volumes:
       - ./nacos-docker/standalone-logs/:/home/nacos/logs
       - ./nacos-docker/init.d/custom.properties:/home/nacos/init.d/custom.properties
@@ -225,7 +228,7 @@ services:
   goodsweb:
     build: ./goodsKill-spring-boot-web-consumer
     container_name: goodsweb
-    restart: on-failure:3
+    restart: on-failure:5
     volumes:
       - /logs/goods-web/:/logs/goodsKill
     depends_on:
