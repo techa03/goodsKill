@@ -302,6 +302,9 @@ swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155400.png)
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155408.png)
 
+#### 模拟秒杀接口测试
+![image](./doc/shortcut/模拟秒杀接口测试.gif)
+
 ## 数据库表结构
 ![image](model_table.png)
 
