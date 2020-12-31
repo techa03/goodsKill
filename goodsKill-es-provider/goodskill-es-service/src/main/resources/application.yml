@@ -78,7 +78,7 @@ dubbo:
 elasticsearch:
   rest:
     client:
-      address: elk:9200
+      address: elasticsearch:9200
 ---
 spring:
   profiles: test

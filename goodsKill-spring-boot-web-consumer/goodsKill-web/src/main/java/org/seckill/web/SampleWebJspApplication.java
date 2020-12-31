@@ -11,6 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 
 /**
@@ -23,6 +24,7 @@ import org.springframework.context.annotation.ImportResource;
 @EnableBinding(value = {Source.class})
 @EnableDiscoveryClient
 @EnableFeignClients(value = {"com.goodskill.*.api", "org.seckill.api"})
+@EnableRedisHttpSession
 public class SampleWebJspApplication extends SpringBootServletInitializer {
 
     @Override
