@@ -91,14 +91,14 @@
                         <fmt:formatDate value="${sk.createTime}" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate>
                     </td>
                     <td>
-                        <a class="btn btn-primary" href="${context}/seckill/uploadPhoto/${sk.seckillId}"
+                        <a class="btn btn-primary btn-sm" href="${context}/seckill/uploadPhoto/${sk.seckillId}"
                            target="_blank">上传图片</a>
                             <%--<a class="btn btn-info"  target="_blank" href="${context}/seckill/${sk.seckillId}/detail" onclick="checkExposer(${sk.seckillId})">链接</a>--%>
-                        <a class="btn btn-danger" href="${context}/seckill/${sk.seckillId}/delete"
+                        <a class="btn btn-danger btn-sm" href="${context}/seckill/${sk.seckillId}/delete"
                            target="_blank">删除</a>
-                        <a class="btn btn-info" href="${context}/seckill/${sk.seckillId}/detail"
+                        <a class="btn btn-info btn-sm" href="${context}/seckill/${sk.seckillId}/detail"
                            onclick="checkExposer(${sk.seckillId})" target="_blank">活动链接</a>
-                        <a class="btn btn-warning" href="${context}/seckill/${sk.seckillId}/edit"
+                        <a class="btn btn-warning btn-sm" href="${context}/seckill/${sk.seckillId}/edit"
                            target="_blank">修改</a>
                     </td>
                 </tr>
