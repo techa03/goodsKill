@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.es.dto.GoodsDto;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.seckill.api.service.GoodsService;
 import org.seckill.entity.Goods;
 import org.seckill.mp.dao.mapper.GoodsMapper;
@@ -23,7 +23,7 @@ import java.util.List;
  * @author heng
  * @since 2019-09-07
  */
-@Service
+@DubboService
 @Slf4j
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements GoodsService {
     @Resource
