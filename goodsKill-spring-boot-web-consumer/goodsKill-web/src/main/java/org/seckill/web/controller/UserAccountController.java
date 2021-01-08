@@ -1,7 +1,7 @@
 package org.seckill.web.controller;
 
 import io.swagger.annotations.Api;
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -25,9 +25,9 @@ import javax.annotation.Resource;
 @Api(tags = "登录注册控制")
 @Controller
 public class UserAccountController {
-    @Reference
+    @DubboReference
     private UserAccountService userAccountService;
-    @Reference
+    @DubboReference
     private GoodsService goodsService;
     @Resource
     private SeckillService seckillService;

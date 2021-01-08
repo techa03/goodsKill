@@ -20,9 +20,6 @@ spring:
             group-id: DEFAULT_GROUP
             rule-type: flow
             server-addr: 127.0.0.1:8848
-demo:
-  service:
-    version: 1.0.0
 dubbo:
   protocol:
     name: dubbo
@@ -43,19 +40,20 @@ logging:
 
 ---
 spring:
-  profiles: dev
   data:
     mongodb:
       database: test
   cloud:
     nacos:
       server-addr: localhost:8848
+  config:
+    activate:
+      on-profile: dev
 dubbo:
   registry:
     address: spring-cloud://localhost
 ---
 spring:
-  profiles: docker
   rabbitmq:
     host: rabbitmq
     port: 5672
@@ -73,21 +71,9 @@ spring:
         ds0:
           nacos:
             server-addr: nacos:8848
-  zipkin:
-    base-url: http://zipkin:9411/
+  config:
+    activate:
+      on-profile: docker
 dubbo:
   registry:
     address: spring-cloud://localhost
----
-spring:
-  profiles: test
-  data:
-    mongodb:
-      database: test
-      host: 192.168.2.22
-  cloud:
-    nacos:
-      server-addr: 192.168.2.22:8848
-dubbo:
-  registry:
-    address: spring-cloud://192.168.2.22

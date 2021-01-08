@@ -1,6 +1,8 @@
 spring:
   profiles:
     active: dev
+  application:
+    name: goodskill-web
   session:
     redis:
       flush-mode: on_save
@@ -54,7 +56,7 @@ dubbo:
     port: -1
   consumer:
     timeout: 30000
-  ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@Reference(check=false)会失效
+  ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@DubboReference(check=false)会失效
   cloud:
     subscribed-services: "goodskill-service-provider"
 
@@ -71,7 +73,9 @@ server:
 
 ---
 spring:
-  profiles: dev
+  config:
+    activate:
+      on-profile: dev
   redis:
     host: localhost
     port: 6379
@@ -89,7 +93,9 @@ dubbo:
 
 ---
 spring:
-  profiles: docker
+  config:
+    activate:
+      on-profile: docker
   redis:
     host: redis
     port: 6379
@@ -113,34 +119,5 @@ spring:
 dubbo:
   registry:
     address: spring-cloud://localhost
-
----
-spring:
-  profiles: test
-  redis:
-    host: 192.168.2.22
-    port: 6379
-  rabbitmq:
-    host: 192.168.2.22
-  kafka:
-    bootstrap-servers: 192.168.2.22:9092
-  cloud:
-    nacos:
-      server-addr: 192.168.2.22:8848
-    sentinel:
-      transport:
-        port: 8719
-        ## 默认端口8080，已改为自定义18088端口，通过http://127.0.0.1:18088/#/dashboard访问
-        dashboard: localhost:18088
-      ##使用nacos配置中心存储限流规则
-      datasource:
-        ds0:
-          nacos:
-            server-addr: 192.168.2.22:8848
-
-dubbo:
-  registry:
-    address: spring-cloud://192.168.2.22
-
 
 

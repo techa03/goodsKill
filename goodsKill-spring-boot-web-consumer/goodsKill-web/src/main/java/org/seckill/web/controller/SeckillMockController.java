@@ -4,7 +4,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.seckill.api.dto.SeckillMockRequestDto;
 import org.seckill.api.dto.SeckillResult;
 import org.seckill.api.service.SeckillService;
@@ -37,7 +37,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @Validated
 public class SeckillMockController {
 
-    @Reference
+    @DubboReference
     private SeckillService seckillService;
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;

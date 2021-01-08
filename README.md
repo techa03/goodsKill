@@ -266,10 +266,11 @@ swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
 集成spring cloud alibaba组件 | ✅ | 2020.5 | 目前已集成nacos、sentinel、dubbo组件
 基于配置中心改造项目配置| ✅ | 2020.7 | 支付宝配置保存于nacos配置中心，防止配置泄露
 新版支付宝SDK集成 | ✅ | 2020.7 | 使用当面扫完成付款
+完善jwt用户鉴权，并提供通用服务接口 | ✅ | 2020.12 |
+SpringBoot/SpringCloud跨版本升级 | ✅ | 2021.1 | SpringBoot ⬆ 2.4.x SpringCloud ⬆ 2020.0.x 
 聊天室功能 | ⏳ |  | 使用netty网络通信，maven分支已经实现，master分支待集成 |
-完善jwt用户鉴权，并提供通用服务接口 | ⏳ | | 
 前后端分离 | ⏳ | | 目前前后端全部放在gooskill-web模块，不利于部署
-丰富项目文档 | ⏳ |  | 
+丰富项目文档 | ⏳ |  |
 
 ### API接口
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png)

@@ -1,7 +1,7 @@
 package org.seckill.web.controller;
 
 import io.swagger.annotations.Api;
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.seckill.api.service.GoodsService;
 import org.seckill.entity.Goods;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/seckill/goods")
 public class GoodsController {
-    @Reference
+    @DubboReference
     private GoodsService goodsService;
 
     @GetMapping("/new")

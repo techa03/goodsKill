@@ -2,7 +2,7 @@ package com.goodskill.job.simple;
 
 import com.goodskill.es.api.GoodsEsService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shardingsphere.elasticjob.api.ShardingContext;
 import org.apache.shardingsphere.elasticjob.simple.job.SimpleJob;
 import org.seckill.api.service.GoodsService;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 public class MyJob implements SimpleJob {
-    @Reference
+    @DubboReference
     private GoodsService goodsService;
     @Resource
     private GoodsEsService goodsEsService;

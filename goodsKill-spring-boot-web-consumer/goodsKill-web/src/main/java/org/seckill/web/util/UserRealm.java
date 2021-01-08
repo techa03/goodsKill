@@ -1,6 +1,6 @@
 package org.seckill.web.util;
 
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -22,7 +22,7 @@ public class UserRealm extends AuthorizingRealm {
     /**
      *  用户对应的角色信息与权限信息都保存在数据库中，通过UserService获取数据
      */
-    @Reference
+    @DubboReference
     private UserAccountService userService;
 
     /**

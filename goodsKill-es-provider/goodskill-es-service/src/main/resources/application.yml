@@ -49,8 +49,6 @@ elasticsearch:
 
 
 ---
-spring:
-  profiles: dev
 dubbo:
   registry:
     address: spring-cloud://localhost
@@ -58,9 +56,12 @@ elasticsearch:
   rest:
     client:
       address: localhost:9200
+spring:
+  config:
+    activate:
+      on-profile: dev
 ---
 spring:
-  profiles: docker
   cloud:
     nacos:
       discovery:
@@ -70,8 +71,9 @@ spring:
         ds0:
           nacos:
             server-addr: nacos:8848
-  zipkin:
-    base-url: http://zipkin:9411/
+  config:
+    activate:
+      on-profile: docker
 dubbo:
   registry:
     address: spring-cloud://localhost
@@ -79,16 +81,4 @@ elasticsearch:
   rest:
     client:
       address: elasticsearch:9200
----
-spring:
-  profiles: test
-  cloud:
-    nacos:
-      server-addr: 192.168.2.22:8848
-dubbo:
-  registry:
-    address: spring-cloud://192.168.2.22
-elasticsearch:
-  rest:
-    client:
-      address: 192.168.2.22:9200
+
