@@ -33,12 +33,13 @@ spring:
       on-profile: dev
 ---
 spring:
+  config:
+    activate:
+      on-profile: docker
   zipkin:
     base-url: http://zipkin:9411/
   cloud:
     nacos:
       server-addr: nacos:8848
-  config:
-    activate:
-      on-profile: docker
+
 

@@ -31,7 +31,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -151,7 +150,7 @@ public class SeckillController {
     }
 
     @PostMapping(value = "/create")
-    public String addSeckill(@RequestBody @Valid Seckill seckill) {
+    public String addSeckill(Seckill seckill) {
         seckillService.save(seckill);
         return "redirect:list";
     }

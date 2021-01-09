@@ -2,7 +2,6 @@ package org.seckill.web;
 
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -19,7 +18,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  *
  * @author heng
  */
-@SpringBootApplication(exclude = {MongoAutoConfiguration.class, ActiveMQAutoConfiguration.class})
+@SpringBootApplication(exclude = {MongoAutoConfiguration.class})
 @ImportResource(value = {"classpath*:META-INF/spring/spring-web.xml", "classpath*:META-INF/spring/spring-shiro-web.xml"})
 @EnableBinding(value = {Source.class})
 @EnableDiscoveryClient

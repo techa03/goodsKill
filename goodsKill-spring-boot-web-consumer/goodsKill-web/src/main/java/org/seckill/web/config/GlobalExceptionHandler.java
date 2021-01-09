@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     public ApiResult exception(BindException e) {
         String errorMsg = e.getBindingResult().getFieldErrors().stream()
                 .map(errorInfo -> errorInfo.getField() + errorInfo.getDefaultMessage()).collect(Collectors.joining(","));
-        log.warn(e.getMessage());
+        log.warn(e.getMessage(), e);
         return ApiResult.error(ResultCode.C500.getCode(), "参数校验失败:" + errorMsg);
     }
 
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
     public ApiResult exception(MethodArgumentNotValidException e) {
         String errorMsg = e.getBindingResult().getFieldErrors().stream()
                 .map(errorInfo -> errorInfo.getField() + errorInfo.getDefaultMessage()).collect(Collectors.joining(","));
-        log.warn(e.getMessage());
+        log.warn(e.getMessage(), e);
         return ApiResult.error(ResultCode.C500.getCode(), "参数校验失败:" + errorMsg);
     }
 

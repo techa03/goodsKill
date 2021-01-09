@@ -1,6 +1,8 @@
 package com.goodskill.gateway.filter
 
 import org.seckill.api.service.AuthService
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
@@ -17,6 +19,8 @@ import reactor.core.publisher.Mono
  */
 @Component
 class JwtAuthGatewayFilter: GatewayFilter, Ordered {
+    private val log: Logger = LoggerFactory.getLogger(this.javaClass)
+
     @Autowired
     private lateinit var authService: AuthService
 
@@ -25,6 +29,7 @@ class JwtAuthGatewayFilter: GatewayFilter, Ordered {
         val result = try {
             authService.verifyToken(token)
         } catch (e: Exception) {
+            log.error(e.message, e)
             throw RuntimeException("auth service is not available!")
         }
         if (result.code != "200") {

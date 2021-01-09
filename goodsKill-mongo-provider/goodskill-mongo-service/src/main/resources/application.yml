@@ -40,20 +40,6 @@ logging:
 
 ---
 spring:
-  data:
-    mongodb:
-      database: test
-  cloud:
-    nacos:
-      server-addr: localhost:8848
-  config:
-    activate:
-      on-profile: dev
-dubbo:
-  registry:
-    address: spring-cloud://localhost
----
-spring:
   rabbitmq:
     host: rabbitmq
     port: 5672

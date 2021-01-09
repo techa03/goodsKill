@@ -15,9 +15,9 @@ spring:
     view:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
-    # 请求前台到后台的格式转换
+    # json格式请求前台到后台的格式转换
     format:
-      date: dd/MM/yyyy
+      date: yyyy-MM-dd HH:mm:ss
       date-time: yyyy-MM-dd HH:mm:ss
       time: HH:mm:ss
   output:
