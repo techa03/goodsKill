@@ -132,11 +132,11 @@ goodsKill
     Nacos | latest | 8848 | 无
     Redis | latest | 6379 | 无
     Kafka | latest | 9092 | 无
-    Mongo | 4.2.6 | 27017 | 无
-    MySQL | 8.0 | 3306 | root:Password123
+    Mongo | 4.4.3 | 27017 | 无
+    MySQL | 8.0.22 | 3306 | root:Password123
     Zookeeper | latest | 2181 | 无
-    Elasticsearch | 7.7.0 | 9200 9300 | 无
-    Kibana | 7.7.0 | 5601 | 无
+    Elasticsearch | 7.10.1 | 9200 9300 | 无
+    Kibana | 7.10.1 | 5601 | 无
     RabbitMQ | latest | 5672 15672 | 无
     Zipkin | latest | 9411 | 无
 
@@ -267,7 +267,7 @@ swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
 基于配置中心改造项目配置| ✅ | 2020.7 | 支付宝配置保存于nacos配置中心，防止配置泄露
 新版支付宝SDK集成 | ✅ | 2020.7 | 使用当面扫完成付款
 完善jwt用户鉴权，并提供通用服务接口 | ✅ | 2020.12 |
-SpringBoot/SpringCloud跨版本升级 | ✅ | 2021.1 | SpringBoot ⬆ 2.4.x SpringCloud ⬆ 2020.0.x 
+SpringBoot/SpringCloud版本升级 | ✅ | 2021.1 | SpringBoot 2.4.x ⬆/SpringCloud 2020.0.x ⬆
 聊天室功能 | ⏳ |  | 使用netty网络通信，maven分支已经实现，master分支待集成 |
 前后端分离 | ⏳ | | 目前前后端全部放在gooskill-web模块，不利于部署
 丰富项目文档 | ⏳ |  |

@@ -82,7 +82,7 @@ services:
       - somenetwork
 
   elasticsearch:
-    image: elasticsearch:7.7.0
+    image: elasticsearch:7.10.1
     container_name: elasticsearch
     environment:
       - node.name=es01
@@ -105,7 +105,7 @@ services:
 
 ##放开注释即为es双节点模式
 #  elasticsearch1:
-#    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
 #    container_name: elasticsearch1
 #    environment:
 #      - node.name=es02
@@ -127,7 +127,7 @@ services:
 #      - somenetwork
 
   kibana:
-    image: kibana:7.7.0
+    image: kibana:7.10.1
     container_name: kibana
     ports:
       - 5601:5601
@@ -140,7 +140,7 @@ services:
       - somenetwork
 
   mysql:
-    image: mysql:8.0
+    image: mysql:8.0.22
     container_name: mysql
     restart: always
     ports:
@@ -160,7 +160,7 @@ services:
       - somenetwork
 
   mongo:
-    image: mongo:4.2.6
+    image: mongo:4.4.3
     container_name: mongo
     restart: always
     ports:
