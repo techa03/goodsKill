@@ -38,4 +38,8 @@
     </bean>
 
 
+<!--    可以解决启动报错问题-->
+<!--    Parameter 1 of method messageHandlerMethodFactory in org.springframework.cloud.stream.config.BinderFactoryAutoConfiguration-->
+<!--    required a single bean, but 2 were found:-->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean"/>
 </beans>
