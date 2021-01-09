@@ -2,6 +2,7 @@ package org.seckill.web.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
 import org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean;
 
@@ -21,6 +22,7 @@ public class DataSourceConfig {
      */
     @Bean
     @Primary
+    @DependsOn("mvcValidator")
     public Validator validator() {
         return new OptionalValidatorFactoryBean();
     }
