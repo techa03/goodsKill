@@ -12,7 +12,7 @@ services:
       - somenetwork
 
   nacos:
-    image: nacos/nacos-server:latest
+    image: nacos/nacos-server:1.3.2
     container_name: nacos
     environment:
       - PREFER_HOST_MODE=hostname
