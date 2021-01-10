@@ -160,7 +160,7 @@ services:
       - somenetwork
 
   mongo:
-    image: mongo:4.2.6
+    image: mongo:4.4.3
     container_name: mongo
     restart: always
     ports:
