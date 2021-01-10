@@ -47,7 +47,7 @@ services:
 #      - somenetwork
 
   zookeeper:
-    image: zookeeper
+    image: zookeeper:3.6.2
     container_name: zookeeper
     restart: always
     ports:
@@ -56,7 +56,7 @@ services:
       - somenetwork
 
   kafka:
-    image: wurstmeister/kafka
+    image: wurstmeister/kafka:2.13-2.7.0
     container_name: kafka
     ports:
       - "9092:9092"

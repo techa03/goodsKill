@@ -184,6 +184,16 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<!--跳过单元测试-->
+					<skip>true</skip>
+					<release>11</release>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>

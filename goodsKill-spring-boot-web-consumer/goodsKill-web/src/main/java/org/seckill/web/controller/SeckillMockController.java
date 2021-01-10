@@ -51,7 +51,6 @@ public class SeckillMockController {
      * 场景一：初始化当前库存为1000，通过线程池调度，模拟总共有2000人参与秒杀，期望值为最后成功笔数为1000
      * 结果：多次运行，最终的结果为1000
      * 总结：加上同步锁可以解决秒杀问题，适用于单机模式，扩展性差。
-     *
      */
     @ApiOperationSupport(order = 1)
     @ApiOperation(value = "秒杀场景一(sychronized同步锁实现)")
@@ -80,7 +79,6 @@ public class SeckillMockController {
      * 场景一：初始化当前库存为1000，通过线程池调度，模拟总共有2000人参与秒杀，期望值为最后成功笔数为1000
      * 结果：多次运行，最终的结果为1000
      * 总结：加上同步锁可以解决秒杀问题，适用于分布式环境，但速度不如加同步锁。
-     *
      */
     @ApiOperationSupport(order = 2)
     @ApiOperation(value = "秒杀场景二(redis分布式锁实现)", notes = "秒杀场景二(redis分布式锁实现)", httpMethod = "POST")
@@ -107,7 +105,6 @@ public class SeckillMockController {
      * 场景三：初始化当前库存为1000，通过线程池调度，模拟总共有2000人参与秒杀，期望值为最后成功笔数为1000
      * 结果：多次运行，最终的结果为1000
      * 总结：速度较快，处理时间稍慢于场景一。
-     *
      */
     @ApiOperationSupport(order = 3)
     @ApiOperation(value = "秒杀场景三(activemq消息队列实现)")
@@ -125,11 +122,10 @@ public class SeckillMockController {
      * 场景四：初始化当前库存为1000，通过线程池调度，模拟总共有2000人参与秒杀，期望值为最后成功笔数为1000
      * 结果：多次运行，最终的结果为1000
      * 总结：速度快，速度优于activemq。
-     *
      */
     @ApiOperationSupport(order = 4)
     @ApiOperation(value = "秒杀场景四(kafka消息队列实现)")
-    @PostMapping("/kafkamq/{seckillId}")
+    @PostMapping("/kafkamq")
     public SeckillResult doWithKafkaMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
@@ -151,7 +147,6 @@ public class SeckillMockController {
      * 场景五：初始化当前库存为1000，通过线程池调度，模拟总共有2000人参与秒杀，期望值为最后成功笔数为1000
      * 结果：多次运行，最终的结果为1000
      * 总结：速度快
-     *
      */
     @ApiOperationSupport(order = 5)
     @ApiOperation(value = "秒杀场景五(存储过程实现)")
@@ -196,7 +191,7 @@ public class SeckillMockController {
      */
     @ApiOperationSupport(order = 7)
     @ApiOperation(value = "秒杀场景七(zookeeper分布式锁)")
-    @RequestMapping(value = "/zookeeperLock/{seckillId}", method = POST, produces = {
+    @RequestMapping(value = "/zookeeperLock", method = POST, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
     public SeckillResult doWithZookeeperLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {

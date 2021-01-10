@@ -28,10 +28,6 @@ public class SeckillSaveListener {
 
     @StreamListener(SeckillMockSaveTopic.INPUT)
     public void consume(SeckillMockSaveVo seckillMockSaveVo) throws InterruptedException {
-        if (true) {
-            Thread.sleep(3000L);
-            throw new RuntimeException();
-        }
         SuccessKilledDto successKilledDto = new SuccessKilledDto();
         successKilledDto.setSeckillId(BigInteger.valueOf(seckillMockSaveVo.getSeckillId()));
         successKilledDto.setUserPhone(seckillMockSaveVo.getUserPhone());
