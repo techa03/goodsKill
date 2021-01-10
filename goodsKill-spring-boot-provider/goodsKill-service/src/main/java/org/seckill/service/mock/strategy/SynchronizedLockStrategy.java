@@ -69,6 +69,7 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
                                     SeckillMockResponseDto
                                             .builder()
                                             .seckillId(seckillId)
+                                            .status(true)
                                             .note(SYCHRONIZED.getName())
                                             .build())
                                     .build());
