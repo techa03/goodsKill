@@ -85,8 +85,7 @@ goodsKill
 |   |--goodsKill-service                    
 |   |--goodsKill-util                       
 |--goodskill-spring-boot-starter            ||项目配置自动装配
-|--goodsKill-spring-boot-web-consumer       ||提供页面客户端访问，controller层在这一模块
-|   |--goodsKill-web   
+|--goodskill-web                            ||提供页面客户端访问，controller层在这一模块   
 |--goodskill-job                            ||elastic-job定时任务 
 ```
 
@@ -191,7 +190,14 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
 
 ## 常见问题
 - 使用idea启动SampleWebJspApplication类(goodsKill-web模块)时会出现访问不了页面的问题，eclipse无此问题。
-解决办法：配置启动类的工作目录为goodsKill-web
+
+  解决办法：配置启动类的工作目录为goodsKill-web
+- docker es镜像启动失败？
+  
+  出现此问题一般为linux环境，运行以下命令即可
+  ```
+  sysctl -w vm.max_map_count=262144
+  ```
 - 新版支付宝SDK已集成，使用时需将AlipayRunner中的alipay对应配置替换成你的支付宝应用配置（本项目基于沙箱环境）
 ```
     //为了防止启动项目报错默认配置为1，可参考官方文档修改对应配置
@@ -200,24 +206,8 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
 
     @Value("${alipay.alipayPublicKey:1}")
     private String alipayPublicKey;
-
-    @Value("${alipay.notifyUrl:1}")
-    private String notifyUrl;
-
-    @Value("${alipay.encryptKey:1}")
-    private String encryptKey;
-
-    @Value("${alipay.appId:1}")
-    private String appId;
-
-    @Value("${alipay.gatewayHost:openapi.alipaydev.com}")
-    private String gatewayHost;
-
-    @Value("${alipay.signType:RSA2}")
-    private String signType;
-
-    @Value("${alipay.qrcodeImagePath:1}")
-    private String qrcodeImagePath;
+    
+    ......   
 ```
 
 ## 分库分表情况说明

@@ -223,7 +223,7 @@ services:
       - somenetwork
 
   goodsweb:
-    build: ./goodsKill-spring-boot-web-consumer
+    build: ./goodskill-web
     container_name: goodsweb
     restart: on-failure:5
     volumes:

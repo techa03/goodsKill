@@ -340,7 +340,7 @@ website:    http://code.google.com/p/jquerytree/
 }
 .ztree li span.button.ico_loading {
   margin-right: 2px;
-  background: url(./img/loading.gif) no-repeat scroll 0 0 transparent;
+  background: url(img/loading.gif) no-repeat scroll 0 0 transparent;
   vertical-align: top;
   *vertical-align: middle;
 }

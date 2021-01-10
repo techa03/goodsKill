@@ -1,5 +1,5 @@
 FROM openjdk:11.0.9.1-jdk
-COPY goodsKill-web/target/goodsKill.war /app/goodsKill.war
+COPY target/goodsKill.war /app/goodsKill.war
 # copy arthas
 COPY --from=hengyunabc/arthas:latest /opt/arthas /opt/arthas
 WORKDIR /app
