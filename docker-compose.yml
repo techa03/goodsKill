@@ -140,7 +140,7 @@ services:
       - somenetwork
 
   mysql:
-    image: mysql:8.0
+    image: mysql:8.0.22
     container_name: mysql
     restart: always
     ports:
