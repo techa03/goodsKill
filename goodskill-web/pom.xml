@@ -77,6 +77,12 @@
 				<artifactId>knife4j-spring-boot-starter</artifactId>
 				<version>2.0.3</version>
 			</dependency>
+
+			<dependency>
+				<groupId>com.github.sgroschupf</groupId>
+				<artifactId>zkclient</artifactId>
+				<version>0.1</version>
+			</dependency>
 			<dependency>
 				<groupId>commons-fileupload</groupId>
 				<artifactId>commons-fileupload</artifactId>
