@@ -150,7 +150,7 @@ services:
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_0900_ai_ci
     volumes:
-      - ./goodsKill-spring-boot-web-consumer/goodsKill-web/src/main/sql:/docker-entrypoint-initdb.d/
+      - ./goodskill-web/src/main/sql:/docker-entrypoint-initdb.d/
     environment:
       MYSQL_ROOT_PASSWORD: "Password123"
       MYSQL_DATABASE: "seckill"
