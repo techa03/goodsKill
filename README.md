@@ -1,11 +1,11 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/112fce7b6cb54af0b2f8efaaf8da4c26)](https://app.codacy.com/app/275688448/goodsKill?utm_source=github.com&utm_medium=referral&utm_content=techa03/goodsKill&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5d394c3d07b148b189e89fd60ef91a93)](https://app.codacy.com/gh/techa03/goodsKill?utm_source=github.com&utm_medium=referral&utm_content=techa03/goodsKill&utm_campaign=Badge_Grade)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=master)](https://travis-ci.org/techa03/goodsKill)
 [![codecov](https://codecov.io/gh/techa03/goodsKill/branch/master/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=techa03_goodsKill&metric=alert_status)](https://sonarcloud.io/dashboard?id=techa03_goodsKill)
 
 
-# 前言
+# 🎉前言
 项目命名为goodsKill一方面有商品秒杀项目的意思(好像有点chinglish的味道)，另外也可理解为good skill，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来（偏向于后端技术），方便学习和查阅。
 
 本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，采用springcloud dubbo实现服务分布式服务调用，服务注册发现使用nacos server。
@@ -20,13 +20,13 @@
 
 - 集成服务网关，采用Spring Cloud Gateway网关组件，并提供JWT用户鉴权功能
 
-## 分支介绍
+## 💎分支介绍
 `dev_gradle`分支为使用gradle构建工具管理项目依赖（已停更），`dev_maven`分支对应maven构建工具（springframework版本4.x，已停更），`master`分支基于最新springcloud体系构建。本项目功能目前比较简陋且有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
 
 > 附：码云项目链接[https://gitee.com/techa/goodsKill](https://gitee.com/techa/goodsKill) ,clone速度慢的用码云仓库拉吧，不定期同步到码云~
-## 技术选型✨
+## ✨技术选型
 
-### 后端技术:
+### 📌后端技术:
 技术 | 名称 | 官网
 ----|------|----
 SpringBoot |  框架 | [https://spring.io/projects/spring-boot](https://spring.io/projects/spring-boot)
@@ -58,14 +58,14 @@ Spring Cloud Nacos | SpringCloud组件 | [https://spring.io/projects/spring-clou
 Spring Cloud Gateway | SpringCloud网关组件 | [https://spring.io/projects/spring-cloud-gateway](https://spring.io/projects/spring-cloud-gateway)
 Kotlin | Kotlin | [https://kotlinlang.org/](https://kotlinlang.org/)
 
-### 前端技术:
+### 📌前端技术:
 技术 | 名称 | 官网
 ----|------|----
 JQuery | 函式库  | [http://jquery.com/](http://jquery.com/)
 Bootstrap | 前端框架  | [http://getbootstrap.com/](http://getbootstrap.com/)
 LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 
-## 项目模块介绍
+## 📝项目模块介绍
 ```
 goodsKill
 |--goodskill-chat-provider                  ||聊天室服务提供者（待完成）
@@ -89,7 +89,7 @@ goodsKill
 |--goodskill-job                            ||elastic-job定时任务 
 ```
 
-## 开发环境版本说明
+## 🧰开发环境版本说明
 - JDK: OpenJDK11
 - MySQL: 8.0.22+
 - Kafka: 2.7.0+
@@ -103,7 +103,7 @@ goodsKill
 - Kotlin: 1.4.22
 - NacosServer: 1.3.2
 
-## 如何启动项目
+## 🏃‍♂️如何启动项目
 > #### 方法一：使用Docker镜像构建脚本
 
 - 项目根目录goodsKill中执行
@@ -162,7 +162,7 @@ goodsKill
 
 - 如已安装MongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
   
-> #### 导入项目数据库基础数据 ⚠️
+> #### ⚠导入项目数据库基础数据 ️
 
 - 找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
 
@@ -179,7 +179,7 @@ goodsKill
 > #### 额外功能（可选）
 - 已集成sentinel限流组件，支持nacos配置中心方式推送限流规则，使用时需启动sentinel控制台，并以18088端口启动，docker环境暂不支持。
 
-## 打包部署方法
+## 📦打包部署方法
 - 可参考Dockerfile文件，如:
 ```
 FROM openjdk:11.0.9.1-jdk
@@ -188,7 +188,7 @@ WORKDIR /app
 CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", "goodsKill-service.jar"]
 ```
 
-## 常见问题
+## ❓常见问题
 - 使用idea启动SampleWebJspApplication类(goodsKill-web模块)时会出现访问不了页面的问题，eclipse无此问题。
 
   解决办法：配置启动类的工作目录为goodsKill-web
@@ -210,14 +210,14 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
     ......   
 ```
 
-## 分库分表情况说明
+## 📚分库分表情况说明
 表 | 数据库 | 是否分库 | 分库字段 | 是否分表 | 分表字段
 ---|---|---|---|---|---
 success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01两个库） | seckill_id | 是（分为success_killed_0,success_kill_1两张表） | user_phone
 
 **注**:其他表均未分库分表，默认使用seckill作为主库
 
-## 服务网关说明
+## 🔖服务网关说明
 - http://localhost/goodskill/mongo 对应goodsKill-mongo-provider服务
 - http://localhost/goodskill/es 对应goodsKill-es-provider服务
 - http://localhost/goodskill 对应goodsKill-service-provider服务
@@ -225,7 +225,7 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 - 通过[http://localhost/goodskill/token](http://localhost/goodskill/token)接口获取token
 - 通过[http://localhost/goodskill/refresh](http://localhost/goodskill/refresh)刷新用户token
 
-## 秒杀方案🔥🔥
+## 🔥🔥秒杀方案
 目前实现了几种秒杀方案，通过SeckillMockController提供测试接口
 
 swagger主页测试地址：http://localhost:8080/goodskill/swagger-ui.html#/
@@ -249,7 +249,7 @@ swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
 2019-03-25 13:40:49.050  INFO 1016 --- [ jmsContainer-1] o.s.web.mqlistener.SeckillTopicListener  : 秒杀活动结束，秒杀场景三(activemq消息队列实现)时间：Mon Mar 25 13:40:49 CST 2019,秒杀id：1001
  ```
  
-## 后续更新计划🔨
+## 🔨后续更新计划
 功能 | 进度 | 完成时间 | 说明
 ---|---|---|---
 集成spring cloud alibaba组件 | ✅ | 2020.5 | 目前已集成nacos、sentinel、dubbo组件
@@ -267,7 +267,7 @@ SpringBoot/SpringCloud版本升级 | ✅ | 2021.1 | SpringBoot 2.4.x ⬆/SpringC
 ### API接口说明
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png)
 
-## 页面展示
+## 🍔页面展示
 
 #### 登录：
 ![image](./doc/shortcut/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215746.png)
@@ -292,8 +292,8 @@ SpringBoot/SpringCloud版本升级 | ✅ | 2021.1 | SpringBoot 2.4.x ⬆/SpringC
 #### 模拟秒杀接口测试
 ![image](./doc/shortcut/模拟秒杀接口测试.gif)
 
-## 数据库表结构
+## 📑数据库表结构
 ![image](model_table.png)
 
-## 参考文档
+## 📖参考文档
 - 解决Docker容器连接 Kafka 连接失败问题：https://www.cnblogs.com/hellxz/p/why_cnnect_to_kafka_always_failure.html
