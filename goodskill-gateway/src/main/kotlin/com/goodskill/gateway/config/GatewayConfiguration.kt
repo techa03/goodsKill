@@ -36,7 +36,7 @@ open class GatewayConfiguration {
                     .filters { f: GatewayFilterSpec ->
                         f.stripPrefix(2).filter(jwtAuthGatewayFilter)
                     }
-                    .uri("lb://mongo-service-provider").id("mongo")
+                    .uri("lb://mongo-service-provider")
             }
             .route { r: PredicateSpec ->
                 r.after(ZonedDateTime.now().plusSeconds(6L)).and()
@@ -44,7 +44,7 @@ open class GatewayConfiguration {
                     .filters { f: GatewayFilterSpec ->
                         f.stripPrefix(1)
                     }
-                    .uri("lb://goodskill-service-provider").id("goods-service")
+                    .uri("lb://goodskill-service-provider")
             }
             .build()
     }

@@ -7,7 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.seckill.api.dto.Exposer;
@@ -31,7 +31,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -48,17 +47,17 @@ import java.util.stream.Collectors;
 @Validated
 public class SeckillController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Reference
+    @DubboReference
     private SeckillService seckillService;
-    @Reference
+    @DubboReference
     private GoodsService goodsService;
-    @Reference
+    @DubboReference
     private RolePermissionService rolePermissionService;
-    @Reference
+    @DubboReference
     private UserRoleService userRoleService;
-    @Reference
+    @DubboReference
     private UserAccountService userAccountService;
-    @Reference
+    @DubboReference
     private PermissionService permissionService;
     @Resource
     private GoodsEsService goodsEsService;
@@ -151,7 +150,7 @@ public class SeckillController {
     }
 
     @PostMapping(value = "/create")
-    public String addSeckill(@RequestBody @Valid Seckill seckill) {
+    public String addSeckill(Seckill seckill) {
         seckillService.save(seckill);
         return "redirect:list";
     }

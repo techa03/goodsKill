@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.seckill.api.exception.CommonException;
 import org.seckill.api.service.UserAccountService;
 import org.seckill.entity.*;
@@ -22,7 +22,7 @@ import java.util.Set;
 /**
  * @author heng
  */
-@Service
+@DubboService
 public class UserAccountServiceImpl extends ServiceImpl<UserMapper, User> implements UserAccountService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired

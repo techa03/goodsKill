@@ -1,7 +1,7 @@
 package org.seckill.web.stream.consumer;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.seckill.api.dto.SeckillMockResponseDto;
 import org.seckill.api.enums.SeckillSolutionEnum;
 import org.seckill.api.service.SeckillService;
@@ -17,7 +17,7 @@ import java.util.Date;
 @EnableBinding(value = {Sink.class})
 @Slf4j
 public class SeckillMockResponseListener {
-    @Reference
+    @DubboReference
     private SeckillService seckillService;
 
     @StreamListener(Sink.INPUT)
@@ -25,7 +25,7 @@ public class SeckillMockResponseListener {
         long seckillId = responseDto.getSeckillId();
         String note = responseDto.getNote();
 
-        if (Boolean.TRUE == responseDto.getStatus()) {
+        if (Boolean.TRUE.equals(responseDto.getStatus())) {
             log.info("秒杀活动结束，{}时间：{},秒杀id：{}", note, new Date(), seckillId);
             long successKillCount = seckillService.getSuccessKillCount(seckillId);
             long temp = 0;

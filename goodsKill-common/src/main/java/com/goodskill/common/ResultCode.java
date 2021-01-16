@@ -2,10 +2,10 @@ package com.goodskill.common;
 
 
 /**
- * @author  Road
- * @date  2020-08-02
+ * 系统响应码
+ *
+ * @since 2020-08-02
  */
-
 public enum ResultCode {
     C200(200, "成功"),
     C201(201, "生效数据需同步"),
@@ -38,6 +38,7 @@ public enum ResultCode {
 
     int code;
     String desc;
+
     ResultCode(int code, String desc) {
         this.code = code;
         this.desc = desc;

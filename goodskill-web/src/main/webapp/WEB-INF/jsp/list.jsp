@@ -46,7 +46,7 @@
         <div style="margin-top: 15px;margin-left: 15px">
             <a class="btn btn-info" href="${context}/seckill/new" target="_blank">增加秒杀商品</a>
             <a class="btn btn-info" href="${context}/seckill/goods/new" target="_blank">增加商品种类</a>
-            <a class="btn btn-info" href="${context}/src/main/webapp/html/index.html" target="_blank">管理用户</a>
+            <a class="btn btn-info" href="${context}/html/index.html" target="_blank">管理用户</a>
             <a class="btn btn-info" href="${context}/seckill/signOut" target="_blank">退出登录</a>
         </div>
         <div style="margin-top: 15px;margin-left: 15px" class="input-group col-sm-3">

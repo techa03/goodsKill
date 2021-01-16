@@ -11,7 +11,7 @@ import com.goodskill.mongo.topic.SeckillMockSaveTopic;
 import com.goodskill.mongo.vo.SeckillMockSaveVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.dto.*;
 import org.seckill.api.enums.SeckillStatEnum;
@@ -65,7 +65,7 @@ import static org.seckill.api.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
  */
 @Slf4j
 @RestController
-@Service
+@DubboService
 public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> implements SeckillService {
 
     @Resource

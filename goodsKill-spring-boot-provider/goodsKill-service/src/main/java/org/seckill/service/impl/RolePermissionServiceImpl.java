@@ -2,7 +2,7 @@ package org.seckill.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.seckill.api.service.RolePermissionService;
 import org.seckill.entity.RolePermission;
 import org.seckill.mp.dao.mapper.RolePermissionMapper;
@@ -17,7 +17,7 @@ import java.util.List;
  * @author heng
  * @since 2019-09-07
  */
-@Service
+@DubboService
 public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper, RolePermission> implements RolePermissionService {
 
     @Override

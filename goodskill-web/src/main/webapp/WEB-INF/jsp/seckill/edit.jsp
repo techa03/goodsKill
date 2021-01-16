@@ -29,7 +29,7 @@
         };
         $(function () {
             $('#datetimepicker1,#datetimepicker2').datetimepicker({
-                format: 'YYYY-MM-DD hh:mm',
+                format: 'YYYY-MM-DD hh:mm:ss',
                 locale: moment.locale('zh-cn')
             });
         });

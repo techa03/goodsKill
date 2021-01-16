@@ -49,7 +49,7 @@ class MockMvcExampleTests {
 
     @Test
     void doWithKafkaMqMessage(@Autowired MockMvc mvc) throws Exception {
-        mvc.perform(post("/kafkamq")
+        mvc.perform(post("/kafka")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content))
                 .andExpect(status().isOk());

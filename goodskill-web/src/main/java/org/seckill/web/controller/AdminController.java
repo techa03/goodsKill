@@ -6,7 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.seckill.api.service.*;
 import org.seckill.entity.*;
 import org.seckill.web.dto.PermissionDto;
@@ -30,15 +30,15 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RequestMapping("/seckill/admin")
 @Slf4j
 public class AdminController {
-    @Reference
+    @DubboReference
     private UserAccountService userService;
-    @Reference
+    @DubboReference
     private RoleService roleService;
-    @Reference
+    @DubboReference
     private UserRoleService userRoleService;
-    @Reference
+    @DubboReference
     private PermissionService permissionService;
-    @Reference
+    @DubboReference
     private RolePermissionService rolePermissionService;
 
     @ApiOperation("分页查询角色")

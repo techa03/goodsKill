@@ -91,18 +91,17 @@ goodsKill
 
 ## 🧰开发环境版本说明
 - JDK: OpenJDK11
-- MySQL: 8.0+
-- Kafka: 2.5.0
-- MongoDB: 4.0+
-- Elasticsearch: 7.7.0
+- MySQL: 8.0.22+
+- Kafka: 2.7.0+
+- MongoDB: 4.4+
+- Elasticsearch: 7.10.1+
 - Sharding-JDBC: 4.1.1
-- RabbitMQ: 3.8.5
-- SpringCloud: Hoxton.SR9
-- SpringBoot: 2.3.x.RELEASE
-- SpringCloudAlibaba: 2.2.1.RELEASE
-- Kotlin: 1.4.20
-
-> **注**:其他环境版本暂未测试
+- RabbitMQ: 3.8.5+
+- SpringCloud: 2020.0.x
+- SpringBoot: 2.4.x.RELEASE
+- SpringCloudAlibaba: 2.2.3.RELEASE
+- Kotlin: 1.4.22
+- NacosServer: 1.3.2
 
 ## 🏃‍♂️如何启动项目
 > #### 方法一：使用Docker镜像构建脚本
@@ -128,14 +127,14 @@ goodsKill
 
     镜像 | 版本 | 端口 | 用户名密码
     ---|---|---|---
-    Nacos | latest | 8848 | 无
+    Nacos | 1.3.2 | 8848 | 无
     Redis | latest | 6379 | 无
-    Kafka | latest | 9092 | 无
-    Mongo | 4.2.6 | 27017 | 无
-    MySQL | 8.0 | 3306 | root:Password123
-    Zookeeper | latest | 2181 | 无
-    Elasticsearch | 7.7.0 | 9200 9300 | 无
-    Kibana | 7.7.0 | 5601 | 无
+    Kafka | 2.13-2.7.0 | 9092 | 无
+    Mongo | 4.4.3 | 27017 | 无
+    MySQL | 8.0.22 | 3306 | root:Password123
+    Zookeeper | 3.6.2 | 2181 | 无
+    Elasticsearch | 7.10.1 | 9200 9300 | 无
+    Kibana | 7.10.1 | 5601 | 无
     RabbitMQ | latest | 5672 15672 | 无
     Zipkin | latest | 9411 | 无
 
@@ -256,10 +255,11 @@ swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
 集成spring cloud alibaba组件 | ✅ | 2020.5 | 目前已集成nacos、sentinel、dubbo组件
 基于配置中心改造项目配置| ✅ | 2020.7 | 支付宝配置保存于nacos配置中心，防止配置泄露
 新版支付宝SDK集成 | ✅ | 2020.7 | 使用当面扫完成付款
+完善jwt用户鉴权，并提供通用服务接口 | ✅ | 2020.12 |
+SpringBoot/SpringCloud版本升级 | ✅ | 2021.1 | SpringBoot 2.4.x ⬆/SpringCloud 2020.0.x ⬆
 聊天室功能 | ⏳ |  | 使用netty网络通信，maven分支已经实现，master分支待集成 |
-完善jwt用户鉴权，并提供通用服务接口 | ⏳ | | 
 前后端分离 | ⏳ | | 目前前后端全部放在gooskill-web模块，不利于部署
-丰富项目文档 | ⏳ |  | 
+丰富项目文档 | ⏳ |  |
 
 ### API接口
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png)
