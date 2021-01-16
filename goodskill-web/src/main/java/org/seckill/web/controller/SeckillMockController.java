@@ -125,7 +125,7 @@ public class SeckillMockController {
      */
     @ApiOperationSupport(order = 4)
     @ApiOperation(value = "秒杀场景四(kafka消息队列实现)")
-    @PostMapping("/kafkamq")
+    @PostMapping("/kafka")
     public SeckillResult doWithKafkaMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
@@ -155,7 +155,6 @@ public class SeckillMockController {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
-        prepareSeckill(seckillId, seckillCount);
         prepareSeckill(seckillId, seckillCount);
         log.info(SQL_PROCEDURE.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
