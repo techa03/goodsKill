@@ -98,9 +98,9 @@ goodsKill
 - Sharding-JDBC: 4.1.1
 - RabbitMQ: 3.8.5+
 - SpringCloud: 2020.0.x
-- SpringBoot: 2.4.x.RELEASE
+- SpringBoot: 2.4.x
 - SpringCloudAlibaba: 2.2.3.RELEASE
-- Kotlin: 1.4.22
+- Kotlin: 1.4.21
 - NacosServer: 1.3.2
 
 ## 🏃‍♂️如何启动项目

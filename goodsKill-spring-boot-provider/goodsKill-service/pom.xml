@@ -142,11 +142,21 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
-			<artifactId>pagehelper</artifactId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shardingsphere</groupId>
+			<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shardingsphere</groupId>
 			<artifactId>sharding-jdbc-spring-namespace</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>guava</artifactId>
+					<groupId>com.google.guava</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -248,6 +258,10 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.alibaba.cloud</groupId>-->
+<!--			<artifactId>spring-cloud-starter-alibaba-seata</artifactId>-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<build>

@@ -25,13 +25,13 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver
         password: Password123
         type: com.zaxxer.hikari.HikariDataSource
-        jdbcUrl: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
         username: root
       ds1:
         driver-class-name: com.mysql.cj.jdbc.Driver
         password: Password123
         type: com.zaxxer.hikari.HikariDataSource
-        jdbcUrl: jdbc:mysql://localhost:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        url: jdbc:mysql://localhost:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
         username: root
   rabbitmq:
     port: 5672
@@ -79,12 +79,9 @@ dubbo:
   cloud:
     subscribed-services: ""
 
-#Pagehelper配置
-mapper:
-  identity: MYSQL
-  not-empty: false
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+#Pagehelper配置
 pagehelper:
   helperDialect: mysql
   params: count=countSql
@@ -103,11 +100,11 @@ spring:
     datasource:
       ds0:
         password: Password123
-        jdbcUrl: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
         username: root
       ds1:
         password: Password123
-        jdbcUrl: jdbc:mysql://localhost:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        url: jdbc:mysql://localhost:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
         username: root
   config:
     activate:
@@ -132,11 +129,11 @@ spring:
     datasource:
       ds0:
         password: Password123
-        jdbcUrl: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
         username: root
       ds1:
         password: Password123
-        jdbcUrl: jdbc:mysql://mysql:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        url: jdbc:mysql://mysql:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
         username: root
   cloud:
     nacos:
