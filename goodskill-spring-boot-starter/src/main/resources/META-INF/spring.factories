@@ -1,2 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.goodskill.autoconfigure.datasource.GkDatasourceAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=
