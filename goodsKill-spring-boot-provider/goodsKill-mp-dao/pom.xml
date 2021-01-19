@@ -41,10 +41,6 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodsKill-entry</artifactId>
         </dependency>

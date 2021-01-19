@@ -21,18 +21,13 @@ spring:
       database: test
   shardingsphere:
     datasource:
+      names: ds0,ds1
       ds0:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        password: Password123
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
-        username: root
       ds1:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        password: Password123
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
-        username: root
   rabbitmq:
     port: 5672
     username: guest
@@ -100,11 +95,11 @@ spring:
     datasource:
       ds0:
         password: Password123
-        url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        jdbcUrl: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
         username: root
       ds1:
         password: Password123
-        url: jdbc:mysql://localhost:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        jdbcUrl: jdbc:mysql://localhost:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
         username: root
   config:
     activate:
@@ -129,11 +124,11 @@ spring:
     datasource:
       ds0:
         password: Password123
-        url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        jdbcUrl: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
         username: root
       ds1:
         password: Password123
-        url: jdbc:mysql://mysql:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+        jdbcUrl: jdbc:mysql://mysql:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
         username: root
   cloud:
     nacos:
