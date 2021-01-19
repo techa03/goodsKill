@@ -80,8 +80,7 @@ dubbo:
     status: server
   registry:
     address: spring-cloud://localhost
-    provider:
-      timeout: 30000
+    timeout: 30000
     id: my-registry
   provider:
     timeout: 30000

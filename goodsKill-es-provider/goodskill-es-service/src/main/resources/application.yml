@@ -21,6 +21,10 @@ spring:
             group-id: DEFAULT_GROUP
             rule-type: flow
             server-addr: 127.0.0.1:8848
+  elasticsearch:
+    rest:
+      uris:
+        - http://localhost:9200
 
 ## dubbo服务注册和发现
 dubbo:
@@ -41,27 +45,25 @@ logging:
       elasticsearch:
         client:
           RestClient: debug
-## es客户端配置
-elasticsearch:
-  rest:
-    client:
-      address: localhost:9200
-
 
 ---
 dubbo:
   registry:
     address: spring-cloud://localhost
-elasticsearch:
-  rest:
-    client:
-      address: localhost:9200
 spring:
   config:
     activate:
       on-profile: dev
+  elasticsearch:
+    rest:
+      uris:
+        - http://localhost:9200
 ---
 spring:
+  elasticsearch:
+    rest:
+      uris:
+        - http://elasticsearch:9200
   cloud:
     nacos:
       discovery:
@@ -77,8 +79,4 @@ spring:
 dubbo:
   registry:
     address: spring-cloud://localhost
-elasticsearch:
-  rest:
-    client:
-      address: elasticsearch:9200
 
