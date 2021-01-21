@@ -57,6 +57,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.7.5</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
