@@ -191,20 +191,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
-				<configuration>
-					<release>11</release>
-				</configuration>
 			</plugin>
  		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.sonarsource.scanner.maven</groupId>
-					<artifactId>sonar-maven-plugin</artifactId>
-					<version>3.6.0.1398</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 </project>
