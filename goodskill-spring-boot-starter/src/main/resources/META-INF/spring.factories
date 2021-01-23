@@ -1,1 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.goodskill.autoconfigure.cache.GkRedissonAutoConfiguration

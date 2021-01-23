@@ -1,6 +1,8 @@
 package org.seckill.service.mock.strategy;
 
 /**
+ * 秒杀策略枚举，通过枚举避免暴露具体方法
+ *
  * @author heng
  */
 public enum GoodsKillStrategyEnum {

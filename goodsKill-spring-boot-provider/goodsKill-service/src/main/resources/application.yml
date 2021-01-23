@@ -125,7 +125,6 @@ dubbo:
     timeout: 30000
 
 zookeeper_ip: 127.0.0.1:2181
-cache_ip_address: redis://127.0.0.1:6379
 ---
 ######################docker环境配置#####################
 spring:
@@ -169,4 +168,3 @@ dubbo:
     timeout: 30000
 
 zookeeper_ip: zookeeper:2181
-cache_ip_address: redis://redis:6379
