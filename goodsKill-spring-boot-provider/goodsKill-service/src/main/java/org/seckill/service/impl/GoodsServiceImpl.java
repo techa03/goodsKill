@@ -10,7 +10,6 @@ import org.seckill.api.service.GoodsService;
 import org.seckill.entity.Goods;
 import org.seckill.mp.dao.mapper.GoodsMapper;
 import org.springframework.beans.BeanUtils;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -30,7 +29,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     private GoodsEsService goodsEsService;
 
     @Override
-    @Scheduled
     public void uploadGoodsPhoto(long goodsId, byte[] bytes) {
         Goods goods = new Goods();
         goods.setGoodsId((int) goodsId);

@@ -50,6 +50,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -169,7 +170,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Override
     public void execute(SeckillMockRequestDto requestDto, int strategyNumber) {
         goodsKillStrategies.stream()
-                .filter(n -> GoodsKillStrategyEnum.stateOf(strategyNumber).getClassName().equals(n.getClass().getName()))
+                .filter(n -> n.getClass().getName().equals(Objects.requireNonNull(GoodsKillStrategyEnum.stateOf(strategyNumber)).getClassName()))
                 .findFirst().ifPresent(n -> n.execute(requestDto));
     }
 

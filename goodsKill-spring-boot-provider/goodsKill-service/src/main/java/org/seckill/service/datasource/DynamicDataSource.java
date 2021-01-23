@@ -11,7 +11,7 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 @Deprecated
 public class DynamicDataSource extends AbstractRoutingDataSource {
 
-    private static ThreadLocal<String> DATASOURCE_CONTEXT = new ThreadLocal<>();
+    private static final ThreadLocal<String> DATASOURCE_CONTEXT = new ThreadLocal<>();
 
     @Override
     protected Object determineCurrentLookupKey() {
