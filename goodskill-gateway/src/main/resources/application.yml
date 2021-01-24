@@ -4,6 +4,11 @@ spring:
   application:
     name: goodskill-gateway
   cloud:
+    sentinel:
+      transport:
+        port: 8719
+        ## 默认端口8080，已改为自定义18088端口，通过http://127.0.0.1:18088/#/dashboard访问
+        dashboard: localhost:18088
     gateway:
       discovery:
         locator:

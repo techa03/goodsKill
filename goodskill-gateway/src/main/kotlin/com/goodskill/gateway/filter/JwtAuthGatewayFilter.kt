@@ -5,8 +5,8 @@ import org.seckill.api.service.AuthService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
+import org.springframework.cloud.gateway.filter.GlobalFilter
 import org.springframework.core.Ordered
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
  * @since 2020/12/26
  */
 @Component
-class JwtAuthGatewayFilter: GatewayFilter, Ordered {
+class JwtAuthGatewayFilter: GlobalFilter, Ordered {
     private val log: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @Autowired
