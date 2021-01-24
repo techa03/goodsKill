@@ -1,5 +1,6 @@
 package org.seckill.service.transaction;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seckill.entity.Goods;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
+@Ignore
 public class MultiDatasourceTransactionTest {
     @Autowired
     private SuccessKilledMapper successKilledMapper;
