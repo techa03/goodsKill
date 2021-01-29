@@ -1,5 +1,8 @@
 package org.seckill.service.transaction;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +10,7 @@ import org.seckill.entity.Goods;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.mp.dao.mapper.GoodsMapper;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
+import org.seckill.service.mp.SuccessKilledService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -21,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MultiDatasourceTransactionTest {
     @Autowired
     private SuccessKilledMapper successKilledMapper;
+    @Autowired
+    private SuccessKilledService successKilledService;
     @Autowired
     private GoodsMapper goodsMapper;
 
@@ -51,4 +57,12 @@ public class MultiDatasourceTransactionTest {
         su.setSeckillId(1431L);
         successKilledMapper.insert(su);
     }
+
+    @Test
+    public void testPage() {
+        IPage page = successKilledService.page(new Page<>(1,100));
+        Assert.assertTrue(page.getSize() > 0);
+    }
+
+
 }

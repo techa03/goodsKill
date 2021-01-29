@@ -43,6 +43,9 @@ spring:
               sharding-column: user_phone
       #必须配置，否则未配置的表会被应用分库分表规则
       default-data-source-name: ds0
+    props:
+      sql:
+        show: true
   rabbitmq:
     port: 5672
     username: guest
