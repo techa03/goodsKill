@@ -138,7 +138,7 @@ public class SeckillMockController {
             taskExecutor.execute(() -> {
                         int i1 = atomicInteger.incrementAndGet();
                         String key = String.valueOf(i1);
-                        kafkaTemplate.send("goodsKill-kafka", key, String.valueOf(seckillId));
+                        kafkaTemplate.send("goodskill-kafka", key, String.valueOf(seckillId));
                     }
             );
         }
