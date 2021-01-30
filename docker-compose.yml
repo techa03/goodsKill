@@ -60,6 +60,7 @@ services:
     container_name: kafka
     ports:
       - "9092:9092"
+      - "1099:1099"
     environment:
       - KAFKA_ADVERTISED_HOST_NAME=kafka
       - KAFKA_ADVERTISED_PORT=9092
