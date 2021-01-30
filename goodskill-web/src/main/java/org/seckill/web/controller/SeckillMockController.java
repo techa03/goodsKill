@@ -135,7 +135,11 @@ public class SeckillMockController {
         log.info(KAFKA_MQ.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
-            taskExecutor.execute(() -> kafkaTemplate.send("goodsKill-kafka", String.valueOf(atomicInteger.incrementAndGet()), String.valueOf(seckillId))
+            taskExecutor.execute(() -> {
+                        int i1 = atomicInteger.incrementAndGet();
+                        String key = String.valueOf(i1);
+                        kafkaTemplate.send("goodsKill-kafka", i1 % 12, key, String.valueOf(seckillId));
+                    }
             );
         }
         return SeckillResult.ok();
