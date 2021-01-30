@@ -75,6 +75,18 @@ services:
     networks:
       - somenetwork
 
+  kafka-manager:
+    image: kafkamanager/kafka-manager
+    container_name: kafkamanager
+    restart: always
+    ports:
+      - "9000:9000"
+    environment:
+      - ZK_HOSTS=zookeeper:2181
+    depends_on:
+      - zookeeper
+      - kafka
+
   redis:
     image: redis
     container_name: redis
