@@ -9,11 +9,11 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 /**
  * elasticsearch服务启动类
  * @author heng
- * @date 2019/06/15
+ * @since 2019/06/15
  */
 @SpringBootApplication
 @EnableElasticsearchRepositories(basePackages = "com.goodskill.es.repository")
-@EnableFeignClients(basePackages = "com.goodskill.*.api")
+@EnableFeignClients(basePackages = "com.goodskill.es.feign")
 @EnableDiscoveryClient
 public class EsApplication {
 

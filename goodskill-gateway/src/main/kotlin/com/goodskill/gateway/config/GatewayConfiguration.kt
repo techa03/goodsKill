@@ -1,6 +1,5 @@
 package com.goodskill.gateway.config
 
-import com.goodskill.gateway.filter.JwtAuthGatewayFilter
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters
@@ -18,28 +17,28 @@ import java.util.stream.Collectors
 @Configuration
 open class GatewayConfiguration {
     @Bean
-    open fun customizedLocator(builder: RouteLocatorBuilder, jwtAuthGatewayFilter: JwtAuthGatewayFilter): RouteLocator {
+    open fun customizedLocator(builder: RouteLocatorBuilder): RouteLocator {
         return builder.routes()
             .route { r: PredicateSpec ->
-                r.after(ZonedDateTime.now().plusSeconds(20L)).and()
+                r.after(ZonedDateTime.now().plusSeconds(2L)).and()
                     .path("/goodskill/es/**")
                     // 路径根据"/"分割符去掉前几位
                     .filters { f: GatewayFilterSpec ->
-                        f.stripPrefix(2).filter(jwtAuthGatewayFilter)
+                        f.stripPrefix(2)
                     }
                     // 访问的负载均衡地址
-                    .uri("lb://goodskill-es-provider")
+                    .uri("lb://es-service-provider")
             }
             .route { r: PredicateSpec ->
-                r.after(ZonedDateTime.now().plusSeconds(6L)).and()
+                r.after(ZonedDateTime.now().plusSeconds(2L)).and()
                     .path("/goodskill/mongo/**")
                     .filters { f: GatewayFilterSpec ->
-                        f.stripPrefix(2).filter(jwtAuthGatewayFilter)
+                        f.stripPrefix(2)
                     }
                     .uri("lb://mongo-service-provider")
             }
             .route { r: PredicateSpec ->
-                r.after(ZonedDateTime.now().plusSeconds(6L)).and()
+                r.after(ZonedDateTime.now().plusSeconds(2L)).and()
                     .path("/goodskill/**")
                     .filters { f: GatewayFilterSpec ->
                         f.stripPrefix(1)

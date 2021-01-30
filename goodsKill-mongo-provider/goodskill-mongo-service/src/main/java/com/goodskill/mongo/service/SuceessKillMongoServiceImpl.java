@@ -5,7 +5,7 @@ import com.goodskill.mongo.entity.SuccessKilled;
 import com.goodskill.mongo.entity.SuccessKilledDto;
 import com.mongodb.client.result.DeleteResult;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
@@ -19,7 +19,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 /**
  * @author heng
  */
-@Service
+@DubboService
 @Slf4j
 @Primary
 public class SuceessKillMongoServiceImpl implements SuccessKilledMongoService {

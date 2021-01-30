@@ -19,7 +19,7 @@ public class SeckillKafkaConsumer {
     @Autowired
     private SeckillExecutor seckillExecutor;
 
-    @KafkaListener(topics = "goodsKill-kafka")
+    @KafkaListener(topics = "goodskill-kafka")
     public void onMessage(Object data) {
         if (data instanceof ConsumerRecord) {
             ConsumerRecord record = (ConsumerRecord) data;

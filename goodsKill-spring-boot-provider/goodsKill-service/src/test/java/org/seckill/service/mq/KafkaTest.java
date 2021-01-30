@@ -57,7 +57,7 @@ public class KafkaTest {
         container.start();
         Thread.sleep(1000); // wait a bit for the container to start
         KafkaTemplate<Integer, String> template = createTemplate();
-        template.setDefaultTopic("goodsKill-kafka");
+        template.setDefaultTopic("goodskill-kafka");
         template.sendDefault(0, "foo");
         template.sendDefault(2, "bar");
         template.sendDefault(0, "baz");

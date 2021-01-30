@@ -130,6 +130,7 @@ goodsKill
     Nacos | 1.3.2 | 8848 | 无
     Redis | latest | 6379 | 无
     Kafka | 2.13-2.7.0 | 9092 | 无
+    KafkaManager | latest | 9000 | 无
     Mongo | 4.4.3 | 27017 | 无
     MySQL | 8.0.22 | 3306 | root:Password123
     Zookeeper | 3.6.2 | 2181 | 无
@@ -232,6 +233,8 @@ swagger主页测试地址：http://localhost:8080/goodskill/swagger-ui.html#/
 
 swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
 
+kafka状态监控页面地址: http://localhost:9000
+
 - 场景一：sychronized同步锁实现
 - 场景二：redisson分布式锁实现
 - 场景三：ActiveMQ实现(已废弃)
@@ -256,7 +259,6 @@ swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
 基于配置中心改造项目配置| ✅ | 2020.7 | 支付宝配置保存于nacos配置中心，防止配置泄露
 新版支付宝SDK集成 | ✅ | 2020.7 | 使用当面扫完成付款
 完善jwt用户鉴权，并提供通用服务接口 | ✅ | 2020.12 |
-SpringBoot/SpringCloud版本升级 | ✅ | 2021.1 | SpringBoot 2.4.x ⬆/SpringCloud 2020.0.x ⬆
 聊天室功能 | ⏳ |  | 使用netty网络通信，maven分支已经实现，master分支待集成 |
 前后端分离 | ⏳ | | 目前前后端全部放在gooskill-web模块，不利于部署
 丰富项目文档 | ⏳ |  |
@@ -283,11 +285,14 @@ SpringBoot/SpringCloud版本升级 | ✅ | 2021.1 | SpringBoot 2.4.x ⬆/SpringC
 
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200523214633.png)
 
+#### 用户角色权限管理：
+![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155310.png)
+
 #### 商品列表限流：
 ![image](./doc/shortcut/微信截图_20200802182806.png)
 
-#### 用户角色权限管理：
-![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155310.png)
+#### Kafka状态监控
+![image](./doc/shortcut/微信截图_20210130152701.png)
 
 #### 模拟秒杀接口测试
 ![image](./doc/shortcut/模拟秒杀接口测试.gif)
