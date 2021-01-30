@@ -130,6 +130,7 @@ goodsKill
     Nacos | 1.3.2 | 8848 | 无
     Redis | latest | 6379 | 无
     Kafka | 2.13-2.7.0 | 9092 | 无
+    KafkaManager | latest | 9000 | 无
     Mongo | 4.4.3 | 27017 | 无
     MySQL | 8.0.22 | 3306 | root:Password123
     Zookeeper | 3.6.2 | 2181 | 无
@@ -232,6 +233,8 @@ swagger主页测试地址：http://localhost:8080/goodskill/swagger-ui.html#/
 
 swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
 
+kafka状态监控页面地址: http://localhost:9000
+
 - 场景一：sychronized同步锁实现
 - 场景二：redisson分布式锁实现
 - 场景三：ActiveMQ实现(已废弃)
@@ -282,11 +285,14 @@ swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
 
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200523214633.png)
 
+#### 用户角色权限管理：
+![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155310.png)
+
 #### 商品列表限流：
 ![image](./doc/shortcut/微信截图_20200802182806.png)
 
-#### 用户角色权限管理：
-![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155310.png)
+#### Kafka状态监控
+![image](./doc/shortcut/微信截图_20210130152701.png)
 
 #### 模拟秒杀接口测试
 ![image](./doc/shortcut/模拟秒杀接口测试.gif)

@@ -64,5 +64,11 @@ public class MultiDatasourceTransactionTest {
         Assert.assertTrue(page.getSize() > 0);
     }
 
+    @Test
+    public void testPage1() {
+        IPage page = goodsMapper.selectPage(new Page(1,2), null);
+        Assert.assertTrue(page.getSize() > 0);
+    }
+
 
 }
