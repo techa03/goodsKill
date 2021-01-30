@@ -62,13 +62,13 @@ services:
       - "9092:9092"
       - "1099:1099"
     environment:
-      - KAFKA_ADVERTISED_HOST_NAME=kafka
-      - KAFKA_ADVERTISED_PORT=9092
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      KAFKA_ADVERTISED_HOST_NAME: "kafka"
+      KAFKA_ADVERTISED_PORT: "9092"
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
       #自动创建topic,goodskill-kafka:12:1表示创建“goodskill-kafka”topic,12个分区,1个副本
-      - KAFKA_CREATE_TOPICS=goodskill-kafka:12:1
-      - KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.rmi.port=1099
-      - JMX_PORT=1099
+      KAFKA_CREATE_TOPICS: "goodskill-kafka:12:1"
+      JMX_PORT: "1099"
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.rmi.port=1099"
     depends_on:
       - zookeeper
     restart: always
