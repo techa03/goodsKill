@@ -86,6 +86,8 @@ services:
     depends_on:
       - zookeeper
       - kafka
+    networks:
+      - somenetwork
 
   redis:
     image: redis
