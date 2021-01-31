@@ -12,7 +12,7 @@ services:
       - somenetwork
 
   nacos:
-    image: nacos/nacos-server:1.3.2
+    image: nacos/nacos-server:1.4.1
     container_name: nacos
     environment:
       - PREFER_HOST_MODE=hostname
@@ -124,7 +124,7 @@ services:
 
 ##放开注释即为es双节点模式
 #  elasticsearch1:
-#    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+#    image: elasticsearch:7.10.1
 #    container_name: elasticsearch1
 #    environment:
 #      - node.name=es02
@@ -133,6 +133,7 @@ services:
 #      - cluster.name=docker-cluster
 #      - bootstrap.memory_lock=true
 #      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    restart: always
 #    ulimits:
 #      memlock:
 #        soft: -1
@@ -140,6 +141,29 @@ services:
 #    ports:
 #      - 9201:9200
 #      - 9301:9300
+#    depends_on:
+#      - elasticsearch
+#    networks:
+#      - somenetwork
+
+#  elasticsearch2:
+#    image: elasticsearch:7.10.1
+#    container_name: elasticsearch2
+#    environment:
+#      - node.name=es03
+#      - discovery.seed_hosts=elasticsearch
+#      - cluster.initial_master_nodes=es01
+#      - cluster.name=docker-cluster
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    restart: always
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    ports:
+#      - 9202:9200
+#      - 9302:9300
 #    depends_on:
 #      - elasticsearch
 #    networks:

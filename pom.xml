@@ -22,8 +22,8 @@
 	<properties>
 		<goodsKill.version>3.4.0-SNAPSHOT</goodsKill.version>
 		<springboot.version>2.4.2</springboot.version>
-		<spring-cloud.version>2020.0.0</spring-cloud.version>
-		<spring.cloud.alibaba.version>2.2.3.RELEASE</spring.cloud.alibaba.version>
+		<spring-cloud.version>2020.0.1</spring-cloud.version>
+		<spring.cloud.alibaba.version>2.2.5.RC2</spring.cloud.alibaba.version>
 		<sonar.exclusions>
 			src/main/webapp/.../**/*
 			src/main/sql/.../**/*
