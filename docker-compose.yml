@@ -105,7 +105,7 @@ services:
     container_name: elasticsearch
     environment:
       - node.name=es01
-      - discovery.seed_hosts=elasticsearch1
+      - discovery.seed_hosts=elasticsearch
       - cluster.initial_master_nodes=es01
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
