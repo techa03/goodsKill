@@ -1,0 +1,228 @@
+version: "3"
+
+services:
+  rabbitmq-management:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - somenetwork
+
+  nacos:
+    image: nacos/nacos-server:1.4.1
+    container_name: nacos
+    environment:
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone
+    volumes:
+      - ./nacos-docker/standalone-logs/:/home/nacos/logs
+      - ./nacos-docker/init.d/custom.properties:/home/nacos/init.d/custom.properties
+    ports:
+      - "8848:8848"
+    restart: always
+    networks:
+      - somenetwork
+#  prometheus:
+#    container_name: prometheus
+#    image: prom/prometheus:latest
+#    volumes:
+#      - ./nacos-docker/prometheus/prometheus-standalone.yaml:/etc/prometheus/prometheus.yml
+#    ports:
+#      - "9090:9090"
+#    depends_on:
+#      - nacos
+#    restart: on-failure
+#    networks:
+#      - somenetwork
+#  grafana:
+#    container_name: grafana
+#    image: grafana/grafana:latest
+#    ports:
+#      - 3000:3000
+#    restart: on-failure
+#    networks:
+#      - somenetwork
+
+  zookeeper:
+    image: zookeeper:3.6.2
+    container_name: zookeeper
+    restart: always
+    ports:
+      - "2181:2181"
+    networks:
+      - somenetwork
+
+  kafka:
+    image: wurstmeister/kafka:2.13-2.7.0
+    container_name: kafka
+    ports:
+      - "9092:9092"
+      - "1099:1099"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: "kafka"
+      KAFKA_ADVERTISED_PORT: "9092"
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      #自动创建topic,goodskill-kafka:12:1表示创建“goodskill-kafka”topic,12个分区,1个副本
+      KAFKA_CREATE_TOPICS: "goodskill-kafka:12:1"
+      JMX_PORT: "1099"
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka -Dcom.sun.management.jmxremote.rmi.port=1099"
+    depends_on:
+      - zookeeper
+    restart: always
+    networks:
+      - somenetwork
+
+  kafka-manager:
+    image: kafkamanager/kafka-manager
+    container_name: kafkamanager
+    restart: always
+    ports:
+      - "9000:9000"
+    environment:
+      - ZK_HOSTS=zookeeper:2181
+    depends_on:
+      - zookeeper
+      - kafka
+    networks:
+      - somenetwork
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - "6379:6379"
+    networks:
+      - somenetwork
+
+  elasticsearch:
+    image: elasticsearch:7.10.1
+    container_name: elasticsearch
+    environment:
+      - node.name=es01
+      - discovery.seed_hosts=elasticsearch
+      - cluster.initial_master_nodes=es01
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    restart: always
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - somenetwork
+
+
+##放开注释即为es双节点模式
+#  elasticsearch1:
+#    image: elasticsearch:7.10.1
+#    container_name: elasticsearch1
+#    environment:
+#      - node.name=es02
+#      - discovery.seed_hosts=elasticsearch
+#      - cluster.initial_master_nodes=es01
+#      - cluster.name=docker-cluster
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    restart: always
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    ports:
+#      - 9201:9200
+#      - 9301:9300
+#    depends_on:
+#      - elasticsearch
+#    networks:
+#      - somenetwork
+
+#  elasticsearch2:
+#    image: elasticsearch:7.10.1
+#    container_name: elasticsearch2
+#    environment:
+#      - node.name=es03
+#      - discovery.seed_hosts=elasticsearch
+#      - cluster.initial_master_nodes=es01
+#      - cluster.name=docker-cluster
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    restart: always
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    ports:
+#      - 9202:9200
+#      - 9302:9300
+#    depends_on:
+#      - elasticsearch
+#    networks:
+#      - somenetwork
+
+  kibana:
+    image: kibana:7.10.1
+    container_name: kibana
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    environment:
+      - elasticsearch.hosts=http://elasticsearch:9200
+      - i18n.locale=zh-CN
+    networks:
+      - somenetwork
+
+  mysql:
+    image: mysql:8.0.22
+    container_name: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_0900_ai_ci
+    volumes:
+      - ./goodskill-web/src/main/sql:/docker-entrypoint-initdb.d/
+    environment:
+      MYSQL_ROOT_PASSWORD: "Password123"
+      MYSQL_DATABASE: "seckill"
+      MYSQL_USER: "seckill"
+      MYSQL_PASSWORD: "Password123"
+    networks:
+      - somenetwork
+
+  mongo:
+    image: mongo:4.4.3
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - somenetwork
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: root
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    restart: always
+    ports:
+      - "9411:9411"
+    networks:
+      - somenetwork
+
+networks:
+  somenetwork:
+    driver: bridge
