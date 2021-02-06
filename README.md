@@ -123,6 +123,7 @@ goodsKill
     or
     docker-compose up -d --no-recreate //如上次以构建容器，则此次会跳过构建容器
      ```
+
   **注**:推荐使用<code>docker-compose</code>命令（推荐电脑运行内存16G以上），无需手动下载软件安装包，开箱即用。此命令会自动拉取docker镜像并以默认端口运行
 
   镜像 | 版本 | 端口 | 用户名密码

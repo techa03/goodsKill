@@ -27,6 +27,7 @@ public interface MongoFeignClient extends SuccessKilledMongoService {
         @Override
         public void deleteRecord(long seckillId) {
             log.warn("echo fallback");
+
         }
 
         @Override
