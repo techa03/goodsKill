@@ -16,7 +16,6 @@ import org.seckill.service.common.trade.alipay.AlipayRunner;
 import org.seckill.service.impl.SeckillServiceImpl;
 import org.seckill.util.common.util.MD5Util;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,20 +86,17 @@ public class SeckillServiceImplTest {
     @Test
     public void getSuccessKillCount() {
         when(successKilledMapper.selectCount(any())).thenReturn(0);
-        when(successKilledMongoService.count(any())).thenReturn(1L);
+        when(successKilledMongoService.count(1L)).thenReturn(1L);
         assertEquals(seckillService.getSuccessKillCount(1L), 1L);
     }
 
     @Test
     public void prepareSeckill() {
         long seckillId = 1L;
-        ValueOperations valueOperations = mock(ValueOperations.class);
         Seckill t = new Seckill();
         when(redisService.getSeckill(seckillId)).thenReturn(t);
-        when(redisTemplate.opsForValue()).thenReturn(valueOperations);
-        when(valueOperations.increment(seckillId)).thenReturn(2L);
-        when(valueOperations.decrement(seckillId)).thenReturn(10L,9L,1L);
+        when(redisTemplate.delete(seckillId)).thenReturn(true);
         seckillService.prepareSeckill(seckillId, 10);
-        verify(valueOperations, times(3)).decrement(seckillId);
+        verify(successKilledMongoService, times(1)).deleteRecord(seckillId);
     }
 }
