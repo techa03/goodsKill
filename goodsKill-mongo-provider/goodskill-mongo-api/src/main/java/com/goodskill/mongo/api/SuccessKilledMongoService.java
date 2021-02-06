@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface SuccessKilledMongoService {
 
     /**
-     * @param sekcillId
-     * @return
+     * @param seckillId
      */
     @DeleteMapping("/deleteRecord")
-    long deleteRecord(@RequestParam("sekcillId") long sekcillId);
+    void deleteRecord(@RequestParam("seckillId") long seckillId);
 
     /**
      * @param successKilledDto
@@ -29,9 +28,9 @@ public interface SuccessKilledMongoService {
     void saveRecord(@RequestBody SuccessKilledDto successKilledDto);
 
     /**
-     * @param successKilledDto
-     * @return
+     *
+     * @param seckillId@return
      */
     @PostMapping("/count")
-    long count(@RequestBody SuccessKilledDto successKilledDto);
+    long count(@RequestParam("seckillId") long seckillId);
 }

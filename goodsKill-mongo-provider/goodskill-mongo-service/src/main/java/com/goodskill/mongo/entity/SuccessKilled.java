@@ -2,6 +2,7 @@ package com.goodskill.mongo.entity;
 
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
@@ -15,6 +16,10 @@ import java.util.Date;
 @Builder
 @Document
 public class SuccessKilled {
+
+    @Id
+    private String id;
+
     private BigInteger seckillId;
 
     private String userPhone;

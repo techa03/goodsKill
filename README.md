@@ -6,7 +6,7 @@
 
 
 # 🎉前言
-项目命名为goodsKill一方面有商品秒杀项目的意思(好像有点chinglish的味道)，另外也可理解为good skill，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来（偏向于后端技术），方便学习和查阅。
+项目命名为**goodsKill**一方面有商品秒杀项目的意思(好像有点chinglish的味道)，另外也可理解为**good skill**，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来（偏向于后端技术），方便学习和查阅。
 
 本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，采用springcloud dubbo实现服务分布式服务调用，服务注册发现使用nacos server。
 
@@ -99,21 +99,21 @@ goodsKill
 - RabbitMQ: 3.8.5+
 - SpringCloud: 2020.0.x
 - SpringBoot: 2.4.x
-- SpringCloudAlibaba: 2.2.3.RELEASE
+- SpringCloudAlibaba: 2.2.5.RELEASE
 - Kotlin: 1.4.21
-- NacosServer: 1.3.2
+- NacosServer: 1.4.1
 
-## 🏃‍♂️如何启动项目
+## 🕹️️如何启动项目
 > #### 方法一：使用Docker镜像构建脚本
 
-- 项目根目录goodsKill中执行
+- 项目根目录`goodsKill`中执行
   ```
   mvn clean install
   或 
   #跳过单元测试
   mvn clean install -DskipTests
   ```
-- 进入项目根目录(确保已安装compose以支持docker-compose命令)，执行以下命令：
+- 进入项目根目录(确保已安装`compose`以支持`docker-compose`命令)，执行以下命令：
      ```
     docker-compose up （第一次运行只需执行此命令）
     or
@@ -123,53 +123,58 @@ goodsKill
     or
     docker-compose up -d --no-recreate //如上次以构建容器，则此次会跳过构建容器
      ```
-    **注**:推荐使用docker-compose命令（推荐电脑运行内存16G以上），无需手动下载软件安装包，开箱即用。此命令会自动拉取docker镜像并以默认端口运行
 
-    镜像 | 版本 | 端口 | 用户名密码
-    ---|---|---|---
-    Nacos | 1.3.2 | 8848 | 无
-    Redis | latest | 6379 | 无
-    Kafka | 2.13-2.7.0 | 9092 | 无
-    KafkaManager | latest | 9000 | 无
-    Mongo | 4.4.3 | 27017 | 无
-    MySQL | 8.0.22 | 3306 | root:Password123
-    Zookeeper | 3.6.2 | 2181 | 无
-    Elasticsearch | 7.10.1 | 9200 9300 | 无
-    Kibana | 7.10.1 | 5601 | 无
-    RabbitMQ | latest | 5672 15672 | 无
-    Zipkin | latest | 9411 | 无
+  **注**:推荐使用<code>docker-compose</code>命令（推荐电脑运行内存16G以上），无需手动下载软件安装包，开箱即用。此命令会自动拉取docker镜像并以默认端口运行
+
+  镜像 | 版本 | 端口 | 用户名密码
+  ---|---|---|---
+  Nacos | 1.3.2 | 8848 | 无
+  Redis | latest | 6379 | 无
+  Kafka | 2.13-2.7.0 | 9092 | 无
+  KafkaManager | latest | 9000 | 无
+  Mongo | 4.4.3 | 27017 | 无
+  MySQL | 8.0.22 | 3306 | root:Password123
+  Zookeeper | 3.6.2 | 2181 | 无
+  Elasticsearch | 7.10.1 | 9200 9300 | 无
+  Kibana | 7.10.1 | 5601 | 无
+  RabbitMQ | latest | 5672 15672 | 无
+  Zipkin | latest | 9411 | 无
 
 
- **注**:除以上镜像外，docker-compose文件还包含项目构建命令，目前暂未列出
+**注**:除以上镜像外，<code>docker-compose.yml</code>文件还包含项目构建命令，目前暂未列出。
+若仅启动以上镜像不启动项目应用，可使用以下命令：
+```
+docker-compose -f goodskill-simple.yml up -d
+```
 
 > #### 方法二：使用IDEA运行项目
 
-- 如无docker运行环境，可参照官网安装上述应用，本地默认端口启动
+- 如无`docker`运行环境，可参照官网安装上述应用，本地默认端口启动
 
-- 进入goodskill-gateway模块，通过GatewayApplication类main方法启动服务网关
+- 进入<code>goodskill-gateway</code>模块，通过<code>GatewayApplication</code>类main方法启动服务网关
 
-- 找到EsApplication类main方法启动远程服务
+- 找到<code>EsApplication</code>类main方法启动远程服务
 
-- 找到GoodsKillRpcServiceApplication类main方法启动远程服务，并且需要在host中加入以下信息
+- 找到<code>GoodsKillRpcServiceApplication</code>类main方法启动远程服务，并且需要在host中加入以下信息
      ```
      127.0.0.1 kafka
      127.0.0.1 nacos
      ```
 
-- 进入goodsKill-web模块根目录，运行命令或直接通过SampleWebJspApplication类main方法启动
+- 进入<code>goodsKill-web</code>模块根目录，运行命令或直接通过<code>SampleWebJspApplication</code>类main方法启动
      ```
     mvn spring-boot:run -Dspring.profiles.active=dev
      ```
 
-- 如已安装MongoDB，可以main方法启动MongoReactiveApplication，通过使用该服务操作mongo库
-  
+- 如已安装MongoDB，可以main方法启动<code>MongoReactiveApplication</code>，通过使用该服务操作mongo库
+
 > #### ⚠导入项目数据库基础数据 ️
 
-- 找到seckill.sql文件，在本地mysql数据库中建立seckill仓库并执行完成数据初始化操作
+- 找到<code>seckill.sql</code>文件，在本地mysql数据库中建立<code>seckill</code>仓库并执行完成数据初始化操作
 
   **注**:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
 
-- application.yml已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
+- <code>application.yml</code>已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
      ```
      spring:
        profiles:
@@ -178,10 +183,10 @@ goodsKill
 - 启动完成后访问登录页面[http://localhost:8080/goodskill/login](http://localhost:8080/goodskill/login)，默认管理员账号admin123，密码：aa123456
 
 > #### 额外功能（可选）
-- 已集成sentinel限流组件，支持nacos配置中心方式推送限流规则，使用时需启动sentinel控制台，并以18088端口启动，docker环境暂不支持。
+- 已集成`sentinel`限流组件，支持`nacos`配置中心方式推送限流规则，使用时需启动`sentinel`控制台，并以`18088`端口启动，docker环境暂不支持。
 
 ## 📦打包部署方法
-- 可参考Dockerfile文件，如:
+- 可参考`Dockerfile`文件，如:
 ```
 FROM openjdk:11.0.9.1-jdk
 COPY goodsKill-service/target/goodsKill-service.jar /app/goodsKill-service.jar
@@ -190,16 +195,16 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
 ```
 
 ## ❓常见问题
-- 使用idea启动SampleWebJspApplication类(goodsKill-web模块)时会出现访问不了页面的问题，eclipse无此问题。
+- 使用idea启动`SampleWebJspApplication`类(goodsKill-web模块)时会出现访问不了页面的问题，eclipse无此问题。
 
   解决办法：配置启动类的工作目录为goodsKill-web
 - docker es镜像启动失败？
-  
+
   出现此问题一般为linux环境，运行以下命令即可
   ```
   sysctl -w vm.max_map_count=262144
   ```
-- 新版支付宝SDK已集成，使用时需将AlipayRunner中的alipay对应配置替换成你的支付宝应用配置（本项目基于沙箱环境）
+- 新版支付宝SDK已集成，使用时需将`AlipayRunner`中的alipay对应配置替换成你的支付宝应用配置（本项目基于沙箱环境）
 ```
     //为了防止启动项目报错默认配置为1，可参考官方文档修改对应配置
     @Value("${alipay.merchantPrivateKey:1}")
@@ -219,15 +224,15 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 **注**:其他表均未分库分表，默认使用seckill作为主库
 
 ## 🔖服务网关说明
-- http://localhost/goodskill/mongo 对应goodsKill-mongo-provider服务
-- http://localhost/goodskill/es 对应goodsKill-es-provider服务
-- http://localhost/goodskill 对应goodsKill-service-provider服务
+- http://localhost/goodskill/mongo 对应`goodsKill-mongo-provider`服务
+- http://localhost/goodskill/es 对应`goodsKill-es-provider`服务
+- http://localhost/goodskill 对应`goodsKill-service-provider`服务
 
 - 通过[http://localhost/goodskill/token](http://localhost/goodskill/token)接口获取token
 - 通过[http://localhost/goodskill/refresh](http://localhost/goodskill/refresh)刷新用户token
 
 ## 🔥🔥秒杀方案
-目前实现了几种秒杀方案，通过SeckillMockController提供测试接口
+目前实现了几种秒杀方案，通过`SeckillMockController`提供测试接口
 
 swagger主页测试地址：http://localhost:8080/goodskill/swagger-ui.html#/
 
@@ -239,11 +244,12 @@ kafka状态监控页面地址: http://localhost:9000
 - 场景二：redisson分布式锁实现
 - 场景三：ActiveMQ实现(已废弃)
 - 场景四：Kafka实现
-- 场景五：本地事务实现
+- 场景五：数据库原子性更新
 - 场景六：实时等待秒杀处理结果(已废弃)
 - 场景七：zookeeper分布式锁
 - 场景八：使用redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用mongoDB完成数据落地
 - 场景九：SpringCloudStream RabbitMQ实现
+- 场景十：Sentinel限流+数据库原子性更新（需搭配sentinel控制台配置资源名`limit`的流控规则）
 
 可在web控台查看秒杀结果，打印信息类似：
  ```
@@ -251,7 +257,7 @@ kafka状态监控页面地址: http://localhost:9000
 2019-03-25 13:40:49.050  INFO 1016 --- [ jmsContainer-1] o.s.web.mqlistener.SeckillTopicListener  : 最终成功交易笔数：100
 2019-03-25 13:40:49.050  INFO 1016 --- [ jmsContainer-1] o.s.web.mqlistener.SeckillTopicListener  : 秒杀活动结束，秒杀场景三(activemq消息队列实现)时间：Mon Mar 25 13:40:49 CST 2019,秒杀id：1001
  ```
- 
+
 ## 🔨后续更新计划
 功能 | 进度 | 完成时间 | 说明
 ---|---|---|---
@@ -269,7 +275,7 @@ kafka状态监控页面地址: http://localhost:9000
 ### API接口说明
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png)
 
-## 🍔页面展示
+## 💻页面展示
 
 #### 登录：
 ![image](./doc/shortcut/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215746.png)

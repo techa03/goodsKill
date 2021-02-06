@@ -25,9 +25,9 @@ public interface MongoFeignClient extends SuccessKilledMongoService {
     @Slf4j
     class MongoFeignClientFallback implements MongoFeignClient {
         @Override
-        public long deleteRecord(long sekcillId) {
+        public void deleteRecord(long seckillId) {
             log.warn("echo fallback");
-            return -1;
+
         }
 
         @Override
@@ -36,7 +36,7 @@ public interface MongoFeignClient extends SuccessKilledMongoService {
         }
 
         @Override
-        public long count(SuccessKilledDto successKilledDto) {
+        public long count(long seckillId) {
             log.warn("echo fallback");
             return -1;
         }
