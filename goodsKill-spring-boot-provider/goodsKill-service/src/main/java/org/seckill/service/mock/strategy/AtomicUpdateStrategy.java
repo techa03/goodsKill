@@ -6,7 +6,7 @@ import org.seckill.service.inner.SeckillExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static org.seckill.api.enums.SeckillSolutionEnum.SQL_PROCEDURE;
+import static org.seckill.api.enums.SeckillSolutionEnum.ATOMIC_UPDATE;
 
 /**
  * @author techa03
@@ -14,12 +14,12 @@ import static org.seckill.api.enums.SeckillSolutionEnum.SQL_PROCEDURE;
  */
 @Component
 @Slf4j
-public class ProcedureStrategy implements GoodsKillStrategy {
+public class AtomicUpdateStrategy implements GoodsKillStrategy {
     @Autowired
     private SeckillExecutor seckillExecutor;
 
     @Override
     public void execute(SeckillMockRequestDto requestDto) {
-        seckillExecutor.dealSeckill(requestDto.getSeckillId(), requestDto.getPhoneNumber(), SQL_PROCEDURE.getName());
+        seckillExecutor.dealSeckill(requestDto.getSeckillId(), requestDto.getPhoneNumber(), ATOMIC_UPDATE.getName());
     }
 }

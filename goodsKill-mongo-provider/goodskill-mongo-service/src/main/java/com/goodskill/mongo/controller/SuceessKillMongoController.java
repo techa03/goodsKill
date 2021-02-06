@@ -3,11 +3,9 @@ package com.goodskill.mongo.controller;
 import com.goodskill.mongo.api.SuccessKilledMongoService;
 import com.goodskill.mongo.entity.SuccessKilled;
 import com.goodskill.mongo.entity.SuccessKilledDto;
-import com.goodskill.mongo.topic.SeckillMockSaveTopic;
 import com.mongodb.client.result.DeleteResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,10 +26,6 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 public class SuceessKillMongoController implements SuccessKilledMongoService {
     @Autowired
     private ReactiveMongoTemplate mongoTemplate;
-    @Autowired
-    private SeckillMockSaveTopic seckillMockSaveTopic;
-    @Autowired
-    private Source source;
 
     @Override
     public long deleteRecord(long sekcillId) {

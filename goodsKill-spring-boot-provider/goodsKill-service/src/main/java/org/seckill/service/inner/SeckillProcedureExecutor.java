@@ -58,12 +58,12 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
                 // 高并发时限制只能发一次秒杀完成通知
                 if (!SeckillStatusConstant.END.equals(seckill.getStatus()) && sendTopicTimes.getAndIncrement() == 0) {
                     source.output().send(MessageBuilder.withPayload(
-                                    SeckillMockResponseDto
-                                            .builder()
-                                            .seckillId(seckillId)
-                                            .note(note)
-                                            .status(true)
-                                            .build())
+                            SeckillMockResponseDto
+                                    .builder()
+                                    .seckillId(seckillId)
+                                    .note(note)
+                                    .status(true)
+                                    .build())
                             .build());
                     Seckill sendTopicResult = new Seckill();
                     sendTopicResult.setSeckillId(seckillId);

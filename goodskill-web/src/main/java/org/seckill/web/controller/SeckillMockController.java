@@ -153,19 +153,19 @@ public class SeckillMockController {
      * 总结：速度快
      */
     @ApiOperationSupport(order = 5)
-    @ApiOperation(value = "秒杀场景五(存储过程实现)")
+    @ApiOperation(value = "秒杀场景五(数据库原子性更新update set num = num -1)")
     @PostMapping("/procedure")
     public SeckillResult doWithProcedure(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
         prepareSeckill(seckillId, seckillCount);
-        log.info(SQL_PROCEDURE.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
+        log.info(ATOMIC_UPDATE.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() ->
                     seckillService.execute(new SeckillMockRequestDto(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
-                            SQL_PROCEDURE.getCode())
+                            ATOMIC_UPDATE.getCode())
             );
         }
         return SeckillResult.ok();
@@ -267,6 +267,28 @@ public class SeckillMockController {
             taskExecutor.execute(() -> {
                         SeckillMockRequestDto payload = new SeckillMockRequestDto(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1)));
                         source.output().send(MessageBuilder.withPayload(payload).build());
+                    }
+            );
+        }
+        return SeckillResult.ok();
+        //待mq监听器处理完成打印日志，不在此处打印日志
+    }
+
+    @ApiOperationSupport(order = 10)
+    @ApiOperation(value = "秒杀场景十(Sentinel限流+数据库原子性更新)")
+    @PostMapping("/limit")
+    public SeckillResult limit(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+        long seckillId = dto.getSeckillId();
+        int seckillCount = dto.getSeckillCount();
+        int requestCount = dto.getRequestCount();
+        // 初始化库存数量
+        prepareSeckill(seckillId, seckillCount);
+        log.info(SENTINEL_LIMIT.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        for (int i = 0; i < requestCount; i++) {
+            taskExecutor.execute(() -> {
+                seckillService.execute(new SeckillMockRequestDto(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
+                        SENTINEL_LIMIT.getCode());
                     }
             );
         }

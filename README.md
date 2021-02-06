@@ -99,9 +99,9 @@ goodsKill
 - RabbitMQ: 3.8.5+
 - SpringCloud: 2020.0.x
 - SpringBoot: 2.4.x
-- SpringCloudAlibaba: 2.2.3.RELEASE
+- SpringCloudAlibaba: 2.2.5.RELEASE
 - Kotlin: 1.4.21
-- NacosServer: 1.3.2
+- NacosServer: 1.4.1
 
 ## 🕹️️如何启动项目
 > #### 方法一：使用Docker镜像构建脚本
@@ -140,7 +140,11 @@ goodsKill
   Zipkin | latest | 9411 | 无
 
 
-**注**:除以上镜像外，<code>docker-compose.yml</code>文件还包含项目构建命令，目前暂未列出
+**注**:除以上镜像外，<code>docker-compose.yml</code>文件还包含项目构建命令，目前暂未列出。
+若仅启动以上镜像不启动项目应用，可使用以下命令：
+```
+docker-compose -f goodskill-simple.yml up -d
+```
 
 > #### 方法二：使用IDEA运行项目
 
@@ -239,11 +243,12 @@ kafka状态监控页面地址: http://localhost:9000
 - 场景二：redisson分布式锁实现
 - 场景三：ActiveMQ实现(已废弃)
 - 场景四：Kafka实现
-- 场景五：本地事务实现
+- 场景五：数据库原子性更新
 - 场景六：实时等待秒杀处理结果(已废弃)
 - 场景七：zookeeper分布式锁
 - 场景八：使用redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用mongoDB完成数据落地
 - 场景九：SpringCloudStream RabbitMQ实现
+- 场景十：Sentinel限流+数据库原子性更新（需搭配sentinel控制台配置资源名`limit`的流控规则）
 
 可在web控台查看秒杀结果，打印信息类似：
  ```
