@@ -128,7 +128,7 @@ goodsKill
 
   镜像 | 版本 | 端口 | 用户名密码
   ---|---|---|---
-  Nacos | 1.3.2 | 8848 | 无
+  Nacos | 1.4.1 | 8848 | 无
   Redis | latest | 6379 | 无
   Kafka | 2.13-2.7.0 | 9092 | 无
   KafkaManager | latest | 9000 | 无
