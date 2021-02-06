@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.goodskill.mongo.api.SuccessKilledMongoService;
-import com.goodskill.mongo.entity.SuccessKilledDto;
 import com.goodskill.mongo.topic.SeckillMockSaveTopic;
 import com.goodskill.mongo.vo.SeckillMockSaveVo;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +35,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -47,7 +45,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -187,9 +184,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         long count = successKilledMapper.selectCount(new QueryWrapper<>(example));
         if (count == 0) {
             try {
-                SuccessKilledDto successKilledDto = new SuccessKilledDto();
-                successKilledDto.setSeckillId(BigInteger.valueOf(seckillId));
-                count = successKilledMongoService.count(successKilledDto);
+                count = successKilledMongoService.count(seckillId);
             } catch (Exception e) {
                 log.error("mongo服务不可用，请检查！", e);
                 throw e;
@@ -210,11 +205,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         this.deleteSuccessKillRecord(seckillId);
         redisService.removeSeckill(seckillId);
         Seckill seckill = redisService.getSeckill(seckillId);
-        ValueOperations valueOperations = redisTemplate.opsForValue();
-        valueOperations.increment(seckillId);
-        while (valueOperations.decrement(seckillId) > 1) {
-            valueOperations.decrement(seckillId);
-        }
+        redisTemplate.delete(seckillId);
         seckill.setStatus(SeckillStatusConstant.IN_PROGRESS);
         redisService.putSeckill(seckill);
 

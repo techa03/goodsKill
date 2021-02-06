@@ -7,16 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.function.Consumer;
 
 /**
- *
  * @author heng
  */
 @SpringBootApplication
+@EnableReactiveMongoRepositories(basePackages = "com.goodskill.mongo.repository")
 public class MongoReactiveApplication {
 
     @Autowired
