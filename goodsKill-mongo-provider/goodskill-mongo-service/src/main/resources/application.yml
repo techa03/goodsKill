@@ -6,6 +6,14 @@ spring:
   application:
     name: mongo-service-provider
   cloud:
+    function:
+      ## 绑定的消息处理函数名
+      definition: seckillMongoSave
+    stream:
+      default-binder: rabbit
+      bindings:
+        seckillMongoSave-in-0:
+          destination: seckill-mongo-save
     sentinel:
       transport:
         port: 8719
@@ -20,6 +28,7 @@ spring:
             group-id: DEFAULT_GROUP
             rule-type: flow
             server-addr: 127.0.0.1:8848
+
 dubbo:
   protocol:
     name: dubbo
