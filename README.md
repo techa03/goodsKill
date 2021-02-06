@@ -270,6 +270,7 @@ zipkin链路跟踪页面地址: http://localhost:9411/zipkin/
 聊天室功能 | ⏳ |  | 使用netty网络通信，maven分支已经实现，master分支待集成 |
 前后端分离 | ⏳ | | 目前前后端全部放在gooskill-web模块，不利于部署
 丰富项目文档 | ⏳ |  |
+集成分布式事务解决方案 | ⏳ | |
 
 ### API接口
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png)
@@ -306,7 +307,7 @@ zipkin链路跟踪页面地址: http://localhost:9411/zipkin/
 ![image](./doc/shortcut/模拟秒杀接口测试.gif)
 
 ## 📑数据库表结构
-![image](model_table.png)
+![image](doc/model_table.png)
 
 ## 📖参考文档
 - 解决Docker容器连接 Kafka 连接失败问题：https://www.cnblogs.com/hellxz/p/why_cnnect_to_kafka_always_failure.html
