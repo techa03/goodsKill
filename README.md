@@ -128,7 +128,7 @@ goodsKill
 
   镜像 | 版本 | 端口 | 用户名密码
   ---|---|---|---
-  Nacos | 1.3.2 | 8848 | 无
+  Nacos | 1.4.1 | 8848 | 无
   Redis | latest | 6379 | 无
   Kafka | 2.13-2.7.0 | 9092 | 无
   KafkaManager | latest | 9000 | 无
@@ -234,16 +234,18 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 ## 🔥🔥秒杀方案
 目前实现了几种秒杀方案，通过`SeckillMockController`提供测试接口
 
-swagger主页测试地址：http://localhost:8080/goodskill/swagger-ui.html#/
+swagger主页测试地址: http://localhost:8080/goodskill/swagger-ui.html#/
 
-swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
+swagger增强主页测试地址: http://localhost:8080/goodskill/doc.html
 
 kafka状态监控页面地址: http://localhost:9000
+
+zipkin链路跟踪页面地址: http://localhost:9411/zipkin/
 
 - 场景一：sychronized同步锁实现
 - 场景二：redisson分布式锁实现
 - 场景三：ActiveMQ实现(已废弃)
-- 场景四：Kafka实现
+- 场景四：Kafka消息队列实现
 - 场景五：数据库原子性更新
 - 场景六：实时等待秒杀处理结果(已废弃)
 - 场景七：zookeeper分布式锁
