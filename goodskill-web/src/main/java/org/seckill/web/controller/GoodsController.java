@@ -8,11 +8,9 @@ import org.seckill.api.service.SeckillService;
 import org.seckill.entity.Goods;
 import org.seckill.entity.Seckill;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,12 +33,11 @@ public class GoodsController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @GlobalTransactional(rollbackFor = Exception.class)
     public String add(Goods goods, @RequestParam("file") CommonsMultipartFile file) {
-        goods.setCreateTime(new Date());
-        goodsService.addGoods(goods, file.getBytes());
         Seckill seckill = new Seckill();
         seckill.setSeckillId(1234L);
         seckill.setName("1");
         seckill.setNumber(1);
+        seckillService.save(seckill);
         seckillService.save(seckill);
         if (true) {
             throw new RuntimeException();
