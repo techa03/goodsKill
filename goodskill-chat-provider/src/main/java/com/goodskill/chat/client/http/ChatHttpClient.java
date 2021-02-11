@@ -34,6 +34,7 @@ public class ChatHttpClient extends ChatClient {
                 channel = initConnection();
             } catch (InterruptedException e) {
                 e.printStackTrace();
+		Thread.currentThread().interrupt();
             }
         }
 
