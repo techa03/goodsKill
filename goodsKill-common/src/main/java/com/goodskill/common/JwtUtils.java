@@ -1,4 +1,8 @@
 package com.goodskill.common;
+import MalformedJwtException;
+import ExpiredJwtException;
+import Jwts;
+import UnsupportedJwtException;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
@@ -23,7 +27,7 @@ public class JwtUtils {
     /**
      * 过期时间（毫秒单位）
      */
-    private final static long TOKEN_EXPIRE_MILLIS = 1000 * 60 * 60 * 24;
+    private final static long TOKEN_EXPIRE_MILLIS = ((1000l * 60) * 60) * 24;
 
     /**
      * 创建token
