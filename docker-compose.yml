@@ -277,6 +277,7 @@ services:
       - redis
       - nacos
       - zipkin
+      - seata-server
     networks:
       - somenetwork
 
@@ -308,6 +309,17 @@ services:
     depends_on:
       - nacos
       - zipkin
+    networks:
+      - somenetwork
+
+  goodsseata:
+    build: ./goodskill-seata
+    container_name: goodsseata
+    restart: on-failure:3
+    volumes:
+      - /logs/goods-seata/:/logs/goodsKill
+    depends_on:
+      - seata-server
     networks:
       - somenetwork
 

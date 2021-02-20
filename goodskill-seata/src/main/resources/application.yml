@@ -1,3 +1,14 @@
+spring:
+  profiles:
+    active: docker
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  cloud:
+    nacos:
+      server-addr: nacos:8848
 dubbo:
   application:
     id: goodskill-seata

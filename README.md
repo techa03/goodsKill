@@ -57,6 +57,7 @@ Spring Cloud Sentinel | SpringCloud限流降级组件 | [https://spring.io/proje
 Spring Cloud Nacos | SpringCloud组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
 Spring Cloud Gateway | SpringCloud网关组件 | [https://spring.io/projects/spring-cloud-gateway](https://spring.io/projects/spring-cloud-gateway)
 Kotlin | Kotlin | [https://kotlinlang.org/](https://kotlinlang.org/)
+Seata | 分布式事务解决方案 | [http://seata.io/zh-cn/index.html](http://seata.io/zh-cn/index.html)
 
 ### 📌前端技术:
 技术 | 名称 | 官网
@@ -87,6 +88,7 @@ goodsKill
 |--goodskill-spring-boot-starter            ||项目配置自动装配
 |--goodskill-web                            ||提供页面客户端访问，controller层在这一模块   
 |--goodskill-job                            ||elastic-job定时任务 
+|--goodskill-seata                          ||集成nacos+dubbo+shardingjdbc+seata的分布式解决方案示例
 ```
 
 ## 🧰开发环境版本说明
@@ -102,6 +104,7 @@ goodsKill
 - SpringCloudAlibaba: 2.2.5.RELEASE
 - Kotlin: 1.4.21
 - NacosServer: 1.4.1
+- SeataServer: 1.4.1
 
 ## 🕹️️如何启动项目
 > #### 方法一：使用Docker镜像构建脚本
@@ -139,6 +142,7 @@ goodsKill
   Kibana | 7.10.1 | 5601 | 无
   RabbitMQ | latest | 5672 15672 | 无
   Zipkin | latest | 9411 | 无
+  SeataServer | latest | 8091
 
 
 **注**:除以上镜像外，<code>docker-compose.yml</code>文件还包含项目构建命令，目前暂未列出。

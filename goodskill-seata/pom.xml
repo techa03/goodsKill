@@ -70,6 +70,7 @@
     </dependencies>
 
     <build>
+        <finalName>goodskill-seata</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
