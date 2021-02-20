@@ -243,6 +243,7 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 - http://localhost/goodskill/mongo 对应`goodsKill-mongo-provider`服务
 - http://localhost/goodskill/es 对应`goodsKill-es-provider`服务
 - http://localhost/goodskill/seata 对应`goodskill-seata`服务
+
 - http://localhost/goodskill 对应`goodsKill-service-provider`服务
 
 - 通过[http://localhost/goodskill/token](http://localhost/goodskill/token)接口获取token
