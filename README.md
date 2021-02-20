@@ -179,6 +179,11 @@ docker-compose -f goodskill-simple.yml up -d
 
 - 如已安装MongoDB，可以main方法启动<code>MongoReactiveApplication</code>，通过使用该服务操作mongo库
 
+- main方法启动<code>GoodskillSeataApplication</code>，运行前需启动seata-server服务，并配置nacos为注册中心和配置中心，另外还需在nacos控制台中增加以下配置（group需配置为SEATA_GROUP）
+  ```
+  service.vgroupMapping.my_test_tx_group=default
+  store.mode=file
+  ```
 > #### ⚠导入项目数据库基础数据 ️
 
 - 找到<code>seckill.sql</code>文件，在本地mysql数据库中建立<code>seckill</code>仓库并执行完成数据初始化操作
@@ -237,6 +242,7 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 ## 🔖服务网关说明
 - http://localhost/goodskill/mongo 对应`goodsKill-mongo-provider`服务
 - http://localhost/goodskill/es 对应`goodsKill-es-provider`服务
+- http://localhost/goodskill/seata 对应`goodskill-seata`服务
 - http://localhost/goodskill 对应`goodsKill-service-provider`服务
 
 - 通过[http://localhost/goodskill/token](http://localhost/goodskill/token)接口获取token
