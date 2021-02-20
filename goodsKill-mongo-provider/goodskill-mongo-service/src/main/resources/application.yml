@@ -2,7 +2,7 @@ server:
   port: 0
 spring:
   profiles:
-    active: dev
+    active: docker
   application:
     name: mongo-service-provider
   cloud:

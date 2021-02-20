@@ -161,8 +161,15 @@ docker-compose -f goodskill-simple.yml up -d
 
 - 找到<code>GoodsKillRpcServiceApplication</code>类main方法启动远程服务，并且需要在host中加入以下信息
      ```
-     127.0.0.1 kafka
-     127.0.0.1 nacos
+     127.0.0.1       kafka
+     127.0.0.1       nacos
+     127.0.0.1       redis
+     127.0.0.1       mysql
+     127.0.0.1       zookeeper
+     127.0.0.1       mongo
+     127.0.0.1       elasticsearch
+     127.0.0.1       rabbitmq
+     127.0.0.1       zipkin
      ```
 
 - 进入<code>goodsKill-web</code>模块根目录，运行命令或直接通过<code>SampleWebJspApplication</code>类main方法启动

@@ -320,6 +320,7 @@ services:
       - /logs/goods-seata/:/logs/goodsKill
     depends_on:
       - seata-server
+      - goodsservice
     networks:
       - somenetwork
 
