@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: dev
+    active: docker
   application:
     name: goodskill-service-provider
   kafka:
@@ -19,6 +19,11 @@ spring:
   data:
     mongodb:
       database: test
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: Password123
   shardingsphere:
     datasource:
       names: ds0,ds1
@@ -99,35 +104,28 @@ pagehelper:
   params: count=countSql
   reasonable: true
   supportMethodsArguments: true
----
 
-######################本地开发环境配置#####################
-spring:
-  redis:
-    host: localhost
-    port: 6379
-  kafka:
-    bootstrap-servers: localhost:9092
-  shardingsphere:
-    datasource:
-      ds0:
-        password: Password123
-        jdbcUrl: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
-        username: root
-      ds1:
-        password: Password123
-        jdbcUrl: jdbc:mysql://localhost:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
-        username: root
+seata:
+  enabled: true
+  application-id: goodskill-service-provider
+  tx-service-group: my_test_tx_group
   config:
-    activate:
-      on-profile: dev
-dubbo:
+    type: nacos
+    nacos:
+      namespace:
+      serverAddr: nacos:8848
+      group: SEATA_GROUP
+      username: "nacos"
+      password: "nacos"
   registry:
-    address: spring-cloud://localhost
-  provider:
-    timeout: 30000
-
-zookeeper_ip: 127.0.0.1:2181
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: nacos:8848
+      group: SEATA_GROUP
+      namespace:
+      username: "nacos"
+      password: "nacos"
 ---
 ######################docker环境配置#####################
 spring:

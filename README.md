@@ -57,6 +57,7 @@ Spring Cloud Sentinel | SpringCloud限流降级组件 | [https://spring.io/proje
 Spring Cloud Nacos | SpringCloud组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
 Spring Cloud Gateway | SpringCloud网关组件 | [https://spring.io/projects/spring-cloud-gateway](https://spring.io/projects/spring-cloud-gateway)
 Kotlin | Kotlin | [https://kotlinlang.org/](https://kotlinlang.org/)
+Seata | 分布式事务解决方案 | [http://seata.io/zh-cn/index.html](http://seata.io/zh-cn/index.html)
 
 ### 📌前端技术:
 技术 | 名称 | 官网
@@ -87,6 +88,7 @@ goodsKill
 |--goodskill-spring-boot-starter            ||项目配置自动装配
 |--goodskill-web                            ||提供页面客户端访问，controller层在这一模块   
 |--goodskill-job                            ||elastic-job定时任务 
+|--goodskill-seata                          ||集成nacos+dubbo+shardingjdbc+seata的分布式解决方案示例
 ```
 
 ## 🧰开发环境版本说明
@@ -102,6 +104,7 @@ goodsKill
 - SpringCloudAlibaba: 2.2.5.RELEASE
 - Kotlin: 1.4.21
 - NacosServer: 1.4.1
+- SeataServer: 1.4.1
 
 ## 🕹️️如何启动项目
 > #### 方法一：使用Docker镜像构建脚本
@@ -139,6 +142,7 @@ goodsKill
   Kibana | 7.10.1 | 5601 | 无
   RabbitMQ | latest | 5672 15672 | 无
   Zipkin | latest | 9411 | 无
+  SeataServer | latest | 8091
 
 
 **注**:除以上镜像外，<code>docker-compose.yml</code>文件还包含项目构建命令，目前暂未列出。
@@ -157,8 +161,15 @@ docker-compose -f goodskill-simple.yml up -d
 
 - 找到<code>GoodsKillRpcServiceApplication</code>类main方法启动远程服务，并且需要在host中加入以下信息
      ```
-     127.0.0.1 kafka
-     127.0.0.1 nacos
+     127.0.0.1       kafka
+     127.0.0.1       nacos
+     127.0.0.1       redis
+     127.0.0.1       mysql
+     127.0.0.1       zookeeper
+     127.0.0.1       mongo
+     127.0.0.1       elasticsearch
+     127.0.0.1       rabbitmq
+     127.0.0.1       zipkin
      ```
 
 - 进入<code>goodsKill-web</code>模块根目录，运行命令或直接通过<code>SampleWebJspApplication</code>类main方法启动
@@ -168,6 +179,11 @@ docker-compose -f goodskill-simple.yml up -d
 
 - 如已安装MongoDB，可以main方法启动<code>MongoReactiveApplication</code>，通过使用该服务操作mongo库
 
+- main方法启动<code>GoodskillSeataApplication</code>，运行前需启动seata-server服务，并配置nacos为注册中心和配置中心，另外还需在nacos控制台中增加以下配置（group需配置为SEATA_GROUP）
+  ```
+  service.vgroupMapping.my_test_tx_group=default
+  store.mode=file
+  ```
 > #### ⚠导入项目数据库基础数据 ️
 
 - 找到<code>seckill.sql</code>文件，在本地mysql数据库中建立<code>seckill</code>仓库并执行完成数据初始化操作
@@ -226,6 +242,8 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 ## 🔖服务网关说明
 - http://localhost/goodskill/mongo 对应`goodsKill-mongo-provider`服务
 - http://localhost/goodskill/es 对应`goodsKill-es-provider`服务
+- http://localhost/goodskill/seata 对应`goodskill-seata`服务
+
 - http://localhost/goodskill 对应`goodsKill-service-provider`服务
 
 - 通过[http://localhost/goodskill/token](http://localhost/goodskill/token)接口获取token
@@ -234,16 +252,18 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 ## 🔥🔥秒杀方案
 目前实现了几种秒杀方案，通过`SeckillMockController`提供测试接口
 
-swagger主页测试地址：http://localhost:8080/goodskill/swagger-ui.html#/
+swagger主页测试地址: http://localhost:8080/goodskill/swagger-ui.html#/
 
-swagger增强主页测试地址：http://localhost:8080/goodskill/doc.html
+swagger增强主页测试地址: http://localhost:8080/goodskill/doc.html
 
 kafka状态监控页面地址: http://localhost:9000
+
+zipkin链路跟踪页面地址: http://localhost:9411/zipkin/
 
 - 场景一：sychronized同步锁实现
 - 场景二：redisson分布式锁实现
 - 场景三：ActiveMQ实现(已废弃)
-- 场景四：Kafka实现
+- 场景四：Kafka消息队列实现
 - 场景五：数据库原子性更新
 - 场景六：实时等待秒杀处理结果(已废弃)
 - 场景七：zookeeper分布式锁
@@ -265,6 +285,7 @@ kafka状态监控页面地址: http://localhost:9000
 基于配置中心改造项目配置| ✅ | 2020.7 | 支付宝配置保存于nacos配置中心，防止配置泄露
 新版支付宝SDK集成 | ✅ | 2020.7 | 使用当面扫完成付款
 完善jwt用户鉴权，并提供通用服务接口 | ✅ | 2020.12 |
+集成分布式事务解决方案 | ✅ | 2021.2 |
 聊天室功能 | ⏳ |  | 使用netty网络通信，maven分支已经实现，master分支待集成 |
 前后端分离 | ⏳ | | 目前前后端全部放在gooskill-web模块，不利于部署
 丰富项目文档 | ⏳ |  |
@@ -304,7 +325,7 @@ kafka状态监控页面地址: http://localhost:9000
 ![image](./doc/shortcut/模拟秒杀接口测试.gif)
 
 ## 📑数据库表结构
-![image](model_table.png)
+![image](doc/model_table.png)
 
 ## 📖参考文档
 - 解决Docker容器连接 Kafka 连接失败问题：https://www.cnblogs.com/hellxz/p/why_cnnect_to_kafka_always_failure.html

@@ -162,6 +162,11 @@
 				<version>${shardingsphere.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.apache.shardingsphere</groupId>
+				<artifactId>sharding-transaction-base-seata-at</artifactId>
+				<version>${shardingsphere.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>com.h2database</groupId>
 				<artifactId>h2</artifactId>
 				<version>1.4.199</version>
@@ -181,6 +186,12 @@
 				<groupId>cn.hutool</groupId>
 				<artifactId>hutool-all</artifactId>
 				<version>${hutool.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<!--8.0.22以上版本驱动与shardingjdbc不兼容,此处使用低版本-->
+				<version>8.0.21</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -1,5 +1,6 @@
 package org.seckill.service;
 
+import com.alibaba.cloud.seata.feign.SeataFeignClientAutoConfiguration;
 import com.goodskill.mongo.topic.SeckillMockSaveTopic;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author techa
  */
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, SeataFeignClientAutoConfiguration.class})
 @ImportResource(value = {
         "classpath*:META-INF/spring/spring-dao.xml"})
 @EnableTransactionManagement

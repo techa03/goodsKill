@@ -17,6 +17,7 @@
 		<module>goodsKill-es-provider</module>
         <module>goodskill-job</module>
 		<module>goodskill-gateway</module>
+		<module>goodskill-seata</module>
 	</modules>
 
 	<properties>
@@ -78,7 +79,7 @@
 			<plugin>
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
-				<version>3.6.0.1398</version>
+				<version>3.8.0.2131</version>
 			</plugin>
 		</plugins>
 		<pluginManagement>
@@ -86,7 +87,7 @@
 				<plugin>
 					<groupId>org.sonarsource.scanner.maven</groupId>
 					<artifactId>sonar-maven-plugin</artifactId>
-					<version>3.6.0.1398</version>
+					<version>3.8.0.2131</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

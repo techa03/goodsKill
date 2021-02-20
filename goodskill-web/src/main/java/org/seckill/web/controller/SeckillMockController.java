@@ -182,7 +182,6 @@ public class SeckillMockController {
     @ApiOperation(value = "秒杀场景六(返回执行结果的秒杀,30秒超时,activeMq实现)")
     @RequestMapping(value = "/activemq/reply/{seckillId}", method = POST, produces = {
             "application/json;charset=UTF-8"})
-    @ResponseBody
     @Deprecated
     public SeckillResult doWithActiveMqMessageWithReply(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "userPhone") String userPhone) {
         return SeckillResult.ok();
@@ -196,7 +195,6 @@ public class SeckillMockController {
     @ApiOperation(value = "秒杀场景七(zookeeper分布式锁)")
     @RequestMapping(value = "/zookeeperLock", method = POST, produces = {
             "application/json;charset=UTF-8"})
-    @ResponseBody
     public SeckillResult doWithZookeeperLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
@@ -220,7 +218,6 @@ public class SeckillMockController {
     @ApiOperation(value = "秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)")
     @RequestMapping(value = "/redisReactiveMongo", method = POST, produces = {
             "application/json;charset=UTF-8"})
-    @ResponseBody
     public SeckillResult redisReactiveMongo(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();

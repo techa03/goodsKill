@@ -1,5 +1,6 @@
 package org.seckill.web;
 
+import com.alibaba.cloud.seata.feign.SeataFeignClientAutoConfiguration;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
@@ -18,7 +19,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  *
  * @author heng
  */
-@SpringBootApplication(exclude = {MongoAutoConfiguration.class})
+@SpringBootApplication(exclude = {SeataFeignClientAutoConfiguration.class})
 @ImportResource(value = {"classpath*:META-INF/spring/spring-web.xml", "classpath*:META-INF/spring/spring-shiro-web.xml"})
 @EnableBinding(value = {Source.class})
 @EnableDiscoveryClient

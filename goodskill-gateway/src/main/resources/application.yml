@@ -1,6 +1,8 @@
 server:
   port: 80
 spring:
+  profiles:
+    active: docker
   application:
     name: goodskill-gateway
   cloud:
@@ -29,11 +31,6 @@ management:
     web:
       exposure:
         include: '*'
----
-spring:
-  config:
-    activate:
-      on-profile: dev
 ---
 spring:
   config:
