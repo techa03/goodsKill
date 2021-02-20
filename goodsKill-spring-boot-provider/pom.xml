@@ -187,6 +187,12 @@
 				<artifactId>hutool-all</artifactId>
 				<version>${hutool.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<!--8.0.22以上版本驱动与shardingjdbc不兼容,此处使用低版本-->
+				<version>8.0.21</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

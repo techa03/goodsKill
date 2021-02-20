@@ -239,6 +239,19 @@ ADD COLUMN `server_ip` VARCHAR(200) NULL AFTER `create_time`,
 ADD COLUMN `user_ip` VARCHAR(200) NULL AFTER `server_ip`,
 ADD COLUMN `user_id` VARCHAR(45) NULL AFTER `user_ip`;
 
+CREATE TABLE `undo_log` (
+                            `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                            `branch_id` bigint(20) NOT NULL,
+                            `xid` varchar(100) NOT NULL,
+                            `context` varchar(128) NOT NULL,
+                            `rollback_info` longblob NOT NULL,
+                            `log_status` int(11) NOT NULL,
+                            `log_created` datetime NOT NULL,
+                            `log_modified` datetime NOT NULL,
+                            `ext` varchar(100) DEFAULT NULL,
+                            PRIMARY KEY (`id`),
+                            UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 create schema seckill_01 collate utf8mb4_0900_ai_ci;
 

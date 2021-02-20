@@ -223,6 +223,21 @@ services:
     networks:
       - somenetwork
 
+  seata-server:
+    image: seataio/seata-server
+    container_name: seata
+    hostname: seata-server
+    ports:
+      - "8091:8091"
+    environment:
+      - SEATA_PORT=8091
+      - STORE_MODE=file
+      - SEATA_CONFIG_NAME=file:/root/seata-config/registry.conf
+    volumes:
+      - ./seata/config:/root/seata-config
+    networks:
+      - somenetwork
+
   goodses:
     build: ./goodsKill-es-provider
     container_name: goodses
