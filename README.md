@@ -174,7 +174,7 @@ docker-compose -f goodskill-simple.yml up -d
 
 - 进入<code>goodsKill-web</code>模块根目录，运行命令或直接通过<code>SampleWebJspApplication</code>类main方法启动
      ```
-    mvn spring-boot:run -Dspring.profiles.active=dev
+    mvn spring-boot:run -Dspring.profiles.active=docker
      ```
 
 - 如已安装MongoDB，可以main方法启动<code>MongoReactiveApplication</code>，通过使用该服务操作mongo库
@@ -185,12 +185,6 @@ docker-compose -f goodskill-simple.yml up -d
 
   **注**:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
 
-- <code>application.yml</code>已包含所有环境配置信息，根据个人需要切换环境配置修改，修改active属性值即可
-     ```
-     spring:
-       profiles:
-         active: dev
-     ```
 - 启动完成后访问登录页面[http://localhost:8080/goodskill/login](http://localhost:8080/goodskill/login)，默认管理员账号admin123，密码：aa123456
 
 > #### 额外功能（可选）
