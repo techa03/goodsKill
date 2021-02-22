@@ -11,6 +11,7 @@
     <artifactId>goodskill-seata</artifactId>
     <version>${goodsKill.version}</version>
     <name>goodskill-seata</name>
+    <packaging>jar</packaging>
 
     <properties>
         <java.version>11</java.version>
