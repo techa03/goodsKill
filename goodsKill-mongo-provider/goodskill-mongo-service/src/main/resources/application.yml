@@ -1,5 +1,6 @@
 server:
   port: 0
+  shutdown: graceful
 spring:
   profiles:
     active: docker
