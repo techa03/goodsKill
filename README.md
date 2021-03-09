@@ -142,7 +142,7 @@ goodsKill
   Kibana | 7.10.1 | 5601 | 无
   RabbitMQ | latest | 5672 15672 | 无
   Zipkin | latest | 9411 | 无
-  SeataServer | latest | 8091
+  SeataServer | latest | 8091 | 无
 
 
 **注**:除以上镜像外，<code>docker-compose.yml</code>文件还包含项目构建命令，目前暂未列出。
