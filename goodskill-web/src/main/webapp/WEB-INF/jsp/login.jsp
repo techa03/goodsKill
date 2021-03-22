@@ -3,12 +3,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
->
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Insert title here</title>
-
+	<script type="application/javascript">
+		function loginwithGitee() {
+			window.open("http://localhost:8081/oauth2/authorization/gitee");
+		}
+	</script>
 </head>
 <body>
 	<div style="width: 35%; margin: 0 auto;">
@@ -25,6 +28,7 @@
 			</div>
 			<div class="form-group">
 				<button class="btn btn-sm btn-primary btn-block" type="submit">登录</button>
+				<button class="btn btn-sm btn-primary btn-block" type="submit" onclick="loginwithGitee()">Gitee授权登录</button>
 				<a class="btn btn-sm btn-primary btn-block" href="register">注册</a>
 			</div>
 		</form>
