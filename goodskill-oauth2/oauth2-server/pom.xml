@@ -6,9 +6,7 @@
         <groupId>com.goodskill</groupId>
         <artifactId>goodskill-oauth2</artifactId>
         <version>3.0.0-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.goodskill</groupId>
     <artifactId>oauth2-server</artifactId>
     <version>${goodsKill.version}</version>
     <name>oauth2-server</name>
