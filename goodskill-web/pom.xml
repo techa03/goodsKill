@@ -130,6 +130,11 @@
 			<artifactId>goodsKill-common</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.goodskill</groupId>
+			<artifactId>goodskill-spring-boot-starter</artifactId>
+			<version>${goodsKill.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
@@ -264,6 +269,14 @@
 			<groupId>io.seata</groupId>
 			<artifactId>seata-spring-boot-starter</artifactId>
 			<version>1.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 	</dependencies>
 

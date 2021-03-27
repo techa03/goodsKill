@@ -18,6 +18,7 @@
         <module>goodskill-job</module>
 		<module>goodskill-gateway</module>
 		<module>goodskill-seata</module>
+		<module>goodskill-oauth2</module>
 	</modules>
 
 	<properties>

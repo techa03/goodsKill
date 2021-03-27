@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.goodskill.autoconfigure.cache.GkRedissonAutoConfiguration
+  com.goodskill.autoconfigure.cache.GkRedissonAutoConfiguration,\
+    com.goodskill.autoconfigure.oauth2.GkOAuth2ClientAutoConfiguration

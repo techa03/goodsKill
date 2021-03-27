@@ -3,7 +3,7 @@ package org.seckill.service.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.nacos.common.utils.UuidUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.goodskill.common.JwtUtils;
+import com.goodskill.common.util.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
