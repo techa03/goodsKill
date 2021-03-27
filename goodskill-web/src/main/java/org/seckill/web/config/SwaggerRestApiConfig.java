@@ -1,4 +1,4 @@
-package org.seckill.web.swagger;
+package org.seckill.web.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +23,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableKnife4j
 @Import(BeanValidatorPluginsConfiguration.class)
-public class RestApiConfig{
+public class SwaggerRestApiConfig {
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)

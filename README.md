@@ -58,6 +58,7 @@ Spring Cloud Nacos | SpringCloud组件 | [https://spring.io/projects/spring-clou
 Spring Cloud Gateway | SpringCloud网关组件 | [https://spring.io/projects/spring-cloud-gateway](https://spring.io/projects/spring-cloud-gateway)
 Kotlin | Kotlin | [https://kotlinlang.org/](https://kotlinlang.org/)
 Seata | 分布式事务解决方案 | [http://seata.io/zh-cn/index.html](http://seata.io/zh-cn/index.html)
+Spring Security OAuth2.0 | OAuth2.0授权组件 | [https://spring.io/projects/spring-security-oauth](https://spring.io/projects/spring-security-oauth)
 
 ### 📌前端技术:
 技术 | 名称 | 官网
