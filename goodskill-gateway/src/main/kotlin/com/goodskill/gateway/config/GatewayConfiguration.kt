@@ -47,9 +47,9 @@ open class GatewayConfiguration {
             }
             .route { r: PredicateSpec ->
                 r.after(ZonedDateTime.now().plusSeconds(2L)).and()
-                    .path("/goodskill/**")
+                    .path("/goodskill/common/**")
                     .filters { f: GatewayFilterSpec ->
-                        f.stripPrefix(1)
+                        f.stripPrefix(2)
                     }
                     .uri("lb://goodskill-service-provider")
             }

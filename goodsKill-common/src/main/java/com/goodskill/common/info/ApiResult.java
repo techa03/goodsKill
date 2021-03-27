@@ -1,4 +1,4 @@
-package com.goodskill.common;
+package com.goodskill.common.info;
 
 import java.io.Serializable;
 

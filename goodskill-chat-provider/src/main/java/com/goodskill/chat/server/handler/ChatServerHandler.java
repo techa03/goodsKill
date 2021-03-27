@@ -2,7 +2,7 @@ package com.goodskill.chat.server.handler;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.goodskill.chat.dto.ChatMessageDto;
-import com.goodskill.common.JwtUtils;
+import com.goodskill.common.util.JwtUtils;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;

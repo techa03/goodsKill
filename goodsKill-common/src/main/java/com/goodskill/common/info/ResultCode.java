@@ -1,4 +1,4 @@
-package com.goodskill.common;
+package com.goodskill.common.info;
 
 
 /**
@@ -7,6 +7,9 @@ package com.goodskill.common;
  * @since 2020-08-02
  */
 public enum ResultCode {
+    /**
+     *
+     */
     C200(200, "成功"),
     C201(201, "生效数据需同步"),
     C400(400, "数据错误"),

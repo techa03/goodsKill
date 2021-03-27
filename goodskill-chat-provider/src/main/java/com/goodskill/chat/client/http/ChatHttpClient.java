@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.goodskill.chat.client.ChatClient;
 import com.goodskill.chat.common.http.HttpPipelineInitializer;
 import com.goodskill.chat.dto.ChatMessageDto;
-import com.goodskill.common.JwtUtils;
+import com.goodskill.common.util.JwtUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;

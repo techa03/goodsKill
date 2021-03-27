@@ -201,6 +201,20 @@ INSERT INTO `user` VALUES ('14', 'test01', 'fad7b1af11bc7132037e94b8291a5ed3', '
 INSERT INTO `user` VALUES ('15', 'test02', '7dae8fa826b9f038780a288831b52acd', '2018-07-14 21:25:50', '2018-07-14 21:25:50', null, '0');
 INSERT INTO `user` VALUES ('21', 'admin123', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2018-07-21 21:43:47', '2018-07-21 21:43:47', 'admin123', '0');
 
+DROP TABLE IF EXISTS `user_auth_account`;
+create table if not exists `user_auth_account`
+(
+    id bigint not null
+    primary key,
+    user_id int null comment '用户id',
+    third_account_id varchar(200) null comment '第三方账号id',
+    third_account_name varchar(100) null comment '关联的第三方账户名称',
+    source_type varchar(50) null comment '第三方授权来源',
+    create_time datetime null,
+    update_time datetime null
+    )
+    comment '用户第三方授权账号表';
+
 -- ----------------------------
 -- Table structure for user_role
 -- ----------------------------
