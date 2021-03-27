@@ -1,4 +1,4 @@
-package com.goodskill.common;
+package com.goodskill.common.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;

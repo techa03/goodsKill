@@ -3,13 +3,19 @@ spring:
     active: docker
   application:
     name: goodskill-web
+  #OAuth2.0第三方登录配置
   security:
     oauth2:
       client:
         registration:
+          gitee:
+            ##替换成你自己的App密钥
+            client-id: xxx
+            client-secret: xxx
           github:
-            client-id: Iv1.6e947dcc2e567952
-            client-secret: 22f7918074eb30478fabe63c05a2fcd2f1575e03
+            ##替换成你自己的App密钥
+            client-id: xxx
+            client-secret: xxx
   session:
     redis:
       flush-mode: on_save

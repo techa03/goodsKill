@@ -1,4 +1,4 @@
-package com.goodskill.autoconfigure.auth2;
+package com.goodskill.autoconfigure.oauth2;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;

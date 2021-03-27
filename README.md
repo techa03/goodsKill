@@ -8,7 +8,7 @@
 # 🎉前言
 项目命名为**goodsKill**一方面有商品秒杀项目的意思(好像有点chinglish的味道)，另外也可理解为**good skill**，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来（偏向于后端技术），方便学习和查阅。
 
-本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，采用springcloud dubbo实现服务分布式服务调用，服务注册发现使用nacos server。
+本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证，支持OAuth2.0第三方授权登录（目前可通过Gitee，Github进行授权）。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，采用springcloud dubbo实现服务分布式服务调用，服务注册发现使用nacos server。
 
 本项目扩展了秒杀功能，集成了jmock完成service层的测试，支持数据库分库分表，并提供基本的秒杀解决方案（通过模拟接口实现）。
 
@@ -58,6 +58,7 @@ Spring Cloud Nacos | SpringCloud组件 | [https://spring.io/projects/spring-clou
 Spring Cloud Gateway | SpringCloud网关组件 | [https://spring.io/projects/spring-cloud-gateway](https://spring.io/projects/spring-cloud-gateway)
 Kotlin | Kotlin | [https://kotlinlang.org/](https://kotlinlang.org/)
 Seata | 分布式事务解决方案 | [http://seata.io/zh-cn/index.html](http://seata.io/zh-cn/index.html)
+Spring Security OAuth2.0 | OAuth2.0授权组件 | [https://spring.io/projects/spring-security-oauth](https://spring.io/projects/spring-security-oauth)
 
 ### 📌前端技术:
 技术 | 名称 | 官网
@@ -241,8 +242,7 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 - http://localhost/goodskill/mongo 对应`goodsKill-mongo-provider`服务
 - http://localhost/goodskill/es 对应`goodsKill-es-provider`服务
 - http://localhost/goodskill/seata 对应`goodskill-seata`服务
-
-- http://localhost/goodskill 对应`goodsKill-service-provider`服务
+- http://localhost/goodskill/common 对应`goodsKill-service-provider`服务
 
 - 通过[http://localhost/goodskill/token](http://localhost/goodskill/token)接口获取token
 - 通过[http://localhost/goodskill/refresh](http://localhost/goodskill/refresh)刷新用户token
@@ -287,7 +287,7 @@ zipkin链路跟踪页面地址: http://localhost:9411/zipkin/
 聊天室功能 | ⏳ |  | 使用netty网络通信，maven分支已经实现，master分支待集成 |
 前后端分离 | ⏳ | | 目前前后端全部放在gooskill-web模块，不利于部署
 丰富项目文档 | ⏳ |  | 
-增加OAuth2.0授权登录模块 | ⏳ |  | 开发中
+增加OAuth2.0授权登录模块 | ⏳ |  | 功能完善中
 
 ### API接口
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png)

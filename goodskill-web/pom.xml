@@ -130,6 +130,11 @@
 			<artifactId>goodsKill-common</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.goodskill</groupId>
+			<artifactId>goodskill-spring-boot-starter</artifactId>
+			<version>${goodsKill.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
@@ -265,20 +270,14 @@
 			<artifactId>seata-spring-boot-starter</artifactId>
 			<version>1.4.1</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.webjars</groupId>-->
-<!--			<artifactId>layui</artifactId>-->
-<!--			<version>2.3.0</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>org.webjars</groupId>-->
-<!--			<artifactId>zTree</artifactId>-->
-<!--			<version>3.5.37</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>org.webjars</groupId>-->
-<!--			<artifactId>webjars-locator-core</artifactId>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
