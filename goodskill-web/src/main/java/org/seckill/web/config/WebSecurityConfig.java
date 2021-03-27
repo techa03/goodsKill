@@ -28,5 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             )
             .oauth2Login();
         // @formatter:on
+        // 允许iframe访问
+        http.headers().frameOptions().disable();
     }
 }

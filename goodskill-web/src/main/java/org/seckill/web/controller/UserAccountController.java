@@ -72,11 +72,11 @@ public class UserAccountController {
         return "register";
     }
 
-    @GetMapping(value = "seckill/signOut")
+    @GetMapping(value = "/sign-out")
     public String signOut() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
-        return "redirect:login";
+        return "redirect:/login";
     }
 
 
