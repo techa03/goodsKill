@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
 /**
@@ -49,7 +50,8 @@ public class GeneratorServiceEntity {
                 .setEnableCache(false)
                 .setBaseResultMap(false)
                 .setOutputDir("C:\\Users\\heng\\IdeaProjects\\1\\goodsKill\\goodsKill-spring-boot-provider\\goodsKill-mp-dao\\src\\main\\java")
-                .setFileOverride(true);
+                .setFileOverride(true)
+                .setDateType(DateType.ONLY_DATE);
         if (!serviceNameStartWithI) {
             config.setServiceName("");
         }

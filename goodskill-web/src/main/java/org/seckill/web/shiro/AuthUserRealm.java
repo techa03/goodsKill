@@ -1,29 +1,36 @@
-package org.seckill.web.util;
+package org.seckill.web.shiro;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.seckill.api.service.UserAccountService;
+import org.seckill.api.service.UserAuthAccountService;
+import org.seckill.api.user.bo.UserBo;
 import org.seckill.entity.Permission;
 import org.seckill.entity.Role;
-import org.seckill.entity.User;
 
 import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * 通过第三方网站进行身份认证
+ *
  * @author heng
  */
-public class UserRealm extends AuthorizingRealm {
+public class AuthUserRealm extends AuthorizingRealm {
     /**
      *  用户对应的角色信息与权限信息都保存在数据库中，通过UserService获取数据
      */
     @DubboReference
     private UserAccountService userService;
+
+    @DubboReference
+    private UserAuthAccountService userAuthAccountService;
 
     /**
      * 提供用户信息返回权限信息
@@ -57,18 +64,17 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        String userAccount = (String) token.getPrincipal();
-        User user = userService.findByUserAccount(userAccount);
-        if (user == null) {
+        char[] charArray = (char[]) token.getCredentials();
+        String authAccount = String.valueOf(charArray);
+        String principal = (String) token.getPrincipal();
+        UserBo user = userAuthAccountService.findByThirdAccount(authAccount, principal.split("-")[1]);
+        if (user == null || (user.getAccount().equals(principal))) {
             // 用户名不存在抛出异常
             throw new UnknownAccountException();
         }
-        if ("1".equals(user.getLocked())) {
-            // 用户被管理员锁定抛出异常
-            throw new LockedAccountException();
-        }
+        String md5 = new SimpleHash("MD5", authAccount, ByteSource.Util.bytes(user.getAccount()), 2).toString();
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user.getAccount(),
-                user.getPassword(), ByteSource.Util.bytes(user.getAccount()), getName());
+                md5, ByteSource.Util.bytes(user.getAccount()), getName());
         return authenticationInfo;
     }
 

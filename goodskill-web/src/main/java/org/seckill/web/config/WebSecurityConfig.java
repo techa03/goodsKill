@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
             )
             .csrf(AbstractHttpConfigurer::disable)
-            .logout(l -> l
+            .logout(l -> l.logoutUrl("/sign-out")
                     .logoutSuccessUrl("/").permitAll()
             )
             .oauth2Login();
