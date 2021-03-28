@@ -298,7 +298,7 @@ zipkin链路跟踪页面地址: http://localhost:9411/zipkin/
 ## 💻页面展示
 
 #### 登录：
-![image](./doc/shortcut/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215746.png)
+![image](./doc/shortcut/img.png)
 
 #### 注册：
 ![image](./doc/shortcut/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215804.png)

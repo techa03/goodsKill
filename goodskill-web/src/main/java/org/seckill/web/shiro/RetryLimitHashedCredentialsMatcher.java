@@ -1,4 +1,4 @@
-package org.seckill.web.util;
+package org.seckill.web.shiro;
 
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
