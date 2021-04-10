@@ -1,0 +1,73 @@
+version: '3.4'
+services:
+  master:
+    image: redis
+    container_name: redis-master
+    restart: always
+    command: redis-server --port 6379
+    ports:
+      - "6379:6379"
+    networks:
+      - somenetwork
+
+  slave1:
+    image: redis
+    container_name: redis-slave-1
+    restart: always
+    ports:
+      - "6380:6380"
+    command: redis-server --slaveof master 6379 --port 6380
+    networks:
+      - somenetwork
+
+  slave2:
+    image: redis
+    container_name: redis-slave-2
+    restart: always
+    ports:
+      - "6381:6381"
+    command: redis-server --slaveof master 6379 --port 6381
+    networks:
+      - somenetwork
+
+
+  sentinel1:
+    image: redis
+    container_name: redis-sentinel-1
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    restart: always
+    ports:
+      - "26379:26379"
+    networks:
+      - somenetwork
+    volumes:
+      - ./sentinel1.conf:/usr/local/etc/redis/sentinel.conf
+
+  sentinel2:
+    image: redis
+    container_name: redis-sentinel-2
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    restart: always
+    ports:
+      - "26380:26380"
+    networks:
+      - somenetwork
+    volumes:
+      - ./sentinel2.conf:/usr/local/etc/redis/sentinel.conf
+
+  sentinel3:
+    image: redis
+    container_name: redis-sentinel-3
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    restart: always
+    ports:
+      - "26381:26381"
+    networks:
+      - somenetwork
+    volumes:
+      - ./sentinel3.conf:/usr/local/etc/redis/sentinel.conf
+
+
+networks:
+  somenetwork:
+    driver: bridge
