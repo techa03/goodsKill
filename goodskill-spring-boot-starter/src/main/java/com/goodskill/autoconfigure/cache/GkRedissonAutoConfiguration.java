@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @ConditionalOnClass(RedissonClient.class)
 @Configuration(proxyBeanMethods = false)
+@Deprecated(forRemoval = true)
 public class GkRedissonAutoConfiguration {
 
     @Bean
