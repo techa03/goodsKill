@@ -312,17 +312,17 @@ services:
     networks:
       - somenetwork
 
-  goodsseata:
-    build: ./goodskill-seata
-    container_name: goodsseata
-    restart: on-failure:3
-    volumes:
-      - /logs/goods-seata/:/logs/goodsKill
-    depends_on:
-      - seata-server
-      - goodsservice
-    networks:
-      - somenetwork
+#  goodsseata:
+#    build: ./goodskill-seata
+#    container_name: goodsseata
+#    restart: on-failure:3
+#    volumes:
+#      - /logs/goods-seata/:/logs/goodsKill
+#    depends_on:
+#      - seata-server
+#      - goodsservice
+#    networks:
+#      - somenetwork
 
 networks:
   somenetwork:
