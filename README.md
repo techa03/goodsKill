@@ -73,19 +73,19 @@ goodsKill
 |--goodskill-chat-provider                  ||聊天室服务提供者（待完成）
 |--goodsKill-common                         ||项目公共服务（待补充）
 |--goodskill-gateway                        ||微服务网关
-|--goodsKill-es-provider                    ||elasticsearch搜索服务提供者，目前提供根据商品名称检索商品库
+|--goodsKill-es-provider                    ||elasticsearch搜索服务提供者，提供商品名称检索功能
 |   |--goodskill-es-api                     
 |   |--goodskill-es-dao                     
 |   |--goodskill-es-service                 
 |--goodsKill-mongo-provider                 ||mongo存储服务提供者
 |   |--goodskill-mongo-service              
 |--goodsKill-spring-boot-provider           ||订单、用户、登录、商品管理服务提供者（待拆分）
-|   |--goodsKill-api
-|   |--goodsKill-mp-dao                     ||使用MyBatis-Plus访问MySql数据源  
-|   |--goodsKill-entry                      
-|   |--goodsKill-generator                  
-|   |--goodsKill-service                    
-|   |--goodsKill-util                       
+|   |--goodsKill-api                        ||提供服务API接口
+|   |--goodsKill-mp-dao                     ||数据库访问  
+|   |--goodsKill-entry                      ||实体类
+|   |--goodsKill-generator                  ||项目代码生成
+|   |--goodsKill-service                    ||服务API接口实现
+|   |--goodsKill-util                       ||工具类
 |--goodskill-spring-boot-starter            ||项目配置自动装配
 |--goodskill-web                            ||提供页面客户端访问，controller层在这一模块   
 |--goodskill-job                            ||elastic-job定时任务 
@@ -105,7 +105,7 @@ goodsKill
 - RabbitMQ: 3.8.5+
 - SpringCloud: 2020.0.x
 - SpringBoot: 2.4.x
-- SpringCloudAlibaba: 2.2.5.RELEASE
+- SpringCloudAlibaba: 2021.x
 - Kotlin: 1.4.21
 - NacosServer: 1.4.1
 - SeataServer: 1.4.1
@@ -218,6 +218,11 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
   出现此问题一般为linux环境，运行以下命令即可
   ```
   sysctl -w vm.max_map_count=262144
+  ```
+  或者修改/etc/sysctl.conf文件，追加以下配置：
+  ```
+  grep vm.max_map_count /etc/sysctl.conf
+  vm.max_map_count=262144
   ```
 - 新版支付宝SDK已集成，使用时需将`AlipayRunner`中的alipay对应配置替换成你的支付宝应用配置（本项目基于沙箱环境）
 ```
