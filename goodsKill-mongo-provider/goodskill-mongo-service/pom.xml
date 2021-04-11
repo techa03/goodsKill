@@ -78,6 +78,12 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
         </dependency>
+        <!--升级到springboot2.4需要增加以下依赖，否则nacos无法拉取配置-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+        <!--升级到springboot2.4需要增加以下依赖，否则nacos无法拉取配置END-->
     </dependencies>
     <build>
         <finalName>goodsKill-mongo-service</finalName>
