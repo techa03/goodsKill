@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(GkDatasourceProperties.class)
+@Deprecated(forRemoval = true)
 public class GkDatasourceAutoConfiguration {
 
     @Bean

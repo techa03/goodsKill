@@ -3,6 +3,7 @@ package com.goodskill.autoconfigure.datasource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "spring.shardingsphere.datasource")
+@Deprecated(forRemoval = true)
 public class GkDatasourceProperties {
 
     private Ds0 ds0 = new Ds0();

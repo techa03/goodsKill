@@ -132,6 +132,19 @@ spring:
   redis:
     host: redis
     port: 6379
+##下面是redis哨兵模式的配置信息
+#    redisson:
+#      config: |
+#        sentinelServersConfig:
+#          checkSentinelsList: false
+#          masterName: mymaster
+#          sentinelAddresses:
+#          - "redis://127.0.0.1:26379"
+#          - "redis://127.0.0.1:26380"
+#          - "redis://127.0.0.1:26381"
+#    sentinel:
+#      master: mymaster
+#      nodes: 127.0.0.1:26379,127.0.0.1:26380,127.0.0.1:26381
   kafka:
     bootstrap-servers: kafka:9092
   shardingsphere:
@@ -169,3 +182,7 @@ dubbo:
     timeout: 30000
 
 zookeeper_ip: zookeeper:2181
+
+
+
+
