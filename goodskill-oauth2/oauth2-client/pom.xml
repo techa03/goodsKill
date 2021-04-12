@@ -10,7 +10,6 @@
     </parent>
     <artifactId>oauth2-client</artifactId>
     <version>${goodsKill.version}</version>
-    <name>oauth2-server</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
