@@ -42,10 +42,10 @@
         <property name="unauthorizedUrl" value="/" />
         <property name="filterChainDefinitions">
             <value>
-<!--                /seckill/admin/** = roles[管理员]-->
-<!--                /html/admin/** = roles[管理员]-->
-<!--                /seckill/** = authc-->
-<!--                /** = anon-->
+                /seckill/admin/** = roles[管理员]
+                /html/admin/** = roles[管理员]
+                /seckill/** = authc
+                /** = anon
             </value>
         </property>
     </bean>

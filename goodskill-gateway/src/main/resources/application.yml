@@ -1,5 +1,5 @@
 server:
-  port: 81
+  port: 80
 spring:
   profiles:
     active: docker
