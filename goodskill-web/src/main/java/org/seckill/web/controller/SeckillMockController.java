@@ -10,6 +10,7 @@ import org.seckill.api.dto.SeckillResult;
 import org.seckill.api.service.SeckillService;
 import org.seckill.entity.Seckill;
 import org.seckill.web.dto.SeckillWebMockRequestDTO;
+import org.seckill.web.util.TaskTimeCaculateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -59,19 +60,11 @@ public class SeckillMockController {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
-        prepareSeckill(seckillId, seckillCount);
+        prepareSeckill(seckillId, seckillCount, SYCHRONIZED.getName());
         log.info(SYCHRONIZED.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         seckillService.execute(new SeckillMockRequestDto(seckillId, requestCount, null), SYCHRONIZED.getCode());
         return SeckillResult.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
-    }
-
-    /**
-     * @param seckillId
-     * @param seckillCount
-     */
-    private void prepareSeckill(Long seckillId, int seckillCount) {
-        seckillService.prepareSeckill(seckillId, seckillCount);
     }
 
     /**
@@ -88,7 +81,7 @@ public class SeckillMockController {
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
         // 初始化库存数量
-        prepareSeckill(seckillId, seckillCount);
+        prepareSeckill(seckillId, seckillCount, REDISSION_LOCK.getName());
         log.info(REDISSION_LOCK.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
@@ -131,7 +124,7 @@ public class SeckillMockController {
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
         // 初始化库存数量
-        prepareSeckill(seckillId, seckillCount);
+        prepareSeckill(seckillId, seckillCount, KAFKA_MQ.getName());
         log.info(KAFKA_MQ.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
@@ -159,7 +152,7 @@ public class SeckillMockController {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
-        prepareSeckill(seckillId, seckillCount);
+        prepareSeckill(seckillId, seckillCount, ATOMIC_UPDATE.getName());
         log.info(ATOMIC_UPDATE.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
@@ -199,7 +192,7 @@ public class SeckillMockController {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
-        prepareSeckill(seckillId, seckillCount);
+        prepareSeckill(seckillId, seckillCount, ZOOKEEPER_LOCK.getName());
         log.info(ZOOKEEPER_LOCK.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
@@ -222,7 +215,7 @@ public class SeckillMockController {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
-        prepareSeckill(seckillId, seckillCount);
+        prepareSeckill(seckillId, seckillCount, REDIS_MONGO_REACTIVE.getName());
         log.info(REDIS_MONGO_REACTIVE.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         Seckill seckill = new Seckill();
         seckill.setSeckillId(seckillId);
@@ -257,7 +250,7 @@ public class SeckillMockController {
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
         // 初始化库存数量
-        prepareSeckill(seckillId, seckillCount);
+        prepareSeckill(seckillId, seckillCount, RABBIT_MQ.getName());
         log.info(RABBIT_MQ.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
@@ -279,7 +272,7 @@ public class SeckillMockController {
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
         // 初始化库存数量
-        prepareSeckill(seckillId, seckillCount);
+        prepareSeckill(seckillId, seckillCount, SENTINEL_LIMIT.getName());
         log.info(SENTINEL_LIMIT.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
@@ -291,6 +284,24 @@ public class SeckillMockController {
         }
         return SeckillResult.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
+    }
+
+    /**
+     * @param seckillId
+     * @param seckillCount
+     * @param name
+     */
+    private void prepareSeckill(long seckillId, int seckillCount, String name) {
+        seckillService.prepareSeckill(seckillId, seckillCount);
+        TaskTimeCaculateUtil.startTask(name);
+    }
+
+    /**
+     * @param seckillId
+     * @param seckillCount
+     */
+    private void prepareSeckill(Long seckillId, int seckillCount) {
+        prepareSeckill(seckillId, seckillCount, null);
     }
 
 }

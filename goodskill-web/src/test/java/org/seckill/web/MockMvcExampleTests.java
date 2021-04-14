@@ -92,4 +92,13 @@ class MockMvcExampleTests {
         Thread.sleep(10000);
     }
 
+    @Test
+    void limit(@Autowired MockMvc mvc) throws Exception {
+        mvc.perform(post("/limit")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content))
+                .andExpect(status().isOk());
+        Thread.sleep(10000);
+    }
+
 }
