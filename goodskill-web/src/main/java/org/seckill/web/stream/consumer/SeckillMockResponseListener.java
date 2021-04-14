@@ -5,6 +5,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.seckill.api.dto.SeckillMockResponseDto;
 import org.seckill.api.enums.SeckillSolutionEnum;
 import org.seckill.api.service.SeckillService;
+import org.seckill.web.util.TaskTimeCaculateUtil;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
@@ -36,7 +37,9 @@ public class SeckillMockResponseListener {
                 Thread.sleep(1500L);
                 temp = seckillService.getSuccessKillCount(seckillId);
             }
+            TaskTimeCaculateUtil.stop();
             log.info("最终成功交易笔数：{}", successKillCount);
+            log.info("历史任务耗时统计：{}", TaskTimeCaculateUtil.prettyPrint());
             // 场景八由于是异步插入，补偿查询最新插入记录数，延迟10s
             try {
                 if (SeckillSolutionEnum.REDIS_MONGO_REACTIVE.getName().endsWith(note)) {
