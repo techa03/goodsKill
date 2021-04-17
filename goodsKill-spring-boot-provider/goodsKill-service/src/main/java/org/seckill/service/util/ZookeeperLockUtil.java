@@ -38,7 +38,6 @@ public class ZookeeperLockUtil {
      */
     public boolean lock(long seckillId) {
         try {
-            Map<Long, InterProcessMutex> map;
             String rootLockPath = "/goodskill";
             Map<Long, InterProcessMutex> processMutexMap = threadLock.get();
             if (processMutexMap.get(seckillId) == null) {
