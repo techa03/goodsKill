@@ -154,7 +154,7 @@ public class SeckillServiceImplTest {
     @Test
     public void getQrcode() {
         String fileName = "1";
-        File file = new File("/logs/" + fileName + ".png");
+        File file = new File(System.getProperty("user.dir") + "/" + fileName + ".png");
         try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
             fileOutputStream.write(new byte[10]);
             seckillService.getQrcode(fileName);

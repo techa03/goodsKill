@@ -264,7 +264,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     public SeckillResponseDto getQrcode(String fileName) throws IOException {
         SeckillResponseDto seckillResponseDto = new SeckillResponseDto();
         if (qrcodeImagePath == null) {
-            qrcodeImagePath = "/logs";
+            qrcodeImagePath = System.getProperty("user.dir");
         }
         FileInputStream inputStream = new FileInputStream(qrcodeImagePath + "/" + fileName + ".png");
         int b;
