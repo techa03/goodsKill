@@ -1,4 +1,4 @@
-package org.seckill.service.mp.impl;
+package org.seckill.service.impl;
 
 import com.goodskill.es.api.GoodsEsService;
 import org.junit.Test;
@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.seckill.entity.Goods;
 import org.seckill.mp.dao.mapper.GoodsMapper;
-import org.seckill.service.impl.GoodsServiceImpl;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.only;
