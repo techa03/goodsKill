@@ -35,13 +35,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
@@ -94,7 +94,8 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Override
     public PageInfo getSeckillList(int pageNum, int pageSize, String goodsName) {
         String key = "seckill:list:" + pageNum + ":" + pageSize + ":" + goodsName;
-        List list = (List) redisTemplate.opsForValue().get(key);
+        ValueOperations valueOperations = redisTemplate.opsForValue();
+        List list = (List) valueOperations.get(key);
         if (CollectionUtils.isEmpty(list)) {
             PageHelper.startPage(pageNum, pageSize);
             QueryWrapper<Seckill> queryWrapper = new QueryWrapper<>();
@@ -102,7 +103,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
                 queryWrapper.lambda().like(Seckill::getName, goodsName);
             }
             list = this.list(queryWrapper);
-            redisTemplate.opsForValue().set(key, list, 5, TimeUnit.MINUTES);
+            valueOperations.set(key, list, 5, TimeUnit.MINUTES);
         }
         return new PageInfo(list);
     }
@@ -262,7 +263,10 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Override
     public SeckillResponseDto getQrcode(String fileName) throws IOException {
         SeckillResponseDto seckillResponseDto = new SeckillResponseDto();
-        FileInputStream inputStream = new FileInputStream(new File(qrcodeImagePath + "/" + fileName + ".png"));
+        if (qrcodeImagePath == null) {
+            qrcodeImagePath = "/logs";
+        }
+        FileInputStream inputStream = new FileInputStream(qrcodeImagePath + "/" + fileName + ".png");
         int b;
         // 二维码一般不超过10KB
         byte[] data = new byte[1024 * 10];
