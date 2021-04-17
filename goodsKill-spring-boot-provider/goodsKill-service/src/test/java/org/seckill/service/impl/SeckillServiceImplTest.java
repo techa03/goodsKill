@@ -148,7 +148,7 @@ public class SeckillServiceImplTest {
         when(baseMapper.update(eq(null), any())).thenReturn(1);
         seckillService.reduceNumberInner(successKilled);
         verify(successKilledMapper, times(1)).insert(successKilled);
-        verify(seckillMockSaveTopic, times(1)).output();
+//        verify(seckillMockSaveTopic, times(1)).output();
     }
 
     @Test
