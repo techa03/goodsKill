@@ -233,7 +233,6 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.2</version>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
@@ -279,10 +278,6 @@
 						</manifestEntries>
 					</archive>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

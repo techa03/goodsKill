@@ -31,6 +31,7 @@
 			src/main/sql/.../**/*
 		</sonar.exclusions>
 		<kotlin.version>1.4.21</kotlin.version>
+		<jacoco.version>0.8.2</jacoco.version>
 	</properties>
 
 	<build>
@@ -90,6 +91,11 @@
 					<artifactId>sonar-maven-plugin</artifactId>
 					<version>3.8.0.2131</version>
 				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco.version}</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -132,6 +138,5 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 
 </project>

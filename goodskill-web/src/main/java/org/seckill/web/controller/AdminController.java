@@ -15,7 +15,6 @@ import org.seckill.web.dto.RoleDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -46,7 +45,6 @@ public class AdminController {
             "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto role(
-            Model model,
             @ApiParam("分页当前页码")
             @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
             @ApiParam("分页每页显示数量")
@@ -64,7 +62,6 @@ public class AdminController {
             "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDto roleLess(
-            Model model,
             @ApiParam("分页当前页码")
             @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
             @ApiParam("分页每页显示数量")
@@ -107,7 +104,7 @@ public class AdminController {
     @RequestMapping(value = "/permission", method = GET, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public ResponseDto permission(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
+    public ResponseDto permission(@RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                                   @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
         Page page = new Page(offset, limit);
         IPage<Permission> pageInfo = permissionService.page(page);
@@ -120,7 +117,7 @@ public class AdminController {
     @RequestMapping(value = "/permissionTree", method = GET, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public ResponseDto permissionTree(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
+    public ResponseDto permissionTree(@RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                                       @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
         Page page = new Page(offset, limit);
         IPage<Permission> pageInfo = permissionService.page(page);
@@ -161,7 +158,7 @@ public class AdminController {
     @RequestMapping(value = "/user", method = GET, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public ResponseDto user(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
+    public ResponseDto user(@RequestParam(name = "page", required = false, defaultValue = "0") int offset,
                             @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
         Page page = new Page(offset, limit);
         IPage<User> pageInfo = userService.page(page);
