@@ -249,8 +249,8 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 - http://localhost/goodskill/seata 对应`goodskill-seata`服务
 - http://localhost/goodskill/common 对应`goodsKill-service-provider`服务
 
-- 通过[http://localhost/goodskill/token](http://localhost/goodskill/token)接口获取token
-- 通过[http://localhost/goodskill/refresh](http://localhost/goodskill/refresh)刷新用户token
+- 通过[http://localhost/goodskill/common/token](http://localhost/goodskill/common/token)接口获取token
+- 通过[http://localhost/goodskill/common/refresh](http://localhost/goodskill/common/refresh)刷新用户token
 
 ## 🔥🔥秒杀方案
 目前实现了几种秒杀方案，通过`SeckillMockController`提供测试接口
