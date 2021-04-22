@@ -257,8 +257,6 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 
 swagger主页测试地址: http://localhost:8080/goodskill/swagger-ui.html#/
 
-swagger增强主页测试地址: http://localhost:8080/goodskill/doc.html
-
 kafka状态监控页面地址: http://localhost:9000
 
 zipkin链路跟踪页面地址: http://localhost:9411/zipkin/
