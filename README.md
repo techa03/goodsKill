@@ -41,7 +41,7 @@ Logback | 日志组件  | [https://logback.qos.ch/](https://logback.qos.ch/)
 Protobuf & json | 数据序列化  | [https://github.com/google/protobuf](https://github.com/google/protobuf)
 Maven | 项目构建管理  | [http://maven.apache.org/](http://maven.apache.org/)
 SonarQube | 项目代码质量监控 | [https://www.sonarqube.org/](https://www.sonarqube.org/)
-Swagger2 | 项目API文档生成及测试工具 | [http://swagger.io/](http://swagger.io/)
+Swagger3 | 项目API文档生成及测试工具 | [http://swagger.io/](http://swagger.io/)
 Mockito | mock类生成测试工具 | [https://site.mockito.org/](https://site.mockito.org/)
 Jacoco | 测试覆盖率报告插件 | [http://www.eclemma.org/jacoco/](http://www.eclemma.org/jacoco/)
 Shiro | 用户权限安全管理框架 | [https://shiro.apache.org/](https://shiro.apache.org/)
@@ -255,7 +255,7 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 ## 🔥🔥秒杀方案
 目前实现了几种秒杀方案，通过`SeckillMockController`提供测试接口
 
-swagger主页测试地址: http://localhost:8080/goodskill/swagger-ui.html#/
+swagger主页测试地址: http://localhost/goodskill/web/swagger-ui/index.html
 
 kafka状态监控页面地址: http://localhost:9000
 
