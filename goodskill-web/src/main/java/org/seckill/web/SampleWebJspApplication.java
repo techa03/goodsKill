@@ -11,6 +11,8 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
 
 /**
@@ -24,6 +26,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableDiscoveryClient
 @EnableFeignClients(value = {"com.goodskill.*.api", "org.seckill.api"})
 @EnableRedisHttpSession
+@EnableWebMvc
+@EnableOpenApi
 public class SampleWebJspApplication extends SpringBootServletInitializer {
 
     @Override
