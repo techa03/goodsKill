@@ -6,7 +6,7 @@
 	<artifactId>goodskill-web</artifactId>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<shiro.version>1.5.3</shiro.version>
+		<shiro.version>1.6.0</shiro.version>
 		<swagger.version>3.0.0</swagger.version>
 	</properties>
 	<parent>
