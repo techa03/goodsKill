@@ -105,9 +105,9 @@ goodsKill
 - Sharding-JDBC: 4.1.1
 - RabbitMQ: 3.8.5+
 - SpringCloud: 2020.0.x
-- SpringBoot: 2.4.x
+- SpringBoot: 2.5.x
 - SpringCloudAlibaba: 2021.x
-- Kotlin: 1.4.21
+- Kotlin: 1.5.x
 - NacosServer: 1.4.1
 - SeataServer: 1.4.1
 
