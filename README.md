@@ -1,3 +1,4 @@
+# 🎉前言
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5d394c3d07b148b189e89fd60ef91a93)](https://app.codacy.com/gh/techa03/goodsKill?utm_source=github.com&utm_medium=referral&utm_content=techa03/goodsKill&utm_campaign=Badge_Grade)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=master)](https://travis-ci.org/techa03/goodsKill)
@@ -5,8 +6,6 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=techa03_goodsKill&metric=alert_status)](https://sonarcloud.io/dashboard?id=techa03_goodsKill)
 [![CodeQL](https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml/badge.svg?branch=master)](https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml)
 
-
-# 🎉前言
 项目命名为**goodsKill**一方面有商品秒杀项目的意思(好像有点chinglish的味道)，另外也可理解为**good skill**，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来（偏向于后端技术），方便学习和查阅。
 
 本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证，支持OAuth2.0第三方授权登录（目前可通过Gitee，Github进行授权）。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，采用springcloud dubbo实现服务分布式服务调用，服务注册发现使用nacos server。
