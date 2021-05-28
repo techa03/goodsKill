@@ -18,8 +18,8 @@ services:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
     volumes:
-      - ./nacos-docker/standalone-logs/:/home/nacos/logs
-      - ./nacos-docker/init.d/custom.properties:/home/nacos/init.d/custom.properties
+      - ./doc/docker/nacos/standalone-logs/:/home/nacos/logs
+      - ./doc/docker/nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
     ports:
       - "8848:8848"
     restart: always
