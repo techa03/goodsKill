@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,7 +14,8 @@ import java.util.Date;
 /**
  * @author heng
  */
-@Document(indexName = "goods", shards = 2, replicas = 2)
+@Document(indexName = "goods")
+@Setting(shards = 2, replicas = 2)
 @Data
 public class Goods implements Serializable {
 
@@ -24,14 +26,14 @@ public class Goods implements Serializable {
 
     private String photoUrl;
 
-    @Field(type = FieldType.Text, analyzer = "ik_max_word")
+    @Field(type = FieldType.Text, analyzer = "standard")
     private String name;
 
     private String price;
 
     private Date createTime;
 
-    @Field(type = FieldType.Text, analyzer = "ik_max_word")
+    @Field(type = FieldType.Text, analyzer = "standard")
     private String introduce;
 
 
