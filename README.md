@@ -190,7 +190,7 @@ docker-compose -f goodskill-simple.yml up -d
 
   **注**:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
 
-- 启动完成后访问登录页面[http://localhost:8080/goodskill/login](http://localhost:8080/goodskill/login)，默认管理员账号admin123，密码：aa123456
+- 启动完成后访问登录页面[http://www.goodskill.com/goodskill/web/login](http://www.goodskill.com/goodskill/web/login)，默认管理员账号admin123，密码：aa123456
 
 > #### 额外功能（可选）
 - 已集成`sentinel`限流组件，支持`nacos`配置中心方式推送限流规则，使用时需启动`sentinel`控制台，并以`18088`端口启动，docker环境暂不支持。
