@@ -20,6 +20,7 @@ import org.seckill.api.exception.SeckillCloseException;
 import org.seckill.api.service.*;
 import org.seckill.entity.*;
 import org.seckill.web.dto.ResponseDto;
+import org.seckill.web.util.HttpUrlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -152,7 +153,7 @@ public class SeckillController {
     @PostMapping(value = "/create")
     public String addSeckill(Seckill seckill) {
         seckillService.save(seckill);
-        return "redirect:list";
+        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
     }
 
     @GetMapping(value = "/new")
@@ -163,7 +164,7 @@ public class SeckillController {
     @GetMapping(value = "/{seckillId}/delete")
     public String delete(@PathVariable("seckillId") Long seckillId) {
         seckillService.removeById(seckillId);
-        return "redirect:/seckill/list";
+        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
     }
 
     @Transactional
@@ -177,7 +178,7 @@ public class SeckillController {
     @PostMapping(value = "/{seckillId}/update")
     public String update(Seckill seckill) {
         seckillService.saveOrUpdate(seckill);
-        return "redirect:/seckill/list";
+        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
     }
 
     /**
@@ -233,7 +234,7 @@ public class SeckillController {
 
     @GetMapping(value = "/uploadPhoto/{seckillId}")
     public String toUploadPhoto(@PathVariable("seckillId") Long seckillId) {
-        return "redirect:/seckill/upload/" + seckillId;
+        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/upload/" + seckillId);
     }
 
     @GetMapping(value = "/upload/{seckillId}")
@@ -254,7 +255,7 @@ public class SeckillController {
     public String uploadPhoto(@RequestParam("file") CommonsMultipartFile file, @RequestParam("seckillId") Long seckillId) {
         Seckill seckill = seckillService.getById(seckillId);
         goodsService.uploadGoodsPhoto(seckill.getGoodsId(), file.getBytes());
-        return "redirect:/seckill/list";
+        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
     }
 
 

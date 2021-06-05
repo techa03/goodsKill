@@ -47,7 +47,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         try {
             goodsEsService.save(goodsDto);
         } catch (Exception e) {
-            log.error("es服务不可用，请检查！", e);
+            log.warn("es服务不可用，请检查！", e);
         }
     }
 

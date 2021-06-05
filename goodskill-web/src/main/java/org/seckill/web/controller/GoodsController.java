@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.seckill.api.service.GoodsService;
 import org.seckill.entity.Goods;
+import org.seckill.web.util.HttpUrlUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class GoodsController {
     public String add(Goods goods, @RequestParam("file") CommonsMultipartFile file){
         goods.setCreateTime(new Date());
         goodsService.addGoods(goods,file.getBytes());
-        return "redirect:/seckill/list";
+        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
     }
 
     @RequestMapping(value = "/list",method = RequestMethod.GET,produces = {

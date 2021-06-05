@@ -169,18 +169,18 @@ services:
 #    networks:
 #      - somenetwork
 
-  kibana:
-    image: kibana:7.10.1
-    container_name: kibana
-    ports:
-      - 5601:5601
-    depends_on:
-      - elasticsearch
-    environment:
-      - elasticsearch.hosts=http://elasticsearch:9200
-      - i18n.locale=zh-CN
-    networks:
-      - somenetwork
+#  kibana:
+#    image: kibana:7.10.1
+#    container_name: kibana
+#    ports:
+#      - 5601:5601
+#    depends_on:
+#      - elasticsearch
+#    environment:
+#      - elasticsearch.hosts=http://elasticsearch:9200
+#      - i18n.locale=zh-CN
+#    networks:
+#      - somenetwork
 
   mysql:
     image: mysql:8.0.22
@@ -223,20 +223,20 @@ services:
     networks:
       - somenetwork
 
-  seata-server:
-    image: seataio/seata-server
-    container_name: seata-server
-    hostname: seata-server
-    ports:
-      - "8091:8091"
-    environment:
-      - SEATA_PORT=8091
-      - STORE_MODE=file
-      - SEATA_CONFIG_NAME=file:/root/seata-config/registry.conf
-    volumes:
-      - ./doc/docker/seata/config:/root/seata-config
-    networks:
-      - somenetwork
+#  seata-server:
+#    image: seataio/seata-server
+#    container_name: seata-server
+#    hostname: seata-server
+#    ports:
+#      - "8091:8091"
+#    environment:
+#      - SEATA_PORT=8091
+#      - STORE_MODE=file
+#      - SEATA_CONFIG_NAME=file:/root/seata-config/registry.conf
+#    volumes:
+#      - ./doc/docker/seata/config:/root/seata-config
+#    networks:
+#      - somenetwork
 
   goodses:
     build: ./goodsKill-es-provider
@@ -277,7 +277,7 @@ services:
       - redis
       - nacos
       - zipkin
-      - seata-server
+#      - seata-server
     networks:
       - somenetwork
 
@@ -293,8 +293,6 @@ services:
       - redis
       - nacos
       - zipkin
-    ports:
-      - 8080:8080
     networks:
       - somenetwork
 

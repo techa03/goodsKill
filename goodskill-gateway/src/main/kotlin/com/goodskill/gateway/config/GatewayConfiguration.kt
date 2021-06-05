@@ -55,12 +55,7 @@ open class GatewayConfiguration {
             }
             .route { r: PredicateSpec ->
                 r.after(ZonedDateTime.now().plusSeconds(2L)).and()
-                    .path("/goodskill/web/**", "/goodskill/**")
-                    .filters { f: GatewayFilterSpec ->
-                        // 替换所有/goodskill/web/**或/goodskill/** 访问路径为goodskill/**
-                        f.rewritePath("/goodskill/web/?(?<segment>.*)", "/goodskill/\$\\{segment}")
-                        f.rewritePath("/goodskill/?(?<segment>.*)", "/goodskill/\$\\{segment}")
-                    }
+                    .path("/goodskill/web/**")
                     .uri("lb://goodskill-web")
             }
             .build()

@@ -146,7 +146,6 @@ goodsKill
   Kibana | 7.10.1 | 5601 | 无
   RabbitMQ | latest | 5672 15672 | 无
   Zipkin | latest | 9411 | 无
-  SeataServer | latest | 8091 | 无
 
 
 **注**:除以上镜像外，<code>docker-compose.yml</code>文件还包含项目构建命令，目前暂未列出。
@@ -174,6 +173,8 @@ docker-compose -f goodskill-simple.yml up -d
      127.0.0.1       elasticsearch
      127.0.0.1       rabbitmq
      127.0.0.1       zipkin
+     ##如果网关服务部署在远程机器，此处改为相应的远程机器ip
+     127.0.0.1       www.goodskill.com
      ```
 
 - 进入<code>goodsKill-web</code>模块根目录，运行命令或直接通过<code>SampleWebJspApplication</code>类main方法启动
@@ -244,18 +245,18 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 **注**:其他表均未分库分表，默认使用seckill作为主库
 
 ## 🔖服务网关说明
-- http://localhost/goodskill/mongo 对应`goodsKill-mongo-provider`服务
-- http://localhost/goodskill/es 对应`goodsKill-es-provider`服务
-- http://localhost/goodskill/seata 对应`goodskill-seata`服务
-- http://localhost/goodskill/common 对应`goodsKill-service-provider`服务
+- http://www.goodskill.com/goodskill/mongo 对应`goodsKill-mongo-provider`服务
+- http://www.goodskill.com/goodskill/es 对应`goodsKill-es-provider`服务
+- http://www.goodskill.com/goodskill/seata 对应`goodskill-seata`服务
+- http://www.goodskill.com/goodskill/common 对应`goodsKill-service-provider`服务
 
-- 通过[http://localhost/goodskill/common/token](http://localhost/goodskill/common/token)接口获取token
-- 通过[http://localhost/goodskill/common/refresh](http://localhost/goodskill/common/refresh)刷新用户token
+- 通过[http://localhost/goodskill/common/token](http://www.goodskill.com/goodskill/common/token)接口获取token
+- 通过[http://localhost/goodskill/common/refresh](http://www.goodskill.com/goodskill/common/refresh)刷新用户token
 
 ## 🔥🔥秒杀方案
 目前实现了几种秒杀方案，通过`SeckillMockController`提供测试接口
 
-swagger主页测试地址: http://localhost/goodskill/web/swagger-ui/index.html
+swagger主页测试地址: http://www.goodskill.com/goodskill/web/swagger-ui/index.html
 
 kafka状态监控页面地址: http://localhost:9000
 

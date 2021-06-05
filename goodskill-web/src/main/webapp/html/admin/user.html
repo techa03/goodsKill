@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/goodskill/webjars/layui/css/layui.css">
+    <link rel="stylesheet" href="/goodskill/web/webjars/layui/css/layui.css">
     <script src="../js/config.js"></script>
-    <script src="/goodskill/webjars/jquery/jquery.js"></script>
-    <script src="/goodskill/webjars/layui/layui.all.js"></script>
+    <script src="/goodskill/web/webjars/jquery/jquery.js"></script>
+    <script src="/goodskill/web/webjars/layui/layui.all.js"></script>
     <script>
         function addUser() {
             layer.open({
@@ -14,7 +14,7 @@
                 title: '管理用户',
                 area: ['400px', '300px'],
                 content: '<div id="addUser1" style="margin-top: 20px;margin-right: 60px">\n' +
-                '    <form class="layui-form" action="/goodskill/seckill/admin/user/add">\n' +
+                '    <form class="layui-form" action="/goodskill/web/seckill/admin/user/add">\n' +
                 '        <div class="layui-form-item">\n' +
                 '            <label class="layui-form-label">角色名称</label>\n' +
                 '            <div class="layui-input-block">\n' +
@@ -73,7 +73,7 @@
 
 <div style="margin-left: 20px;margin-top: 30px">
     <table id="userPage" class="layui-table"
-           lay-data="{url:'/goodskill/seckill/admin/user', id:'user',page:'true', skin:'line', even:true}"
+           lay-data="{url:'/goodskill/web/seckill/admin/user', id:'user',page:'true', skin:'line', even:true}"
            lay-filter="test">
         <thead>
         <tr>
@@ -88,7 +88,7 @@
         </thead>
     </table>
 </div>
-<script src="/goodskill/webjars/layui/layui.all.js"></script>
+<script src="/goodskill/web/webjars/layui/layui.all.js"></script>
 <script>
 </script>
 </body>

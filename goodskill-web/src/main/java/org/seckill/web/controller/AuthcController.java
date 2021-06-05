@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.seckill.entity.User;
+import org.seckill.web.util.HttpUrlUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,7 +19,7 @@ public class AuthcController {
      */
     @RequestMapping("/**")
     public String anyuser() {
-        return "redirect:/seckill/list";
+        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
     }
 
     /**

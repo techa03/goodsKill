@@ -12,6 +12,7 @@ import org.seckill.api.service.GoodsService;
 import org.seckill.api.service.SeckillService;
 import org.seckill.api.service.UserAccountService;
 import org.seckill.entity.User;
+import org.seckill.web.util.HttpUrlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -42,7 +43,7 @@ public class UserAccountController {
         userAccountService.register(userEncrypt);
         // 注册成功后直接登录
         login(user);
-        return "redirect:/seckill/list";
+        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
     }
 
     @GetMapping(value = "/login")
@@ -62,9 +63,9 @@ public class UserAccountController {
         } catch (Exception e) {
             session.setAttribute("user", null);
             logger.error(e.getMessage(), e);
-            return "redirect:/login";
+            return HttpUrlUtil.replaceRedirectUrl("redirect:/login");
         }
-        return "redirect:/seckill/list";
+        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
     }
 
     @GetMapping(value = "/register")
@@ -76,7 +77,7 @@ public class UserAccountController {
     public String signOut() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
-        return "redirect:/login";
+        return HttpUrlUtil.replaceRedirectUrl("redirect:/login");
     }
 
 

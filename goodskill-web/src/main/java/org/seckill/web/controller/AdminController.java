@@ -12,6 +12,7 @@ import org.seckill.entity.*;
 import org.seckill.web.dto.PermissionDto;
 import org.seckill.web.dto.ResponseDto;
 import org.seckill.web.dto.RoleDto;
+import org.seckill.web.util.HttpUrlUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,7 +88,7 @@ public class AdminController {
         role.setCreateTime(new Date());
         role.setUpdateTime(new Date());
         roleService.save(role);
-        return "redirect:/html/admin/role.html";
+        return HttpUrlUtil.replaceRedirectUrl("redirect:/html/admin/role.html");
     }
 
     @RequestMapping(value = "/role/delete/{roleId}", method = GET, produces = {
@@ -143,7 +144,7 @@ public class AdminController {
         permission.setCreateTime(new Date());
         permission.setUpdateTime(new Date());
         permissionService.save(permission);
-        return "redirect:/html/admin/permission.html";
+        return HttpUrlUtil.replaceRedirectUrl("redirect:/html/admin/permission.html");
     }
 
     @RequestMapping(value = "/permission/delete/{permissionId}", method = GET, produces = {

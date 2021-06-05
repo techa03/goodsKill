@@ -38,7 +38,7 @@
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager" />
-        <property name="loginUrl" value="/login" />
+        <property name="loginUrl" value="${goodskill.loginUrl}" />
         <property name="unauthorizedUrl" value="/" />
         <property name="filterChainDefinitions">
             <value>

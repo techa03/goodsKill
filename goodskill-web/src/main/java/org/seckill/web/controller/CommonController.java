@@ -13,6 +13,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.seckill.api.service.UserAuthAccountService;
 import org.seckill.api.user.bo.UserBo;
+import org.seckill.web.util.HttpUrlUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,7 +42,7 @@ public class CommonController {
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         if (subject.isAuthenticated()) {
-            response.sendRedirect(serverContextPath + "/seckill/list");
+            response.sendRedirect(HttpUrlUtil.replaceRedirectUrl(serverContextPath + "/seckill/list"));
             return;
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -53,7 +54,7 @@ public class CommonController {
                 oAuth2User = (OAuth2User) obj;
             } catch (Exception e) {
                 log.warn(e.getMessage(), e);
-                response.sendRedirect(loginPath);
+                response.sendRedirect(HttpUrlUtil.replaceRedirectUrl(loginPath));
                 return;
             }
             // 将已授权的第三方账户信息进行实体类转换
@@ -61,7 +62,7 @@ public class CommonController {
             String registrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
             if (StringUtils.isEmpty(oAuth2UserInfo.getAccount())
                     || !userAuthAccountService.ifThirdAccountExists(oAuth2UserInfo.getAccount(), registrationId)) {
-                response.sendRedirect(loginPath);
+                response.sendRedirect(HttpUrlUtil.replaceRedirectUrl(loginPath));
                 return;
             }
             // 从系统中查找第三方账户对应的用户信息
@@ -74,14 +75,14 @@ public class CommonController {
                 session.setAttribute("user", user);
             } catch (Exception e) {
                 session.setAttribute("user", null);
-                log.error(e.getMessage(), e);
-                response.sendRedirect(loginPath);
+                log.warn(e.getMessage(), e);
+                response.sendRedirect(HttpUrlUtil.replaceRedirectUrl(loginPath));
                 return;
             }
-            response.sendRedirect(serverContextPath + "/seckill/list");
+            response.sendRedirect(HttpUrlUtil.replaceRedirectUrl(serverContextPath + "/seckill/list"));
             return;
         }
-        response.sendRedirect(loginPath);
+        response.sendRedirect(HttpUrlUtil.replaceRedirectUrl(loginPath));
     }
 
     @GetMapping("/user")
