@@ -23,14 +23,14 @@
 
 	<properties>
 		<goodsKill.version>3.4.0-SNAPSHOT</goodsKill.version>
-		<springboot.version>2.5.0</springboot.version>
-		<spring-cloud.version>2020.0.2</spring-cloud.version>
+		<springboot.version>2.5.2</springboot.version>
+		<spring-cloud.version>2020.0.3</spring-cloud.version>
 		<spring.cloud.alibaba.version>2021.1</spring.cloud.alibaba.version>
 		<sonar.exclusions>
 			src/main/webapp/.../**/*
 			src/main/sql/.../**/*
 		</sonar.exclusions>
-		<kotlin.version>1.5.0</kotlin.version>
+		<kotlin.version>1.5.21</kotlin.version>
 		<jacoco.version>0.8.2</jacoco.version>
 	</properties>
 
