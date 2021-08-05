@@ -1,5 +1,4 @@
 # 🎉前言
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5d394c3d07b148b189e89fd60ef91a93)](https://app.codacy.com/gh/techa03/goodsKill?utm_source=github.com&utm_medium=referral&utm_content=techa03/goodsKill&utm_campaign=Badge_Grade)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=master)](https://travis-ci.org/techa03/goodsKill)
 [![codecov](https://codecov.io/gh/techa03/goodsKill/branch/master/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
