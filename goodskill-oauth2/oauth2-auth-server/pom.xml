@@ -8,14 +8,19 @@
         <artifactId>goodskill-oauth2</artifactId>
         <version>3.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>oauth2-server</artifactId>
+    <artifactId>oauth2-auth-server</artifactId>
     <version>${goodsKill.version}</version>
-    <name>oauth2-server</name>
+    <name>oauth2-auth-server</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.goodskill</groupId>
+            <artifactId>goodskill-spring-boot-starter</artifactId>
+            <version>${goodsKill.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -44,21 +49,33 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.goodskill</groupId>
-            <artifactId>goodskill-spring-boot-starter</artifactId>
-            <version>${goodsKill.version}</version>
+            <groupId>org.springframework.security.oauth.boot</groupId>
+            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-jose</artifactId>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>2.3.0.1</version>
         </dependency>
         <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>mockwebserver</artifactId>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>9.12.1</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+            <version>1.2.2</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

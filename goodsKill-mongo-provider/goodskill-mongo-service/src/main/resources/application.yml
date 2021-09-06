@@ -72,6 +72,6 @@ spring:
   config:
     activate:
       on-profile: docker
-dubbo:
-  registry:
-    address: spring-cloud://localhost
+#dubbo:
+#  registry:
+#    address: spring-cloud://localhost
