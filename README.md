@@ -89,9 +89,9 @@ goodsKill
 |--goodskill-web                            ||提供页面客户端访问，controller层在这一模块   
 |--goodskill-job                            ||elastic-job定时任务 
 |--goodskill-seata                          ||集成nacos+dubbo+shardingjdbc+seata的分布式事务解决方案示例
-|--goodskill-oauth2                         ||oauth2.0授权登录模块
-    |--oauth2-client                        ||oauth2.0授权登录-客户端，目前支持Gitee、Github账户登录
-    |--oauth2-server                        ||oauth2.0授权登录-服务端，自定义的授权登录服务
+|--goodskill-oauth2                         ||oauth2.0自定义模块
+    |--oauth2-auth-server                   ||oauth2.0登录授权服务端，自定义的授权登录服务
+    |--oauth2-resource-server               ||oauth2.0资源服务端，自定义的授权登录服务
 ```
 
 ## 🧰开发环境版本说明

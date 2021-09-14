@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>oauth2-client</module>
+        <module>oauth2-resource-server</module>
         <module>oauth2-auth-server</module>
     </modules>
 

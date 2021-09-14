@@ -1,0 +1,22 @@
+security:
+  oauth2:
+    client:
+      client-id: first-client
+      client-secret: noonewilleverguess
+
+spring:
+  application:
+    name: goodskill-oauth2-authorization
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql:3306/user?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: Password123
+  sql:
+    init:
+      schema-locations: classpath*:users.ddl
+      mode: ALWAYS
+      continue-on-error: true
+  cloud:
+    nacos:
+      server-addr: nacos:8848
