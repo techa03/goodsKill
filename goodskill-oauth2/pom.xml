@@ -16,6 +16,7 @@
     <modules>
         <module>oauth2-resource-server</module>
         <module>oauth2-auth-server</module>
+        <module>oauth2-auth-client</module>
     </modules>
 
     <properties>
