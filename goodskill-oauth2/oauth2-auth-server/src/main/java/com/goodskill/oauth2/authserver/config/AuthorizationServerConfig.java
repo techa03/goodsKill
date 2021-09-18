@@ -42,11 +42,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(this.dataSource).withClient("first-client")
+        clients.inMemory().withClient("first-client")
                 .secret(passwordEncoder().encode("noonewilleverguess"))
                 .scopes("resource:read")
                 .authorizedGrantTypes("authorization_code")
-                .redirectUris("http://www.goodskill.com/goodskill/web/login/oauth2/code/goodskill");
+                .redirectUris("http://localhost:19021/login/oauth2/code/goodskill");
     }
 }
 

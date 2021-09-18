@@ -2,4 +2,11 @@ security:
   oauth2:
     resource:
       jwk:
-        key-set-uri: https://localhost:8083/.well-known/jwks.json
+        key-set-uri: http://localhost:8083/.well-known/jwks.json
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql-stcsm.gobestsoft.cn:31714/gs_user?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: password
