@@ -1,0 +1,5 @@
+security:
+  oauth2:
+    resource:
+      jwk:
+        key-set-uri: https://localhost:8083/.well-known/jwks.json

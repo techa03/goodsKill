@@ -1,4 +1,4 @@
-package com.goodskill.oauth2server.config;
+package com.goodskill.oauth2.authserver.config;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -7,20 +7,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerSecurityConfiguration;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.endpoint.FrameworkEndpoint;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -110,20 +105,6 @@ class JwkSetEndpoint {
     }
 }
 
-@Configuration
-class JwkSetEndpointConfiguration extends AuthorizationServerSecurityConfiguration {
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-        http
-                .requestMatchers()
-                .mvcMatchers("/.well-known/jwks.json")
-                .and()
-                .authorizeRequests()
-                .mvcMatchers("/.well-known/jwks.json").permitAll();
-    }
-}
-
 /**
  * An Authorization Server will more typically have a key rotation strategy, and the keys will not
  * be hard-coded into the application code.
@@ -149,29 +130,29 @@ class KeyConfig {
     }
 }
 
-@Configuration
-class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    private DataSource dataSource;
-
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-        return jdbcUserDetailsManager;
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-        http
-                .requestMatchers()
-                .mvcMatchers("/.well-known/jwks.json")
-                .and()
-                .authorizeRequests()
-                .mvcMatchers("/.well-known/jwks.json").permitAll();
-    }
-
-
-}
+//@Configuration
+//class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+//
+//    @Autowired
+//    private DataSource dataSource;
+//
+//    @Bean
+//    @Override
+//    public UserDetailsService userDetailsService() {
+//        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+//        return jdbcUserDetailsManager;
+//    }
+//
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        super.configure(http);
+//        http
+//                .requestMatchers()
+//                .mvcMatchers("/.well-known/jwks.json")
+//                .and()
+//                .authorizeRequests()
+//                .mvcMatchers("/.well-known/jwks.json").permitAll();
+//    }
+//
+//
+//}

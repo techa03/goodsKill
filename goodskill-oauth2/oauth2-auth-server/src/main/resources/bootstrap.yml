@@ -1,0 +1,6 @@
+spring:
+  #系统名称
+  #微服务配置
+  cloud:
+    nacos:
+      server-addr: nacos-stcsm.gobestsoft.cn:30913
