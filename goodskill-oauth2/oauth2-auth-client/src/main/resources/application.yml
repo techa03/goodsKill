@@ -3,9 +3,9 @@ server:
 
 logging:
   level:
-    root: INFO
-    org.springframework.web: INFO
-    org.springframework.security: INFO
+    root: debug
+#    org.springframework.web: INFO
+#    org.springframework.security: INFO
 #    org.springframework.boot.autoconfigure: DEBUG
 
 spring:
@@ -19,11 +19,5 @@ spring:
             client-id: first-client
             client-secret: noonewilleverguess
           gitee:
-            client-id: your-app-client-id
-            client-secret: your-app-client-secret
-#        provider:
-#          okta:
-#            authorization-uri: https://your-subdomain.oktapreview.com/oauth2/v1/authorize
-#            token-uri: https://your-subdomain.oktapreview.com/oauth2/v1/token
-#            user-info-uri: https://your-subdomain.oktapreview.com/oauth2/v1/userinfo
-#            jwk-set-uri: https://your-subdomain.oktapreview.com/oauth2/v1/keys
+            client-id: 6d0f6a3569e8511284253bbf33d6ac94092651fe8cfc1ef98cfe1ac4dd5c5da6
+            client-secret: 215acada1f3e4692ed25e25a73978a847357af9547a5b9227164367e5f7ab65e
