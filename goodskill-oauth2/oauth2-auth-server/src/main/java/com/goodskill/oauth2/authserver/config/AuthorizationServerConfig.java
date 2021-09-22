@@ -5,12 +5,16 @@ import com.nimbusds.jose.jwk.RSAKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerEndpointsConfiguration;
+import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerSecurityConfiguration;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.endpoint.FrameworkEndpoint;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -51,6 +55,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 }
 
 @Configuration
+@Import(AuthorizationServerEndpointsConfiguration.class)
 class JwkSetConfiguration extends AuthorizationServerConfigurerAdapter {
 
     AuthenticationManager authenticationManager;
@@ -130,29 +135,16 @@ class KeyConfig {
     }
 }
 
-//@Configuration
-//class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-//
-//    @Autowired
-//    private DataSource dataSource;
-//
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-//        return jdbcUserDetailsManager;
-//    }
-//
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        super.configure(http);
-//        http
-//                .requestMatchers()
-//                .mvcMatchers("/.well-known/jwks.json")
-//                .and()
-//                .authorizeRequests()
-//                .mvcMatchers("/.well-known/jwks.json").permitAll();
-//    }
-//
-//
-//}
+@Configuration
+class JwkSetEndpointConfiguration extends AuthorizationServerSecurityConfiguration {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        super.configure(http);
+        http
+                .requestMatchers()
+                .mvcMatchers("/.well-known/jwks.json")
+                .and()
+                .authorizeRequests()
+                .mvcMatchers("/.well-known/jwks.json").permitAll();
+    }
+}

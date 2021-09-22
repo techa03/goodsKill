@@ -74,11 +74,11 @@ public class OAuth2LoginConfig {
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
                 .scope("resource:read")
-                .authorizationUri("http://localhost:8083/oauth/authorize")
-                .tokenUri("http://localhost:8083/oauth/token")
+                .authorizationUri("http://localhost:8080/oauth/authorize")
+                .tokenUri("http://localhost:8080/oauth/token")
                 .userInfoUri("http://www.goodskill.com/api/v5/user")
                 .userNameAttributeName("id")
-                .jwkSetUri("http://localhost:8083/.well-known/jwks.json")
+                .jwkSetUri("http://localhost:8080/.well-known/jwks.json")
                 .clientName("Goodskill")
                 .build();
     }
