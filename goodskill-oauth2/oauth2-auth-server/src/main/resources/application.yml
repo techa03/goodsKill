@@ -1,11 +1,11 @@
 spring:
   application:
     name: goodskill-oauth2-authorization
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql:3306/gs_user?useUnicode=true&characterEncoding=utf-8&useSSL=false
-    username: root
-    password: Password123
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://mysql:3306/gs_user?useUnicode=true&characterEncoding=utf-8&useSSL=false
+#    username: root
+#    password: Password123
   sql:
     init:
       schema-locations: classpath*:users.ddl

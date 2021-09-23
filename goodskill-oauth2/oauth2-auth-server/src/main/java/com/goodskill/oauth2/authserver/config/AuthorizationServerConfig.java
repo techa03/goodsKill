@@ -2,24 +2,27 @@ package com.goodskill.oauth2.authserver.config;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.endpoint.FrameworkEndpoint;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.sql.DataSource;
 import java.math.BigInteger;
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -27,13 +30,16 @@ import java.security.Principal;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-
-    @Autowired
-    DataSource dataSource;
+//
+//    @Autowired
+//    DataSource dataSource;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -46,7 +52,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .secret(passwordEncoder().encode("noonewilleverguess"))
                 .scopes("resource:read")
                 .authorizedGrantTypes("authorization_code")
-                .redirectUris("http://localhost:19021/login/oauth2/code/goodskill");
+                .redirectUris("http://www.goodskill.com:19021/login/oauth2/code/goodskill");
     }
 }
 
@@ -55,12 +61,14 @@ class JwkSetConfiguration extends AuthorizationServerConfigurerAdapter {
 
     AuthenticationManager authenticationManager;
     KeyPair keyPair;
+    UserDetailsService userDetailsService;
 
     public JwkSetConfiguration(AuthenticationConfiguration authenticationConfiguration,
-                               KeyPair keyPair) throws Exception {
+                               KeyPair keyPair, UserDetailsService userDetailsService) throws Exception {
 
         this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
         this.keyPair = keyPair;
+        this.userDetailsService = userDetailsService;
     }
 
     // ... client configuration, etc.
@@ -68,11 +76,33 @@ class JwkSetConfiguration extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         // @formatter:off
+        TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
+        List<TokenEnhancer> delegates = new ArrayList<>();
+        delegates.add(tokenEnhancer());
+        delegates.add(accessTokenConverter());
+        enhancerChain.setTokenEnhancers(delegates); //配置JWT的内容增强器
         endpoints
-                .authenticationManager(this.authenticationManager)
+                //配置管理器
+                .authenticationManager(authenticationManager)
+                //设置用户
+                .userDetailsService(userDetailsService) //配置加载用户信息的服务
+                //设置token
                 .accessTokenConverter(accessTokenConverter())
-                .tokenStore(tokenStore());
+                //设置增强token
+                .tokenEnhancer(enhancerChain);
         // @formatter:on
+    }
+
+    @Bean
+    public TokenEnhancer tokenEnhancer() {
+        return (accessToken, authentication) -> {
+            User securityUser = (User) authentication.getPrincipal();
+            Map<String, Object> info = new HashMap<>();
+            //把用户ID设置到JWT中
+            info.put("name", securityUser.getUsername());
+            ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(info);
+            return accessToken;
+        };
     }
 
     @Bean
@@ -129,30 +159,3 @@ class KeyConfig {
         }
     }
 }
-
-//@Configuration
-//class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-//
-//    @Autowired
-//    private DataSource dataSource;
-//
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-//        return jdbcUserDetailsManager;
-//    }
-//
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        super.configure(http);
-//        http
-//                .requestMatchers()
-//                .mvcMatchers("/.well-known/jwks.json")
-//                .and()
-//                .authorizeRequests()
-//                .mvcMatchers("/.well-known/jwks.json").permitAll();
-//    }
-//
-//
-//}

@@ -1,12 +1,13 @@
-security:
-  oauth2:
-    resource:
-      jwk:
-        key-set-uri: http://localhost:8083/.well-known/jwks.json
-
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql:3306/gs_user?useUnicode=true&characterEncoding=utf-8&useSSL=false
-    username: root
-    password: Password123
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://auth-server:8083/.well-known/jwks.json
+
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://mysql:3306/gs_user?useUnicode=true&characterEncoding=utf-8&useSSL=false
+#    username: root
+#    password: Password123
