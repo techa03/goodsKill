@@ -74,9 +74,9 @@ public class OAuth2LoginConfig {
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
                 .scope("resource:read")
-                .authorizationUri("http://auth-server:8083/oauth/authorize")
-                .tokenUri("http://auth-server:8083/oauth/token")
-                .userInfoUri("http://resource-server:8081/api/v5/user")
+                .authorizationUri("http://www.goodskill.com/oauth/authorize")
+                .tokenUri("http://www.goodskill.com/oauth/token")
+                .userInfoUri("http://www.goodskill.com/api/v5/user")
                 .userNameAttributeName("id")
                 .clientName("Goodskill")
                 .build();

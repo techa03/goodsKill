@@ -9,6 +9,8 @@ spring:
       schema-locations: classpath*:users.ddl
       mode: ALWAYS
       continue-on-error: true
+  zipkin:
+    base-url: http://zipkin:9411/
 
 security:
   oauth2:

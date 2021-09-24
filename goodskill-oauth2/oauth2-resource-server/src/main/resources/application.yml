@@ -3,7 +3,9 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://auth-server:8083/.well-known/jwks.json
+          jwk-set-uri: http://www.goodskill.com/.well-known/jwks.json
+  zipkin:
+    base-url: http://zipkin:9411/
 
 #spring:
 #  datasource:
