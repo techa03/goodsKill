@@ -1,0 +1,15 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://www.goodskill.com/.well-known/jwks.json
+  zipkin:
+    base-url: http://zipkin:9411/
+
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://mysql:3306/gs_user?useUnicode=true&characterEncoding=utf-8&useSSL=false
+#    username: root
+#    password: Password123

@@ -215,6 +215,10 @@ create table if not exists `user_auth_account`
     )
     comment '用户第三方授权账号表';
 
+INSERT INTO user_auth_account (id, user_id, third_account_id, third_account_name, source_type, create_time, update_time) VALUES (1, 21, null, 'techa', 'gitee', '2021-09-24 22:29:51', '2021-09-24 22:29:51');
+INSERT INTO user_auth_account (id, user_id, third_account_id, third_account_name, source_type, create_time, update_time) VALUES (2, 21, null, 'techa', 'goodskill', '2021-09-24 22:29:51', '2021-09-24 22:29:51');
+INSERT INTO user_auth_account (id, user_id, third_account_id, third_account_name, source_type, create_time, update_time) VALUES (3, 21, null, 'zheng', 'github', '2021-09-24 22:29:51', '2021-09-24 22:29:51');
+
 -- ----------------------------
 -- Table structure for user_role
 -- ----------------------------
@@ -332,5 +336,3 @@ comment '秒杀成功明细表' charset=utf8;
 
 create index idx_create_time
 	on seckill_01.success_killed_1 (create_time);
-
-

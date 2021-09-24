@@ -15,6 +15,6 @@ import org.springframework.context.annotation.Import;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConditionalOnProperty(prefix = "spring.security.oauth2.client.registration.gitee", name = {"client-id", "client-secret"})
-@Import(OAuth2LoginConfig.class)
+@Import(value = {OAuth2LoginConfig.class})
 public class GkOAuth2ClientAutoConfiguration {
 }

@@ -89,9 +89,9 @@ goodsKill
 |--goodskill-web                            ||提供页面客户端访问，controller层在这一模块   
 |--goodskill-job                            ||elastic-job定时任务 
 |--goodskill-seata                          ||集成nacos+dubbo+shardingjdbc+seata的分布式事务解决方案示例
-|--goodskill-oauth2                         ||oauth2.0授权登录模块
-    |--oauth2-client                        ||oauth2.0授权登录-客户端，目前支持Gitee、Github账户登录
-    |--oauth2-server                        ||oauth2.0授权登录-服务端，自定义的授权登录服务
+|--goodskill-oauth2                         ||oauth2.0自定义模块
+    |--oauth2-auth-server                   ||oauth2.0登录授权服务端，自定义的授权登录服务
+    |--oauth2-resource-server               ||oauth2.0资源服务端，自定义的授权登录服务
 ```
 
 ## 🧰开发环境版本说明
@@ -189,7 +189,7 @@ docker-compose -f goodskill-simple.yml up -d
 
   **注**:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
 
-- 启动完成后访问登录页面[http://www.goodskill.com/goodskill/web/login](http://www.goodskill.com/goodskill/web/login)，默认管理员账号admin123，密码：aa123456
+- 启动完成后访问登录页面[http://www.goodskill.com:8080/goodskill/web/login](http://www.goodskill.com:8080/goodskill/web/login)，默认管理员账号admin123，密码：aa123456
 
 > #### 额外功能（可选）
 - 已集成`sentinel`限流组件，支持`nacos`配置中心方式推送限流规则，使用时需启动`sentinel`控制台，并以`18088`端口启动，docker环境暂不支持。
@@ -255,7 +255,7 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 ## 🔥🔥秒杀方案
 目前实现了几种秒杀方案，通过`SeckillMockController`提供测试接口
 
-swagger主页测试地址: http://www.goodskill.com/goodskill/web/swagger-ui/index.html
+swagger主页测试地址: http://www.goodskill.com:8080/goodskill/web/swagger-ui/index.html
 
 kafka状态监控页面地址: http://localhost:9000
 
@@ -301,10 +301,10 @@ ns         %     Task name
 新版支付宝SDK集成 | ✅ | 2020.7 | 使用当面扫完成付款
 完善jwt用户鉴权，并提供通用服务接口 | ✅ | 2020.12 |
 集成分布式事务解决方案 | ✅ | 2021.2 |
+增加OAuth2.0授权登录模块 | ✅ | 2021.9 | 增加自定义OAuth2.0授权以及资源服务，并支持第三方授权登录
 聊天室功能 | ⏳ |  | 使用netty网络通信，maven分支已经实现，master分支待集成 |
 前后端分离 | ⏳ | | 目前前后端全部放在gooskill-web模块，不利于部署
 丰富项目文档 | ⏳ |  | 
-增加OAuth2.0授权登录模块 | ⏳ |  | 功能完善中
 
 ### API接口
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png)

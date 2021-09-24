@@ -1,0 +1,8 @@
+spring:
+  #系统名称
+  application:
+    name: oauth2-auth-server
+  #微服务配置
+  cloud:
+    nacos:
+      server-addr: nacos:8848

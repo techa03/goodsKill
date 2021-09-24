@@ -16,6 +16,11 @@ spring:
             ##替换成你自己的App密钥
             client-id: xxx
             client-secret: xxx
+          ## 使用自定义的OAuth2.0授权登录服务
+          goodskill:
+            ##替换成你自己的App密钥
+            client-id: second-client
+            client-secret: noonewilleverguess
   session:
     redis:
       flush-mode: on_save
