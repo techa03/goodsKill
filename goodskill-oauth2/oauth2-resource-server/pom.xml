@@ -87,6 +87,12 @@
             <artifactId>spring-security-oauth2-resource-server</artifactId>
             <version>5.5.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.71</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

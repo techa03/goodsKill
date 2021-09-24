@@ -76,7 +76,7 @@ public class OAuth2LoginConfig {
                 .scope("resource:read")
                 .authorizationUri("http://auth-server:8083/oauth/authorize")
                 .tokenUri("http://auth-server:8083/oauth/token")
-                .userInfoUri("http://auth-server:8083/api/v5/user")
+                .userInfoUri("http://resource-server:8081/api/v5/user")
                 .userNameAttributeName("id")
                 .jwkSetUri("http://auth-server:8083/.well-known/jwks.json")
                 .clientName("Goodskill")

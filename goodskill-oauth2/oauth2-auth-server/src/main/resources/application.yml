@@ -11,3 +11,9 @@ spring:
       schema-locations: classpath*:users.ddl
       mode: ALWAYS
       continue-on-error: true
+
+security:
+  oauth2:
+    resource:
+      jwk:
+        key-set-uri: http://localhost:8080/.well-known/jwks.json
