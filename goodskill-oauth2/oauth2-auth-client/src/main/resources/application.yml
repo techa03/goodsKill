@@ -18,6 +18,3 @@ spring:
           goodskill:
             client-id: first-client
             client-secret: noonewilleverguess
-          gitee:
-            client-id: 6d0f6a3569e8511284253bbf33d6ac94092651fe8cfc1ef98cfe1ac4dd5c5da6
-            client-secret: 215acada1f3e4692ed25e25a73978a847357af9547a5b9227164367e5f7ab65e

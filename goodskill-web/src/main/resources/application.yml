@@ -19,7 +19,7 @@ spring:
           ## 使用自定义的OAuth2.0授权登录服务
           goodskill:
             ##替换成你自己的App密钥
-            client-id: first-client
+            client-id: second-client
             client-secret: noonewilleverguess
   session:
     redis:
