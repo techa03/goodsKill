@@ -29,7 +29,7 @@
 				<button class="btn btn-sm btn-primary btn-block" type="button"
 						onclick="window.open('${context}/oauth2/authorization/github')">Github授权登录</button>
 				<button class="btn btn-sm btn-primary btn-block" type="button"
-						onclick="window.open('${context}/oauth2/authorization/goodskill')">Goodskill自定义OAuth2.0授权登录</button>
+						onclick="window.open('${context}/oauth2/authorization/goodskill')">自定义OAuth2.0授权登录</button>
 				<a class="btn btn-sm btn-primary btn-block" href="register">注册</a>
 			</div>
 		</form>

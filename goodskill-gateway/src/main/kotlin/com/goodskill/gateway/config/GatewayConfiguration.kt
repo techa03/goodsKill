@@ -55,11 +55,6 @@ open class GatewayConfiguration {
             }
             .route { r: PredicateSpec ->
                 r.after(ZonedDateTime.now().plusSeconds(2L)).and()
-                    .path("/goodskill/web/**")
-                    .uri("lb://goodskill-web")
-            }
-            .route { r: PredicateSpec ->
-                r.after(ZonedDateTime.now().plusSeconds(2L)).and()
                     .path("/oauth/**")
                     .uri("lb://goodskill-oauth2-authorization")
             }

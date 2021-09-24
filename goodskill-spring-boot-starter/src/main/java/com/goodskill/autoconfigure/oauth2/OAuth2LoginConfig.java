@@ -72,13 +72,12 @@ public class OAuth2LoginConfig {
                 .clientSecret(goodskillClientSecret)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://www.goodskill.com/goodskill/web/login/oauth2/code/{registrationId}")
+                .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
                 .scope("resource:read")
                 .authorizationUri("http://auth-server:8083/oauth/authorize")
                 .tokenUri("http://auth-server:8083/oauth/token")
                 .userInfoUri("http://resource-server:8081/api/v5/user")
                 .userNameAttributeName("id")
-                .jwkSetUri("http://auth-server:8083/.well-known/jwks.json")
                 .clientName("Goodskill")
                 .build();
     }

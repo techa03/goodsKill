@@ -189,7 +189,7 @@ docker-compose -f goodskill-simple.yml up -d
 
   **注**:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
 
-- 启动完成后访问登录页面[http://www.goodskill.com/goodskill/web/login](http://www.goodskill.com/goodskill/web/login)，默认管理员账号admin123，密码：aa123456
+- 启动完成后访问登录页面[http://www.goodskill.com:8080/goodskill/web/login](http://www.goodskill.com:8080/goodskill/web/login)，默认管理员账号admin123，密码：aa123456
 
 > #### 额外功能（可选）
 - 已集成`sentinel`限流组件，支持`nacos`配置中心方式推送限流规则，使用时需启动`sentinel`控制台，并以`18088`端口启动，docker环境暂不支持。
@@ -255,7 +255,7 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 ## 🔥🔥秒杀方案
 目前实现了几种秒杀方案，通过`SeckillMockController`提供测试接口
 
-swagger主页测试地址: http://www.goodskill.com/goodskill/web/swagger-ui/index.html
+swagger主页测试地址: http://www.goodskill.com:8080/goodskill/web/swagger-ui/index.html
 
 kafka状态监控页面地址: http://localhost:9000
 

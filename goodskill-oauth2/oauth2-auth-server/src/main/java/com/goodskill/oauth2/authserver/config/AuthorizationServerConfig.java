@@ -58,7 +58,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .secret(passwordEncoder().encode("noonewilleverguess"))
                 .scopes("resource:read")
                 .authorizedGrantTypes("authorization_code")
-                .redirectUris("http://www.goodskill.com/goodskill/web/login/oauth2/code/goodskill")
+                .redirectUris("http://www.goodskill.com:8080/goodskill/web/login/oauth2/code/goodskill")
         ;
     }
 }
