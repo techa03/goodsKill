@@ -153,6 +153,14 @@ goodsKill
 docker-compose -f goodskill-simple.yml up -d
 ```
 
+> #### ⚠导入项目数据库基础数据 ️
+
+- 找到<code>seckill.sql</code>文件，在本地mysql数据库中建立<code>seckill</code>仓库并执行完成数据初始化操作
+
+  **注**:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
+
+- 启动完成后访问登录页面[http://www.goodskill.com:8080/goodskill/web/login](http://www.goodskill.com:8080/goodskill/web/login)，默认管理员账号admin123，密码：aa123456
+
 > #### 方法二：使用IDEA运行项目
 
 - 如无`docker`运行环境，可参照官网安装上述应用，本地默认端口启动
@@ -183,13 +191,15 @@ docker-compose -f goodskill-simple.yml up -d
 
 - 如已安装MongoDB，可以main方法启动<code>MongoReactiveApplication</code>，通过使用该服务操作mongo库
 
-> #### ⚠导入项目数据库基础数据 ️
+> #### 运行项目最低要求
+1. 启动nacos、redis、mysql、rabbitmq、kafka、zookeeper
+2. 参考上一节配置host
+3. main方法运行<code>GatewayApplication</code>类
+4. main方法运行<code>GoodsKillServiceApplication</code>类
+5. main方法运行<code>SampleWebJspApplication</code>类
 
-- 找到<code>seckill.sql</code>文件，在本地mysql数据库中建立<code>seckill</code>仓库并执行完成数据初始化操作
-
-  **注**:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
-
-- 启动完成后访问登录页面[http://www.goodskill.com:8080/goodskill/web/login](http://www.goodskill.com:8080/goodskill/web/login)，默认管理员账号admin123，密码：aa123456
+> #### 如何使用本项目自定义的OAuth2.0授权服务器进行登录授权
+- 待完善。。
 
 > #### 额外功能（可选）
 - 已集成`sentinel`限流组件，支持`nacos`配置中心方式推送限流规则，使用时需启动`sentinel`控制台，并以`18088`端口启动，docker环境暂不支持。
