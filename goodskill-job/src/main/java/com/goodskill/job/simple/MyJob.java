@@ -36,7 +36,7 @@ public class MyJob implements SimpleJob {
                     goodsEsService.saveBatch(list);
                     log.info("商品es索引更新成功，条数:{}", list.size());
                 } catch (Exception e) {
-                    log.warn("商品es索引更新失败，请先启动GoodsKillRpcServiceApplication！");
+                    log.warn("商品es索引更新失败，请先启动GoodsKillServiceApplication！");
                 }
                 break;
             // case n: ...

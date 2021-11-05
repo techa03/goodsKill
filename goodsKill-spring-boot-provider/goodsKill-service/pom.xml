@@ -255,7 +255,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${springboot.version}</version>
 				<configuration>
-					<mainClass>org.seckill.service.GoodsKillRpcServiceApplication</mainClass>
+					<mainClass>org.seckill.service.GoodsKillServiceApplication</mainClass>
 				</configuration>
 				<executions>
 					<execution>
