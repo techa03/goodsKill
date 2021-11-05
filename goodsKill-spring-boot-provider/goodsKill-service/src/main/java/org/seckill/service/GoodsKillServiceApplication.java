@@ -30,10 +30,10 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableBinding(value = {Sink.class, Source.class, SeckillMockSaveTopic.class})
 @EnableFeignClients({"com.goodskill.mongo.api", "com.goodskill.es.api"})
 @RestController
-public class GoodsKillRpcServiceApplication {
+public class GoodsKillServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GoodsKillRpcServiceApplication.class, args);
+        SpringApplication.run(GoodsKillServiceApplication.class, args);
     }
 
 

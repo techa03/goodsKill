@@ -9,7 +9,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.seckill.service.GoodsKillRpcServiceApplication;
+import org.seckill.service.GoodsKillServiceApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,7 +32,7 @@ import static org.junit.Assert.assertTrue;
  * @author techa03
  * @date 2020/7/19
  */
-@SpringBootTest(classes = GoodsKillRpcServiceApplication.class)
+@SpringBootTest(classes = GoodsKillServiceApplication.class)
 @RunWith(SpringRunner.class)
 @Ignore
 public class KafkaTest {

@@ -161,7 +161,7 @@ docker-compose -f goodskill-simple.yml up -d
 
 - 找到<code>EsApplication</code>类main方法启动远程服务
 
-- 找到<code>GoodsKillRpcServiceApplication</code>类main方法启动远程服务，并且需要在host中加入以下信息
+- 找到<code>GoodsKillServiceApplication</code>类main方法启动远程服务，并且需要在host中加入以下信息
      ```
      127.0.0.1       kafka
      127.0.0.1       nacos
