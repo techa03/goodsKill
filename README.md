@@ -69,6 +69,7 @@ LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
 ## 📝项目模块介绍
 ```
 goodsKill
+|--goodskill-admin                          ||SpringBoot Admin监控服务端，支持Spring Cloud微服务发现
 |--goodskill-chat-provider                  ||聊天室服务提供者（待完成）
 |--goodsKill-common                         ||项目公共服务（待补充）
 |--goodskill-gateway                        ||微服务网关
@@ -267,6 +268,8 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 
 swagger主页测试地址: http://www.goodskill.com:8080/goodskill/web/swagger-ui/index.html
 
+SpringBoot Admin应用监控地址: http://www.goodskill.com/admin/
+
 kafka状态监控页面地址: http://localhost:9000
 
 zipkin链路跟踪页面地址: http://localhost:9411/zipkin/
@@ -324,24 +327,24 @@ ns         %     Task name
 
 ## 💻页面展示
 
-#### 登录：
+#### 登录
 ![image](./doc/shortcut/img.png)
 
-#### 注册：
+#### 注册
 ![image](./doc/shortcut/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215804.png)
 
-#### 主页：
+#### 主页
 ![image](./doc/shortcut/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215849.png)
 
-#### 商品查询:
+#### 商品查询
 > 搜索框下拉商品候选信息基于elasticsearch实现，支持关键词高亮显示
 
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200523214633.png)
 
-#### 用户角色权限管理：
+#### 用户角色权限管理
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180727155310.png)
 
-#### 商品列表限流：
+#### 商品列表限流
 ![image](./doc/shortcut/微信截图_20200802182806.png)
 
 #### Kafka状态监控
