@@ -35,6 +35,12 @@ spring:
           uri: lb://oauth2-resource-server
           predicates:
             - Path=/api/v5/user
+        - id: goodskill-admin
+          uri: lb://goodskill-admin
+          predicates:
+            - Path=/admin/**
+          filters:
+            - StripPrefix=1
 management:
   endpoint:
     health:
