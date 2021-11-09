@@ -11,6 +11,7 @@
     <version>${goodsKill.version}</version>
     <name>goodskill-admin</name>
     <description>goodskill-admin</description>
+    <packaging>jar</packaging>
     <properties>
         <java.version>11</java.version>
         <spring-boot-admin.version>2.5.3</spring-boot-admin.version>
@@ -58,6 +59,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${springboot.version}</version>
             </plugin>
         </plugins>
     </build>
