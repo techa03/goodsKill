@@ -322,6 +322,17 @@ services:
 #    networks:
 #      - somenetwork
 
+  goodsadmin:
+    build: ./goodskill-admin
+    container_name: goodsadmin
+    volumes:
+      - /logs/goods-admin/:/logs/goodsKill
+    depends_on:
+      - nacos
+      - zipkin
+    networks:
+      - somenetwork
+
 networks:
   somenetwork:
     driver: bridge
