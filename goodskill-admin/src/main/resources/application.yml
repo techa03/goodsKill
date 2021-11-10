@@ -1,5 +1,5 @@
 server:
-  port: 19031
+  port: 8083
 
 management:
   endpoints:
