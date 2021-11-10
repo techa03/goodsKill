@@ -47,6 +47,12 @@ spring:
     username: guest
     password: guest
   cloud:
+    nacos:
+      discovery:
+        metadata:
+          management:
+            ##配置元数据解决SpringBoot Admin无法正常监控问题
+            context-path: ${server.servlet.context-path}/actuator
     sentinel:
       transport:
         port: 8719
@@ -82,6 +88,9 @@ management:
     web:
       exposure:
         include: '*'
+  endpoint:
+    health:
+      show-details: always
 
 server:
   port: 8080
