@@ -268,7 +268,7 @@ success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01�
 
 swagger主页测试地址: http://www.goodskill.com:8080/goodskill/web/swagger-ui/index.html
 
-SpringBoot Admin应用监控地址: http://www.goodskill.com:8083/admin/, 登录用户名密码：admin/123456
+SpringBoot Admin应用监控地址: http://www.goodskill.com:8083, 登录用户名密码：admin/123456
 
 kafka状态监控页面地址: http://localhost:9000
 
