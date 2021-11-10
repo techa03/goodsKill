@@ -19,6 +19,7 @@
 		<module>goodskill-gateway</module>
 		<module>goodskill-seata</module>
 		<module>goodskill-oauth2</module>
+		<module>goodskill-admin</module>
 	</modules>
 
 	<properties>

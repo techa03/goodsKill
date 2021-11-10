@@ -116,8 +116,8 @@ services:
         soft: -1
         hard: -1
     ports:
-      - 9200:9200
-      - 9300:9300
+      - "9200:9200"
+      - "9300:9300"
     networks:
       - somenetwork
 
@@ -303,7 +303,7 @@ services:
     volumes:
       - /logs/goods-gateway/:/logs/goodsKill
     ports:
-      - 80:80
+      - "80:80"
     depends_on:
       - nacos
       - zipkin
@@ -321,6 +321,19 @@ services:
 #      - goodsservice
 #    networks:
 #      - somenetwork
+
+  goodsadmin:
+    build: ./goodskill-admin
+    container_name: goodsadmin
+    ports:
+      - "8083:8083"
+    volumes:
+      - /logs/goods-admin/:/logs/goodsKill
+    depends_on:
+      - nacos
+      - zipkin
+    networks:
+      - somenetwork
 
 networks:
   somenetwork:
