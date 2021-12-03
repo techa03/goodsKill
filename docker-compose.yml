@@ -12,7 +12,7 @@ services:
       - somenetwork
 
   nacos:
-    image: nacos/nacos-server:1.4.1
+    image: nacos/nacos-server:2.0.3
     container_name: nacos
     environment:
       - PREFER_HOST_MODE=hostname
@@ -101,7 +101,7 @@ services:
       - somenetwork
 
   elasticsearch:
-    image: elasticsearch:7.10.1
+    image: elasticsearch:7.14.2
     container_name: elasticsearch
     environment:
       - node.name=es01
@@ -169,18 +169,18 @@ services:
 #    networks:
 #      - somenetwork
 
-#  kibana:
-#    image: kibana:7.10.1
-#    container_name: kibana
-#    ports:
-#      - 5601:5601
-#    depends_on:
-#      - elasticsearch
-#    environment:
-#      - elasticsearch.hosts=http://elasticsearch:9200
-#      - i18n.locale=zh-CN
-#    networks:
-#      - somenetwork
+  kibana:
+    image: kibana:7.14.2
+    container_name: kibana
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    environment:
+      - elasticsearch.hosts=http://elasticsearch:9200
+      - i18n.locale=zh-CN
+    networks:
+      - somenetwork
 
   mysql:
     image: mysql:8.0.22
