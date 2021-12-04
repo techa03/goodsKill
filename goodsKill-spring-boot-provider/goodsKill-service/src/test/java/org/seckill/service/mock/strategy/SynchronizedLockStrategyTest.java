@@ -1,5 +1,6 @@
 package org.seckill.service.mock.strategy;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -35,6 +36,7 @@ public class SynchronizedLockStrategyTest {
     private MessageChannel messageChannel;
 
     @Test
+    @Ignore
     public void execute() {
         SeckillMockRequestDto requestDto = new SeckillMockRequestDto();
         long seckillId = 1L;
