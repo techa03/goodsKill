@@ -8,7 +8,7 @@ import org.seckill.api.user.bo.UserBo;
 import org.seckill.entity.User;
 import org.seckill.entity.UserAuthAccount;
 import org.seckill.mp.dao.mapper.UserAuthAccountMapper;
-import org.seckill.service.mp.UserService;
+import org.seckill.service.common.UserService;
 import org.springframework.beans.BeanUtils;
 
 import javax.annotation.Resource;

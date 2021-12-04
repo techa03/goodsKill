@@ -110,7 +110,7 @@ public class SeckillServiceImplTest {
 
     @Test
     public void getSuccessKillCount() {
-        when(successKilledMapper.selectCount(any())).thenReturn(0);
+        when(successKilledMapper.selectCount(any())).thenReturn(0L);
         when(successKilledMongoService.count(1L)).thenReturn(1L);
         assertEquals(seckillService.getSuccessKillCount(1L), 1L);
     }

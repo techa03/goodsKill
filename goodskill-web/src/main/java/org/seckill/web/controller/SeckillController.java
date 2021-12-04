@@ -19,7 +19,7 @@ import org.seckill.api.exception.RepeatKillException;
 import org.seckill.api.exception.SeckillCloseException;
 import org.seckill.api.service.*;
 import org.seckill.entity.*;
-import org.seckill.web.dto.ResponseDto;
+import org.seckill.web.dto.ResponseDTO;
 import org.seckill.web.util.HttpUrlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -269,7 +269,7 @@ public class SeckillController {
     @RequestMapping(value = "/permission/list", method = RequestMethod.GET, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public ResponseDto getPermissionList() {
+    public ResponseDTO getPermissionList() {
         Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getSession().getAttribute("user");
         user = userAccountService.findByUserAccount(user.getAccount());
@@ -283,7 +283,7 @@ public class SeckillController {
                 set.add(permissionService.getById(rolePermission.getPermissionId()));
             }
         }
-        ResponseDto<Permission> responseDto = new ResponseDto<>();
+        ResponseDTO<Permission> responseDto = new ResponseDTO<>();
         List<Permission> permissions = set.stream().sorted(Comparator.comparing(Permission::getPermissionId).reversed()).collect(Collectors.toList());
         logger.info(user.toString());
         responseDto.setData(permissions.toArray(new Permission[permissions.size()]));
@@ -293,7 +293,7 @@ public class SeckillController {
     @RequestMapping(value = "/permission/diretorylist", method = RequestMethod.GET, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public ResponseDto getDirectoryPermissionList() {
+    public ResponseDTO getDirectoryPermissionList() {
         Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getSession().getAttribute("user");
         user = userAccountService.findByUserAccount(user.getAccount());
@@ -312,7 +312,7 @@ public class SeckillController {
                 }
             }
         }
-        ResponseDto<Permission> responseDto = new ResponseDto<>();
+        ResponseDTO<Permission> responseDto = new ResponseDTO<>();
         List<Permission> permissions = new ArrayList<>(set);
         logger.info(user.toString());
         responseDto.setData(permissions.toArray(new Permission[permissions.size()]));
@@ -328,9 +328,9 @@ public class SeckillController {
     @GetMapping(value = "/goods/search/{goodsName}", produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public ResponseDto searchGoods(@PathVariable("goodsName") String goodsName) {
+    public ResponseDTO searchGoods(@PathVariable("goodsName") String goodsName) {
         List goodsList = goodsEsService.searchWithNameByPage(goodsName);
-        ResponseDto responseDto = ResponseDto.ok();
+        ResponseDTO responseDto = ResponseDTO.ok();
         responseDto.setData(goodsList.toArray());
         return responseDto;
     }

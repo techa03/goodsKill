@@ -1,19 +1,17 @@
 package org.seckill.api.service;
 
-import org.seckill.entity.RolePermission;
-
 import java.util.List;
 
 /**
  * @author heng
  */
-public interface RolePermissionService {
+public interface RolePermissionService<T> {
 
-    boolean remove(int roleId);
+    boolean remove(int id);
 
-    boolean save(RolePermission record);
+    boolean save(T record);
 
-    List<RolePermission> list();
+    List<T> list();
 
-    List<RolePermission> list(Integer roleId);
+    List<T> list(Integer id);
 }

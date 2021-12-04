@@ -10,7 +10,7 @@ import org.seckill.entity.Goods;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.mp.dao.mapper.GoodsMapper;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
-import org.seckill.service.mp.SuccessKilledService;
+import org.seckill.service.common.SuccessKilledService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;

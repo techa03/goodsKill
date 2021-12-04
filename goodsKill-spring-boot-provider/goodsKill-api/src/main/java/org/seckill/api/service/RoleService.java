@@ -1,13 +1,14 @@
 package org.seckill.api.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.seckill.entity.Role;
 
 /**
  * @author heng
  */
 public interface RoleService {
-    IPage<Role> page(IPage<Role> page);
+    IPage<Role> page(Page<Role> page);
 
     boolean save(Role role);
 

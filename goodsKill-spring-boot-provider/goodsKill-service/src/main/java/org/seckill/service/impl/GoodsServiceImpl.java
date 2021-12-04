@@ -12,6 +12,7 @@ import org.seckill.mp.dao.mapper.GoodsMapper;
 import org.springframework.beans.BeanUtils;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -49,6 +50,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         } catch (Exception e) {
             log.warn("es服务不可用，请检查！", e);
         }
+    }
+
+    @Override
+    public Goods getById(Serializable id) {
+        return super.getById(id);
     }
 
     @Override

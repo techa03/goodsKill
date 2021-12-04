@@ -26,14 +26,19 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
     }
 
     @Override
+    public boolean save(UserRole entity) {
+        return super.save(entity);
+    }
+
+    @Override
     public List<UserRole> list() {
         return super.list();
     }
 
     @Override
-    public List<UserRole> list(Integer userId) {
+    public List<UserRole> list(Integer id) {
         UserRole query = new UserRole();
-        query.setUserId(userId);
+        query.setUserId(id);
         return super.list(new QueryWrapper<>(query));
     }
 }

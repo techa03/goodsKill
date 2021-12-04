@@ -65,10 +65,9 @@ import static org.seckill.service.common.constant.CommonConstant.DEFAULT_BINDING
 @RestController
 @DubboService
 public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> implements SeckillService {
-
     @Resource
     private SuccessKilledMongoService successKilledMongoService;
-    @Autowired
+    @Resource
     private SuccessKilledMapper successKilledMapper;
     @Autowired
     private RedisService redisService;
@@ -285,5 +284,20 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         BeanUtils.copyProperties(seckill, seckillInfo);
         seckillInfo.setGoodsName(goods.getName());
         return seckillInfo;
+    }
+
+    @Override
+    public boolean save(Seckill entity) {
+        return super.save(entity);
+    }
+
+    @Override
+    public boolean removeById(Serializable id) {
+        return super.removeById(id);
+    }
+
+    @Override
+    public Seckill getById(Serializable id) {
+        return super.getById(id);
     }
 }

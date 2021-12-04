@@ -16,8 +16,8 @@ public interface UserRoleService {
 
     /**
      * 根据用户id获取角色
-     * @param userId
+     * @param id
      * @return
      */
-    List<UserRole> list(Integer userId);
+    List<UserRole> list(Integer id);
 }

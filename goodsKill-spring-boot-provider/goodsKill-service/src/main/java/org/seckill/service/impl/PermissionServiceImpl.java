@@ -1,11 +1,14 @@
 package org.seckill.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.seckill.api.service.PermissionService;
 import org.seckill.entity.Permission;
 import org.seckill.mp.dao.mapper.PermissionMapper;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -19,7 +22,7 @@ import org.seckill.mp.dao.mapper.PermissionMapper;
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements PermissionService {
 
     @Override
-    public IPage<Permission> page(IPage<Permission> page) {
+    public IPage<Permission> page(Page<Permission> page) {
         return super.page(page);
     }
 
@@ -28,4 +31,13 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         return super.removeById(permissionId);
     }
 
+    @Override
+    public boolean save(Permission entity) {
+        return super.save(entity);
+    }
+
+    @Override
+    public Permission getById(Serializable id) {
+        return super.getById(id);
+    }
 }
