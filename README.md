@@ -133,19 +133,20 @@ goodsKill
 
   **注**:推荐使用<code>docker-compose</code>命令（推荐电脑运行内存16G以上），无需手动下载软件安装包，开箱即用。此命令会自动拉取docker镜像并以默认端口运行
 
-    镜像 | 版本         | 端口 | 用户名密码
-      ---|------------|---|---
-    Nacos | 2.0.3      | 8848 | 无
-    Redis | latest     | 6379 | 无
-    Kafka | 2.13-2.7.0 | 9092 | 无
-    KafkaManager | latest     | 9000 | 无
-    Mongo | 4.4.3      | 27017 | 无
-    MySQL | 8.0.22     | 3306 | root:Password123
-    Zookeeper | 3.6.2      | 2181 | 无
-    Elasticsearch | 7.14.2     | 9200 9300 | 无
-    Kibana | 7.14.2     | 5601 | 无
-    RabbitMQ | latest     | 5672 15672 | 无
-    Zipkin | latest     | 9411 | 无
+  镜像 | 版本 | 端口 | 用户名密码
+  ---|---|---|---
+  Nacos | 2.0.3 | 8848 | 无
+  Redis | latest | 6379 | 无
+  Kafka | 2.13-2.7.0 | 9092 | 无
+  KafkaManager | latest | 9000 | 无
+  Mongo | 4.4.3 | 27017 | 无
+  MySQL | 8.0.22 | 3306 | root:Password123
+  Zookeeper | 3.6.2 | 2181 | 无
+  Elasticsearch | 7.14.2 | 9200 9300 | 无
+  Kibana | 7.14.2 | 5601 | 无
+  RabbitMQ | latest | 5672 15672 | 无
+  Zipkin | latest | 9411 | 无
+
 
 **注**:除以上镜像外，<code>docker-compose.yml</code>文件还包含项目构建命令，目前暂未列出。
 若仅启动以上镜像不启动项目应用，可使用以下命令：
