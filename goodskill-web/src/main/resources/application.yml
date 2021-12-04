@@ -29,6 +29,7 @@ spring:
     timeout: 1800
   main:
     allow-bean-definition-overriding: true
+    allow-circular-references: true
   mvc:
     view:
       prefix: /WEB-INF/jsp/
@@ -38,6 +39,9 @@ spring:
       date: yyyy-MM-dd HH:mm:ss
       date-time: yyyy-MM-dd HH:mm:ss
       time: HH:mm:ss
+    # 升级到springboot 2.6需要增加以下配置，否则springfox启动报错
+    pathmatch:
+      matching-strategy: ant_path_matcher
   output:
     ansi:
       enabled: always
@@ -47,6 +51,24 @@ spring:
     username: guest
     password: guest
   cloud:
+    nacos:
+      discovery:
+        metadata:
+          management:
+            ##配置元数据解决SpringBoot Admin无法正常监控问题
+            context-path: ${server.servlet.context-path}/actuator
+    alibaba:
+      seata:
+        tx-service-group: goodskill-web
+    function:
+      definition: seckillResult
+    stream:
+      bindings:
+        seckill-out-0:
+          destination: seckill
+        seckillResult-in-0:
+          destination: seckill-result
+      source: seckill;seckillResult
     sentinel:
       transport:
         port: 8719
@@ -82,10 +104,31 @@ management:
     web:
       exposure:
         include: '*'
+  endpoint:
+    health:
+      show-details: always
 
+goodskill:
+  loginUrl: ${goodskill.gateway.host}${server.servlet.context-path}/login
+  gateway:
+    host: http://www.goodskill.com:${server.port}
+seata:
+  enabled: false
+  service:
+    disable-global-transaction: false
+    grouplist:
+      default: 127.0.0.1:8091
+    vgroup-mapping:
+      goodskill-web: default
 server:
   port: 8080
-
+  servlet:
+    context-path: /goodskill/web
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+    register-default-servlet: true
 
 ---
 spring:

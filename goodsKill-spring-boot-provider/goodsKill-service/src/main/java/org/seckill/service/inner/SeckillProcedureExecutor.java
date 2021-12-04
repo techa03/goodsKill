@@ -8,7 +8,7 @@ import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +16,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.seckill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME;
 
 /**
  * @author heng
@@ -29,7 +31,7 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
     @Autowired
     private SeckillService seckillService;
     @Autowired
-    private Source source;
+    private StreamBridge streamBridge;
 
     /**
      * 发送秒杀成功通知次数
@@ -57,7 +59,7 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
                 log.debug("当前库存：{}", seckill.getNumber());
                 // 高并发时限制只能发一次秒杀完成通知
                 if (!SeckillStatusConstant.END.equals(seckill.getStatus()) && sendTopicTimes.getAndIncrement() == 0) {
-                    source.output().send(MessageBuilder.withPayload(
+                    streamBridge.send(DEFAULT_BINDING_NAME, MessageBuilder.withPayload(
                             SeckillMockResponseDto
                                     .builder()
                                     .seckillId(seckillId)

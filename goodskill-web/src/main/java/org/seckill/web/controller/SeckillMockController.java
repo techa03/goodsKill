@@ -11,9 +11,8 @@ import org.seckill.entity.Seckill;
 import org.seckill.web.dto.SeckillWebMockRequestDTO;
 import org.seckill.web.util.TaskTimeCaculateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +43,7 @@ public class SeckillMockController {
     @Autowired
     private KafkaTemplate kafkaTemplate;
     @Autowired
-    private Source source;
+    private StreamBridge streamBridge;
 
     /**
      * 通过同步锁控制秒杀并发（秒杀未完成阻塞主线程）
@@ -246,7 +245,7 @@ public class SeckillMockController {
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() -> {
                         SeckillMockRequestDto payload = new SeckillMockRequestDto(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1)));
-                        source.output().send(MessageBuilder.withPayload(payload).build());
+                        streamBridge.send("seckill-out-0", payload);
                     }
             );
         }

@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.goodskill.mongo.api.SuccessKilledMongoService;
-import com.goodskill.mongo.topic.SeckillMockSaveTopic;
 import com.goodskill.mongo.vo.SeckillMockSaveVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -33,7 +32,7 @@ import org.seckill.util.common.util.MD5Util;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.messaging.support.MessageBuilder;
@@ -52,6 +51,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import static org.seckill.api.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
+import static org.seckill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME_MONGO_SAVE;
 
 /**
  * <p>
@@ -85,9 +85,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Resource(name = "taskExecutor")
     private ThreadPoolExecutor taskExecutor;
     @Autowired
-    private Source source;
-    @Autowired
-    private SeckillMockSaveTopic seckillMockSaveTopic;
+    private StreamBridge streamBridge;
     @Value("${alipay.qrcodeImagePath:1}")
     private String qrcodeImagePath;
 
@@ -246,7 +244,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
             throw new SeckillCloseException("seckill is closed");
         } else {
             taskExecutor.execute(() ->
-                    seckillMockSaveTopic.output().send(MessageBuilder.withPayload(
+                    streamBridge.send(DEFAULT_BINDING_NAME_MONGO_SAVE, MessageBuilder.withPayload(
                             SeckillMockSaveVo
                                     .builder()
                                     .seckillId(successKilled.getSeckillId())

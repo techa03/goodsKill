@@ -26,45 +26,45 @@
 ## ✨技术选型
 
 ### 📌后端技术:
-技术 | 名称 | 官网
-----|------|----
-SpringBoot |  框架 | [https://spring.io/projects/spring-boot](https://spring.io/projects/spring-boot)
-MyBatis-Plus | MyBatis增强工具  | [https://mp.baomidou.com/](https://mp.baomidou.com/)
-PageHelper | MyBatis物理分页插件  | [http://git.oschina.net/free/Mybatis_PageHelper](http://git.oschina.net/free/Mybatis_PageHelper)
-Hikari | 数据库连接池 | [https://github.com/brettwooldridge/HikariCP](https://github.com/brettwooldridge/HikariCP)
-ZooKeeper | 分布式协调服务  | [http://zookeeper.apache.org/](http://zookeeper.apache.org/)
-Redis | 分布式缓存数据库  | [https://redis.io/](https://redis.io/)
-Kafka | 消息队列  | [http://kafka.apache.org/](http://kafka.apache.org/)
-RabbitMQ | 消息队列  | [https://www.rabbitmq.com/](https://www.rabbitmq.com/)
-Logback | 日志组件  | [https://logback.qos.ch/](https://logback.qos.ch/)
-Protobuf & json | 数据序列化  | [https://github.com/google/protobuf](https://github.com/google/protobuf)
-Maven | 项目构建管理  | [http://maven.apache.org/](http://maven.apache.org/)
-SonarQube | 项目代码质量监控 | [https://www.sonarqube.org/](https://www.sonarqube.org/)
-Swagger3 | 项目API文档生成及测试工具 | [http://swagger.io/](http://swagger.io/)
-Mockito | mock类生成测试工具 | [https://site.mockito.org/](https://site.mockito.org/)
-Jacoco | 测试覆盖率报告插件 | [http://www.eclemma.org/jacoco/](http://www.eclemma.org/jacoco/)
-Shiro | 用户权限安全管理框架 | [https://shiro.apache.org/](https://shiro.apache.org/)
-MongoDB | Mongo数据库 | [https://www.mongodb.com/](https://www.mongodb.com/)
-MySQL | MySQL数据库 | [https://www.mysql.com/](https://www.mysql.com/)
-Reactor | 反应式异步编程 | [https://projectreactor.io/](https://projectreactor.io/)
-Spring Session | Spring会话管理 | [https://spring.io/projects/spring-session](https://spring.io/projects/spring-session)
-Elasticsearch | 全文搜索引擎 | [https://www.elastic.co](https://www.elastic.co)
-H2 | H2数据库 | [http://www.h2database.com/html/main.html](http://www.h2database.com/html/main.html)
-Sharding-JDBC | 分库分表组件 | [https://shardingsphere.apache.org](https://shardingsphere.apache.org)
-Spring Cloud Dubbo | SpringCloud组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
-Spring Cloud Sentinel | SpringCloud限流降级组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
-Spring Cloud Nacos | SpringCloud组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)
-Spring Cloud Gateway | SpringCloud网关组件 | [https://spring.io/projects/spring-cloud-gateway](https://spring.io/projects/spring-cloud-gateway)
-Kotlin | Kotlin | [https://kotlinlang.org/](https://kotlinlang.org/)
-Seata | 分布式事务解决方案 | [http://seata.io/zh-cn/index.html](http://seata.io/zh-cn/index.html)
-Spring Security OAuth2.0 | OAuth2.0授权组件 | [https://spring.io/projects/spring-security-oauth](https://spring.io/projects/spring-security-oauth)
+| 技术                       | 名称                | 官网                                                                                                   |
+|--------------------------|-------------------|------------------------------------------------------------------------------------------------------|
+| SpringBoot               | 框架                | [https://spring.io/projects/spring-boot](https://spring.io/projects/spring-boot)                     |
+| MyBatis-Plus             | MyBatis增强工具       | [https://mp.baomidou.com/](https://mp.baomidou.com/)                                                 |
+| PageHelper               | MyBatis物理分页插件     | [http://git.oschina.net/free/Mybatis_PageHelper](http://git.oschina.net/free/Mybatis_PageHelper)     |
+| Hikari                   | 数据库连接池            | [https://github.com/brettwooldridge/HikariCP](https://github.com/brettwooldridge/HikariCP)           |
+| ZooKeeper                | 分布式协调服务           | [http://zookeeper.apache.org/](http://zookeeper.apache.org/)                                         |
+| Redis                    | 分布式缓存数据库          | [https://redis.io/](https://redis.io/)                                                               |
+| Kafka                    | 消息队列              | [http://kafka.apache.org/](http://kafka.apache.org/)                                                 |
+| RabbitMQ                 | 消息队列              | [https://www.rabbitmq.com/](https://www.rabbitmq.com/)                                               |
+| Logback                  | 日志组件              | [https://logback.qos.ch/](https://logback.qos.ch/)                                                   |
+| Protobuf & json          | 数据序列化             | [https://github.com/google/protobuf](https://github.com/google/protobuf)                             |
+| Maven                    | 项目构建管理            | [http://maven.apache.org/](http://maven.apache.org/)                                                 |
+| SonarQube                | 项目代码质量监控          | [https://www.sonarqube.org/](https://www.sonarqube.org/)                                             |
+| Swagger3                 | 项目API文档生成及测试工具    | [http://swagger.io/](http://swagger.io/)                                                             |
+| Mockito                  | mock类生成测试工具       | [https://site.mockito.org/](https://site.mockito.org/)                                               |
+| Jacoco                   | 测试覆盖率报告插件         | [http://www.eclemma.org/jacoco/](http://www.eclemma.org/jacoco/)                                     |
+| Shiro                    | 用户权限安全管理框架        | [https://shiro.apache.org/](https://shiro.apache.org/)                                               |
+| MongoDB                  | Mongo数据库          | [https://www.mongodb.com/](https://www.mongodb.com/)                                                 |
+| MySQL                    | MySQL数据库          | [https://www.mysql.com/](https://www.mysql.com/)                                                     |
+| Reactor                  | 反应式异步编程           | [https://projectreactor.io/](https://projectreactor.io/)                                             |
+| Spring Session           | Spring会话管理        | [https://spring.io/projects/spring-session](https://spring.io/projects/spring-session)               |
+| Elasticsearch            | 全文搜索引擎            | [https://www.elastic.co](https://www.elastic.co)                                                     |
+| H2                       | H2数据库             | [http://www.h2database.com/html/main.html](http://www.h2database.com/html/main.html)                 |
+| Sharding-JDBC            | 分库分表组件            | [https://shardingsphere.apache.org](https://shardingsphere.apache.org)                               |
+| Spring Cloud Dubbo       | SpringCloud组件     | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)   |
+| Spring Cloud Sentinel    | SpringCloud限流降级组件 | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)   |
+| Spring Cloud Nacos       | SpringCloud组件     | [https://spring.io/projects/spring-cloud-alibaba](https://spring.io/projects/spring-cloud-alibaba)   |
+| Spring Cloud Gateway     | SpringCloud网关组件   | [https://spring.io/projects/spring-cloud-gateway](https://spring.io/projects/spring-cloud-gateway)   |
+| Kotlin                   | Kotlin            | [https://kotlinlang.org/](https://kotlinlang.org/)                                                   |
+| Seata                    | 分布式事务解决方案         | [http://seata.io/zh-cn/index.html](http://seata.io/zh-cn/index.html)                                 |
+| Spring Security OAuth2.0 | OAuth2.0授权组件      | [https://spring.io/projects/spring-security-oauth](https://spring.io/projects/spring-security-oauth) |
 
 ### 📌前端技术:
-技术 | 名称 | 官网
-----|------|----
-JQuery | 函式库  | [http://jquery.com/](http://jquery.com/)
-Bootstrap | 前端框架  | [http://getbootstrap.com/](http://getbootstrap.com/)
-LayUI | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)
+| 技术        | 名称     | 官网                                                   |
+|-----------|--------|------------------------------------------------------|
+| JQuery    | 函式库    | [http://jquery.com/](http://jquery.com/)             |
+| Bootstrap | 前端框架   | [http://getbootstrap.com/](http://getbootstrap.com/) |
+| LayUI     | 前端UI框架 | [http://www.layui.com/](http://www.layui.com/)       |
 
 ## 📝项目模块介绍
 ```
@@ -103,11 +103,11 @@ goodsKill
 - Elasticsearch: 7.10.1+
 - Sharding-JDBC: 4.1.1
 - RabbitMQ: 3.8.5+
-- SpringCloud: 2020.0.x
-- SpringBoot: 2.5.x
+- SpringCloud: 2021.x.x
+- SpringBoot: 2.6.x
 - SpringCloudAlibaba: 2021.x
 - Kotlin: 1.5.x
-- NacosServer: 1.4.1
+- NacosServer: 2.0.3
 - SeataServer: 1.4.1
 
 ## 🕹️️如何启动项目
@@ -133,20 +133,19 @@ goodsKill
 
   **注**:推荐使用<code>docker-compose</code>命令（推荐电脑运行内存16G以上），无需手动下载软件安装包，开箱即用。此命令会自动拉取docker镜像并以默认端口运行
 
-  镜像 | 版本 | 端口 | 用户名密码
-  ---|---|---|---
-  Nacos | 1.4.1 | 8848 | 无
-  Redis | latest | 6379 | 无
-  Kafka | 2.13-2.7.0 | 9092 | 无
-  KafkaManager | latest | 9000 | 无
-  Mongo | 4.4.3 | 27017 | 无
-  MySQL | 8.0.22 | 3306 | root:Password123
-  Zookeeper | 3.6.2 | 2181 | 无
-  Elasticsearch | 7.10.1 | 9200 9300 | 无
-  Kibana | 7.10.1 | 5601 | 无
-  RabbitMQ | latest | 5672 15672 | 无
-  Zipkin | latest | 9411 | 无
-
+  | 镜像            | 版本 | 端口 | 用户名密码|
+---------------|  ---|---|---|---|
+  | Nacos         | 2.0.3 | 8848 | 无|
+  | Redis         | latest | 6379 | 无|
+  | Kafka         | 2.13-2.7.0 | 9092 | 无|
+  | KafkaManager  | latest | 9000 | 无|
+  | Mongo         | 4.4.3 | 27017 | 无|
+  | MySQL         | 8.0.22 | 3306 | root:Password123|
+  | Zookeeper     | 3.6.2 | 2181 | 无|
+  | Elasticsearch | 7.14.2 | 9200 9300 | 无|
+  | Kibana        | 7.14.2 | 5601 | 无|
+  | RabbitMQ      | latest | 5672 15672 | 无|
+  | Zipkin        | latest | 9411 | 无|
 
 **注**:除以上镜像外，<code>docker-compose.yml</code>文件还包含项目构建命令，目前暂未列出。
 若仅启动以上镜像不启动项目应用，可使用以下命令：
@@ -248,9 +247,9 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
 ```
 
 ## 📚分库分表情况说明
-表 | 数据库 | 是否分库 | 分库字段 | 是否分表 | 分表字段
----|---|---|---|---|---
-success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01两个库） | seckill_id | 是（分为success_killed_0,success_kill_1两张表） | user_phone
+| 表              | 数据库   | 是否分库                              | 分库字段       | 是否分表                                    | 分表字段       |
+|----------------|-------|-----------------------------------|------------|-----------------------------------------|------------|
+| success_killed | MySQL | 是（同一服务器中，分为seckill和seckill_01两个库） | seckill_id | 是（分为success_killed_0,success_kill_1两张表） | user_phone |
 
 **注**:其他表均未分库分表，默认使用seckill作为主库
 
@@ -307,17 +306,17 @@ ns         %     Task name
  ```
 
 ## 🔨后续更新计划
-功能 | 进度 | 完成时间 | 说明
----|---|---|---
-集成spring cloud alibaba组件 | ✅ | 2020.5 | 目前已集成nacos、sentinel、dubbo组件
-基于配置中心改造项目配置| ✅ | 2020.7 | 支付宝配置保存于nacos配置中心，防止配置泄露
-新版支付宝SDK集成 | ✅ | 2020.7 | 使用当面扫完成付款
-完善jwt用户鉴权，并提供通用服务接口 | ✅ | 2020.12 |
-集成分布式事务解决方案 | ✅ | 2021.2 |
-增加OAuth2.0授权登录模块 | ✅ | 2021.9 | 增加自定义OAuth2.0授权以及资源服务，并支持第三方授权登录
-聊天室功能 | ⏳ |  | 使用netty网络通信，maven分支已经实现，master分支待集成 |
-前后端分离 | ⏳ | | 目前前后端全部放在gooskill-web模块，不利于部署
-丰富项目文档 | ⏳ |  | 
+| 功能                       | 进度  | 完成时间    | 说明                                  |
+|--------------------------|-----|---------|-------------------------------------|
+| 集成spring cloud alibaba组件 | ✅   | 2020.5  | 目前已集成nacos、sentinel、dubbo组件         |
+| 基于配置中心改造项目配置             | ✅   | 2020.7  | 支付宝配置保存于nacos配置中心，防止配置泄露            |
+| 新版支付宝SDK集成               | ✅   | 2020.7  | 使用当面扫完成付款                           |
+| 完善jwt用户鉴权，并提供通用服务接口      | ✅   | 2020.12 |                                     |
+| 集成分布式事务解决方案              | ✅   | 2021.2  |                                     |
+| 增加OAuth2.0授权登录模块         | ✅   | 2021.9  | 增加自定义OAuth2.0授权以及资源服务，并支持第三方授权登录    |
+| 聊天室功能                    | ⏳   |         | 使用netty网络通信，maven分支已经实现，master分支待集成 |
+| 前后端分离                    | ⏳   |         | 目前前后端全部放在gooskill-web模块，不利于部署       |
+| 丰富项目文档                   | ⏳   |         |                                     |
 
 ### API接口
 ![image](./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png)

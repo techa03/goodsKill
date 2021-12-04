@@ -7,13 +7,11 @@ import com.goodskill.es.model.Goods;
 import com.goodskill.es.repository.GoodsRepository;
 import org.apache.dubbo.common.utils.StringUtils;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.query.HighlightQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,11 +72,11 @@ public class GoodsEsServiceImpl implements GoodsEsService {
                     .withQuery(QueryBuilders.matchQuery("name", input))
                     .build();
         }
-        // 设置name字段高亮显示
-        HighlightQuery highlightQuery = new HighlightQuery(new HighlightBuilder().field("name").preTags(pretags).postTags(postTags));
+        // FIXME 设置name字段高亮显示
+//        HighlightQuery highlightQuery = new HighlightQuery(new HighlightBuilder().field("name").preTags(pretags).postTags(postTags));
         Pageable pageble = PageRequest.of(0, 3);
         searchQuery.setPageable(pageble);
-        searchQuery.setHighlightQuery(highlightQuery);
+//        searchQuery.setHighlightQuery(highlightQuery);
         return elasticsearchOperations.search(searchQuery, Goods.class)
                 .getSearchHits().stream().map(s -> {
                     Goods goods = s.getContent();

@@ -1,7 +1,6 @@
 package org.seckill.service.impl;
 
 import com.goodskill.mongo.api.SuccessKilledMongoService;
-import com.goodskill.mongo.topic.SeckillMockSaveTopic;
 import org.apache.curator.shaded.com.google.common.collect.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,8 +64,6 @@ public class SeckillServiceImplTest {
     private List<GoodsKillStrategy> goodsKillStrategies;
     @Spy
     private ThreadPoolExecutor taskExecutor = new ThreadPoolExecutor(1,1,2L, TimeUnit.SECONDS, new ArrayBlockingQueue(1));
-    @Mock
-    private SeckillMockSaveTopic seckillMockSaveTopic;
     @Mock
     private GoodsService goodsService;
 

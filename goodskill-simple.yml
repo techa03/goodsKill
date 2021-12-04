@@ -12,7 +12,7 @@ services:
       - somenetwork
 
   nacos:
-    image: nacos/nacos-server:1.4.1
+    image: nacos/nacos-server:2.0.3
     container_name: nacos
     environment:
       - PREFER_HOST_MODE=hostname
@@ -101,7 +101,7 @@ services:
       - somenetwork
 
   elasticsearch:
-    image: elasticsearch:7.10.1
+    image: elasticsearch:7.14.2
     container_name: elasticsearch
     environment:
       - node.name=es01
@@ -121,10 +121,18 @@ services:
     networks:
       - somenetwork
 
+  logstash:
+    image: logstash:7.14.2
+    container_name: logstash
+    volumes:
+      - ./doc/docker/logstash/pipeline/:/usr/share/logstash/pipeline/
+#      - /tmp/:/tmp/
+    networks:
+      - somenetwork
 
 ##放开注释即为es双节点模式
 #  elasticsearch1:
-#    image: elasticsearch:7.10.1
+#    image: elasticsearch:7.14.2
 #    container_name: elasticsearch1
 #    environment:
 #      - node.name=es02
@@ -147,7 +155,7 @@ services:
 #      - somenetwork
 
 #  elasticsearch2:
-#    image: elasticsearch:7.10.1
+#    image: elasticsearch:7.14.2
 #    container_name: elasticsearch2
 #    environment:
 #      - node.name=es03
@@ -170,7 +178,7 @@ services:
 #      - somenetwork
 
   kibana:
-    image: kibana:7.10.1
+    image: kibana:7.14.2
     container_name: kibana
     ports:
       - 5601:5601
