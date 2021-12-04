@@ -16,6 +16,12 @@
 		<dependency>
 			<groupId>com.goodskill</groupId>
 			<artifactId>goodsKill-api</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>jsqlparser</artifactId>
+					<groupId>com.github.jsqlparser</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.goodskill</groupId>

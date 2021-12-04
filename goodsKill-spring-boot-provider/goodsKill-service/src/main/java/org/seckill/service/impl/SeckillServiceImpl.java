@@ -2,9 +2,9 @@ package org.seckill.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.goodskill.mongo.api.SuccessKilledMongoService;
 import com.goodskill.mongo.vo.SeckillMockSaveVo;
 import lombok.extern.slf4j.Slf4j;
@@ -89,7 +89,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private String qrcodeImagePath;
 
     @Override
-    public PageInfo getSeckillList(int pageNum, int pageSize, String goodsName) {
+    public Page getSeckillList(int pageNum, int pageSize, String goodsName) {
         String key = "seckill:list:" + pageNum + ":" + pageSize + ":" + goodsName;
         ValueOperations valueOperations = redisTemplate.opsForValue();
         List list = (List) valueOperations.get(key);
@@ -102,7 +102,9 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
             list = this.list(queryWrapper);
             valueOperations.set(key, list, 5, TimeUnit.MINUTES);
         }
-        return new PageInfo(list);
+        Page page = new Page();
+        page.setRecords(list);
+        return page;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package org.seckill.api.service;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.seckill.api.dto.*;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
@@ -28,9 +28,9 @@ public interface SeckillService {
      * @return
      */
     @GetMapping("/getSeckillList")
-    PageInfo getSeckillList(@RequestParam("pageNum") int pageNum,
-                            @RequestParam("pageSize") int pageSize,
-                            @RequestParam(value = "goodsName", required = false) String goodsName);
+    Page getSeckillList(@RequestParam("pageNum") int pageNum,
+                        @RequestParam("pageSize") int pageSize,
+                        @RequestParam(value = "goodsName", required = false) String goodsName);
 
 
     /**

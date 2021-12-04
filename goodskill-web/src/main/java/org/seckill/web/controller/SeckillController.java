@@ -1,7 +1,7 @@
 package org.seckill.web.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goodskill.es.api.GoodsEsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -74,10 +74,10 @@ public class SeckillController {
             @RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
             @RequestParam(name = "limit", required = false, defaultValue = "4") int limit,
             @RequestParam(name = "goodsName", required = false) String goodsName) {
-        PageInfo<Seckill> pageInfo = seckillService.getSeckillList(offset, limit, goodsName);
+        Page<Seckill> pageInfo = seckillService.getSeckillList(offset, limit, goodsName);
         long totalNum = pageInfo.getTotal();
         long pageNum = (totalNum % limit == 0) ? totalNum / limit : totalNum / limit + 1;
-        model.addAttribute("list", pageInfo.getList());
+        model.addAttribute("list", pageInfo.getRecords());
         model.addAttribute("totalNum", totalNum);
         model.addAttribute("pageNum", pageNum);
         model.addAttribute("limit", limit);

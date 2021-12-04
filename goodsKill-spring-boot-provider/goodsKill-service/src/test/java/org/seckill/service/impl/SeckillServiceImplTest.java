@@ -75,7 +75,7 @@ public class SeckillServiceImplTest {
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
         when(valueOperations.get(key)).thenReturn(Lists.newArrayList());
         when(baseMapper.selectList(any())).thenReturn(Lists.newArrayList(seckillEntity));
-        assertEquals(1, seckillService.getSeckillList(1, 1, goodsName).getList().size());
+        assertEquals(1, seckillService.getSeckillList(1, 1, goodsName).getRecords().size());
     }
 
     @Test
