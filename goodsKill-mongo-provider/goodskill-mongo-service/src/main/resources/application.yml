@@ -6,6 +6,8 @@ spring:
     active: docker
   application:
     name: mongo-service-provider
+  main:
+    allow-circular-references: true
   cloud:
     function:
       ## 绑定的消息处理函数名
@@ -47,6 +49,14 @@ logging:
       springframework:
         data:
           mongodb: debug
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 
 ---
 spring:

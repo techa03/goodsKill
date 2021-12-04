@@ -12,6 +12,7 @@ spring:
       ##ensures the new consumer group gets the messages we sent
       auto-offset-reset: earliest
   main:
+    allow-circular-references: true
     allow-bean-definition-overriding: true
   output:
     ansi:
@@ -56,7 +57,20 @@ spring:
     username: guest
     password: guest
   cloud:
+    alibaba:
+      seata:
+        tx-service-group: goodskill-web
+    function:
+      definition: seckill
     stream:
+      bindings:
+        seckilResult-out-0:
+          destination: seckill-result
+        seckill-in-0:
+          destination: seckill
+        seckillMongoSave-out-0:
+          destination: seckill-mongo-save
+      source: seckill;seckilResult;seckillMongoSave
       default-binder: rabbit
     sentinel:
       transport:
@@ -72,7 +86,6 @@ spring:
             group-id: DEFAULT_GROUP
             rule-type: flow
             server-addr: 127.0.0.1:8848
-
 
 dubbo:
   scan:
@@ -106,7 +119,13 @@ pagehelper:
   supportMethodsArguments: true
 
 seata:
-  enabled: true
+  enabled: false
+  service:
+    disable-global-transaction: false
+    grouplist:
+      default: 127.0.0.1:8091
+    vgroup-mapping:
+      goodskill-web: default
   application-id: goodskill-service-provider
   tx-service-group: my_test_tx_group
   config:
@@ -126,6 +145,24 @@ seata:
       namespace:
       username: "nacos"
       password: "nacos"
+
+logging:
+  level:
+    org:
+      apache:
+        kafka: error
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  health:
+    db:
+      enabled: false
+
 ---
 ######################docker环境配置#####################
 spring:

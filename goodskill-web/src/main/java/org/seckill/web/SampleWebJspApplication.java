@@ -9,6 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
 
 /**
@@ -21,7 +22,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableDiscoveryClient
 @EnableFeignClients(value = {"com.goodskill.*.api", "org.seckill.api"})
 @EnableRedisHttpSession
-//@EnableOpenApi
+@EnableOpenApi
 public class SampleWebJspApplication extends SpringBootServletInitializer {
 
     @Override
