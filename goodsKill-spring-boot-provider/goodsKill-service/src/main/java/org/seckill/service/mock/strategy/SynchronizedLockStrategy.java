@@ -9,7 +9,7 @@ import org.seckill.entity.SuccessKilled;
 import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +20,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import static org.seckill.api.enums.SeckillSolutionEnum.SYCHRONIZED;
+import static org.seckill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME;
 
 /**
  * @author techa03
@@ -35,7 +36,7 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
     @Autowired
     private SuccessKilledMapper successKilledMapper;
     @Autowired
-    private Source source;
+    private StreamBridge streamBridge;
 
     private final ConcurrentHashMap<Long, Object> seckillIdList = new ConcurrentHashMap<>();
 
@@ -65,7 +66,7 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
                         successKilledMapper.insert(record);
                     } else {
                         if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
-                            source.output().send(MessageBuilder.withPayload(
+                            streamBridge.send(DEFAULT_BINDING_NAME, MessageBuilder.withPayload(
                                     SeckillMockResponseDto
                                             .builder()
                                             .seckillId(seckillId)

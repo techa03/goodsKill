@@ -260,10 +260,16 @@
             <scope>test</scope>
         </dependency>
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-boot-starter</artifactId>
-			<version>${swagger.version}</version>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>1.5.20</version>
+			<scope>compile</scope>
 		</dependency>
+		<!--		<dependency>-->
+<!--			<groupId>io.springfox</groupId>-->
+<!--			<artifactId>springfox-boot-starter</artifactId>-->
+<!--			<version>${swagger.version}</version>-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<build>

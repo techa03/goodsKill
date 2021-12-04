@@ -1,16 +1,12 @@
 package org.seckill.service;
 
 import com.alibaba.cloud.seata.feign.SeataFeignClientAutoConfiguration;
-import com.goodskill.mongo.topic.SeckillMockSaveTopic;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Sink;
-import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableTransactionManagement
 @MapperScan("org.seckill.mp.dao.mapper")
 @EnableDiscoveryClient
-@EnableBinding(value = {Sink.class, Source.class, SeckillMockSaveTopic.class})
 @EnableFeignClients({"com.goodskill.mongo.api", "com.goodskill.es.api"})
 @RestController
 public class GoodsKillServiceApplication {

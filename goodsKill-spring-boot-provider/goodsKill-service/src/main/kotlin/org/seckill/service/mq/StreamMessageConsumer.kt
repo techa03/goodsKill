@@ -4,9 +4,9 @@ import org.seckill.api.dto.SeckillMockRequestDto
 import org.seckill.api.enums.SeckillSolutionEnum
 import org.seckill.service.inner.SeckillExecutor
 import org.slf4j.LoggerFactory
-import org.springframework.cloud.stream.annotation.StreamListener
-import org.springframework.cloud.stream.messaging.Sink
-import org.springframework.stereotype.Component
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import java.util.function.Consumer
 import javax.annotation.Resource
 
 /**
@@ -15,18 +15,21 @@ import javax.annotation.Resource
  * @author techa03
  * @date 2020/7/18
  */
-@Component
+@Configuration
 open class StreamMessageConsumer {
     private val log = LoggerFactory.getLogger(this.javaClass)
 
     @Resource
     private lateinit var seckillExecutor: SeckillExecutor
 
-    @StreamListener(Sink.INPUT)
-    fun consumer(payload: SeckillMockRequestDto) {
-        log.info("收到秒杀请求:$payload")
-        val userPhone = payload.phoneNumber
-        val seckillId = payload.seckillId
-        seckillExecutor.dealSeckill(seckillId, userPhone, SeckillSolutionEnum.RABBIT_MQ.name)
+    @Bean
+    open fun seckill(): Consumer<SeckillMockRequestDto> {
+        return Consumer { payload ->
+            log.info("收到秒杀请求:$payload")
+            val userPhone = payload.phoneNumber
+            val seckillId = payload.seckillId
+            seckillExecutor.dealSeckill(seckillId, userPhone, SeckillSolutionEnum.RABBIT_MQ.name)
+        }
+
     }
 }
