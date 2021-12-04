@@ -97,18 +97,11 @@ goodsKill
 
 ## 🧰开发环境版本说明
 - JDK: OpenJDK11
-- MySQL: 8.0.21+
-- Kafka: 2.7.0+
-- MongoDB: 4.4+
-- Elasticsearch: 7.10.1+
 - Sharding-JDBC: 4.1.1
-- RabbitMQ: 3.8.5+
 - SpringCloud: 2021.x.x
 - SpringBoot: 2.6.x
 - SpringCloudAlibaba: 2021.x
-- Kotlin: 1.5.x
-- NacosServer: 2.0.3
-- SeataServer: 1.4.1
+- Kotlin: 1.6.x
 
 ## 🕹️️如何启动项目
 > #### 方法一：使用Docker镜像构建脚本
