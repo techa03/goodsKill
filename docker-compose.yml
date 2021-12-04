@@ -121,6 +121,13 @@ services:
     networks:
       - somenetwork
 
+  logstash:
+    image: logstash:7.14.2
+    container_name: logstash
+    volumes:
+      - ./doc/docker/logstash/:/usr/share/logstash/
+    networks:
+      - somenetwork
 
 ##放开注释即为es双节点模式
 #  elasticsearch1:
