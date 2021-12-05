@@ -1,6 +1,6 @@
 package org.seckill.service.mock.strategy;
 
-import org.seckill.api.dto.SeckillMockRequestDto;
+import org.seckill.api.dto.SeckillMockRequestDTO;
 
 /**
  * 秒杀策略接口
@@ -14,5 +14,5 @@ public interface GoodsKillStrategy {
      *
      * @param requestDto 秒杀请求
      */
-    void execute(SeckillMockRequestDto requestDto);
+    void execute(SeckillMockRequestDTO requestDto);
 }

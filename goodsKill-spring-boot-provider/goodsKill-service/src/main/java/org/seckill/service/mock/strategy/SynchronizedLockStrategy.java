@@ -1,9 +1,9 @@
 package org.seckill.service.mock.strategy;
 
+import com.goodskill.common.constant.SeckillStatusConstant;
 import lombok.extern.slf4j.Slf4j;
-import org.seckill.api.constant.SeckillStatusConstant;
-import org.seckill.api.dto.SeckillMockRequestDto;
-import org.seckill.api.dto.SeckillMockResponseDto;
+import org.seckill.api.dto.SeckillMockRequestDTO;
+import org.seckill.api.dto.SeckillMockResponseDTO;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.mp.dao.mapper.SeckillMapper;
@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import static org.seckill.api.enums.SeckillSolutionEnum.SYCHRONIZED;
+import static com.goodskill.common.enums.SeckillSolutionEnum.SYCHRONIZED;
 import static org.seckill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME;
 
 /**
@@ -41,7 +41,7 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
     private final ConcurrentHashMap<Long, Object> seckillIdList = new ConcurrentHashMap<>();
 
     @Override
-    public void execute(SeckillMockRequestDto requestDto) {
+    public void execute(SeckillMockRequestDTO requestDto) {
         int executeTime = requestDto.getCount();
         long seckillId = requestDto.getSeckillId();
         CountDownLatch countDownLatch = new CountDownLatch(executeTime);
@@ -67,7 +67,7 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
                     } else {
                         if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
                             streamBridge.send(DEFAULT_BINDING_NAME, MessageBuilder.withPayload(
-                                    SeckillMockResponseDto
+                                    SeckillMockResponseDTO
                                             .builder()
                                             .seckillId(seckillId)
                                             .status(true)

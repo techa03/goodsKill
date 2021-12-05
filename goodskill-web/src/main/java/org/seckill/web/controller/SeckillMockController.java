@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.seckill.api.dto.SeckillMockRequestDto;
+import org.seckill.api.dto.SeckillMockRequestDTO;
 import org.seckill.api.dto.SeckillResult;
 import org.seckill.api.service.SeckillService;
 import org.seckill.entity.Seckill;
@@ -21,7 +21,7 @@ import javax.validation.Valid;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.seckill.api.enums.SeckillSolutionEnum.*;
+import static com.goodskill.common.enums.SeckillSolutionEnum.*;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
@@ -59,7 +59,7 @@ public class SeckillMockController {
         int requestCount = dto.getRequestCount();
         prepareSeckill(seckillId, seckillCount, SYCHRONIZED.getName());
         log.info(SYCHRONIZED.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
-        seckillService.execute(new SeckillMockRequestDto(seckillId, requestCount, null), SYCHRONIZED.getCode());
+        seckillService.execute(new SeckillMockRequestDTO(seckillId, requestCount, null), SYCHRONIZED.getCode());
         return SeckillResult.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
@@ -82,7 +82,7 @@ public class SeckillMockController {
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() ->
-                    seckillService.execute(new SeckillMockRequestDto(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
+                    seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
                             REDISSION_LOCK.getCode())
             );
         }
@@ -150,7 +150,7 @@ public class SeckillMockController {
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() ->
-                    seckillService.execute(new SeckillMockRequestDto(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
+                    seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
                             ATOMIC_UPDATE.getCode())
             );
         }
@@ -188,7 +188,7 @@ public class SeckillMockController {
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() ->
-                    seckillService.execute(new SeckillMockRequestDto(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
+                    seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
                             ZOOKEEPER_LOCK.getCode())
             );
         }
@@ -212,7 +212,7 @@ public class SeckillMockController {
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() ->
-                    seckillService.execute(new SeckillMockRequestDto(seckillId, requestCount, String.valueOf(atomicInteger.addAndGet(1))), REDIS_MONGO_REACTIVE.getCode())
+                    seckillService.execute(new SeckillMockRequestDTO(seckillId, requestCount, String.valueOf(atomicInteger.addAndGet(1))), REDIS_MONGO_REACTIVE.getCode())
             );
         }
         return SeckillResult.ok();
@@ -244,7 +244,7 @@ public class SeckillMockController {
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() -> {
-                        SeckillMockRequestDto payload = new SeckillMockRequestDto(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1)));
+                        SeckillMockRequestDTO payload = new SeckillMockRequestDTO(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1)));
                         streamBridge.send("seckill-out-0", payload);
                     }
             );
@@ -265,7 +265,7 @@ public class SeckillMockController {
         AtomicInteger atomicInteger = new AtomicInteger(0);
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(() -> {
-                seckillService.execute(new SeckillMockRequestDto(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
+                seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
                         SENTINEL_LIMIT.getCode());
                     }
             );

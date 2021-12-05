@@ -5,17 +5,17 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
+import com.goodskill.common.constant.SeckillStatusConstant;
+import com.goodskill.common.enums.SeckillStatEnum;
+import com.goodskill.common.exception.RepeatKillException;
+import com.goodskill.common.exception.SeckillCloseException;
+import com.goodskill.common.exception.SeckillException;
 import com.goodskill.mongo.api.SuccessKilledMongoService;
 import com.goodskill.mongo.vo.SeckillMockSaveVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.seckill.api.constant.SeckillStatusConstant;
 import org.seckill.api.dto.*;
-import org.seckill.api.enums.SeckillStatEnum;
-import org.seckill.api.exception.RepeatKillException;
-import org.seckill.api.exception.SeckillCloseException;
-import org.seckill.api.exception.SeckillException;
 import org.seckill.api.service.GoodsService;
 import org.seckill.api.service.SeckillService;
 import org.seckill.entity.Goods;
@@ -50,7 +50,7 @@ import java.util.Objects;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import static org.seckill.api.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
+import static com.goodskill.common.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
 import static org.seckill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME_MONGO_SAVE;
 
 /**
@@ -108,23 +108,23 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     }
 
     @Override
-    public Exposer exportSeckillUrl(long seckillId) {
+    public ExposerDTO exportSeckillUrl(long seckillId) {
         //从redis中获取缓存秒杀信息
         Seckill seckill = redisService.getSeckill(seckillId);
         Date startTime = seckill.getStartTime();
         Date endTime = seckill.getEndTime();
         Date nowTime = new Date();
         if (nowTime.getTime() < startTime.getTime() || nowTime.getTime() > endTime.getTime()) {
-            return new Exposer(false, seckillId, nowTime.getTime(), startTime.getTime(), endTime.getTime());
+            return new ExposerDTO(false, seckillId, nowTime.getTime(), startTime.getTime(), endTime.getTime());
         }
         String md5 = MD5Util.getMD5(seckillId);
-        return new Exposer(true, md5, seckillId);
+        return new ExposerDTO(true, md5, seckillId);
     }
 
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public SeckillExecution executeSeckill(long seckillId, String userPhone, String md5) {
+    public SeckillExecutionDTO executeSeckill(long seckillId, String userPhone, String md5) {
         if (md5 == null || !md5.equals(MD5Util.getMD5(seckillId))) {
             throw new SeckillException("seckill data rewrite");
         }
@@ -145,7 +145,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
                     SuccessKilled key = new SuccessKilled();
                     key.setSeckillId(seckillId);
                     key.setUserPhone(userPhone);
-                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilledMapper.selectOne(new QueryWrapper<>(key)), qrfilepath);
+                    return new SeckillExecutionDTO(seckillId, SeckillStatEnum.SUCCESS.getStateInfo(), successKilledMapper.selectOne(new QueryWrapper<>(key)), qrfilepath);
                 }
             }
         } catch (SeckillCloseException | RepeatKillException e1) {
@@ -165,7 +165,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     }
 
     @Override
-    public void execute(SeckillMockRequestDto requestDto, int strategyNumber) {
+    public void execute(SeckillMockRequestDTO requestDto, int strategyNumber) {
         goodsKillStrategies.stream()
                 .filter(n -> n.getClass().getName().equals(Objects.requireNonNull(GoodsKillStrategyEnum.stateOf(strategyNumber)).getClassName()))
                 .findFirst().ifPresent(n -> n.execute(requestDto));
@@ -260,8 +260,8 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     }
 
     @Override
-    public SeckillResponseDto getQrcode(String fileName) throws IOException {
-        SeckillResponseDto seckillResponseDto = new SeckillResponseDto();
+    public SeckillResponseDTO getQrcode(String fileName) throws IOException {
+        SeckillResponseDTO seckillResponseDto = new SeckillResponseDTO();
         if (qrcodeImagePath == null) {
             qrcodeImagePath = System.getProperty("user.dir");
         }
@@ -279,13 +279,13 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     }
 
     @Override
-    public SeckillInfo getInfoById(Serializable seckillId) {
-        SeckillInfo seckillInfo = new SeckillInfo();
+    public SeckillInfoDTO getInfoById(Serializable seckillId) {
+        SeckillInfoDTO seckillInfoDTO = new SeckillInfoDTO();
         Seckill seckill = seckillService.getById(seckillId);
         Goods goods = goodsService.getById(seckill.getGoodsId());
-        BeanUtils.copyProperties(seckill, seckillInfo);
-        seckillInfo.setGoodsName(goods.getName());
-        return seckillInfo;
+        BeanUtils.copyProperties(seckill, seckillInfoDTO);
+        seckillInfoDTO.setGoodsName(goods.getName());
+        return seckillInfoDTO;
     }
 
     @Override

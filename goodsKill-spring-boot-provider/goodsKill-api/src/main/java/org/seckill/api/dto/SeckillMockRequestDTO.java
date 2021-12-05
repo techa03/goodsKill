@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SeckillMockRequestDto implements Serializable {
+public class SeckillMockRequestDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -36,7 +36,7 @@ public class SeckillMockRequestDto implements Serializable {
      */
     private String requestTime;
 
-    public SeckillMockRequestDto(long seckillId, int count, String phoneNumber) {
+    public SeckillMockRequestDTO(long seckillId, int count, String phoneNumber) {
         this.seckillId = seckillId;
         this.count = count;
         this.phoneNumber = phoneNumber;

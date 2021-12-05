@@ -3,12 +3,12 @@ package org.seckill.service.mock.strategy;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.seckill.api.dto.SeckillMockRequestDto;
+import org.seckill.api.dto.SeckillMockRequestDTO;
 import org.seckill.service.inner.SeckillExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static org.seckill.api.enums.SeckillSolutionEnum.REDISSION_LOCK;
+import static com.goodskill.common.enums.SeckillSolutionEnum.REDISSION_LOCK;
 
 /**
  * @author techa03
@@ -24,7 +24,7 @@ public class RedissonStrategy implements GoodsKillStrategy {
 
 
     @Override
-    public void execute(SeckillMockRequestDto requestDto) {
+    public void execute(SeckillMockRequestDTO requestDto) {
         RLock lock = redissonClient.getLock(requestDto.getSeckillId() + "");
         lock.lock();
         try {

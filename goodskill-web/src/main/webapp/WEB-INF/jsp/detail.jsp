@@ -10,7 +10,7 @@
     <script type="application/javascript">
         function checkExposer(seckillId) {
             $.ajax({
-                url: "${context}/seckill/" + seckillId + "/exposer",
+                url: "${context}/seckill/" + seckillId + "/exposerDTO",
                 type: "post",
                 success: function (result) {
                     $.cookie('killPhone', $("#phoneNum").val());
@@ -39,14 +39,14 @@
 <body>
 <div class="container">
     <div class="panel panel-default text-center">
-        <div class="pannel-heading">${seckillInfo.name}</div>
+        <div class="pannel-heading">${seckillInfoDTO.name}</div>
     </div>
     <form class="form-inline">
         <div class="form-group">
             <label for="phoneNum">手机号</label>
             <input type="text" class="form-control" id="phoneNum" name="手机" placeholder="请输入11为手机号" maxlength="11">
         </div>
-        <button type="button" class="btn btn-default" onclick="checkExposer(${seckillInfo.seckillId})">执行秒杀</button>
+        <button type="button" class="btn btn-default" onclick="checkExposer(${seckillInfoDTO.seckillId})">执行秒杀</button>
     </form>
     <div class="panel-body">
         <input type="hidden" name="md5" value="" id="md5"/>

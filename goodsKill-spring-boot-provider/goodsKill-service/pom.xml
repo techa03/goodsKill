@@ -188,7 +188,6 @@
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodsKill-common</artifactId>
-            <version>${goodsKill.version}</version>
         </dependency>
 		<dependency>
 			<groupId>cn.hutool</groupId>

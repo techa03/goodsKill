@@ -1,12 +1,12 @@
 package org.seckill.service.mock.strategy;
 
 import lombok.extern.slf4j.Slf4j;
-import org.seckill.api.dto.SeckillMockRequestDto;
+import org.seckill.api.dto.SeckillMockRequestDTO;
 import org.seckill.service.inner.SeckillExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static org.seckill.api.enums.SeckillSolutionEnum.ATOMIC_UPDATE;
+import static com.goodskill.common.enums.SeckillSolutionEnum.ATOMIC_UPDATE;
 
 /**
  * @author techa03
@@ -19,7 +19,7 @@ public class AtomicUpdateStrategy implements GoodsKillStrategy {
     private SeckillExecutor seckillExecutor;
 
     @Override
-    public void execute(SeckillMockRequestDto requestDto) {
+    public void execute(SeckillMockRequestDTO requestDto) {
         seckillExecutor.dealSeckill(requestDto.getSeckillId(), requestDto.getPhoneNumber(), ATOMIC_UPDATE.getName());
     }
 }

@@ -2,6 +2,9 @@ package org.seckill.web.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.goodskill.common.enums.SeckillStatEnum;
+import com.goodskill.common.exception.RepeatKillException;
+import com.goodskill.common.exception.SeckillCloseException;
 import com.goodskill.es.api.GoodsEsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -10,13 +13,10 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.seckill.api.dto.Exposer;
-import org.seckill.api.dto.SeckillExecution;
-import org.seckill.api.dto.SeckillResponseDto;
+import org.seckill.api.dto.ExposerDTO;
+import org.seckill.api.dto.SeckillExecutionDTO;
+import org.seckill.api.dto.SeckillResponseDTO;
 import org.seckill.api.dto.SeckillResult;
-import org.seckill.api.enums.SeckillStatEnum;
-import org.seckill.api.exception.RepeatKillException;
-import org.seckill.api.exception.SeckillCloseException;
 import org.seckill.api.service.*;
 import org.seckill.entity.*;
 import org.seckill.web.dto.ResponseDTO;
@@ -102,11 +102,11 @@ public class SeckillController {
     @PostMapping(value = "/{seckillId}/exposer", produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public SeckillResult<Exposer> exposer(@PathVariable("seckillId") Long seckillId) {
-        SeckillResult<Exposer> result;
+    public SeckillResult<ExposerDTO> exposer(@PathVariable("seckillId") Long seckillId) {
+        SeckillResult<ExposerDTO> result;
         try {
-            Exposer exposer = seckillService.exportSeckillUrl(seckillId);
-            result = new SeckillResult(true, exposer);
+            ExposerDTO exposerDTO = seckillService.exportSeckillUrl(seckillId);
+            result = new SeckillResult(true, exposerDTO);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             result = new SeckillResult(false, e.getMessage());
@@ -117,27 +117,27 @@ public class SeckillController {
     @PostMapping(value = "/{seckillId}/{md5}/execution", produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public SeckillResult<SeckillExecution> execute(@PathVariable("seckillId") Long seckillId,
-                                                   @PathVariable("md5") String md5, @CookieValue(value = "killPhone", required = false) String phone) {
-        SeckillResult<SeckillExecution> seckillResult;
+    public SeckillResult<SeckillExecutionDTO> execute(@PathVariable("seckillId") Long seckillId,
+                                                      @PathVariable("md5") String md5, @CookieValue(value = "killPhone", required = false) String phone) {
+        SeckillResult<SeckillExecutionDTO> seckillResult;
         if (phone == null) {
             seckillResult = new SeckillResult(false, "未注册");
             return seckillResult;
         }
         try {
-            SeckillExecution execution = seckillService.executeSeckill(seckillId, phone, md5);
-            seckillResult = new SeckillResult<SeckillExecution>(true, execution);
+            SeckillExecutionDTO execution = seckillService.executeSeckill(seckillId, phone, md5);
+            seckillResult = new SeckillResult<SeckillExecutionDTO>(true, execution);
         } catch (RepeatKillException e) {
             logger.info(e.getMessage(), e);
-            SeckillExecution execution = new SeckillExecution(seckillId, SeckillStatEnum.REPEAT_KILL);
+            SeckillExecutionDTO execution = new SeckillExecutionDTO(seckillId, SeckillStatEnum.REPEAT_KILL.getStateInfo());
             seckillResult = new SeckillResult(false, execution);
         } catch (SeckillCloseException e) {
             logger.info(e.getMessage(), e);
-            SeckillExecution execution = new SeckillExecution(seckillId, SeckillStatEnum.END);
+            SeckillExecutionDTO execution = new SeckillExecutionDTO(seckillId, SeckillStatEnum.END.getStateInfo());
             seckillResult = new SeckillResult(false, execution);
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
-            SeckillExecution execution = new SeckillExecution(seckillId, SeckillStatEnum.INNER_ERROR);
+            SeckillExecutionDTO execution = new SeckillExecutionDTO(seckillId, SeckillStatEnum.INNER_ERROR.getStateInfo());
             seckillResult = new SeckillResult(false, execution);
         }
         return seckillResult;
@@ -192,7 +192,7 @@ public class SeckillController {
     @Deprecated
     public void showQRcode(@PathVariable("QRfilePath") String filename, HttpServletResponse response) throws IOException {
         response.setContentType("img/*");
-        SeckillResponseDto responseDto = seckillService.getQrcode(filename);
+        SeckillResponseDTO responseDto = seckillService.getQrcode(filename);
         try (OutputStream os = response.getOutputStream()) {
             os.write(responseDto.getData());
         } catch (FileNotFoundException e) {

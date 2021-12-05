@@ -1,5 +1,6 @@
 package org.seckill.service.mock.strategy;
 
+import com.goodskill.common.constant.SeckillStatusConstant;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,8 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.seckill.api.constant.SeckillStatusConstant;
-import org.seckill.api.dto.SeckillMockRequestDto;
+import org.seckill.api.dto.SeckillMockRequestDTO;
 import org.seckill.entity.Seckill;
 import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
@@ -38,7 +38,7 @@ public class SynchronizedLockStrategyTest {
     @Test
     @Ignore
     public void execute() {
-        SeckillMockRequestDto requestDto = new SeckillMockRequestDto();
+        SeckillMockRequestDTO requestDto = new SeckillMockRequestDTO();
         long seckillId = 1L;
         requestDto.setSeckillId(seckillId);
         requestDto.setCount(2);
@@ -57,7 +57,7 @@ public class SynchronizedLockStrategyTest {
 
     @Test
     public void executeNumberGt0() {
-        SeckillMockRequestDto requestDto = new SeckillMockRequestDto();
+        SeckillMockRequestDTO requestDto = new SeckillMockRequestDTO();
         long seckillId = 1L;
         requestDto.setSeckillId(seckillId);
         requestDto.setCount(1);

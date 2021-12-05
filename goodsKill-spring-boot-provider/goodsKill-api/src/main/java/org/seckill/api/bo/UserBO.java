@@ -1,10 +1,10 @@
-package org.seckill.api.user.bo;
+package org.seckill.api.bo;
 
 import lombok.Data;
 import org.seckill.entity.User;
 
 @Data
-public class UserBo extends User {
+public class UserBO extends User {
     /**
      * 第三方账号id
      */

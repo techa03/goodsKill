@@ -1,4 +1,4 @@
-package org.seckill.api.enums;
+package com.goodskill.common.enums;
 
 /**
  * 秒杀场景枚举

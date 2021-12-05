@@ -11,8 +11,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.seckill.api.bo.UserBO;
 import org.seckill.api.service.UserAuthAccountService;
-import org.seckill.api.user.bo.UserBo;
 import org.seckill.web.util.HttpUrlUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -66,7 +66,7 @@ public class CommonController {
                 return;
             }
             // 从系统中查找第三方账户对应的用户信息
-            UserBo user = userAuthAccountService.findByThirdAccount(oAuth2UserInfo.getAccount(), registrationId);
+            UserBO user = userAuthAccountService.findByThirdAccount(oAuth2UserInfo.getAccount(), registrationId);
             UsernamePasswordToken usernamePasswordToken =
                     new UsernamePasswordToken(UserAccountUtil.generateUsername(user.getAccount(), registrationId),
                             oAuth2UserInfo.getAccount());
