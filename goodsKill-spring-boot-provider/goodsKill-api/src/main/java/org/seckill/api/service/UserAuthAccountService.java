@@ -1,6 +1,6 @@
 package org.seckill.api.service;
 
-import org.seckill.api.user.bo.UserBo;
+import org.seckill.api.bo.UserBO;
 
 /**
  * <p>
@@ -19,7 +19,7 @@ public interface UserAuthAccountService {
      * @param sourceType 授权来源
      * @return 用户信息
      */
-    UserBo findByThirdAccount(String account, String sourceType);
+    UserBO findByThirdAccount(String account, String sourceType);
 
     /**
      * 校验系统是否存在该第三方账号信息

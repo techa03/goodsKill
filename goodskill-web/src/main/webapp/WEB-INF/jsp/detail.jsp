@@ -21,7 +21,7 @@
                             type: "post",
                             success: function (result) {
                                 var seckillResult = result.data;
-                                if(seckillResult.statEnum=="SUCCESS"){
+                                if(seckillResult.statDesc=="秒杀成功"){
                                     window.open("${context}/seckill/pay/Qrcode/"+seckillResult.qrfilepath);
                                 }else {
                                     alert(seckillResult.statEnum);

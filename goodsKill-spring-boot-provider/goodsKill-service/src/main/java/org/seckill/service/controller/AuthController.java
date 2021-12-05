@@ -11,7 +11,7 @@ import org.apache.shiro.util.ByteSource;
 import org.seckill.api.dto.AuthResponseDTO;
 import org.seckill.api.service.AuthService;
 import org.seckill.entity.User;
-import org.seckill.service.mp.UserService;
+import org.seckill.service.common.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RestController;

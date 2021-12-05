@@ -1,6 +1,6 @@
 package org.seckill.service.test.base;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -52,9 +52,9 @@ public class BaseServiceConfigForTest {
 
     @Test
     public void test() {
-        PageInfo seckillList = seckillService.getSeckillList(0, 10, "小");
-        seckillList.getList().forEach(System.out::println);
-        Assert.assertTrue(seckillList.getPageSize() > 0);
+        Page seckillList = seckillService.getSeckillList(0, 10, "小");
+        seckillList.getRecords().forEach(System.out::println);
+        Assert.assertTrue(seckillList.getTotal() > 0);
     }
 
     @Test

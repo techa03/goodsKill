@@ -1,4 +1,4 @@
-package org.seckill.api.enums;
+package com.goodskill.common.enums;
 
 /**
  * 用户账户登录状态枚举

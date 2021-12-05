@@ -1,4 +1,4 @@
-package org.seckill.service.mp;
+package org.seckill.service.common;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.seckill.entity.User;

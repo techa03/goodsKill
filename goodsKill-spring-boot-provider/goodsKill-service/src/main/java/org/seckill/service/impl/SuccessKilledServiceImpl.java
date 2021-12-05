@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.mp.dao.mapper.SuccessKilledMapper;
-import org.seckill.service.mp.SuccessKilledService;
+import org.seckill.service.common.SuccessKilledService;
 
 /**
  * <p>

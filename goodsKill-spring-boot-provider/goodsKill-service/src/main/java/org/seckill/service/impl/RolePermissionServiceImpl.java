@@ -18,13 +18,18 @@ import java.util.List;
  * @since 2019-09-07
  */
 @DubboService
-public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper, RolePermission> implements RolePermissionService {
+public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper, RolePermission> implements RolePermissionService<RolePermission> {
 
     @Override
-    public boolean remove(int roleId) {
+    public boolean remove(int id) {
         RolePermission query = new RolePermission();
-        query.setRoleId(roleId);
+        query.setRoleId(id);
         return super.remove(new QueryWrapper<>(query));
+    }
+
+    @Override
+    public boolean save(RolePermission entity) {
+        return super.save(entity);
     }
 
     @Override

@@ -1,9 +1,9 @@
 package org.seckill.web.stream.consumer;
 
+import com.goodskill.common.enums.SeckillSolutionEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.seckill.api.dto.SeckillMockResponseDto;
-import org.seckill.api.enums.SeckillSolutionEnum;
+import org.seckill.api.dto.SeckillMockResponseDTO;
 import org.seckill.api.service.SeckillService;
 import org.seckill.web.util.TaskTimeCaculateUtil;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ public class SeckillMockResponseListener {
     private SeckillService seckillService;
 
     @Bean
-    public Consumer<SeckillMockResponseDto> seckillResult() {
+    public Consumer<SeckillMockResponseDTO> seckillResult() {
         return responseDto -> {
             long seckillId = responseDto.getSeckillId();
             String note = responseDto.getNote();

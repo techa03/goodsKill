@@ -8,9 +8,9 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.seckill.api.bo.UserBO;
 import org.seckill.api.service.UserAccountService;
 import org.seckill.api.service.UserAuthAccountService;
-import org.seckill.api.user.bo.UserBo;
 import org.seckill.entity.Permission;
 import org.seckill.entity.Role;
 
@@ -67,7 +67,7 @@ public class AuthUserRealm extends AuthorizingRealm {
         char[] charArray = (char[]) token.getCredentials();
         String authAccount = String.valueOf(charArray);
         String principal = (String) token.getPrincipal();
-        UserBo user = userAuthAccountService.findByThirdAccount(authAccount, principal.split("-")[1]);
+        UserBO user = userAuthAccountService.findByThirdAccount(authAccount, principal.split("-")[1]);
         if (user == null || (user.getAccount().equals(principal))) {
             // 用户名不存在抛出异常
             throw new UnknownAccountException();

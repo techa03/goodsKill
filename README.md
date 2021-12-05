@@ -30,7 +30,6 @@
 |--------------------------|-------------------|------------------------------------------------------------------------------------------------------|
 | SpringBoot               | 框架                | [https://spring.io/projects/spring-boot](https://spring.io/projects/spring-boot)                     |
 | MyBatis-Plus             | MyBatis增强工具       | [https://mp.baomidou.com/](https://mp.baomidou.com/)                                                 |
-| PageHelper               | MyBatis物理分页插件     | [http://git.oschina.net/free/Mybatis_PageHelper](http://git.oschina.net/free/Mybatis_PageHelper)     |
 | Hikari                   | 数据库连接池            | [https://github.com/brettwooldridge/HikariCP](https://github.com/brettwooldridge/HikariCP)           |
 | ZooKeeper                | 分布式协调服务           | [http://zookeeper.apache.org/](http://zookeeper.apache.org/)                                         |
 | Redis                    | 分布式缓存数据库          | [https://redis.io/](https://redis.io/)                                                               |

@@ -1,7 +1,7 @@
 package org.seckill.service.mq
 
-import org.seckill.api.dto.SeckillMockRequestDto
-import org.seckill.api.enums.SeckillSolutionEnum
+import com.goodskill.common.enums.SeckillSolutionEnum
+import org.seckill.api.dto.SeckillMockRequestDTO
 import org.seckill.service.inner.SeckillExecutor
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
@@ -23,7 +23,7 @@ open class StreamMessageConsumer {
     private lateinit var seckillExecutor: SeckillExecutor
 
     @Bean
-    open fun seckill(): Consumer<SeckillMockRequestDto> {
+    open fun seckill(): Consumer<SeckillMockRequestDTO> {
         return Consumer { payload ->
             log.info("收到秒杀请求:$payload")
             val userPhone = payload.phoneNumber

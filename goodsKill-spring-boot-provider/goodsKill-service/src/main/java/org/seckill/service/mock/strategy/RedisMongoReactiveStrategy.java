@@ -1,10 +1,10 @@
 package org.seckill.service.mock.strategy;
 
+import com.goodskill.common.constant.SeckillStatusConstant;
 import com.goodskill.mongo.vo.SeckillMockSaveVo;
 import lombok.extern.slf4j.Slf4j;
-import org.seckill.api.constant.SeckillStatusConstant;
-import org.seckill.api.dto.SeckillMockRequestDto;
-import org.seckill.api.dto.SeckillMockResponseDto;
+import org.seckill.api.dto.SeckillMockRequestDTO;
+import org.seckill.api.dto.SeckillMockResponseDTO;
 import org.seckill.entity.Seckill;
 import org.seckill.mp.dao.mapper.SeckillMapper;
 import org.seckill.service.common.RedisService;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import static org.seckill.api.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
+import static com.goodskill.common.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
 import static org.seckill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME;
 import static org.seckill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME_MONGO_SAVE;
 
@@ -40,7 +40,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
     private StreamBridge streamBridge;
 
     @Override
-    public void execute(SeckillMockRequestDto requestDto) {
+    public void execute(SeckillMockRequestDTO requestDto) {
         long seckillId = requestDto.getSeckillId();
         Seckill seckill = redisService.getSeckill(seckillId);
         if (redisTemplate.opsForValue().increment(seckillId) <= seckill.getNumber()) {
@@ -61,7 +61,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
                 if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
                     log.info("秒杀商品暂无库存，发送活动结束消息！");
                     streamBridge.send(DEFAULT_BINDING_NAME, MessageBuilder.withPayload(
-                            SeckillMockResponseDto
+                            SeckillMockResponseDTO
                                     .builder()
                                     .status(true)
                                     .seckillId(seckillId)

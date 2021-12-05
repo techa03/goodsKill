@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class PermissionDto implements Serializable {
+public class PermissionDTO implements Serializable {
     private String id;
     private String pId;
     private String name;

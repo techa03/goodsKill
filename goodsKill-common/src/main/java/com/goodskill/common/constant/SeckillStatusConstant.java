@@ -1,4 +1,4 @@
-package org.seckill.api.constant;
+package com.goodskill.common.constant;
 
 /**
  * 秒杀活动状态

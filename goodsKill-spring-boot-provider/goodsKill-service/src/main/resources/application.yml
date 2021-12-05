@@ -111,12 +111,6 @@ dubbo:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-#Pagehelper配置
-pagehelper:
-  helperDialect: mysql
-  params: count=countSql
-  reasonable: true
-  supportMethodsArguments: true
 
 seata:
   enabled: false

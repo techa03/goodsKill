@@ -1,6 +1,6 @@
 package org.seckill.api.service;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.seckill.api.dto.*;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
@@ -28,9 +28,9 @@ public interface SeckillService {
      * @return
      */
     @GetMapping("/getSeckillList")
-    PageInfo getSeckillList(@RequestParam("pageNum") int pageNum,
-                            @RequestParam("pageSize") int pageSize,
-                            @RequestParam(value = "goodsName", required = false) String goodsName);
+    Page<Seckill> getSeckillList(@RequestParam("pageNum") int pageNum,
+                        @RequestParam("pageSize") int pageSize,
+                        @RequestParam(value = "goodsName", required = false) String goodsName);
 
 
     /**
@@ -40,7 +40,7 @@ public interface SeckillService {
      * @return 活动信息
      */
     @PostMapping("/exportSeckillUrl")
-    Exposer exportSeckillUrl(@RequestParam("seckillId") long seckillId);
+    ExposerDTO exportSeckillUrl(@RequestParam("seckillId") long seckillId);
 
     /**
      * 执行秒杀
@@ -51,9 +51,9 @@ public interface SeckillService {
      * @return 秒杀执行状态
      */
     @PostMapping("/executeSeckill")
-    SeckillExecution executeSeckill(@RequestParam("seckillId") long seckillId,
-                                    @RequestParam("userPhone") String userPhone,
-                                    @RequestParam("md5") String md5);
+    SeckillExecutionDTO executeSeckill(@RequestParam("seckillId") long seckillId,
+                                       @RequestParam("userPhone") String userPhone,
+                                       @RequestParam("md5") String md5);
 
     /**
      * 根据秒杀id删除成功记录
@@ -71,7 +71,7 @@ public interface SeckillService {
      * @param strategyNumber 秒杀策略编码
      */
     @PostMapping("/execute")
-    void execute(@RequestBody SeckillMockRequestDto requestDto,
+    void execute(@RequestBody SeckillMockRequestDTO requestDto,
                  @RequestParam("strategyNumber") int strategyNumber);
 
 
@@ -126,7 +126,7 @@ public interface SeckillService {
      * @return SeckillResponseDto
      */
     @GetMapping("/getQrcode")
-    SeckillResponseDto getQrcode(@RequestParam("fileName") String fileName) throws IOException;
+    SeckillResponseDTO getQrcode(@RequestParam("fileName") String fileName) throws IOException;
 
     /**
      * 根据秒杀id获取秒杀活动信息
@@ -135,5 +135,5 @@ public interface SeckillService {
      * @return
      */
     @GetMapping("/getInfoById")
-    SeckillInfo getInfoById(@RequestParam("seckillId") Serializable seckillId);
+    SeckillInfoDTO getInfoById(@RequestParam("seckillId") Serializable seckillId);
 }

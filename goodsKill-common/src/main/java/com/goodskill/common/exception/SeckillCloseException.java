@@ -1,4 +1,4 @@
-package org.seckill.api.exception;
+package com.goodskill.common.exception;
 
 /**
  *

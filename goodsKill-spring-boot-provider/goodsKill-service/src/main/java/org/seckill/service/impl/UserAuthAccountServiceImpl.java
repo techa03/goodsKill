@@ -3,12 +3,12 @@ package org.seckill.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.seckill.api.bo.UserBO;
 import org.seckill.api.service.UserAuthAccountService;
-import org.seckill.api.user.bo.UserBo;
 import org.seckill.entity.User;
 import org.seckill.entity.UserAuthAccount;
 import org.seckill.mp.dao.mapper.UserAuthAccountMapper;
-import org.seckill.service.mp.UserService;
+import org.seckill.service.common.UserService;
 import org.springframework.beans.BeanUtils;
 
 import javax.annotation.Resource;
@@ -27,8 +27,8 @@ public class UserAuthAccountServiceImpl extends ServiceImpl<UserAuthAccountMappe
     private UserService userService;
 
     @Override
-    public UserBo findByThirdAccount(String account, String sourceType) {
-        UserBo userBo = new UserBo();
+    public UserBO findByThirdAccount(String account, String sourceType) {
+        UserBO userBo = new UserBO();
         UserAuthAccount userAuthAccount = baseMapper.selectOne(new LambdaQueryWrapper<UserAuthAccount>()
                 .eq(UserAuthAccount::getThirdAccountName, account)
                 .eq(UserAuthAccount::getSourceType, sourceType));

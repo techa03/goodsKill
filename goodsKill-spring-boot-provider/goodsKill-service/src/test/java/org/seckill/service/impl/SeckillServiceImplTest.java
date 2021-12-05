@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.seckill.api.dto.SeckillMockRequestDto;
+import org.seckill.api.dto.SeckillMockRequestDTO;
 import org.seckill.api.service.GoodsService;
 import org.seckill.api.service.SeckillService;
 import org.seckill.entity.Goods;
@@ -33,12 +33,12 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import static com.goodskill.common.enums.SeckillSolutionEnum.SYCHRONIZED;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.seckill.api.enums.SeckillSolutionEnum.SYCHRONIZED;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SeckillServiceImplTest {
@@ -75,7 +75,7 @@ public class SeckillServiceImplTest {
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
         when(valueOperations.get(key)).thenReturn(Lists.newArrayList());
         when(baseMapper.selectList(any())).thenReturn(Lists.newArrayList(seckillEntity));
-        assertEquals(1, seckillService.getSeckillList(1, 1, goodsName).getList().size());
+        assertEquals(1, seckillService.getSeckillList(1, 1, goodsName).getRecords().size());
     }
 
     @Test
@@ -110,7 +110,7 @@ public class SeckillServiceImplTest {
 
     @Test
     public void getSuccessKillCount() {
-        when(successKilledMapper.selectCount(any())).thenReturn(0);
+        when(successKilledMapper.selectCount(any())).thenReturn(0L);
         when(successKilledMongoService.count(1L)).thenReturn(1L);
         assertEquals(seckillService.getSuccessKillCount(1L), 1L);
     }
@@ -127,7 +127,7 @@ public class SeckillServiceImplTest {
 
     @Test
     public void execute() {
-        seckillService.execute(new SeckillMockRequestDto(), SYCHRONIZED.getCode());
+        seckillService.execute(new SeckillMockRequestDTO(), SYCHRONIZED.getCode());
     }
 
     @Test

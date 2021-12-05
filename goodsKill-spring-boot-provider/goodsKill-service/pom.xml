@@ -92,10 +92,6 @@
 			<artifactId>protostuff-runtime</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.github.pagehelper</groupId>
-			<artifactId>pagehelper-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.shardingsphere</groupId>
 			<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
 		</dependency>
@@ -182,7 +178,6 @@
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodsKill-common</artifactId>
-            <version>${goodsKill.version}</version>
         </dependency>
 		<dependency>
 			<groupId>cn.hutool</groupId>

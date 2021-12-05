@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SeckillMockResponseDto implements Serializable {
+public class SeckillMockResponseDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

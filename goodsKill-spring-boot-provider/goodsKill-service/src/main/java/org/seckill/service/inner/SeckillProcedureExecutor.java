@@ -1,8 +1,8 @@
 package org.seckill.service.inner;
 
+import com.goodskill.common.constant.SeckillStatusConstant;
 import lombok.extern.slf4j.Slf4j;
-import org.seckill.api.constant.SeckillStatusConstant;
-import org.seckill.api.dto.SeckillMockResponseDto;
+import org.seckill.api.dto.SeckillMockResponseDTO;
 import org.seckill.api.service.SeckillService;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
@@ -60,7 +60,7 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
                 // 高并发时限制只能发一次秒杀完成通知
                 if (!SeckillStatusConstant.END.equals(seckill.getStatus()) && sendTopicTimes.getAndIncrement() == 0) {
                     streamBridge.send(DEFAULT_BINDING_NAME, MessageBuilder.withPayload(
-                            SeckillMockResponseDto
+                            SeckillMockResponseDTO
                                     .builder()
                                     .seckillId(seckillId)
                                     .note(note)
