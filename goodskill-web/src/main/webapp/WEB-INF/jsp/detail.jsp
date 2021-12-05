@@ -10,7 +10,7 @@
     <script type="application/javascript">
         function checkExposer(seckillId) {
             $.ajax({
-                url: "${context}/seckill/" + seckillId + "/exposerDTO",
+                url: "${context}/seckill/" + seckillId + "/exposer",
                 type: "post",
                 success: function (result) {
                     $.cookie('killPhone', $("#phoneNum").val());
@@ -21,7 +21,7 @@
                             type: "post",
                             success: function (result) {
                                 var seckillResult = result.data;
-                                if(seckillResult.statEnum=="SUCCESS"){
+                                if(seckillResult.statDesc=="秒杀成功"){
                                     window.open("${context}/seckill/pay/Qrcode/"+seckillResult.qrfilepath);
                                 }else {
                                     alert(seckillResult.statEnum);
