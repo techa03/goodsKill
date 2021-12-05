@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.PageHelper;
 import com.goodskill.common.constant.SeckillStatusConstant;
 import com.goodskill.common.enums.SeckillStatEnum;
 import com.goodskill.common.exception.RepeatKillException;
@@ -89,21 +88,20 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private String qrcodeImagePath;
 
     @Override
-    public Page getSeckillList(int pageNum, int pageSize, String goodsName) {
+    public Page<Seckill> getSeckillList(int pageNum, int pageSize, String goodsName) {
         String key = "seckill:list:" + pageNum + ":" + pageSize + ":" + goodsName;
         ValueOperations valueOperations = redisTemplate.opsForValue();
         List list = (List) valueOperations.get(key);
+        Page<Seckill> page = null;
         if (CollectionUtils.isEmpty(list)) {
-            PageHelper.startPage(pageNum, pageSize);
             QueryWrapper<Seckill> queryWrapper = new QueryWrapper<>();
             if (StringUtils.isNotBlank(goodsName)) {
                 queryWrapper.lambda().like(Seckill::getName, goodsName);
             }
-            list = this.list(queryWrapper);
+            page = this.page(new Page(pageNum, pageSize), queryWrapper);
+            list = page.getRecords();
             valueOperations.set(key, list, 5, TimeUnit.MINUTES);
         }
-        Page page = new Page();
-        page.setRecords(list);
         return page;
     }
 

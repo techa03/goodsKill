@@ -76,10 +76,9 @@ public class SeckillController {
             @RequestParam(name = "goodsName", required = false) String goodsName) {
         Page<Seckill> pageInfo = seckillService.getSeckillList(offset, limit, goodsName);
         long totalNum = pageInfo.getTotal();
-        long pageNum = (totalNum % limit == 0) ? totalNum / limit : totalNum / limit + 1;
         model.addAttribute("list", pageInfo.getRecords());
         model.addAttribute("totalNum", totalNum);
-        model.addAttribute("pageNum", pageNum);
+        model.addAttribute("pageNum", pageInfo.getPages());
         model.addAttribute("limit", limit);
         return "list";
     }

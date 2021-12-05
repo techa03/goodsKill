@@ -16,12 +16,6 @@
 		<dependency>
 			<groupId>com.goodskill</groupId>
 			<artifactId>goodsKill-api</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>jsqlparser</artifactId>
-					<groupId>com.github.jsqlparser</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.goodskill</groupId>
@@ -96,10 +90,6 @@
 		<dependency>
 			<groupId>com.dyuproject.protostuff</groupId>
 			<artifactId>protostuff-runtime</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.pagehelper</groupId>
-			<artifactId>pagehelper-spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shardingsphere</groupId>

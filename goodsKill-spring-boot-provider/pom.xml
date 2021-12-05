@@ -19,10 +19,7 @@
 		<shiro.version>1.8.0</shiro.version>
 		<mybatis-plus.version>3.4.3.4</mybatis-plus.version>
 		<shardingsphere.version>4.1.1</shardingsphere.version>
-<!--		<jackson.version>2.11.0</jackson.version>-->
 		<jacoco.version>0.8.6</jacoco.version>
-<!--		<pagehelper.version>5.2.0</pagehelper.version>-->
-		<pagehelper.starter.version>1.4.1</pagehelper.starter.version>
 		<alipay.version>2.0.1</alipay.version>
 		<hutool.version>5.7.16</hutool.version>
 		<redisson.version>3.15.3</redisson.version>
@@ -71,11 +68,6 @@
 				<groupId>com.goodskill</groupId>
 				<artifactId>goodsKill-mp-dao</artifactId>
 				<version>${goodsKill.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.github.pagehelper</groupId>
-				<artifactId>pagehelper-spring-boot-starter</artifactId>
-				<version>${pagehelper.starter.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.dyuproject.protostuff</groupId>

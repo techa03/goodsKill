@@ -37,31 +37,31 @@
 </head>
 <body>
 
-<form role="form" action="${context}/seckill/${seckillInfoDTO.seckillId}/update" enctype="multipart/form-data" method="post"
+<form role="form" action="${context}/seckill/${seckillInfo.seckillId}/update" enctype="multipart/form-data" method="post"
       style="width: 10%;margin: 0 auto;">
     <div class="form-group">
         <label for="name">秒杀商品名称：</label>
-        <input type="text" class="form-control" id="goodsName" name="goodsName" value="${seckillInfoDTO.goodsName}" readonly="readonly">
+        <input type="text" class="form-control" id="goodsName" name="goodsName" value="${seckillInfo.goodsName}" readonly="readonly">
     </div>
     <div class="form-group">
         <label for="price">活动名称：</label>
-        <input type="text" class="form-control" id="name" name="name" value="${seckillInfoDTO.name}">
+        <input type="text" class="form-control" id="name" name="name" value="${seckillInfo.name}">
     </div>
     <div class="form-group">
         <label for="price">秒杀价格：</label>
-        <input type="text" class="form-control" id="price" name="price" value="${seckillInfoDTO.price}">
+        <input type="text" class="form-control" id="price" name="price" value="${seckillInfo.price}">
         <div id="realGoodsPrice"></div>
     </div>
     <div class="form-group">
         <label for="number">秒杀数量：</label>
-        <input type="text" class="form-control" id="number" name="number" value="${seckillInfoDTO.number}">
+        <input type="text" class="form-control" id="number" name="number" value="${seckillInfo.number}">
     </div>
     <div class="form-group">
         <label>选择秒杀开始日期：</label>
         <!--指定 date标记-->
         <div class='input-group date' id='datetimepicker1'>
             <input type='text' class="form-control" name="startTime"
-                   value="<fmt:formatDate value="${seckillInfoDTO.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
+                   value="<fmt:formatDate value="${seckillInfo.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
             <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -72,7 +72,7 @@
         <!--指定 date标记-->
         <div class='input-group date' id='datetimepicker2'>
             <input type='text' class="form-control" name="endTime"
-                   value="<fmt:formatDate value="${seckillInfoDTO.endTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
+                   value="<fmt:formatDate value="${seckillInfo.endTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
             <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
