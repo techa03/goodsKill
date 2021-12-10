@@ -20,11 +20,11 @@
                             url: "${context}/seckill/" + seckillId + "/" + data.md5 + "/execution",
                             type: "post",
                             success: function (result) {
-                                var seckillResult = result.data;
-                                if(seckillResult.statDesc=="秒杀成功"){
-                                    window.open("${context}/seckill/pay/Qrcode/"+seckillResult.qrfilepath);
+                                var result = result.data;
+                                if(result.statDesc=="秒杀成功"){
+                                    window.open("${context}/seckill/pay/Qrcode/"+result.qrfilepath);
                                 }else {
-                                    alert(seckillResult.statEnum);
+                                    alert(result.statEnum);
                                 }
                             }
                         });

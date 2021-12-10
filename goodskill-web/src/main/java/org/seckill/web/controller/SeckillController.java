@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goodskill.common.enums.SeckillStatEnum;
 import com.goodskill.common.exception.RepeatKillException;
 import com.goodskill.common.exception.SeckillCloseException;
+import com.goodskill.common.info.Result;
 import com.goodskill.es.api.GoodsEsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -16,7 +17,6 @@ import org.apache.shiro.subject.Subject;
 import org.seckill.api.dto.ExposerDTO;
 import org.seckill.api.dto.SeckillExecutionDTO;
 import org.seckill.api.dto.SeckillResponseDTO;
-import org.seckill.api.dto.SeckillResult;
 import org.seckill.api.service.*;
 import org.seckill.entity.*;
 import org.seckill.web.dto.ResponseDTO;
@@ -101,14 +101,14 @@ public class SeckillController {
     @PostMapping(value = "/{seckillId}/exposer", produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public SeckillResult<ExposerDTO> exposer(@PathVariable("seckillId") Long seckillId) {
-        SeckillResult<ExposerDTO> result;
+    public Result<ExposerDTO> exposer(@PathVariable("seckillId") Long seckillId) {
+        Result<ExposerDTO> result;
         try {
             ExposerDTO exposerDTO = seckillService.exportSeckillUrl(seckillId);
-            result = new SeckillResult(true, exposerDTO);
+            result = Result.ok(exposerDTO);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            result = new SeckillResult(false, e.getMessage());
+            result = Result.fail(e.getMessage());
         }
         return result;
     }
@@ -116,37 +116,37 @@ public class SeckillController {
     @PostMapping(value = "/{seckillId}/{md5}/execution", produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public SeckillResult<SeckillExecutionDTO> execute(@PathVariable("seckillId") Long seckillId,
-                                                      @PathVariable("md5") String md5, @CookieValue(value = "killPhone", required = false) String phone) {
-        SeckillResult<SeckillExecutionDTO> seckillResult;
+    public Result<SeckillExecutionDTO> execute(@PathVariable("seckillId") Long seckillId,
+                                               @PathVariable("md5") String md5, @CookieValue(value = "killPhone", required = false) String phone) {
+        Result<SeckillExecutionDTO> result;
         if (phone == null) {
-            seckillResult = new SeckillResult(false, "未注册");
-            return seckillResult;
+            result = Result.fail("未注册");
+            return result;
         }
         try {
             SeckillExecutionDTO execution = seckillService.executeSeckill(seckillId, phone, md5);
-            seckillResult = new SeckillResult<SeckillExecutionDTO>(true, execution);
+            result = Result.ok(execution);
         } catch (RepeatKillException e) {
             logger.info(e.getMessage(), e);
             SeckillExecutionDTO execution = new SeckillExecutionDTO(seckillId, SeckillStatEnum.REPEAT_KILL.getStateInfo());
-            seckillResult = new SeckillResult(false, execution);
+            result = Result.fail(execution, null);
         } catch (SeckillCloseException e) {
             logger.info(e.getMessage(), e);
             SeckillExecutionDTO execution = new SeckillExecutionDTO(seckillId, SeckillStatEnum.END.getStateInfo());
-            seckillResult = new SeckillResult(false, execution);
+            result = Result.fail(execution, null);
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
             SeckillExecutionDTO execution = new SeckillExecutionDTO(seckillId, SeckillStatEnum.INNER_ERROR.getStateInfo());
-            seckillResult = new SeckillResult(false, execution);
+            result = Result.fail(execution, null);
         }
-        return seckillResult;
+        return result;
     }
 
     @GetMapping(value = "/time/now")
     @ResponseBody
-    public SeckillResult<Long> time() {
+    public Result<Long> time() {
         Date now = new Date();
-        return new SeckillResult(true, now.getTime());
+        return Result.ok(now.getTime());
     }
 
     @PostMapping(value = "/create")
