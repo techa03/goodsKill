@@ -1,11 +1,11 @@
 package org.seckill.web.controller;
 
+import com.goodskill.common.info.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.seckill.api.dto.SeckillMockRequestDTO;
-import org.seckill.api.dto.SeckillResult;
 import org.seckill.api.service.SeckillService;
 import org.seckill.entity.Seckill;
 import org.seckill.web.dto.SeckillWebMockRequestDTO;
@@ -53,14 +53,14 @@ public class SeckillMockController {
      */
     @ApiOperation(value = "秒杀场景一(sychronized同步锁实现)")
     @PostMapping("/sychronized")
-    public SeckillResult doWithSychronized(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result doWithSychronized(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
         prepareSeckill(seckillId, seckillCount, SYCHRONIZED.getName());
         log.info(SYCHRONIZED.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         seckillService.execute(new SeckillMockRequestDTO(seckillId, requestCount, null), SYCHRONIZED.getCode());
-        return SeckillResult.ok();
+        return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -72,7 +72,7 @@ public class SeckillMockController {
      */
     @ApiOperation(value = "秒杀场景二(redis分布式锁实现)", notes = "秒杀场景二(redis分布式锁实现)", httpMethod = "POST")
     @PostMapping("/redisson")
-    public SeckillResult doWithRedissionLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result doWithRedissionLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
@@ -86,7 +86,7 @@ public class SeckillMockController {
                             REDISSION_LOCK.getCode())
             );
         }
-        return SeckillResult.ok();
+        return Result.ok();
     }
 
     /**
@@ -98,11 +98,11 @@ public class SeckillMockController {
     @ApiOperation(value = "秒杀场景三(activemq消息队列实现)")
     @PostMapping("/activemq")
     @Deprecated
-    public SeckillResult doWithActiveMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result doWithActiveMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
-        return SeckillResult.ok();
+        return Result.ok();
     }
 
     /**
@@ -113,7 +113,7 @@ public class SeckillMockController {
      */
     @ApiOperation(value = "秒杀场景四(kafka消息队列实现)")
     @PostMapping("/kafka")
-    public SeckillResult doWithKafkaMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result doWithKafkaMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
@@ -129,7 +129,7 @@ public class SeckillMockController {
                     }
             );
         }
-        return SeckillResult.ok();
+        return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -141,7 +141,7 @@ public class SeckillMockController {
      */
     @ApiOperation(value = "秒杀场景五(数据库原子性更新update set num = num -1)")
     @PostMapping("/procedure")
-    public SeckillResult doWithProcedure(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result doWithProcedure(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
@@ -154,7 +154,7 @@ public class SeckillMockController {
                             ATOMIC_UPDATE.getCode())
             );
         }
-        return SeckillResult.ok();
+        return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -168,8 +168,8 @@ public class SeckillMockController {
     @RequestMapping(value = "/activemq/reply/{seckillId}", method = POST, produces = {
             "application/json;charset=UTF-8"})
     @Deprecated
-    public SeckillResult doWithActiveMqMessageWithReply(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "userPhone") String userPhone) {
-        return SeckillResult.ok();
+    public Result doWithActiveMqMessageWithReply(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "userPhone") String userPhone) {
+        return Result.ok();
     }
 
 
@@ -179,7 +179,7 @@ public class SeckillMockController {
     @ApiOperation(value = "秒杀场景七(zookeeper分布式锁)")
     @RequestMapping(value = "/zookeeperLock", method = POST, produces = {
             "application/json;charset=UTF-8"})
-    public SeckillResult doWithZookeeperLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result doWithZookeeperLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
@@ -192,7 +192,7 @@ public class SeckillMockController {
                             ZOOKEEPER_LOCK.getCode())
             );
         }
-        return SeckillResult.ok();
+        return Result.ok();
     }
 
     /**
@@ -201,7 +201,7 @@ public class SeckillMockController {
     @ApiOperation(value = "秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)")
     @RequestMapping(value = "/redisReactiveMongo", method = POST, produces = {
             "application/json;charset=UTF-8"})
-    public SeckillResult redisReactiveMongo(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result redisReactiveMongo(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
@@ -215,7 +215,7 @@ public class SeckillMockController {
                     seckillService.execute(new SeckillMockRequestDTO(seckillId, requestCount, String.valueOf(atomicInteger.addAndGet(1))), REDIS_MONGO_REACTIVE.getCode())
             );
         }
-        return SeckillResult.ok();
+        return Result.ok();
     }
 
     /**
@@ -234,7 +234,7 @@ public class SeckillMockController {
 
     @ApiOperation(value = "秒杀场景九(rabbitmq)")
     @PostMapping("/rabbitmq")
-    public SeckillResult doWithRabbitmq(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result doWithRabbitmq(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
@@ -249,13 +249,13 @@ public class SeckillMockController {
                     }
             );
         }
-        return SeckillResult.ok();
+        return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
     @ApiOperation(value = "秒杀场景十(Sentinel限流+数据库原子性更新)")
     @PostMapping("/limit")
-    public SeckillResult limit(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result limit(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
@@ -270,7 +270,7 @@ public class SeckillMockController {
                     }
             );
         }
-        return SeckillResult.ok();
+        return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
