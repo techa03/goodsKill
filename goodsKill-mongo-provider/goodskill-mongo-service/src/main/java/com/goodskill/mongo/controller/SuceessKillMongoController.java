@@ -1,33 +1,37 @@
 package com.goodskill.mongo.controller;
 
-import com.goodskill.mongo.api.SuccessKilledMongoService;
 import com.goodskill.mongo.entity.SuccessKilledDto;
+import com.goodskill.mongo.service.impl.MongoReactiveServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 /**
  * @author heng
  */
 @Slf4j
 @RestController
-public class SuceessKillMongoController implements SuccessKilledMongoService {
+public class SuceessKillMongoController {
     @Autowired
-    private SuccessKilledMongoService successKilledMongoService;
+    private MongoReactiveServiceImpl mongoReactiveService;
 
-    @Override
-    public void deleteRecord(long seckillId) {
-        successKilledMongoService.deleteRecord(seckillId);
+    @DeleteMapping("/deleteRecord")
+    public Mono<Boolean> deleteRecord(long seckillId) {
+        return mongoReactiveService.deleteRecord(seckillId);
     }
 
-    @Override
-    public void saveRecord(SuccessKilledDto successKilledDto) {
-        successKilledMongoService.saveRecord(successKilledDto);
+    @PostMapping("/saveRecord")
+    public Mono<Boolean> saveRecord(SuccessKilledDto successKilledDto) {
+        return mongoReactiveService.saveRecord(successKilledDto);
     }
 
-    @Override
-    public long count(long seckillId) {
-        return successKilledMongoService.count(seckillId);
+    @GetMapping("/count")
+    public Mono<Long> count(long seckillId) {
+        return mongoReactiveService.count(seckillId);
     }
 
 }

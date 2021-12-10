@@ -15,14 +15,14 @@ public interface SuccessKilledMongoService {
      * @param seckillId
      */
     @DeleteMapping("/deleteRecord")
-    void deleteRecord(@RequestParam("seckillId") long seckillId);
+    Boolean deleteRecord(@RequestParam("seckillId") long seckillId);
 
     /**
      * @param successKilledDto
      * @return
      */
     @PostMapping("/saveRecord")
-    void saveRecord(@RequestBody SuccessKilledDto successKilledDto);
+    Boolean saveRecord(@RequestBody SuccessKilledDto successKilledDto);
 
     /**
      *
