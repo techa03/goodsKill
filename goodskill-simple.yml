@@ -101,92 +101,42 @@ services:
       - somenetwork
 
   elasticsearch:
-    image: elasticsearch:7.14.2
+    image: elasticsearch:7.16.2
     container_name: elasticsearch
     environment:
-      - node.name=es01
-      - discovery.seed_hosts=elasticsearch
-      - cluster.initial_master_nodes=es01
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    restart: always
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
+      - "cluster.name=elasticsearch" #设置集群名称为elasticsearch
+      - "discovery.type=single-node" #以单一节点模式启动
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" #设置使用jvm内存大小
+    volumes:
+      - ./doc/docker/elasticsearch/plugins:/usr/share/elasticsearch/plugins #插件文件挂载
+      - ./doc/docker/elasticsearch/data:/usr/share/elasticsearch/data #数据文件挂载
     ports:
-      - 9200:9200
-      - 9300:9300
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - somenetwork
+
+  kibana:
+    image: kibana:7.16.2
+    container_name: kibana
+    depends_on:
+      - elasticsearch
+    environment:
+      - "elasticsearch.hosts=https://elasticsearch:9200" #设置访问elasticsearch的地址
+    ports:
+      - "5601:5601"
     networks:
       - somenetwork
 
   logstash:
-    image: logstash:7.14.2
+    image: logstash:7.16.2
     container_name: logstash
     volumes:
-      - ./doc/docker/logstash/pipeline/:/usr/share/logstash/pipeline/
-#      - /tmp/:/tmp/
-    networks:
-      - somenetwork
-
-##放开注释即为es双节点模式
-#  elasticsearch1:
-#    image: elasticsearch:7.14.2
-#    container_name: elasticsearch1
-#    environment:
-#      - node.name=es02
-#      - discovery.seed_hosts=elasticsearch
-#      - cluster.initial_master_nodes=es01
-#      - cluster.name=docker-cluster
-#      - bootstrap.memory_lock=true
-#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#    restart: always
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
-#    ports:
-#      - 9201:9200
-#      - 9301:9300
-#    depends_on:
-#      - elasticsearch
-#    networks:
-#      - somenetwork
-
-#  elasticsearch2:
-#    image: elasticsearch:7.14.2
-#    container_name: elasticsearch2
-#    environment:
-#      - node.name=es03
-#      - discovery.seed_hosts=elasticsearch
-#      - cluster.initial_master_nodes=es01
-#      - cluster.name=docker-cluster
-#      - bootstrap.memory_lock=true
-#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#    restart: always
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
-#    ports:
-#      - 9202:9200
-#      - 9302:9300
-#    depends_on:
-#      - elasticsearch
-#    networks:
-#      - somenetwork
-
-  kibana:
-    image: kibana:7.14.2
-    container_name: kibana
-    ports:
-      - 5601:5601
+      - ./doc/docker/logstash/logstash-springboot.conf:/usr/share/logstash/pipeline/logstash.conf #挂载logstash的配置文件
     depends_on:
       - elasticsearch
-    environment:
-      - elasticsearch.hosts=http://elasticsearch:9200
-      - i18n.locale=zh-CN
+    ports:
+      - "4560:4560"
     networks:
       - somenetwork
 

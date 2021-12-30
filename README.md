@@ -125,19 +125,19 @@ goodsKill
 
   **注**:推荐使用<code>docker-compose</code>命令（推荐电脑运行内存16G以上），无需手动下载软件安装包，开箱即用。此命令会自动拉取docker镜像并以默认端口运行
 
-  镜像 | 版本 | 端口 | 用户名密码
-  ---|---|---|---
-  Nacos | 2.0.3 | 8848 | 无
-  Redis | latest | 6379 | 无
+  镜像 | 版本         | 端口 | 用户名密码
+  ---|------------|---|---
+  Nacos | 2.0.3      | 8848 | 无
+  Redis | latest     | 6379 | 无
   Kafka | 2.13-2.7.0 | 9092 | 无
-  KafkaManager | latest | 9000 | 无
-  Mongo | 4.4.3 | 27017 | 无
-  MySQL | 8.0.22 | 3306 | root:Password123
-  Zookeeper | 3.6.2 | 2181 | 无
-  Elasticsearch | 7.14.2 | 9200 9300 | 无
-  Kibana | 7.14.2 | 5601 | 无
-  RabbitMQ | latest | 5672 15672 | 无
-  Zipkin | latest | 9411 | 无
+  KafkaManager | latest     | 9000 | 无
+  Mongo | 4.4.3      | 27017 | 无
+  MySQL | 8.0.22     | 3306 | root:Password123
+  Zookeeper | 3.6.2      | 2181 | 无
+  Elasticsearch | 7.16.2     | 9200 9300 | 无
+  Kibana | 7.16.2     | 5601 | 无
+  RabbitMQ | latest     | 5672 15672 | 无
+  Zipkin | latest     | 9411 | 无
 
 
 **注**:除以上镜像外，<code>docker-compose.yml</code>文件还包含项目构建命令，目前暂未列出。
@@ -173,6 +173,7 @@ docker-compose -f goodskill-simple.yml up -d
      127.0.0.1       elasticsearch
      127.0.0.1       rabbitmq
      127.0.0.1       zipkin
+     127.0.0.1       logstash
      ##如果网关服务部署在远程机器，此处改为相应的远程机器ip
      127.0.0.1       www.goodskill.com
      ```
@@ -307,6 +308,7 @@ ns         %     Task name
 | 完善jwt用户鉴权，并提供通用服务接口      | ✅   | 2020.12 |                                     |
 | 集成分布式事务解决方案              | ✅   | 2021.2  |                                     |
 | 增加OAuth2.0授权登录模块         | ✅   | 2021.9  | 增加自定义OAuth2.0授权以及资源服务，并支持第三方授权登录    |
+| 集成ELK日志采集                | ✅   | 2021.12 | 目前仅mongo-provider接入，其他模块待完善         |
 | 聊天室功能                    | ⏳   |         | 使用netty网络通信，maven分支已经实现，master分支待集成 |
 | 前后端分离                    | ⏳   |         | 目前前后端全部放在gooskill-web模块，不利于部署       |
 | 丰富项目文档                   | ⏳   |         |                                     |

@@ -92,6 +92,12 @@
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
         <!--升级到springboot2.4需要增加以下依赖，否则nacos无法拉取配置END-->
+        <!--集成logstash-->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>7.0.1</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>goodsKill-mongo-service</finalName>
