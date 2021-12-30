@@ -5,7 +5,6 @@ import com.goodskill.mongo.entity.SuccessKilledDto;
 import com.goodskill.mongo.repository.SuceessKillRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -19,8 +18,6 @@ import java.util.UUID;
 @Service
 public class MongoReactiveServiceImpl {
     @Autowired
-    private ReactiveMongoTemplate mongoTemplate;
-    @Autowired
     private SuceessKillRepository suceessKillRepository;
 
     public Mono<Boolean> deleteRecord(long seckillId) {
@@ -28,7 +25,7 @@ public class MongoReactiveServiceImpl {
     }
 
     public Mono<Boolean> saveRecord(SuccessKilledDto successKilledDto) {
-        return mongoTemplate.insert(SuccessKilled.builder()
+        return suceessKillRepository.insert(SuccessKilled.builder()
                         .id(UUID.randomUUID().toString())
                         .seckillId(successKilledDto.getSeckillId())
                         .userPhone(successKilledDto.getUserPhone())
