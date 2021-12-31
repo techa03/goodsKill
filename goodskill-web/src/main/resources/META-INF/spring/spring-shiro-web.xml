@@ -9,7 +9,7 @@
     </bean>
 
     <!-- 凭证匹配器 -->
-    <bean id="credentialsMatcher" class="org.seckill.web.shiro.RetryLimitHashedCredentialsMatcher">
+    <bean id="credentialsMatcher" class="com.goodskill.web.shiro.RetryLimitHashedCredentialsMatcher">
         <constructor-arg ref="cacheManager" />
         <property name="hashAlgorithmName" value="md5" />
         <property name="hashIterations" value="2" />
@@ -17,11 +17,11 @@
     </bean>
 
     <!-- Realm实现 -->
-    <bean id="userRealm" class="org.seckill.web.shiro.UserRealm">
+    <bean id="userRealm" class="com.goodskill.web.shiro.UserRealm">
         <property name="credentialsMatcher" ref="credentialsMatcher" />
     </bean>
 
-    <bean id="accessTokenRealm" class="org.seckill.web.shiro.AuthUserRealm">
+    <bean id="accessTokenRealm" class="com.goodskill.web.shiro.AuthUserRealm">
         <property name="credentialsMatcher" ref="credentialsMatcher" />
     </bean>
 

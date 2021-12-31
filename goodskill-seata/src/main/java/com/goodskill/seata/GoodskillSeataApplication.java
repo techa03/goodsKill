@@ -1,12 +1,12 @@
 package com.goodskill.seata;
 
 import com.alibaba.cloud.seata.feign.SeataFeignClientAutoConfiguration;
+import com.goodskill.api.service.GoodsService;
+import com.goodskill.api.service.SeckillService;
+import com.goodskill.entity.Goods;
+import com.goodskill.entity.Seckill;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.seckill.api.service.GoodsService;
-import org.seckill.api.service.SeckillService;
-import org.seckill.entity.Goods;
-import org.seckill.entity.Seckill;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;

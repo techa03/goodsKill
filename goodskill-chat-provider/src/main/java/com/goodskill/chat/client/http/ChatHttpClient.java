@@ -5,6 +5,7 @@ import com.goodskill.chat.client.ChatClient;
 import com.goodskill.chat.common.http.HttpPipelineInitializer;
 import com.goodskill.chat.dto.ChatMessageDto;
 import com.goodskill.common.util.JwtUtils;
+import com.goodskill.entity.User;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
@@ -13,7 +14,6 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.multipart.HttpPostRequestEncoder;
 import lombok.extern.slf4j.Slf4j;
-import org.seckill.entity.User;
 
 import java.net.URI;
 import java.net.URISyntaxException;

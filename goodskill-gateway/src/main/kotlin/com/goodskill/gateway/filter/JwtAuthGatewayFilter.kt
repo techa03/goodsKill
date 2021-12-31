@@ -1,7 +1,7 @@
 package com.goodskill.gateway.filter
 
-import org.seckill.api.dto.AuthResponseDTO
-import org.seckill.api.service.AuthService
+import com.goodskill.api.dto.AuthResponseDTO
+import com.goodskill.api.service.AuthService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired

@@ -1,2 +1,2 @@
 org.springframework.boot.diagnostics.FailureAnalyzer=\
-org.seckill.service.impl.ApplicationStartFailureAnalyzer
+com.goodskill.service.impl.ApplicationStartFailureAnalyzer
