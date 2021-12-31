@@ -70,7 +70,7 @@
 goodsKill
 |--goodskill-admin                          ||SpringBoot Admin监控服务端，支持Spring Cloud微服务发现
 |--goodskill-chat-provider                  ||聊天室服务提供者（待完成）
-|--goodsKill-common                         ||项目公共服务（待补充）
+|--goodsKill-common                         ||项目公共服务（目前包括字典服务，待补充）
 |--goodskill-gateway                        ||微服务网关
 |--goodsKill-es-provider                    ||elasticsearch搜索服务提供者，提供商品名称检索功能
 |   |--goodskill-es-api                     
@@ -84,7 +84,6 @@ goodsKill
 |   |--goodsKill-entry                      ||实体类
 |   |--goodsKill-generator                  ||项目代码生成
 |   |--goodsKill-service                    ||服务API接口实现
-|   |--goodsKill-util                       ||工具类
 |--goodskill-spring-boot-starter            ||项目配置自动装配
 |--goodskill-web                            ||提供页面客户端访问，controller层在这一模块   
 |--goodskill-job                            ||elastic-job定时任务 

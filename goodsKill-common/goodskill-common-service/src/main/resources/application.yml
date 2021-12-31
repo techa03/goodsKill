@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: Password123
+  main:
+    allow-circular-references: true
+server:
+  port: 18049

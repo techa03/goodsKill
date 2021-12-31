@@ -9,7 +9,6 @@
 		<module>goodsKill-service</module>
 		<module>goodsKill-entry</module>
 		<module>goodsKill-api</module>
-		<module>goodsKill-util</module>
 		<module>goodsKill-generator</module>
         <module>goodsKill-mp-dao</module>
     </modules>
@@ -41,12 +40,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.goodskill</groupId>
-				<artifactId>goodsKill-common</artifactId>
-				<version>${goodsKill.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.goodskill</groupId>
-				<artifactId>goodsKill-util</artifactId>
+				<artifactId>goodskill-common-util</artifactId>
 				<version>${goodsKill.version}</version>
 			</dependency>
 			<dependency>
