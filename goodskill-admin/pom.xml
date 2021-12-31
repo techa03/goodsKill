@@ -8,7 +8,7 @@
         <version>3.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>goodskill-admin</artifactId>
-    <version>${goodsKill.version}</version>
+    <version>${goodskill.version}</version>
     <name>goodskill-admin</name>
     <description>goodskill-admin</description>
     <packaging>jar</packaging>

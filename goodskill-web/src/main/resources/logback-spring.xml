@@ -12,7 +12,7 @@
 
     <appender name="rollingAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/logs/goodsKill/goodsKill-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>/logs/goodskill/goodskill-%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder><!-- 必须指定，否则不会往文件输出内容 -->
