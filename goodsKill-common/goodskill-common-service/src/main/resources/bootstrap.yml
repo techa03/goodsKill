@@ -1,0 +1,8 @@
+spring:
+  #系统名称
+  application:
+    name: goodskill-common
+  #微服务配置
+  cloud:
+    nacos:
+      server-addr: 61.152.146.156:8848

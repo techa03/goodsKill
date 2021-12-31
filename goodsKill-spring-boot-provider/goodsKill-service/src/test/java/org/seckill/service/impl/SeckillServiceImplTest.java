@@ -1,5 +1,6 @@
 package org.seckill.service.impl;
 
+import com.goodskill.common.util.MD5Util;
 import com.goodskill.mongo.api.SuccessKilledMongoService;
 import org.apache.curator.shaded.com.google.common.collect.Lists;
 import org.junit.Test;
@@ -19,7 +20,6 @@ import org.seckill.mp.dao.mapper.SuccessKilledMapper;
 import org.seckill.service.common.RedisService;
 import org.seckill.service.common.trade.alipay.AlipayRunner;
 import org.seckill.service.mock.strategy.GoodsKillStrategy;
-import org.seckill.util.common.util.MD5Util;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
