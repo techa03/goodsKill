@@ -70,20 +70,20 @@
 goodsKill
 |--goodskill-admin                          ||SpringBoot Admin监控服务端，支持Spring Cloud微服务发现
 |--goodskill-chat-provider                  ||聊天室服务提供者（待完成）
-|--goodsKill-common                         ||项目公共服务（目前包括字典服务，待补充）
+|--goodskill-common                         ||项目公共服务（目前包括字典服务，待补充）
 |--goodskill-gateway                        ||微服务网关
-|--goodsKill-es-provider                    ||elasticsearch搜索服务提供者，提供商品名称检索功能
+|--goodskill-es-provider                    ||elasticsearch搜索服务提供者，提供商品名称检索功能
 |   |--goodskill-es-api                     
 |   |--goodskill-es-dao                     
 |   |--goodskill-es-service                 
-|--goodsKill-mongo-provider                 ||mongo存储服务提供者
+|--goodskill-mongo-provider                 ||mongo存储服务提供者
 |   |--goodskill-mongo-service              
-|--goodsKill-spring-boot-provider           ||订单、用户、登录、商品管理服务提供者（待拆分）
-|   |--goodsKill-api                        ||提供服务API接口
-|   |--goodsKill-mp-dao                     ||数据库访问  
-|   |--goodsKill-entry                      ||实体类
-|   |--goodsKill-generator                  ||项目代码生成
-|   |--goodsKill-service                    ||服务API接口实现
+|--goodskill-spring-boot-provider           ||订单、用户、登录、商品管理服务提供者（待拆分）
+|   |--goodskill-api                        ||提供服务API接口
+|   |--goodskill-mp-dao                     ||数据库访问  
+|   |--goodskill-entry                      ||实体类
+|   |--goodskill-generator                  ||项目代码生成
+|   |--goodskill-service                    ||服务API接口实现
 |--goodskill-spring-boot-starter            ||项目配置自动装配
 |--goodskill-web                            ||提供页面客户端访问，controller层在这一模块   
 |--goodskill-job                            ||elastic-job定时任务 
@@ -177,7 +177,7 @@ docker-compose -f goodskill-simple.yml up -d
      127.0.0.1       www.goodskill.com
      ```
 
-- 进入<code>goodsKill-web</code>模块根目录，运行命令或直接通过<code>SampleWebJspApplication</code>类main方法启动
+- 进入<code>goodskill-web</code>模块根目录，运行命令或直接通过<code>SampleWebJspApplication</code>类main方法启动
      ```
     mvn spring-boot:run -Dspring.profiles.active=docker
      ```
@@ -207,15 +207,15 @@ docker-compose -f goodskill-simple.yml up -d
 - 可参考`Dockerfile`文件，如:
 ```
 FROM openjdk:11.0.9.1-jdk
-COPY goodsKill-service/target/goodsKill-service.jar /app/goodsKill-service.jar
+COPY goodskill-service/target/goodskill-service.jar /app/goodskill-service.jar
 WORKDIR /app
-CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", "goodsKill-service.jar"]
+CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", "goodskill-service.jar"]
 ```
 
 ## ❓常见问题
-- 使用idea启动`SampleWebJspApplication`类(goodsKill-web模块)时会出现访问不了页面的问题，eclipse无此问题。
+- 使用idea启动`SampleWebJspApplication`类(goodskill-web模块)时会出现访问不了页面的问题，eclipse无此问题。
 
-  解决办法：配置启动类的工作目录为goodsKill-web
+  解决办法：配置启动类的工作目录为goodskill-web
 - docker es镜像启动失败？
 
   出现此问题一般为linux环境，运行以下命令即可
@@ -247,10 +247,10 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
 **注**:其他表均未分库分表，默认使用seckill作为主库
 
 ## 🔖服务网关说明
-- http://www.goodskill.com/goodskill/mongo 对应`goodsKill-mongo-provider`服务
-- http://www.goodskill.com/goodskill/es 对应`goodsKill-es-provider`服务
+- http://www.goodskill.com/goodskill/mongo 对应`goodskill-mongo-provider`服务
+- http://www.goodskill.com/goodskill/es 对应`goodskill-es-provider`服务
 - http://www.goodskill.com/goodskill/seata 对应`goodskill-seata`服务
-- http://www.goodskill.com/goodskill/common 对应`goodsKill-service-provider`服务
+- http://www.goodskill.com/goodskill/common 对应`goodskill-service-provider`服务
 
 - 通过[http://www.goodskill.com/goodskill/common/token](http://www.goodskill.com/goodskill/common/token)接口获取token
 - 通过[http://www.goodskill.com/goodskill/common/refresh](http://www.goodskill.com/goodskill/common/refresh)刷新用户token

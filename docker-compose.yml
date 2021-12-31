@@ -197,10 +197,10 @@ services:
 #      - somenetwork
 
   goodses:
-    build: ./goodsKill-es-provider
+    build: ./goodskill-es-provider
     container_name: goodses
     volumes:
-      - /logs/goods-es/:/logs/goodsKill
+      - /logs/goods-es/:/logs/goodskill
     depends_on:
       - elasticsearch
       - nacos
@@ -210,10 +210,10 @@ services:
       - somenetwork
 
   goodsmongo:
-    build: ./goodsKill-mongo-provider
+    build: ./goodskill-mongo-provider
     container_name: goodsmongo
     volumes:
-      - /logs/goods-mongo/:/logs/goodsKill
+      - /logs/goods-mongo/:/logs/goodskill
     depends_on:
       - nacos
       - mongo
@@ -222,11 +222,11 @@ services:
       - somenetwork
 
   goodsservice:
-    build: ./goodsKill-spring-boot-provider
+    build: ./goodskill-spring-boot-provider
     container_name: goodsservice
     restart: on-failure:3
     volumes:
-      - /logs/goods-service/:/logs/goodsKill
+      - /logs/goods-service/:/logs/goodskill
     depends_on:
       - elasticsearch
       - zookeeper
@@ -244,7 +244,7 @@ services:
     container_name: goodsweb
     restart: on-failure:5
     volumes:
-      - /logs/goods-web/:/logs/goodsKill
+      - /logs/goods-web/:/logs/goodskill
     depends_on:
       - goodsservice
       - zookeeper
@@ -259,7 +259,7 @@ services:
     container_name: goodsgateway
     restart: on-failure:3
     volumes:
-      - /logs/goods-gateway/:/logs/goodsKill
+      - /logs/goods-gateway/:/logs/goodskill
     ports:
       - "80:80"
     depends_on:
@@ -273,7 +273,7 @@ services:
 #    container_name: goodsseata
 #    restart: on-failure:3
 #    volumes:
-#      - /logs/goods-seata/:/logs/goodsKill
+#      - /logs/goods-seata/:/logs/goodskill
 #    depends_on:
 #      - seata-server
 #      - goodsservice
@@ -286,7 +286,7 @@ services:
     ports:
       - "8083:8083"
     volumes:
-      - /logs/goods-admin/:/logs/goodsKill
+      - /logs/goods-admin/:/logs/goodskill
     depends_on:
       - nacos
       - zipkin

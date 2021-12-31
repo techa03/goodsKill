@@ -9,12 +9,12 @@
 	<version>3.0.0-SNAPSHOT</version>
 	<modules>
 		<module>goodskill-web</module>
-		<module>goodsKill-spring-boot-provider</module>
-        <module>goodsKill-common</module>
-        <module>goodsKill-mongo-provider</module>
+		<module>goodskill-spring-boot-provider</module>
+        <module>goodskill-common</module>
+        <module>goodskill-mongo-provider</module>
 		<module>goodskill-chat-provider</module>
 		<module>goodskill-spring-boot-starter</module>
-		<module>goodsKill-es-provider</module>
+		<module>goodskill-es-provider</module>
         <module>goodskill-job</module>
 		<module>goodskill-gateway</module>
 		<module>goodskill-seata</module>
@@ -23,7 +23,7 @@
 	</modules>
 
 	<properties>
-		<goodsKill.version>3.4.0-SNAPSHOT</goodsKill.version>
+		<goodskill.version>1.0.0-SNAPSHOT</goodskill.version>
 		<springboot.version>2.6.1</springboot.version>
 		<spring-cloud.version>2021.0.0</spring-cloud.version>
 		<spring.cloud.alibaba.version>2021.1</spring.cloud.alibaba.version>
@@ -36,7 +36,7 @@
 	</properties>
 
 	<build>
-		<finalName>goodsKill</finalName>
+		<finalName>goodskill</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.jetbrains.kotlin</groupId>

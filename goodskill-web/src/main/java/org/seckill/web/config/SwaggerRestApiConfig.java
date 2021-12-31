@@ -44,7 +44,7 @@ public class SwaggerRestApiConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("GoodsKill APIs")
-                .termsOfServiceUrl("https://github.com/techa03/goodsKill")
+                .termsOfServiceUrl("https://github.com/techa03/goodskill")
                 .contact(new Contact("Call me maybe","https://github.com/techa03","techa@foxmail.com"))
                 .version("1.0")
                 .build();

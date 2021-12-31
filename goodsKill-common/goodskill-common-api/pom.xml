@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>goodskill</artifactId>
+        <artifactId>goodskill-common</artifactId>
         <groupId>com.goodskill</groupId>
         <version>3.0.0-SNAPSHOT</version>
     </parent>
-    <version>${goodsKill.version}</version>
+    <version>${goodskill.version}</version>
     <artifactId>goodskill-common-api</artifactId>
     <name>goodskill-common-api</name>
     <description>goodskill-common-api</description>
