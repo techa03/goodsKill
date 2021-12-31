@@ -19,10 +19,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.goodskill</groupId>
-			<artifactId>goodsKill-util</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.goodskill</groupId>
 			<artifactId>goodsKill-entry</artifactId>
 		</dependency>
 		<dependency>
@@ -177,7 +173,7 @@
 		<!--升级到springboot2.4需要增加以下依赖，否则nacos无法拉取配置END-->
         <dependency>
             <groupId>com.goodskill</groupId>
-            <artifactId>goodsKill-common</artifactId>
+            <artifactId>goodskill-common-util</artifactId>
         </dependency>
 		<dependency>
 			<groupId>cn.hutool</groupId>
@@ -207,7 +203,13 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.goodskill</groupId>
+            <artifactId>goodskill-common-util</artifactId>
+            <version>3.4.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<finalName>goodsKill-service</finalName>

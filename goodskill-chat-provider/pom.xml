@@ -29,7 +29,7 @@
         </dependency>
         <dependency>
             <groupId>com.goodskill</groupId>
-            <artifactId>goodsKill-common</artifactId>
+            <artifactId>goodskill-common-util</artifactId>
             <version>${goodsKill.version}</version>
         </dependency>
         <dependency>
