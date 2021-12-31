@@ -30,7 +30,7 @@
     <!--日期字符串转data类型-->
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="converters">
-            <bean class="org.seckill.web.util.String2DateUtil"/>
+            <bean class="com.goodskill.web.util.String2DateUtil"/>
         </property>
     </bean>
 

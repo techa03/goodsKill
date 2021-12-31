@@ -3,6 +3,7 @@ package com.goodskill.chat.server.handler;
 import cn.hutool.core.bean.BeanUtil;
 import com.goodskill.chat.dto.ChatMessageDto;
 import com.goodskill.common.util.JwtUtils;
+import com.goodskill.entity.User;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -18,7 +19,6 @@ import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.seckill.entity.User;
 
 import java.io.IOException;
 import java.util.Map;

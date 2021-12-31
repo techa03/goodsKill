@@ -89,7 +89,7 @@ spring:
 
 dubbo:
   scan:
-    base-packages: org.seckill.service.impl
+    base-packages: com.goodskill.service.impl
   application:
     id: goodskill-service-provider
     name: goodskill-service-provider

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.seckill.mp.dao.mapper.SeckillMapper">
+<mapper namespace="com.goodskill.mp.dao.mapper.SeckillMapper">
     <update id="reduceNumber">
         UPDATE
         seckill
@@ -21,7 +21,7 @@
         AND end_time <![CDATA[ >= ]]> #{killTime,jdbcType=TIMESTAMP}
         AND number <![CDATA[ > ]]> 0 AND number=#{number,jdbcType=INTEGER}
     </update>
-    <select id="reduceNumberByProcedure" statementType="CALLABLE" parameterType="org.seckill.entity.SuccessKilled">
+    <select id="reduceNumberByProcedure" statementType="CALLABLE" parameterType="com.goodskill.entity.SuccessKilled">
         <![CDATA[
             {CALL execute_seckill(
                 #{seckillId,jdbcType=BIGINT,mode=IN},
