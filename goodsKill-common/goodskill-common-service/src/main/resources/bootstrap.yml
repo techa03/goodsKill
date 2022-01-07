@@ -5,4 +5,4 @@ spring:
   #微服务配置
   cloud:
     nacos:
-      server-addr: 61.152.146.156:8848
+      server-addr: nacos:8848

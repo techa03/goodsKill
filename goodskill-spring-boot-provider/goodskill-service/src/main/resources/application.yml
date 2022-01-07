@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: docker
+    active: dev
   application:
     name: goodskill-service-provider
   kafka:
@@ -205,7 +205,7 @@ spring:
     password: guest
   config:
     activate:
-      on-profile: docker
+      on-profile: docker,dev
 dubbo:
   registry:
     address: spring-cloud://localhost

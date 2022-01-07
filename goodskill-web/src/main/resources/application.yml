@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: docker
+    active: dev
   application:
     name: goodskill-web
   #OAuth2.0第三方登录配置
@@ -134,7 +134,7 @@ server:
 spring:
   config:
     activate:
-      on-profile: docker
+      on-profile: docker,dev
   redis:
     host: redis
     port: 6379
