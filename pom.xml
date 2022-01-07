@@ -27,12 +27,13 @@
 		<springboot.version>2.6.1</springboot.version>
 		<spring-cloud.version>2021.0.0</spring-cloud.version>
 		<spring.cloud.alibaba.version>2021.1</spring.cloud.alibaba.version>
+		<kotlin.version>1.6.0</kotlin.version>
+        <jacoco.version>0.8.2</jacoco.version>
+        <net.logstash.version>7.0.1</net.logstash.version>
 		<sonar.exclusions>
 			src/main/webapp/.../**/*
 			src/main/sql/.../**/*
 		</sonar.exclusions>
-		<kotlin.version>1.6.0</kotlin.version>
-		<jacoco.version>0.8.2</jacoco.version>
 	</properties>
 
 	<build>
@@ -122,6 +123,11 @@
 				<version>${spring.cloud.alibaba.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>net.logstash.logback</groupId>
+				<artifactId>logstash-logback-encoder</artifactId>
+				<version>${net.logstash.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

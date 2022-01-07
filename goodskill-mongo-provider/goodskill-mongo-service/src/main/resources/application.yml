@@ -3,7 +3,7 @@ server:
   shutdown: graceful
 spring:
   profiles:
-    active: docker
+    active: dev
   application:
     name: mongo-service-provider
   main:
@@ -81,7 +81,7 @@ spring:
             server-addr: nacos:8848
   config:
     activate:
-      on-profile: docker
+      on-profile: docker,dev
 #dubbo:
 #  registry:
 #    address: spring-cloud://localhost

@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: docker
+    active: dev
   application:
     name: es-service-provider
   cloud:
@@ -63,7 +63,6 @@ management:
 
 ---
 spring:
-  profiles: docker
   zipkin:
     base-url: http://zipkin:9411/
   cloud:
@@ -75,6 +74,9 @@ spring:
         ds0:
           nacos:
             server-addr: nacos:8848
+  config:
+    activate:
+      on-profile: docker,dev
 dubbo:
   registry:
     address: spring-cloud://localhost

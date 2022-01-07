@@ -2,7 +2,7 @@ server:
   port: 80
 spring:
   profiles:
-    active: docker
+    active: dev
   application:
     name: goodskill-gateway
   cloud:
@@ -53,7 +53,7 @@ management:
 spring:
   config:
     activate:
-      on-profile: docker
+      on-profile: docker,dev
   zipkin:
     base-url: http://zipkin:9411/
   cloud:
