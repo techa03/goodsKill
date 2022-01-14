@@ -3,8 +3,6 @@ server:
 spring:
   profiles:
     active: dev
-  application:
-    name: goodskill-gateway
   cloud:
     sentinel:
       transport:
@@ -49,6 +47,11 @@ management:
     web:
       exposure:
         include: '*'
+
+nacos:
+  router:
+    data:
+      id: goodskill-gateway-routes
 ---
 spring:
   config:
