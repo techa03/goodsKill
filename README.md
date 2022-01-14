@@ -71,7 +71,7 @@ goodsKill
 |--goodskill-admin                          ||SpringBoot Admin监控服务端，支持Spring Cloud微服务发现
 |--goodskill-chat-provider                  ||聊天室服务提供者（待完成）
 |--goodskill-common                         ||项目公共服务（目前包括字典服务，待补充）
-|--goodskill-gateway                        ||微服务网关
+|--goodskill-gateway                        ||微服务网关，支持动态路由加载
 |--goodskill-es-provider                    ||elasticsearch搜索服务提供者，提供商品名称检索功能
 |   |--goodskill-es-api                     
 |   |--goodskill-es-dao                     
