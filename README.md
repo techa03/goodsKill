@@ -92,6 +92,49 @@ goodsKill
     |--oauth2-resource-server               ||oauth2.0资源服务端，自定义的授权登录服务
 ```
 
+## 🔥🔥秒杀方案
+目前实现了几种秒杀方案，通过`SeckillMockController`提供测试接口
+
+swagger主页测试地址: http://www.goodskill.com:8080/goodskill/web/swagger-ui/index.html
+
+SpringBoot Admin应用监控地址: http://www.goodskill.com:8083, 登录用户名密码：admin/123456
+
+kafka状态监控页面地址: http://localhost:9000
+
+zipkin链路跟踪页面地址: http://localhost:9411/zipkin/
+
+- 场景一：sychronized同步锁实现
+- 场景二：redisson分布式锁实现
+- 场景三：ActiveMQ实现(已废弃)
+- 场景四：Kafka消息队列实现
+- 场景五：数据库原子性更新
+- 场景六：实时等待秒杀处理结果(已废弃)
+- 场景七：zookeeper分布式锁
+- 场景八：使用redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用mongoDB完成数据落地
+- 场景九：SpringCloudStream RabbitMQ实现
+- 场景十：Sentinel限流+数据库原子性更新（需搭配sentinel控制台配置资源名`limit`的流控规则）
+
+可在web控台查看秒杀结果，打印信息类似：
+ ```
+2021-04-14 21:58:59.857  INFO [goodskill-web,df43cc8f59291c48,df43cc8f59291c48] 15808 --- [           main] o.s.w.controller.SeckillMockController   : 秒杀场景二(redis分布式锁实现)开始时间：Wed Apr 14 21:58:59 CST 2021,秒杀id：1000
+2021-04-14 21:59:00.094  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 秒杀活动结束，秒杀场景二(redis分布式锁实现)时间：Wed Apr 14 21:59:00 CST 2021,秒杀id：1000
+2021-04-14 21:59:00.101  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 最终成功交易笔数统计中。。。
+2021-04-14 21:59:01.616  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 最终成功交易笔数统计中。。。
+2021-04-14 21:59:03.129  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 最终成功交易笔数：10
+2021-04-14 21:59:03.130  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 历史任务耗时统计：StopWatch '': running time = 36159894800 ns
+---------------------------------------------
+ns         %     Task name
+---------------------------------------------
+4492195700  012%  秒杀场景四(kafka消息队列实现)
+3164155900  009%  秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)
+6219218300  017%  秒杀场景十(Sentinel限流+数据库原子性更新)
+9189080600  025%  秒杀场景七(zookeeper分布式锁)
+3135926500  009%  秒杀场景五(数据库原子性更新update set num = num -1)
+3342791800  009%  秒杀场景九(基于springcloud stream rabbitmq)
+3343433700  009%  秒杀场景一(sychronized同步锁实现)
+3273092300  009%  秒杀场景二(redis分布式锁实现)
+ ```
+
 ## 🧰开发环境版本说明
 - JDK: OpenJDK11
 - Sharding-JDBC: 4.1.1
@@ -262,49 +305,6 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
 
 - 通过[http://www.goodskill.com/goodskill/common/token](http://www.goodskill.com/goodskill/common/token)接口获取token
 - 通过[http://www.goodskill.com/goodskill/common/refresh](http://www.goodskill.com/goodskill/common/refresh)刷新用户token
-
-## 🔥🔥秒杀方案
-目前实现了几种秒杀方案，通过`SeckillMockController`提供测试接口
-
-swagger主页测试地址: http://www.goodskill.com:8080/goodskill/web/swagger-ui/index.html
-
-SpringBoot Admin应用监控地址: http://www.goodskill.com:8083, 登录用户名密码：admin/123456
-
-kafka状态监控页面地址: http://localhost:9000
-
-zipkin链路跟踪页面地址: http://localhost:9411/zipkin/
-
-- 场景一：sychronized同步锁实现
-- 场景二：redisson分布式锁实现
-- 场景三：ActiveMQ实现(已废弃)
-- 场景四：Kafka消息队列实现
-- 场景五：数据库原子性更新
-- 场景六：实时等待秒杀处理结果(已废弃)
-- 场景七：zookeeper分布式锁
-- 场景八：使用redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用mongoDB完成数据落地
-- 场景九：SpringCloudStream RabbitMQ实现
-- 场景十：Sentinel限流+数据库原子性更新（需搭配sentinel控制台配置资源名`limit`的流控规则）
-
-可在web控台查看秒杀结果，打印信息类似：
- ```
-2021-04-14 21:58:59.857  INFO [goodskill-web,df43cc8f59291c48,df43cc8f59291c48] 15808 --- [           main] o.s.w.controller.SeckillMockController   : 秒杀场景二(redis分布式锁实现)开始时间：Wed Apr 14 21:58:59 CST 2021,秒杀id：1000
-2021-04-14 21:59:00.094  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 秒杀活动结束，秒杀场景二(redis分布式锁实现)时间：Wed Apr 14 21:59:00 CST 2021,秒杀id：1000
-2021-04-14 21:59:00.101  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 最终成功交易笔数统计中。。。
-2021-04-14 21:59:01.616  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 最终成功交易笔数统计中。。。
-2021-04-14 21:59:03.129  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 最终成功交易笔数：10
-2021-04-14 21:59:03.130  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 历史任务耗时统计：StopWatch '': running time = 36159894800 ns
----------------------------------------------
-ns         %     Task name
----------------------------------------------
-4492195700  012%  秒杀场景四(kafka消息队列实现)
-3164155900  009%  秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)
-6219218300  017%  秒杀场景十(Sentinel限流+数据库原子性更新)
-9189080600  025%  秒杀场景七(zookeeper分布式锁)
-3135926500  009%  秒杀场景五(数据库原子性更新update set num = num -1)
-3342791800  009%  秒杀场景九(基于springcloud stream rabbitmq)
-3343433700  009%  秒杀场景一(sychronized同步锁实现)
-3273092300  009%  秒杀场景二(redis分布式锁实现)
- ```
 
 ## 🔨后续更新计划
 | 功能                       | 进度  | 完成时间    | 说明                                  |
