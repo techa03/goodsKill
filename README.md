@@ -101,7 +101,39 @@ goodsKill
 - SpringCloudAlibaba: 2021.x
 - Kotlin: 1.6.x
 
-## 🕹️️如何启动项目
+## 🥕快速开始
+- 项目根目录`goodsKill`中执行
+  ```
+  mvn clean install
+  或 
+  #跳过单元测试
+  mvn clean install -DskipTests
+  ```
+- 默认端口启动nacos、redis、mysql、rabbitmq、kafka、zookeeper
+- 找到<code>seckill.sql</code>文件，在本地mysql数据库中建立<code>seckill</code>仓库并执行完成数据初始化操作
+
+  **注**:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
+- 配置host
+     ```
+     127.0.0.1       kafka
+     127.0.0.1       nacos
+     127.0.0.1       redis
+     127.0.0.1       mysql
+     127.0.0.1       zookeeper
+     127.0.0.1       mongo
+     127.0.0.1       elasticsearch
+     127.0.0.1       rabbitmq
+     127.0.0.1       zipkin
+     127.0.0.1       logstash
+     ##如果网关服务部署在远程机器，此处改为相应的远程机器ip
+     127.0.0.1       www.goodskill.com
+     ```
+- main方法运行<code>GatewayApplication</code>类(网关服务)
+- main方法运行<code>GoodsKillServiceApplication</code>类(订单、用户、登录、商品管理服务提供者)
+- main方法运行<code>SampleWebJspApplication</code>类(web服务)
+- 启动完成后访问登录页面[http://www.goodskill.com:8080/goodskill/web/login](http://www.goodskill.com:8080/goodskill/web/login)，默认管理员账号admin123，密码：aa123456
+
+## 🕹️️完整启动项目
 > #### 方法一：使用Docker镜像构建脚本
 
 - 项目根目录`goodsKill`中执行
@@ -125,7 +157,7 @@ goodsKill
   **注**:推荐使用<code>docker-compose</code>命令（推荐电脑运行内存16G以上），无需手动下载软件安装包，开箱即用。此命令会自动拉取docker镜像并以默认端口运行
 
   镜像 | 版本         | 端口 | 用户名密码
-  ---|------------|---|---
+    ---|------------|---|---
   Nacos | 2.0.3      | 8848 | 无
   Redis | latest     | 6379 | 无
   Kafka | 2.13-2.7.0 | 9092 | 无
@@ -146,12 +178,9 @@ docker-compose -f goodskill-simple.yml up -d
 ```
 
 > #### ⚠导入项目数据库基础数据 ️
-
 - 找到<code>seckill.sql</code>文件，在本地mysql数据库中建立<code>seckill</code>仓库并执行完成数据初始化操作
 
   **注**:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
-
-- 启动完成后访问登录页面[http://www.goodskill.com:8080/goodskill/web/login](http://www.goodskill.com:8080/goodskill/web/login)，默认管理员账号admin123，密码：aa123456
 
 > #### 方法二：使用IDEA运行项目
 
@@ -162,20 +191,7 @@ docker-compose -f goodskill-simple.yml up -d
 - 找到<code>EsApplication</code>类main方法启动远程服务
 
 - 找到<code>GoodsKillServiceApplication</code>类main方法启动远程服务，并且需要在host中加入以下信息
-     ```
-     127.0.0.1       kafka
-     127.0.0.1       nacos
-     127.0.0.1       redis
-     127.0.0.1       mysql
-     127.0.0.1       zookeeper
-     127.0.0.1       mongo
-     127.0.0.1       elasticsearch
-     127.0.0.1       rabbitmq
-     127.0.0.1       zipkin
-     127.0.0.1       logstash
-     ##如果网关服务部署在远程机器，此处改为相应的远程机器ip
-     127.0.0.1       www.goodskill.com
-     ```
+
 
 - 进入<code>goodskill-web</code>模块根目录，运行命令或直接通过<code>SampleWebJspApplication</code>类main方法启动
      ```
@@ -183,13 +199,6 @@ docker-compose -f goodskill-simple.yml up -d
      ```
 
 - 如已安装MongoDB，可以main方法启动<code>MongoReactiveApplication</code>，通过使用该服务操作mongo库
-
-> #### 运行项目最低要求
-1. 启动nacos、redis、mysql、rabbitmq、kafka、zookeeper
-2. 参考上一节配置host
-3. main方法运行<code>GatewayApplication</code>类
-4. main方法运行<code>GoodsKillServiceApplication</code>类
-5. main方法运行<code>SampleWebJspApplication</code>类
 
 > #### 如何使用本项目自定义的OAuth2.0授权服务器进行登录授权
 - 待完善。。
