@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=master)](https://travis-ci.org/techa03/goodsKill)
 [![codecov](https://codecov.io/gh/techa03/goodsKill/branch/master/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=techa03_goodsKill&metric=alert_status)](https://sonarcloud.io/dashboard?id=techa03_goodsKill)
-[![CodeQL](https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml/badge.svg?branch=master)](https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml)
 
 项目命名为**goodsKill**一方面有商品秒杀项目的意思(好像有点chinglish的味道)，另外也可理解为**good skill**，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来（偏向于后端技术），方便学习和查阅。
 
@@ -101,7 +100,7 @@ goodsKill
 - SpringCloudAlibaba: 2021.x
 - Kotlin: 1.6.x
 
-## 🥕快速开始
+## 🎯快速开始
 - 项目根目录`goodsKill`中执行
   ```
   mvn clean install
@@ -133,7 +132,7 @@ goodsKill
 - main方法运行<code>SampleWebJspApplication</code>类(web服务)
 - 启动完成后访问登录页面[http://www.goodskill.com:8080/goodskill/web/login](http://www.goodskill.com:8080/goodskill/web/login)，默认管理员账号admin123，密码：aa123456
 
-## 🕹️️完整启动项目
+## 🕹️️启动完整项目方法
 > #### 方法一：使用Docker镜像构建脚本
 
 - 项目根目录`goodsKill`中执行
