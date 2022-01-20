@@ -10,7 +10,6 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.HttpMessageConverter
-import java.time.ZonedDateTime
 import java.util.stream.Collectors
 
 
@@ -19,9 +18,8 @@ open class GatewayConfiguration {
     @Bean
     open fun customizedLocator(builder: RouteLocatorBuilder): RouteLocator {
         return builder.routes()
-            .route { r: PredicateSpec ->
-                r.after(ZonedDateTime.now().plusSeconds(2L)).and()
-                    .path("/goodskill/es/**")
+            .route("es-service-provider") { r: PredicateSpec ->
+                r.path("/goodskill/es/**")
                     // 路径根据"/"分割符去掉前几位
                     .filters { f: GatewayFilterSpec ->
                         f.stripPrefix(2)
@@ -29,25 +27,22 @@ open class GatewayConfiguration {
                     // 访问的负载均衡地址
                     .uri("lb://es-service-provider")
             }
-            .route { r: PredicateSpec ->
-                r.after(ZonedDateTime.now().plusSeconds(2L)).and()
-                    .path("/goodskill/mongo/**")
+            .route("mongo-service-provider") { r: PredicateSpec ->
+                r.path("/goodskill/mongo/**")
                     .filters { f: GatewayFilterSpec ->
                         f.stripPrefix(2)
                     }
                     .uri("lb://mongo-service-provider")
             }
-            .route { r: PredicateSpec ->
-                r.after(ZonedDateTime.now().plusSeconds(2L)).and()
-                    .path("/goodskill/seata/**")
+            .route("goodskill-seata") { r: PredicateSpec ->
+                r.path("/goodskill/seata/**")
                     .filters { f: GatewayFilterSpec ->
                         f.stripPrefix(2)
                     }
                     .uri("lb://goodskill-seata")
             }
-            .route { r: PredicateSpec ->
-                r.after(ZonedDateTime.now().plusSeconds(2L)).and()
-                    .path("/goodskill/common/**")
+            .route("goodskill-service-provider") { r: PredicateSpec ->
+                r.path("/goodskill/common/**")
                     .filters { f: GatewayFilterSpec ->
                         f.stripPrefix(2)
                     }
