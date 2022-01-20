@@ -306,6 +306,33 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
 - 通过[http://www.goodskill.com/goodskill/common/token](http://www.goodskill.com/goodskill/common/token)接口获取token
 - 通过[http://www.goodskill.com/goodskill/common/refresh](http://www.goodskill.com/goodskill/common/refresh)刷新用户token
 
+> #### 动态路由配置说明
+- 网关路由默认为静态加载，不够灵活。本项目改造后的网关支持动态加载路由配置，修改后实时生效，使用时需要在nacos配置中心添加配置文件，文件名可通过`application.yml`中的`nacos.router.data.id`配置进行修改（默认nacos dataId为`goodskill-gateway-routes`），路由配置文件内容为json数组格式，例如：
+```
+[ 
+    {
+        "id": "goodskill-service-provider",
+        "predicates": [
+            {
+                "name": "Path",
+                "args": {
+                    "_genkey_0": "/goodskill/common/**"
+                }
+            }
+        ],
+        "filters": [
+            {
+                "name": "StripPrefix",
+                "args": {
+                    "_genkey_1": "2"
+                }
+            }
+        ],
+        "uri": "lb://goodskill-service-provider"
+    }      
+]  
+```
+
 ## 🔨后续更新计划
 | 功能                       | 进度  | 完成时间    | 说明                                  |
 |--------------------------|-----|---------|-------------------------------------|
