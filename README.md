@@ -234,8 +234,7 @@ docker-compose -f goodskill-simple.yml up -d
 
 - 找到<code>EsApplication</code>类main方法启动远程服务
 
-- 找到<code>GoodsKillServiceApplication</code>类main方法启动远程服务，host增加上节中的配置
-
+- 找到<code>GoodsKillServiceApplication</code>类main方法启动远程服务
 
 - 进入<code>goodskill-web</code>模块根目录，运行命令或直接通过<code>SampleWebJspApplication</code>类main方法启动
      ```
