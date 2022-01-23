@@ -1,5 +1,6 @@
 package com.goodskill.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
@@ -14,12 +15,12 @@ import com.goodskill.service.common.RedisService;
 import com.goodskill.service.common.trade.alipay.AlipayRunner;
 import com.goodskill.service.mock.strategy.GoodsKillStrategy;
 import org.apache.curator.shaded.com.google.common.collect.Lists;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
@@ -34,13 +35,13 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import static com.goodskill.common.enums.SeckillSolutionEnum.SYCHRONIZED;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SeckillServiceImplTest {
     @InjectMocks
     private SeckillServiceImpl seckillService;
@@ -74,7 +75,9 @@ public class SeckillServiceImplTest {
         String key = "seckill:list:" + 1 + ":" + 1 + ":" + goodsName;
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
         when(valueOperations.get(key)).thenReturn(Lists.newArrayList());
-        when(baseMapper.selectList(any())).thenReturn(Lists.newArrayList(seckillEntity));
+        Page<Seckill> page = new Page<>();
+        page.setRecords(Lists.newArrayList(seckillEntity));
+        when(baseMapper.selectPage(any(), any())).thenReturn(page);
         assertEquals(1, seckillService.getSeckillList(1, 1, goodsName).getRecords().size());
     }
 

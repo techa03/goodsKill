@@ -2,21 +2,22 @@ package com.goodskill.service.util;
 
 import com.goodskill.service.GoodsKillServiceApplication;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@RunWith(SpringRunner.class)
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = GoodsKillServiceApplication.class)
-@Ignore
+@Disabled
 @Slf4j
 class ZookeeperLockUtilTest {
     @Autowired
@@ -55,7 +56,7 @@ class ZookeeperLockUtilTest {
         }
         countDownLatch.await();
         executorService.shutdown();
-        Assert.assertTrue(countDownLatch.getCount() == 0);
+        assertTrue(countDownLatch.getCount() == 0);
     }
 
 }

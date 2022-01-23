@@ -7,14 +7,13 @@ import com.goodskill.entity.SuccessKilled;
 import com.goodskill.mp.dao.mapper.SeckillMapper;
 import com.goodskill.mp.dao.mapper.SuccessKilledMapper;
 import com.goodskill.service.GoodsKillServiceApplication;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -26,12 +25,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * Created by heng on 2017/6/28.
  */
 @SpringBootTest(classes = GoodsKillServiceApplication.class)
-@RunWith(SpringRunner.class)
-@Ignore
+@ExtendWith(SpringExtension.class)
+@Disabled
 @Transactional
 public class BaseServiceConfigForTest {
     @Resource
@@ -54,7 +55,7 @@ public class BaseServiceConfigForTest {
     public void test() {
         Page seckillList = seckillService.getSeckillList(0, 10, "小");
         seckillList.getRecords().forEach(System.out::println);
-        Assert.assertTrue(seckillList.getTotal() > 0);
+        assertTrue(seckillList.getTotal() > 0);
     }
 
     @Test
@@ -210,10 +211,10 @@ public class BaseServiceConfigForTest {
 
     @Test
     public void testInsertOrder() {
-        Assert.assertTrue(successKilledMapper.selectList(null).size() > 0);
+        assertTrue(successKilledMapper.selectList(null).size() > 0);
     }
 
-    @Before
+    @BeforeEach
     public void before() {
         testInsertSuccessKilled();
     }
