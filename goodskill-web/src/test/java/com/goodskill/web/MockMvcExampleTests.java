@@ -1,5 +1,6 @@
 package com.goodskill.web;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Timeout(value = 60L)
+@Disabled
 class MockMvcExampleTests {
     /**
      * 秒杀请求

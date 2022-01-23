@@ -7,21 +7,22 @@ import com.goodskill.entity.SuccessKilled;
 import com.goodskill.mp.dao.mapper.GoodsMapper;
 import com.goodskill.mp.dao.mapper.SuccessKilledMapper;
 import com.goodskill.service.common.SuccessKilledService;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * 多数据源事务测试
  */
 @SpringBootTest
-@RunWith(SpringRunner.class)
-@Ignore
+@ExtendWith(SpringExtension.class)
+@Disabled
 public class MultiDatasourceTransactionTest {
     @Autowired
     private SuccessKilledMapper successKilledMapper;
@@ -61,13 +62,13 @@ public class MultiDatasourceTransactionTest {
     @Test
     public void testPage() {
         IPage page = successKilledService.page(new Page<>(1,100));
-        Assert.assertTrue(page.getSize() > 0);
+        assertTrue(page.getSize() > 0);
     }
 
     @Test
     public void testPage1() {
         IPage page = goodsMapper.selectPage(new Page(1,2), null);
-        Assert.assertTrue(page.getSize() > 0);
+        assertTrue(page.getSize() > 0);
     }
 
 

@@ -29,11 +29,8 @@
 		<spring.cloud.alibaba.version>2021.1</spring.cloud.alibaba.version>
 		<kotlin.version>1.6.10</kotlin.version>
         <jacoco.version>0.8.2</jacoco.version>
+		<maven.surefire.version>2.22.2</maven.surefire.version>
         <net.logstash.version>7.0.1</net.logstash.version>
-		<sonar.exclusions>
-			src/main/webapp/.../**/*
-			src/main/sql/.../**/*
-		</sonar.exclusions>
 	</properties>
 
 	<build>
@@ -80,23 +77,17 @@
 					<target>11</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.sonarsource.scanner.maven</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-				<version>3.8.0.2131</version>
-			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
-					<groupId>org.sonarsource.scanner.maven</groupId>
-					<artifactId>sonar-maven-plugin</artifactId>
-					<version>3.8.0.2131</version>
-				</plugin>
-				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
 					<version>${jacoco.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven.surefire.version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

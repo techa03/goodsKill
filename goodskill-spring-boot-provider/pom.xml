@@ -90,12 +90,6 @@
 				<version>2.8.5</version>
 			</dependency>
 			<!--支付宝sdk需要的依赖END -->
-			<!--测试相关-->
-			<dependency>
-				<groupId>org.mockito</groupId>
-				<artifactId>mockito-core</artifactId>
-				<version>3.1.0</version>
-			</dependency>
 			<!--base64 apache工具类 -->
 			<dependency>
 				<groupId>org.apache.shiro</groupId>
@@ -146,12 +140,6 @@
 				<groupId>org.apache.shardingsphere</groupId>
 				<artifactId>sharding-transaction-base-seata-at</artifactId>
 				<version>${shardingsphere.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.h2database</groupId>
-				<artifactId>h2</artifactId>
-				<version>2.0.202</version>
-				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.alipay.sdk</groupId>
