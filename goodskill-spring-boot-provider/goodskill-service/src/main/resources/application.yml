@@ -113,13 +113,11 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
 
 seata:
-  enabled: false
+  enabled: true
   service:
     disable-global-transaction: false
     grouplist:
       default: 127.0.0.1:8091
-    vgroup-mapping:
-      goodskill-web: default
   application-id: goodskill-service-provider
   tx-service-group: my_test_tx_group
   config:

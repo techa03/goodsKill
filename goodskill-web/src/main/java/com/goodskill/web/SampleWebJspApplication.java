@@ -1,6 +1,5 @@
 package com.goodskill.web;
 
-import com.alibaba.cloud.seata.feign.SeataFeignClientAutoConfiguration;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -17,7 +16,7 @@ import springfox.documentation.oas.annotations.EnableOpenApi;
  *
  * @author heng
  */
-@SpringBootApplication(exclude = {SeataFeignClientAutoConfiguration.class})
+@SpringBootApplication
 @ImportResource(value = {"classpath*:META-INF/spring/spring-web.xml", "classpath*:META-INF/spring/spring-shiro-web.xml"})
 @EnableDiscoveryClient
 @EnableFeignClients(value = {"com.goodskill.*.api", "com.goodskill.api"})

@@ -9,6 +9,8 @@ spring:
   cloud:
     nacos:
       server-addr: nacos:8848
+  main:
+    allow-circular-references: true
 dubbo:
   application:
     id: goodskill-seata
@@ -27,7 +29,7 @@ dubbo:
 
 
 seata:
-  enabled: false
+  enabled: true
   application-id: goodskill-seata
   tx-service-group: my_test_tx_group
   config:
