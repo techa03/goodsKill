@@ -1,6 +1,5 @@
 package com.goodskill.seata;
 
-import com.alibaba.cloud.seata.feign.SeataFeignClientAutoConfiguration;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.entity.Goods;
@@ -12,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication(exclude = SeataFeignClientAutoConfiguration.class)
+@SpringBootApplication
 @RestController
 public class GoodskillSeataApplication {
     @DubboReference

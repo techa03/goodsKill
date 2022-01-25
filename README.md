@@ -247,7 +247,7 @@ docker-compose -f goodskill-simple.yml up -d
 
 > #### 额外功能（可选）
 - 已集成`sentinel`限流组件，支持`nacos`配置中心方式推送限流规则，使用时需启动`sentinel`控制台，并以`18088`端口启动，docker环境暂不支持。
-- 通过main方法启动<code>GoodskillSeataApplication</code>运行seata示例，运行前需启动seata-server服务，并配置nacos为seata注册中心和配置中心，另外还需在nacos控制台中增加以下配置（group需配置为SEATA_GROUP）
+- 通过main方法启动<code>GoodskillSeataApplication</code>运行seata示例，运行前需启动seata-server服务，并配置nacos为seata注册中心和配置中心，另外还需在nacos控制台中增加以下配置（group需配置为SEATA_GROUP，dataId为对应key，配置文件内容为value）
   ```
   service.vgroupMapping.my_test_tx_group=default
   store.mode=file

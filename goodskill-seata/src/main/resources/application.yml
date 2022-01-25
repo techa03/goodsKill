@@ -29,7 +29,7 @@ dubbo:
 
 
 seata:
-  enabled: true
+  enabled: false
   application-id: goodskill-seata
   tx-service-group: my_test_tx_group
   config:
