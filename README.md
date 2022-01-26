@@ -175,7 +175,7 @@ ns         %     Task name
 - main方法运行<code>SampleWebJspApplication</code>类(web服务)
 - 启动完成后访问登录页面[http://www.goodskill.com:8080/goodskill/web/login](http://www.goodskill.com:8080/goodskill/web/login)，默认管理员账号admin123，密码：aa123456
 
-## 🕹️️启动完整项目方法
+## 🕹️️启动完整项目步骤
 > #### 方法一：使用Docker镜像构建脚本
 
 - 项目根目录`goodsKill`中执行
@@ -219,7 +219,7 @@ ns         %     Task name
 docker-compose -f goodskill-simple.yml up -d
 ```
 
-> #### ⚠导入项目数据库基础数据 ️
+> ##### ⚠导入项目数据库基础数据 ️
 - 找到<code>seckill.sql</code>文件，在本地mysql数据库中建立<code>seckill</code>仓库并执行完成数据初始化操作
 
   **注**:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
@@ -242,17 +242,9 @@ docker-compose -f goodskill-simple.yml up -d
 
 - 如已安装MongoDB，可以main方法启动<code>MongoReactiveApplication</code>，通过使用该服务操作mongo库
 
-> #### 如何使用本项目自定义的OAuth2.0授权服务器进行登录授权
-- 待完善。。
-
-> #### 额外功能（可选）
+> ##### 额外功能（可选）
 - 已集成`sentinel`限流组件，支持`nacos`配置中心方式推送限流规则，使用时需启动`sentinel`控制台，并以`18088`端口启动，docker环境暂不支持。
-- 通过main方法启动<code>GoodskillSeataApplication</code>运行seata示例，运行前需启动seata-server服务，并配置nacos为seata注册中心和配置中心，另外还需在nacos控制台中增加以下配置（group需配置为SEATA_GROUP，dataId为对应key，配置文件内容为value）
-  ```
-  service.vgroupMapping.my_test_tx_group=default
-  store.mode=file
-  ```
-  可参考Seata官方Nacos配置文档:[http://seata.io/zh-cn/docs/user/configuration/nacos.html](http://seata.io/zh-cn/docs/user/configuration/nacos.html)
+- seata分布式事务测试方法见[Seata分布式事务测试示例运行说明](https://github.com/techa03/goodsKill/tree/master/goodskill-seata/README.md)
 
 ## 📦打包部署方法
 - 可参考`Dockerfile`文件，如:
@@ -289,6 +281,8 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
     
     ......   
 ```
+- 如何使用本项目自定义的OAuth2.0授权服务器进行登录授权 
+  待完善。。
 
 ## 📚分库分表情况说明
 | 表              | 数据库   | 是否分库                              | 分库字段       | 是否分表                                    | 分表字段       |
