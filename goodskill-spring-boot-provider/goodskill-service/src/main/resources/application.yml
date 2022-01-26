@@ -113,7 +113,7 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
 
 seata:
-  enabled: true
+  enabled: false
   application-id: goodskill-service-provider
   tx-service-group: my_test_tx_group
   config:
