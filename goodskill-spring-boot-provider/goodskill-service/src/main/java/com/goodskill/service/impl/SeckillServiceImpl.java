@@ -300,4 +300,11 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     public Seckill getById(Serializable id) {
         return super.getById(id);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean saveOrUpdate(Seckill entity) {
+        boolean b = super.saveOrUpdate(entity);
+        return b;
+    }
 }

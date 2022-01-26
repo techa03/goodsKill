@@ -1,10 +1,46 @@
+server:
+  port: 18049
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://mysql:3306/gs_sys?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
     username: root
     password: Password123
   main:
     allow-circular-references: true
-server:
-  port: 18049
+
+## dubbo服务注册和发现
+dubbo:
+  protocol:
+    name: dubbo
+    port: -1
+    id: dubbo
+  registry:
+    address: spring-cloud://localhost
+  scan:
+    base-packages: com.goodskill.common.service.dubbo
+  cloud:
+    subscribed-services: ""
+
+seata:
+  enabled: false
+  application-id: goodskill-common
+  tx-service-group: my_test_tx_group
+  config:
+    type: nacos
+    nacos:
+      namespace:
+      serverAddr: nacos:8848
+      group: SEATA_GROUP
+      username: "nacos"
+      password: "nacos"
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: nacos:8848
+      group: SEATA_GROUP
+      namespace:
+      username: "nacos"
+      password: "nacos"
