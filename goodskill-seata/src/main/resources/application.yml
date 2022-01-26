@@ -9,6 +9,8 @@ spring:
   cloud:
     nacos:
       server-addr: nacos:8848
+  main:
+    allow-circular-references: true
 dubbo:
   application:
     id: goodskill-seata
@@ -21,7 +23,7 @@ dubbo:
     timeout: 30000
   ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@DubboReference(check=false)会失效
   cloud:
-    subscribed-services: "goodskill-service-provider"
+    subscribed-services: "goodskill-service-provider,"
   registry:
     address: spring-cloud://localhost
 

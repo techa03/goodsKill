@@ -337,7 +337,8 @@ comment '秒杀成功明细表' charset=utf8;
 create index idx_create_time
 	on seckill_01.success_killed_1 (create_time);
 
-create table sys_dict_biz
+create schema gs_sys collate utf8mb4_0900_ai_ci;
+create table gs_sys.sys_dict_biz
 (
     id          char(32)                not null comment '主键'
         primary key,
@@ -358,7 +359,7 @@ create table sys_dict_biz
 )
     comment '业务字典表';
 
-create table sys_dict
+create table gs_sys.sys_dict
 (
     id          char(32)                not null comment '主键'
         primary key,
@@ -377,3 +378,17 @@ create table sys_dict
     create_time datetime                null comment '创建时间'
 )
     comment '字典表';
+
+CREATE TABLE gs_sys.`undo_log` (
+                            `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                            `branch_id` bigint(20) NOT NULL,
+                            `xid` varchar(100) NOT NULL,
+                            `context` varchar(128) NOT NULL,
+                            `rollback_info` longblob NOT NULL,
+                            `log_status` int(11) NOT NULL,
+                            `log_created` datetime NOT NULL,
+                            `log_modified` datetime NOT NULL,
+                            `ext` varchar(100) DEFAULT NULL,
+                            PRIMARY KEY (`id`),
+                            UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

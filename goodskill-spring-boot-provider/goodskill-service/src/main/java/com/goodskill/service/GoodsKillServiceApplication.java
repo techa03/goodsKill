@@ -1,6 +1,5 @@
 package com.goodskill.service;
 
-import com.alibaba.cloud.seata.feign.SeataFeignClientAutoConfiguration;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author techa
  */
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, SeataFeignClientAutoConfiguration.class})
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableTransactionManagement
 @MapperScan("com.goodskill.mp.dao.mapper")
 @EnableDiscoveryClient

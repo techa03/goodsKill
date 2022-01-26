@@ -1,8 +1,8 @@
 package com.goodskill.seata;
 
-import com.alibaba.cloud.seata.feign.SeataFeignClientAutoConfiguration;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
+import com.goodskill.common.api.dubbo.DictionaryService;
 import com.goodskill.entity.Goods;
 import com.goodskill.entity.Seckill;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -12,13 +12,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication(exclude = SeataFeignClientAutoConfiguration.class)
+@SpringBootApplication
 @RestController
 public class GoodskillSeataApplication {
     @DubboReference
     private SeckillService seckillService;
     @DubboReference
     private GoodsService goodsService;
+    @DubboReference
+    private DictionaryService dictionaryService;
 
     /**
      * 测试seata分布式事务

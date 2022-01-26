@@ -10,6 +10,7 @@ import com.goodskill.mp.dao.mapper.GoodsMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
@@ -39,6 +40,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void addGoods(Goods goods, byte[] bytes) {
         goods.setPhotoImage(bytes);
         this.save(goods);

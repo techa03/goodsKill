@@ -68,6 +68,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.goodskill</groupId>
+            <artifactId>goodskill-common-api</artifactId>
+            <version>${goodskill.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
