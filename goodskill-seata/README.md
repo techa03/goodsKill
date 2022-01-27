@@ -3,7 +3,7 @@
   ```
   docker-compose up -d seata-server
   ```
-**注意**:修改environment SEATA_IP ，不配置则默认使用容器ip，会导致服务连不上seata server
+  **注意**:修改environment SEATA_IP ，不配置则默认使用容器ip，会导致服务连不上seata server
 - 在nacos控制台中增加以下配置（group需配置为SEATA_GROUP，dataId为对应key，配置文件内容为value）
   ```
   service.vgroupMapping.my_test_tx_group=default
