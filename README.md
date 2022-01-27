@@ -220,14 +220,15 @@ docker-compose -f goodskill-simple.yml up -d
 
 > #### 方法二：使用IDEA运行项目
 
+- 参照快速开始部分配置host
+
 - 如无`docker`运行环境，可参照官网安装上述应用，本地默认端口启动
 
 - 进入<code>goodskill-gateway</code>模块，通过<code>GatewayApplication</code>类main方法启动服务网关
 
 - 找到<code>EsApplication</code>类main方法启动远程服务
 
-- 找到<code>GoodsKillServiceApplication</code>类main方法启动远程服务，并且需要在host中加入以下信息
-
+- 找到<code>GoodsKillServiceApplication</code>类main方法启动远程服务
 
 - 进入<code>goodskill-web</code>模块根目录，运行命令或直接通过<code>SampleWebJspApplication</code>类main方法启动
      ```
