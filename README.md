@@ -1,6 +1,6 @@
 # 🎉前言
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Build Status](https://travis-ci.org/techa03/goodsKill.svg?branch=master)](https://travis-ci.org/techa03/goodsKill)
+[![Java CI with Maven](https://github.com/techa03/goodsKill/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/techa03/goodsKill/actions/workflows/maven.yml)
 [![codecov](https://codecov.io/gh/techa03/goodsKill/branch/master/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=techa03_goodsKill&metric=alert_status)](https://sonarcloud.io/dashboard?id=techa03_goodsKill)
 
