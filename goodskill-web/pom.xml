@@ -18,52 +18,6 @@
 	<packaging>war</packaging>
 	<version>${goodskill.version}</version>
 
-	<!--统一管理项目版本号 -->
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.goodskill</groupId>
-				<artifactId>goodskill-api</artifactId>
-				<version>${goodskill.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.goodskill</groupId>
-				<artifactId>goodskill-es-api</artifactId>
-				<version>${goodskill.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.goodskill</groupId>
-				<artifactId>goodskill-common-util</artifactId>
-				<version>${goodskill.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.shiro</groupId>
-				<artifactId>shiro-core</artifactId>
-				<version>${shiro.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.shiro</groupId>
-				<artifactId>shiro-ehcache</artifactId>
-				<version>${shiro.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.shiro</groupId>
-				<artifactId>shiro-spring</artifactId>
-				<version>${shiro.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.shiro</groupId>
-				<artifactId>shiro-web</artifactId>
-				<version>${shiro.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-fileupload</groupId>
-				<artifactId>commons-fileupload</artifactId>
-				<version>1.3.3</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 	<dependencies>
 		<!-- Compile -->
 		<dependency>
@@ -94,6 +48,7 @@
 		<dependency>
 			<groupId>com.goodskill</groupId>
 			<artifactId>goodskill-api</artifactId>
+			<version>${goodskill.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.goodskill</groupId>
@@ -118,18 +73,22 @@
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-core</artifactId>
+			<version>${shiro.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-ehcache</artifactId>
+			<version>${shiro.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-spring</artifactId>
+			<version>${shiro.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-web</artifactId>
+			<version>${shiro.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -158,10 +117,12 @@
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
+			<version>1.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.goodskill</groupId>
 			<artifactId>goodskill-es-api</artifactId>
+			<version>${goodskill.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
