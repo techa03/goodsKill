@@ -6,17 +6,13 @@
 
 项目命名为**goodsKill**一方面有商品秒杀项目的意思(好像有点chinglish的味道)，另外也可理解为**good skill**，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来（偏向于后端技术），方便学习和查阅。
 
-本项目为慕课网仿购物秒杀网站,系统分为用户注册登录、秒杀商品管理模块。注册登录功能目前使用shiro完成权限验证，支持OAuth2.0第三方授权登录（目前可通过Gitee，Github进行授权）。 此项目整体采用springMVC+RESTFUL风格，mybatis持久层框架，采用springcloud dubbo实现服务分布式服务调用，服务注册发现使用nacos server。
+本项目为慕课网仿购物秒杀系统，项目整体分为用户注册登录、秒杀商品管理模块。使用Shiro完成登录验证授权以及用户权限验证（权限设计使用RBAC模型），支持OAuth2.0第三方授权登录（目前可通过Gitee，Github进行授权）。 技术上整体采用SpringMVC+RESTFUL风格，Mybatis持久层框架，采用SpringCloud Dubbo以及Feign实现服务分布式服务调用，服务注册发现以及配置中心使用Nacos。
 
-本项目扩展了秒杀功能，集成了jmock完成service层的测试，支持数据库分库分表，并提供基本的秒杀解决方案（通过模拟接口实现）。
+本项目在原基础上扩展了部分功能，例如支持数据库分库分表、分布式事务，并提供基本的秒杀解决方案（通过模拟接口实现）。
 
-- 集成内嵌式H2数据库，方便独立进行单元功能测试
+- 集成Sentinel限流组件，可以针对http请求以及Dubbo RPC调用限流
 
-- 集成sentinel限流组件，可以针对http请求以及dubbo rpc调用限流
-
-- 集成新版支付宝easySDK，通过当面扫完成扫码付款
-
-- 集成服务网关，采用Spring Cloud Gateway网关组件，并提供JWT用户鉴权功能
+- 集成服务网关，采用Spring Cloud Gateway网关组件，支持动态路由刷新
 
 ## 💎分支介绍
 `dev_gradle`分支为使用gradle构建工具管理项目依赖（已停更），`dev_maven`分支对应maven构建工具（springframework版本4.x，已停更），`master`分支基于最新springcloud体系构建。本项目功能目前比较简陋且有很多不完善的地方，仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
@@ -95,23 +91,23 @@ goodsKill
 ## 🔥🔥秒杀方案
 目前实现了几种秒杀方案，通过`SeckillMockController`提供测试接口
 
-swagger主页测试地址: http://www.goodskill.com:8080/goodskill/web/swagger-ui/index.html
+Swagger主页测试地址: http://www.goodskill.com:8080/goodskill/web/swagger-ui/index.html
 
 SpringBoot Admin应用监控地址: http://www.goodskill.com:8083, 登录用户名密码：admin/123456
 
-kafka状态监控页面地址: http://localhost:9000
+Kafka状态监控页面地址: http://localhost:9000
 
-zipkin链路跟踪页面地址: http://localhost:9411/zipkin/
+Zipkin链路跟踪页面地址: http://localhost:9411/zipkin/
 
 - 场景一：sychronized同步锁实现
-- 场景二：redisson分布式锁实现
+- 场景二：Redisson分布式锁实现
 - 场景三：ActiveMQ实现(已废弃)
 - 场景四：Kafka消息队列实现
 - 场景五：数据库原子性更新
 - 场景六：实时等待秒杀处理结果(已废弃)
 - 场景七：zookeeper分布式锁
 - 场景八：使用redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用mongoDB完成数据落地
-- 场景九：SpringCloudStream RabbitMQ实现
+- 场景九：SpringCloudStream实现
 - 场景十：Sentinel限流+数据库原子性更新（需搭配sentinel控制台配置资源名`limit`的流控规则）
 
 可在web控台查看秒杀结果，打印信息类似：
@@ -152,9 +148,7 @@ ns         %     Task name
   mvn clean install -DskipTests
   ```
 - 默认端口启动nacos、redis、mysql、rabbitmq、kafka、zookeeper
-- 找到<code>seckill.sql</code>文件，在本地mysql数据库中建立<code>seckill</code>仓库并执行完成数据初始化操作
-
-  **注**:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
+- 进入<code>goodskill-web/src/main/sql</code>目录，找到<code>seckill.sql</code>文件，在本地mysql数据库中建立<code>seckill</code>仓库并执行完成数据初始化操作
 - 配置host
      ```
      127.0.0.1       kafka
@@ -270,19 +264,12 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
   grep vm.max_map_count /etc/sysctl.conf
   vm.max_map_count=262144
   ```
-- 新版支付宝SDK已集成，使用时需将`AlipayRunner`中的alipay对应配置替换成你的支付宝应用配置（本项目基于沙箱环境）
-```
-    //为了防止启动项目报错默认配置为1，可参考官方文档修改对应配置
-    @Value("${alipay.merchantPrivateKey:1}")
-    private String merchantPrivateKey;
+- 如何使用本项目自定义的OAuth2.0授权服务器进行登录授权
 
-    @Value("${alipay.alipayPublicKey:1}")
-    private String alipayPublicKey;
-    
-    ......   
-```
-- 如何使用本项目自定义的OAuth2.0授权服务器进行登录授权 
   待完善。。
+- 项目集成的各个框架之间目前的兼容性如何，可以参考本项目的配置在生产环境使用吗？
+
+  本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试，目前仅用于学习。如果要在生产环境使用，建议使用官方推荐的稳定版本。比如目前的Spring Cloud Alibaba Dubbo官方不建议生产上使用，Spring Cloud Alibaba官方推荐的稳定版为2.2.x（本项目使用2021.1版本） ，附[SpringCloudAlibaba兼容版本说明](https://start.aliyun.com/bootstrap.html)
 
 ## 📚分库分表情况说明
 | 表              | 数据库   | 是否分库                              | 分库字段       | 是否分表                                    | 分表字段       |
@@ -292,13 +279,10 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
 **注**:其他表均未分库分表，默认使用seckill作为主库
 
 ## 🔖服务网关说明
-- http://www.goodskill.com/goodskill/mongo 对应`goodskill-mongo-provider`服务
-- http://www.goodskill.com/goodskill/es 对应`goodskill-es-provider`服务
-- http://www.goodskill.com/goodskill/seata 对应`goodskill-seata`服务
-- http://www.goodskill.com/goodskill/common 对应`goodskill-service-provider`服务
-
-- 通过[http://www.goodskill.com/goodskill/common/token](http://www.goodskill.com/goodskill/common/token)接口获取token
-- 通过[http://www.goodskill.com/goodskill/common/refresh](http://www.goodskill.com/goodskill/common/refresh)刷新用户token
+- http://www.goodskill.com/goodskill/mongo/** 对应访问`goodskill-mongo-provider`服务
+- http://www.goodskill.com/goodskill/es/** 对应访问`goodskill-es-provider`服务
+- http://www.goodskill.com/goodskill/seata/** 对应访问`goodskill-seata`服务
+- http://www.goodskill.com/goodskill/common/** 对应访问`goodskill-service-provider`服务
 
 > #### 动态路由配置说明
 - 网关路由默认为静态加载，不够灵活。本项目改造后的网关支持动态加载路由配置，修改后实时生效，使用时需要在nacos配置中心添加配置文件，文件名可通过`application.yml`中的`nacos.router.data.id`配置进行修改（默认nacos dataId为`goodskill-gateway-routes`），路由配置文件内容为json数组格式，例如：
@@ -330,13 +314,13 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
 ## 🔨后续更新计划
 | 功能                       | 进度  | 完成时间    | 说明                                  |
 |--------------------------|-----|---------|-------------------------------------|
-| 集成spring cloud alibaba组件 | ✅   | 2020.5  | 目前已集成nacos、sentinel、dubbo组件         |
-| 基于配置中心改造项目配置             | ✅   | 2020.7  | 支付宝配置保存于nacos配置中心，防止配置泄露            |
+| 集成Spring Cloud Alibaba组件 | ✅   | 2020.5  | 目前已集成nacos、sentinel、dubbo、seata组件   |
+| 基于配置中心改造项目配置             | ✅   | 2020.7  |                                     |
 | 新版支付宝SDK集成               | ✅   | 2020.7  | 使用当面扫完成付款                           |
-| 完善jwt用户鉴权，并提供通用服务接口      | ✅   | 2020.12 |                                     |
+| 完善JWT用户鉴权，并提供通用服务接口      | ✅   | 2020.12 |                                     |
 | 集成分布式事务解决方案              | ✅   | 2021.2  |                                     |
 | 增加OAuth2.0授权登录模块         | ✅   | 2021.9  | 增加自定义OAuth2.0授权以及资源服务，并支持第三方授权登录    |
-| 集成ELK日志采集                | ✅   | 2021.12 |          |
+| 集成ELK日志采集                | ✅   | 2021.12 |                                     |
 | 聊天室功能                    | ⏳   |         | 使用netty网络通信，maven分支已经实现，master分支待集成 |
 | 前后端分离                    | ⏳   |         | 目前前后端全部放在gooskill-web模块，不利于部署       |
 | 丰富项目文档                   | ⏳   |         |                                     |
