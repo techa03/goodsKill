@@ -36,7 +36,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -91,16 +90,17 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     public Page<Seckill> getSeckillList(int pageNum, int pageSize, String goodsName) {
         String key = "seckill:list:" + pageNum + ":" + pageSize + ":" + goodsName;
         ValueOperations valueOperations = redisTemplate.opsForValue();
-        List list = (List) valueOperations.get(key);
-        Page<Seckill> page = null;
-        if (CollectionUtils.isEmpty(list)) {
+        Page pageCache = (Page) valueOperations.get(key);
+        Page<Seckill> page;
+        if (pageCache == null) {
             QueryWrapper<Seckill> queryWrapper = new QueryWrapper<>();
             if (StringUtils.isNotBlank(goodsName)) {
                 queryWrapper.lambda().like(Seckill::getName, goodsName);
             }
             page = this.page(new Page(pageNum, pageSize), queryWrapper);
-            list = page.getRecords();
-            valueOperations.set(key, list, 5, TimeUnit.MINUTES);
+            valueOperations.set(key, page, 5, TimeUnit.MINUTES);
+        } else {
+            page = pageCache;
         }
         return page;
     }

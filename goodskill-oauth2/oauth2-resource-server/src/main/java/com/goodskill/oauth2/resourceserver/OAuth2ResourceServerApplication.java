@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * OAuth2.0 资源服务器启动类
+ * OAuth2.0资源服务器启动类
  *
- * @author heng
- * @since 2021/9/18
+ * @author techa03
+ * @since 2022/1/28
  */
 @SpringBootApplication
 public class OAuth2ResourceServerApplication {
