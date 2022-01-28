@@ -22,7 +22,16 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 
 /**
- * @author heng
+ * OAuth2.0授权服务器
+ * 参考官方文档：
+ * https://docs.spring.io/spring-security-oauth2-boot/docs/2.6.3/reference/html5/
+ * https://github.com/spring-projects/spring-security/wiki/OAuth-2.0-Features-Matrix
+ * https://github.com/spring-projects/spring-security/wiki/OAuth-2.0-Migration-Guide
+ *
+ * TODO 使用spring-security代替spring-security-oauth2-boot
+ *
+ * @author techa03
+ * @since 2022/1/28
  */
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @EnableAuthorizationServer
