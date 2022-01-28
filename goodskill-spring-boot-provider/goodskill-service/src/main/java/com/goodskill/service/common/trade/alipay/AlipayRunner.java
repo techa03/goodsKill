@@ -8,6 +8,7 @@ import com.goodskill.entity.Goods;
 import com.goodskill.entity.Seckill;
 import com.goodskill.mp.dao.mapper.GoodsMapper;
 import com.goodskill.service.common.RedisService;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
+@Setter
 public class AlipayRunner {
     @Autowired
     private GoodsMapper goodsMapper;
