@@ -74,7 +74,7 @@ public class SeckillServiceImplTest {
         String goodsName = "test";
         String key = "seckill:list:" + 1 + ":" + 1 + ":" + goodsName;
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
-        when(valueOperations.get(key)).thenReturn(Lists.newArrayList());
+        when(valueOperations.get(key)).thenReturn(null);
         Page<Seckill> page = new Page<>();
         page.setRecords(Lists.newArrayList(seckillEntity));
         when(baseMapper.selectPage(any(), any())).thenReturn(page);
