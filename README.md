@@ -3,6 +3,7 @@
 [![Java CI with Maven](https://github.com/techa03/goodsKill/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/techa03/goodsKill/actions/workflows/maven.yml)
 [![codecov](https://codecov.io/gh/techa03/goodsKill/branch/master/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=techa03_goodsKill&metric=alert_status)](https://sonarcloud.io/dashboard?id=techa03_goodsKill)
+[![CodeQL](https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml/badge.svg?branch=master)](https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml)
 
 项目命名为**goodsKill**一方面有商品秒杀项目的意思(好像有点chinglish的味道)，另外也可理解为**good skill**，本项目就是希望搭建一套完整的项目框架，把一些好的技术和技巧整合进来（偏向于后端技术），方便学习和查阅。
 
@@ -147,8 +148,14 @@ ns         %     Task name
   #跳过单元测试
   mvn clean install -DskipTests
   ```
-- 默认端口启动nacos、redis、mysql、rabbitmq、kafka、zookeeper
+  
+- 默认端口启动nacos、redis、mysql、rabbitmq、kafka、zookeeper，或者使用docker-compose命令：
+  ```
+  docker-compose -f goodskill-simple.yml up -d
+  ```
+  
 - 进入<code>goodskill-web/src/main/sql</code>目录，找到<code>seckill.sql</code>文件，在本地mysql数据库中建立<code>seckill</code>仓库并执行完成数据初始化操作
+
 - 配置host
      ```
      127.0.0.1       kafka
@@ -164,9 +171,13 @@ ns         %     Task name
      ##如果网关服务部署在远程机器，此处改为相应的远程机器ip
      127.0.0.1       www.goodskill.com
      ```
+
 - main方法运行<code>GatewayApplication</code>类(网关服务)
+
 - main方法运行<code>GoodsKillServiceApplication</code>类(订单、用户、登录、商品管理服务提供者)
+
 - main方法运行<code>SampleWebJspApplication</code>类(web服务)
+
 - 启动完成后访问登录页面[http://www.goodskill.com:8080/goodskill/web/login](http://www.goodskill.com:8080/goodskill/web/login)，默认管理员账号admin123，密码：aa123456
 
 ## 🕹️️启动完整项目步骤
@@ -179,6 +190,7 @@ ns         %     Task name
   #跳过单元测试
   mvn clean install -DskipTests
   ```
+
 - 进入项目根目录(确保已安装`compose`以支持`docker-compose`命令)，执行以下命令：
      ```
     docker-compose up （第一次运行只需执行此命令）
@@ -213,12 +225,10 @@ ns         %     Task name
 docker-compose -f goodskill-simple.yml up -d
 ```
 
-> ##### ⚠导入项目数据库基础数据 ️
-- 找到<code>seckill.sql</code>文件，在本地mysql数据库中建立<code>seckill</code>仓库并执行完成数据初始化操作
-
-  **注**:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
-
 > #### 方法二：使用IDEA运行项目
+- 导入项目数据库基础数据，找到<code>seckill.sql</code>文件，在本地mysql数据库中建立<code>seckill</code>仓库并执行完成数据初始化操作
+  
+  **注**:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
 
 - 参照快速开始部分配置host
 
@@ -239,6 +249,7 @@ docker-compose -f goodskill-simple.yml up -d
 
 > ##### 额外功能（可选）
 - 已集成`sentinel`限流组件，支持`nacos`配置中心方式推送限流规则，使用时需启动`sentinel`控制台，并以`18088`端口启动，docker环境暂不支持。
+
 - seata分布式事务测试方法见[Seata分布式事务测试示例运行说明](https://github.com/techa03/goodsKill/tree/master/goodskill-seata/README.md)
 
 ## 📦打包部署方法
@@ -252,10 +263,11 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
 
 ## ❓常见问题
 - 使用idea启动`SampleWebJspApplication`类(goodskill-web模块)时会出现访问不了页面的问题，eclipse无此问题。
-
+  
   解决办法：配置启动类的工作目录为goodskill-web
-- docker es镜像启动失败？
 
+- docker es镜像启动失败？
+  
   出现此问题一般为linux环境，运行以下命令即可
   ```
   sysctl -w vm.max_map_count=262144
@@ -265,11 +277,13 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
   grep vm.max_map_count /etc/sysctl.conf
   vm.max_map_count=262144
   ```
-- 如何使用本项目自定义的OAuth2.0授权服务器进行登录授权
 
+- 如何使用本项目自定义的OAuth2.0授权服务器进行登录授权？
+  
   待完善。。
-- 项目集成的各个框架之间目前的兼容性如何，可以参考本项目的配置在生产环境使用吗？
 
+- 项目集成的各个框架之间目前的兼容性如何，可以参考本项目的配置在生产环境使用吗？
+  
   本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试，目前仅用于学习。如果要在生产环境使用，建议使用官方推荐的稳定版本。比如目前的Spring Cloud Alibaba Dubbo官方不建议生产上使用，Spring Cloud Alibaba官方推荐的稳定版为2.2.x（本项目使用2021.1版本） ，附[SpringCloudAlibaba兼容版本说明](https://start.aliyun.com/bootstrap.html)
 
 ## 📚分库分表情况说明
