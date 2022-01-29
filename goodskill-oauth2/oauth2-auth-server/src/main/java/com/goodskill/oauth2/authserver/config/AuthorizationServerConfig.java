@@ -51,14 +51,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory().withClient("first-client")
                 .secret(passwordEncoder().encode("noonewilleverguess"))
                 .scopes("resource:read")
-                .authorizedGrantTypes("authorization_code")
-                .redirectUris("http://www.goodskill.com:8080/goodskill/web/login/oauth2/code/goodskill")
+                .authorizedGrantTypes("authorization_code", "password")
+                .redirectUris("http://localhost:19021/login/oauth2/code/goodskill",
+                        "http://www.goodskill.com:8080/login/oauth2/code/goodskill")
                 .and()
                 .withClient("second-client")
                 .secret(passwordEncoder().encode("noonewilleverguess"))
                 .scopes("resource:read")
-                .authorizedGrantTypes("authorization_code")
-                .redirectUris("http://www.goodskill.com:8080/goodskill/web/login/oauth2/code/goodskill")
+                .authorizedGrantTypes("authorization_code", "password")
+                .redirectUris(
+                        "http://www.goodskill.com:8080/login/oauth2/code/goodskill",
+                        "http://localhost:19021/login/oauth2/code/goodskill"
+                        )
         ;
     }
 }

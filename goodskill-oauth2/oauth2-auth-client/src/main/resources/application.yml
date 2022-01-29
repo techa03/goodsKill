@@ -11,10 +11,21 @@ logging:
 spring:
   thymeleaf:
     cache: false
+  #OAuth2.0第三方登录配置
   security:
     oauth2:
       client:
         registration:
+          gitee:
+            ##替换成你自己的App密钥
+            client-id: xxx
+            client-secret: xxx
+          #          github:
+          #            ##替换成你自己的App密钥
+          #            client-id: xxx
+          #            client-secret: xxx
+          ## 使用自定义的OAuth2.0授权登录服务
           goodskill:
-            client-id: first-client
+            ##替换成你自己的App密钥
+            client-id: second-client
             client-secret: noonewilleverguess
