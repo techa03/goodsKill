@@ -6,7 +6,7 @@ image:https://codecov.io/gh/techa03/goodsKill/branch/master/graph/badge.svg[code
 image:https://sonarcloud.io/api/project_badges/measure?project=techa03_goodsKill&metric=alert_status[Quality Gate Status,link=https://sonarcloud.io/dashboard?id=techa03_goodsKill]
 image:https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml/badge.svg?branch=master[CodeQL,link=https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml]
 
-项目命名为 _goodsKill_ 一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为 _good skill_，本项目就是希望搭建一套完整的项目框架，把一些好的技术和开发技巧整合进来（偏向于后端技术），方便学习和查阅。
+项目命名为 *goodsKill* 一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为 *good skill*，本项目就是希望搭建一套完整的项目框架，把一些好的技术和开发技巧整合进来（偏向于后端技术），方便学习和查阅。
 
 本项目为慕课网仿购物秒杀项目，功能上整体分为用户注册登录、秒杀商品管理模块。使用Shiro完成登录验证授权以及用户权限验证（权限设计使用RBAC模型），支持OAuth2.0第三方授权登录（目前可通过Gitee，Github进行授权）。 技术上整体采用SpringMVC+RESTFUL风格，Mybatis持久层框架，采用SpringCloud Dubbo以及Feign实现分布式服务调用，服务注册发现以及配置中心使用Nacos。
 
