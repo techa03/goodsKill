@@ -250,7 +250,7 @@ docker-compose up -d --no-recreate //如上次以构建容器，则此次会跳�
 |RabbitMQ |latest |5672 15672 |无
 |Zipkin |latest |9411 |无
 |===
-
++
 [notes=none, caption="建议"]
 TIP: 除以上镜像外，``docker-compose.yml``文件还包含项目构建命令，目前暂未列出。
 若仅启动以上镜像不启动项目应用，可使用以下命令： `docker-compose -f goodskill-simple.yml up -d`
@@ -260,7 +260,7 @@ ____
 ____
 
 * 导入项目数据库基础数据，找到``seckill.sql``文件，在本地mysql数据库中建立``seckill``仓库并执行完成数据初始化操作
-
++
 [notes=none, caption="注意"]
 NOTE: docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
 
