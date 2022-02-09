@@ -127,13 +127,14 @@ Zipkin链路跟踪页面地址: `http://localhost:9411/zipkin/`
 * 场景十：Sentinel限流+数据库原子性更新（需搭配sentinel控制台配置资源名``limit``的流控规则）
 
 可在web控台查看秒杀结果，打印信息类似：
+[source,text]
 ----
 2021-04-14 21:58:59.857  INFO [goodskill-web,df43cc8f59291c48,df43cc8f59291c48] 15808 --- [           main] o.s.w.controller.SeckillMockController   : 秒杀场景二(redis分布式锁实现)开始时间：Wed Apr 14 21:58:59 CST 2021,秒杀id：1000
 2021-04-14 21:59:00.094  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 秒杀活动结束，秒杀场景二(redis分布式锁实现)时间：Wed Apr 14 21:59:00 CST 2021,秒杀id：1000
 2021-04-14 21:59:00.101  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 最终成功交易笔数统计中。。。
 2021-04-14 21:59:01.616  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 最终成功交易笔数统计中。。。
 2021-04-14 21:59:03.129  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 最终成功交易笔数：10
-2021-04-14 21:59:03.130  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 历史任务耗时统计：StopWatch &#39;&#39;: running time = 36159894800 ns
+2021-04-14 21:59:03.130  INFO [goodskill-web,144aa7910cca9520,2821cb8d62c5a908] 15808 --- [AClOSzbugzYng-1] o.s.w.s.c.SeckillMockResponseListener    : 历史任务耗时统计：StopWatch '': running time = 36159894800 ns
 ---------------------------------------------
 ns         %     Task name
 ---------------------------------------------
@@ -249,13 +250,10 @@ docker-compose up -d --no-recreate //如上次以构建容器，则此次会跳�
 |RabbitMQ |latest |5672 15672 |无
 |Zipkin |latest |9411 |无
 |===
-+
+
+[notes=none, caption="建议"]
 TIP: 除以上镜像外，``docker-compose.yml``文件还包含项目构建命令，目前暂未列出。
-若仅启动以上镜像不启动项目应用，可使用以下命令：
-[indent:100]
-----
-docker-compose -f goodskill-simple.yml up -d
-----
+若仅启动以上镜像不启动项目应用，可使用以下命令： `docker-compose -f goodskill-simple.yml up -d`
 
 ____
 方法二：使用IDEA运行项目
@@ -263,7 +261,8 @@ ____
 
 * 导入项目数据库基础数据，找到``seckill.sql``文件，在本地mysql数据库中建立``seckill``仓库并执行完成数据初始化操作
 
-TIP: docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
+[notes=none, caption="注意"]
+NOTE: docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
 
 * 参照快速开始部分配置host
 
@@ -290,7 +289,7 @@ ____
 
 * 已集成``sentinel``限流组件，支持``nacos``配置中心方式推送限流规则，使用时需启动``sentinel``控制台，并以``18088``端口启动，docker环境暂不支持。
 
-* seata分布式事务测试方法见https://github.com/techa03/goodsKill/tree/master/goodskill-seata/README.md[Seata分布式事务测试示例运行说明]
+* seata分布式事务测试方法见 https://github.com/techa03/goodsKill/tree/master/goodskill-seata/README.md[Seata分布式事务测试示例运行说明]
 
 
 == 📦打包部署方法
@@ -336,8 +335,8 @@ vm.max_map_count=262144
 
 |success_killed |MySQL |是（同一服务器中，分为seckill和seckill_01两个库） |seckill_id |是（分为success_killed_0,success_kill_1两张表） |user_phone
 |===
-
-TIP: 其他表均未分库分表，默认使用seckill作为主库
+[notes=none, caption="注意"]
+NOTE: 其他表均未分库分表，默认使用seckill作为主库
 
 == 🔖服务网关说明
 
@@ -380,7 +379,6 @@ ____
 
 |===
 |功能 |进度 |完成时间 |说明
-
 |集成Spring Cloud Alibaba组件 |✅ |2020.5 |目前已集成nacos、sentinel、dubbo、seata组件
 |基于配置中心改造项目配置 |✅ |2020.7 |
 |新版支付宝SDK集成 |✅ |2020.7 |使用当面扫完成付款
