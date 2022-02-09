@@ -22,11 +22,11 @@ image:https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml
 
 ____
 
-附：码云项目链接https://gitee.com/techa/goodsKill ,clone速度慢的用码云仓库拉吧，不定期同步到码云~
-
-== ✨技术选型
+附：码云项目链接 `https://gitee.com/techa/goodsKill`,clone速度慢的用码云仓库拉吧，不定期同步到码云~
 
 ____
+
+== ✨技术选型
 
 === 📌后端技术:
 
@@ -159,6 +159,7 @@ ns         %     Task name
 == 🎯快速开始
 
 * 项目根目录``goodsKill``中执行
++
 ----
   mvn clean install
   或
@@ -167,6 +168,7 @@ ns         %     Task name
 ----
 
 * 默认端口启动nacos、redis、mysql、rabbitmq、kafka、zookeeper，或者使用docker-compose命令：
++
 ----
   docker-compose -f goodskill-simple.yml up -d
 ----
@@ -174,6 +176,8 @@ ns         %     Task name
 * 进入``goodskill-web/src/main/sql``目录，找到``seckill.sql``文件，在本地mysql数据库中建立``seckill``仓库并执行完成数据初始化操作
 
 * 配置host
++
+[source]
 ----
  127.0.0.1       kafka
  127.0.0.1       nacos
@@ -201,19 +205,22 @@ ns         %     Task name
 
 ____
 
-==== 方法一：使用Docker镜像构建脚本
+方法一：使用Docker镜像构建脚本
 
 ____
 
 * 项目根目录``goodsKill``中执行
-`
++
+[source]
+----
 mvn clean install
 或
 #跳过单元测试
 mvn clean install -DskipTests
-`
+----
 
 * 进入项目根目录(确保已安装``compose``以支持``docker-compose``命令)，执行以下命令：
++
 ----
 docker-compose up （第一次运行只需执行此命令）
 or
@@ -223,9 +230,10 @@ docker-compose up -d --build //build重新构建镜像文件，针对项目自�
 or
 docker-compose up -d --no-recreate //如上次以构建容器，则此次会跳过构建容器
 ----
-[TIP]
-推荐使用``docker-compose``命令（推荐电脑运行内存16G以上），无需手动下载软件安装包，开箱即用。此命令会自动拉取docker镜像并以默认端口运行
 
++
+推荐使用``docker-compose``命令（推荐电脑运行内存16G以上），无需手动下载软件安装包，开箱即用。此命令会自动拉取docker镜像并以默认端口运行
++
 |===
 |镜像 |版本 |端口 |用户名密码
 
@@ -241,23 +249,21 @@ docker-compose up -d --no-recreate //如上次以构建容器，则此次会跳�
 |RabbitMQ |latest |5672 15672 |无
 |Zipkin |latest |9411 |无
 |===
-
-*注*:除以上镜像外，``docker-compose.yml``文件还包含项目构建命令，目前暂未列出。
++
+TIP: 除以上镜像外，``docker-compose.yml``文件还包含项目构建命令，目前暂未列出。
 若仅启动以上镜像不启动项目应用，可使用以下命令：
-
+[indent:100]
 ----
 docker-compose -f goodskill-simple.yml up -d
 ----
 
 ____
-
-==== 方法二：使用IDEA运行项目
+方法二：使用IDEA运行项目
+____
 
 * 导入项目数据库基础数据，找到``seckill.sql``文件，在本地mysql数据库中建立``seckill``仓库并执行完成数据初始化操作
 
-____
-
-*注*:docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
+TIP: docker-compose启动方式会自动执行初始化脚本，因此无需执行该步骤
 
 * 参照快速开始部分配置host
 
@@ -270,33 +276,40 @@ ____
 * 找到``GoodsKillServiceApplication``类main方法启动远程服务
 
 * 进入``goodskill-web``模块根目录，运行命令或直接通过``SampleWebJspApplication``类main方法启动
-`
++
+[source]
+----
 mvn spring-boot:run -Dspring.profiles.active=docker
-`
+----
 
 * 如已安装MongoDB，可以main方法启动``MongoReactiveApplication``，通过使用该服务操作mongo库
 
 ____
-
 额外功能（可选）
+____
 
 * 已集成``sentinel``限流组件，支持``nacos``配置中心方式推送限流规则，使用时需启动``sentinel``控制台，并以``18088``端口启动，docker环境暂不支持。
 
 * seata分布式事务测试方法见https://github.com/techa03/goodsKill/tree/master/goodskill-seata/README.md[Seata分布式事务测试示例运行说明]
 
-____
 
 == 📦打包部署方法
 
 * 可参考``Dockerfile``文件，如:
+----
+FROM openjdk:11.0.9.1-jdk
+COPY goodskill-service/target/goodskill-service.jar /app/goodskill-service.jar
+WORKDIR /app
+CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", "goodskill-service.jar"]
+----
 
 == ❓常见问题
+[qanda]
+使用idea启动``SampleWebJspApplication``类(goodskill-web模块)时会出现访问不了页面的问题，eclipse无此问题::
 
-* 使用idea启动``SampleWebJspApplication``类(goodskill-web模块)时会出现访问不了页面的问题，eclipse无此问题。
+配置启动类的工作目录为goodskill-web
 
-解决办法：配置启动类的工作目录为goodskill-web
-
-* docker es镜像启动失败？
+docker es镜像启动失败::
 
 出现此问题一般为linux环境，运行以下命令即可
 `
@@ -308,13 +321,13 @@ grep vm.max_map_count /etc/sysctl.conf
 vm.max_map_count=262144
 `
 
-* 如何使用本项目自定义的OAuth2.0授权服务器进行登录授权？
+如何使用本项目自定义的OAuth2.0授权服务器进行登录授权？::
 
 待完善。。
 
-* 项目集成的各个框架之间目前的兼容性如何，可以参考本项目的配置在生产环境使用吗？
+项目集成的各个框架之间目前的兼容性如何，可以参考本项目的配置在生产环境使用吗？::
 
-本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试，目前仅用于学习。如果要在生产环境使用，建议使用官方推荐的稳定版本。比如目前的Spring Cloud Alibaba Dubbo官方不建议生产上使用，Spring Cloud Alibaba官方推荐的稳定版为2.2.x（本项目使用2021.1版本） ，附https://start.aliyun.com/bootstrap.html[SpringCloudAlibaba兼容版本说明]
+本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试，目前仅用于学习。如果要在生产环境使用，建议使用官方推荐的稳定版本。比如目前的Spring Cloud Alibaba Dubbo官方不建议生产上使用，Spring Cloud Alibaba官方推荐的稳定版为2.2.x（本项目使用2021.1版本） ，附 https://start.aliyun.com/bootstrap.html[SpringCloudAlibaba兼容版本说明]
 
 == 📚分库分表情况说明
 
@@ -324,23 +337,45 @@ vm.max_map_count=262144
 |success_killed |MySQL |是（同一服务器中，分为seckill和seckill_01两个库） |seckill_id |是（分为success_killed_0,success_kill_1两张表） |user_phone
 |===
 
-*注*:其他表均未分库分表，默认使用seckill作为主库
+TIP: 其他表均未分库分表，默认使用seckill作为主库
 
 == 🔖服务网关说明
 
-* http://www.goodskill.com/goodskill/mongo/** 对应访问``goodskill-mongo-provider``服务
-* http://www.goodskill.com/goodskill/es/** 对应访问``goodskill-es-provider``服务
-* http://www.goodskill.com/goodskill/seata/** 对应访问``goodskill-seata``服务
-* http://www.goodskill.com/goodskill/common/** 对应访问``goodskill-service-provider``服务
+* `http://www.goodskill.com/goodskill/mongo/**` 对应访问``goodskill-mongo-provider``服务
+* `http://www.goodskill.com/goodskill/es/**` 对应访问``goodskill-es-provider``服务
+* `http://www.goodskill.com/goodskill/seata/**` 对应访问``goodskill-seata``服务
+* `http://www.goodskill.com/goodskill/common/**` 对应访问``goodskill-service-provider``服务
 
 ____
 
-==== 动态路由配置说明
-
+动态路由配置说明
+____
 * 网关路由默认为静态加载，不够灵活。本项目改造后的网关支持动态加载路由配置，修改后实时生效，使用时需要在nacos配置中心添加配置文件，文件名可通过``application.yml``中的``nacos.router.data.id``配置进行修改（默认nacos dataId为``goodskill-gateway-routes``），路由配置文件内容为json数组格式，例如：
-
-____
-
+[source,json]
+----
+[
+    {
+        "id": "goodskill-service-provider",
+        "predicates": [
+            {
+                "name": "Path",
+                "args": {
+                    "_genkey_0": "/goodskill/common/**"
+                }
+            }
+        ],
+        "filters": [
+            {
+                "name": "StripPrefix",
+                "args": {
+                    "_genkey_1": "2"
+                }
+            }
+        ],
+        "uri": "lb://goodskill-service-provider"
+    }
+]
+----
 == 🔨后续更新计划
 
 |===
