@@ -330,15 +330,13 @@ CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", 
 
 docker es镜像启动失败::
 
-出现此问题一般为linux环境，运行以下命令即可
-`
-sysctl -w vm.max_map_count=262144
-`
-或者修改/etc/sysctl.conf文件，追加以下配置：
-`
+出现此问题一般为linux环境，运行以下命令即可 `sysctl -w vm.max_map_count=262144`
+，或者修改/etc/sysctl.conf文件，追加以下配置：
++
+----
 grep vm.max_map_count /etc/sysctl.conf
 vm.max_map_count=262144
-`
+----
 
 如何使用本项目自定义的OAuth2.0授权服务器进行登录授权？::
 
@@ -463,7 +461,7 @@ image:doc/shortcut/模拟秒杀接口测试.gif[image]
 
 == 📑数据库表结构
 
-image:doc/model_table.png[image]
+image:./doc/model_table.png[image]
 
 == 📖参考文档
 
