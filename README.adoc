@@ -178,7 +178,7 @@ NOTE: docker-compose启动MySQL镜像时会自动执行初始化脚本，如已�
 
 * 配置host
 +
-[source]
+[source,text]
 ----
  127.0.0.1       kafka
  127.0.0.1       nacos
@@ -205,6 +205,7 @@ NOTE: docker-compose启动MySQL镜像时会自动执行初始化脚本，如已�
 * 启动完成后发送一个秒杀模拟请求：
 秒杀商品id 1000，商品数量10，执行20次购买操作，使用sychronized同步锁执行
 +
+[source,bash]
 ----
 
 curl -X POST "http://www.goodskill.com:8080/goodskill/web/sychronized" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"requestCount\": 20, \"seckillCount\": 10, \"seckillId\": 1000}"
@@ -212,6 +213,7 @@ curl -X POST "http://www.goodskill.com:8080/goodskill/web/sychronized" -H "accep
 +
 返回如下结果表示成功（异步执行，不代表最终成功，可在控制台查看执行日志，如果最终成功交易笔数等于商品数量10则表示没有出现超卖或者少卖问题）
 +
+[source,text]
 ----
 {
   "success": true,
