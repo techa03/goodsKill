@@ -85,9 +85,6 @@ spring:
             server-addr: 127.0.0.1:8848
 
 dubbo:
-  application:
-    id: dubbo-consumer-demo
-    name: dubbo-consumer-demo
   protocol:
     id: dubbo
     name: dubbo
@@ -97,7 +94,7 @@ dubbo:
     check: false
   ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@DubboReference(check=false)会失效
   cloud:
-    subscribed-services: "*"
+    subscribed-services: "goodskill-service-provider"
 
 management:
   endpoints:

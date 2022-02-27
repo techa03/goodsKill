@@ -6,15 +6,9 @@ spring:
   config:
     activate:
       on-profile: docker
-  cloud:
-    nacos:
-      server-addr: nacos:8848
   main:
     allow-circular-references: true
 dubbo:
-  application:
-    id: goodskill-seata
-    name: goodskill-seata
   protocol:
     id: dubbo
     name: dubbo
