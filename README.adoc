@@ -153,6 +153,24 @@ ns         %     Task name
 * SpringBoot: 2.6.x
 * SpringCloudAlibaba: 2021.x
 * Kotlin: 1.6.x
+* 使用的Docekr镜像
++
+|===
+|镜像 |版本 |端口 |用户名密码
+
+|Nacos |2.0.3 |8848 |无
+|Redis |latest |6379 |无
+|Kafka |2.13-2.7.0 |9092 |无
+|KafkaManager |latest |9000 |无
+|Mongo |4.4.3 |27017 |无
+|MySQL |8.0.22 |3306 |root:Password123
+|Zookeeper |3.6.2 |2181 |无
+|Elasticsearch |7.16.2 |9200 9300 |无
+|Kibana |7.16.2 |5601 |无
+|RabbitMQ |latest |5672 15672 |无
+|Zipkin |latest |9411 |无
+|===
+
 
 == 🎯快速开始
 
@@ -224,85 +242,11 @@ curl -X POST "http://www.goodskill.com:8080/goodskill/web/sychronized" -H "accep
 
 
 == 🕹️️启动完整项目步骤
-
-____
-
-方法一：使用Docker镜像构建脚本
-
-____
-
-* 项目根目录``goodsKill``中执行
-+
-[source]
-----
-mvn clean install
-或
-#跳过单元测试
-mvn clean install -DskipTests
-----
-
-* 进入项目根目录(确保已安装``compose``以支持``docker-compose``命令)，执行以下命令：
-+
-----
-docker-compose up                   //第一次运行只需执行此命令
-or
-docker-compose up -d                //-d后台运行
-or
-docker-compose up -d --build        //build重新构建镜像文件，针对项目自定义镜像配置需要修改的情况
-or
-docker-compose up -d --no-recreate  //如上次以构建容器，则此次会跳过构建容器
-----
-
-+
-推荐使用``docker-compose``命令（推荐电脑运行内存16G以上），无需手动下载软件安装包，开箱即用。此命令会自动拉取docker镜像并以默认端口运行
-+
-|===
-|镜像 |版本 |端口 |用户名密码
-
-|Nacos |2.0.3 |8848 |无
-|Redis |latest |6379 |无
-|Kafka |2.13-2.7.0 |9092 |无
-|KafkaManager |latest |9000 |无
-|Mongo |4.4.3 |27017 |无
-|MySQL |8.0.22 |3306 |root:Password123
-|Zookeeper |3.6.2 |2181 |无
-|Elasticsearch |7.16.2 |9200 9300 |无
-|Kibana |7.16.2 |5601 |无
-|RabbitMQ |latest |5672 15672 |无
-|Zipkin |latest |9411 |无
-|===
-+
-[notes=none, caption="建议"]
-TIP: 除以上镜像外，``docker-compose.yml``文件还包含项目构建命令，目前暂未列出。
-若仅启动以上镜像不启动项目应用，可使用以下命令： `docker-compose -f goodskill-simple.yml up -d`
-
-____
-方法二：使用IDEA运行项目
-____
-
-* 导入项目数据库基础数据，找到``seckill.sql``文件，在本地mysql数据库中建立``seckill``仓库并执行完成数据初始化操作
-+
-[notes=none, caption="注意"]
-NOTE: 如执行过上面的docker-compose命令，本步骤可跳过
-
-* 参照快速开始部分配置host
-
-* 如无``docker``运行环境，可参照官网安装上述应用，本地默认端口启动
+在快速开始部分基础上增加以下步骤即可启动一个完整项目
 
 * 进入``goodskill-gateway``模块，通过``GatewayApplication``类main方法启动服务网关
 
 * 找到``EsApplication``类main方法启动远程服务
-
-* 找到``GoodsKillServiceApplication``类main方法启动远程服务
-
-* 进入``goodskill-web``模块根目录，运行命令或直接通过``SampleWebJspApplication``类main方法启动
-+
-[source]
-----
-mvn spring-boot:run -Dspring.profiles.active=docker
-----
-
-* 如已安装MongoDB，可以main方法启动``MongoReactiveApplication``，通过使用该服务操作mongo库
 
 ____
 额外功能（可选）
@@ -311,18 +255,6 @@ ____
 * 已集成``Sentinel``限流组件，支持``nacos``配置中心方式推送限流规则，使用时需启动``Sentinel``控制台，并以``18088``端口启动，docker环境暂不支持。
 
 * Seata分布式事务测试方法见 https://github.com/techa03/goodsKill/tree/master/goodskill-seata/README.md[Seata分布式事务测试示例运行说明]
-
-
-== 📦打包部署方法
-
-可参考``Dockerfile``文件，如:
-
-----
-FROM openjdk:11.0.9.1-jdk
-COPY goodskill-service/target/goodskill-service.jar /app/goodskill-service.jar
-WORKDIR /app
-CMD ["java", "-jar","-Dspring.profiles.active=docker","-Duser.timezone=GMT+08", "goodskill-service.jar"]
-----
 
 == ❓常见问题
 [qanda]

@@ -72,8 +72,6 @@ spring:
       database: test
       uri: mongodb://mongo
   cloud:
-    nacos:
-      server-addr: nacos:8848
     sentinel:
       datasource:
         ds0:

@@ -86,13 +86,9 @@ spring:
             group-id: DEFAULT_GROUP
             rule-type: flow
             server-addr: 127.0.0.1:8848
-
 dubbo:
   scan:
     base-packages: com.goodskill.service.impl
-  application:
-    id: goodskill-service-provider
-    name: goodskill-service-provider
   protocol:
     id: dubbo
     name: dubbo
@@ -134,6 +130,7 @@ seata:
       username: "nacos"
       password: "nacos"
 
+
 logging:
   level:
     org:
@@ -150,7 +147,6 @@ management:
   health:
     db:
       enabled: false
-
 ---
 ######################docker环境配置#####################
 spring:
