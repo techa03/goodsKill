@@ -153,7 +153,7 @@ ns         %     Task name
 * SpringBoot: 2.6.x
 * SpringCloudAlibaba: 2021.x
 * Kotlin: 1.6.x
-* 使用的Docekr镜像
+* 使用的Docker镜像
 +
 |===
 |镜像 |版本 |端口 |用户名密码
@@ -395,7 +395,7 @@ image:doc/shortcut/模拟秒杀接口测试.gif[image]
 
 == 📑数据库表结构
 
-image:./doc/model_table.png[image]
+image:doc/model_table.png[image]
 
 == 📖参考文档
 
