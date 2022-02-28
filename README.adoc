@@ -54,8 +54,8 @@ ____
 |Elasticsearch |全文搜索引擎 |https://www.elastic.co
 |H2 |H2数据库 |http://www.h2database.com/html/main.html
 |Sharding-JDBC |分库分表组件 |https://shardingsphere.apache.org
-|Spring Cloud Alibaba |SpringCloudAlibaba组件 |https://spring.io/projects/spring-cloud-alibaba
-|Spring Cloud Gateway |SpringCloud网关组件 |https://spring.io/projects/spring-cloud-gateway
+|Spring Cloud Alibaba |Alibaba Cloud组件 |https://spring.io/projects/spring-cloud-alibaba
+|Spring Cloud Gateway |网关组件 |https://spring.io/projects/spring-cloud-gateway
 |Kotlin |Kotlin |https://kotlinlang.org/
 |Seata |分布式事务解决方案 |http://seata.io/zh-cn/index.html
 |Spring Security OAuth2.0 |OAuth2.0授权组件 |https://spring.io/projects/spring-security-oauth
