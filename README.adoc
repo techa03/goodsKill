@@ -106,7 +106,7 @@ goodsKill
 
 Swagger主页测试地址: `http://www.goodskill.com:8080/goodskill/web/swagger-ui/index.html`
 
-Spring Boot Admin应用监控地址: `http://www.goodskill.com:8083`, 登录用户名密码：admin/123456
+Spring Boot Admin应用监控地址: `http://www.goodskill.com:19031`, 登录用户名密码：user/123456
 
 Kafka状态监控页面地址: `http://localhost:9000`
 
@@ -158,7 +158,7 @@ ns         %     Task name
 |===
 |镜像 |版本 |端口 |用户名密码
 
-|Nacos |2.0.3 |8848 |无
+|Nacos |2.0.3 |8848 |nacos:nacos
 |Redis |latest |6379 |无
 |Kafka |2.13-2.7.0 |9092 |无
 |KafkaManager |latest |9000 |无
@@ -185,6 +185,7 @@ ns         %     Task name
 
 * 默认端口启动nacos、redis、mysql、rabbitmq、kafka、zookeeper，或者使用docker-compose命令：
 +
+[source,bash]
 ----
   docker-compose -f goodskill-simple.yml up -d
 ----
@@ -256,6 +257,8 @@ ____
 
 * Seata分布式事务测试方法见 https://github.com/techa03/goodsKill/tree/master/goodskill-seata/README.md[Seata分布式事务测试示例运行说明]
 
+* main方法运行``GoodskillAdminApplication``类(微服务健康状态指标监控)
+
 == ❓常见问题
 [qanda]
 使用idea启动``SampleWebJspApplication``类(goodskill-web模块)时会出现访问不了页面的问题，eclipse无此问题::
@@ -267,6 +270,7 @@ docker es镜像启动失败::
 出现此问题一般为linux环境，运行以下命令即可 `sysctl -w vm.max_map_count=262144`
 ，或者修改/etc/sysctl.conf文件，追加以下配置：
 +
+[source,text]
 ----
 grep vm.max_map_count /etc/sysctl.conf
 vm.max_map_count=262144
