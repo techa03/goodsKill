@@ -24,6 +24,8 @@ dubbo:
 
 seata:
   enabled: false
+  #1.4.2使用此配置禁用seata
+  enable-auto-data-source-proxy: false
   application-id: goodskill-seata
   tx-service-group: my_test_tx_group
   config:
