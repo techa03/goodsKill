@@ -57,9 +57,6 @@ spring:
     username: guest
     password: guest
   cloud:
-    alibaba:
-      seata:
-        tx-service-group: goodskill-web
     function:
       definition: seckill
     stream:
@@ -110,6 +107,8 @@ mybatis:
 
 seata:
   enabled: false
+  #1.4.2使用此配置禁用seata
+  enable-auto-data-source-proxy: false
   application-id: goodskill-service-provider
   tx-service-group: my_test_tx_group
   config:
@@ -129,7 +128,6 @@ seata:
       namespace:
       username: "nacos"
       password: "nacos"
-
 
 logging:
   level:

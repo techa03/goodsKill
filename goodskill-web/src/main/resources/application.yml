@@ -57,9 +57,6 @@ spring:
           management:
             ##配置元数据解决SpringBoot Admin无法正常监控问题
             context-path: ${server.servlet.context-path}/actuator
-    alibaba:
-      seata:
-        tx-service-group: goodskill-web
     function:
       definition: seckillResult
     stream:
