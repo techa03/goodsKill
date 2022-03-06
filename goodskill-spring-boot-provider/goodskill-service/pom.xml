@@ -178,6 +178,10 @@
 			<artifactId>spring-cloud-starter-alibaba-seata</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.shardingsphere</groupId>
+			<artifactId>sharding-transaction-base-seata-at</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
