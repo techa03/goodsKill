@@ -3,7 +3,6 @@ package com.goodskill.es.dto;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -22,8 +21,6 @@ public class GoodsDto implements Serializable {
     private String name;
 
     private String price;
-
-    private Date createTime;
 
     private String introduce;
 
@@ -71,14 +68,6 @@ public class GoodsDto implements Serializable {
         this.price = price == null ? null : price.trim();
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
     public String getIntroduce() {
         return introduce;
     }
@@ -113,7 +102,6 @@ public class GoodsDto implements Serializable {
         sb.append(", photoUrl=").append(photoUrl);
         sb.append(", name=").append(name);
         sb.append(", price=").append(price);
-        sb.append(", createTime=").append(createTime);
         sb.append(", introduce=").append(introduce);
         sb.append(", photoImage=").append(photoImage);
         sb.append(", serialVersionUID=").append(serialVersionUID);
@@ -135,14 +123,13 @@ public class GoodsDto implements Serializable {
                 Objects.equals(photoUrl, goodsDto.photoUrl) &&
                 Objects.equals(name, goodsDto.name) &&
                 Objects.equals(price, goodsDto.price) &&
-                Objects.equals(createTime, goodsDto.createTime) &&
                 Objects.equals(introduce, goodsDto.introduce) &&
                 Arrays.equals(photoImage, goodsDto.photoImage);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, goodsId, photoUrl, name, price, createTime, introduce);
+        int result = Objects.hash(id, goodsId, photoUrl, name, price, introduce);
         result = 31 * result + Arrays.hashCode(photoImage);
         return result;
     }

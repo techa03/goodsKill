@@ -7,4 +7,5 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  * @author heng
  */
 public interface GoodsRepository extends ElasticsearchRepository<Goods, Integer> {
+
 }
