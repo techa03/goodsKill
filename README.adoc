@@ -41,7 +41,6 @@ ____
 |Kafka |消息队列 |http://kafka.apache.org/
 |RabbitMQ |消息队列 |https://www.rabbitmq.com/
 |Logback |日志组件 |https://logback.qos.ch/
-|Protobuf &amp; json |数据序列化 |https://github.com/google/protobuf
 |Maven |项目构建管理 |http://maven.apache.org/
 |Swagger3 |项目API文档生成及测试工具 |http://swagger.io/
 |Mockito |mock类生成测试工具 |https://site.mockito.org/
@@ -54,7 +53,7 @@ ____
 |Elasticsearch |全文搜索引擎 |https://www.elastic.co
 |H2 |H2数据库 |http://www.h2database.com/html/main.html
 |Sharding-JDBC |分库分表组件 |https://shardingsphere.apache.org
-|Spring Cloud Alibaba |Alibaba Cloud组件 |https://spring.io/projects/spring-cloud-alibaba
+|Spring Cloud Alibaba |Cloud Alibaba组件 |https://github.com/alibaba/spring-cloud-alibaba
 |Spring Cloud Gateway |网关组件 |https://spring.io/projects/spring-cloud-gateway
 |Kotlin |Kotlin |https://kotlinlang.org/
 |Seata |分布式事务解决方案 |http://seata.io/zh-cn/index.html
@@ -68,7 +67,7 @@ ____
 
 |JQuery |函式库 |http://jquery.com/
 |Bootstrap |前端框架 |http://getbootstrap.com/
-|LayUI |前端UI框架 |http://www.layui.com/
+|LayUI |前端UI框架 |https://github.com/sentsin/layui
 |===
 
 == 📝项目模块介绍
@@ -147,7 +146,7 @@ ns         %     Task name
 
 == 🧰开发环境版本说明
 
-* JDK: OpenJDK11
+* JDK: OpenJDK17
 * Sharding-JDBC: 4.1.1
 * SpringCloud: 2021.x.x
 * SpringBoot: 2.6.x

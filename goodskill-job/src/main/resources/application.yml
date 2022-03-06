@@ -12,6 +12,8 @@ elasticjob:
 spring:
   application:
     name: goodskill-job
+  main:
+    allow-circular-references: true
 
 dubbo:
   protocol:

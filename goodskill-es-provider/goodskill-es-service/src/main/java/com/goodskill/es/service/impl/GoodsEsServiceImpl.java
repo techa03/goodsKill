@@ -12,8 +12,13 @@ import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.query.HighlightQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.highlight.Highlight;
+import org.springframework.data.elasticsearch.core.query.highlight.HighlightField;
+import org.springframework.data.elasticsearch.core.query.highlight.HighlightFieldParameters;
+import org.springframework.data.elasticsearch.core.query.highlight.HighlightParameters;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -61,8 +66,6 @@ public class GoodsEsServiceImpl implements GoodsEsService {
 
     @Override
     public List<GoodsDto> searchWithNameByPage(String input) {
-        String pretags = "<font color='red'>";
-        String postTags = "</font>";
         NativeSearchQuery searchQuery;
         if (StringUtils.isBlank(input)) {
             searchQuery = new NativeSearchQueryBuilder()
@@ -72,16 +75,20 @@ public class GoodsEsServiceImpl implements GoodsEsService {
                     .withQuery(QueryBuilders.matchQuery("name", input))
                     .build();
         }
-        // FIXME 设置name字段高亮显示
-//        HighlightQuery highlightQuery = new HighlightQuery(new HighlightBuilder().field("name").preTags(pretags).postTags(postTags));
         Pageable pageble = PageRequest.of(0, 3);
         searchQuery.setPageable(pageble);
-//        searchQuery.setHighlightQuery(highlightQuery);
+        HighlightFieldParameters parameters = HighlightFieldParameters.builder()
+                .withPostTags(new String[]{"</font>"})
+                .withPreTags(new String[]{"<font color='red'>"})
+                .build();
+        HighlightField highlightField = new HighlightField("name", parameters);
+        Highlight highlight = new Highlight(HighlightParameters.builder().build(), List.of(highlightField));
+        HighlightQuery highlightQuery = new HighlightQuery(highlight, null);
+        searchQuery.setHighlightQuery(highlightQuery);
         return elasticsearchOperations.search(searchQuery, Goods.class)
                 .getSearchHits().stream().map(s -> {
                     Goods goods = s.getContent();
                     GoodsDto goodsDto = new GoodsDto();
-//                    beanCopierReverse.copy(goods, goodsDto, null);
                     goodsDto.setName(s.getHighlightField("name").get(0));
                     goodsDto.setRawName(goods.getName());
                     return goodsDto;

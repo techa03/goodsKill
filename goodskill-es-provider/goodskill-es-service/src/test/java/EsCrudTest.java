@@ -1,33 +1,30 @@
 //import com.goodskill.es.EsApplication;
 //import com.goodskill.es.api.GoodsEsService;
 //import com.goodskill.es.model.Goods;
-//import com.goodskill.es.model.Goods1;
 //import com.goodskill.es.repository.GoodsRepository;
-//import com.goodskill.es.repository.GoodsRepository1;
-//import org.elasticsearch.index.query.IdsQueryBuilder;
 //import org.elasticsearch.index.query.QueryBuilder;
 //import org.elasticsearch.index.query.TermQueryBuilder;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
+//import org.junit.jupiter.api.Disabled;
+//import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.extension.ExtendWith;
 //import org.springframework.beans.BeanUtils;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-//import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
-//import org.springframework.data.elasticsearch.core.SearchHit;
 //import org.springframework.data.elasticsearch.core.SearchHits;
-//import org.springframework.data.elasticsearch.core.query.*;
-//import org.springframework.test.context.junit4.SpringRunner;
-//import org.springframework.transaction.annotation.Transactional;
-//import org.springframework.web.client.RestTemplate;
+//import org.springframework.data.elasticsearch.core.query.Criteria;
+//import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+//import org.springframework.data.elasticsearch.core.query.Query;
+//import org.springframework.test.context.junit.jupiter.SpringExtension;
 //
 ///**
 // * @author techa03
 // * @date 2020/5/21
 // */
 //@SpringBootTest(classes = EsApplication.class)
-//@RunWith(SpringRunner.class)
+//@ExtendWith(SpringExtension.class)
+//@Disabled
 //public class EsCrudTest {
 //
 //    @Autowired
@@ -42,9 +39,9 @@
 //    @Test
 //    public void testQuery() {
 //        goodsRepository.findAll().forEach(n -> {
-//            Goods1 goods1 = new Goods1();
+//            Goods goods1 = new Goods();
 //            BeanUtils.copyProperties(n, goods1);
-//            goodsRepository1.save(goods1);
+//            goodsRepository.save(goods1);
 //        });
 //    }
 //
@@ -61,7 +58,7 @@
 //
 //    @Test
 //    public void testQuery2() {
-//        goodsEsService.searchWithNameByPage("").forEach(System.out::println);
+//        goodsEsService.searchWithNameByPage("test").forEach(System.out::println);
 //    }
 //
 //
