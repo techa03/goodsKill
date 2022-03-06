@@ -281,7 +281,7 @@ vm.max_map_count=262144
 
 项目集成的各个框架之间目前的兼容性如何，可以参考本项目的配置在生产环境使用吗？::
 
-本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试，目前仅用于学习。如果要在生产环境使用，建议使用官方推荐的稳定版本。比如目前的Spring Cloud Alibaba Dubbo官方不建议生产上使用，Spring Cloud Alibaba官方推荐的稳定版为2.2.x（本项目使用2021.1版本） ，附 https://start.aliyun.com/bootstrap.html[SpringCloudAlibaba兼容版本说明]
+本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试，目前仅用于学习。如果要在生产环境使用，建议使用官方推荐的稳定版本。比如目前的Spring Cloud Alibaba Dubbo官方不建议生产上使用，Spring Cloud Alibaba官方推荐的稳定版为2.2.x，附 https://start.aliyun.com/bootstrap.html[SpringCloudAlibaba兼容版本说明]
 
 == 📚分库分表情况说明
 
