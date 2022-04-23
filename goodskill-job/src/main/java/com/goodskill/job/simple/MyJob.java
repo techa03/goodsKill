@@ -27,16 +27,30 @@ public class MyJob implements SimpleJob {
         switch (context.getShardingItem()) {
             case 0:
                 try {
-                    log.info("商品es索引开始更新。。。");
+                    log.info("分片0 商品es索引开始更新。。。");
                     List list = goodsService.list().parallelStream().map(g -> {
                         Goods goods = new Goods();
                         BeanUtils.copyProperties(g, goods);
                         return goods;
                     }).collect(Collectors.toList());
                     goodsEsService.saveBatch(list);
-                    log.info("商品es索引更新成功，条数:{}", list.size());
+                    log.info("分片0 商品es索引更新成功，条数:{}", list.size());
                 } catch (Exception e) {
-                    log.warn("商品es索引定时任务更新失败!", e);
+                    log.warn("分片0 商品es索引定时任务更新失败!", e);
+                }
+                break;
+            case 1:
+                try {
+                    log.info("分片1 商品es索引开始更新。。。");
+                } catch (Exception e) {
+                    log.warn("分片1 商品es索引定时任务更新失败!", e);
+                }
+                break;
+            case 2:
+                try {
+                    log.info("分片2 商品es索引开始更新。。。");
+                } catch (Exception e) {
+                    log.warn("分片2 商品es索引定时任务更新失败!", e);
                 }
                 break;
             // case n: ...

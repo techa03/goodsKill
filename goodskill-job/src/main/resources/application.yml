@@ -1,14 +1,29 @@
 elasticjob:
   reg-center:
-    server-lists: localhost:2181
+    server-lists: zookeeper:2181
     namespace: elasticjob-lite-springboot
   jobs:
     simpleJob:
       elasticJobClass: com.goodskill.job.simple.MyJob
-#      5秒执行一次
-      cron: 0/5 * * * * ?
+      ##5秒执行一次
+      cron: 0/6 * * * * ?
+      ##如果作业分为 4 片，用两台服务器执行，则每个服务器分到 2 片，分别负责作业的 50% 的负载
       shardingTotalCount: 1
-      shardingItemParameters: 0=Shanghai
+      ##分片备注参数
+      shardingItemParameters: 0=Beijing,1=Shanghai,2=Guangzhou
+      ##是否允许覆盖注册中心配置
+      overwrite: true
+      jobShardingStrategyType: ROUND_ROBIN
+    simpleJob2:
+      elasticJobClass: com.goodskill.job.simple.MyJob2
+      ##5秒执行一次
+      cron: 0/6 * * * * ?
+      shardingTotalCount: 1
+      ##分片备注参数
+      shardingItemParameters: 0=Beijing,1=Shanghai,2=Guangzhou
+      ##是否允许覆盖注册中心配置
+      overwrite: true
+      jobShardingStrategyType: ROUND_ROBIN
 spring:
   application:
     name: goodskill-job
