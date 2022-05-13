@@ -16,10 +16,13 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 public class RedisConnectConfig {
     private String host;
     private int port;
+    private String password;
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(new RedisStandaloneConfiguration(host, port));
+        RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration(host, port);
+        configuration.setPassword(password);
+        return new LettuceConnectionFactory(configuration);
     }
 
     public void setHost(String host) {
@@ -28,5 +31,9 @@ public class RedisConnectConfig {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

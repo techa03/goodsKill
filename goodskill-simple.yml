@@ -99,6 +99,7 @@ services:
       - "6379:6379"
     networks:
       - somenetwork
+    command: [ "redis-server", "--appendonly", "yes", "--requirepass", "123456" ]
 
   elasticsearch:
     image: elasticsearch:7.16.2
@@ -150,6 +151,7 @@ services:
       --default-authentication-plugin=mysql_native_password
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_0900_ai_ci
+      --lower-case-table-names=1
     volumes:
       - ./goodskill-web/src/main/sql:/docker-entrypoint-initdb.d/
     environment:
