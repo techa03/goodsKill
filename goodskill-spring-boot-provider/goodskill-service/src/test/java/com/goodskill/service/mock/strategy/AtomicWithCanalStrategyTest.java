@@ -11,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.messaging.MessageChannel;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -20,9 +20,9 @@ import java.util.concurrent.TimeUnit;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class SynchronizedLockStrategyTest {
+class AtomicWithCanalStrategyTest {
     @InjectMocks
-    private SynchronizedLockStrategy synchronizedLockStrategy;
+    private AtomicWithCanalStrategy atomicWithCanalStrategy;
     @Mock
     private SeckillMapper seckillMapper;
     @Mock
@@ -32,25 +32,25 @@ public class SynchronizedLockStrategyTest {
             new ThreadPoolExecutor(1,1,2L,
                     TimeUnit.SECONDS, new ArrayBlockingQueue(1));
     @Mock
-    private StreamBridge streamBridge;
+    private MessageChannel messageChannel;
 
     @Test
     public void execute() {
         SeckillMockRequestDTO requestDto = new SeckillMockRequestDTO();
         long seckillId = 1L;
         requestDto.setSeckillId(seckillId);
-        requestDto.setCount(1);
+        requestDto.setCount(2);
         requestDto.setPhoneNumber("1");
-
-        Seckill seckill = new Seckill();
-        seckill.setNumber(0);
-        when(seckillMapper.selectById(seckillId)).thenReturn(seckill);
-        synchronizedLockStrategy.execute(requestDto);
 
         Seckill sendTopicResult = new Seckill();
         sendTopicResult.setSeckillId(seckillId);
         sendTopicResult.setStatus(SeckillStatusConstant.END);
-        verify(seckillMapper, atLeastOnce()).updateById(sendTopicResult);
+
+        Seckill seckill1 = new Seckill();
+        seckill1.setNumber(0);
+        when(seckillMapper.selectById(seckillId)).thenReturn(seckill1);
+        atomicWithCanalStrategy.execute(requestDto);
+        verify(seckillMapper, times(2)).updateById(sendTopicResult);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class SynchronizedLockStrategyTest {
         Seckill seckill = new Seckill();
         seckill.setNumber(1);
         when(seckillMapper.selectById(seckillId)).thenReturn(seckill);
-        synchronizedLockStrategy.execute(requestDto);
+        atomicWithCanalStrategy.execute(requestDto);
 
         Seckill sendTopicResult = new Seckill();
         sendTopicResult.setSeckillId(seckillId);
