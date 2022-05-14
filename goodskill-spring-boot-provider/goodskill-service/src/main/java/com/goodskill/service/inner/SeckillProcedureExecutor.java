@@ -56,17 +56,13 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
             successKilled.setServerIp(localHost.getHostAddress() + ":" + localHost.getHostName());
             if (seckillService.reduceNumber(successKilled) < 1) {
                 Seckill seckill = seckillMapper.selectById(seckillId);
-                log.debug("当前库存：{}", seckill.getNumber());
-                // 高并发时限制只能发一次秒杀完成通知
+                log.debug("#dealSeckill 当前库存：{}，秒杀活动id:{}，商品id:{}", seckill.getNumber(), seckill.getSeckillId(), seckill.getGoodsId());
+                // 高并发时可能多次发送完成通知
                 if (!SeckillStatusConstant.END.equals(seckill.getStatus()) && sendTopicTimes.getAndIncrement() == 0) {
                     streamBridge.send(DEFAULT_BINDING_NAME, MessageBuilder.withPayload(
-                            SeckillMockResponseDTO
-                                    .builder()
-                                    .seckillId(seckillId)
-                                    .note(note)
-                                    .status(true)
-                                    .build())
+                                    SeckillMockResponseDTO.builder().seckillId(seckillId).note(note).status(true).build())
                             .build());
+                    log.info("#dealSeckill 商品已售罄，最新秒杀信息：{}", seckill);
                     Seckill sendTopicResult = new Seckill();
                     sendTopicResult.setSeckillId(seckillId);
                     sendTopicResult.setStatus(SeckillStatusConstant.END);
@@ -75,7 +71,7 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
                     sendTopicTimes.set(0);
                 }
                 if (seckill.getNumber() <= 0) {
-                    log.debug("库存不足，无法继续秒杀！");
+                    log.debug("#dealSeckill 库存不足，无法继续秒杀！");
                 }
             }
         } catch (UnknownHostException e) {

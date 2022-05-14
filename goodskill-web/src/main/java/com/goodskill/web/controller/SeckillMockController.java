@@ -66,7 +66,7 @@ public class SeckillMockController {
 
     /**
      * 通过同步锁控制秒杀并发（秒杀未完成阻塞主线程）
-     * 场景一：初始化当前库存为1000，通过线程池调度，模拟总共有2000人参与秒杀，期望值为最后成功笔数为1000
+     * 场景二：初始化当前库存为1000，通过线程池调度，模拟总共有2000人参与秒杀，期望值为最后成功笔数为1000
      * 结果：多次运行，最终的结果为1000
      * 总结：加上同步锁可以解决秒杀问题，适用于分布式环境，但速度不如加同步锁。
      */
@@ -218,20 +218,6 @@ public class SeckillMockController {
         return Result.ok();
     }
 
-    /**
-     * 通过同步锁控制秒杀并发（秒杀未完成阻塞主线程）
-     * 场景一：初始化当前库存为1000，通过线程池调度，模拟总共有2000人参与秒杀，期望值为最后成功笔数为1000
-     * 结果：多次运行，最终的结果为1000
-     * 总结：加上同步锁可以解决秒杀问题，适用于单机模式，扩展性差。
-     *
-     * @param seckillId 秒杀活动id
-     */
-//    @ApiOperation(value = "各方案性能对比（一键运行）")
-//    @PostMapping("/benchmark/{seckillId}")
-    public void benchmark(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "seckillCount", required = false, defaultValue = "1000") int seckillCount,
-                          @RequestParam(name = "requestCount", required = false, defaultValue = "2000") int requestCount) throws InterruptedException {
-    }
-
     @ApiOperation(value = "秒杀场景九(rabbitmq)")
     @PostMapping("/rabbitmq")
     public Result doWithRabbitmq(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
@@ -275,13 +261,43 @@ public class SeckillMockController {
     }
 
     /**
+     * canal测试方法说明：启动goodskill-canal模块下的CanalClientApplication类即可，canal使用默认配置。注意要先启动canal-server，并使用tcp模式
+     * 秒杀结束后会在控台输出日志
+     *
+     * @see com.goodskill.web.stream.consumer.SeckillMockCanalResponseListener 为对应的消息接受者
+     * @param dto 秒杀活动
+     */
+    @ApiOperation(value = "秒杀场景十一(数据库原子性更新+canal 数据库binlog日志监听秒杀结果)")
+    @PostMapping("/atomicWithCanal")
+    public Result atomicWithCanal(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+        long seckillId = dto.getSeckillId();
+        int seckillCount = dto.getSeckillCount();
+        int requestCount = dto.getRequestCount();
+        // 初始化库存数量
+        prepareSeckill(seckillId, seckillCount, ATOMIC_CANAL.getName());
+        log.info(ATOMIC_CANAL.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        for (int i = 0; i < requestCount; i++) {
+            taskExecutor.execute(() -> {
+                        seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
+                                ATOMIC_CANAL.getCode());
+                    }
+            );
+        }
+        return Result.ok();
+        //待mq监听器处理完成打印日志，不在此处打印日志
+    }
+
+    /**
+     * 准备商品库存
+     *
      * @param seckillId
      * @param seckillCount
      * @param name
      */
     private void prepareSeckill(long seckillId, int seckillCount, String name) {
         seckillService.prepareSeckill(seckillId, seckillCount);
-        TaskTimeCaculateUtil.startTask(name);
+        TaskTimeCaculateUtil.startTask("秒杀活动id:" + seckillId + "," + name);
     }
 
     /**

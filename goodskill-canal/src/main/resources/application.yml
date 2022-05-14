@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    function:
+      ## 绑定的消息处理函数名
+      definition: seckillCanalResult
+    stream:
+      default-binder: rabbit
+      bindings:
+        seckillCanalResult-out-0:
+          destination: seckill-canal-result
+
+logging:
+  level:
+    com.goodskill: debug
