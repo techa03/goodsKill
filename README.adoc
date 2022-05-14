@@ -58,6 +58,7 @@ ____
 |Kotlin |Kotlin |https://kotlinlang.org/
 |Seata |分布式事务解决方案 |http://seata.io/zh-cn/index.html
 |Spring Security OAuth2.0 |OAuth2.0授权组件 |https://spring.io/projects/spring-security-oauth
+|Canal |基于MySQL数据库的增量日志解析工具 |https://github.com/alibaba/canal
 |===
 
 === 📌前端技术:
@@ -222,7 +223,7 @@ NOTE: docker-compose启动MySQL镜像时会自动执行初始化脚本，如已�
 * 启动完成后访问登录页面 `http://www.goodskill.com:8080/goodskill/web/login`，默认管理员账号admin123，密码：aa123456
 
 * 启动完成后发送一个秒杀模拟请求：
-秒杀商品id 1000，商品数量10，执行20次购买操作，使用sychronized同步锁执行
+秒杀活动id 1000，商品数量10，执行20次购买操作，使用sychronized同步锁执行
 +
 [source,bash]
 ----
@@ -342,7 +343,7 @@ ____
 |集成分布式事务解决方案 |✅ |2021.2 |
 |增加OAuth2.0授权登录模块 |✅ |2021.9 |增加自定义OAuth2.0授权以及资源服务，并支持第三方授权登录
 |集成ELK日志采集 |✅ |2021.12 |
-|使用canal收集数据库变更binlog，秒杀结束及时通知 |⏳ | |
+|使用canal收集数据库变更binlog，秒杀结束及时通知 |✅ |2022.5 |
 |JDK版本升级到17 |⏳ | |
 |尝试使用COLA重构部分模块 |⏳ | |
 |前后端分离、页面美化 |⏳ | |
