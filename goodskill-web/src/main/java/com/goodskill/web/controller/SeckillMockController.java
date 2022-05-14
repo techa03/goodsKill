@@ -260,6 +260,13 @@ public class SeckillMockController {
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
+    /**
+     * canal测试方法说明：启动goodskill-canal模块下的CanalClientApplication类即可，canal使用默认配置。注意要先启动canal-server，并使用tcp模式
+     * 秒杀结束后会在控台输出日志
+     *
+     * @see com.goodskill.web.stream.consumer.SeckillMockCanalResponseListener 为对应的消息接受者
+     * @param dto 秒杀活动
+     */
     @ApiOperation(value = "秒杀场景十一(数据库原子性更新+canal 数据库binlog日志监听秒杀结果)")
     @PostMapping("/atomicWithCanal")
     public Result atomicWithCanal(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
