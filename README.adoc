@@ -223,7 +223,7 @@ NOTE: docker-compose启动MySQL镜像时会自动执行初始化脚本，如已�
 * 启动完成后访问登录页面 `http://www.goodskill.com:8080/goodskill/web/login`，默认管理员账号admin123，密码：aa123456
 
 * 启动完成后发送一个秒杀模拟请求：
-秒杀商品id 1000，商品数量10，执行20次购买操作，使用sychronized同步锁执行
+秒杀活动id 1000，商品数量10，执行20次购买操作，使用sychronized同步锁执行
 +
 [source,bash]
 ----
