@@ -16,6 +16,7 @@ public enum GoodsKillStrategyEnum {
     ZOOKEEPER_LOCK(7, "zookeeper分布式锁", ZookeeperLockStrategy.class.getName()),
     REDIS_MONGO_REACTIVE(8, "秒杀商品存放redis减库存，异步发送秒杀成功MQ", RedisMongoReactiveStrategy.class.getName()),
     SENTINEL_LIMIT(10, "Sentinel限流+数据库原子性更新", RedisMongoReactiveStrategy.class.getName()),
+    ATOMIC_CANAL(11, "数据库原子性更新+canal 数据库binlog日志监听秒杀结果", RedisMongoReactiveStrategy.class.getName()),
     ;
 
 

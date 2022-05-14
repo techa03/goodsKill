@@ -20,7 +20,8 @@
 		<module>goodskill-seata</module>
 		<module>goodskill-oauth2</module>
 		<module>goodskill-admin</module>
-	</modules>
+        <module>goodskill-canal</module>
+    </modules>
 
 	<properties>
 		<goodskill.version>1.0.0-SNAPSHOT</goodskill.version>

@@ -51,7 +51,7 @@ spring:
       default-data-source-name: ds0
     props:
       sql:
-        show: true
+        show: false
   rabbitmq:
     port: 5672
     username: guest

@@ -19,7 +19,9 @@ public enum SeckillSolutionEnum {
     ZOOKEEPER_LOCK(7, "秒杀场景七(zookeeper分布式锁)"),
     REDIS_MONGO_REACTIVE(8, "秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)"),
     RABBIT_MQ(9, "秒杀场景九(基于springcloud stream rabbitmq)"),
-    SENTINEL_LIMIT(10, "秒杀场景十(Sentinel限流+数据库原子性更新)");
+    SENTINEL_LIMIT(10, "秒杀场景十(Sentinel限流+数据库原子性更新)"),
+    ATOMIC_CANAL(11, "秒杀场景十一(数据库原子性更新+canal 数据库binlog日志监听秒杀结果)"),
+    ;
 
     private int code;
     private String name;

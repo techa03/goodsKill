@@ -58,18 +58,21 @@ spring:
             ##配置元数据解决SpringBoot Admin无法正常监控问题
             context-path: ${server.servlet.context-path}/actuator
     function:
-      definition: seckillResult
+      ##多个用;分隔
+      definition: seckillResult;seckillCanalResult
     stream:
       bindings:
+        ##配置消息绑定
         seckill-out-0:
           destination: seckill
         seckillResult-in-0:
           destination: seckill-result
-      source: seckill;seckillResult
+        seckillCanalResult-in-0:
+          destination: seckill-canal-result
     sentinel:
       transport:
         port: 8719
-        ## 默认端口8080，已改为自定义18088端口，通过http://127.0.0.1:18088/#/dashboard访问
+        ##默认端口8080，已改为自定义18088端口，通过http://127.0.0.1:18088/#/dashboard访问
         dashboard: localhost:18088
       ##使用nacos配置中心存储限流规则
       datasource:
