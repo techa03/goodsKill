@@ -66,8 +66,12 @@ spring:
         seckill-out-0:
           destination: seckill
         seckillResult-in-0:
+          ##解决重复消费问题，注意：同一组下只消费一次
+          group: default
           destination: seckill-result
         seckillCanalResult-in-0:
+          ##解决重复消费问题，注意：同一组下只消费一次
+          group: default
           destination: seckill-canal-result
     sentinel:
       transport:
