@@ -206,6 +206,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         redisTemplate.delete(seckillId);
         seckill.setStatus(SeckillStatusConstant.IN_PROGRESS);
         redisService.putSeckill(seckill);
+        redisService.clearSeckillEndFlag(seckillId);
 
         // 清理mongo表数据
         try {
