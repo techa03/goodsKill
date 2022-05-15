@@ -8,6 +8,7 @@ import com.goodskill.mp.dao.mapper.SeckillMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -24,6 +25,8 @@ public class RedisService {
     private SeckillMapper seckillMapper;
     @Resource
     private RedisTemplate<byte[], Object> redisTemplate;
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     private RuntimeSchema<Seckill> schema = RuntimeSchema.createFrom(Seckill.class);
 
@@ -54,6 +57,24 @@ public class RedisService {
     public void removeSeckill(long seckillId) {
         String key = "seckill:" + seckillId;
         redisTemplate.delete(key.getBytes());
+    }
+
+    /**
+     * 设置秒杀活动已结束
+     *
+     * @param seckillId
+     */
+    public Boolean setSeckillEndFlag(long seckillId) {
+        return stringRedisTemplate.opsForValue().setIfAbsent("goodskill:seckill:end:notice" + seckillId, "1");
+    }
+
+    /**
+     * 清除秒杀活动结束标识
+     *
+     * @param seckillId
+     */
+    public Boolean clearSeckillEndFlag(long seckillId) {
+        return stringRedisTemplate.delete("goodskill:seckill:end:notice" + seckillId);
     }
 
 }

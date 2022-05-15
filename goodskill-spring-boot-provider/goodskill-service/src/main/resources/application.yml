@@ -1,5 +1,5 @@
 server:
-  port: 19090
+  port: 0
 
 spring:
   profiles:
@@ -64,10 +64,11 @@ spring:
         seckilResult-out-0:
           destination: seckill-result
         seckill-in-0:
+          ##解决重复消费问题，注意：同一组下只消费一次
+          group: default
           destination: seckill
         seckillMongoSave-out-0:
           destination: seckill-mongo-save
-      source: seckill;seckilResult;seckillMongoSave
       default-binder: rabbit
     sentinel:
       transport:

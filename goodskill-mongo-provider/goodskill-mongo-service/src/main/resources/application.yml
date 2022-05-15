@@ -16,6 +16,8 @@ spring:
       default-binder: rabbit
       bindings:
         seckillMongoSave-in-0:
+          ##解决重复消费问题，注意：同一组下只消费一次
+          group: default
           destination: seckill-mongo-save
     sentinel:
       transport:

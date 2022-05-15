@@ -5,6 +5,7 @@ import com.dyuproject.protostuff.ProtostuffIOUtil;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
 import com.goodskill.entity.Seckill;
 import com.goodskill.mp.dao.mapper.SeckillMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,6 +28,8 @@ class RedisServiceTest {
     private SeckillMapper seckillMapper;
     @Mock
     private RedisTemplate<byte[], Object> redisTemplate;
+    @Mock
+    private StringRedisTemplate stringRedisTemplate;
     private static byte[] bytes;
     private static RuntimeSchema<Seckill> schema = RuntimeSchema.createFrom(Seckill.class);
 
@@ -73,6 +77,20 @@ class RedisServiceTest {
         assertDoesNotThrow(() -> redisService.removeSeckill(1001L));
     }
 
+    @Test
+    void testSetSeckillEndFlag() {
+        ValueOperations valueOperations = mock(ValueOperations.class);
+        when(stringRedisTemplate.opsForValue()).thenReturn(valueOperations);
+        Boolean result = redisService.setSeckillEndFlag(0L);
+        Assertions.assertEquals(Boolean.FALSE, result);
+    }
+
+    @Test
+    void testClearSeckillEndFlag() {
+        Boolean result = redisService.clearSeckillEndFlag(0L);
+        Assertions.assertEquals(Boolean.FALSE, result);
+    }
+
     @BeforeAll
     public static void init() {
         long seckillId = 1001L;
@@ -80,4 +98,5 @@ class RedisServiceTest {
         seckill.setSeckillId(seckillId);
         bytes = ProtostuffIOUtil.toByteArray(seckill, schema, LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE));
     }
+
 }
