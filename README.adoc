@@ -112,17 +112,17 @@ Kafka状态监控页面地址: `http://localhost:9001`
 
 Zipkin链路跟踪页面地址: `http://localhost:9411/zipkin/`
 
-* 场景一：sychronized同步锁实现
+* 场景一：Sychronized同步锁实现
 * 场景二：Redisson分布式锁实现
 * 场景三：ActiveMQ实现(已废弃)
 * 场景四：Kafka消息队列实现
 * 场景五：数据库原子性更新
 * 场景六：实时等待秒杀处理结果(已废弃)
-* 场景七：zookeeper分布式锁
-* 场景八：使用redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用mongoDB完成数据落地
-* 场景九：SpringCloudStream实现
+* 场景七：ZooKeeper分布式锁
+* 场景八：使用Redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用MongoDB完成数据落地
+* 场景九：Spring Cloud Stream实现
 * 场景十：Sentinel限流+数据库原子性更新（需搭配sentinel控制台配置资源名``limit``的流控规则）
-* 场景十一：数据库原子性更新+canal 数据库binlog日志监听秒杀结果
+* 场景十一：数据库原子性更新 + Canal数据库binlog日志监听秒杀结果
 
 可在web控台查看秒杀结果，打印信息类似：
 [source,text]
