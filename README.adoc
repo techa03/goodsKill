@@ -19,7 +19,7 @@ image:https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml
 == 💎分支介绍
 
 ``dev_gradle``分支为使用gradle构建工具管理项目依赖（已停更），``dev_maven``分支对应maven构建工具（Spring Framework版本4.x，已停更），``master``分支基于最新Spring Cloud体系构建。本项目功能目前比较简陋且有很多不完善的地方，真实的秒杀场景远比本项目中的实现方式复杂，本项目省略了真实场景中的部分技术实现细节，目前仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
-
+You'll often see <https://example.org> used in examples.
 ____
 
 附：码云项目链接 `https://gitee.com/techa/goodsKill`,clone速度慢的用码云仓库拉吧，不定期同步到码云~
@@ -193,7 +193,7 @@ ns         %     Task name
 
 * 进入``goodskill-web/src/main/sql``目录，找到``seckill.sql``文件，在本地mysql数据库中建立``seckill``仓库并执行完成数据初始化操作
 +
-[notes=none, caption="注意"]
+:icons: font
 NOTE: docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行过上一步本步骤可跳过
 
 * 配置host
@@ -292,16 +292,17 @@ vm.max_map_count=262144
 
 |success_killed |MySQL |是（同一服务器中，分为seckill和seckill_01两个库） |seckill_id |是（分为success_killed_0,success_kill_1两张表） |user_phone
 |===
-[notes=none, caption="注意"]
+:icons: font
 NOTE: 其他表均未分库分表，默认使用seckill作为主库
 
 == 🔖服务网关说明
-
+[%collapsible]
+====
 * `http://www.goodskill.com/goodskill/mongo/**` 对应访问``goodskill-mongo-provider``服务
 * `http://www.goodskill.com/goodskill/es/**` 对应访问``goodskill-es-provider``服务
 * `http://www.goodskill.com/goodskill/seata/**` 对应访问``goodskill-seata``服务
 * `http://www.goodskill.com/goodskill/common/**` 对应访问``goodskill-service-provider``服务
-
+====
 ____
 
 动态路由配置说明
