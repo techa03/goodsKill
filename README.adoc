@@ -1,4 +1,6 @@
-= 🎉前言
+= 前言
+:toc: left
+:toc-title: 快速导航
 
 image:https://img.shields.io/badge/license-MIT-blue.svg[License,link=LICENSE]
 image:https://github.com/techa03/goodsKill/actions/workflows/maven.yml/badge.svg?branch=master[Java CI with Maven,link=https://github.com/techa03/goodsKill/actions/workflows/maven.yml]
