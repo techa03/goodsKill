@@ -1,6 +1,4 @@
 = 前言
-:toc: left
-:toc-title: 快速导航
 
 image:https://img.shields.io/badge/license-MIT-blue.svg[License,link=LICENSE]
 image:https://github.com/techa03/goodsKill/actions/workflows/maven.yml/badge.svg?branch=master[Java CI with Maven,link=https://github.com/techa03/goodsKill/actions/workflows/maven.yml]
@@ -186,7 +184,7 @@ ns         %     Task name
   mvn clean install -DskipTests
 ----
 
-* 默认端口启动nacos、redis、mysql、rabbitmq、kafka、zookeeper，或者使用docker-compose命令：
+* 默认端口启动nacos、redis、mysql、rabbitmq、kafka、zookeeper，或者使用docker-compose{empty}footnote:[需要安装docker-desktop https://www.docker.com/products/docker-desktop/]命令：
 +
 [source,bash]
 ----
@@ -285,7 +283,7 @@ vm.max_map_count=262144
 
 项目集成的各个框架之间目前的兼容性如何，可以参考本项目的配置在生产环境使用吗？::
 
-本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试，目前仅用于学习。如果要在生产环境使用，建议使用官方推荐的稳定版本。比如目前的Spring Cloud Alibaba Dubbo官方不建议生产上使用，Spring Cloud Alibaba官方推荐的稳定版为2.2.x，附 https://start.aliyun.com/bootstrap.html[SpringCloudAlibaba兼容版本说明]
+本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试，目前仅用于学习。如果要在生产环境使用，建议使用官方推荐的稳定版本。比如目前的Spring Cloud Alibaba Dubbo官方不建议生产上使用，Spring Cloud Alibaba官方推荐的稳定版为2.2.x{empty}footnote:[附 https://start.aliyun.com/bootstrap.html[SpringCloudAlibaba兼容版本说明]]。
 
 == 📚分库分表情况说明
 
