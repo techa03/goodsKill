@@ -198,7 +198,10 @@ ns         %     Task name
 
 * 进入``goodskill-web/src/main/sql``目录，找到``seckill.sql``文件，在本地mysql数据库中建立``seckill``仓库并执行完成数据初始化操作
 +
-:note-caption: 💡
+ifdef::env-github[]
+:note-caption: :octocat:
+endif::[]
+
 [NOTE]
 docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行过上一步本步骤可跳过
 
@@ -298,7 +301,10 @@ vm.max_map_count=262144
 
 |success_killed |MySQL |是（同一服务器中，分为seckill和seckill_01两个库） |seckill_id |是（分为success_killed_0,success_kill_1两张表） |user_phone
 |===
-:note-caption: 💡
+ifdef::env-github[]
+:note-caption: :octocat:
+endif::[]
+
 [NOTE]
 其他表均未分库分表，默认使用seckill作为主库
 
