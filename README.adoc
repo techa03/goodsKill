@@ -6,6 +6,11 @@ image:https://codecov.io/gh/techa03/goodsKill/branch/master/graph/badge.svg[code
 image:https://sonarcloud.io/api/project_badges/measure?project=techa03_goodsKill&metric=alert_status[Quality Gate Status,link=https://sonarcloud.io/dashboard?id=techa03_goodsKill]
 image:https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml/badge.svg?branch=master[CodeQL,link=https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml]
 
+:tip-caption: pass:[&#128161;]
+
+[TIP]
+It's possible to use Unicode glyphs as admonition icons.
+
 项目命名为 *goodsKill* 一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为 *good skill*，本项目就是希望搭建一套完整的项目框架，把一些好的技术和开发技巧整合进来（偏向于后端技术），方便学习和查阅。
 
 本项目为慕课网仿购物秒杀项目，功能上整体分为用户注册登录、秒杀商品管理模块。使用Shiro完成登录验证授权以及用户权限验证（权限设计使用RBAC模型），支持OAuth2.0第三方授权登录（目前可通过Gitee，Github进行授权）。 技术上整体采用SpringMVC+RESTFUL风格，Mybatis持久层框架，采用SpringCloudAlibaba Dubbo以及Feign实现分布式服务调用，服务注册发现以及配置中心使用Nacos。
@@ -193,8 +198,9 @@ ns         %     Task name
 
 * 进入``goodskill-web/src/main/sql``目录，找到``seckill.sql``文件，在本地mysql数据库中建立``seckill``仓库并执行完成数据初始化操作
 +
-:icons: font
-NOTE: docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行过上一步本步骤可跳过
+:note-caption: 💡
+[NOTE]
+docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行过上一步本步骤可跳过
 
 * 配置host
 +
@@ -292,17 +298,15 @@ vm.max_map_count=262144
 
 |success_killed |MySQL |是（同一服务器中，分为seckill和seckill_01两个库） |seckill_id |是（分为success_killed_0,success_kill_1两张表） |user_phone
 |===
-:icons: font
-NOTE: 其他表均未分库分表，默认使用seckill作为主库
+:note-caption: 💡
+[NOTE]
+其他表均未分库分表，默认使用seckill作为主库
 
 == 🔖服务网关说明
-[%collapsible]
-====
 * `http://www.goodskill.com/goodskill/mongo/**` 对应访问``goodskill-mongo-provider``服务
 * `http://www.goodskill.com/goodskill/es/**` 对应访问``goodskill-es-provider``服务
 * `http://www.goodskill.com/goodskill/seata/**` 对应访问``goodskill-seata``服务
 * `http://www.goodskill.com/goodskill/common/**` 对应访问``goodskill-service-provider``服务
-====
 ____
 
 动态路由配置说明
