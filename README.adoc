@@ -8,6 +8,7 @@ image:https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml
 
 项目命名为 *goodsKill* 一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为 *good skill*，本项目就是希望搭建一套完整的项目框架，把一些好的技术和开发技巧整合进来（偏向于后端技术），方便学习和查阅。
 
+
 本项目为慕课网仿购物秒杀项目，功能上整体分为用户注册登录、秒杀商品管理模块。使用Shiro完成登录验证授权以及用户权限验证（权限设计使用RBAC模型），支持OAuth2.0第三方授权登录（目前可通过Gitee，Github进行授权）。 技术上整体采用SpringMVC+RESTFUL风格，Mybatis持久层框架，采用SpringCloudAlibaba Dubbo以及Feign实现分布式服务调用，服务注册发现以及配置中心使用Nacos。
 
 本项目在原基础上扩展了部分功能，例如支持数据库分库分表、分布式事务，并提供基本的秒杀解决方案（通过模拟接口实现）。
@@ -155,11 +156,8 @@ ns         %     Task name
 * SpringBoot: 2.6.x
 * SpringCloudAlibaba: 2021.x
 * Kotlin: 1.6.x
-
-.使用的Docker镜像，点击展开
-
-[%collapsible]
-====
+* 使用的Docker镜像
++
 |===
 |镜像 |版本 |端口 |用户名密码
 
@@ -175,7 +173,6 @@ ns         %     Task name
 |RabbitMQ |latest |5672 15672 |无
 |Zipkin |latest |9411 |无
 |===
-====
 
 == 🎯快速开始
 
@@ -197,20 +194,16 @@ ns         %     Task name
 
 * 进入``goodskill-web/src/main/sql``目录，找到``seckill.sql``文件，在本地mysql数据库中建立``seckill``仓库并执行完成数据初始化操作
 +
-ifdef::env-github[]
-:note-caption: :octocat:
-endif::[]
 
-[NOTE]
+:warning-caption: ⚠️️
+
+[WARNING]
 docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行过上一步本步骤可跳过
 
 * 配置host
-+
-.host地址，点击展开
-[%collapsible]
-
-====
 [source,text]
++
+
 ----
  127.0.0.1       kafka
  127.0.0.1       nacos
@@ -225,7 +218,6 @@ docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行�
  ##如果网关服务部署在远程机器，此处改为相应的远程机器ip
  127.0.0.1       www.goodskill.com
 ----
-====
 
 * main方法运行``MongoReactiveApplication``类(mongo服务)
 
@@ -273,11 +265,15 @@ ____
 额外功能（可选）
 ____
 
+.点击展开
+[%collapsible]
+====
 * 已集成``Sentinel``限流组件，支持``nacos``配置中心方式推送限流规则，使用时需启动``Sentinel``控制台，并以``18088``端口启动，docker环境暂不支持。
 
 * Seata分布式事务测试方法见 https://github.com/techa03/goodsKill/tree/master/goodskill-seata/README.md[Seata分布式事务测试示例运行说明]
 
 * main方法运行``GoodskillAdminApplication``类(微服务健康状态指标监控)
+====
 
 == ❓常见问题
 [qanda]
@@ -311,10 +307,8 @@ vm.max_map_count=262144
 
 |success_killed |MySQL |是（同一服务器中，分为seckill和seckill_01两个库） |seckill_id |是（分为success_killed_0,success_kill_1两张表） |user_phone
 |===
-ifdef::env-github[]
-:note-caption: :octocat:
-endif::[]
 
+:note-caption: 📢
 [NOTE]
 其他表均未分库分表，默认使用seckill作为主库
 
@@ -373,12 +367,11 @@ ____
 |前后端分离、页面美化 |⏳ | |
 |===
 
-== API接口以及页面展示
-.API接口以及页面展示
-[%collapsible]
-====
+=== API接口
 
 image:./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png[image]
+
+=== API接口说明
 
 image:./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png[image]
 
@@ -425,7 +418,6 @@ image:doc/shortcut/模拟秒杀接口测试.gif[image]
 == 📑数据库表结构
 
 image:doc/model_table.png[image]
-====
 
 == 📖参考文档
 
