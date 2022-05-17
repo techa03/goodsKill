@@ -110,9 +110,6 @@ Kafka状态监控页面地址: `http://localhost:9001`
 
 Zipkin链路跟踪页面地址: `http://localhost:9411/zipkin/`
 
-.秒杀方案，点击展开
-[%collapsible]
-====
 * 场景一：Sychronized同步锁实现
 * 场景二：Redisson分布式锁实现
 * 场景三：ActiveMQ实现(已废弃)
@@ -124,7 +121,6 @@ Zipkin链路跟踪页面地址: `http://localhost:9411/zipkin/`
 * 场景九：Spring Cloud Stream实现
 * 场景十：Sentinel限流+数据库原子性更新（需搭配sentinel控制台配置资源名``limit``的流控规则）
 * 场景十一：数据库原子性更新 + Canal数据库binlog日志监听秒杀结果
-====
 
 .可在web控台查看秒杀结果，打印信息类似：
 [%collapsible]
@@ -377,11 +373,12 @@ ____
 |前后端分离、页面美化 |⏳ | |
 |===
 
-=== API接口
+== API接口以及页面展示
+.API接口以及页面展示
+[%collapsible]
+====
 
 image:./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png[image]
-
-=== API接口说明
 
 image:./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png[image]
 
@@ -428,6 +425,7 @@ image:doc/shortcut/模拟秒杀接口测试.gif[image]
 == 📑数据库表结构
 
 image:doc/model_table.png[image]
+====
 
 == 📖参考文档
 
