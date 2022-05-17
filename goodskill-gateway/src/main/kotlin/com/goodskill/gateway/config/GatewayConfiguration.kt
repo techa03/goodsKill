@@ -48,6 +48,10 @@ open class GatewayConfiguration {
                     }
                     .uri("lb://goodskill-service-provider")
             }
+            .route("goodskill-web") { r: PredicateSpec ->
+                r.path("/goodskill/web/**")
+                    .uri("lb://goodskill-web")
+            }
             .build()
     }
 

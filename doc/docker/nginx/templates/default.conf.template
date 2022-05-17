@@ -1,0 +1,9 @@
+server {
+    listen       80;
+    server_name  www.goodskill.com;
+
+    location /goodskill/web/ {
+        proxy_pass  http://gheng.vaiwan.cn/goodskill/web/;
+    }
+
+}

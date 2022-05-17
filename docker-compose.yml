@@ -46,6 +46,17 @@ services:
     networks:
       - somenetwork
 
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./doc/docker/nginx/templates:/etc/nginx/templates
+    ports:
+      - "80:80"
+    environment:
+      - NGINX_HOST=foobar.com
+      - NGINX_PORT=80
+
   zookeeper:
     image: zookeeper:3.6.2
     container_name: zookeeper
