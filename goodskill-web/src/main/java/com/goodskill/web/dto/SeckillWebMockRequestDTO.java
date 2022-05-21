@@ -26,4 +26,10 @@ public class SeckillWebMockRequestDTO {
     @ApiModelProperty(value = "秒杀请求数", example = "20")
     @Min(1)
     private int requestCount;
+
+    @ApiModelProperty(value = "秒杀处理线程池核心线程数", example = "2")
+    private Integer corePoolSize;
+
+    @ApiModelProperty(value = "秒杀处理线程池最大线程数", example = "10")
+    private Integer maxPoolSize;
 }

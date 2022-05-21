@@ -2,8 +2,8 @@ package com.goodskill.web.controller;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.service.SeckillService;
+import com.goodskill.common.enums.SeckillSolutionEnum;
 import com.goodskill.common.info.Result;
-import com.goodskill.entity.Seckill;
 import com.goodskill.web.dto.SeckillWebMockRequestDTO;
 import com.goodskill.web.util.TaskTimeCaculateUtil;
 import io.swagger.annotations.Api;
@@ -44,6 +44,10 @@ public class SeckillMockController {
     private KafkaTemplate kafkaTemplate;
     @Autowired
     private StreamBridge streamBridge;
+    /**
+     * 用于生成秒杀用户id
+     */
+    private final AtomicInteger SECKILL_PHONE_NUM_COUNTER = new AtomicInteger(0);
 
     /**
      * 通过同步锁控制秒杀并发（秒杀未完成阻塞主线程）
@@ -54,12 +58,7 @@ public class SeckillMockController {
     @ApiOperation(value = "秒杀场景一(sychronized同步锁实现)")
     @PostMapping("/sychronized")
     public Result doWithSychronized(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        long seckillId = dto.getSeckillId();
-        int seckillCount = dto.getSeckillCount();
-        int requestCount = dto.getRequestCount();
-        prepareSeckill(seckillId, seckillCount, SYCHRONIZED.getName());
-        log.info(SYCHRONIZED.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
-        seckillService.execute(new SeckillMockRequestDTO(seckillId, requestCount, null), SYCHRONIZED.getCode());
+        processSeckill(dto, SYCHRONIZED);
         return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
@@ -73,19 +72,7 @@ public class SeckillMockController {
     @ApiOperation(value = "秒杀场景二(redis分布式锁实现)", notes = "秒杀场景二(redis分布式锁实现)", httpMethod = "POST")
     @PostMapping("/redisson")
     public Result doWithRedissionLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        long seckillId = dto.getSeckillId();
-        int seckillCount = dto.getSeckillCount();
-        int requestCount = dto.getRequestCount();
-        // 初始化库存数量
-        prepareSeckill(seckillId, seckillCount, REDISSION_LOCK.getName());
-        log.info(REDISSION_LOCK.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
-        AtomicInteger atomicInteger = new AtomicInteger(0);
-        for (int i = 0; i < requestCount; i++) {
-            taskExecutor.execute(() ->
-                    seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
-                            REDISSION_LOCK.getCode())
-            );
-        }
+        processSeckill(dto, REDISSION_LOCK);
         return Result.ok();
     }
 
@@ -99,9 +86,6 @@ public class SeckillMockController {
     @PostMapping("/activemq")
     @Deprecated
     public Result doWithActiveMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        long seckillId = dto.getSeckillId();
-        int seckillCount = dto.getSeckillCount();
-        int requestCount = dto.getRequestCount();
         return Result.ok();
     }
 
@@ -114,21 +98,10 @@ public class SeckillMockController {
     @ApiOperation(value = "秒杀场景四(kafka消息队列实现)")
     @PostMapping("/kafka")
     public Result doWithKafkaMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        long seckillId = dto.getSeckillId();
-        int seckillCount = dto.getSeckillCount();
-        int requestCount = dto.getRequestCount();
-        // 初始化库存数量
-        prepareSeckill(seckillId, seckillCount, KAFKA_MQ.getName());
-        log.info(KAFKA_MQ.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
-        AtomicInteger atomicInteger = new AtomicInteger(0);
-        for (int i = 0; i < requestCount; i++) {
-            taskExecutor.execute(() -> {
-                        int i1 = atomicInteger.incrementAndGet();
-                        String key = String.valueOf(i1);
-                        kafkaTemplate.send("goodskill-kafka", key, String.valueOf(seckillId));
-                    }
-            );
-        }
+        processSeckill(dto, KAFKA_MQ, () -> {
+            String key = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
+            kafkaTemplate.send("goodskill-kafka", key, String.valueOf(dto.getSeckillId()));
+        });
         return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
@@ -142,18 +115,7 @@ public class SeckillMockController {
     @ApiOperation(value = "秒杀场景五(数据库原子性更新update set num = num -1)")
     @PostMapping("/procedure")
     public Result doWithProcedure(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        long seckillId = dto.getSeckillId();
-        int seckillCount = dto.getSeckillCount();
-        int requestCount = dto.getRequestCount();
-        prepareSeckill(seckillId, seckillCount, ATOMIC_UPDATE.getName());
-        log.info(ATOMIC_UPDATE.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
-        AtomicInteger atomicInteger = new AtomicInteger(0);
-        for (int i = 0; i < requestCount; i++) {
-            taskExecutor.execute(() ->
-                    seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
-                            ATOMIC_UPDATE.getCode())
-            );
-        }
+        processSeckill(dto, ATOMIC_UPDATE);
         return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
@@ -180,18 +142,7 @@ public class SeckillMockController {
     @RequestMapping(value = "/zookeeperLock", method = POST, produces = {
             "application/json;charset=UTF-8"})
     public Result doWithZookeeperLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        long seckillId = dto.getSeckillId();
-        int seckillCount = dto.getSeckillCount();
-        int requestCount = dto.getRequestCount();
-        prepareSeckill(seckillId, seckillCount, ZOOKEEPER_LOCK.getName());
-        log.info(ZOOKEEPER_LOCK.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
-        AtomicInteger atomicInteger = new AtomicInteger(0);
-        for (int i = 0; i < requestCount; i++) {
-            taskExecutor.execute(() ->
-                    seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
-                            ZOOKEEPER_LOCK.getCode())
-            );
-        }
+        processSeckill(dto, ZOOKEEPER_LOCK);
         return Result.ok();
     }
 
@@ -202,39 +153,17 @@ public class SeckillMockController {
     @RequestMapping(value = "/redisReactiveMongo", method = POST, produces = {
             "application/json;charset=UTF-8"})
     public Result redisReactiveMongo(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        long seckillId = dto.getSeckillId();
-        int seckillCount = dto.getSeckillCount();
-        int requestCount = dto.getRequestCount();
-        prepareSeckill(seckillId, seckillCount, REDIS_MONGO_REACTIVE.getName());
-        log.info(REDIS_MONGO_REACTIVE.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
-        Seckill seckill = new Seckill();
-        seckill.setSeckillId(seckillId);
-        AtomicInteger atomicInteger = new AtomicInteger(0);
-        for (int i = 0; i < requestCount; i++) {
-            taskExecutor.execute(() ->
-                    seckillService.execute(new SeckillMockRequestDTO(seckillId, requestCount, String.valueOf(atomicInteger.addAndGet(1))), REDIS_MONGO_REACTIVE.getCode())
-            );
-        }
+        processSeckill(dto, REDIS_MONGO_REACTIVE);
         return Result.ok();
     }
 
     @ApiOperation(value = "秒杀场景九(rabbitmq)")
     @PostMapping("/rabbitmq")
     public Result doWithRabbitmq(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        long seckillId = dto.getSeckillId();
-        int seckillCount = dto.getSeckillCount();
-        int requestCount = dto.getRequestCount();
-        // 初始化库存数量
-        prepareSeckill(seckillId, seckillCount, RABBIT_MQ.getName());
-        log.info(RABBIT_MQ.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
-        AtomicInteger atomicInteger = new AtomicInteger(0);
-        for (int i = 0; i < requestCount; i++) {
-            taskExecutor.execute(() -> {
-                        SeckillMockRequestDTO payload = new SeckillMockRequestDTO(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1)));
-                        streamBridge.send("seckill-out-0", payload);
-                    }
-            );
-        }
+        processSeckill(dto, RABBIT_MQ, () -> {
+            SeckillMockRequestDTO payload = new SeckillMockRequestDTO(dto.getSeckillId(), 1, String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet()));
+            streamBridge.send("seckill-out-0", payload);
+        });
         return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
@@ -242,20 +171,7 @@ public class SeckillMockController {
     @ApiOperation(value = "秒杀场景十(Sentinel限流+数据库原子性更新)")
     @PostMapping("/limit")
     public Result limit(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        long seckillId = dto.getSeckillId();
-        int seckillCount = dto.getSeckillCount();
-        int requestCount = dto.getRequestCount();
-        // 初始化库存数量
-        prepareSeckill(seckillId, seckillCount, SENTINEL_LIMIT.getName());
-        log.info(SENTINEL_LIMIT.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
-        AtomicInteger atomicInteger = new AtomicInteger(0);
-        for (int i = 0; i < requestCount; i++) {
-            taskExecutor.execute(() -> {
-                seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
-                        SENTINEL_LIMIT.getCode());
-                    }
-            );
-        }
+        processSeckill(dto, SENTINEL_LIMIT);
         return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
@@ -264,26 +180,13 @@ public class SeckillMockController {
      * canal测试方法说明：启动goodskill-canal模块下的CanalClientApplication类即可，canal使用默认配置。注意要先启动canal-server，并使用tcp模式
      * 秒杀结束后会在控台输出日志
      *
-     * @see com.goodskill.web.stream.consumer.SeckillMockCanalResponseListener 为对应的消息接受者
      * @param dto 秒杀活动
+     * @see com.goodskill.web.stream.consumer.SeckillMockCanalResponseListener 为对应的消息接受者
      */
     @ApiOperation(value = "秒杀场景十一(数据库原子性更新+canal 数据库binlog日志监听秒杀结果)")
     @PostMapping("/atomicWithCanal")
     public Result atomicWithCanal(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        long seckillId = dto.getSeckillId();
-        int seckillCount = dto.getSeckillCount();
-        int requestCount = dto.getRequestCount();
-        // 初始化库存数量
-        prepareSeckill(seckillId, seckillCount, ATOMIC_CANAL.getName());
-        log.info(ATOMIC_CANAL.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
-        AtomicInteger atomicInteger = new AtomicInteger(0);
-        for (int i = 0; i < requestCount; i++) {
-            taskExecutor.execute(() -> {
-                        seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, String.valueOf(atomicInteger.addAndGet(1))),
-                                ATOMIC_CANAL.getCode());
-                    }
-            );
-        }
+        processSeckill(dto, ATOMIC_CANAL);
         return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
@@ -301,11 +204,58 @@ public class SeckillMockController {
     }
 
     /**
-     * @param seckillId
-     * @param seckillCount
+     * 变更线程池参数
+     *
+     * @param dto 参数
      */
-    private void prepareSeckill(Long seckillId, int seckillCount) {
-        prepareSeckill(seckillId, seckillCount, null);
+    private void changeThreadPoolParam(SeckillWebMockRequestDTO dto) {
+        if (dto.getCorePoolSize() != null && dto.getCorePoolSize() > 0) {
+            int corePoolSize = taskExecutor.getCorePoolSize();
+            taskExecutor.setCorePoolSize(dto.getCorePoolSize());
+            log.info("#changeThreadPoolParam 更新核心线程数参数生效, 原参数值:{},当前值:{}", corePoolSize, dto.getCorePoolSize());
+        }
+        if (dto.getMaxPoolSize() != null && dto.getMaxPoolSize() > 0) {
+            int maxPoolSize = taskExecutor.getMaxPoolSize();
+            taskExecutor.setMaxPoolSize(dto.getMaxPoolSize());
+            log.info("#changeThreadPoolParam 更新最大线程数参数生效, 原参数值:{},当前值:{}", maxPoolSize, dto.getMaxPoolSize());
+        }
+    }
+
+    /**
+     * 执行秒杀程序
+     *
+     * @param dto                 秒杀请求
+     * @param seckillSolutionEnum 秒杀策略
+     */
+    private void processSeckill(SeckillWebMockRequestDTO dto, SeckillSolutionEnum seckillSolutionEnum) {
+        processSeckill(dto, seckillSolutionEnum, null);
+    }
+
+    /**
+     * 执行秒杀程序
+     *
+     * @param dto                 秒杀请求
+     * @param seckillSolutionEnum 秒杀策略
+     * @param runnable            待执行的任务
+     */
+    private void processSeckill(SeckillWebMockRequestDTO dto, SeckillSolutionEnum seckillSolutionEnum, Runnable runnable) {
+        long seckillId = dto.getSeckillId();
+        int seckillCount = dto.getSeckillCount();
+        int requestCount = dto.getRequestCount();
+        // 初始化库存数量
+        prepareSeckill(seckillId, seckillCount, seckillSolutionEnum.getName());
+        changeThreadPoolParam(dto);
+        log.info(seckillSolutionEnum.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
+        for (int i = 0; i < requestCount; i++) {
+            if (runnable == null) {
+                // 默认的执行方法
+                runnable = () -> seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet())),
+                        seckillSolutionEnum.getCode());
+            } else {
+                taskExecutor.execute(runnable);
+            }
+
+        }
     }
 
 }
