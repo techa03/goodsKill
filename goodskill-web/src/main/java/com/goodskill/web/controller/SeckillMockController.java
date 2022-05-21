@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.common.enums.SeckillSolutionEnum;
+import com.goodskill.common.exception.CommonException;
 import com.goodskill.common.info.Result;
 import com.goodskill.web.dto.SeckillWebMockRequestDTO;
 import com.goodskill.web.util.TaskTimeCaculateUtil;
@@ -219,15 +220,20 @@ public class SeckillMockController {
      * @param dto 参数
      */
     private void changeThreadPoolParam(SeckillWebMockRequestDTO dto) {
-        if (dto.getCorePoolSize() != null && dto.getCorePoolSize() > 0) {
-            int corePoolSize = taskExecutor.getCorePoolSize();
-            taskExecutor.setCorePoolSize(dto.getCorePoolSize());
-            log.info("#changeThreadPoolParam 更新核心线程数参数生效, 原参数值:{},当前值:{}", corePoolSize, dto.getCorePoolSize());
-        }
-        if (dto.getMaxPoolSize() != null && dto.getMaxPoolSize() > 0) {
-            int maxPoolSize = taskExecutor.getMaxPoolSize();
-            taskExecutor.setMaxPoolSize(dto.getMaxPoolSize());
-            log.info("#changeThreadPoolParam 更新最大线程数参数生效, 原参数值:{},当前值:{}", maxPoolSize, dto.getMaxPoolSize());
+        try {
+            if (dto.getCorePoolSize() != null && dto.getCorePoolSize() > 0) {
+                int corePoolSize = taskExecutor.getCorePoolSize();
+                taskExecutor.setCorePoolSize(dto.getCorePoolSize());
+                log.info("#changeThreadPoolParam 更新核心线程数参数生效, 原参数值:{},当前值:{}", corePoolSize, dto.getCorePoolSize());
+            }
+            if (dto.getMaxPoolSize() != null && dto.getMaxPoolSize() > 0) {
+                int maxPoolSize = taskExecutor.getMaxPoolSize();
+                taskExecutor.setMaxPoolSize(dto.getMaxPoolSize());
+                log.info("#changeThreadPoolParam 更新最大线程数参数生效, 原参数值:{},当前值:{}", maxPoolSize, dto.getMaxPoolSize());
+            }
+        } catch (IllegalArgumentException e) {
+            log.warn("#changeThreadPoolParam 核心线程数不能大于最大线程数，当前最大线程数:{}，当前核心线程数:{}", taskExecutor.getMaxPoolSize(), taskExecutor.getCorePoolSize(), e);
+            throw new CommonException("线程池参数不合法，请重新设置！");
         }
     }
 
@@ -249,6 +255,9 @@ public class SeckillMockController {
      * @param runnable            待执行的任务
      */
     private void processSeckill(SeckillWebMockRequestDTO dto, SeckillSolutionEnum seckillSolutionEnum, Runnable runnable) {
+        log.debug("#changeThreadPoolParam start count:{},当前线程池队列长度:{},线程数:{},是否空:{}", SECKILL_PHONE_NUM_COUNTER.get(),
+                taskExecutor.getThreadPoolExecutor().getQueue().size(),
+                taskExecutor.getPoolSize(), taskExecutor.getThreadPoolExecutor().getQueue().isEmpty());
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
@@ -266,6 +275,11 @@ public class SeckillMockController {
             };
         }
         for (int i = 0; i < requestCount; i++) {
+            if (log.isDebugEnabled()) {
+                log.debug("#changeThreadPoolParam begin count:{},当前线程池队列长度:{},线程数:{},是否空:{}",SECKILL_PHONE_NUM_COUNTER.get(),
+                        taskExecutor.getThreadPoolExecutor().getQueue().size(),
+                        taskExecutor.getPoolSize(), taskExecutor.getThreadPoolExecutor().getQueue().isEmpty());
+            }
             taskExecutor.execute(runnable);
         }
     }
