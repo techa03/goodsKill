@@ -66,6 +66,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
                                     .status(true)
                                     .seckillId(seckillId)
                                     .note(REDIS_MONGO_REACTIVE.getName())
+                                    .taskId(requestDto.getTaskId())
                                     .build())
                             .build());
 

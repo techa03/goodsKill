@@ -45,11 +45,12 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
      * 处理用户秒杀请求
      *
      * @param seckillId 秒杀活动id
-     * @param userPhone
+     * @param userPhone 秒杀用户手机号
      * @param note      秒杀备注信息
+     * @param taskId    秒杀任务id
      */
     @Override
-    public void dealSeckill(long seckillId, String userPhone, String note) {
+    public void dealSeckill(long seckillId, String userPhone, String note, String taskId) {
         try {
             InetAddress localHost = InetAddress.getLocalHost();
             SuccessKilled successKilled = new SuccessKilled();
@@ -62,10 +63,10 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
                 log.debug("#dealSeckill 当前库存：{}，秒杀活动id:{}，商品id:{}", seckill.getNumber(), seckill.getSeckillId(), seckill.getGoodsId());
                 if (!SeckillStatusConstant.END.equals(seckill.getStatus()) && sendTopicTimes.getAndIncrement() == 0) {
                     // 高并发时可能多次发送完成通知，使用锁控制
-                    Boolean endFlag = redisService.setSeckillEndFlag(seckillId);
+                    Boolean endFlag = redisService.setSeckillEndFlag(seckillId, taskId);
                     if (endFlag) {
                         streamBridge.send(DEFAULT_BINDING_NAME, MessageBuilder.withPayload(
-                                        SeckillMockResponseDTO.builder().seckillId(seckillId).note(note).status(true).build())
+                                        SeckillMockResponseDTO.builder().seckillId(seckillId).note(note).status(true).taskId(taskId).build())
                                 .build());
                         log.info("#dealSeckill 商品已售罄，最新秒杀信息：{}", seckill);
                         Seckill sendTopicResult = new Seckill();

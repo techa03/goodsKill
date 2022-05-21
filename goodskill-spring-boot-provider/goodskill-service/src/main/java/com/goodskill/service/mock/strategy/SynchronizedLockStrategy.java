@@ -63,6 +63,7 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
                                             .seckillId(seckillId)
                                             .status(true)
                                             .note(SYCHRONIZED.getName())
+                                            .taskId(requestDto.getTaskId())
                                             .build())
                             .build());
                     Seckill sendTopicResult = new Seckill();

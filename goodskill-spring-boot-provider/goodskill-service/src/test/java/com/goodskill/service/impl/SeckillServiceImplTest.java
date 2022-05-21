@@ -124,7 +124,7 @@ public class SeckillServiceImplTest {
         Seckill t = new Seckill();
         when(redisService.getSeckill(seckillId)).thenReturn(t);
         when(redisTemplate.delete(seckillId)).thenReturn(true);
-        seckillService.prepareSeckill(seckillId, 10);
+        seckillService.prepareSeckill(seckillId, 10, "1");
         verify(successKilledMongoService, times(1)).deleteRecord(seckillId);
     }
 

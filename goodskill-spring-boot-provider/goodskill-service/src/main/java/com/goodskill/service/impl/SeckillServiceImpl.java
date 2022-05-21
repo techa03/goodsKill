@@ -192,7 +192,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     }
 
     @Override
-    public void prepareSeckill(Long seckillId, int seckillCount) {
+    public void prepareSeckill(Long seckillId, int seckillCount, String taskId) {
         // 初始化库存数量
         Seckill entity = new Seckill();
         entity.setSeckillId(seckillId);
@@ -206,7 +206,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         redisTemplate.delete(seckillId);
         seckill.setStatus(SeckillStatusConstant.IN_PROGRESS);
         redisService.putSeckill(seckill);
-        redisService.clearSeckillEndFlag(seckillId);
+        redisService.clearSeckillEndFlag(seckillId, taskId);
 
         // 清理mongo表数据
         try {

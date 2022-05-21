@@ -33,4 +33,9 @@ public class SeckillMockResponseDTO implements Serializable {
      */
     private Boolean status;
 
+    /**
+     * 秒杀任务id
+     */
+    private String taskId;
+
 }

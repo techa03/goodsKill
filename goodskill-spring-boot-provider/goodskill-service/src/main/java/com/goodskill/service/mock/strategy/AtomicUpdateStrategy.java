@@ -20,6 +20,6 @@ public class AtomicUpdateStrategy implements GoodsKillStrategy {
 
     @Override
     public void execute(SeckillMockRequestDTO requestDto) {
-        seckillExecutor.dealSeckill(requestDto.getSeckillId(), requestDto.getPhoneNumber(), ATOMIC_UPDATE.getName());
+        seckillExecutor.dealSeckill(requestDto.getSeckillId(), requestDto.getPhoneNumber(), ATOMIC_UPDATE.getName(), requestDto.getTaskId());
     }
 }
