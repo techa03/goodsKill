@@ -241,6 +241,21 @@ curl -X POST "http://www.goodskill.com:8080/goodskill/web/sychronized" -H "accep
 curl -X POST "http://www.goodskill.com:8080/goodskill/web/redisson" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"requestCount\": 20, \"seckillCount\": 10, \"seckillId\": 1000}"
 ====
 +
+.使用Redisson分布式锁执行，支持动态配置后台线程池核心线程数以及最大线程数
+====
+[source,bash]
+curl --location --request POST 'http://www.goodskill.com:8080/goodskill/web/limit' \
+--header 'User-Agent: apifox/1.0.0 (https://www.apifox.cn)' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "maxPoolSize": 10,
+    "seckillId": 1000,
+    "corePoolSize": 2,
+    "seckillCount": 100,
+    "requestCount": 120
+}'
+====
++
 返回如下结果表示成功（异步执行，不代表最终成功，可在控制台查看执行日志，如果最终成功交易笔数等于商品数量10则表示没有出现超卖或者少卖问题）
 +
 [source,text]
