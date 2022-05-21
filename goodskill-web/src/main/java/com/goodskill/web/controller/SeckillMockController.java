@@ -246,15 +246,13 @@ public class SeckillMockController {
         prepareSeckill(seckillId, seckillCount, seckillSolutionEnum.getName());
         changeThreadPoolParam(dto);
         log.info(seckillSolutionEnum.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
+        if (runnable == null) {
+            // 默认的执行方法
+            runnable = () -> seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet())),
+                    seckillSolutionEnum.getCode());
+        }
         for (int i = 0; i < requestCount; i++) {
-            if (runnable == null) {
-                // 默认的执行方法
-                runnable = () -> seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet())),
-                        seckillSolutionEnum.getCode());
-            } else {
-                taskExecutor.execute(runnable);
-            }
-
+            taskExecutor.execute(runnable);
         }
     }
 
