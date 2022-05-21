@@ -75,12 +75,11 @@ ____
 ----
 goodsKill
 |--goodskill-admin                          ||SpringBoot Admin监控服务端，支持Spring Cloud微服务发现
-|--goodskill-chat-provider                  ||聊天室服务提供者（待完成）
+|--goodskill-canal                          ||用于完成MySQL数据库binlog收集的canal客户端程序
+|--goodskill-chat-provider                  ||一个基于netty实现的简易聊天程序
 |--goodskill-common                         ||项目公共服务（目前包括字典服务，待补充）
 |--goodskill-gateway                        ||微服务网关，支持动态路由加载
 |--goodskill-es-provider                    ||elasticsearch搜索服务提供者，提供商品名称检索功能
-|   |--goodskill-es-api
-|   |--goodskill-es-dao
 |   |--goodskill-es-service
 |--goodskill-mongo-provider                 ||mongo存储服务提供者
 |   |--goodskill-mongo-service

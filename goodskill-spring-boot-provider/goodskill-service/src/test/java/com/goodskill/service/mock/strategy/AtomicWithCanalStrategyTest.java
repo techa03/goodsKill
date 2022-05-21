@@ -50,7 +50,7 @@ class AtomicWithCanalStrategyTest {
         seckill1.setNumber(0);
         when(seckillMapper.selectById(seckillId)).thenReturn(seckill1);
         atomicWithCanalStrategy.execute(requestDto);
-        verify(seckillMapper, times(2)).updateById(sendTopicResult);
+        verify(seckillMapper, times(1)).updateById(sendTopicResult);
     }
 
     @Test
