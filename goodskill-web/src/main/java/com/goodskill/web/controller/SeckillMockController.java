@@ -1,5 +1,6 @@
 package com.goodskill.web.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.common.enums.SeckillSolutionEnum;
@@ -48,6 +49,10 @@ public class SeckillMockController {
      * 用于生成秒杀用户id
      */
     private final AtomicInteger SECKILL_PHONE_NUM_COUNTER = new AtomicInteger(0);
+    /**
+     * 用于生成秒杀任务id
+     */
+    private final AtomicInteger SECKILL_TASK_ID_COUNTER = new AtomicInteger(0);
 
     /**
      * 通过同步锁控制秒杀并发（秒杀未完成阻塞主线程）
@@ -99,8 +104,10 @@ public class SeckillMockController {
     @PostMapping("/kafka")
     public Result doWithKafkaMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, KAFKA_MQ, () -> {
-            String key = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
-            kafkaTemplate.send("goodskill-kafka", key, String.valueOf(dto.getSeckillId()));
+            String phoneNumber = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
+            String taskId = String.valueOf(SECKILL_TASK_ID_COUNTER.get());
+            SeckillMockRequestDTO payload = new SeckillMockRequestDTO(dto.getSeckillId(), 1, phoneNumber, taskId);
+            kafkaTemplate.send("goodskill-kafka", phoneNumber, JSON.toJSONString(payload));
         });
         return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
@@ -161,7 +168,9 @@ public class SeckillMockController {
     @PostMapping("/rabbitmq")
     public Result doWithRabbitmq(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, RABBIT_MQ, () -> {
-            SeckillMockRequestDTO payload = new SeckillMockRequestDTO(dto.getSeckillId(), 1, String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet()));
+            String phoneNumber = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
+            String taskId = String.valueOf(SECKILL_TASK_ID_COUNTER.get());
+            SeckillMockRequestDTO payload = new SeckillMockRequestDTO(dto.getSeckillId(), 1, phoneNumber, taskId);
             streamBridge.send("seckill-out-0", payload);
         });
         return Result.ok();
@@ -197,10 +206,11 @@ public class SeckillMockController {
      * @param seckillId
      * @param seckillCount
      * @param name
+     * @param taskId
      */
-    private void prepareSeckill(long seckillId, int seckillCount, String name) {
-        seckillService.prepareSeckill(seckillId, seckillCount);
-        TaskTimeCaculateUtil.startTask("秒杀活动id:" + seckillId + "," + name);
+    private void prepareSeckill(long seckillId, int seckillCount, String name, String taskId) {
+        seckillService.prepareSeckill(seckillId, seckillCount, taskId);
+        TaskTimeCaculateUtil.startTask("秒杀活动id:" + seckillId + "," + name, taskId);
     }
 
     /**
@@ -242,14 +252,18 @@ public class SeckillMockController {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
+        String taskId = String.valueOf(SECKILL_TASK_ID_COUNTER.incrementAndGet());
         // 初始化库存数量
-        prepareSeckill(seckillId, seckillCount, seckillSolutionEnum.getName());
+        prepareSeckill(seckillId, seckillCount, seckillSolutionEnum.getName(), taskId);
         changeThreadPoolParam(dto);
         log.info(seckillSolutionEnum.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
         if (runnable == null) {
             // 默认的执行方法
-            runnable = () -> seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet())),
-                    seckillSolutionEnum.getCode());
+            runnable = () -> {
+                String phoneNumber = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
+                seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, phoneNumber, taskId),
+                        seckillSolutionEnum.getCode());
+            };
         }
         for (int i = 0; i < requestCount; i++) {
             taskExecutor.execute(runnable);

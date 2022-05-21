@@ -28,7 +28,7 @@ open class StreamMessageConsumer {
             log.info("收到秒杀请求:$payload")
             val userPhone = payload.phoneNumber
             val seckillId = payload.seckillId
-            seckillExecutor.dealSeckill(seckillId, userPhone, SeckillSolutionEnum.RABBIT_MQ.name)
+            seckillExecutor.dealSeckill(seckillId, userPhone, SeckillSolutionEnum.RABBIT_MQ.name, payload.taskId)
         }
 
     }

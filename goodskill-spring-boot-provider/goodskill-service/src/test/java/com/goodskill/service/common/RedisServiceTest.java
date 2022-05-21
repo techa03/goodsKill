@@ -81,13 +81,13 @@ class RedisServiceTest {
     void testSetSeckillEndFlag() {
         ValueOperations valueOperations = mock(ValueOperations.class);
         when(stringRedisTemplate.opsForValue()).thenReturn(valueOperations);
-        Boolean result = redisService.setSeckillEndFlag(0L);
+        Boolean result = redisService.setSeckillEndFlag(0L, "1");
         Assertions.assertEquals(Boolean.FALSE, result);
     }
 
     @Test
     void testClearSeckillEndFlag() {
-        Boolean result = redisService.clearSeckillEndFlag(0L);
+        Boolean result = redisService.clearSeckillEndFlag(0L, "1");
         Assertions.assertEquals(Boolean.FALSE, result);
     }
 

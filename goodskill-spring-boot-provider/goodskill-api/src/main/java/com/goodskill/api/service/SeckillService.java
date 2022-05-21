@@ -89,10 +89,11 @@ public interface SeckillService {
      *
      * @param seckillId    秒杀商品id
      * @param seckillCount 秒杀数量
+     * @param taskId 任务id
      */
     @PostMapping("/prepareSeckill")
     void prepareSeckill(@RequestParam("seckillId") Long seckillId,
-                        @RequestParam("seckillCount") int seckillCount);
+                        @RequestParam("seckillCount") int seckillCount, @RequestParam("taskId") String taskId);
 
 
     @GetMapping("/getById")

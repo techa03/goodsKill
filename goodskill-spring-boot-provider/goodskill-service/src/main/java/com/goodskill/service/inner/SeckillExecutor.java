@@ -7,9 +7,11 @@ public interface SeckillExecutor {
 
     /**
      * 秒杀内部处理方法
+     *
      * @param seckillId
      * @param userPhone
      * @param note
+     * @param taskId
      */
-    void dealSeckill(long seckillId, String userPhone, String note);
+    void dealSeckill(long seckillId, String userPhone, String note, String taskId);
 }

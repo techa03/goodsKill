@@ -28,7 +28,7 @@ public class RedissonStrategy implements GoodsKillStrategy {
         RLock lock = redissonClient.getLock(requestDto.getSeckillId() + "");
         lock.lock();
         try {
-            seckillExecutor.dealSeckill(requestDto.getSeckillId(), requestDto.getPhoneNumber(), REDISSION_LOCK.getName());
+            seckillExecutor.dealSeckill(requestDto.getSeckillId(), requestDto.getPhoneNumber(), REDISSION_LOCK.getName(), requestDto.getTaskId());
         } finally {
             lock.unlock();
         }

@@ -33,8 +33,8 @@ class SeckillProcedureExecutorTest {
         Seckill seckill = new Seckill();
         seckill.setNumber(0);
         when(seckillMapper.selectById(seckillId)).thenReturn(seckill);
-        when(redisService.setSeckillEndFlag(seckillId)).thenReturn(true);
-        seckillProcedureExecutor.dealSeckill(seckillId, "123", "test");
+        when(redisService.setSeckillEndFlag(seckillId, "1")).thenReturn(true);
+        seckillProcedureExecutor.dealSeckill(seckillId, "123", "test", "1");
         Seckill updateSeckill = new Seckill();
         updateSeckill.setSeckillId(seckillId);
         updateSeckill.setStatus(SeckillStatusConstant.END);

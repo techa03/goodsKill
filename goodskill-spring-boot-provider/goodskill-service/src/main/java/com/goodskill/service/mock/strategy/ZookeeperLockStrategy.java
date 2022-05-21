@@ -26,7 +26,7 @@ public class ZookeeperLockStrategy implements GoodsKillStrategy {
         long seckillId = requestDto.getSeckillId();
         if (zookeeperLockUtil.lock(seckillId)) {
             try {
-                seckillExecutor.dealSeckill(seckillId, requestDto.getPhoneNumber(), ZOOKEEPER_LOCK.getName());
+                seckillExecutor.dealSeckill(seckillId, requestDto.getPhoneNumber(), ZOOKEEPER_LOCK.getName(), requestDto.getTaskId());
             } finally {
                 zookeeperLockUtil.releaseLock(seckillId);
             }

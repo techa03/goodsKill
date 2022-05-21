@@ -23,7 +23,7 @@ public class SentinelLimitStrategy implements GoodsKillStrategy {
     @Override
     @SentinelResource(value = "limit", blockHandler = "exceptionHandler")
     public void execute(SeckillMockRequestDTO requestDto) {
-        seckillExecutor.dealSeckill(requestDto.getSeckillId(), requestDto.getPhoneNumber(), ATOMIC_UPDATE.getName());
+        seckillExecutor.dealSeckill(requestDto.getSeckillId(), requestDto.getPhoneNumber(), ATOMIC_UPDATE.getName(), requestDto.getTaskId());
     }
 
     // Block 异常处理函数，参数最后多一个 BlockException，其余与原函数一致.

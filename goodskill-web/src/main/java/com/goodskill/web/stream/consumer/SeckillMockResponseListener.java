@@ -42,9 +42,9 @@ public class SeckillMockResponseListener {
                     }
                     temp = seckillService.getSuccessKillCount(seckillId);
                 }
-                TaskTimeCaculateUtil.stop();
+                TaskTimeCaculateUtil.stop(responseDto.getTaskId());
                 log.info("最终成功交易笔数：{}", successKillCount);
-                log.info("历史任务耗时统计：{}", TaskTimeCaculateUtil.prettyPrint());
+                log.info("历史任务耗时统计：{}", TaskTimeCaculateUtil.prettyPrint(responseDto.getTaskId()));
                 // 场景八由于是异步插入，补偿查询最新插入记录数，延迟10s
                 try {
                     if (SeckillSolutionEnum.REDIS_MONGO_REACTIVE.getName().endsWith(note)) {

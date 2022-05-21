@@ -64,8 +64,8 @@ public class RedisService {
      *
      * @param seckillId
      */
-    public Boolean setSeckillEndFlag(long seckillId) {
-        return stringRedisTemplate.opsForValue().setIfAbsent("goodskill:seckill:end:notice" + seckillId, "1");
+    public Boolean setSeckillEndFlag(long seckillId, String taskId) {
+        return stringRedisTemplate.opsForValue().setIfAbsent("goodskill:seckill:end:notice" + seckillId + ":" + taskId, "1");
     }
 
     /**
@@ -73,8 +73,8 @@ public class RedisService {
      *
      * @param seckillId
      */
-    public Boolean clearSeckillEndFlag(long seckillId) {
-        return stringRedisTemplate.delete("goodskill:seckill:end:notice" + seckillId);
+    public Boolean clearSeckillEndFlag(long seckillId, String taskId) {
+        return stringRedisTemplate.delete("goodskill:seckill:end:notice" + seckillId + ":" + taskId);
     }
 
 }

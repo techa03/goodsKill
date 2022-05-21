@@ -36,10 +36,22 @@ public class SeckillMockRequestDTO implements Serializable {
      */
     private String requestTime;
 
+    /**
+     * 秒杀任务id
+     */
+    private String taskId;
+
     public SeckillMockRequestDTO(long seckillId, int count, String phoneNumber) {
         this.seckillId = seckillId;
         this.count = count;
         this.phoneNumber = phoneNumber;
+    }
+
+    public SeckillMockRequestDTO(long seckillId, int count, String phoneNumber, String taskId) {
+        this.seckillId = seckillId;
+        this.count = count;
+        this.phoneNumber = phoneNumber;
+        this.taskId = taskId;
     }
 
 }
