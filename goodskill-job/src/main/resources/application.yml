@@ -35,9 +35,15 @@ dubbo:
     name: dubbo
     port: -1
     id: dubbo
-  cloud:
-    subscribed-services: "goodskill-service-provider"
+#  cloud:
+#    subscribed-services: "goodskill-service-provider"
   provider:
     timeout: 30000
+  registry:
+    address: zookeeper://zookeeper:2181
+  application:
+    enable-file-cache: false
+  consumer:
+    check: false
 server:
   port: 19094

@@ -22,18 +22,6 @@ spring:
             rule-type: flow
             server-addr: 127.0.0.1:8848
 
-## dubbo服务注册和发现
-dubbo:
-  protocol:
-    name: dubbo
-    port: -1
-    id: dubbo
-  registry:
-    address: spring-cloud://localhost
-  scan:
-    base-packages: com.goodskill.es.service
-  cloud:
-    subscribed-services: ""
 ## 日志级别
 logging:
   level:
@@ -77,9 +65,6 @@ spring:
   config:
     activate:
       on-profile: docker,dev
-dubbo:
-  registry:
-    address: spring-cloud://localhost
 elasticsearch:
   rest:
     client:

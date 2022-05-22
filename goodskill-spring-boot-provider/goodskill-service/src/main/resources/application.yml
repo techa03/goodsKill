@@ -94,14 +94,16 @@ dubbo:
     port: -1
     status: server
   registry:
-    address: spring-cloud://localhost
+    address: zookeeper://zookeeper:2181
     timeout: 30000
     id: my-registry
   provider:
     timeout: 60000
+  application:
+    enable-file-cache: false
   ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@DubboReference(check=false)会失效
-  cloud:
-    subscribed-services: ""
+#  cloud:
+#    subscribed-services: ""
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -198,7 +200,7 @@ spring:
       on-profile: docker,dev
 dubbo:
   registry:
-    address: spring-cloud://localhost
+    address: zookeeper://zookeeper:2181
   provider:
     timeout: 30000
 

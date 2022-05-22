@@ -5,7 +5,6 @@ import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.es.dto.GoodsDto;
 import com.goodskill.es.model.Goods;
 import com.goodskill.es.repository.GoodsRepository;
-import org.apache.dubbo.common.utils.StringUtils;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
@@ -19,6 +18,8 @@ import org.springframework.data.elasticsearch.core.query.highlight.Highlight;
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightField;
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightFieldParameters;
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightParameters;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
  * @date 2019/6/15
  */
 @RestController
+@Service
 public class GoodsEsServiceImpl implements GoodsEsService {
     @Autowired
     private GoodsRepository goodsRepository;
@@ -67,7 +69,7 @@ public class GoodsEsServiceImpl implements GoodsEsService {
     @Override
     public List<GoodsDto> searchWithNameByPage(String input) {
         NativeSearchQuery searchQuery;
-        if (StringUtils.isBlank(input)) {
+        if (!StringUtils.hasText(input)) {
             searchQuery = new NativeSearchQueryBuilder()
                     .build();
         } else {

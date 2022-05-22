@@ -96,9 +96,11 @@ dubbo:
   consumer:
     timeout: 30000
     check: false
+  application:
+    enable-file-cache: false
   ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@DubboReference(check=false)会失效
-  cloud:
-    subscribed-services: "goodskill-service-provider"
+#  cloud:
+#    subscribed-services: "goodskill-service-provider"
 
 management:
   endpoints:
@@ -152,6 +154,6 @@ spring:
     base-url: http://zipkin:9411/
 dubbo:
   registry:
-    address: spring-cloud://localhost
+    address: zookeeper://zookeeper:2181
 
 

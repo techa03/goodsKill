@@ -9,11 +9,11 @@ image:https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml
 项目命名为 *goodsKill* 一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为 *good skill*，本项目就是希望搭建一套完整的项目框架，把一些好的技术和开发技巧整合进来（偏向于后端技术），方便学习和查阅。
 
 
-本项目为慕课网仿购物秒杀项目，功能上整体分为用户注册登录、秒杀商品管理模块。使用Shiro完成登录验证授权以及用户权限验证（权限设计使用RBAC模型），支持OAuth2.0第三方授权登录（目前可通过Gitee，Github进行授权）。 技术上整体采用SpringMVC+RESTFUL风格，Mybatis持久层框架，采用SpringCloudAlibaba Dubbo以及Feign实现分布式服务调用，服务注册发现以及配置中心使用Nacos。
+本项目为慕课网仿购物秒杀项目，功能上整体分为用户注册登录、秒杀商品管理模块。使用Shiro完成登录验证授权以及用户权限验证（权限设计使用RBAC模型），支持OAuth2.0第三方授权登录（目前可通过Gitee，Github进行授权）。 技术上整体采用SpringMVC+RESTFUL风格，Mybatis持久层框架，采用Dubbo3.x{empty}footnote:[由于SpringCloudAlibaba官方暂未支持Dubbo 3.x，本项目采用dubbo-spring-boot-starter集成，使用zookeeper注册中心]以及Feign实现分布式服务调用，服务注册发现以及配置中心使用Nacos。
 
 本项目在原基础上扩展了部分功能，例如支持数据库分库分表、分布式事务，并提供基本的秒杀解决方案（通过模拟接口实现）。
 
-* 集成SpringCloudAlibaba Sentinel限流组件，可以针对Http请求以及Dubbo RPC调用限流
+* 集成SpringCloudAlibaba Sentinel限流组件，可以针对Http请求限流
 
 * 集成服务网关，采用Spring Cloud Gateway网关组件，支持动态路由刷新
 
@@ -54,6 +54,7 @@ ____
 |H2 |H2数据库 |http://www.h2database.com/html/main.html
 |Sharding-JDBC |分库分表组件 |https://shardingsphere.apache.org
 |Spring Cloud Alibaba |Cloud Alibaba组件 |https://github.com/alibaba/spring-cloud-alibaba
+|Apache Dubbo | RPC服务远程调用框架 |https://github.com/apache/dubbo
 |Spring Cloud Gateway |网关组件 |https://spring.io/projects/spring-cloud-gateway
 |Kotlin |Kotlin |https://kotlinlang.org/
 |Seata |分布式事务解决方案 |http://seata.io/zh-cn/index.html
@@ -77,7 +78,6 @@ goodsKill
 |--goodskill-admin                          ||SpringBoot Admin监控服务端，支持Spring Cloud微服务发现
 |--goodskill-canal                          ||用于完成MySQL数据库binlog收集的canal客户端程序
 |--goodskill-chat-provider                  ||一个基于netty实现的简易聊天程序
-|--goodskill-common                         ||项目公共服务（目前包括字典服务，待补充）
 |--goodskill-gateway                        ||微服务网关，支持动态路由加载
 |--goodskill-es-provider                    ||elasticsearch搜索服务提供者，提供商品名称检索功能
 |   |--goodskill-es-service
@@ -154,6 +154,7 @@ ns         %     Task name
 * SpringCloud: 2021.x.x
 * SpringBoot: 2.6.x
 * SpringCloudAlibaba: 2021.x
+* Apache Dubbo: 3.x
 * Kotlin: 1.6.x
 * 使用的Docker镜像
 +

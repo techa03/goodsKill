@@ -255,7 +255,7 @@ public class SeckillMockController {
      * @param runnable            待执行的任务
      */
     private void processSeckill(SeckillWebMockRequestDTO dto, SeckillSolutionEnum seckillSolutionEnum, Runnable runnable) {
-        log.debug("#changeThreadPoolParam start count:{},当前线程池队列长度:{},线程数:{},是否空:{}", SECKILL_PHONE_NUM_COUNTER.get(),
+        log.debug("#processSeckill start count:{},当前线程池队列长度:{},线程数:{},是否空:{}", SECKILL_PHONE_NUM_COUNTER.get(),
                 taskExecutor.getThreadPoolExecutor().getQueue().size(),
                 taskExecutor.getPoolSize(), taskExecutor.getThreadPoolExecutor().getQueue().isEmpty());
         long seckillId = dto.getSeckillId();
@@ -276,7 +276,7 @@ public class SeckillMockController {
         }
         for (int i = 0; i < requestCount; i++) {
             if (log.isDebugEnabled()) {
-                log.debug("#changeThreadPoolParam begin count:{},当前线程池队列长度:{},线程数:{},是否空:{}",SECKILL_PHONE_NUM_COUNTER.get(),
+                log.debug("#processSeckill begin count:{},当前线程池队列长度:{},线程数:{},是否空:{}", SECKILL_PHONE_NUM_COUNTER.get(),
                         taskExecutor.getThreadPoolExecutor().getQueue().size(),
                         taskExecutor.getPoolSize(), taskExecutor.getThreadPoolExecutor().getQueue().isEmpty());
             }
