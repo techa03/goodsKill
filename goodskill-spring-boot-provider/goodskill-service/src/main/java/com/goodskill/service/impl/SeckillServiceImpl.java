@@ -18,7 +18,6 @@ import com.goodskill.entity.Goods;
 import com.goodskill.entity.Seckill;
 import com.goodskill.entity.SuccessKilled;
 import com.goodskill.mongo.api.SuccessKilledMongoService;
-import com.goodskill.mongo.vo.SeckillMockSaveVo;
 import com.goodskill.mp.dao.mapper.SeckillMapper;
 import com.goodskill.mp.dao.mapper.SuccessKilledMapper;
 import com.goodskill.service.common.RedisService;
@@ -34,7 +33,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,9 +45,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import static com.goodskill.common.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
-import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME_MONGO_SAVE;
 
 /**
  * <p>
@@ -165,7 +160,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Override
     public void execute(SeckillMockRequestDTO requestDto, int strategyNumber) {
         goodskillStrategies.stream()
-                .filter(n -> n.getClass().getName().equals(Objects.requireNonNull(GoodsKillStrategyEnum.stateOf(strategyNumber)).getClassName()))
+                .filter(n -> n.getClass().getName().startsWith(Objects.requireNonNull(GoodsKillStrategyEnum.stateOf(strategyNumber)).getClassName()))
                 .findFirst().ifPresent(n -> n.execute(requestDto));
     }
 
@@ -243,17 +238,6 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         if (update <= 0) {
             throw new SeckillCloseException("seckill is closed");
         } else {
-            taskExecutor.execute(() ->
-                    streamBridge.send(DEFAULT_BINDING_NAME_MONGO_SAVE, MessageBuilder.withPayload(
-                            SeckillMockSaveVo
-                                    .builder()
-                                    .seckillId(successKilled.getSeckillId())
-                                    .userPhone(successKilled.getUserPhone())
-                                    .note(REDIS_MONGO_REACTIVE.getName())
-                                    .build())
-                            .build())
-            );
-            log.info("已发送");
             return update;
         }
     }

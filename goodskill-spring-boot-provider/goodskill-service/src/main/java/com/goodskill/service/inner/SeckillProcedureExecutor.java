@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME;
 
@@ -35,11 +34,6 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
     private StreamBridge streamBridge;
     @Autowired
     private RedisService redisService;
-
-    /**
-     * 发送秒杀成功通知次数
-     */
-    private final AtomicInteger sendTopicTimes = new AtomicInteger(0);
 
     /**
      * 处理用户秒杀请求
@@ -61,7 +55,7 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
             if (seckillService.reduceNumber(successKilled) < 1) {
                 Seckill seckill = seckillMapper.selectById(seckillId);
                 log.debug("#dealSeckill 当前库存：{}，秒杀活动id:{}，商品id:{}", seckill.getNumber(), seckill.getSeckillId(), seckill.getGoodsId());
-                if (!SeckillStatusConstant.END.equals(seckill.getStatus()) && sendTopicTimes.getAndIncrement() == 0) {
+                if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
                     // 高并发时可能多次发送完成通知，使用锁控制
                     Boolean endFlag = redisService.setSeckillEndFlag(seckillId, taskId);
                     if (endFlag) {
@@ -73,8 +67,6 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
                         sendTopicResult.setSeckillId(seckillId);
                         sendTopicResult.setStatus(SeckillStatusConstant.END);
                         seckillMapper.updateById(sendTopicResult);
-                        // 重置发送成功通知次数
-                        sendTopicTimes.set(0);
                     }
                 }
                 if (seckill.getNumber() <= 0) {

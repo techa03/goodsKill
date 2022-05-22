@@ -54,7 +54,6 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
                                     .build())
                             .build())
             );
-            log.debug("已发送");
         } else {
             synchronized (this) {
                 seckill = redisService.getSeckill(seckillId);

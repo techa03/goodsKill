@@ -90,7 +90,6 @@ spring:
 
 dubbo:
   protocol:
-    id: dubbo
     name: dubbo
     port: -1
   consumer:

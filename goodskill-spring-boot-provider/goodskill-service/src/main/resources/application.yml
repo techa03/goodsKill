@@ -88,7 +88,6 @@ dubbo:
   scan:
     base-packages: com.goodskill.service.impl
   protocol:
-    id: dubbo
     name: dubbo
     ### 服务暴露端口
     port: -1
@@ -101,6 +100,8 @@ dubbo:
     timeout: 60000
   application:
     enable-file-cache: false
+    ##开启应用级地址注册
+    register-mode: instance
   ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@DubboReference(check=false)会失效
 #  cloud:
 #    subscribed-services: ""
