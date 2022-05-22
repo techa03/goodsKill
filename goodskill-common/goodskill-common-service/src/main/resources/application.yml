@@ -17,11 +17,13 @@ dubbo:
     port: -1
     id: dubbo
   registry:
-    address: spring-cloud://localhost
+    address: zookeeper://zookeeper:2181
   scan:
     base-packages: com.goodskill.common.service.dubbo
-  cloud:
-    subscribed-services: ""
+  application:
+    enable-file-cache: false
+#  cloud:
+#    subscribed-services: ""
 
 seata:
   enabled: false

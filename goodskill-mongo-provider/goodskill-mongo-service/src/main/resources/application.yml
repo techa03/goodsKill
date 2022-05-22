@@ -34,17 +34,6 @@ spring:
             rule-type: flow
             server-addr: 127.0.0.1:8848
 
-dubbo:
-  protocol:
-    name: dubbo
-    port: -1
-    id: dubbo
-  scan:
-    base-packages: com.goodskill.mongo.service
-  cloud:
-    subscribed-services: ""
-  provider:
-    timeout: 30000
 logging:
   level:
     org:
@@ -82,6 +71,3 @@ spring:
   config:
     activate:
       on-profile: docker,dev
-#dubbo:
-#  registry:
-#    address: spring-cloud://localhost

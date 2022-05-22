@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-		</dependency>
+        </dependency>
 		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>core</artifactId>
@@ -105,8 +105,13 @@
 			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.alibaba.cloud</groupId>
-			<artifactId>spring-cloud-starter-dubbo</artifactId>
+			<groupId>org.apache.dubbo</groupId>
+			<artifactId>dubbo-spring-boot-starter</artifactId>
+			<version>${dubbo.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-x-discovery</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
