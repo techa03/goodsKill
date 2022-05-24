@@ -88,7 +88,8 @@ dubbo:
   scan:
     base-packages: com.goodskill.service.impl
   protocol:
-    name: dubbo
+    ##仅Dubbo3.0支持此协议
+    name: tri
     ### 服务暴露端口
     port: -1
     status: server

@@ -90,7 +90,8 @@ spring:
 
 dubbo:
   protocol:
-    name: dubbo
+    ##仅Dubbo3.0支持此协议
+    name: tri
     port: -1
   consumer:
     timeout: 30000

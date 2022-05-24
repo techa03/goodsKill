@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.validation.annotation.Validated;
@@ -46,14 +47,12 @@ public class SeckillMockController {
     private KafkaTemplate kafkaTemplate;
     @Autowired
     private StreamBridge streamBridge;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
     /**
      * 用于生成秒杀用户id
      */
     private final AtomicInteger SECKILL_PHONE_NUM_COUNTER = new AtomicInteger(0);
-    /**
-     * 用于生成秒杀任务id
-     */
-    private final AtomicInteger SECKILL_TASK_ID_COUNTER = new AtomicInteger(0);
 
     /**
      * 通过同步锁控制秒杀并发（秒杀未完成阻塞主线程）
@@ -106,7 +105,7 @@ public class SeckillMockController {
     public Result doWithKafkaMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, KAFKA_MQ, () -> {
             String phoneNumber = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
-            String taskId = String.valueOf(SECKILL_TASK_ID_COUNTER.get());
+            String taskId = String.valueOf(stringRedisTemplate.opsForValue().get("SECKILL_TASK_ID_COUNTER"));
             SeckillMockRequestDTO payload = new SeckillMockRequestDTO(dto.getSeckillId(), 1, phoneNumber, taskId);
             kafkaTemplate.send("goodskill-kafka", phoneNumber, JSON.toJSONString(payload));
         });
@@ -170,7 +169,7 @@ public class SeckillMockController {
     public Result doWithRabbitmq(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, RABBIT_MQ, () -> {
             String phoneNumber = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
-            String taskId = String.valueOf(SECKILL_TASK_ID_COUNTER.get());
+            String taskId = String.valueOf(stringRedisTemplate.opsForValue().get("SECKILL_TASK_ID_COUNTER"));
             SeckillMockRequestDTO payload = new SeckillMockRequestDTO(dto.getSeckillId(), 1, phoneNumber, taskId);
             streamBridge.send("seckill-out-0", payload);
         });
@@ -261,11 +260,12 @@ public class SeckillMockController {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
-        String taskId = String.valueOf(SECKILL_TASK_ID_COUNTER.incrementAndGet());
+        Long seckillTaskIdCounter = stringRedisTemplate.opsForValue().increment("SECKILL_TASK_ID_COUNTER");
+        String taskId = String.valueOf(seckillTaskIdCounter);
         // 初始化库存数量
         prepareSeckill(seckillId, seckillCount, seckillSolutionEnum.getName(), taskId);
         changeThreadPoolParam(dto);
-        log.info(seckillSolutionEnum.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
+        log.info(seckillSolutionEnum.getName() + "开始时间:{}, 秒杀id:{}, 任务Id:{}", new Date(), seckillId, taskId);
         if (runnable == null) {
             // 默认的执行方法
             runnable = () -> {
