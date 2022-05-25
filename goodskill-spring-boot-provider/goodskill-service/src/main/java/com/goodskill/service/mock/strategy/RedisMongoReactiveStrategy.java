@@ -15,7 +15,9 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static com.goodskill.common.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
 import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME;
@@ -32,12 +34,12 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
     private RedisService redisService;
     @Autowired
     private RedisTemplate redisTemplate;
-    @Resource(name = "taskExecutor")
-    private ThreadPoolExecutor taskExecutor;
     @Resource
     private SeckillMapper extSeckillMapper;
     @Autowired
     private StreamBridge streamBridge;
+    private ThreadPoolExecutor taskExecutor = new ThreadPoolExecutor(2, 10, 1,TimeUnit.MINUTES,
+            new LinkedBlockingDeque<>(100), new ThreadPoolExecutor.CallerRunsPolicy());
 
     @Override
     public void execute(SeckillMockRequestDTO requestDto) {
