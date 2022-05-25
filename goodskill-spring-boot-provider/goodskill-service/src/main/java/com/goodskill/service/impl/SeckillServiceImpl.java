@@ -74,7 +74,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private AlipayRunner alipayRunner;
     @Autowired
     private GoodsService goodsService;
-    @Resource(name = "taskExecutor")
+    @Resource(name = "customTaskExecutor")
     private ThreadPoolExecutor taskExecutor;
     @Autowired
     private StreamBridge streamBridge;
