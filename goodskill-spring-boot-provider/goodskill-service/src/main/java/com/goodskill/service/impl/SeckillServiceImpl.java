@@ -28,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -41,8 +40,9 @@ import javax.annotation.Resource;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.*;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -57,7 +57,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RestController
 @DubboService
-public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> implements SeckillService, InitializingBean {
+public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> implements SeckillService {
     @Resource
     private SuccessKilledMongoService successKilledMongoService;
     @Resource
@@ -74,16 +74,12 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private AlipayRunner alipayRunner;
     @Autowired
     private GoodsService goodsService;
+    @Resource(name = "taskExecutor")
+    private ThreadPoolExecutor taskExecutor;
     @Autowired
     private StreamBridge streamBridge;
     @Value("${alipay.qrcodeImagePath:1}")
     private String qrcodeImagePath;
-    private ThreadPoolExecutor taskExecutor = new ThreadPoolExecutor(2, 10, 1, TimeUnit.MINUTES,
-            new LinkedBlockingDeque<>(100), new ThreadPoolExecutor.CallerRunsPolicy());
-    /**
-     * 秒杀策略map
-     */
-    private final Map<Integer, GoodsKillStrategy> GOODSKILL_STRATEGY_MAP = new HashMap<>(16);
 
     @Override
     public Page<Seckill> getSeckillList(int pageNum, int pageSize, String goodsName) {
@@ -163,7 +159,9 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
 
     @Override
     public void execute(SeckillMockRequestDTO requestDto, int strategyNumber) {
-        GOODSKILL_STRATEGY_MAP.get(strategyNumber).execute(requestDto);
+        goodskillStrategies.stream()
+                .filter(n -> n.getClass().getName().startsWith(Objects.requireNonNull(GoodsKillStrategyEnum.stateOf(strategyNumber)).getClassName()))
+                .findFirst().ifPresent(n -> n.execute(requestDto));
     }
 
     /**
@@ -291,18 +289,6 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean saveOrUpdate(Seckill entity) {
-        boolean b = super.saveOrUpdate(entity);
-        return b;
-    }
-
-    @Override
-    public void afterPropertiesSet() {
-        Arrays.stream(GoodsKillStrategyEnum.values()).forEach(it -> {
-            for (GoodsKillStrategy goodskillStrategy : goodskillStrategies) {
-                if (goodskillStrategy.getClass().getName().startsWith(it.getClassName())) {
-                    GOODSKILL_STRATEGY_MAP.put(it.getCode(), goodskillStrategy);
-                }
-            }
-        });
+        return super.saveOrUpdate(entity);
     }
 }
