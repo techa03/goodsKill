@@ -21,7 +21,8 @@
 		<module>goodskill-oauth2</module>
 		<module>goodskill-admin</module>
         <module>goodskill-canal</module>
-    </modules>
+		<module>goodskill-activiti</module>
+	</modules>
 
 	<properties>
 		<goodskill.version>1.0.0-SNAPSHOT</goodskill.version>
