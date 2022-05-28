@@ -289,7 +289,6 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean saveOrUpdate(Seckill entity) {
-        boolean b = super.saveOrUpdate(entity);
-        return b;
+        return super.saveOrUpdate(entity);
     }
 }
