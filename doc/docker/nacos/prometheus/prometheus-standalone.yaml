@@ -32,3 +32,10 @@ scrape_configs:
     metrics_path: '/nacos/actuator/prometheus'
     static_configs:
       - targets: ['nacos:8848']
+
+  - job_name: 'seata'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    static_configs:
+      - targets: ['seata-server:9898']
