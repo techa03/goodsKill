@@ -296,6 +296,10 @@ ____
 
 配置启动类的工作目录为goodskill-web
 
+在项目根目录中执行``mvn clean install``失败::
+
+请检查使用的JDK版本是否是JDK11，``mvn -v``命令中显示的JDK版本也需要是JDK11
+
 docker es镜像启动失败::
 
 出现此问题一般为linux环境，运行以下命令即可 `sysctl -w vm.max_map_count=262144`

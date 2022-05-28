@@ -8,24 +8,28 @@ spring:
       on-profile: docker
   main:
     allow-circular-references: true
+  datasource:
+    url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: Password123
 dubbo:
   protocol:
-    id: dubbo
     name: dubbo
     port: -1
   consumer:
     timeout: 30000
   ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@DubboReference(check=false)会失效
-  cloud:
-    subscribed-services: "goodskill-service-provider,"
+#  cloud:
+#    subscribed-services: "goodskill-service-provider,"
   registry:
-    address: spring-cloud://localhost
-
+    address: zookeeper://zookeeper:2181
+  application:
+    enable-file-cache: false
 
 seata:
-  enabled: false
+  enabled: true
   #1.4.2使用此配置禁用seata
-  enable-auto-data-source-proxy: false
+  enable-auto-data-source-proxy: true
   application-id: goodskill-seata
   tx-service-group: my_test_tx_group
   config:
