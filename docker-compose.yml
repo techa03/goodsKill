@@ -41,7 +41,7 @@ services:
     container_name: grafana
     image: grafana/grafana:latest
     ports:
-      - 3000:3000
+      - "3000:3000"
     restart: on-failure
     networks:
       - somenetwork
@@ -206,11 +206,12 @@ services:
       - somenetwork
 
   seata-server:
-    image: seataio/seata-server:1.4.0
+    image: seataio/seata-server:1.4.2
     container_name: seata-server
     hostname: seata-server
     ports:
       - "8091:8091"
+      - "9898:9898"
     environment:
       # 注册到nacos上的ip。客户端将通过该ip访问seata服务。
       # 注意公网ip和内网ip的差异。
