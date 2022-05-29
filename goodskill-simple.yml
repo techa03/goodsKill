@@ -25,26 +25,6 @@ services:
     restart: always
     networks:
       - somenetwork
-#  prometheus:
-#    container_name: prometheus
-#    image: prom/prometheus:latest
-#    volumes:
-#      - ./nacos-docker/prometheus/prometheus-standalone.yaml:/etc/prometheus/prometheus.yml
-#    ports:
-#      - "9090:9090"
-#    depends_on:
-#      - nacos
-#    restart: on-failure
-#    networks:
-#      - somenetwork
-#  grafana:
-#    container_name: grafana
-#    image: grafana/grafana:latest
-#    ports:
-#      - 3000:3000
-#    restart: on-failure
-#    networks:
-#      - somenetwork
 
   zookeeper:
     image: zookeeper:3.6.2
@@ -56,7 +36,7 @@ services:
       - somenetwork
 
   kafka:
-    image: wurstmeister/kafka:2.13-2.7.0
+    image: bitnami/kafka:3.1.1
     container_name: kafka
     ports:
       - "9092:9092"
@@ -69,6 +49,7 @@ services:
       KAFKA_CREATE_TOPICS: "goodskill-kafka:12:1"
       JMX_PORT: "1099"
       KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka -Dcom.sun.management.jmxremote.rmi.port=1099"
+      ALLOW_PLAINTEXT_LISTENER: "yes"
     depends_on:
       - zookeeper
     restart: always
@@ -76,11 +57,11 @@ services:
       - somenetwork
 
   kafka-manager:
-    image: kafkamanager/kafka-manager
+    image: kafkamanager/kafka-manager:latest
     container_name: kafkamanager
     restart: always
     ports:
-      - "9000:9000"
+      - "9001:9000"
     environment:
       - ZK_HOSTS=zookeeper:2181
     depends_on:
@@ -110,39 +91,15 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m" #设置使用jvm内存大小
     volumes:
       - ./doc/docker/elasticsearch/plugins:/usr/share/elasticsearch/plugins #插件文件挂载
-      - ./doc/docker/elasticsearch/data:/usr/share/elasticsearch/data #数据文件挂载
+    #      - ./doc/docker/elasticsearch/data:/usr/share/elasticsearch/data #数据文件挂载
     ports:
       - "9200:9200"
       - "9300:9300"
     networks:
       - somenetwork
 
-  kibana:
-    image: kibana:7.16.2
-    container_name: kibana
-    depends_on:
-      - elasticsearch
-    environment:
-      - "elasticsearch.hosts=https://elasticsearch:9200" #设置访问elasticsearch的地址
-    ports:
-      - "5601:5601"
-    networks:
-      - somenetwork
-
-  logstash:
-    image: logstash:7.16.2
-    container_name: logstash
-    volumes:
-      - ./doc/docker/logstash/logstash-springboot.conf:/usr/share/logstash/pipeline/logstash.conf #挂载logstash的配置文件
-    depends_on:
-      - elasticsearch
-    ports:
-      - "4560:4560"
-    networks:
-      - somenetwork
-
   mysql:
-    image: mysql:8.0.22
+    image: mysql:8.0.29
     container_name: mysql
     restart: always
     ports:
@@ -163,16 +120,16 @@ services:
       - somenetwork
 
   mongo:
-    image: mongo:4.4.3
+    image: mongo:4.6.0
     container_name: mongo
     restart: always
     ports:
       - "27017:27017"
     networks:
       - somenetwork
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: root
-#      MONGO_INITDB_ROOT_PASSWORD: root
+  #    environment:
+  #      MONGO_INITDB_ROOT_USERNAME: root
+  #      MONGO_INITDB_ROOT_PASSWORD: root
 
   zipkin:
     image: openzipkin/zipkin
@@ -182,6 +139,25 @@ services:
       - "9411:9411"
     networks:
       - somenetwork
+
+  seata-server:
+    image: seataio/seata-server:1.4.2
+    container_name: seata-server
+    hostname: seata-server
+    ports:
+      - "8091:8091"
+    environment:
+      # 注册到nacos上的ip。客户端将通过该ip访问seata服务。
+      # 注意公网ip和内网ip的差异。
+      - SEATA_IP=192.168.2.134
+      - SEATA_PORT=8091
+      - STORE_MODE=file
+      - SEATA_CONFIG_NAME=file:/root/seata-config/registry.conf
+    volumes:
+      - ./doc/docker/seata/config:/root/seata-config
+    networks:
+      - somenetwork
+
 
 networks:
   somenetwork:

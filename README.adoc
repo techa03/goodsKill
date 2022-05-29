@@ -163,13 +163,13 @@ ns         %     Task name
 
 |Nacos |2.0.3 |8848 |nacos:nacos
 |Redis |latest |6379 |密码:123456
-|Kafka |2.13-2.7.0 |9092 |无
+|Kafka |3.1.1 |9092 |无
 |KafkaManager |latest |9001:9000 |无
-|Mongo |4.4.3 |27017 |无
-|MySQL |8.0.22 |3306 |root:Password123
+|Mongo |4.6.0 |27017 |无
+|MySQL |8.0.29 |3306 |root:Password123
 |Zookeeper |3.6.2 |2181 |无
-|Elasticsearch |7.16.2 |9200 9300 |无
-|Kibana |7.16.2 |5601 |无
+|Elasticsearch |7.17.3 |9200 9300 |无
+|Kibana |7.17.3 |5601 |无
 |RabbitMQ |latest |5672 15672 |无
 |Zipkin |latest |9411 |无
 |===

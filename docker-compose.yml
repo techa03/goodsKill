@@ -67,7 +67,7 @@ services:
       - somenetwork
 
   kafka:
-    image: wurstmeister/kafka:2.13-2.7.0
+    image: bitnami/kafka:3.1.1
     container_name: kafka
     ports:
       - "9092:9092"
@@ -80,6 +80,7 @@ services:
       KAFKA_CREATE_TOPICS: "goodskill-kafka:12:1"
       JMX_PORT: "1099"
       KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka -Dcom.sun.management.jmxremote.rmi.port=1099"
+      ALLOW_PLAINTEXT_LISTENER: "yes"
     depends_on:
       - zookeeper
     restart: always
@@ -87,7 +88,7 @@ services:
       - somenetwork
 
   kafka-manager:
-    image: kafkamanager/kafka-manager
+    image: kafkamanager/kafka-manager:latest
     container_name: kafkamanager
     restart: always
     ports:
@@ -132,7 +133,7 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m" #设置使用jvm内存大小
     volumes:
       - ./doc/docker/elasticsearch/plugins:/usr/share/elasticsearch/plugins #插件文件挂载
-      - ./doc/docker/elasticsearch/data:/usr/share/elasticsearch/data #数据文件挂载
+#      - ./doc/docker/elasticsearch/data:/usr/share/elasticsearch/data #数据文件挂载
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -164,7 +165,7 @@ services:
       - somenetwork
 
   mysql:
-    image: mysql:8.0.22
+    image: mysql:8.0.29
     container_name: mysql
     restart: always
     ports:
@@ -185,7 +186,7 @@ services:
       - somenetwork
 
   mongo:
-    image: mongo:4.4.3
+    image: mongo:4.6.0
     container_name: mongo
     restart: always
     ports:
