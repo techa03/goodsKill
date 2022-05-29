@@ -15,7 +15,7 @@
 		<version>3.0.0-SNAPSHOT</version>
 	</parent>
 	<name>goodskill-web</name>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<version>${goodskill.version}</version>
 
 	<dependencies>
