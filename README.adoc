@@ -152,7 +152,7 @@ ns         %     Task name
 * JDK: OpenJDK11
 * Sharding-JDBC: 4.1.1
 * SpringCloud: 2021.x.x
-* SpringBoot: 2.6.x
+* SpringBoot: 2.7.x
 * SpringCloudAlibaba: 2021.x
 * Apache Dubbo: 3.x
 * Kotlin: 1.6.x

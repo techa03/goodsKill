@@ -3,7 +3,6 @@ package com.goodskill.web;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ImportResource;
@@ -22,12 +21,7 @@ import springfox.documentation.oas.annotations.EnableOpenApi;
 @EnableFeignClients(value = {"com.goodskill.*.api", "com.goodskill.api"})
 @EnableRedisHttpSession
 @EnableOpenApi
-public class SampleWebJspApplication extends SpringBootServletInitializer {
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(SampleWebJspApplication.class);
-    }
+public class SampleWebJspApplication {
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(SampleWebJspApplication.class)
