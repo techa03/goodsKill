@@ -32,7 +32,7 @@
         <jacoco.version>0.8.2</jacoco.version>
 		<maven.surefire.version>2.22.2</maven.surefire.version>
         <net.logstash.version>7.0.1</net.logstash.version>
-		<dubbo.version>2.7.15</dubbo.version>
+		<dubbo.version>3.0.8</dubbo.version>
 	</properties>
 
 	<build>
