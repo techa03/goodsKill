@@ -26,7 +26,7 @@
 	<properties>
 		<goodskill.version>1.0.0-SNAPSHOT</goodskill.version>
 		<springboot.version>2.7.0</springboot.version>
-		<spring-cloud.version>2021.0.1</spring-cloud.version>
+		<spring-cloud.version>2021.0.3</spring-cloud.version>
 		<spring.cloud.alibaba.version>2021.0.1.0</spring.cloud.alibaba.version>
 		<kotlin.version>1.6.10</kotlin.version>
         <jacoco.version>0.8.2</jacoco.version>

@@ -392,3 +392,6 @@ CREATE TABLE gs_sys.`undo_log` (
                             PRIMARY KEY (`id`),
                             UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+alter table seckill.`user`
+    add avatar varchar(500) null comment '用户头像url';

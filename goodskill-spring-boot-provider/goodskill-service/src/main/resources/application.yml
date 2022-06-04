@@ -1,212 +1,212 @@
-server:
-  port: 0
-
-spring:
-  profiles:
-    active: dev
-  application:
-    name: goodskill-service-provider
-  kafka:
-    consumer:
-      group-id: seckill
-      ##ensures the new consumer group gets the messages we sent
-      auto-offset-reset: earliest
-  main:
-    allow-circular-references: true
-    allow-bean-definition-overriding: true
-  output:
-    ansi:
-      enabled: ALWAYS
-  data:
-    mongodb:
-      database: test
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
-    username: root
-    password: Password123
-  shardingsphere:
-    datasource:
-      names: ds0,ds1
-      ds0:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        type: com.zaxxer.hikari.HikariDataSource
-      ds1:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        type: com.zaxxer.hikari.HikariDataSource
-    sharding:
-      binding-tables: success_killed
-      tables:
-        success_killed:
-          actual-data-nodes: ds$->{0..1}.success_killed_$->{0..1}
-          database-strategy:
-            inline:
-              algorithm-expression: ds$->{seckill_id % 2}
-              sharding-column: seckill_id
-          table-strategy:
-            inline:
-              algorithm-expression: success_killed_$->{user_phone.toLong() % 2}
-              sharding-column: user_phone
-      #必须配置，否则未配置的表会被应用分库分表规则
-      default-data-source-name: ds0
-    props:
-      sql:
-        show: false
-  rabbitmq:
-    port: 5672
-    username: guest
-    password: guest
-  cloud:
-    function:
-      definition: seckill
-    stream:
-      bindings:
-        seckilResult-out-0:
-          destination: seckill-result
-        seckill-in-0:
-          ##解决重复消费问题，注意：同一组下只消费一次
-          group: default
-          destination: seckill
-        seckillMongoSave-out-0:
-          destination: seckill-mongo-save
-      default-binder: rabbit
-    sentinel:
-      transport:
-        port: 8719
-        ## 默认端口8080，已改为自定义18088端口，通过http://127.0.0.1:18088/#/dashboard访问
-        dashboard: localhost:18088
-      ##使用nacos配置中心存储限流规则
-      datasource:
-        ds0:
-          nacos:
-            data-id: ${spring.application.name}-flow-rules
-            data-type: json
-            group-id: DEFAULT_GROUP
-            rule-type: flow
-            server-addr: 127.0.0.1:8848
-dubbo:
-  scan:
-    base-packages: com.goodskill.service.impl
-  protocol:
-    name: dubbo
-    ### 服务暴露端口
-    port: -1
-    status: server
-  registry:
-    address: zookeeper://zookeeper:2181
-    timeout: 30000
-    id: my-registry
-  provider:
-    timeout: 60000
-  application:
-    enable-file-cache: false
-    ##开启应用级地址注册
-    register-mode: instance
-  ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@DubboReference(check=false)会失效
+#server:
+#  port: 0
+#
+#spring:
+#  profiles:
+#    active: dev
+#  application:
+#    name: goodskill-service-provider
+#  kafka:
+#    consumer:
+#      group-id: seckill
+#      ##ensures the new consumer group gets the messages we sent
+#      auto-offset-reset: earliest
+#  main:
+#    allow-circular-references: true
+#    allow-bean-definition-overriding: true
+#  output:
+#    ansi:
+#      enabled: ALWAYS
+#  data:
+#    mongodb:
+#      database: test
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+#    username: root
+#    password: Password123
+#  shardingsphere:
+#    datasource:
+#      names: ds0,ds1
+#      ds0:
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        type: com.zaxxer.hikari.HikariDataSource
+#      ds1:
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        type: com.zaxxer.hikari.HikariDataSource
+#    sharding:
+#      binding-tables: success_killed
+#      tables:
+#        success_killed:
+#          actual-data-nodes: ds$->{0..1}.success_killed_$->{0..1}
+#          database-strategy:
+#            inline:
+#              algorithm-expression: ds$->{seckill_id % 2}
+#              sharding-column: seckill_id
+#          table-strategy:
+#            inline:
+#              algorithm-expression: success_killed_$->{user_phone.toLong() % 2}
+#              sharding-column: user_phone
+#      #必须配置，否则未配置的表会被应用分库分表规则
+#      default-data-source-name: ds0
+#    props:
+#      sql:
+#        show: false
+#  rabbitmq:
+#    port: 5672
+#    username: guest
+#    password: guest
 #  cloud:
-#    subscribed-services: ""
-
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
-
-seata:
-  enabled: false
-  #1.4.2使用此配置禁用seata
-  enable-auto-data-source-proxy: false
-  application-id: goodskill-service-provider
-  tx-service-group: my_test_tx_group
-  config:
-    type: nacos
-    nacos:
-      namespace:
-      serverAddr: nacos:8848
-      group: SEATA_GROUP
-      username: "nacos"
-      password: "nacos"
-  registry:
-    type: nacos
-    nacos:
-      application: seata-server
-      server-addr: nacos:8848
-      group: SEATA_GROUP
-      namespace:
-      username: "nacos"
-      password: "nacos"
-
-logging:
-  level:
-    org:
-      apache:
-        kafka: error
-management:
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  health:
-    db:
-      enabled: false
----
-######################docker环境配置#####################
-spring:
-  redis:
-    host: redis
-    port: 6379
-    password: 123456
-  ##下面是redis哨兵模式的配置信息
-#    redisson:
-#      config: |
-#        sentinelServersConfig:
-#          checkSentinelsList: false
-#          masterName: mymaster
-#          sentinelAddresses:
-#          - "redis://127.0.0.1:26379"
-#          - "redis://127.0.0.1:26380"
-#          - "redis://127.0.0.1:26381"
+#    function:
+#      definition: seckill
+#    stream:
+#      bindings:
+#        seckilResult-out-0:
+#          destination: seckill-result
+#        seckill-in-0:
+#          ##解决重复消费问题，注意：同一组下只消费一次
+#          group: default
+#          destination: seckill
+#        seckillMongoSave-out-0:
+#          destination: seckill-mongo-save
+#      default-binder: rabbit
 #    sentinel:
-#      master: mymaster
-#      nodes: 127.0.0.1:26379,127.0.0.1:26380,127.0.0.1:26381
-  kafka:
-    bootstrap-servers: kafka:9092
-  shardingsphere:
-    datasource:
-      ds0:
-        password: Password123
-        jdbcUrl: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
-        username: root
-      ds1:
-        password: Password123
-        jdbcUrl: jdbc:mysql://mysql:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
-        username: root
-  cloud:
-    nacos:
-      server-addr: nacos:8848
-    sentinel:
-      datasource:
-        ds0:
-          nacos:
-            server-addr: nacos:8848
-  zipkin:
-    base-url: http://zipkin:9411/
-  rabbitmq:
-    host: rabbitmq
-    port: 5672
-    username: guest
-    password: guest
-  config:
-    activate:
-      on-profile: docker,dev
-dubbo:
-  registry:
-    address: zookeeper://zookeeper:2181
-  provider:
-    timeout: 30000
-
-zookeeper_ip: zookeeper:2181
-
-
-
-
+#      transport:
+#        port: 8719
+#        ## 默认端口8080，已改为自定义18088端口，通过http://127.0.0.1:18088/#/dashboard访问
+#        dashboard: localhost:18088
+#      ##使用nacos配置中心存储限流规则
+#      datasource:
+#        ds0:
+#          nacos:
+#            data-id: ${spring.application.name}-flow-rules
+#            data-type: json
+#            group-id: DEFAULT_GROUP
+#            rule-type: flow
+#            server-addr: 127.0.0.1:8848
+#dubbo:
+#  scan:
+#    base-packages: com.goodskill.service.impl
+#  protocol:
+#    name: dubbo
+#    ### 服务暴露端口
+#    port: -1
+#    status: server
+#  registry:
+#    address: zookeeper://zookeeper:2181
+#    timeout: 30000
+#    id: my-registry
+#  provider:
+#    timeout: 60000
+#  application:
+#    enable-file-cache: false
+#    ##开启应用级地址注册
+#    register-mode: instance
+#  ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@DubboReference(check=false)会失效
+##  cloud:
+##    subscribed-services: ""
+#
+#mybatis:
+#  mapper-locations: classpath:mapper/*.xml
+#
+#seata:
+#  enabled: false
+#  #1.4.2使用此配置禁用seata
+#  enable-auto-data-source-proxy: false
+#  application-id: goodskill-service-provider
+#  tx-service-group: my_test_tx_group
+#  config:
+#    type: nacos
+#    nacos:
+#      namespace:
+#      serverAddr: nacos:8848
+#      group: SEATA_GROUP
+#      username: "nacos"
+#      password: "nacos"
+#  registry:
+#    type: nacos
+#    nacos:
+#      application: seata-server
+#      server-addr: nacos:8848
+#      group: SEATA_GROUP
+#      namespace:
+#      username: "nacos"
+#      password: "nacos"
+#
+#logging:
+#  level:
+#    org:
+#      apache:
+#        kafka: error
+#management:
+#  endpoint:
+#    health:
+#      show-details: always
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
+#  health:
+#    db:
+#      enabled: false
+#---
+#######################docker环境配置#####################
+#spring:
+#  redis:
+#    host: redis
+#    port: 6379
+#    password: 123456
+#  ##下面是redis哨兵模式的配置信息
+##    redisson:
+##      config: |
+##        sentinelServersConfig:
+##          checkSentinelsList: false
+##          masterName: mymaster
+##          sentinelAddresses:
+##          - "redis://127.0.0.1:26379"
+##          - "redis://127.0.0.1:26380"
+##          - "redis://127.0.0.1:26381"
+##    sentinel:
+##      master: mymaster
+##      nodes: 127.0.0.1:26379,127.0.0.1:26380,127.0.0.1:26381
+#  kafka:
+#    bootstrap-servers: kafka:9092
+#  shardingsphere:
+#    datasource:
+#      ds0:
+#        password: Password123
+#        jdbcUrl: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+#        username: root
+#      ds1:
+#        password: Password123
+#        jdbcUrl: jdbc:mysql://mysql:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+#        username: root
+#  cloud:
+#    nacos:
+#      server-addr: nacos:8848
+#    sentinel:
+#      datasource:
+#        ds0:
+#          nacos:
+#            server-addr: nacos:8848
+#  zipkin:
+#    base-url: http://zipkin:9411/
+#  rabbitmq:
+#    host: rabbitmq
+#    port: 5672
+#    username: guest
+#    password: guest
+#  config:
+#    activate:
+#      on-profile: docker,dev
+#dubbo:
+#  registry:
+#    address: zookeeper://zookeeper:2181
+#  provider:
+#    timeout: 30000
+#
+#zookeeper_ip: zookeeper:2181
+#
+#
+#
+#

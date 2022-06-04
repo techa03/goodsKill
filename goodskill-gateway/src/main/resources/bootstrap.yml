@@ -13,6 +13,12 @@ spring:
       config:
         enabled: ${spring.cloud.nacos.discovery.enabled}
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
-        file-extension: yaml
+        file-extension: yml
         prefix: ${spring.application.name}
+  profiles:
+    active: dev
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
+
 
