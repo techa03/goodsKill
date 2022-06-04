@@ -44,6 +44,12 @@ public interface UserAccountService {
      */
     User findByUserAccount(String username);
 
+    /**
+     * @param userId
+     * @return
+     */
+    User getUserInfoById(String userId);
+
     IPage<User> page(Page<User> page);
 
     boolean removeById(int userId);

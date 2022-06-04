@@ -12,7 +12,6 @@ services:
       - somenetwork
 
   nacos:
-    image: nacos/nacos-server:2.0.3
     container_name: nacos
     environment:
       - PREFER_HOST_MODE=hostname
@@ -20,11 +19,16 @@ services:
     volumes:
       - ./doc/docker/nacos/standalone-logs/:/home/nacos/logs
       - ./doc/docker/nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
+      - ./doc/docker/nacos/logs/:/home/nacos/logs
+      - ./doc/docker/nacos/conf/application.properties:/home/nacos/conf/application.properties
     ports:
       - "8848:8848"
     restart: always
+    build:
+      context: ./doc/docker/nacos
     networks:
       - somenetwork
+
   prometheus:
     container_name: prometheus
     image: prom/prometheus:latest
