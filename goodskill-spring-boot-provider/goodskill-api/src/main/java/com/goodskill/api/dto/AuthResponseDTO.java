@@ -24,6 +24,10 @@ public class AuthResponseDTO {
      */
     private String refreshKey;
     /**
+     * 用户id
+     */
+    private String userId;
+    /**
      * 用户名
      */
     private String userName;
@@ -35,4 +39,12 @@ public class AuthResponseDTO {
      * 响应信息
      */
     private String message;
+
+    public AuthResponseDTO(String token, String refreshKey, String userName, String code, String message) {
+        this.token = token;
+        this.refreshKey = refreshKey;
+        this.userName = userName;
+        this.code = code;
+        this.message = message;
+    }
 }
