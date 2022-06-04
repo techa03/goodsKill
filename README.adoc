@@ -280,15 +280,11 @@ ____
 额外功能（可选）
 ____
 
-.点击展开
-[%collapsible]
-====
 * 已集成``Sentinel``限流组件，支持``nacos``配置中心方式推送限流规则，使用时需启动``Sentinel``控制台，并以``18088``端口启动，docker环境暂不支持。
 
 * Seata分布式事务测试方法见 https://github.com/techa03/goodsKill/tree/master/goodskill-seata/README.md[Seata分布式事务测试示例运行说明]
 
 * main方法运行``GoodskillAdminApplication``类(微服务健康状态指标监控)
-====
 
 == ❓常见问题
 [qanda]
