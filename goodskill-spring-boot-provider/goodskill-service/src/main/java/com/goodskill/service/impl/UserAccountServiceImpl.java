@@ -97,6 +97,13 @@ public class UserAccountServiceImpl extends ServiceImpl<UserMapper, User> implem
     }
 
     @Override
+    public User getUserInfoById(String userId) {
+        User user = baseMapper.selectById(userId);
+        user.setPassword(null);
+        return user;
+    }
+
+    @Override
     public IPage<User> page(Page<User> page) {
         return super.page(page);
     }

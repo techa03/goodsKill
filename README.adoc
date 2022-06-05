@@ -198,7 +198,7 @@ ns         %     Task name
 :warning-caption: ⚠️️
 
 [WARNING]
-docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行过上一步本步骤可跳过
+docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行过上一步本步骤可跳过；另外Nacos镜像使用了MySQL数据库保存配置信息，MySQL启动时会自动导入微服务配置
 
 * 配置host
 [source,text]
@@ -280,15 +280,11 @@ ____
 额外功能（可选）
 ____
 
-.点击展开
-[%collapsible]
-====
 * 已集成``Sentinel``限流组件，支持``nacos``配置中心方式推送限流规则，使用时需启动``Sentinel``控制台，并以``18088``端口启动，docker环境暂不支持。
 
 * Seata分布式事务测试方法见 https://github.com/techa03/goodsKill/tree/master/goodskill-seata/README.md[Seata分布式事务测试示例运行说明]
 
 * main方法运行``GoodskillAdminApplication``类(微服务健康状态指标监控)
-====
 
 == ❓常见问题
 [qanda]
@@ -314,6 +310,10 @@ vm.max_map_count=262144
 项目集成的各个框架之间目前的兼容性如何，可以参考本项目的配置在生产环境使用吗？::
 
 本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试，目前仅用于学习。如果要在生产环境使用，建议使用官方推荐的稳定版本。比如目前的Spring Cloud Alibaba Dubbo官方不建议生产上使用，Spring Cloud Alibaba官方推荐的稳定版为2.2.x{empty}footnote:[附 https://start.aliyun.com/bootstrap.html[SpringCloudAlibaba兼容版本说明]]。
+
+为什么有些微服务的application.yml是空的也能正常启动？::
+
+部分微服务的配置已转移至nacos配置中心，可访问 `http://nacos:8848/nacos` 自行修改
 
 == 📚分库分表情况说明
 

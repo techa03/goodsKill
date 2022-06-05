@@ -64,6 +64,7 @@ public class AuthController implements AuthService {
         if (user != null && userName.equals(user.getUsername())) {
             return AuthResponseDTO.builder()
                     .token(token)
+                    .userId(String.valueOf(user.getId()))
                     .userName(userName)
                     .code("200")
                     .build();
@@ -89,6 +90,7 @@ public class AuthController implements AuthService {
         if (user != null) {
             return AuthResponseDTO.builder()
                     .token(token)
+                    .userId(String.valueOf(user.getId()))
                     .userName(user.getUsername())
                     .code("200")
                     .build();
