@@ -85,6 +85,9 @@ services:
       JMX_PORT: "1099"
       KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka -Dcom.sun.management.jmxremote.rmi.port=1099"
       ALLOW_PLAINTEXT_LISTENER: "yes"
+      KAFKA_BROKER_ID: "1"
+      KAFKA_CFG_LISTENERS: "PLAINTEXT://:9092"
+      KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://127.0.0.1:9092"
     depends_on:
       - zookeeper
     restart: always

@@ -88,7 +88,7 @@ public class SysDictBizServiceImpl extends ServiceImpl<SysDictBizMapper, SysDict
     }
 
     @Override
-    public boolean removeByIds(Collection<? extends Serializable> idList) {
+    public boolean removeByIds(Collection idList) {
         List<SysDictBiz> sysDictBizs = baseMapper.selectList(new LambdaQueryWrapper<SysDictBiz>().in(SysDictBiz::getId, idList)
                 .select(SysDictBiz::getDictCode, SysDictBiz::getSysCode,
                         SysDictBiz::getParentId, SysDictBiz::getDictKey, SysDictBiz::getDictValue));

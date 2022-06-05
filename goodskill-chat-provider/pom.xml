@@ -13,7 +13,6 @@
     <artifactId>goodskill-chat-provider</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-entry</artifactId>
@@ -24,10 +23,6 @@
             <artifactId>netty-all</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-common-util</artifactId>
             <version>${goodskill.version}</version>
@@ -35,7 +30,6 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.5.1</version>
         </dependency>
     </dependencies>
 

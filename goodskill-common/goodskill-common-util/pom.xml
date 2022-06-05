@@ -16,7 +16,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <java.version>11</java.version>
-        <jwt.version>0.11.2</jwt.version>
+        <jwt.version>0.11.5</jwt.version>
     </properties>
 
     <dependencies>
