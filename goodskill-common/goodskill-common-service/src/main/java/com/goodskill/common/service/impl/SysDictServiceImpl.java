@@ -69,7 +69,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
 
     @Override
-    public boolean removeByIds(Collection<? extends Serializable> idList) {
+    public boolean removeByIds(Collection idList) {
         int result = baseMapper.deleteBatchIds(idList);
         return SqlHelper.retBool(result);
     }
