@@ -1,8 +1,10 @@
 package com.goodskill.chat.client;
 
 import com.goodskill.chat.dto.ChatMessageDto;
+import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
 
 /**
  * @author heng
@@ -15,7 +17,8 @@ public abstract class ChatClient {
      * 发送聊天消息
      *
      * @param dto
+     * @return
      */
-    protected abstract void sendMsg(ChatMessageDto dto);
+    protected abstract Channel sendMsg(ChatMessageDto dto);
 
 }

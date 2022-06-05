@@ -48,7 +48,7 @@ class AuthControllerTest {
     void testVerifyUser() {
         String token = JwtUtils.createToken(new HashMap<>());
         AuthResponseDTO result = authController.verifyUser(token, "userName");
-        Assertions.assertEquals(new AuthResponseDTO(token, null, null, "500", null), result);
+        Assertions.assertEquals(AuthResponseDTO.builder().token(token).code("500").build(), result);
     }
 
     @Test
@@ -57,7 +57,8 @@ class AuthControllerTest {
         claimMap.put("username", "test");
         String token = JwtUtils.createToken(claimMap);
         AuthResponseDTO result = authController.verifyUser(token, "test");
-        Assertions.assertEquals(new AuthResponseDTO(token, null, "test", "200", null), result);
+        Assertions.assertEquals(AuthResponseDTO.builder().token(token)
+                .userName("test").code("200").build(), result);
     }
 
     @Test
