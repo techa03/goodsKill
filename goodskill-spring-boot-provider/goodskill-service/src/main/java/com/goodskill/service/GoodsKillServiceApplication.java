@@ -1,6 +1,7 @@
 package com.goodskill.service;
 
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -24,7 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class GoodsKillServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GoodsKillServiceApplication.class, args);
+        SpringApplication application = new SpringApplication(GoodsKillServiceApplication.class);
+        application.setBannerMode(Banner.Mode.CONSOLE);
+        application.run(args);
     }
 
 
