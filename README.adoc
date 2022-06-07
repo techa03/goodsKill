@@ -257,16 +257,7 @@ curl --location --request POST 'http://www.goodskill.com:8080/goodskill/web/limi
 }'
 ====
 +
-返回如下结果表示成功（异步执行，不代表最终成功，可在控制台查看执行日志，如果最终成功交易笔数等于商品数量10则表示没有出现超卖或者少卖问题）
-+
-[source,text]
-----
-{
-  "success": true,
-  "data": null,
-  "message": null
-}
-----
+请求默认异步执行，可在控制台查看执行日志，如果最终成功交易笔数等于商品数量10则表示没有出现超卖或者少卖问题
 
 
 == 🕹️️启动完整项目步骤
