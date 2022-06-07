@@ -6,10 +6,6 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
 
@@ -17,12 +13,8 @@ import java.net.InetSocketAddress;
  * @author heng
  */
 @Slf4j
-@Component
-public class ChatServer implements InitializingBean {
-    @Autowired
-    private ThreadPoolTaskExecutor taskExecutor;
-
-    private final int port;
+public class ChatServer {
+    private int port;
 
     public ChatServer(int port) {
         this.port = port;
@@ -44,18 +36,4 @@ public class ChatServer implements InitializingBean {
         }
     }
 
-    @Override
-    public void afterPropertiesSet() {
-        taskExecutor.execute(() -> {
-            try {
-                start();
-            } catch (InterruptedException e) {
-                log.error("聊天服务中断！", e);
-            }
-        });
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        new ChatServer(8080).start();
-    }
 }

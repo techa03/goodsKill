@@ -44,13 +44,13 @@ class SeckillControllerTest {
         when(seckillService.executeSeckill(anyLong(), anyString(), anyString())).thenReturn(new SeckillExecutionDTO(0L, "statDesc", null, null));
 
         Result<SeckillExecutionDTO> result = seckillController.execute(Long.valueOf(1), "md5", "phone");
-        Assertions.assertEquals(new Result<SeckillExecutionDTO>(true, new SeckillExecutionDTO(0L, "statDesc", null, null), null), result);
+        Assertions.assertEquals(new Result<SeckillExecutionDTO>("200", true, new SeckillExecutionDTO(0L, "statDesc", null, null), null), result);
     }
 
     @Test
     void testTime() {
         Result<Long> result = seckillController.time();
-        Assertions.assertEquals(new Result<Long>(true, Long.valueOf(1), null), result);
+        Assertions.assertEquals(new Result<Long>("200", true, Long.valueOf(1), null), result);
     }
 
     @Test

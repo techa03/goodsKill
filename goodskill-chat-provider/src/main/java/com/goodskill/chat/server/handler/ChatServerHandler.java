@@ -34,7 +34,7 @@ public class ChatServerHandler extends ChannelInboundHandlerAdapter {
     private static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object obj) throws InterruptedException {
+    public void channelRead(ChannelHandlerContext ctx, Object obj) {
         ChatMessageDto msg = new ChatMessageDto();
         User user;
         if (obj instanceof FullHttpRequest) {
@@ -82,7 +82,6 @@ public class ChatServerHandler extends ChannelInboundHandlerAdapter {
             } else {
                 outMessage = "[我说]" + inMessage + "\n";
             }
-            System.out.println(outMessage);
             msg.setMessage(outMessage);
             FullHttpResponse response = getFullHttpResponse((HttpMessage) obj, outMessage);
             channel.writeAndFlush(response);

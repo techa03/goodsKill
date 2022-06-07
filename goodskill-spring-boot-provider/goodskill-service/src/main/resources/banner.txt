@@ -5,6 +5,6 @@
   \__, |\___/ \___/ \__,_|___/_|\_\_|_|_|
   |___/
 
-app.version::   ${application.formatted-version}
-app.titile::    ${application.title}
-spring-boot.version::      ${spring-boot.version}
+ :: Spring Boot ::                  (v${spring-boot.version})
+ :: Spring Cloud ::                 (v${spring-cloud.version})
+ :: Spring Cloud Alibaba ::         (v${spring.cloud.alibaba.version})
