@@ -1,0 +1,71 @@
+server:
+  port: 0
+  shutdown: graceful
+spring:
+  application:
+    name: mongo-service-provider
+  main:
+    allow-circular-references: true
+  cloud:
+    function:
+      ## 绑定的消息处理函数名
+      definition: seckillMongoSave
+    stream:
+      default-binder: rabbit
+      bindings:
+        seckillMongoSave-in-0:
+          ##解决重复消费问题，注意：同一组下只消费一次
+          group: default
+          destination: seckill-mongo-save
+    sentinel:
+      transport:
+        port: 8719
+        ## 默认端口8080，已改为自定义18088端口，通过http://127.0.0.1:18088/#/dashboard访问
+        dashboard: localhost:18088
+      ##使用nacos配置中心存储限流规则
+      datasource:
+        ds0:
+          nacos:
+            data-id: ${spring.application.name}-flow-rules
+            data-type: json
+            group-id: DEFAULT_GROUP
+            rule-type: flow
+            server-addr: 127.0.0.1:8848
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb: debug
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+---
+spring:
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+  zipkin:
+    base-url: http://zipkin:9411/
+  data:
+    mongodb:
+      database: test
+      uri: mongodb://mongo
+  cloud:
+    sentinel:
+      datasource:
+        ds0:
+          nacos:
+            server-addr: nacos:8848
+  config:
+    activate:
+      on-profile: docker,dev

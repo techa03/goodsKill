@@ -14,7 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -46,14 +48,12 @@ public class SeckillMockController {
     private KafkaTemplate kafkaTemplate;
     @Autowired
     private StreamBridge streamBridge;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
     /**
      * 用于生成秒杀用户id
      */
     private final AtomicInteger SECKILL_PHONE_NUM_COUNTER = new AtomicInteger(0);
-    /**
-     * 用于生成秒杀任务id
-     */
-    private final AtomicInteger SECKILL_TASK_ID_COUNTER = new AtomicInteger(0);
 
     /**
      * 通过同步锁控制秒杀并发（秒杀未完成阻塞主线程）
@@ -63,6 +63,7 @@ public class SeckillMockController {
      */
     @ApiOperation(value = "秒杀场景一(sychronized同步锁实现)")
     @PostMapping("/sychronized")
+    @Async
     public Result doWithSychronized(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, SYCHRONIZED);
         return Result.ok();
@@ -77,6 +78,7 @@ public class SeckillMockController {
      */
     @ApiOperation(value = "秒杀场景二(redis分布式锁实现)", notes = "秒杀场景二(redis分布式锁实现)", httpMethod = "POST")
     @PostMapping("/redisson")
+    @Async
     public Result doWithRedissionLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, REDISSION_LOCK);
         return Result.ok();
@@ -103,10 +105,11 @@ public class SeckillMockController {
      */
     @ApiOperation(value = "秒杀场景四(kafka消息队列实现)")
     @PostMapping("/kafka")
+    @Async
     public Result doWithKafkaMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, KAFKA_MQ, () -> {
             String phoneNumber = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
-            String taskId = String.valueOf(SECKILL_TASK_ID_COUNTER.get());
+            String taskId = String.valueOf(stringRedisTemplate.opsForValue().get("SECKILL_TASK_ID_COUNTER"));
             SeckillMockRequestDTO payload = new SeckillMockRequestDTO(dto.getSeckillId(), 1, phoneNumber, taskId);
             kafkaTemplate.send("goodskill-kafka", phoneNumber, JSON.toJSONString(payload));
         });
@@ -122,6 +125,7 @@ public class SeckillMockController {
      */
     @ApiOperation(value = "秒杀场景五(数据库原子性更新update set num = num -1)")
     @PostMapping("/procedure")
+    @Async
     public Result doWithProcedure(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, ATOMIC_UPDATE);
         return Result.ok();
@@ -149,6 +153,7 @@ public class SeckillMockController {
     @ApiOperation(value = "秒杀场景七(zookeeper分布式锁)")
     @RequestMapping(value = "/zookeeperLock", method = POST, produces = {
             "application/json;charset=UTF-8"})
+    @Async
     public Result doWithZookeeperLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, ZOOKEEPER_LOCK);
         return Result.ok();
@@ -160,6 +165,7 @@ public class SeckillMockController {
     @ApiOperation(value = "秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)")
     @RequestMapping(value = "/redisReactiveMongo", method = POST, produces = {
             "application/json;charset=UTF-8"})
+    @Async
     public Result redisReactiveMongo(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, REDIS_MONGO_REACTIVE);
         return Result.ok();
@@ -167,10 +173,11 @@ public class SeckillMockController {
 
     @ApiOperation(value = "秒杀场景九(rabbitmq)")
     @PostMapping("/rabbitmq")
+    @Async
     public Result doWithRabbitmq(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, RABBIT_MQ, () -> {
             String phoneNumber = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
-            String taskId = String.valueOf(SECKILL_TASK_ID_COUNTER.get());
+            String taskId = String.valueOf(stringRedisTemplate.opsForValue().get("SECKILL_TASK_ID_COUNTER"));
             SeckillMockRequestDTO payload = new SeckillMockRequestDTO(dto.getSeckillId(), 1, phoneNumber, taskId);
             streamBridge.send("seckill-out-0", payload);
         });
@@ -180,6 +187,7 @@ public class SeckillMockController {
 
     @ApiOperation(value = "秒杀场景十(Sentinel限流+数据库原子性更新)")
     @PostMapping("/limit")
+    @Async
     public Result limit(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, SENTINEL_LIMIT);
         return Result.ok();
@@ -195,6 +203,7 @@ public class SeckillMockController {
      */
     @ApiOperation(value = "秒杀场景十一(数据库原子性更新+canal 数据库binlog日志监听秒杀结果)")
     @PostMapping("/atomicWithCanal")
+    @Async
     public Result atomicWithCanal(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, ATOMIC_CANAL);
         return Result.ok();
@@ -261,11 +270,12 @@ public class SeckillMockController {
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
-        String taskId = String.valueOf(SECKILL_TASK_ID_COUNTER.incrementAndGet());
+        Long seckillTaskIdCounter = stringRedisTemplate.opsForValue().increment("SECKILL_TASK_ID_COUNTER");
+        String taskId = String.valueOf(seckillTaskIdCounter);
         // 初始化库存数量
         prepareSeckill(seckillId, seckillCount, seckillSolutionEnum.getName(), taskId);
         changeThreadPoolParam(dto);
-        log.info(seckillSolutionEnum.getName() + "开始时间：{},秒杀id：{}", new Date(), seckillId);
+        log.info(seckillSolutionEnum.getName() + "开始时间:{}, 秒杀id:{}, 任务Id:{}", new Date(), seckillId, taskId);
         if (runnable == null) {
             // 默认的执行方法
             runnable = () -> {
