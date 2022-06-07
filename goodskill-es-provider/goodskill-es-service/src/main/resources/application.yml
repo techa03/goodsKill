@@ -1,0 +1,70 @@
+server:
+  port: 19093
+
+spring:
+  application:
+    name: es-service-provider
+  cloud:
+    sentinel:
+      transport:
+        port: 8719
+        ## 默认端口8080，已改为自定义18088端口，通过http://127.0.0.1:18088/#/dashboard访问
+        dashboard: localhost:18088
+      ##使用nacos配置中心存储限流规则
+      datasource:
+        ds0:
+          nacos:
+            data-id: ${spring.application.name}-flow-rules
+            data-type: json
+            group-id: DEFAULT_GROUP
+            rule-type: flow
+            server-addr: 127.0.0.1:8848
+
+## 日志级别
+logging:
+  level:
+    org:
+      elasticsearch:
+        client:
+          RestClient: debug
+## es客户端配置
+elasticsearch:
+  rest:
+    client:
+      address: localhost:9200
+
+## 是否开启openFeign sentinel支持，默认为false
+feign:
+  sentinel:
+    enabled: true
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+---
+spring:
+  zipkin:
+    base-url: http://zipkin:9411/
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos:8848
+    sentinel:
+      datasource:
+        ds0:
+          nacos:
+            server-addr: nacos:8848
+  config:
+    activate:
+      on-profile: docker,dev
+elasticsearch:
+  rest:
+    client:
+      address: elasticsearch:9200
+

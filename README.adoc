@@ -198,7 +198,7 @@ ns         %     Task name
 :warning-caption: ⚠️️
 
 [WARNING]
-docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行过上一步本步骤可跳过；另外Nacos镜像使用了MySQL数据库保存配置信息，MySQL启动时会自动导入微服务配置
+docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行过上一步本步骤可跳过
 
 * 配置host
 [source,text]
@@ -257,16 +257,7 @@ curl --location --request POST 'http://www.goodskill.com:8080/goodskill/web/limi
 }'
 ====
 +
-返回如下结果表示成功（异步执行，不代表最终成功，可在控制台查看执行日志，如果最终成功交易笔数等于商品数量10则表示没有出现超卖或者少卖问题）
-+
-[source,text]
-----
-{
-  "success": true,
-  "data": null,
-  "message": null
-}
-----
+请求默认异步执行，可在控制台查看执行日志，如果最终成功交易笔数等于商品数量10则表示没有出现超卖或者少卖问题
 
 
 == 🕹️️启动完整项目步骤
@@ -310,10 +301,6 @@ vm.max_map_count=262144
 项目集成的各个框架之间目前的兼容性如何，可以参考本项目的配置在生产环境使用吗？::
 
 本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试，目前仅用于学习。如果要在生产环境使用，建议使用官方推荐的稳定版本。比如目前的Spring Cloud Alibaba Dubbo官方不建议生产上使用，Spring Cloud Alibaba官方推荐的稳定版为2.2.x{empty}footnote:[附 https://start.aliyun.com/bootstrap.html[SpringCloudAlibaba兼容版本说明]]。
-
-为什么有些微服务的application.yml是空的也能正常启动？::
-
-部分微服务的配置已转移至nacos配置中心，可访问 `http://nacos:8848/nacos` 自行修改
 
 == 📚分库分表情况说明
 

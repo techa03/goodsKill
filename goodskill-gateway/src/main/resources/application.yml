@@ -1,0 +1,93 @@
+server:
+  port: 80
+spring:
+  cloud:
+    sentinel:
+      filter:
+        ## 网关服务此项需配置为false（若在网关流控控制台上看到了 URL 资源，就是此配置项没有置为 false）
+        enabled: false
+      transport:
+        port: 8719
+        ## 默认端口8080，已改为自定义18088端口，通过http://127.0.0.1:18088/#/dashboard访问
+        dashboard: localhost:18088
+      ##使用nacos配置中心存储限流规则
+      datasource:
+        ds0:
+          nacos:
+            data-id: ${spring.application.name}-flow-rules
+            #            data-type: json
+            group-id: DEFAULT_GROUP
+            rule-type: gw-flow
+            server-addr: 127.0.0.1:8848
+    gateway:
+      predicate:
+        weight:
+          enabled: false
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowCredentials: true
+            allowedOriginPatterns: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+      httpclient:
+        ssl:
+          useInsecureTrustManager: true
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: oauth2-auth-server
+          uri: lb://oauth2-auth-server
+          predicates:
+            - Path=/oauth/**,/.well-known/jwks.json
+        - id: oauth2-resource-server
+          uri: lb://oauth2-resource-server
+          predicates:
+            - Path=/api/v5/user
+        - id: goodskill-admin
+          uri: lb://goodskill-admin
+          predicates:
+            - Path=/admin/**
+          filters:
+            - StripPrefix=1
+  main:
+    allow-bean-definition-overriding: true
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+nacos:
+  router:
+    data:
+      id: goodskill-gateway-routes
+
+security:
+  ignore:
+    whiteUrl:
+      - '/goodskill/web/auth/login'
+      - '/goodskill/web/auth/logout'
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker,dev
+  zipkin:
+    base-url: http://zipkin:9411/
+  cloud:
+    nacos:
+      server-addr: nacos:8848
+    sentinel:
+      datasource:
+        ds0:
+          nacos:
+            server-addr: nacos:8848
+
+
