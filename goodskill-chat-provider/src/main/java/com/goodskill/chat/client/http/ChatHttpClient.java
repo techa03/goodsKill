@@ -1,6 +1,7 @@
 package com.goodskill.chat.client.http;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.goodskill.chat.client.ChatClient;
 import com.goodskill.chat.common.http.HttpPipelineInitializer;
 import com.goodskill.chat.dto.ChatMessageDto;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Scanner;
 
 
 @Slf4j
@@ -28,7 +30,7 @@ public class ChatHttpClient extends ChatClient {
     private EventLoopGroup group;
 
     @Override
-    protected void sendMsg(ChatMessageDto dto) {
+    protected Channel sendMsg(ChatMessageDto dto) {
         if (channel == null) {
             try {
                 channel = initConnection();
@@ -62,13 +64,10 @@ public class ChatHttpClient extends ChatClient {
                 channel.writeAndFlush(chunk);
             }
             // Wait for the server to close the connection.
-            channel.closeFuture().sync();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-        } finally {
-            // Shut down executor threads to exit.
-            group.shutdownGracefully();
         }
+        return channel;
     }
 
     private Channel initConnection() throws InterruptedException {
@@ -103,17 +102,26 @@ public class ChatHttpClient extends ChatClient {
         return b.connect(host, port).sync().channel();
     }
 
+
+
     public static void main(String[] args) {
         ChatMessageDto dto = new ChatMessageDto();
         dto.setMessage("你好啊！！");
 
         User user = new User();
-        user.setAccount("1as");
+        user.setAccount(RandomUtil.randomString(3));
         user.setUsername("李四");
         user.setId(1);
         BeanUtil.beanToMap(user);
         String token = JwtUtils.createToken(BeanUtil.beanToMap(user));
         dto.setToken(token);
-        new ChatHttpClient().sendMsg(dto);
+        ChatHttpClient chatHttpClient = new ChatHttpClient();
+        Channel channel = chatHttpClient.sendMsg(dto);
+        while (true) {
+            Scanner reader = new Scanner(System.in);
+            String next = reader.next();
+            dto.setMessage(next);
+            chatHttpClient.sendMsg(dto);
+        }
     }
 }
