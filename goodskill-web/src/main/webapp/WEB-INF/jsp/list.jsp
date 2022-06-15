@@ -60,7 +60,7 @@
         </br>
     </div>
     <div class="panel-body">
-        <table class="table table-hover table-striped" data-toggle="table" data-pagination="true" data-height="580">
+        <table class="table table-hover table-striped" data-pagination="true" data-height="580">
             <thead>
             <tr>
                 <th>名称</th>
