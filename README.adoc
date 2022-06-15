@@ -233,13 +233,17 @@ docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行�
 .使用sychronized同步锁执行
 ====
 [source,bash]
-curl -X POST "http://www.goodskill.com:8080/goodskill/web/sychronized" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"requestCount\": 20, \"seckillCount\": 10, \"seckillId\": 1000}"
+curl -X POST "http://www.goodskill.com:8080/goodskill/web/sychronized" \
+-H "accept: */*" -H "Content-Type: application/json" -d \
+"{ \"requestCount\": 20, \"seckillCount\": 10, \"seckillId\": 1000}"
 ====
 +
 .使用Redisson分布式锁执行
 ====
 [source,bash]
-curl -X POST "http://www.goodskill.com:8080/goodskill/web/redisson" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"requestCount\": 20, \"seckillCount\": 10, \"seckillId\": 1000}"
+curl -X POST "http://www.goodskill.com:8080/goodskill/web/redisson" \
+-H "accept: */*" -H "Content-Type: application/json" -d \
+"{ \"requestCount\": 20, \"seckillCount\": 10, \"seckillId\": 1000}"
 ====
 +
 .使用Redisson分布式锁执行，支持动态配置后台线程池核心线程数以及最大线程数
@@ -281,7 +285,7 @@ ____
 [qanda]
 使用idea启动``SampleWebJspApplication``类(goodskill-web模块)时会出现访问不了页面的问题，eclipse无此问题::
 
-配置启动类的工作目录为goodskill-web
+配置启动类的工作目录为goodskill-web，具体可参考 https://github.com/techa03/goodsKill/issues/108[issue#108]
 
 docker es镜像启动失败::
 
