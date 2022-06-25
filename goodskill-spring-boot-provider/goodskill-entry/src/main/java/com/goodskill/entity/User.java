@@ -37,9 +37,14 @@ public class User implements Serializable {
 
     private String username;
 
-    private String locked;
+    private Integer locked;
 
     private String avatar;
 
+    private Date lastLoginTime;
+
+    private String mobile;
+
+    private String emailAddr;
 
 }

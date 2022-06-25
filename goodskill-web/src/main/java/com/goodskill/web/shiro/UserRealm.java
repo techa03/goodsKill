@@ -65,6 +65,8 @@ public class UserRealm extends AuthorizingRealm {
             // 用户名不存在抛出异常
             throw new UnknownAccountException();
         }
+        // 登录成功刷新最近登录时间
+        userService.updateLastLoginTime(user.getId());
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user.getAccount(),
                 user.getPassword(), ByteSource.Util.bytes(user.getAccount()), getName());
         return authenticationInfo;
