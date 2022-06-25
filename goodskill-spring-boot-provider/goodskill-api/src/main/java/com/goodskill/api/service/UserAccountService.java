@@ -53,4 +53,6 @@ public interface UserAccountService {
     IPage<User> page(Page<User> page);
 
     boolean removeById(int userId);
+
+    boolean updateLastLoginTime(Integer id);
 }

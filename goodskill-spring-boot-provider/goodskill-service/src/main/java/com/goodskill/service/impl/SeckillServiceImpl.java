@@ -125,7 +125,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         try {
             int updateCount = baseMapper.reduceNumber(seckillId, nowTime);
             if (updateCount <= 0) {
-                throw new SeckillCloseException("seckill is closed");
+                throw new SeckillCloseException("seckill is closed, seckillId: " + seckillId);
             } else {
                 SuccessKilled successKilled = new SuccessKilled();
                 successKilled.setSeckillId(seckillId);
@@ -133,7 +133,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
                 int insertCount = successKilledMapper.insert(successKilled);
                 String qrfilepath = alipayRunner.tradePrecreate(seckillId);
                 if (insertCount <= 0) {
-                    throw new RepeatKillException("seckill repeated");
+                    throw new RepeatKillException("seckill repeated, seckillId: " + seckillId);
                 } else {
                     SuccessKilled key = new SuccessKilled();
                     key.setSeckillId(seckillId);

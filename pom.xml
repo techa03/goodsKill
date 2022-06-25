@@ -36,6 +36,7 @@
 		<dubbo.version>3.0.8</dubbo.version>
 		<hutool.version>5.8.1</hutool.version>
 		<mybatis-plus.version>3.5.2</mybatis-plus.version>
+		<fastjson2.version>2.0.7</fastjson2.version>
 	</properties>
 
 	<build>
@@ -154,6 +155,11 @@
 				<groupId>com.baomidou</groupId>
 				<artifactId>mybatis-plus-annotation</artifactId>
 				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba.fastjson2</groupId>
+				<artifactId>fastjson2</artifactId>
+				<version>${fastjson2.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
