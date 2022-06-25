@@ -1,5 +1,6 @@
 package com.goodskill.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -14,10 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author heng
@@ -88,7 +86,7 @@ public class UserAccountServiceImpl extends ServiceImpl<UserMapper, User> implem
     public User findByUserAccount(String userAccount) {
         User user = new User();
         user.setAccount(userAccount);
-        List<User> userList = baseMapper.selectList(new QueryWrapper(user));
+        List<User> userList = baseMapper.selectList(new LambdaQueryWrapper<>(user));
         if (CollectionUtils.hasUniqueObject(userList)) {
             return userList.get(0);
         } else {
@@ -111,6 +109,14 @@ public class UserAccountServiceImpl extends ServiceImpl<UserMapper, User> implem
     @Override
     public boolean removeById(int userId) {
         return super.removeById(userId);
+    }
+
+    @Override
+    public boolean updateLastLoginTime(Integer id) {
+        User user = new User();
+        user.setId(id);
+        user.setLastLoginTime(new Date());
+        return this.updateById(user);
     }
 
 }

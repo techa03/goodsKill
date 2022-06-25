@@ -182,24 +182,70 @@ CREATE TABLE `success_killed` (
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `account` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL DEFAULT 'aa123456',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `username` varchar(50) DEFAULT NULL,
-  `locked` varchar(1) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `account_UNIQUE` (`account`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+create table user
+(
+    id              int unsigned auto_increment
+        primary key,
+    account         varchar(45)                           not null,
+    password        varchar(45) default 'aa123456'        not null,
+    create_time     timestamp   default CURRENT_TIMESTAMP not null,
+    update_time     timestamp   default CURRENT_TIMESTAMP not null,
+    username        varchar(50)                           null,
+    locked          int         default 0                 null,
+    avatar          varchar(500)                          null comment '用户头像url',
+    last_login_time timestamp                             null,
+    mobile          varchar(20)                           null,
+    email_addr      varchar(100)                          null,
+    constraint account_UNIQUE
+        unique (account)
+)
+    charset = utf8mb3;
 
--- ----------------------------
--- Records of user
--- ----------------------------
-INSERT INTO `user` VALUES ('14', 'test01', 'fad7b1af11bc7132037e94b8291a5ed3', '2016-12-18 17:53:26', '2017-06-17 14:46:21', null, '0');
-INSERT INTO `user` VALUES ('15', 'test02', '7dae8fa826b9f038780a288831b52acd', '2018-07-14 21:25:50', '2018-07-14 21:25:50', null, '0');
-INSERT INTO `user` VALUES ('21', 'admin123', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2018-07-21 21:43:47', '2018-07-21 21:43:47', 'admin123', '0');
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (14, 'test01', 'fad7b1af11bc7132037e94b8291a5ed3', '2016-12-18 17:53:26', '2017-06-17 14:46:21', '测试用户1', 0, null, '2022-06-25 17:19:39', '18888888888', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (15, 'test02', '7dae8fa826b9f038780a288831b52acd', '2018-07-14 21:25:50', '2018-07-14 21:25:50', '测试用户2', 0, null, '2022-06-25 17:19:37', '18888888889', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (21, 'admin123', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2018-07-21 21:43:47', '2018-07-21 21:43:47', '系统管理员', 0, null, '2022-06-25 15:13:11', '18888888890', 'techa@foxmail.com');
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (39, 'test04', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user04', 0, null, '2022-06-25 10:55:56', '18888888891', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (40, 'test05', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user05', 1, null, '2022-06-25 10:55:56', '18888888892', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (41, 'test06', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user06', 0, null, '2022-06-25 10:55:56', '18888888893', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (42, 'test07', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user07', 0, null, '2022-06-25 10:55:56', '18888888894', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (43, 'test08', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user08', 0, null, '2022-06-25 10:55:56', '18888888895', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (44, 'test09', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user09', 0, null, '2022-06-25 10:55:56', '18888888896', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (45, 'test10', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user10', 0, null, '2022-06-25 10:55:56', '18888888897', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (46, 'test11', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user11', 0, null, '2022-06-25 10:55:56', '18888888898', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (47, 'test12', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user12', 0, null, '2022-06-25 10:55:56', '18888888899', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (48, 'test13', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user13', 0, null, '2022-06-25 10:55:56', '18888888900', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (49, 'test14', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user14', 0, null, '2022-06-25 10:55:56', '18888888901', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (50, 'test15', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user15', 0, null, '2022-06-25 10:55:56', '18888888902', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (51, 'test16', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user16', 0, null, '2022-06-25 10:55:56', '18888888903', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (52, 'test17', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user17', 0, null, '2022-06-25 10:55:56', '18888888904', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (53, 'test18', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user18', 0, null, '2022-06-25 10:55:56', '18888888905', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (54, 'test19', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user19', 0, null, '2022-06-25 10:55:56', '18888888906', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (55, 'test20', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user20', 0, null, '2022-06-25 10:55:56', '18888888907', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (56, 'test21', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user21', 0, null, '2022-06-25 10:55:56', '18888888908', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (57, 'test22', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user22', 0, null, '2022-06-25 10:55:56', '18888888909', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (58, 'test23', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user23', 0, null, '2022-06-25 10:55:56', '18888888910', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (59, 'test24', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user24', 0, null, '2022-06-25 10:55:56', '18888888911', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (60, 'test25', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user25', 0, null, '2022-06-25 10:55:56', '18888888912', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (61, 'test26', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user26', 0, null, '2022-06-25 10:55:56', '18888888913', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (62, 'test27', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user27', 0, null, '2022-06-25 10:55:56', '18888888914', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (63, 'test28', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user28', 0, null, '2022-06-25 10:55:56', '18888888915', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (64, 'test29', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user29', 0, null, '2022-06-25 10:55:56', '18888888916', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (65, 'test30', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user30', 0, null, '2022-06-25 10:55:56', '18888888917', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (66, 'test31', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user31', 0, null, '2022-06-25 10:55:56', '18888888918', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (67, 'test32', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user32', 0, null, '2022-06-25 10:55:56', '18888888919', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (68, 'test33', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user33', 0, null, '2022-06-25 10:55:56', '18888888920', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (69, 'test34', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user34', 0, null, '2022-06-25 10:55:56', '18888888921', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (70, 'test35', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user35', 0, null, '2022-06-25 10:55:56', '18888888922', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (71, 'test36', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user36', 0, null, '2022-06-25 10:55:56', '18888888923', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (72, 'test37', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user37', 0, null, '2022-06-25 10:55:56', '18888888924', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (73, 'test38', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user38', 0, null, '2022-06-25 10:55:56', '18888888925', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (74, 'test39', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user39', 0, null, '2022-06-25 10:55:56', '18888888926', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (75, 'test40', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user40', 0, null, '2022-06-25 10:55:56', '18888888927', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (76, 'test41', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user41', 0, null, '2022-06-25 10:55:56', '18888888928', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (77, 'test42', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user42', 0, null, '2022-06-25 10:55:56', '18888888929', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (78, 'test43', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user43', 0, null, '2022-06-25 10:55:56', '18888888930', null);
+INSERT INTO seckill.user (id, account, password, create_time, update_time, username, locked, avatar, last_login_time, mobile, email_addr) VALUES (79, 'test44', 'b9cd5964cd1dda92e2335cbfbee3ecc0', '2022-06-25 11:00:13', '2022-06-25 11:00:13', 'user44', 0, null, '2022-06-25 10:55:56', '18888888931', null);
+
 
 DROP TABLE IF EXISTS `user_auth_account`;
 create table if not exists `user_auth_account`

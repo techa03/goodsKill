@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.cloud.gateway.filter.GlobalFilter
 import org.springframework.core.Ordered
-import org.springframework.stereotype.Component
 import org.springframework.util.AntPathMatcher
 import org.springframework.util.CollectionUtils
 import org.springframework.util.PathMatcher
@@ -24,7 +23,7 @@ import java.util.concurrent.TimeUnit
  * @author techa03
  * @since 2020/12/26
  */
-@Component
+//@Component
 class JwtAuthGatewayFilter: GlobalFilter, Ordered {
     private val log: Logger = LoggerFactory.getLogger(this.javaClass)
 
