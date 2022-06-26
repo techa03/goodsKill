@@ -13,6 +13,7 @@ import com.goodskill.entity.UserRole;
 import com.goodskill.web.dto.RoleDTO;
 import com.goodskill.web.vo.PageVO;
 import com.goodskill.web.vo.UserVO;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -74,6 +75,9 @@ public class AdminUserController {
             if (!StringUtils.hasText(userVO.getAvatar())) {
                 userVO.setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
             }
+            userVO.setRoles(Lists.newArrayList("admin"));
+            userVO.setName(byUserAccount.getUsername());
+            userVO.setIntroduction("demo");
             return R.ok(userVO);
         }
         return R.fail("未获取到用户信息");
