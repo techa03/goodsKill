@@ -20,6 +20,9 @@ spring:
             rule-type: gw-flow
             server-addr: 127.0.0.1:8848
     gateway:
+      ##开启指标监控
+      metrics:
+        enabled: true
       predicate:
         weight:
           enabled: false

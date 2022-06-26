@@ -87,6 +87,15 @@ INSERT INTO `role` VALUES ('2', '库存操作员', '2018-07-14 12:29:38', '2018-
 INSERT INTO `role` VALUES ('7', '商品管理员', '2018-07-15 20:29:27', '2018-07-15 20:29:27');
 INSERT INTO `role` VALUES ('8', '秒杀管理员', '2018-07-15 20:29:27', '2018-07-15 20:29:27');
 
+alter table role
+    add role_code varchar(50) default '' not null comment '角色编码';
+alter table role
+    add status int null comment '角色状态';
+alter table role
+    add delete_flag tinyint default 0 not null comment '删除标识';
+alter table role
+    modify status tinyint default 0 null comment '角色状态';
+
 -- ----------------------------
 -- Table structure for role_permission
 -- ----------------------------
@@ -441,3 +450,5 @@ CREATE TABLE gs_sys.`undo_log` (
 
 alter table seckill.`user`
     add avatar varchar(500) null comment '用户头像url';
+
+

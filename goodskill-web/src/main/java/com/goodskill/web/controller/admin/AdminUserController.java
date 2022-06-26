@@ -4,10 +4,13 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goodskill.api.service.UserAccountService;
+import com.goodskill.api.service.UserRoleService;
 import com.goodskill.common.enums.CommonConstants;
 import com.goodskill.common.info.R;
 import com.goodskill.common.util.JwtUtils;
 import com.goodskill.entity.User;
+import com.goodskill.entity.UserRole;
+import com.goodskill.web.dto.RoleDTO;
 import com.goodskill.web.vo.PageVO;
 import com.goodskill.web.vo.UserVO;
 import com.google.common.collect.Maps;
@@ -15,9 +18,11 @@ import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +39,8 @@ import java.util.Objects;
 public class AdminUserController {
     @DubboReference
     private UserAccountService userAccountService;
+    @DubboReference
+    private UserRoleService userRoleService;
 
     @PostMapping(value = "/login")
     public R<?> login(@RequestBody User user) {
@@ -44,6 +51,8 @@ public class AdminUserController {
         try {
             subject.login(token);
             session.setAttribute("user", user);
+        } catch (AuthenticationException e1) {
+            return R.fail("服务器内部错误！");
         } catch (Exception e) {
             session.setAttribute("user", null);
             return R.fail("用户名或密码错误！");
@@ -82,7 +91,7 @@ public class AdminUserController {
                   @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
         Page<User> page = new Page<>(offset, limit);
         IPage<User> pageInfo = userAccountService.page(page);
-        PageVO<User> pageVO = new PageVO<>();
+        PageVO<UserVO> pageVO = new PageVO<>();
         pageVO.setTotal((int) pageInfo.getTotal());
         List<UserVO> userVOS = BeanUtil.copyToList(pageInfo.getRecords(), UserVO.class);
         userVOS.forEach(it -> {
@@ -93,5 +102,27 @@ public class AdminUserController {
         });
         pageVO.setItems(userVOS);
         return R.ok(pageVO);
+    }
+
+    @DeleteMapping(value = "/delete/{userId}")
+    public R deleteUser(@PathVariable("userId") int userId) {
+        userAccountService.removeById(userId);
+        return R.ok();
+    }
+
+    @PostMapping(value = "/addRole/{userId}")
+    @Transactional(rollbackFor = Exception.class)
+    public R addRole(@PathVariable("userId") int userId, @RequestBody RoleDTO[] roleDto) {
+        for (RoleDTO dto : roleDto) {
+            UserRole record = new UserRole();
+            record.setUserId(userId);
+            record.setRoleId(dto.getRoleId());
+            UserRole entity = new UserRole();
+            entity.setUserId(userId);
+            entity.setRoleId(dto.getRoleId());
+            userRoleService.remove(entity);
+            userRoleService.save(record);
+        }
+        return R.ok();
     }
 }
