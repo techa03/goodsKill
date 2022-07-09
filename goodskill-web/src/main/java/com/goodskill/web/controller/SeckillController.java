@@ -6,6 +6,7 @@ import com.goodskill.api.dto.ExposerDTO;
 import com.goodskill.api.dto.SeckillExecutionDTO;
 import com.goodskill.api.dto.SeckillResponseDTO;
 import com.goodskill.api.service.*;
+import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.common.enums.SeckillStatEnum;
 import com.goodskill.common.exception.RepeatKillException;
 import com.goodskill.common.exception.SeckillCloseException;
@@ -14,21 +15,25 @@ import com.goodskill.entity.*;
 import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.web.dto.ResponseDTO;
 import com.goodskill.web.util.HttpUrlUtil;
+import com.goodskill.web.util.UploadFileUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -46,6 +51,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/seckill")
 @Validated
+@Slf4j
 public class SeckillController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @DubboReference
@@ -62,6 +68,8 @@ public class SeckillController {
     private PermissionService permissionService;
     @Resource
     private GoodsEsService goodsEsService;
+    @Autowired
+    private UploadFileUtil uploadFileUtil;
 
     @ApiOperation(value = "秒杀列表", notes = "分页显示秒杀列表")
     @ApiImplicitParams({
@@ -74,7 +82,7 @@ public class SeckillController {
             @RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
             @RequestParam(name = "limit", required = false, defaultValue = "4") int limit,
             @RequestParam(name = "goodsName", required = false) String goodsName) {
-        Page<Seckill> pageInfo = seckillService.getSeckillList(offset, limit, goodsName);
+        Page<SeckillVO> pageInfo = seckillService.getSeckillList(offset, limit, goodsName);
         long totalNum = pageInfo.getTotal();
         model.addAttribute("list", pageInfo.getRecords());
         model.addAttribute("totalNum", totalNum);
@@ -212,25 +220,6 @@ public class SeckillController {
         return "seckill/payByQrcode";
     }
 
-    /**
-     * 根据秒杀id加载对应图片
-     *
-     * @param seckillId 秒杀id
-     * @param response
-     * @throws IOException
-     */
-    @RequestMapping(value = "/img/seckill/{seckillId}", method = RequestMethod.GET)
-    public void loadImg(@PathVariable("seckillId") Long seckillId,
-                        HttpServletResponse response) throws IOException {
-        Seckill seckill = seckillService.getById(seckillId);
-        byte[] goodsPhotoImage = goodsService.getById(seckill.getGoodsId()).getPhotoImage();
-        response.setContentType("img/*");
-        OutputStream os = response.getOutputStream();
-        os.write(goodsPhotoImage);
-        os.flush();
-        os.close();
-    }
-
     @GetMapping(value = "/uploadPhoto/{seckillId}")
     public String toUploadPhoto(@PathVariable("seckillId") Long seckillId) {
         return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/upload/" + seckillId);
@@ -242,27 +231,20 @@ public class SeckillController {
         return "upload";
     }
 
-
     /**
      * 上传商品图片
      *
      * @param file 图片源文件
      * @return String
      */
+    @SneakyThrows
     @Transactional
     @RequestMapping(value = "/upload/{seckillId}/create", method = RequestMethod.POST)
-    public String uploadPhoto(@RequestParam("file") CommonsMultipartFile file, @RequestParam("seckillId") Long seckillId) {
+    public String uploadPhoto(@RequestParam("file") MultipartFile file, @RequestParam("seckillId") Long seckillId) {
         Seckill seckill = seckillService.getById(seckillId);
-        goodsService.uploadGoodsPhoto(seckill.getGoodsId(), file.getBytes());
+        String url = uploadFileUtil.uploadFile(file);
+        goodsService.uploadGoodsPhoto(seckill.getGoodsId(), url);
         return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
-    }
-
-
-    @RequestMapping(value = "/user/{phoneNum}/phoneCode", method = RequestMethod.POST, produces = {
-            "application/json;charset=UTF-8"})
-    @ResponseBody
-    public void userPhoneCode(@PathVariable("phoneNum") Long phoneNum) {
-
     }
 
     @RequestMapping(value = "/permission/list", method = RequestMethod.GET, produces = {

@@ -36,6 +36,7 @@
 		<hutool.version>5.8.1</hutool.version>
 		<mybatis-plus.version>3.5.2</mybatis-plus.version>
 		<fastjson2.version>2.0.7</fastjson2.version>
+		<minio.version>8.4.2</minio.version>
 	</properties>
 
 	<build>
@@ -164,6 +165,11 @@
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-annotations</artifactId>
 				<version>1.5.22</version>
+			</dependency>
+			<dependency>
+				<groupId>io.minio</groupId>
+				<artifactId>minio</artifactId>
+				<version>${minio.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

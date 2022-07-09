@@ -60,6 +60,7 @@ ____
 |Seata |分布式事务解决方案 |http://seata.io/zh-cn/index.html
 |Spring Security OAuth2.0 |OAuth2.0授权组件 |https://spring.io/projects/spring-security-oauth
 |Canal |基于MySQL数据库的增量日志解析工具 |https://github.com/alibaba/canal
+|MinIO |一款高性能、分布式的对象存储系统 |https://min.io/
 |===
 
 === 📌前端技术:
@@ -172,6 +173,7 @@ ns         %     Task name
 |Kibana |7.17.3 |5601 |无
 |RabbitMQ |latest |5672 15672 |无
 |Zipkin |latest |9411 |无
+|MinIO |latest |19000:9000 19001:19000| root:password
 |===
 
 == 🎯快速开始

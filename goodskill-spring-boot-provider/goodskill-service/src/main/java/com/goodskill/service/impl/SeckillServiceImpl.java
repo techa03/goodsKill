@@ -3,10 +3,12 @@ package com.goodskill.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.api.dto.*;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
+import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.common.constant.SeckillStatusConstant;
 import com.goodskill.common.enums.SeckillStatEnum;
 import com.goodskill.common.exception.RepeatKillException;
@@ -45,6 +47,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -82,20 +85,35 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private String qrcodeImagePath;
 
     @Override
-    public Page<Seckill> getSeckillList(int pageNum, int pageSize, String goodsName) {
+    public PageDTO<SeckillVO> getSeckillList(int pageNum, int pageSize, String goodsName) {
         String key = "seckill:list:" + pageNum + ":" + pageSize + ":" + goodsName;
         ValueOperations valueOperations = redisTemplate.opsForValue();
-        Page pageCache = (Page) valueOperations.get(key);
-        Page<Seckill> page;
-        if (pageCache == null) {
+        Object pageCache = valueOperations.get(key);
+        PageDTO<SeckillVO> page;
+        if (Objects.isNull(pageCache)) {
             QueryWrapper<Seckill> queryWrapper = new QueryWrapper<>();
             if (StringUtils.isNotBlank(goodsName)) {
                 queryWrapper.lambda().like(Seckill::getName, goodsName);
             }
-            page = this.page(new Page(pageNum, pageSize), queryWrapper);
+            Page<Seckill> seckillPage = this.page(new Page(pageNum, pageSize), queryWrapper);
+            List<SeckillVO> collect = seckillPage.getRecords().stream().map(it -> {
+                SeckillVO seckillVO = new SeckillVO();
+                BeanUtils.copyProperties(it, seckillVO);
+                Goods byId = goodsService.getById(it.getGoodsId());
+                if (Objects.nonNull(byId)) {
+                    String photoUrl = byId.getPhotoUrl();
+                    seckillVO.setPhotoUrl(photoUrl);
+                }
+                return seckillVO;
+            }).collect(Collectors.toList());
+            page = new PageDTO<>();
+            page.setCurrent(pageNum);
+            page.setSize(pageSize);
+            page.setTotal(seckillPage.getTotal());
+            page.setRecords(collect);
             valueOperations.set(key, page, 5, TimeUnit.MINUTES);
         } else {
-            page = pageCache;
+            page = (PageDTO<SeckillVO>) pageCache;
         }
         return page;
     }

@@ -2,7 +2,7 @@ package com.goodskill.es.service.impl;
 
 
 import com.goodskill.es.api.GoodsEsService;
-import com.goodskill.es.dto.GoodsDto;
+import com.goodskill.es.dto.GoodsDTO;
 import com.goodskill.es.model.Goods;
 import com.goodskill.es.repository.GoodsRepository;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -39,20 +39,20 @@ public class GoodsEsServiceImpl implements GoodsEsService {
     @Autowired
     private ElasticsearchOperations elasticsearchOperations;
 
-    private BeanCopier beanCopier = BeanCopier.create(GoodsDto.class, Goods.class, false);
+    private BeanCopier beanCopier = BeanCopier.create(GoodsDTO.class, Goods.class, false);
 
-    private BeanCopier beanCopierReverse = BeanCopier.create(Goods.class, GoodsDto.class, false);
+    private BeanCopier beanCopierReverse = BeanCopier.create(Goods.class, GoodsDTO.class, false);
 
 
     @Override
-    public void save(GoodsDto goodsDto) {
+    public void save(GoodsDTO goodsDto) {
         Goods goods = new Goods();
         beanCopier.copy(goodsDto, goods, null);
         goodsRepository.save(goods);
     }
 
     @Override
-    public void saveBatch(List<GoodsDto> list) {
+    public void saveBatch(List<GoodsDTO> list) {
         List<Goods> collect = list.stream().map(dto -> {
             Goods goods = new Goods();
             beanCopier.copy(dto, goods, null);
@@ -62,12 +62,12 @@ public class GoodsEsServiceImpl implements GoodsEsService {
     }
 
     @Override
-    public void delete(GoodsDto goodsDto) {
+    public void delete(GoodsDTO goodsDto) {
         goodsRepository.deleteById(goodsDto.getGoodsId());
     }
 
     @Override
-    public List<GoodsDto> searchWithNameByPage(String input) {
+    public List<GoodsDTO> searchWithNameByPage(String input) {
         NativeSearchQuery searchQuery;
         if (!StringUtils.hasText(input)) {
             searchQuery = new NativeSearchQueryBuilder()
@@ -90,7 +90,7 @@ public class GoodsEsServiceImpl implements GoodsEsService {
         return elasticsearchOperations.search(searchQuery, Goods.class)
                 .getSearchHits().stream().map(s -> {
                     Goods goods = s.getContent();
-                    GoodsDto goodsDto = new GoodsDto();
+                    GoodsDTO goodsDto = new GoodsDTO();
                     goodsDto.setName(s.getHighlightField("name").get(0));
                     goodsDto.setRawName(goods.getName());
                     return goodsDto;

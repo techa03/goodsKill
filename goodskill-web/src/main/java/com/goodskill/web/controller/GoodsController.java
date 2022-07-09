@@ -3,12 +3,14 @@ package com.goodskill.web.controller;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.entity.Goods;
 import com.goodskill.web.util.HttpUrlUtil;
+import com.goodskill.web.util.UploadFileUtil;
 import io.swagger.annotations.Api;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -22,6 +24,8 @@ import java.util.List;
 public class GoodsController {
     @DubboReference
     private GoodsService goodsService;
+    @Autowired
+    private UploadFileUtil uploadFileUtil;
 
     @GetMapping("/new")
     public String addGoodsPage(){
@@ -30,9 +34,11 @@ public class GoodsController {
 
     @Transactional
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public String add(Goods goods, @RequestParam("file") CommonsMultipartFile file){
+    public String add(Goods goods, @RequestParam("file") MultipartFile file){
         goods.setCreateTime(new Date());
-        goodsService.addGoods(goods,file.getBytes());
+        String url = uploadFileUtil.uploadFile(file);
+        goods.setPhotoUrl(url);
+        goodsService.addGoods(goods);
         return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
     }
 
