@@ -164,6 +164,19 @@ services:
     networks:
       - somenetwork
 
+  minio:
+    container_name: minio
+    image: bitnami/minio:latest
+    ports:
+      - '19000:9000'
+      - '19001:9001'
+    volumes:
+      - ./doc/docker/minio_data:/data
+    environment:
+      - MINIO_ROOT_USER=root
+      - MINIO_ROOT_PASSWORD=password
+    networks:
+      - somenetwork
 
 networks:
   somenetwork:

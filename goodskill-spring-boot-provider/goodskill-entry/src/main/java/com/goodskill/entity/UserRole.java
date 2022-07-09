@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * <p>
@@ -20,7 +19,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class UserRole implements Serializable {
+public class UserRole extends BaseColEntity implements Serializable {
 
     private static final long serialVersionUID=1L;
 
@@ -30,10 +29,5 @@ public class UserRole implements Serializable {
     private Integer userId;
 
     private Integer roleId;
-
-    private Date createTime;
-
-    private Date updateTime;
-
 
 }

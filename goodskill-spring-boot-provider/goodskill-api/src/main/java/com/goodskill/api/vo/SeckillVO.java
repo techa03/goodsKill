@@ -1,7 +1,9 @@
-package com.goodskill.entity;
+package com.goodskill.api.vo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,11 +11,12 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * <p>
- * 秒杀成功明细表
+ * 秒杀库存表
  * </p>
  *
  * @author heng
@@ -22,24 +25,37 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SuccessKilled implements Serializable {
+public class SeckillVO implements Serializable {
 
     private static final long serialVersionUID=1L;
 
     /**
-     * 秒杀商品
+     * 商品库存id
      */
+    @TableId(value = "seckill_id", type = IdType.AUTO)
     private Long seckillId;
 
     /**
-     * 用户手机号
+     * 商品名称
      */
-    private String userPhone;
+    private String name;
 
     /**
-     * 状态标示：-1：无效   0：成功   1：已付款
+     * 库存数量
      */
-    private Integer status;
+    private Integer number;
+
+    /**
+     * 秒杀开启时间
+     */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date startTime;
+
+    /**
+     * 秒杀结束时间
+     */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date endTime;
 
     /**
      * 创建时间
@@ -49,11 +65,14 @@ public class SuccessKilled implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
-    private String serverIp;
+    private Integer goodsId;
 
-    private String userIp;
+    private BigDecimal price;
 
-    private String userId;
+    private String status;
 
+    private String createUser;
+
+    private String photoUrl;
 
 }

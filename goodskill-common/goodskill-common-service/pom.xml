@@ -21,7 +21,6 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>1.5.20</version>
         </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>

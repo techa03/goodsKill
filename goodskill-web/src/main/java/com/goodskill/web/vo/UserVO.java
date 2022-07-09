@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @ApiModel("用户信息")
@@ -21,6 +22,8 @@ public class UserVO {
 
     private String username;
 
+    private String name;
+
     private String locked;
 
     private String avatar;
@@ -30,5 +33,9 @@ public class UserVO {
     private String mobile;
 
     private String emailAddr;
+
+    private List<String> roles;
+
+    private String introduction;
 
 }

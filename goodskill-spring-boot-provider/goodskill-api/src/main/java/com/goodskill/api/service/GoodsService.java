@@ -14,15 +14,15 @@ public interface GoodsService {
 
     /**
      * @param goodsId
-     * @param bytes
+     * @param fileUrl
      */
-    void uploadGoodsPhoto(long goodsId, byte[] bytes);
+    void uploadGoodsPhoto(long goodsId, String fileUrl);
 
     /**
      * @param goods
-     * @param bytes
+     * @param fileUrl
      */
-    void addGoods(Goods goods, byte[] bytes);
+    void addGoods(Goods goods, String fileUrl);
 
     List<Goods> list();
 

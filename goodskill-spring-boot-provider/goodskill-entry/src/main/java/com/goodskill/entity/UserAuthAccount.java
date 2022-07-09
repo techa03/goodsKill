@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * <p>
@@ -18,7 +17,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class UserAuthAccount implements Serializable {
+public class UserAuthAccount extends BaseColEntity implements Serializable {
 
     private static final long serialVersionUID=1L;
 
@@ -43,10 +42,5 @@ public class UserAuthAccount implements Serializable {
      * 第三方授权来源
      */
     private String sourceType;
-
-    private Date createTime;
-
-    private Date updateTime;
-
 
 }
