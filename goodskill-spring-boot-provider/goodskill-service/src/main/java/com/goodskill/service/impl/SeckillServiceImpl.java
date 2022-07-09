@@ -99,8 +99,11 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
             List<SeckillVO> collect = seckillPage.getRecords().stream().map(it -> {
                 SeckillVO seckillVO = new SeckillVO();
                 BeanUtils.copyProperties(it, seckillVO);
-                String photoUrl = goodsService.getById(it.getGoodsId()).getPhotoUrl();
-                seckillVO.setPhotoUrl(photoUrl);
+                Goods byId = goodsService.getById(it.getGoodsId());
+                if (Objects.nonNull(byId)) {
+                    String photoUrl = byId.getPhotoUrl();
+                    seckillVO.setPhotoUrl(photoUrl);
+                }
                 return seckillVO;
             }).collect(Collectors.toList());
             page = new PageDTO<>();

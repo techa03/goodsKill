@@ -30,7 +30,7 @@ public class GoodskillSeataApplication {
     public void testGlobalTransaction() {
         Goods goods = new Goods();
         goods.setName("test");
-        goodsService.addGoods(goods, null);
+        goodsService.addGoods(goods);
         Seckill seckill = seckillService.getById(1001L);
         seckill.setNumber(seckill.getNumber() - 1);
         seckillService.saveOrUpdate(seckill);

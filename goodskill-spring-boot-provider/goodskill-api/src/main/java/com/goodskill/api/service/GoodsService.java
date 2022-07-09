@@ -20,9 +20,8 @@ public interface GoodsService {
 
     /**
      * @param goods
-     * @param fileUrl
      */
-    void addGoods(Goods goods, String fileUrl);
+    void addGoods(Goods goods);
 
     List<Goods> list();
 

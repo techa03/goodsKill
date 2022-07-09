@@ -41,8 +41,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void addGoods(Goods goods, String url) {
-        goods.setPhotoUrl(url);
+    public void addGoods(Goods goods) {
         this.save(goods);
         GoodsDTO goodsDto = new GoodsDTO();
         goodsDto.setId(IdWorker.getId());

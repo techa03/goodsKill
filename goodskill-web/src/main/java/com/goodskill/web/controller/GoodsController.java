@@ -36,7 +36,9 @@ public class GoodsController {
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public String add(Goods goods, @RequestParam("file") MultipartFile file){
         goods.setCreateTime(new Date());
-        goodsService.addGoods(goods, uploadFileUtil.uploadFile(file));
+        String url = uploadFileUtil.uploadFile(file);
+        goods.setPhotoUrl(url);
+        goodsService.addGoods(goods);
         return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
     }
 

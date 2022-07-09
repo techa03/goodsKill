@@ -24,14 +24,14 @@ public class GoodsServiceImplTest {
 
     @Test
     public void uploadGoodsPhoto() {
-        goodsService.uploadGoodsPhoto(1L, new byte[100]);
+        goodsService.uploadGoodsPhoto(1L, "http://localhost/goodskill/1.png");
         verify(baseMapper, only()).updateById(any());
     }
 
     @Test
     public void addGoods() {
         Goods goods = new Goods();
-        goodsService.addGoods(goods, new byte[100]);
+        goodsService.addGoods(goods);
         verify(goodsEsService, only()).save(any());
     }
 }
