@@ -77,7 +77,7 @@
             <c:forEach var="sk" items="${list}">
                 <tr>
                     <td>${sk.name}</td>
-                    <td><img alt="图片" src="${context}/seckill/img/seckill/${sk.seckillId}"
+                    <td><img alt="图片" src="${sk.photoUrl}"
                              style="width: 80px;height: 80px;"></td>
                     <td>${sk.number}</td>
                     <td>${sk.price}</td>

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.entity.Goods;
 import com.goodskill.es.api.GoodsEsService;
-import com.goodskill.es.dto.GoodsDto;
+import com.goodskill.es.dto.GoodsDTO;
 import com.goodskill.mp.dao.mapper.GoodsMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -31,20 +31,20 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     private GoodsEsService goodsEsService;
 
     @Override
-    public void uploadGoodsPhoto(long goodsId, byte[] bytes) {
+    public void uploadGoodsPhoto(long goodsId, String fileUrl) {
         Goods goods = new Goods();
         goods.setGoodsId((int) goodsId);
-        goods.setPhotoImage(bytes);
+        goods.setPhotoUrl(fileUrl);
         log.info(goods.toString());
         this.updateById(goods);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void addGoods(Goods goods, byte[] bytes) {
-        goods.setPhotoImage(bytes);
+    public void addGoods(Goods goods, String url) {
+        goods.setPhotoUrl(url);
         this.save(goods);
-        GoodsDto goodsDto = new GoodsDto();
+        GoodsDTO goodsDto = new GoodsDTO();
         goodsDto.setId(IdWorker.getId());
         BeanUtils.copyProperties(goods, goodsDto);
         try {

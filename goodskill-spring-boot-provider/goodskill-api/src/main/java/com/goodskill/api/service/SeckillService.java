@@ -1,7 +1,8 @@
 package com.goodskill.api.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.goodskill.api.dto.*;
+import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.entity.Seckill;
 import com.goodskill.entity.SuccessKilled;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -28,9 +29,9 @@ public interface SeckillService {
      * @return
      */
     @GetMapping("/getSeckillList")
-    Page<Seckill> getSeckillList(@RequestParam("pageNum") int pageNum,
-                        @RequestParam("pageSize") int pageSize,
-                        @RequestParam(value = "goodsName", required = false) String goodsName);
+    PageDTO<SeckillVO> getSeckillList(@RequestParam("pageNum") int pageNum,
+                                      @RequestParam("pageSize") int pageSize,
+                                      @RequestParam(value = "goodsName", required = false) String goodsName);
 
 
     /**

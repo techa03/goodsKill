@@ -125,6 +125,11 @@ server:
       force: true
     register-default-servlet: true
 
+minio:
+  endpoint: http://localhost:19000
+  accessKey: goodskill
+  secretKey: password
+  bucketName: goodskill
 ---
 spring:
   config:

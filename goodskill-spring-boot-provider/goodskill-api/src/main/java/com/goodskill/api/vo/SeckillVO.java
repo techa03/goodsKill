@@ -1,4 +1,4 @@
-package com.goodskill.entity;
+package com.goodskill.api.vo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -11,11 +11,12 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * <p>
- * 
+ * 秒杀库存表
  * </p>
  *
  * @author heng
@@ -24,24 +25,54 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Goods implements Serializable {
+public class SeckillVO implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "goods_id", type = IdType.AUTO)
-    private Integer goodsId;
+    /**
+     * 商品库存id
+     */
+    @TableId(value = "seckill_id", type = IdType.AUTO)
+    private Long seckillId;
 
-    private String photoUrl;
-
+    /**
+     * 商品名称
+     */
     private String name;
 
-    private String price;
+    /**
+     * 库存数量
+     */
+    private Integer number;
 
+    /**
+     * 秒杀开启时间
+     */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date startTime;
+
+    /**
+     * 秒杀结束时间
+     */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date endTime;
+
+    /**
+     * 创建时间
+     */
     @ApiModelProperty(value = "创建时间")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
-    private String introduce;
+    private Integer goodsId;
+
+    private BigDecimal price;
+
+    private String status;
+
+    private String createUser;
+
+    private String photoUrl;
 
 }
