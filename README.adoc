@@ -173,7 +173,7 @@ ns         %     Task name
 |Kibana |7.17.3 |5601 |无
 |RabbitMQ |latest |5672 15672 |无
 |Zipkin |latest |9411 |无
-|MinIO |latest |19000:9000 19001:19000| root:password
+|MinIO |latest |19000:9000 19001:9001| root:password
 |===
 
 == 🎯快速开始
