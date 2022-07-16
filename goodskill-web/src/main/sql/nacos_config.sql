@@ -18,6 +18,8 @@
 --
 -- Table structure for table `config_info`
 --
+create schema gs_config collate utf8mb4_0900_ai_ci;
+use gs_config;
 
 DROP TABLE IF EXISTS `config_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

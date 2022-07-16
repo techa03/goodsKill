@@ -44,27 +44,33 @@ INSERT INTO seckill.goods (goods_id, photo_url, name, price, create_time, introd
 -- ----------------------------
 -- Table structure for permission
 -- ----------------------------
-DROP TABLE IF EXISTS `permission`;
-CREATE TABLE `permission` (
-  `permission_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `permission_name` varchar(64) COLLATE utf8_bin DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
-  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `permission_menu` varchar(500) COLLATE utf8_bin DEFAULT NULL,
-  `parent_permission_id` int(10) DEFAULT NULL,
-  `is_dir` varchar(1) COLLATE utf8_bin DEFAULT NULL,
-  `order_no` int(11) DEFAULT NULL,
-  PRIMARY KEY (`permission_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+create table permission
+(
+    permission_id        int unsigned auto_increment
+        primary key,
+    permission_name      varchar(64)                            null,
+    create_time          datetime                               null,
+    update_time          timestamp    default CURRENT_TIMESTAMP null,
+    permission_menu      varchar(500)                           null,
+    parent_permission_id int                                    null,
+    is_dir               varchar(1)                             null,
+    order_no             int          default 0                 not null,
+    path                 varchar(200) default ''                not null,
+    hidden               tinyint(1)   default 0                 null comment '是否隐藏：0-否，1-是',
+    component            varchar(50)  default ''                not null,
+    access_url           varchar(500) default ''                not null comment '访问url',
+    redirect             varchar(100) default ''                not null
+)
+    collate = utf8_bin;
 
--- ----------------------------
--- Records of permission
--- ----------------------------
-INSERT INTO `permission` VALUES ('3', '用户管理', '2018-07-14 12:28:25', '2018-07-14 12:28:25', 'admin/user.html', '7', 'N', '1');
-INSERT INTO `permission` VALUES ('4', '用户角色管理', '2018-07-14 12:28:25', '2018-07-14 12:28:25', 'admin/userRole.html', '7', 'N', '2');
-INSERT INTO `permission` VALUES ('5', '权限管理', '2018-07-14 12:28:25', '2018-07-14 12:28:25', 'admin/permission.html', '7', 'N', '3');
-INSERT INTO `permission` VALUES ('6', '角色管理', '2018-07-14 12:28:25', '2018-07-14 12:28:25', 'admin/role.html', '7', 'N', '4');
-INSERT INTO `permission` VALUES ('7', '用户角色权限管理', '2018-07-14 12:28:25', '2018-07-14 12:28:25', 'admin', null, 'Y', '0');
+INSERT INTO seckill.permission (permission_id, permission_name, create_time, update_time, permission_menu, parent_permission_id, is_dir, order_no, path, hidden, component, access_url, redirect) VALUES (3, '用户管理', '2018-07-14 12:28:25', '2018-07-14 12:28:25', 'admin/user.html', 7, 'N', 1, 'user-manage', 0, 'views/table/user-manage', '', '');
+INSERT INTO seckill.permission (permission_id, permission_name, create_time, update_time, permission_menu, parent_permission_id, is_dir, order_no, path, hidden, component, access_url, redirect) VALUES (4, '用户角色管理', '2018-07-14 12:28:25', '2018-07-14 12:28:25', 'admin/userRole.html', 7, 'N', 2, '', 1, '', '', '');
+INSERT INTO seckill.permission (permission_id, permission_name, create_time, update_time, permission_menu, parent_permission_id, is_dir, order_no, path, hidden, component, access_url, redirect) VALUES (5, '菜单管理', '2018-07-14 12:28:25', '2018-07-14 12:28:25', 'admin/permission.html', 7, 'N', 3, '', 0, '', '', '');
+INSERT INTO seckill.permission (permission_id, permission_name, create_time, update_time, permission_menu, parent_permission_id, is_dir, order_no, path, hidden, component, access_url, redirect) VALUES (6, '角色权限管理', '2018-07-14 12:28:25', '2018-07-14 12:28:25', 'admin/role.html', 7, 'N', 4, 'role-manage', 0, 'views/permission/role', '', '');
+INSERT INTO seckill.permission (permission_id, permission_name, create_time, update_time, permission_menu, parent_permission_id, is_dir, order_no, path, hidden, component, access_url, redirect) VALUES (7, '系统管理', '2018-07-14 12:28:25', '2018-07-14 12:28:25', 'admin', null, 'Y', 0, '', 0, 'layout/Layout', '', '');
+INSERT INTO seckill.permission (permission_id, permission_name, create_time, update_time, permission_menu, parent_permission_id, is_dir, order_no, path, hidden, component, access_url, redirect) VALUES (10, '业务管理', '2022-06-26 11:19:16', '2022-06-26 11:19:16', '/test', null, 'Y', 0, '', 0, 'layout/Layout', '', '');
+INSERT INTO seckill.permission (permission_id, permission_name, create_time, update_time, permission_menu, parent_permission_id, is_dir, order_no, path, hidden, component, access_url, redirect) VALUES (11, '字典管理', '2022-06-26 11:23:26', '2022-06-26 11:23:26', '/test', null, 'Y', 0, 'dict-manage', 0, 'views/table/user-manage', '', '');
+
 
 -- ----------------------------
 -- Table structure for role
