@@ -13,7 +13,7 @@
     <description>goodskill-admin</description>
     <packaging>jar</packaging>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <spring-boot-admin.version>2.6.6</spring-boot-admin.version>
     </properties>
     <dependencies>

@@ -9,7 +9,9 @@ spring:
     password: Password123
   main:
     allow-circular-references: true
-
+  flyway:
+    locations: classpath:db/migration
+    baseline-on-migrate: true
 ## dubbo服务注册和发现
 dubbo:
   protocol:
