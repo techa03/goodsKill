@@ -25,14 +25,14 @@
 
 	<properties>
 		<goodskill.version>1.0.0-SNAPSHOT</goodskill.version>
-		<springboot.version>2.7.0</springboot.version>
+		<springboot.version>2.7.2</springboot.version>
 		<spring-cloud.version>2021.0.3</spring-cloud.version>
 		<spring.cloud.alibaba.version>2021.0.1.0</spring.cloud.alibaba.version>
 		<kotlin.version>1.6.21</kotlin.version>
         <jacoco.version>0.8.8</jacoco.version>
 		<maven.surefire.version>2.22.2</maven.surefire.version>
         <net.logstash.version>7.1.1</net.logstash.version>
-		<dubbo.version>3.0.8</dubbo.version>
+		<dubbo.version>3.0.10</dubbo.version>
 		<hutool.version>5.8.1</hutool.version>
 		<mybatis-plus.version>3.5.2</mybatis-plus.version>
 		<fastjson2.version>2.0.7</fastjson2.version>
@@ -92,6 +92,7 @@
 					<version>${jacoco.version}</version>
 				</plugin>
 				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>${maven.surefire.version}</version>
 				</plugin>

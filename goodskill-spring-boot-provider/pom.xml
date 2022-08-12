@@ -16,7 +16,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<shiro.version>1.9.0</shiro.version>
 		<shardingsphere.version>4.1.1</shardingsphere.version>
-		<jacoco.version>0.8.6</jacoco.version>
+		<jacoco.version>0.8.8</jacoco.version>
 		<alipay.version>2.0.1</alipay.version>
 		<redisson.version>3.17.3</redisson.version>
 	</properties>
@@ -92,11 +92,6 @@
 				<groupId>org.apache.shiro</groupId>
 				<artifactId>shiro-core</artifactId>
 				<version>${shiro.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.redisson</groupId>
