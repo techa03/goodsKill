@@ -114,8 +114,8 @@ services:
       --default-authentication-plugin=mysql_native_password
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_0900_ai_ci
-      --lower-case-table-names=1
     volumes:
+      - ./doc/docker/mysql/custom:/etc/mysql/conf.d #如果发现配置未生效请检查容器内该目录权限是否为777，如是则调整为 664的权限。如：chmod 664 /etc/mysql/mysql.conf.d/mysqld.cnf
       - ./goodskill-web/src/main/sql:/docker-entrypoint-initdb.d/
     environment:
       MYSQL_ROOT_PASSWORD: "Password123"

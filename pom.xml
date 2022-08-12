@@ -21,6 +21,7 @@
 		<module>goodskill-oauth2</module>
 		<module>goodskill-admin</module>
         <module>goodskill-canal</module>
+		<module>goodskil-flowable</module>
     </modules>
 
 	<properties>
