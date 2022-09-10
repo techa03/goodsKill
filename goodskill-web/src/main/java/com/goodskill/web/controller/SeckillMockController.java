@@ -8,8 +8,8 @@ import com.goodskill.common.exception.CommonException;
 import com.goodskill.common.info.Result;
 import com.goodskill.web.dto.SeckillWebMockRequestDTO;
 import com.goodskill.web.util.TaskTimeCaculateUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  * @author heng
  * @date 2018/09/02
  */
-@Api(tags = "模拟秒杀场景(无需登录)")
+@Tag(name = "模拟秒杀场景(无需登录)")
 @RestController
 @Slf4j
 @Validated
@@ -61,7 +61,7 @@ public class SeckillMockController {
      * 结果：多次运行，最终的结果为1000
      * 总结：加上同步锁可以解决秒杀问题，适用于单机模式，扩展性差。
      */
-    @ApiOperation(value = "秒杀场景一(sychronized同步锁实现)")
+    @Operation(summary = "秒杀场景一(sychronized同步锁实现)")
     @PostMapping("/sychronized")
     @Async
     public Result doWithSychronized(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
@@ -76,7 +76,7 @@ public class SeckillMockController {
      * 结果：多次运行，最终的结果为1000
      * 总结：加上同步锁可以解决秒杀问题，适用于分布式环境，但速度不如加同步锁。
      */
-    @ApiOperation(value = "秒杀场景二(redis分布式锁实现)", notes = "秒杀场景二(redis分布式锁实现)", httpMethod = "POST")
+    @Operation(summary = "秒杀场景二(redis分布式锁实现)", description = "秒杀场景二(redis分布式锁实现)", method = "POST")
     @PostMapping("/redisson")
     @Async
     public Result doWithRedissionLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
@@ -90,7 +90,7 @@ public class SeckillMockController {
      * 结果：多次运行，最终的结果为1000
      * 总结：速度较快，处理时间稍慢于场景一。
      */
-    @ApiOperation(value = "秒杀场景三(activemq消息队列实现)")
+    @Operation(summary = "秒杀场景三(activemq消息队列实现)")
     @PostMapping("/activemq")
     @Deprecated
     public Result doWithActiveMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
@@ -103,7 +103,7 @@ public class SeckillMockController {
      * 结果：多次运行，最终的结果为1000
      * 总结：速度快，速度优于activemq。
      */
-    @ApiOperation(value = "秒杀场景四(kafka消息队列实现)")
+    @Operation(summary = "秒杀场景四(kafka消息队列实现)")
     @PostMapping("/kafka")
     @Async
     public Result doWithKafkaMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
@@ -123,7 +123,7 @@ public class SeckillMockController {
      * 结果：多次运行，最终的结果为1000
      * 总结：速度快
      */
-    @ApiOperation(value = "秒杀场景五(数据库原子性更新update set num = num -1)")
+    @Operation(summary = "秒杀场景五(数据库原子性更新update set num = num -1)")
     @PostMapping("/procedure")
     @Async
     public Result doWithProcedure(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
@@ -138,7 +138,7 @@ public class SeckillMockController {
      *
      * @param seckillId 秒杀活动id
      */
-    @ApiOperation(value = "秒杀场景六(返回执行结果的秒杀,30秒超时,activeMq实现)")
+    @Operation(summary = "秒杀场景六(返回执行结果的秒杀,30秒超时,activeMq实现)")
     @RequestMapping(value = "/activemq/reply/{seckillId}", method = POST, produces = {
             "application/json;charset=UTF-8"})
     @Deprecated
@@ -150,7 +150,7 @@ public class SeckillMockController {
     /**
      *
      */
-    @ApiOperation(value = "秒杀场景七(zookeeper分布式锁)")
+    @Operation(summary = "秒杀场景七(zookeeper分布式锁)")
     @RequestMapping(value = "/zookeeperLock", method = POST, produces = {
             "application/json;charset=UTF-8"})
     @Async
@@ -162,7 +162,7 @@ public class SeckillMockController {
     /**
      * 场景八：使用redis缓存执行库存-1操作，最后通过发送MQ完成数据落地（存入mongoDB）
      */
-    @ApiOperation(value = "秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)")
+    @Operation(summary = "秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)")
     @RequestMapping(value = "/redisReactiveMongo", method = POST, produces = {
             "application/json;charset=UTF-8"})
     @Async
@@ -171,7 +171,7 @@ public class SeckillMockController {
         return Result.ok();
     }
 
-    @ApiOperation(value = "秒杀场景九(rabbitmq)")
+    @Operation(summary = "秒杀场景九(rabbitmq)")
     @PostMapping("/rabbitmq")
     @Async
     public Result doWithRabbitmq(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
@@ -185,7 +185,7 @@ public class SeckillMockController {
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
-    @ApiOperation(value = "秒杀场景十(Sentinel限流+数据库原子性更新)")
+    @Operation(summary = "秒杀场景十(Sentinel限流+数据库原子性更新)")
     @PostMapping("/limit")
     @Async
     public Result limit(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
@@ -201,7 +201,7 @@ public class SeckillMockController {
      * @param dto 秒杀活动
      * @see com.goodskill.web.stream.consumer.SeckillMockCanalResponseListener 为对应的消息接受者
      */
-    @ApiOperation(value = "秒杀场景十一(数据库原子性更新+canal 数据库binlog日志监听秒杀结果)")
+    @Operation(summary = "秒杀场景十一(数据库原子性更新+canal 数据库binlog日志监听秒杀结果)")
     @PostMapping("/atomicWithCanal")
     @Async
     public Result atomicWithCanal(@RequestBody @Valid SeckillWebMockRequestDTO dto) {

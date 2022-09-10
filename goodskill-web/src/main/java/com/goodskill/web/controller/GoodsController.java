@@ -4,7 +4,7 @@ import com.goodskill.api.service.GoodsService;
 import com.goodskill.entity.Goods;
 import com.goodskill.web.util.HttpUrlUtil;
 import com.goodskill.web.util.UploadFileUtil;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  *  Created by heng on 17/1/18.
  */
-@Api(tags = "商品管理")
+@Tag(name = "商品管理")
 @Controller
 @RequestMapping("/seckill/goods")
 public class GoodsController {

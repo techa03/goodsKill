@@ -15,7 +15,7 @@ import com.goodskill.web.vo.PageVO;
 import com.goodskill.web.vo.UserVO;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.SecurityUtils;
@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-@Api(tags = "后台用户管理")
+@Tag(name = "后台用户管理")
 @RestController
 @RequestMapping("/admin/user")
 @Slf4j

@@ -21,12 +21,13 @@
 		<module>goodskill-oauth2</module>
 		<module>goodskill-admin</module>
         <module>goodskill-canal</module>
+		<module>goodskill-swagger-docs</module>
     </modules>
 
 	<properties>
 		<goodskill.version>1.0.0-SNAPSHOT</goodskill.version>
-		<springboot.version>2.7.0</springboot.version>
-		<spring-cloud.version>2021.0.3</spring-cloud.version>
+		<springboot.version>2.7.3</springboot.version>
+		<spring-cloud.version>2021.0.4</spring-cloud.version>
 		<spring.cloud.alibaba.version>2021.0.1.0</spring.cloud.alibaba.version>
 		<kotlin.version>1.6.21</kotlin.version>
         <jacoco.version>0.8.8</jacoco.version>

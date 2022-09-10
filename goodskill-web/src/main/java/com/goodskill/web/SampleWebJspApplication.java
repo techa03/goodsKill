@@ -8,7 +8,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
-import springfox.documentation.oas.annotations.EnableOpenApi;
 
 
 /**
@@ -21,7 +20,6 @@ import springfox.documentation.oas.annotations.EnableOpenApi;
 @EnableDiscoveryClient
 @EnableFeignClients(value = {"com.goodskill.*.api", "com.goodskill.api"})
 @EnableRedisHttpSession
-@EnableOpenApi
 @EnableAsync
 public class SampleWebJspApplication {
 
