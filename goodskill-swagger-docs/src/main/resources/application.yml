@@ -1,0 +1,26 @@
+server:
+  port: 18060
+knife4j:
+  enableAggregation: true
+  nacos:
+    enable: true
+    serviceUrl: http://localhost:8848/nacos/
+    serviceAuth:
+      enable: false
+      username: test
+      password: 12313
+    routeAuth:
+      enable: true
+      username: test
+      password: 12313
+    routes:
+      - name: 商品秒杀服务
+        serviceName: goodskill-web
+        location: /goodskill/web/v3/api-docs/web
+        swaggerVersion: 3.0
+        servicePath: /
+        routeAuth:
+          enable: true
+          username: test
+          password: 12313
+

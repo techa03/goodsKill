@@ -16,10 +16,10 @@ import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.web.dto.ResponseDTO;
 import com.goodskill.web.util.HttpUrlUtil;
 import com.goodskill.web.util.UploadFileUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
  * @author techa03
  * @date 2016/7/23
  */
-@Api(tags = "秒杀管理")
+@Tag(name = "秒杀管理")
 @Controller
 @RequestMapping("/seckill")
 @Validated
@@ -71,10 +71,10 @@ public class SeckillController {
     @Autowired
     private UploadFileUtil uploadFileUtil;
 
-    @ApiOperation(value = "秒杀列表", notes = "分页显示秒杀列表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "offset", value = "当前页数", required = true, dataType = "int"),
-            @ApiImplicitParam(name = "limit", value = "每页显示的记录数", required = true, dataType = "int")})
+    @Operation(summary = "秒杀列表", description = "分页显示秒杀列表")
+    @Parameters({
+            @Parameter(name = "offset", description = "当前页数", required = true),
+            @Parameter(name = "limit", description = "每页显示的记录数", required = true)})
     @GetMapping(value = "/list")
     @SentinelResource("seckillList")
     public String list(

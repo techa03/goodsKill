@@ -5,7 +5,7 @@ import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.service.UserAccountService;
 import com.goodskill.entity.User;
 import com.goodskill.web.util.HttpUrlUtil;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 
-@Api(tags = "登录注册控制")
+@Tag(name = "登录注册控制")
 @Controller
 public class UserAccountController {
     @DubboReference

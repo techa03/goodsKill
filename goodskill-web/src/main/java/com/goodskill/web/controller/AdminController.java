@@ -8,9 +8,9 @@ import com.goodskill.web.dto.PermissionDTO;
 import com.goodskill.web.dto.ResponseDTO;
 import com.goodskill.web.dto.RoleDTO;
 import com.goodskill.web.util.HttpUrlUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.BeanUtils;
@@ -25,7 +25,7 @@ import java.util.List;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-@Api(tags = "角色权限管理")
+@Tag(name = "角色权限管理", description = "角色权限管理")
 @Controller
 @RequestMapping("/seckill/admin")
 @Slf4j
@@ -41,14 +41,14 @@ public class AdminController {
     @DubboReference
     private RolePermissionService rolePermissionService;
 
-    @ApiOperation("分页查询角色")
+    @Operation(summary = "分页查询角色")
     @RequestMapping(value = "/role", method = GET, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDTO role(
-            @ApiParam("分页当前页码")
+            @Parameter(description = "分页当前页码")
             @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
-            @ApiParam("分页每页显示数量")
+            @Parameter(description = "分页每页显示数量")
             @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
         Page<Role> page = new Page<>(offset, limit);
         IPage<Role> pageInfo = roleService.page(page);
@@ -58,14 +58,14 @@ public class AdminController {
         return responseDto;
     }
 
-    @ApiOperation("分页查询角色部分信息")
+    @Operation(summary = "分页查询角色部分信息")
     @RequestMapping(value = "/roleLess", method = GET, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDTO roleLess(
-            @ApiParam("分页当前页码")
+            @Parameter(description = "分页当前页码")
             @RequestParam(name = "page", required = false, defaultValue = "0") int offset,
-            @ApiParam("分页每页显示数量")
+            @Parameter(description = "分页每页显示数量")
             @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) {
         Page<Role> page = new Page<>(offset, limit);
         IPage<Role> pageInfo = roleService.page(page);
@@ -82,7 +82,7 @@ public class AdminController {
         return responseDto;
     }
 
-    @ApiOperation("新增角色")
+    @Operation(summary = "新增角色")
     @GetMapping("/role/add")
     public String addRole(Role role) {
         role.setCreateTime(new Date());

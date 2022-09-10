@@ -97,6 +97,7 @@ goodsKill
 |--goodskill-oauth2                         ||oauth2.0自定义模块
     |--oauth2-auth-server                   ||oauth2.0登录授权服务端，自定义的授权登录服务
     |--oauth2-resource-server               ||oauth2.0资源服务端，自定义的授权登录服务
+|--goodskill-swagger-docs                   ||swagger3.0文档聚合访问服务
 ----
 
 == 🔥🔥秒杀方案
@@ -104,6 +105,8 @@ goodsKill
 目前实现了几种秒杀方案，通过``SeckillMockController``提供测试接口
 
 Swagger主页测试地址: `http://www.goodskill.com:8080/goodskill/web/swagger-ui/index.html`
+
+聚合Swagger文档地址: `http://localhost:18060/doc.html#/home`（需要开启SwaggerDocsApplication服务）
 
 Spring Boot Admin应用监控地址: `http://www.goodskill.com:19031`, 登录用户名密码：user/123456
 
@@ -282,6 +285,8 @@ ____
 * Seata分布式事务测试方法见 https://github.com/techa03/goodsKill/tree/master/goodskill-seata/README.md[Seata分布式事务测试示例运行说明]
 
 * main方法运行``GoodskillAdminApplication``类(微服务健康状态指标监控)
+
+* main方法运行``SwaggerDocsApplication``类(接口文档)
 
 == ❓常见问题
 [qanda]

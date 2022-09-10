@@ -6,7 +6,7 @@ import com.goodskill.common.info.OAuth2UserInfo;
 import com.goodskill.common.util.OAuth2UserInfoConverUtil;
 import com.goodskill.common.util.UserAccountUtil;
 import com.goodskill.web.util.HttpUrlUtil;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
-@Api(tags = "公共控制")
+@Tag(name = "公共控制")
 @RestController
 @Slf4j
 public class CommonController {
@@ -37,7 +37,7 @@ public class CommonController {
     @Value("${server.servlet.context-path}")
     private String serverContextPath;
 
-    @GetMapping("/")
+    @GetMapping("/error")
     public void handleError(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
