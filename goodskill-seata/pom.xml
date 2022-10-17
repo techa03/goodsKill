@@ -43,6 +43,7 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-dubbo</artifactId>
+            <version>2021.0.1.0</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.csp</groupId>

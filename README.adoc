@@ -165,11 +165,11 @@ ns         %     Task name
 |===
 |镜像 |版本 |端口 |用户名密码
 
-|Nacos |2.0.3 |8848 |nacos:nacos
+|Nacos |2.1.1 |8848 |nacos:nacos
 |Redis |latest |6379 |密码:123456
 |Kafka |3.1.1 |9092 |无
 |KafkaManager |latest |9001:9000 |无
-|Mongo |4.6.0 |27017 |无
+|Mongo |latest |27017 |无
 |MySQL |8.0.29 |3306 |root:Password123
 |Zookeeper |3.6.2 |2181 |无
 |Elasticsearch |7.17.3 |9200 9300 |无

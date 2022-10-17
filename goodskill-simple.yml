@@ -19,10 +19,10 @@ services:
     volumes:
       - ./doc/docker/nacos/standalone-logs/:/home/nacos/logs
       - ./doc/docker/nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
-      - ./doc/docker/nacos/logs/:/home/nacos/logs
       - ./doc/docker/nacos/conf/application.properties:/home/nacos/conf/application.properties
     ports:
       - "8848:8848"
+      - "9848:9848"
     restart: always
     build:
       context: ./doc/docker/nacos
@@ -126,7 +126,7 @@ services:
       - somenetwork
 
   mongo:
-    image: mongo:4.6.0
+    image: mongo
     container_name: mongo
     restart: always
     ports:
