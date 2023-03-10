@@ -3,11 +3,11 @@ package com.goodskill.service.mq
 import com.goodskill.api.dto.SeckillMockRequestDTO
 import com.goodskill.common.enums.SeckillSolutionEnum
 import com.goodskill.service.inner.SeckillExecutor
+import jakarta.annotation.Resource
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.util.function.Consumer
-import javax.annotation.Resource
 
 /**
  * spring cloud stream消息消费者

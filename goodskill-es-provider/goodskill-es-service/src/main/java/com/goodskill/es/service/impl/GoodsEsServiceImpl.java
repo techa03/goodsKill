@@ -5,15 +5,14 @@ import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.es.dto.GoodsDTO;
 import com.goodskill.es.model.Goods;
 import com.goodskill.es.repository.GoodsRepository;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.client.erhlc.NativeSearchQuery;
+import org.springframework.data.elasticsearch.client.erhlc.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.query.HighlightQuery;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.highlight.Highlight;
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightField;
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightFieldParameters;
@@ -68,14 +67,13 @@ public class GoodsEsServiceImpl implements GoodsEsService {
 
     @Override
     public List<GoodsDTO> searchWithNameByPage(String input) {
-        NativeSearchQuery searchQuery;
+        NativeSearchQuery searchQuery = null;
         if (!StringUtils.hasText(input)) {
             searchQuery = new NativeSearchQueryBuilder()
                     .build();
         } else {
-            searchQuery = new NativeSearchQueryBuilder()
-                    .withQuery(QueryBuilders.matchQuery("name", input))
-                    .build();
+//            searchQuery = new NativeSearchQueryBuilder()
+//                    .withQuery(QueryBuilders.matchQuery("fd", input, null, null))
         }
         Pageable pageble = PageRequest.of(0, 3);
         searchQuery.setPageable(pageble);

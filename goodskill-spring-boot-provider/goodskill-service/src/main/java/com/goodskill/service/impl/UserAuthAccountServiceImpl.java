@@ -8,10 +8,9 @@ import com.goodskill.entity.User;
 import com.goodskill.entity.UserAuthAccount;
 import com.goodskill.mp.dao.mapper.UserAuthAccountMapper;
 import com.goodskill.service.common.UserService;
+import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
-
-import javax.annotation.Resource;
 
 /**
  * <p>

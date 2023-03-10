@@ -148,10 +148,6 @@ spring:
   config:
     activate:
       on-profile: docker,dev
-  redis:
-    host: redis
-    port: 6379
-    password: 123456
   cloud:
     nacos:
       server-addr: nacos:8848
@@ -169,6 +165,11 @@ spring:
     password: guest
   zipkin:
     base-url: http://zipkin:9411/
+  data:
+    redis:
+      host: redis
+      port: 6379
+      password: 123456
 dubbo:
   registry:
     address: zookeeper://zookeeper:2181

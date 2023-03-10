@@ -156,10 +156,6 @@ management:
 ---
 ######################docker环境配置#####################
 spring:
-  redis:
-    host: redis
-    port: 6379
-    password: 123456
   ##下面是redis哨兵模式的配置信息
   #    redisson:
   #      config: |
@@ -203,6 +199,11 @@ spring:
   config:
     activate:
       on-profile: docker,dev
+  data:
+    redis:
+      port: 6379
+      host: redis
+      password: 123456
 dubbo:
   registry:
     address: zookeeper://zookeeper:2181

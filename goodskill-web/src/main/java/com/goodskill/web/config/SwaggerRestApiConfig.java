@@ -8,7 +8,6 @@ import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import static org.springdoc.core.Constants.ALL_PATTERN;
@@ -18,7 +17,7 @@ import static org.springdoc.core.Constants.ALL_PATTERN;
  * http://IP:port/{context-path}/swagger-ui.html
  * eg:http://localhost:8080/jd-config-web/swagger-ui.html
  */
-@Configuration
+//@Configuration
 public class SwaggerRestApiConfig {
     @Bean
     @Profile("!prod")

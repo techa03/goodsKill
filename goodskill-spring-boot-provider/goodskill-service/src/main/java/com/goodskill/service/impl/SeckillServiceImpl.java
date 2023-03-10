@@ -26,8 +26,10 @@ import com.goodskill.service.common.RedisService;
 import com.goodskill.service.common.trade.alipay.AlipayRunner;
 import com.goodskill.service.mock.strategy.GoodsKillStrategy;
 import com.goodskill.service.mock.strategy.GoodsKillStrategyEnum;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +40,6 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
@@ -75,7 +76,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private SeckillService seckillService;
     @Autowired
     private AlipayRunner alipayRunner;
-    @Autowired
+    @DubboReference
     private GoodsService goodsService;
     @Resource(name = "taskExecutor")
     private ThreadPoolExecutor taskExecutor;

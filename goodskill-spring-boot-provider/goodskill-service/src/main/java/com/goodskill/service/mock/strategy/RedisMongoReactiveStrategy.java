@@ -7,6 +7,7 @@ import com.goodskill.entity.Seckill;
 import com.goodskill.mongo.vo.SeckillMockSaveVo;
 import com.goodskill.mp.dao.mapper.SeckillMapper;
 import com.goodskill.service.common.RedisService;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -14,7 +15,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import static com.goodskill.common.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;

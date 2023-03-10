@@ -7,6 +7,7 @@ import com.goodskill.entity.SuccessKilled;
 import com.goodskill.mp.dao.mapper.SeckillMapper;
 import com.goodskill.mp.dao.mapper.SuccessKilledMapper;
 import com.goodskill.service.GoodsKillServiceApplication;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.*;
