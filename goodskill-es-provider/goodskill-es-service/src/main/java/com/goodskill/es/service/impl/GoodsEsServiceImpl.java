@@ -8,17 +8,16 @@ import com.goodskill.es.repository.GoodsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.client.erhlc.NativeSearchQuery;
-import org.springframework.data.elasticsearch.client.erhlc.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.query.Criteria;
+import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.data.elasticsearch.core.query.HighlightQuery;
+import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.data.elasticsearch.core.query.highlight.Highlight;
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightField;
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightFieldParameters;
 import org.springframework.data.elasticsearch.core.query.highlight.HighlightParameters;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -33,15 +32,12 @@ import java.util.stream.Collectors;
 @RestController
 @Service
 public class GoodsEsServiceImpl implements GoodsEsService {
-    @Autowired
-    private GoodsRepository goodsRepository;
+    private BeanCopier beanCopier = BeanCopier.create(GoodsDTO.class, Goods.class, false);
+    private BeanCopier beanCopierReverse = BeanCopier.create(Goods.class, GoodsDTO.class, false);
     @Autowired
     private ElasticsearchOperations elasticsearchOperations;
-
-    private BeanCopier beanCopier = BeanCopier.create(GoodsDTO.class, Goods.class, false);
-
-    private BeanCopier beanCopierReverse = BeanCopier.create(Goods.class, GoodsDTO.class, false);
-
+    @Autowired
+    private GoodsRepository goodsRepository;
 
     @Override
     public void save(GoodsDTO goodsDto) {
@@ -62,30 +58,23 @@ public class GoodsEsServiceImpl implements GoodsEsService {
 
     @Override
     public void delete(GoodsDTO goodsDto) {
-        goodsRepository.deleteById(goodsDto.getGoodsId());
+        goodsRepository.deleteByGoodsId(goodsDto.getGoodsId());
     }
 
     @Override
     public List<GoodsDTO> searchWithNameByPage(String input) {
-        NativeSearchQuery searchQuery = null;
-        if (!StringUtils.hasText(input)) {
-            searchQuery = new NativeSearchQueryBuilder()
-                    .build();
-        } else {
-//            searchQuery = new NativeSearchQueryBuilder()
-//                    .withQuery(QueryBuilders.matchQuery("fd", input, null, null))
-        }
-        Pageable pageble = PageRequest.of(0, 3);
-        searchQuery.setPageable(pageble);
+        Criteria criteria = new Criteria("name").matches(input);
+        Query query = new CriteriaQuery(criteria);
+
         HighlightFieldParameters parameters = HighlightFieldParameters.builder()
                 .withPostTags(new String[]{"</font>"})
                 .withPreTags(new String[]{"<font color='red'>"})
                 .build();
         HighlightField highlightField = new HighlightField("name", parameters);
         Highlight highlight = new Highlight(HighlightParameters.builder().build(), List.of(highlightField));
-        HighlightQuery highlightQuery = new HighlightQuery(highlight, null);
-        searchQuery.setHighlightQuery(highlightQuery);
-        return elasticsearchOperations.search(searchQuery, Goods.class)
+        query.setHighlightQuery(new HighlightQuery(highlight, null));
+        query.setPageable(PageRequest.of(0, 3));
+        return elasticsearchOperations.search(query, Goods.class)
                 .getSearchHits().stream().map(s -> {
                     Goods goods = s.getContent();
                     GoodsDTO goodsDto = new GoodsDTO();

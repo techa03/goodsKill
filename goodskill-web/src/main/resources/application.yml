@@ -163,8 +163,6 @@ spring:
     port: 5672
     username: guest
     password: guest
-  zipkin:
-    base-url: http://zipkin:9411/
   data:
     redis:
       host: redis
