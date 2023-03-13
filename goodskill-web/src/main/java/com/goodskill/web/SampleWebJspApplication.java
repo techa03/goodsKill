@@ -16,7 +16,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  * @author heng
  */
 @SpringBootApplication
-@ImportResource(value = {"classpath*:META-INF/spring/spring-web.xml"})
+@ImportResource(value = {"classpath*:META-INF/spring/spring-web.xml", "classpath*:META-INF/spring/spring-shiro-web.xml"})
 @EnableDiscoveryClient
 @EnableFeignClients(value = {"com.goodskill.*.api", "com.goodskill.api"})
 @EnableRedisHttpSession

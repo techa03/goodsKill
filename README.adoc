@@ -153,19 +153,19 @@ ns         %     Task name
 
 == 🧰开发环境版本说明
 
-* JDK: OpenJDK11
+* JDK: OpenJDK17
 * Sharding-JDBC: 4.1.1
-* SpringCloud: 2021.x.x
-* SpringBoot: 2.7.x
-* SpringCloudAlibaba: 2021.x
+* SpringCloud: 2022.x.x
+* SpringBoot: 3.x.x
+* SpringCloudAlibaba: 2022.x.x
 * Apache Dubbo: 3.x
-* Kotlin: 1.6.x
+* Kotlin: 1.7.x
 * 使用的Docker镜像
 +
 |===
 |镜像 |版本 |端口 |用户名密码
 
-|Nacos |2.1.1 |8848 |nacos:nacos
+|Nacos |2.2.0 |8848 |nacos:nacos
 |Redis |latest |6379 |密码:123456
 |Kafka |3.1.1 |9092 |无
 |KafkaManager |latest |9001:9000 |无
