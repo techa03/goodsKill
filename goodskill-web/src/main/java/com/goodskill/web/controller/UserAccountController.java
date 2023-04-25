@@ -8,12 +8,6 @@ import com.goodskill.web.util.HttpUrlUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
-import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -38,7 +32,7 @@ public class UserAccountController {
     public String register(User user) {
         User userEncrypt = new User();
         BeanUtils.copyProperties(user,userEncrypt);
-        userEncrypt.setPassword(new SimpleHash("MD5", user.getPassword(), ByteSource.Util.bytes(user.getAccount()), 2).toString());
+//        userEncrypt.setPassword(new SimpleHash("MD5", user.getPassword(), ByteSource.Util.bytes(user.getAccount()), 2).toString());
         userAccountService.register(userEncrypt);
         // 注册成功后直接登录
         login(user);
@@ -52,19 +46,20 @@ public class UserAccountController {
 
     @RequestMapping(value = "/login/session", method = RequestMethod.POST)
     public String login(User user) {
-        UsernamePasswordToken token = new UsernamePasswordToken(user.getAccount(), user.getPassword());
-        Subject subject = SecurityUtils.getSubject();
-
-        Session session = subject.getSession();
-        try {
-            subject.login(token);
-            session.setAttribute("user", user);
-        } catch (Exception e) {
-            session.setAttribute("user", null);
-            logger.error(e.getMessage(), e);
-            return HttpUrlUtil.replaceRedirectUrl("redirect:/login");
-        }
-        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
+//        UsernamePasswordToken token = new UsernamePasswordToken(user.getAccount(), user.getPassword());
+//        Subject subject = SecurityUtils.getSubject();
+//
+//        Session session = subject.getSession();
+//        try {
+//            subject.login(token);
+//            session.setAttribute("user", user);
+//        } catch (Exception e) {
+//            session.setAttribute("user", null);
+//            logger.error(e.getMessage(), e);
+//            return HttpUrlUtil.replaceRedirectUrl("redirect:/login");
+//        }
+//        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
+        return null;
     }
 
     @GetMapping(value = "/register")
@@ -74,9 +69,10 @@ public class UserAccountController {
 
     @GetMapping(value = "/sign-out")
     public String signOut() {
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
-        return HttpUrlUtil.replaceRedirectUrl("redirect:/login");
+//        Subject subject = SecurityUtils.getSubject();
+//        subject.logout();
+//        return HttpUrlUtil.replaceRedirectUrl("redirect:/login");
+        return null;
     }
 
 

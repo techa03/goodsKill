@@ -18,11 +18,6 @@ import com.google.common.collect.Maps;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -45,19 +40,19 @@ public class AdminUserController {
 
     @PostMapping(value = "/login")
     public R<?> login(@RequestBody User user) {
-        UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
-        Subject subject = SecurityUtils.getSubject();
-
-        Session session = subject.getSession();
-        try {
-            subject.login(token);
-            session.setAttribute("user", user);
-        } catch (AuthenticationException e1) {
-            return R.fail("服务器内部错误！");
-        } catch (Exception e) {
-            session.setAttribute("user", null);
-            return R.fail("用户名或密码错误！");
-        }
+//        UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
+//        Subject subject = SecurityUtils.getSubject();
+//
+//        Session session = subject.getSession();
+//        try {
+//            subject.login(token);
+//            session.setAttribute("user", user);
+//        } catch (AuthenticationException e1) {
+//            return R.fail("服务器内部错误！");
+//        } catch (Exception e) {
+//            session.setAttribute("user", null);
+//            return R.fail("用户名或密码错误！");
+//        }
         user.setPassword(null);
         Map map = Maps.newHashMap();
         map.put("token", JwtUtils.createToken(BeanUtil.beanToMap(user)));
@@ -85,9 +80,10 @@ public class AdminUserController {
 
     @PostMapping(value = "/logout")
     public R<Void> logout() {
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
-        return R.ok();
+//        Subject subject = SecurityUtils.getSubject();
+//        subject.logout();
+//        return R.ok();
+        return null;
     }
 
     @GetMapping(value = "/list")
