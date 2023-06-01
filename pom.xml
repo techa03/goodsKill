@@ -33,7 +33,7 @@
         <jacoco.version>0.8.8</jacoco.version>
 		<maven.surefire.version>2.22.2</maven.surefire.version>
         <net.logstash.version>7.1.1</net.logstash.version>
-		<dubbo.version>3.0.13</dubbo.version>
+		<dubbo.version>3.0.10</dubbo.version>
 		<hutool.version>5.8.8</hutool.version>
 		<mybatis-plus.version>3.5.2</mybatis-plus.version>
 		<fastjson2.version>2.0.7</fastjson2.version>
