@@ -1,8 +1,10 @@
 package com.goodskill.web.controller;
 
+import com.goodskill.entity.User;
 import com.goodskill.web.util.HttpUrlUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -27,7 +29,7 @@ public class AuthcController {
     @RequestMapping("/admin")
     public String admin() {
         // TODO 管理员页面待完成
-//        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
         return "admin/admin";
     }
 }

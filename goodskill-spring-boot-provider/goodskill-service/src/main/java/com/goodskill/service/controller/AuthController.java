@@ -2,6 +2,7 @@ package com.goodskill.service.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.nacos.common.utils.UuidUtils;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.goodskill.api.dto.AuthResponseDTO;
 import com.goodskill.api.service.AuthService;
 import com.goodskill.common.util.JwtUtils;
@@ -10,6 +11,8 @@ import com.goodskill.service.common.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,22 +35,21 @@ public class AuthController implements AuthService {
 
     @Override
     public AuthResponseDTO token(String userName, String password) {
-//        // MD5加密后的密码
-//        String passwordEncrypt = new SimpleHash("MD5", password,
-//                ByteSource.Util.bytes(userName), 2).toString();
-//        User user = userService.getOne(new LambdaQueryWrapper<User>()
-//                .eq(User::getUsername, userName).eq(User::getPassword, passwordEncrypt));
-//        user.setPassword(null);
-//        String token = JwtUtils.createToken(BeanUtil.beanToMap(user));
-//        String refreshKey = UuidUtils.generateUuid();
-//        redisTemplate.opsForValue().set(refreshKey, token, Duration.ofHours(2L));
-//        return AuthResponseDTO.builder()
-//                .token(token)
-//                .userName(userName)
-//                .refreshKey(refreshKey)
-//                .code("200")
-//                .build();
-        return null;
+        // MD5加密后的密码
+        String passwordEncrypt = new SimpleHash("MD5", password,
+                ByteSource.Util.bytes(userName), 2).toString();
+        User user = userService.getOne(new LambdaQueryWrapper<User>()
+                .eq(User::getUsername, userName).eq(User::getPassword, passwordEncrypt));
+        user.setPassword(null);
+        String token = JwtUtils.createToken(BeanUtil.beanToMap(user));
+        String refreshKey = UuidUtils.generateUuid();
+        redisTemplate.opsForValue().set(refreshKey, token, Duration.ofHours(2L));
+        return AuthResponseDTO.builder()
+                .token(token)
+                .userName(userName)
+                .refreshKey(refreshKey)
+                .code("200")
+                .build();
     }
 
     @Override
