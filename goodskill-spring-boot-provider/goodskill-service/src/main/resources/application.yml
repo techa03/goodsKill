@@ -19,37 +19,38 @@ spring:
     mongodb:
       database: test
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    url: jdbc:shardingsphere:classpath:sharding-sphere.yml
+#    url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
     username: root
     password: Password123
-  shardingsphere:
-    datasource:
-      names: ds0,ds1
-      ds0:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        type: com.zaxxer.hikari.HikariDataSource
-      ds1:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        type: com.zaxxer.hikari.HikariDataSource
-    sharding:
-      binding-tables: success_killed
-      tables:
-        success_killed:
-          actual-data-nodes: ds$->{0..1}.success_killed_$->{0..1}
-          database-strategy:
-            inline:
-              algorithm-expression: ds$->{seckill_id % 2}
-              sharding-column: seckill_id
-          table-strategy:
-            inline:
-              algorithm-expression: success_killed_$->{user_phone.toLong() % 2}
-              sharding-column: user_phone
-      #必须配置，否则未配置的表会被应用分库分表规则
-      default-data-source-name: ds0
-    props:
-      sql:
-        show: false
+#  shardingsphere:
+#    datasource:
+#      names: ds0,ds1
+#      ds0:
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        type: com.zaxxer.hikari.HikariDataSource
+#      ds1:
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        type: com.zaxxer.hikari.HikariDataSource
+#    sharding:
+#      binding-tables: success_killed
+#      tables:
+#        success_killed:
+#          actual-data-nodes: ds$->{0..1}.success_killed_$->{0..1}
+#          database-strategy:
+#            inline:
+#              algorithm-expression: ds$->{seckill_id % 2}
+#              sharding-column: seckill_id
+#          table-strategy:
+#            inline:
+#              algorithm-expression: success_killed_$->{user_phone.toLong() % 2}
+#              sharding-column: user_phone
+#      #必须配置，否则未配置的表会被应用分库分表规则
+#      default-data-source-name: ds0
+#    props:
+#      sql:
+#        show: false
   rabbitmq:
     port: 5672
     username: guest

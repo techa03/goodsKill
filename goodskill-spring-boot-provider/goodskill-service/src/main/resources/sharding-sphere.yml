@@ -1,0 +1,50 @@
+mode:
+  ##单机模式
+  type: Standalone
+  repository:
+    type: JDBC
+
+dataSources:
+  ds0:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    jdbcUrl: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: Password123
+  ds1:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    jdbcUrl: jdbc:mysql://mysql:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: Password123
+
+  # 配置其他数据源
+rules:
+- !SHARDING
+  tables:
+    success_killed:
+      actualDataNodes: ds$->{0..1}.success_killed_$->{0..1}
+      tableStrategy:
+        standard:
+          shardingAlgorithmName: t_success_killed_inline
+          shardingColumn: user_phone
+  defaultDatabaseStrategy:
+    standard:
+      shardingColumn: seckill_id
+      shardingAlgorithmName: database_inline
+  bindingTables:
+    - success_killed
+  defaultTableStrategy:
+    none:
+  shardingAlgorithms:
+    database_inline:
+      type: INLINE
+      props:
+        algorithm-expression: ds$->{seckill_id % 2}
+    t_success_killed_inline:
+      type: INLINE
+      props:
+          algorithm-expression: success_killed_$->{user_phone.toLong() % 2}
+
+props:
+  sql-show: true

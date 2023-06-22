@@ -9,17 +9,11 @@ image:https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml
 项目命名为 *goodsKill* 一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为 *good skill*，本项目就是希望搭建一套完整的项目框架，把一些好的技术和开发技巧整合进来（偏向于后端技术），方便学习和查阅。
 
 
-本项目为慕课网仿购物秒杀项目，功能上整体分为用户注册登录、秒杀商品管理模块。使用Shiro完成登录验证授权以及用户权限验证（权限设计使用RBAC模型），支持OAuth2.0第三方授权登录（目前可通过Gitee，Github进行授权）。 技术上整体采用SpringMVC+RESTFUL风格，Mybatis持久层框架，采用Dubbo3.x{empty}footnote:[由于SpringCloudAlibaba官方暂未支持Dubbo 3.x，本项目采用dubbo-spring-boot-starter集成，使用zookeeper注册中心]以及Feign实现分布式服务调用，服务注册发现以及配置中心使用Nacos。
-
-本项目在原基础上扩展了部分功能，例如支持数据库分库分表、分布式事务，并提供基本的秒杀解决方案（通过模拟接口实现）。
-
-* 集成SpringCloudAlibaba Sentinel限流组件，可以针对Http请求限流
-
-* 集成服务网关，采用Spring Cloud Gateway网关组件，支持动态路由刷新
+本项目为模拟秒杀项目，提供统一秒杀模拟请求接口，方便自行测试各个秒杀方案的执行速度。另外支持OAuth2.0第三方授权登录（目前可通过Gitee，Github进行授权）。 技术上整体采用SpringMVC + Mybatis持久层框架，采用Dubbo3.x{empty}footnote:[由于SpringCloudAlibaba官方暂未支持Dubbo 3.x，本项目采用dubbo-spring-boot-starter集成]，服务注册发现以及配置中心使用Nacos，支持数据库分库分表、分布式事务。由于个人精力有限，最新代码已移除登录以及后台管理页面，只保留了核心秒杀模拟测试API接口。
 
 == 💎分支介绍
 
-``dev_gradle``分支为使用gradle构建工具管理项目依赖（已停更），``dev_maven``分支对应maven构建工具（Spring Framework版本4.x，已停更），``master``分支基于最新Spring Cloud体系构建。本项目功能目前比较简陋且有很多不完善的地方，真实的秒杀场景远比本项目中的实现方式复杂，本项目省略了真实场景中的部分技术实现细节，目前仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
+``dev_gradle``分支为使用gradle构建工具管理项目依赖（已停更），``dev_maven``分支对应maven构建工具（Spring Framework版本4.x，已停更），``master``分支基于最新Spring Cloud + Spring Boot 3.x体系构建。本项目功能目前比较简陋且有很多不完善的地方，真实的秒杀场景远比本项目中的实现方式复杂，本项目省略了真实场景中的部分技术实现细节，目前仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
 ____
 
 附：码云项目链接 `https://gitee.com/techa/goodsKill`,clone速度慢的用码云仓库拉吧，不定期同步到码云~
@@ -28,12 +22,10 @@ ____
 
 == ✨技术选型
 
-=== 📌后端技术:
-
 |===
-|技术 |名称 |官网
+|使用的工具或框架 |名称 |官网
 
-|Spring Boot |框架 |https://spring.io/projects/spring-boot
+|Spring Boot |Spring Boot框架 |https://spring.io/projects/spring-boot
 |MyBatis-Plus |MyBatis增强工具 |https://mp.baomidou.com/
 |Hikari |数据库连接池 |https://github.com/brettwooldridge/HikariCP
 |ZooKeeper |分布式协调服务 |http://zookeeper.apache.org/
@@ -61,15 +53,6 @@ ____
 |Spring Security OAuth2.0 |OAuth2.0授权组件 |https://spring.io/projects/spring-security-oauth
 |Canal |基于MySQL数据库的增量日志解析工具 |https://github.com/alibaba/canal
 |MinIO |一款高性能、分布式的对象存储系统 |https://min.io/
-|===
-
-=== 📌前端技术:
-|===
-|技术 |名称 |官网
-
-|JQuery |函式库 |http://jquery.com/
-|Bootstrap |前端框架 |http://getbootstrap.com/
-|LayUI |前端UI框架 |https://github.com/sentsin/layui
 |===
 
 == 📝项目模块介绍
@@ -154,7 +137,7 @@ ns         %     Task name
 == 🧰开发环境版本说明
 
 * JDK: OpenJDK17
-* Sharding-JDBC: 4.1.1
+* Sharding-JDBC: 5.3.2
 * SpringCloud: 2022.x.x
 * SpringBoot: 3.x.x
 * SpringCloudAlibaba: 2022.x.x
@@ -230,8 +213,6 @@ docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行�
 
 * main方法运行``SampleWebJspApplication``类(web服务)
 
-* 启动完成后访问登录页面 `http://www.goodskill.com:8080/goodskill/web/login`，默认管理员账号admin123，密码：aa123456
-
 * 启动完成后发送一个秒杀模拟请求：
 秒杀活动id 1000，商品数量10，执行20次购买操作，使用sychronized同步锁执行，例如：
 +
@@ -290,10 +271,6 @@ ____
 
 == ❓常见问题
 [qanda]
-使用idea启动``SampleWebJspApplication``类(goodskill-web模块)时会出现访问不了页面的问题，eclipse无此问题::
-
-配置启动类的工作目录为goodskill-web，具体可参考 https://github.com/techa03/goodsKill/issues/108[issue#108]
-
 docker es镜像启动失败::
 
 出现此问题一般为linux环境，运行以下命令即可 `sysctl -w vm.max_map_count=262144`
@@ -368,22 +345,6 @@ ____
 ]
 ====
 
-
-== 🔨后续更新计划
-
-|===
-|功能 |进度 |完成时间 |说明
-|集成Spring Cloud Alibaba组件 |✅ |2020.5 |目前已集成nacos、sentinel、dubbo、seata组件
-|完善JWT用户鉴权，并提供通用服务接口 |✅ |2020.12 |
-|集成分布式事务解决方案 |✅ |2021.2 |
-|增加OAuth2.0授权登录模块 |✅ |2021.9 |增加自定义OAuth2.0授权以及资源服务，并支持第三方授权登录
-|集成ELK日志采集 |✅ |2021.12 |
-|使用canal收集数据库变更binlog，秒杀结束及时通知 |✅ |2022.5 |
-|JDK版本升级到17 |⏳ | |
-|尝试使用COLA重构部分模块 |⏳ | |
-|前后端分离、页面美化 |⏳ | | 基于vue-element-admin开发
-|===
-
 === API接口
 
 image:./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png[image]
@@ -392,36 +353,7 @@ image:./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png[ima
 
 image:./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png[image]
 
-== 💻页面展示
-
-==== 普通用户登录
-
-image:./doc/shortcut/img.png[image]
-
-==== 普通用户注册
-
-image:./doc/shortcut/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215804.png[image]
-
-==== 主页
-
-image:./doc/shortcut/QQ%E6%B5%8F%E8%A7%88%E5%99%A8%E6%88%AA%E5%9B%BE20180701215849.png[image]
-
-==== 商品查询
-
-____
-
-搜索框下拉商品候选信息基于elasticsearch实现，支持关键词高亮显示
-
-____
-
-image:doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200523214633.png[image]
-
-==== 后台管理系统登录
-image:doc/shortcut/img_2.png[image]
-
-==== 后台管理系统（开发中）
-
-image:doc/shortcut/img_1.png[image]
+== 💻相关页面展示
 
 ==== 商品列表限流
 

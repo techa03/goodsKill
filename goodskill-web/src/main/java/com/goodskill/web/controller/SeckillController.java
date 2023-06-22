@@ -11,7 +11,7 @@ import com.goodskill.common.enums.SeckillStatEnum;
 import com.goodskill.common.exception.RepeatKillException;
 import com.goodskill.common.exception.SeckillCloseException;
 import com.goodskill.common.info.Result;
-import com.goodskill.entity.*;
+import com.goodskill.entity.Seckill;
 import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.web.dto.ResponseDTO;
 import com.goodskill.web.util.HttpUrlUtil;
@@ -25,8 +25,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +38,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author techa03
@@ -245,59 +243,6 @@ public class SeckillController {
         String url = uploadFileUtil.uploadFile(file);
         goodsService.uploadGoodsPhoto(seckill.getGoodsId(), url);
         return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
-    }
-
-    @RequestMapping(value = "/permission/list", method = RequestMethod.GET, produces = {
-            "application/json;charset=UTF-8"})
-    @ResponseBody
-    public ResponseDTO getPermissionList() {
-        Subject subject = SecurityUtils.getSubject();
-        User user = (User) subject.getSession().getAttribute("user");
-        user = userAccountService.findByUserAccount(user.getAccount());
-        List<UserRole> userRoleList = userRoleService.list(user.getId());
-        RolePermission rolePermissionExample = new RolePermission();
-        Set<Permission> set = new HashSet<>();
-        for (UserRole userRole : userRoleList) {
-            rolePermissionExample.setRoleId(userRole.getRoleId());
-            List<RolePermission> rolePermissionList = rolePermissionService.list(userRole.getRoleId());
-            for (RolePermission rolePermission : rolePermissionList) {
-                set.add(permissionService.getById(rolePermission.getPermissionId()));
-            }
-        }
-        ResponseDTO<Permission> responseDto = new ResponseDTO<>();
-        List<Permission> permissions = set.stream().sorted(Comparator.comparing(Permission::getPermissionId).reversed()).collect(Collectors.toList());
-        logger.info(user.toString());
-        responseDto.setData(permissions.toArray(new Permission[permissions.size()]));
-        return responseDto;
-    }
-
-    @RequestMapping(value = "/permission/diretorylist", method = RequestMethod.GET, produces = {
-            "application/json;charset=UTF-8"})
-    @ResponseBody
-    public ResponseDTO getDirectoryPermissionList() {
-        Subject subject = SecurityUtils.getSubject();
-        User user = (User) subject.getSession().getAttribute("user");
-        user = userAccountService.findByUserAccount(user.getAccount());
-        UserRole example = new UserRole();
-        example.setUserId(user.getId());
-        List<UserRole> userRoleList = userRoleService.list(user.getId());
-        RolePermission rolePermissionExample = new RolePermission();
-        Set<Permission> set = new HashSet<>();
-        for (UserRole userRole : userRoleList) {
-            rolePermissionExample.setRoleId(userRole.getRoleId());
-            List<RolePermission> rolePermissionList = rolePermissionService.list(userRole.getRoleId());
-            for (RolePermission rolePermission : rolePermissionList) {
-                Permission permission = permissionService.getById(rolePermission.getPermissionId());
-                if ("Y".equals(permission.getIsDir())) {
-                    set.add(permission);
-                }
-            }
-        }
-        ResponseDTO<Permission> responseDto = new ResponseDTO<>();
-        List<Permission> permissions = new ArrayList<>(set);
-        logger.info(user.toString());
-        responseDto.setData(permissions.toArray(new Permission[permissions.size()]));
-        return responseDto;
     }
 
     /**
