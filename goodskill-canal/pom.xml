@@ -25,7 +25,6 @@
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-common-util</artifactId>
-            <version>${goodskill.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -34,7 +33,6 @@
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-api</artifactId>
-            <version>${goodskill.version}</version>
         </dependency>
     </dependencies>
 

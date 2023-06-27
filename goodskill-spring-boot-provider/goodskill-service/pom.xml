@@ -93,7 +93,6 @@
 		<dependency>
 			<groupId>org.apache.dubbo</groupId>
 			<artifactId>dubbo-spring-boot-starter</artifactId>
-			<version>${dubbo.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.curator</groupId>
@@ -156,7 +155,6 @@
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-common-util</artifactId>
-            <version>${goodskill.version}</version>
         </dependency>
 		<dependency>
 			<groupId>net.logstash.logback</groupId>
@@ -173,7 +171,6 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>30.1.1-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shardingsphere</groupId>

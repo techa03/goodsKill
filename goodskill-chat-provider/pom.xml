@@ -16,7 +16,6 @@
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-entry</artifactId>
-            <version>${goodskill.version}</version>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
@@ -25,7 +24,6 @@
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-common-util</artifactId>
-            <version>${goodskill.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>

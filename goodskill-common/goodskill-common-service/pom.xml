@@ -38,7 +38,6 @@
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-common-api</artifactId>
-            <version>${goodskill.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
