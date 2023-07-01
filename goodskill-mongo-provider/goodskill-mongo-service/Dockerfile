@@ -1,5 +1,5 @@
-FROM openjdk:11.0.9.1-jdk
-COPY goodskill-mongo-service/target/goodskill-mongo-service.jar /app/goodskill-mongo-service.jar
+FROM openjdk:17.0.2-jdk
+COPY target/goodskill-mongo-service.jar /app/goodskill-mongo-service.jar
 # copy arthas
 COPY --from=hengyunabc/arthas:latest /opt/arthas /opt/arthas
 WORKDIR /app

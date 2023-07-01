@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  goodsmongo:
+    build: .
+    container_name: goodsmongo
+    volumes:
+      - /logs/goods-mongo/:/logs/goodskill
+    networks:
+      - somenetwork
+
+
+networks:
+  somenetwork:
+    driver: bridge

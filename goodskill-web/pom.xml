@@ -140,8 +140,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.7.0</version>
+			<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+<!--			<scope>test</scope>-->
 		</dependency>
 		<dependency>
 			<groupId>net.logstash.logback</groupId>

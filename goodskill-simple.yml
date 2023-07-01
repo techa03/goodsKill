@@ -16,6 +16,10 @@ services:
     environment:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
+#      - NACOS_AUTH_IDENTITY_KEY=nacos
+#      - NACOS_AUTH_IDENTITY_VALUE=my-nacos
+#      - NACOS_AUTH_TOKEN=123456
+      - NACOS_AUTH_ENABLE=true
     volumes:
       - ./doc/docker/nacos/standalone-logs/:/home/nacos/standalone-logs
       - ./doc/docker/nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties

@@ -9,11 +9,13 @@ image:https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml
 项目命名为 *goodsKill* 一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为 *good skill*，本项目就是希望搭建一套完整的项目框架，把一些好的技术和开发技巧整合进来（偏向于后端技术），方便学习和查阅。
 
 
-本项目为模拟秒杀项目，提供统一秒杀模拟请求接口，方便自行测试各个秒杀方案的执行速度。另外支持OAuth2.0第三方授权登录（目前可通过Gitee，Github进行授权）。 技术上整体采用SpringMVC + Mybatis持久层框架，采用Dubbo3.x{empty}footnote:[由于SpringCloudAlibaba官方暂未支持Dubbo 3.x，本项目采用dubbo-spring-boot-starter集成]，服务注册发现以及配置中心使用Nacos，支持数据库分库分表、分布式事务。由于个人精力有限，最新代码已移除登录以及后台管理页面，只保留了核心秒杀模拟测试API接口。
+本项目为模拟秒杀项目，提供统一秒杀模拟请求接口，方便自行测试各个秒杀方案的执行速度。另外支持OAuth2.0第三方授权登录（目前可通过Gitee，Github进行授权）。 技术上整体采用SpringMVC + Mybatis持久层框架，采用Dubbo3.x{empty}footnote:[由于SpringCloudAlibaba官方暂未支持Dubbo 3.x，本项目采用dubbo-spring-boot-starter集成]，服务注册发现以及配置中心使用Nacos，支持数据库分库分表、分布式事务。
 
 == 💎分支介绍
 
-``dev_gradle``分支为使用gradle构建工具管理项目依赖（已停更），``dev_maven``分支对应maven构建工具（Spring Framework版本4.x，已停更），``master``分支基于最新Spring Cloud + Spring Boot 3.x体系构建。本项目功能目前比较简陋且有很多不完善的地方，真实的秒杀场景远比本项目中的实现方式复杂，本项目省略了真实场景中的部分技术实现细节，目前仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
+``master``分支基于最新Spring Cloud 2022.x+ Spring Boot 3.x体系构建，由于Shiro兼容性问题以及个人精力有限已移除前端JSP页面、登录注册以及后台管理功能，目前仅保留核心的模拟接口，如需使用Boot 2.7.x版本可以切换到分支xxx。
+
+本项目功能目前比较简陋且有很多不完善的地方，真实的秒杀场景远比本项目中的实现方式复杂，本项目省略了真实场景中的部分技术实现细节，目前仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
 ____
 
 附：码云项目链接 `https://gitee.com/techa/goodsKill`,clone速度慢的用码云仓库拉吧，不定期同步到码云~
@@ -37,7 +39,6 @@ ____
 |Swagger3 |项目API文档生成及测试工具 |http://swagger.io/
 |Mockito |mock类生成测试工具 |https://site.mockito.org/
 |Jacoco |测试覆盖率报告插件 |http://www.eclemma.org/jacoco/
-|Shiro |用户权限安全管理框架 |https://shiro.apache.org/
 |MongoDB |Mongo数据库 |https://www.mongodb.com/
 |MySQL |MySQL数据库 |https://www.mysql.com/
 |Reactor |反应式异步编程 |https://projectreactor.io/
@@ -148,7 +149,7 @@ ns         %     Task name
 |===
 |镜像 |版本 |端口 |用户名密码
 
-|Nacos |2.2.0 |8848 |nacos:nacos
+|Nacos |2.2.3 |8848 |nacos:nacos
 |Redis |latest |6379 |密码:123456
 |Kafka |3.1.1 |9092 |无
 |KafkaManager |latest |9001:9000 |无
@@ -294,6 +295,23 @@ vm.max_map_count=262144
 
 启动``seata-server``服务即可（docker-compose.yml文件中已提供），可参照Seata官网添加nacos相关配置。如未使用分布式事务，可忽略该错误，不影响服务正常运行
 
+docker-compose无法拉取镜像::
+
+hub.docker被墙，国内可使用阿里云镜像加速器，具体操作见 https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors[阿里云镜像加速器]
+
+使用JDK17启动项目失败::
+
+启动时添加以下jvm参数，例如：
++
+[source,text]
+----
+--add-opens java.base/java.lang=ALL-UNNAMED
+--add-opens java.base/java.util=ALL-UNNAMED
+--add-opens java.base/java.util.concurrent=ALL-UNNAMED
+--add-opens java.base/java.math=ALL-UNNAMED
+--add-opens java.base/sun.reflect.generics.reflectiveObjects=ALL-UNNAMED
+----
+
 == 📚分库分表情况说明
 
 |===
@@ -354,10 +372,6 @@ image:./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png[ima
 image:./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png[image]
 
 == 💻相关页面展示
-
-==== 商品列表限流
-
-image:doc/shortcut/微信截图_20200802182806.png[image]
 
 ==== Kafka状态监控
 

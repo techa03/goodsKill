@@ -57,7 +57,6 @@ spring:
   data:
     mongodb:
       database: test
-      uri: mongodb://mongo
   cloud:
     sentinel:
       datasource:
