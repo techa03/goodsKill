@@ -12,7 +12,7 @@ image:https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml
 
 == 💎分支介绍
 
-``master``分支基于最新Spring Cloud 2022.x+ Spring Boot 3.x体系构建，由于Shiro兼容性问题以及个人精力有限已移除前端JSP页面、登录注册以及后台管理功能，目前仅保留核心的模拟接口，如需使用Boot 2.7.x版本可以切换到分支xxx。
+``master``分支基于最新Spring Cloud 2022.x+ Spring Boot 3.x体系构建，由于Shiro兼容性问题以及个人精力有限已移除前端JSP页面、登录注册以及后台管理功能，目前仅保留核心的模拟接口，如需使用Boot 2.7.x版本可以切换到tag https://github.com/techa03/goodsKill/tree/v2.7.4[v2.7.4]。
 
 本项目功能目前比较简陋且有很多不完善的地方，真实的秒杀场景远比本项目中的实现方式复杂，本项目省略了真实场景中的部分技术实现细节，目前仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
 ____
