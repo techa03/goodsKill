@@ -141,15 +141,6 @@ services:
   #      MONGO_INITDB_ROOT_USERNAME: root
   #      MONGO_INITDB_ROOT_PASSWORD: root
 
-  zipkin:
-    image: openzipkin/zipkin
-    container_name: zipkin
-    restart: always
-    ports:
-      - "9411:9411"
-    networks:
-      - somenetwork
-
   seata-server:
     image: seataio/seata-server:1.4.2
     container_name: seata-server

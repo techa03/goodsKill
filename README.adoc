@@ -52,7 +52,6 @@ ____
 |Seata |分布式事务解决方案 |http://seata.io/zh-cn/index.html
 |Spring Security OAuth2.0 |OAuth2.0授权组件 |https://spring.io/projects/spring-security-oauth
 |Canal |基于MySQL数据库的增量日志解析工具 |https://github.com/alibaba/canal
-|MinIO |一款高性能、分布式的对象存储系统 |https://min.io/
 |===
 
 == 📝项目模块介绍
@@ -91,8 +90,6 @@ goodsKill
 Spring Boot Admin应用监控地址: `http://www.goodskill.com:19031`, 登录用户名密码：user/123456
 
 Kafka状态监控页面地址: `http://localhost:9001`
-
-Zipkin链路跟踪页面地址: `http://localhost:9411/zipkin/`
 
 * 场景一：Sychronized同步锁实现
 * 场景二：Redisson分布式锁实现
@@ -155,8 +152,6 @@ ns         %     Task name
 |Elasticsearch |7.17.3 |9200 9300 |无
 |Kibana |7.17.3 |5601 |无
 |RabbitMQ |latest |5672 15672 |无
-|Zipkin |latest |9411 |无
-|MinIO |latest |19000:9000 19001:9001| root:password
 |===
 
 == 🎯快速开始
@@ -198,7 +193,6 @@ docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行�
  127.0.0.1       mongo
  127.0.0.1       elasticsearch
  127.0.0.1       rabbitmq
- 127.0.0.1       zipkin
  127.0.0.1       logstash
  ##如果网关服务部署在远程机器，此处改为相应的远程机器ip
  127.0.0.1       www.goodskill.com

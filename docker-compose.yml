@@ -207,15 +207,6 @@ services:
 #      MONGO_INITDB_ROOT_USERNAME: root
 #      MONGO_INITDB_ROOT_PASSWORD: root
 
-  zipkin:
-    image: openzipkin/zipkin
-    container_name: zipkin
-    restart: always
-    ports:
-      - "9411:9411"
-    networks:
-      - somenetwork
-
   seata-server:
     image: seataio/seata-server:1.4.2
     container_name: seata-server
@@ -242,7 +233,6 @@ services:
     depends_on:
       - elasticsearch
       - nacos
-      - zipkin
 #      - elasticsearch1
     networks:
       - somenetwork
@@ -260,7 +250,6 @@ services:
       - goodses
       - redis
       - nacos
-      - zipkin
 #      - seata-server
     networks:
       - somenetwork
@@ -276,7 +265,6 @@ services:
       - zookeeper
       - redis
       - nacos
-      - zipkin
     networks:
       - somenetwork
 
@@ -290,7 +278,6 @@ services:
       - "80:80"
     depends_on:
       - nacos
-      - zipkin
     networks:
       - somenetwork
 
@@ -315,7 +302,6 @@ services:
       - /logs/goods-admin/:/logs/goodskill
     depends_on:
       - nacos
-      - zipkin
     networks:
       - somenetwork
 
