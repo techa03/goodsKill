@@ -12,7 +12,7 @@ image:https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml
 
 == 💎分支介绍
 
-``master``分支基于最新Spring Cloud 2022.x+ Spring Boot 3.x体系构建，由于Shiro兼容性问题以及个人精力有限已移除前端JSP页面、登录注册以及后台管理功能，目前仅保留核心的模拟接口，如需使用Boot 2.7.x版本可以切换到tag https://github.com/techa03/goodsKill/tree/v2.7.4[v2.7.4]。
+``master``分支基于最新Spring Cloud 2022.x+ Spring Boot 3.x + JDK17体系构建，目前仅保留核心的模拟秒杀API接口，如需使用Spring Boot 2.7.x + JDK11版本可以切换到tag https://github.com/techa03/goodsKill/tree/v2.7.4[v2.7.4]（支持登录注册以及简单的后台管理功能）。
 
 本项目功能目前比较简陋且有很多不完善的地方，真实的秒杀场景远比本项目中的实现方式复杂，本项目省略了真实场景中的部分技术实现细节，目前仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
 ____
@@ -78,7 +78,6 @@ goodsKill
 |--goodskill-oauth2                         ||oauth2.0自定义模块
     |--oauth2-auth-server                   ||oauth2.0登录授权服务端，自定义的授权登录服务
     |--oauth2-resource-server               ||oauth2.0资源服务端，自定义的授权登录服务
-|--goodskill-swagger-docs                   ||swagger3.0文档聚合访问服务
 ----
 
 == 🔥🔥秒杀方案
@@ -88,8 +87,6 @@ goodsKill
 聚合网关Openapi文档地址: `http://localhost/doc.html#/home`（需要开启网关服务）
 
 Spring Boot Admin应用监控地址: `http://www.goodskill.com:19031`, 登录用户名密码：user/123456
-
-Kafka状态监控页面地址: `http://localhost:9001`
 
 * 场景一：Sychronized同步锁实现
 * 场景二：Redisson分布式锁实现
@@ -351,19 +348,11 @@ ____
 ]
 ====
 
-=== API接口
-
-image:./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20170623222039.png[image]
-
 === API接口说明
 
 image:./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png[image]
 
 == 💻相关页面展示
-
-==== Kafka状态监控
-
-image:doc/shortcut/微信截图_20210130152701.png[image]
 
 ==== 模拟秒杀接口测试
 
