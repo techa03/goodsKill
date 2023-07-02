@@ -4,8 +4,6 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://www.goodskill.com/.well-known/jwks.json
-  zipkin:
-    base-url: http://zipkin:9411/
 
 #spring:
 #  datasource:

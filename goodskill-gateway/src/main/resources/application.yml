@@ -18,7 +18,9 @@ spring:
             #            data-type: json
             group-id: DEFAULT_GROUP
             rule-type: gw-flow
-            server-addr: 127.0.0.1:8848
+            server-addr: nacos:8848
+            username: nacos
+            password: nacos
     gateway:
       ##开启指标监控
       metrics:
@@ -55,6 +57,10 @@ spring:
             - Path=/admin/**
           filters:
             - StripPrefix=1
+        - id: goodskill-web
+          uri: lb://goodskill-web
+          predicates:
+            - Path=/goodskill/web/**
   main:
     allow-bean-definition-overriding: true
 management:
@@ -77,13 +83,29 @@ security:
       - '/goodskill/web/auth/login'
       - '/goodskill/web/auth/logout'
 
+
+knife4j:
+  gateway:
+    enabled: true
+    # 指定服务发现的模式聚合微服务文档，并且是默认`default`分组
+    strategy: manual
+    routes:
+      - name: web服务
+        service-name: goodskill-web
+        url: /goodskill/web/v3/api-docs?group=default
+        context-path: /goodskill/web
+        order: 1
+    discover:
+      enabled: true
+      # 指定版本号(Swagger2|OpenAPI3)
+      version : openapi3
+
+
 ---
 spring:
   config:
     activate:
       on-profile: docker,dev
-  zipkin:
-    base-url: http://zipkin:9411/
   cloud:
     nacos:
       server-addr: nacos:8848

@@ -10,6 +10,7 @@ import com.goodskill.entity.User;
 import com.goodskill.service.common.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ import java.time.Duration;
 @RestController
 @Slf4j
 public class AuthController implements AuthService {
-    @Autowired
+    @DubboReference
     private UserService userService;
     @Autowired
     private StringRedisTemplate redisTemplate;

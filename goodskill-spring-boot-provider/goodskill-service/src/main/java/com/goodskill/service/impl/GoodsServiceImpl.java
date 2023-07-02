@@ -6,13 +6,13 @@ import com.goodskill.api.service.GoodsService;
 import com.goodskill.entity.Goods;
 import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.es.dto.GoodsDTO;
-import com.goodskill.mp.dao.mapper.GoodsMapper;
+import com.goodskill.service.mapper.GoodsMapper;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
 

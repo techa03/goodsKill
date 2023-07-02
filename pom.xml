@@ -10,34 +10,39 @@
 	<modules>
 		<module>goodskill-web</module>
 		<module>goodskill-spring-boot-provider</module>
-        <module>goodskill-common</module>
-        <module>goodskill-mongo-provider</module>
+    <module>goodskill-common</module>
+    <module>goodskill-mongo-provider</module>
 		<module>goodskill-chat-provider</module>
 		<module>goodskill-spring-boot-starter</module>
 		<module>goodskill-es-provider</module>
-        <module>goodskill-job</module>
+    <module>goodskill-job</module>
 		<module>goodskill-gateway</module>
 		<module>goodskill-seata</module>
 		<module>goodskill-oauth2</module>
 		<module>goodskill-admin</module>
-        <module>goodskill-canal</module>
-		<module>goodskill-swagger-docs</module>
-    </modules>
+    <module>goodskill-canal</module>
+  </modules>
 
 	<properties>
 		<goodskill.version>1.0.0-SNAPSHOT</goodskill.version>
-		<springboot.version>2.7.4</springboot.version>
-		<spring-cloud.version>2021.0.4</spring-cloud.version>
-		<spring.cloud.alibaba.version>2021.0.4.0</spring.cloud.alibaba.version>
-		<kotlin.version>1.6.21</kotlin.version>
-        <jacoco.version>0.8.8</jacoco.version>
+		<springboot.version>3.1.0</springboot.version>
+		<spring-cloud.version>2022.0.3</spring-cloud.version>
+		<spring.cloud.alibaba.version>2022.0.0.0-RC2</spring.cloud.alibaba.version>
+		<kotlin.version>1.7.10</kotlin.version>
+    <jacoco.version>0.8.8</jacoco.version>
 		<maven.surefire.version>2.22.2</maven.surefire.version>
-        <net.logstash.version>7.1.1</net.logstash.version>
-		<dubbo.version>3.0.10</dubbo.version>
-		<hutool.version>5.8.8</hutool.version>
-		<mybatis-plus.version>3.5.2</mybatis-plus.version>
-		<fastjson2.version>2.0.7</fastjson2.version>
+    <net.logstash.version>7.1.1</net.logstash.version>
+		<dubbo.version>3.2.2</dubbo.version>
+		<hutool.version>5.8.18</hutool.version>
+		<mybatis-plus.version>3.5.3.1</mybatis-plus.version>
+		<fastjson2.version>2.0.24</fastjson2.version>
 		<minio.version>8.4.2</minio.version>
+		<shiro.version>1.11.0</shiro.version>
+		<shardingsphere.version>5.3.2</shardingsphere.version>
+		<alipay.version>2.2.2</alipay.version>
+		<redisson.version>3.22.0</redisson.version>
+		<knife4j.version>4.1.0</knife4j.version>
+		<springdoc.version>2.1.0</springdoc.version>
 	</properties>
 
 	<build>
@@ -72,7 +77,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<jvmTarget>1.8</jvmTarget>
+					<jvmTarget>17</jvmTarget>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -80,8 +85,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<source>11</source>
-					<target>11</target>
+					<source>17</source>
+					<target>17</target>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -93,6 +98,7 @@
 					<version>${jacoco.version}</version>
 				</plugin>
 				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>${maven.surefire.version}</version>
 				</plugin>
@@ -173,9 +179,147 @@
 				<version>${minio.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.alibaba.csp</groupId>
-				<artifactId>sentinel-apache-dubbo-adapter</artifactId>
-				<version>1.8.5</version>
+				<groupId>javax.servlet</groupId>
+				<artifactId>jstl</artifactId>
+				<version>1.2</version>
+			</dependency>
+			<dependency>
+				<groupId>com.goodskill</groupId>
+				<artifactId>goodskill-api</artifactId>
+				<version>${goodskill.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.goodskill</groupId>
+				<artifactId>goodskill-common-util</artifactId>
+				<version>${goodskill.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.goodskill</groupId>
+				<artifactId>goodskill-entry</artifactId>
+				<version>${goodskill.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.goodskill</groupId>
+				<artifactId>goodskill-mongo-api</artifactId>
+				<version>${goodskill.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.goodskill</groupId>
+				<artifactId>goodskill-es-api</artifactId>
+				<version>${goodskill.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.goodskill</groupId>
+				<artifactId>goodskill-mp-dao</artifactId>
+				<version>${goodskill.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.goodskill</groupId>
+				<artifactId>goodskill-spring-boot-starter</artifactId>
+				<version>${goodskill.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.dyuproject.protostuff</groupId>
+				<artifactId>protostuff-core</artifactId>
+				<version>1.0.12</version>
+			</dependency>
+			<dependency>
+				<groupId>com.dyuproject.protostuff</groupId>
+				<artifactId>protostuff-runtime</artifactId>
+				<version>1.0.12</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-core</artifactId>
+				<version>1.3.6</version>
+			</dependency>
+			<!--支付宝sdk需要的依赖 -->
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>core</artifactId>
+				<version>3.3.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>2.9.0</version>
+			</dependency>
+			<!--支付宝sdk需要的依赖END -->
+			<!--base64 apache工具类 -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-core</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.redisson</groupId>
+				<artifactId>redisson-spring-boot-starter</artifactId>
+				<version>${redisson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-generator</artifactId>
+				<version>3.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-extension</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-annotation</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shardingsphere</groupId>
+				<artifactId>shardingsphere-jdbc-core</artifactId>
+				<version>${shardingsphere.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alipay.sdk</groupId>
+				<artifactId>alipay-easysdk</artifactId>
+				<version>${alipay.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-all</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.goodskill</groupId>
+				<artifactId>goodskill-es-dao</artifactId>
+				<version>${goodskill.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.goodskill</groupId>
+				<artifactId>goodskill-common-api</artifactId>
+				<version>${goodskill.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>30.1.1-jre</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.xiaoymin</groupId>
+				<artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+				<version>${knife4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-core</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+				<version>${springdoc.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -203,6 +347,11 @@
 			<artifactId>netty-resolver-dns-native-macos</artifactId>
 			<classifier>osx-aarch_64</classifier>
 			<version>4.1.79.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-properties-migrator</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 

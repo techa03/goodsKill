@@ -4,7 +4,7 @@ import com.goodskill.entity.Role;
 import com.goodskill.entity.RolePermission;
 import com.goodskill.entity.User;
 import com.goodskill.entity.UserRole;
-import com.goodskill.mp.dao.mapper.*;
+import com.goodskill.service.mapper.*;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

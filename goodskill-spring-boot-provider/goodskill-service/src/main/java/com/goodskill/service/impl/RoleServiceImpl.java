@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.api.service.RoleService;
 import com.goodskill.entity.Role;
-import com.goodskill.mp.dao.mapper.RoleMapper;
+import com.goodskill.service.mapper.RoleMapper;
 import org.apache.dubbo.config.annotation.DubboService;
 
 /**

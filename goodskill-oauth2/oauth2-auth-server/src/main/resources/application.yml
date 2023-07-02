@@ -1,13 +1,30 @@
+server:
+  port: 8083
+
+logging:
+  level:
+    org.springframework.security: trace
+
 spring:
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://mysql:3306/gs_user?useUnicode=true&characterEncoding=utf-8&useSSL=false
-#    username: root
-#    password: Password123
-  sql:
-    init:
-      schema-locations: classpath*:users.ddl
-      mode: ALWAYS
-      continue-on-error: true
-  zipkin:
-    base-url: http://zipkin:9411/
+  security:
+    oauth2:
+      authorizationserver:
+        client:
+          oidc-client:
+            registration:
+              client-id: "first-client"
+              client-secret: "noonewilleverguess"
+              client-authentication-methods:
+                - "client_secret_basic"
+              authorization-grant-types:
+                - "authorization_code"
+                - "refresh_token"
+              redirect-uris:
+                - "http://localhost:19021/login/oauth2/code/goodskill"
+                - "http://www.goodskill.com:8080/login/oauth2/code/goodskill"
+              post-logout-redirect-uris:
+                - "http://127.0.0.1:8080/"
+              scopes:
+                - "openid"
+                - "profile"
+            require-authorization-consent: true

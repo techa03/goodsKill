@@ -1,4 +1,4 @@
-FROM openjdk:11.0.9.1-jdk
+FROM openjdk:17.0.2-jdk
 COPY ./target/goodskill-seata.jar /app/goodskill.jar
 # copy arthas
 COPY --from=hengyunabc/arthas:latest /opt/arthas /opt/arthas

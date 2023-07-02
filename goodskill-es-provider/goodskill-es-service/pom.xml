@@ -20,12 +20,10 @@
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-es-dao</artifactId>
-            <version>${goodskill.version}</version>
         </dependency>
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-es-api</artifactId>
-            <version>${goodskill.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -60,17 +58,12 @@
             <artifactId>sentinel-datasource-nacos</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-circuitbreaker-sentinel</artifactId>
         </dependency>
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-mongo-api</artifactId>
-            <version>${goodskill.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -79,7 +72,6 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-            <version>7.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

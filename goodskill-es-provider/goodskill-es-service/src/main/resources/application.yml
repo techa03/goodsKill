@@ -5,6 +5,9 @@ spring:
   application:
     name: es-service-provider
   cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
     sentinel:
       transport:
         port: 8719
@@ -19,7 +22,6 @@ spring:
             group-id: DEFAULT_GROUP
             rule-type: flow
             server-addr: 127.0.0.1:8848
-
 ## 日志级别
 logging:
   level:
@@ -27,16 +29,6 @@ logging:
       elasticsearch:
         client:
           RestClient: debug
-## es客户端配置
-elasticsearch:
-  rest:
-    client:
-      address: localhost:9200
-
-## 是否开启openFeign sentinel支持，默认为false
-feign:
-  sentinel:
-    enabled: true
 
 management:
   endpoint:
@@ -49,8 +41,6 @@ management:
 
 ---
 spring:
-  zipkin:
-    base-url: http://zipkin:9411/
   cloud:
     nacos:
       discovery:
@@ -60,11 +50,9 @@ spring:
         ds0:
           nacos:
             server-addr: nacos:8848
+  elasticsearch:
+    uris: http://elasticsearch:9200
   config:
     activate:
       on-profile: docker,dev
-elasticsearch:
-  rest:
-    client:
-      address: elasticsearch:9200
 

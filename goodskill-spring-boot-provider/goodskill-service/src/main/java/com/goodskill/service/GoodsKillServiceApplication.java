@@ -4,7 +4,6 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -16,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author techa
  */
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication
 @EnableTransactionManagement
-@MapperScan("com.goodskill.mp.dao.mapper")
+@MapperScan("com.goodskill.service.mapper")
 @EnableDiscoveryClient
 @EnableFeignClients({"com.goodskill.mongo.api", "com.goodskill.es.api"})
 @RestController

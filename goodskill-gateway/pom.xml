@@ -37,15 +37,6 @@
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-common-util</artifactId>
-            <version>${goodskill.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -58,12 +49,10 @@
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-api</artifactId>
-            <version>${goodskill.version}</version>
         </dependency>
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-mongo-api</artifactId>
-            <version>${goodskill.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -84,6 +73,11 @@
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
+            <version>4.1.0</version>
         </dependency>
     </dependencies>
 

@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.api.service.UserAccountService;
 import com.goodskill.common.exception.CommonException;
 import com.goodskill.entity.*;
-import com.goodskill.mp.dao.mapper.*;
+import com.goodskill.service.mapper.*;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

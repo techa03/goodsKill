@@ -2,8 +2,8 @@ package com.goodskill.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.entity.User;
-import com.goodskill.mp.dao.mapper.UserMapper;
 import com.goodskill.service.common.UserService;
+import com.goodskill.service.mapper.UserMapper;
 import org.apache.dubbo.config.annotation.DubboService;
 
 /**

@@ -19,37 +19,38 @@ spring:
     mongodb:
       database: test
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    url: jdbc:shardingsphere:classpath:sharding-sphere.yml
+#    url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
     username: root
     password: Password123
-  shardingsphere:
-    datasource:
-      names: ds0,ds1
-      ds0:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        type: com.zaxxer.hikari.HikariDataSource
-      ds1:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        type: com.zaxxer.hikari.HikariDataSource
-    sharding:
-      binding-tables: success_killed
-      tables:
-        success_killed:
-          actual-data-nodes: ds$->{0..1}.success_killed_$->{0..1}
-          database-strategy:
-            inline:
-              algorithm-expression: ds$->{seckill_id % 2}
-              sharding-column: seckill_id
-          table-strategy:
-            inline:
-              algorithm-expression: success_killed_$->{user_phone.toLong() % 2}
-              sharding-column: user_phone
-      #必须配置，否则未配置的表会被应用分库分表规则
-      default-data-source-name: ds0
-    props:
-      sql:
-        show: false
+#  shardingsphere:
+#    datasource:
+#      names: ds0,ds1
+#      ds0:
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        type: com.zaxxer.hikari.HikariDataSource
+#      ds1:
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        type: com.zaxxer.hikari.HikariDataSource
+#    sharding:
+#      binding-tables: success_killed
+#      tables:
+#        success_killed:
+#          actual-data-nodes: ds$->{0..1}.success_killed_$->{0..1}
+#          database-strategy:
+#            inline:
+#              algorithm-expression: ds$->{seckill_id % 2}
+#              sharding-column: seckill_id
+#          table-strategy:
+#            inline:
+#              algorithm-expression: success_killed_$->{user_phone.toLong() % 2}
+#              sharding-column: user_phone
+#      #必须配置，否则未配置的表会被应用分库分表规则
+#      default-data-source-name: ds0
+#    props:
+#      sql:
+#        show: false
   rabbitmq:
     port: 5672
     username: guest
@@ -81,7 +82,9 @@ spring:
             data-type: json
             group-id: DEFAULT_GROUP
             rule-type: flow
-            server-addr: 127.0.0.1:8848
+            server-addr: nacos:8848
+            username: nacos
+            password: nacos
 dubbo:
   scan:
     base-packages: com.goodskill.service.impl
@@ -100,9 +103,7 @@ dubbo:
     enable-file-cache: false
     ##开启应用级地址注册
     register-mode: instance
-  ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@DubboReference(check=false)会失效
-#  cloud:
-#    subscribed-services: ""
+    qos-port: 22222
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -125,8 +126,8 @@ seata:
       namespace:
       serverAddr: nacos:8848
       group: SEATA_GROUP
-      username: "nacos"
-      password: "nacos"
+      username: nacos
+      password: nacos
   registry:
     type: nacos
     nacos:
@@ -134,8 +135,8 @@ seata:
       server-addr: nacos:8848
       group: SEATA_GROUP
       namespace:
-      username: "nacos"
-      password: "nacos"
+      username: nacos
+      password: nacos
 
 logging:
   level:
@@ -156,10 +157,6 @@ management:
 ---
 ######################docker环境配置#####################
 spring:
-  redis:
-    host: redis
-    port: 6379
-    password: 123456
   ##下面是redis哨兵模式的配置信息
   #    redisson:
   #      config: |
@@ -193,8 +190,6 @@ spring:
         ds0:
           nacos:
             server-addr: nacos:8848
-  zipkin:
-    base-url: http://zipkin:9411/
   rabbitmq:
     host: rabbitmq
     port: 5672
@@ -203,6 +198,11 @@ spring:
   config:
     activate:
       on-profile: docker,dev
+  data:
+    redis:
+      port: 6379
+      host: redis
+      password: 123456
 dubbo:
   registry:
     address: zookeeper://zookeeper:2181

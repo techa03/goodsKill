@@ -1,4 +1,4 @@
-FROM openjdk:11.0.9.1-jdk
+FROM openjdk:17.0.2-jdk
 COPY goodskill-es-service/target/goodskill-es-service.jar /app/goodskill-es-service.jar
 # copy arthas
 COPY --from=hengyunabc/arthas:latest /opt/arthas /opt/arthas

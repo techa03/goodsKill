@@ -34,8 +34,8 @@ seata:
       namespace:
       serverAddr: nacos:8848
       group: SEATA_GROUP
-      username: "nacos"
-      password: "nacos"
+      username: nacos
+      password: nacos
   registry:
     type: nacos
     nacos:
@@ -43,5 +43,5 @@ seata:
       server-addr: nacos:8848
       group: SEATA_GROUP
       namespace:
-      username: "nacos"
-      password: "nacos"
+      username: nacos
+      password: nacos

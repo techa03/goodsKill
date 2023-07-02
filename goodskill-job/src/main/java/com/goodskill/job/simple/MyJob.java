@@ -3,6 +3,7 @@ package com.goodskill.job.simple;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.entity.Goods;
 import com.goodskill.es.api.GoodsEsService;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shardingsphere.elasticjob.api.ShardingContext;
@@ -10,7 +11,6 @@ import org.apache.shardingsphere.elasticjob.simple.job.SimpleJob;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 

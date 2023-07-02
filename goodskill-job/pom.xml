@@ -33,12 +33,10 @@
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-api</artifactId>
-            <version>${goodskill.version}</version>
         </dependency>
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>goodskill-es-api</artifactId>
-            <version>${goodskill.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>

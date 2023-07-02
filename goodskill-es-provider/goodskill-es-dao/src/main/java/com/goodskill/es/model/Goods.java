@@ -22,6 +22,8 @@ public class Goods implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    private String id;
+
     private Integer goodsId;
 
     private String photoUrl;

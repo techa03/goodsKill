@@ -6,3 +6,5 @@ spring:
   cloud:
     nacos:
       server-addr: nacos:8848
+      username: nacos
+      password: nacos

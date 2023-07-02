@@ -1,0 +1,2 @@
+com.goodskill.autoconfigure.oauth2.GkOAuth2ClientAutoConfiguration
+com.goodskill.autoconfigure.oss.MinioAutoConfiguration
