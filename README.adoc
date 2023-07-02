@@ -264,8 +264,6 @@ ____
 
 * main方法运行``GoodskillAdminApplication``类(微服务健康状态指标监控)
 
-* main方法运行``SwaggerDocsApplication``类(接口文档)
-
 == ❓常见问题
 [qanda]
 docker es镜像启动失败::
