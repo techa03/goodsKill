@@ -23,10 +23,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.goodskill</groupId>
-			<artifactId>goodskill-mp-dao</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.goodskill</groupId>
 			<artifactId>goodskill-mongo-api</artifactId>
 		</dependency>
 		<dependency>
