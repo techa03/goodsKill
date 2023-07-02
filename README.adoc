@@ -8,7 +8,7 @@ image:https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml
 项目命名为 *goodsKill* 一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为 *good skill*，本项目就是希望搭建一套完整的项目框架，把一些好的技术和开发技巧整合进来（偏向于后端技术），方便学习和查阅。
 
 
-本项目为模拟秒杀项目，提供统一秒杀模拟请求接口，方便自行测试各个秒杀方案的执行速度。另外支持OAuth2.0第三方授权登录（目前可通过Gitee，Github进行授权）。 技术上整体采用SpringMVC + Mybatis持久层框架，采用Dubbo3.x{empty}footnote:[由于SpringCloudAlibaba官方暂未支持Dubbo 3.x，本项目采用dubbo-spring-boot-starter集成]，服务注册发现以及配置中心使用Nacos，支持数据库分库分表、分布式事务。
+本项目为模拟秒杀项目，提供统一秒杀模拟请求接口，方便自行测试各个秒杀方案的执行速度。 技术上整体采用SpringMVC + Mybatis持久层框架，采用Dubbo3.x{empty}footnote:[由于SpringCloudAlibaba官方暂未支持Dubbo 3.x，本项目采用dubbo-spring-boot-starter集成]，服务注册发现以及配置中心使用Nacos，支持数据库分库分表、分布式事务。
 
 == 💎分支介绍
 
