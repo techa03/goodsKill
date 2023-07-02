@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.api.service.UserRoleService;
 import com.goodskill.entity.UserRole;
-import com.goodskill.mp.dao.mapper.UserRoleMapper;
+import com.goodskill.service.mapper.UserRoleMapper;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import java.util.List;

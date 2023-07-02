@@ -70,7 +70,6 @@ goodsKill
 |   |--goodskill-mongo-service
 |--goodskill-spring-boot-provider           ||订单、用户、登录、商品管理服务提供者（待拆分）
 |   |--goodskill-api                        ||提供服务API接口
-|   |--goodskill-mp-dao                     ||数据库访问
 |   |--goodskill-entry                      ||实体类
 |   |--goodskill-generator                  ||项目代码生成
 |   |--goodskill-service                    ||服务API接口实现
@@ -88,9 +87,7 @@ goodsKill
 
 目前实现了几种秒杀方案，通过``SeckillMockController``提供测试接口
 
-Swagger主页测试地址: `http://www.goodskill.com:8080/goodskill/web/swagger-ui/index.html`
-
-聚合Swagger文档地址: `http://localhost:18060/doc.html#/home`（需要开启SwaggerDocsApplication服务）
+聚合网关Openapi文档地址: `http://localhost/doc.html#/home`（需要开启网关服务）
 
 Spring Boot Admin应用监控地址: `http://www.goodskill.com:19031`, 登录用户名密码：user/123456
 

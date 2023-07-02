@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @SpringBootApplication
 @EnableTransactionManagement
-@MapperScan("com.goodskill.mp.dao.mapper")
+@MapperScan("com.goodskill.service.mapper")
 @EnableDiscoveryClient
 @EnableFeignClients({"com.goodskill.mongo.api", "com.goodskill.es.api"})
 @RestController

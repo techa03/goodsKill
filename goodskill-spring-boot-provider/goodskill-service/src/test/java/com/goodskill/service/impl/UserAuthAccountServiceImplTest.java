@@ -2,8 +2,8 @@ package com.goodskill.service.impl;
 
 import com.goodskill.api.bo.UserBO;
 import com.goodskill.entity.UserAuthAccount;
-import com.goodskill.mp.dao.mapper.UserAuthAccountMapper;
 import com.goodskill.service.common.UserService;
+import com.goodskill.service.mapper.UserAuthAccountMapper;
 import org.apache.ibatis.logging.Log;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

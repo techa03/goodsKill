@@ -1,8 +1,8 @@
 package com.goodskill.service.common.trade.alipay;
 
 import com.goodskill.entity.Seckill;
-import com.goodskill.mp.dao.mapper.GoodsMapper;
 import com.goodskill.service.common.RedisService;
+import com.goodskill.service.mapper.GoodsMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.commons.util.StringUtils;

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.api.service.PermissionService;
 import com.goodskill.entity.Permission;
-import com.goodskill.mp.dao.mapper.PermissionMapper;
+import com.goodskill.service.mapper.PermissionMapper;
 import org.apache.dubbo.config.annotation.DubboService;
 
 import java.io.Serializable;

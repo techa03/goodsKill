@@ -21,7 +21,6 @@
 		<module>goodskill-oauth2</module>
 		<module>goodskill-admin</module>
         <module>goodskill-canal</module>
-		<module>goodskill-swagger-docs</module>
     </modules>
 
 	<properties>

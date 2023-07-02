@@ -2,8 +2,8 @@ package com.goodskill.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.entity.SuccessKilled;
-import com.goodskill.mp.dao.mapper.SuccessKilledMapper;
 import com.goodskill.service.common.SuccessKilledService;
+import com.goodskill.service.mapper.SuccessKilledMapper;
 import org.apache.dubbo.config.annotation.DubboService;
 
 /**

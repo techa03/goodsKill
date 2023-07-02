@@ -86,7 +86,9 @@ spring:
             data-type: json
             group-id: DEFAULT_GROUP
             rule-type: flow
-            server-addr: 127.0.0.1:8848
+            server-addr: nacos:8848
+            username: nacos
+            password: nacos
 
 dubbo:
   protocol:
@@ -97,9 +99,7 @@ dubbo:
     check: false
   application:
     enable-file-cache: false
-  ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@DubboReference(check=false)会失效
-#  cloud:
-#    subscribed-services: "goodskill-service-provider"
+    qos-port: 22224
 
 management:
   endpoints:

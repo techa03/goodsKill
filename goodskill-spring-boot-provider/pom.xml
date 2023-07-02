@@ -10,7 +10,6 @@
 		<module>goodskill-entry</module>
 		<module>goodskill-api</module>
 		<module>goodskill-generator</module>
-        <module>goodskill-mp-dao</module>
     </modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
