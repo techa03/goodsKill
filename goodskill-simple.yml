@@ -130,7 +130,7 @@ services:
       - somenetwork
 
   mongo:
-    image: mongo
+    image: mongo:6.0.7
     container_name: mongo
     restart: always
     ports:
@@ -142,7 +142,7 @@ services:
   #      MONGO_INITDB_ROOT_PASSWORD: root
 
   seata-server:
-    image: seataio/seata-server:1.4.2
+    image: seataio/seata-server:1.6.1
     container_name: seata-server
     hostname: seata-server
     ports:

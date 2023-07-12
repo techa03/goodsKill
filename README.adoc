@@ -143,7 +143,7 @@ ns         %     Task name
 |Redis |latest |6379 |密码:123456
 |Kafka |3.1.1 |9092 |无
 |KafkaManager |latest |9001:9000 |无
-|Mongo |latest |27017 |无
+|Mongo |6.0.7 |27017 |无
 |MySQL |8.0.29 |3306 |root:Password123
 |Zookeeper |3.6.2 |2181 |无
 |Elasticsearch |7.17.3 |9200 9300 |无
@@ -254,6 +254,11 @@ ____
 * Seata分布式事务测试方法见 https://github.com/techa03/goodsKill/tree/master/goodskill-seata/README.md[Seata分布式事务测试示例运行说明]
 
 * main方法运行``GoodskillAdminApplication``类(微服务健康状态指标监控)
+
+== ✔️项目已知问题
+* seata、oauth2模块升级后兼容性尚未测试
+* 单元测试待重新验证，目前为跳过单元测试状态
+* web服务移除shiro后的鉴权问题
 
 == ❓常见问题
 [qanda]

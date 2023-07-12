@@ -26,6 +26,7 @@ services:
       - ./doc/docker/nacos/conf/application.properties:/home/nacos/conf/application.properties
     ports:
       - "8848:8848"
+      - "9848:9848"
     restart: always
     build:
       context: ./doc/docker/nacos
@@ -196,7 +197,7 @@ services:
       - somenetwork
 
   mongo:
-    image: mongo:4.6.0
+    image: mongo:6.0.7
     container_name: mongo
     restart: always
     ports:
@@ -208,7 +209,7 @@ services:
 #      MONGO_INITDB_ROOT_PASSWORD: root
 
   seata-server:
-    image: seataio/seata-server:1.4.2
+    image: seataio/seata-server:1.6.1
     container_name: seata-server
     hostname: seata-server
     ports:
