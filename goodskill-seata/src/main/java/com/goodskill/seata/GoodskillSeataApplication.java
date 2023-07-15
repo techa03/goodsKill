@@ -2,7 +2,6 @@ package com.goodskill.seata;
 
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.common.api.dubbo.DictionaryService;
 import com.goodskill.entity.Goods;
 import com.goodskill.entity.Seckill;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -19,8 +18,6 @@ public class GoodskillSeataApplication {
     private SeckillService seckillService;
     @DubboReference
     private GoodsService goodsService;
-    @DubboReference
-    private DictionaryService dictionaryService;
 
     /**
      * 测试seata分布式事务

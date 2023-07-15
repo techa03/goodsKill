@@ -10,20 +10,24 @@ spring:
     allow-circular-references: true
 dubbo:
   protocol:
-    id: dubbo
     name: dubbo
+    ### 服务暴露端口
     port: -1
-  consumer:
-    timeout: 30000
-  ## 此处有坑，如配置了具体的service名，对应的注入此service上的注解@DubboReference(check=false)会失效
-  cloud:
-    subscribed-services: "goodskill-service-provider,"
+    status: server
   registry:
-    address: spring-cloud://localhost
-
+    address: zookeeper://zookeeper:2181
+    timeout: 30000
+    id: my-registry
+  provider:
+    timeout: 60000
+  application:
+    enable-file-cache: false
+    ##开启应用级地址注册
+    register-mode: instance
+    qos-port: 22223
 
 seata:
-  enabled: true
+  enabled: false
   #1.4.2使用此配置禁用seata
   enable-auto-data-source-proxy: true
   application-id: goodskill-seata
@@ -31,7 +35,7 @@ seata:
   config:
     type: nacos
     nacos:
-      namespace:
+      namespace: bca6fe13-8ddd-4721-b753-022fe3beabd8
       serverAddr: nacos:8848
       group: SEATA_GROUP
       username: nacos
@@ -42,6 +46,6 @@ seata:
       application: seata-server
       server-addr: nacos:8848
       group: SEATA_GROUP
-      namespace:
+      namespace: bca6fe13-8ddd-4721-b753-022fe3beabd8
       username: nacos
       password: nacos

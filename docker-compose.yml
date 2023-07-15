@@ -209,102 +209,101 @@ services:
 #      MONGO_INITDB_ROOT_PASSWORD: root
 
   seata-server:
-    image: seataio/seata-server:1.6.1
+    image: seataio/seata-server:1.7.0
     container_name: seata-server
     hostname: seata-server
     ports:
       - "8091:8091"
+      - "7091:7091"
     environment:
-      # 注册到nacos上的ip。客户端将通过该ip访问seata服务。
-      # 注意公网ip和内网ip的差异。
       - SEATA_IP=192.168.2.134
       - SEATA_PORT=8091
-      - STORE_MODE=file
-      - SEATA_CONFIG_NAME=file:/root/seata-config/registry.conf
+      - STORE_MODE=db
     volumes:
-      - ./doc/docker/seata/config:/root/seata-config
+      - ./doc/docker/seata/resources/application.yml:/seata-server/resources/application.yml
     networks:
       - somenetwork
 
-  goodses:
-    build: ./goodskill-es-provider
-    container_name: goodses
-    volumes:
-      - /logs/goods-es/:/logs/goodskill
-    depends_on:
-      - elasticsearch
-      - nacos
-#      - elasticsearch1
-    networks:
-      - somenetwork
-
-  goodsservice:
-    build: ./goodskill-spring-boot-provider
-    container_name: goodsservice
-    restart: on-failure:3
-    volumes:
-      - /logs/goods-service/:/logs/goodskill
-    depends_on:
-      - elasticsearch
-      - zookeeper
-      - goodsmongo
-      - goodses
-      - redis
-      - nacos
-#      - seata-server
-    networks:
-      - somenetwork
-
-  goodsweb:
-    build: ./goodskill-web
-    container_name: goodsweb
-    restart: on-failure:5
-    volumes:
-      - /logs/goods-web/:/logs/goodskill
-    depends_on:
-      - goodsservice
-      - zookeeper
-      - redis
-      - nacos
-    networks:
-      - somenetwork
-
-  goodsgateway:
-    build: ./goodskill-gateway
-    container_name: goodsgateway
-    restart: on-failure:3
-    volumes:
-      - /logs/goods-gateway/:/logs/goodskill
-    ports:
-      - "80:80"
-    depends_on:
-      - nacos
-    networks:
-      - somenetwork
-
-#  goodsseata:
-#    build: ./goodskill-seata
-#    container_name: goodsseata
-#    restart: on-failure:3
+#  goodses:
+#    build: ./goodskill-es-provider
+#    container_name: goodses
 #    volumes:
-#      - /logs/goods-seata/:/logs/goodskill
+#      - /logs/goods-es/:/logs/goodskill
 #    depends_on:
-#      - seata-server
-#      - goodsservice
+#      - elasticsearch
+#      - nacos
+##      - elasticsearch1
 #    networks:
 #      - somenetwork
+#
+#  goodsservice:
+#    build: ./goodskill-spring-boot-provider
+#    container_name: goodsservice
 
-  goodsadmin:
-    build: ./goodskill-admin
-    container_name: goodsadmin
-    ports:
-      - "8083:8083"
-    volumes:
-      - /logs/goods-admin/:/logs/goodskill
-    depends_on:
-      - nacos
-    networks:
-      - somenetwork
+#    restart: on-failure:3
+#    volumes:
+#      - /logs/goods-service/:/logs/goodskill
+#    depends_on:
+#      - elasticsearch
+#      - zookeeper
+#      - goodsmongo
+#      - goodses
+#      - redis
+#      - nacos
+##      - seata-server
+#    networks:
+#      - somenetwork
+#
+#  goodsweb:
+#    build: ./goodskill-web
+#    container_name: goodsweb
+#    restart: on-failure:5
+#    volumes:
+#      - /logs/goods-web/:/logs/goodskill
+#    depends_on:
+#      - goodsservice
+#      - zookeeper
+#      - redis
+#      - nacos
+#    networks:
+#      - somenetwork
+#
+#  goodsgateway:
+#    build: ./goodskill-gateway
+#    container_name: goodsgateway
+#    restart: on-failure:3
+#    volumes:
+#      - /logs/goods-gateway/:/logs/goodskill
+#    ports:
+#      - "80:80"
+#    depends_on:
+#      - nacos
+#    networks:
+#      - somenetwork
+#
+##  goodsseata:
+##    build: ./goodskill-seata
+##    container_name: goodsseata
+##    restart: on-failure:3
+##    volumes:
+##      - /logs/goods-seata/:/logs/goodskill
+##    depends_on:
+##      - seata-server
+##      - goodsservice
+##    networks:
+##      - somenetwork
+#
+#  goodsadmin:
+#    build: ./goodskill-admin
+#    container_name: goodsadmin
+#    ports:
+#      - "8083:8083"
+#    volumes:
+#      - /logs/goods-admin/:/logs/goodskill
+#    depends_on:
+#      - nacos
+#    networks:
+#      - somenetwork
 
 networks:
   somenetwork:
