@@ -214,15 +214,12 @@ services:
     hostname: seata-server
     ports:
       - "8091:8091"
+      - "7091:7091"
     environment:
-      # 注册到nacos上的ip。客户端将通过该ip访问seata服务。
-      # 注意公网ip和内网ip的差异。
       - SEATA_PORT=8091
-      - STORE_MODE=file
-#      - SEATA_CONFIG_NAME=file:/root/seata-config/registry.conf
+      - STORE_MODE=db
     volumes:
-#      - ./doc/docker/seata/config:/root/seata-config
-      - ./doc/docker/seata/resources:/seata-server/resources
+      - ./doc/docker/seata/resources/application.yml:/seata-server/resources/application.yml
     networks:
       - somenetwork
 
