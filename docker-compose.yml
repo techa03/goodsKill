@@ -239,6 +239,7 @@ services:
 #  goodsservice:
 #    build: ./goodskill-spring-boot-provider
 #    container_name: goodsservice
+
 #    restart: on-failure:3
 #    volumes:
 #      - /logs/goods-service/:/logs/goodskill

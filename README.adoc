@@ -3,16 +3,16 @@
 image:https://img.shields.io/badge/license-MIT-blue.svg[License,link=LICENSE]
 image:https://github.com/techa03/goodsKill/actions/workflows/maven.yml/badge.svg?branch=master[Java CI with Maven,link=https://github.com/techa03/goodsKill/actions/workflows/maven.yml]
 image:https://codecov.io/gh/techa03/goodsKill/branch/master/graph/badge.svg[codecov,link=https://codecov.io/gh/techa03/goodsKill]
-image:https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml/badge.svg?branch=master[CodeQL,link=https://github.com/techa03/goodsKill/actions/workflows/codeql-analysis.yml]
+image:https://github.com/techa03/goodsKill/actions/workflows/codeql.yml/badge.svg?branch=master[CodeQL,link=https://github.com/techa03/goodsKill/actions/workflows/codeql.yml]
 
 项目命名为 *goodsKill* 一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为 *good skill*，本项目就是希望搭建一套完整的项目框架，把一些好的技术和开发技巧整合进来（偏向于后端技术），方便学习和查阅。
 
 
-本项目为模拟秒杀项目，提供统一秒杀模拟请求接口，方便自行测试各个秒杀方案的执行速度。另外支持OAuth2.0第三方授权登录（目前可通过Gitee，Github进行授权）。 技术上整体采用SpringMVC + Mybatis持久层框架，采用Dubbo3.x{empty}footnote:[由于SpringCloudAlibaba官方暂未支持Dubbo 3.x，本项目采用dubbo-spring-boot-starter集成]，服务注册发现以及配置中心使用Nacos，支持数据库分库分表、分布式事务。
+本项目为模拟秒杀项目，提供统一秒杀模拟请求接口，方便自行测试各个秒杀方案的执行速度。 技术上整体采用SpringMVC + Mybatis持久层框架，采用Dubbo3.x{empty}footnote:[由于SpringCloudAlibaba官方暂未支持Dubbo 3.x，本项目采用dubbo-spring-boot-starter集成]，服务注册发现以及配置中心使用Nacos，支持数据库分库分表、分布式事务。
 
 == 💎分支介绍
 
-``master``分支基于最新Spring Cloud 2022.x+ Spring Boot 3.x + JDK17体系构建，目前仅保留核心的模拟秒杀API接口，如需使用Spring Boot 2.7.x + JDK11版本可以切换到tag https://github.com/techa03/goodsKill/tree/v2.7.4[v2.7.4]（支持登录注册以及简单的后台管理功能）。
+``master``分支基于最新Spring Cloud 2022.x+ Spring Boot 3.x + JDK17体系构建，目前仅保留核心的模拟秒杀API接口，如需使用Spring Boot 2.7.x + JDK11版本可以切换到tag https://github.com/techa03/goodsKill/tree/v2.7.4[v2.7.4]（支持登录注册以及简单的后台管理功能）。master分支目前升级改造中，功能不够稳定，如遇代码报错建议使用老版本。
 
 本项目功能目前比较简陋且有很多不完善的地方，真实的秒杀场景远比本项目中的实现方式复杂，本项目省略了真实场景中的部分技术实现细节，目前仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
 ____
