@@ -27,7 +27,7 @@ seata:
     type: nacos
     nacos:
       server-addr: nacos:8848
-      namespace: seata-server
+      namespace: bca6fe13-8ddd-4721-b753-022fe3beabd8
       group: SEATA_GROUP
       username: nacos
       password: nacos
@@ -40,7 +40,7 @@ seata:
       application: seata-server
       server-addr: nacos:8848
       group: SEATA_GROUP
-      namespace: seata-server
+      namespace: bca6fe13-8ddd-4721-b753-022fe3beabd8
       # tc集群名称
       cluster: default
       username: nacos
