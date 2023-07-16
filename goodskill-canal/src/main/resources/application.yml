@@ -11,4 +11,4 @@ spring:
 
 logging:
   level:
-    com.goodskill: debug
+    com.goodskill: info

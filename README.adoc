@@ -256,7 +256,7 @@ ____
 * main方法运行``GoodskillAdminApplication``类(微服务健康状态指标监控)
 
 == ✔️项目已知问题
-* seata、oauth2模块升级后兼容性尚未测试
+* oauth2模块升级后兼容性尚未测试
 * 单元测试待重新验证，目前为跳过单元测试状态
 * web服务移除shiro后的鉴权问题
 
