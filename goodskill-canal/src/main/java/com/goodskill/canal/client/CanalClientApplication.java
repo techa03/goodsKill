@@ -1,7 +1,9 @@
 package com.goodskill.canal.client;
 
 import com.goodskill.api.dto.SeckillMockCanalResponseDTO;
+import com.goodskill.canal.client.sample.SimpleCanalClientTest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -14,14 +16,15 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import static com.goodskill.canal.client.sample.SimpleCanalClientExample.CANAL_RESPONSE_LIST;
+import static com.goodskill.canal.client.sample.SimpleCanalClientTest.CANAL_RESPONSE_LIST;
+
 
 /**
  * binlog读取服务
  */
 @SpringBootApplication
 @Slf4j
-public class CanalClientApplication {
+public class CanalClientApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(CanalClientApplication.class).web(WebApplicationType.NONE).run(args);
@@ -47,5 +50,10 @@ public class CanalClientApplication {
             }
             return null;
         }).filter(Objects::nonNull)).subscribeOn(Schedulers.boundedElastic()).share();
+    }
+
+    @Override
+    public void run(String... args) {
+        new Thread(() -> new SimpleCanalClientTest("example").run()).start();
     }
 }

@@ -103,4 +103,13 @@ class MockMvcExampleTests {
         Thread.sleep(10000);
     }
 
+    @Test
+    void atomicWithCanal(@Autowired MockMvc mvc) throws Exception {
+        mvc.perform(post("/atomicWithCanal")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(content))
+                .andExpect(status().isOk());
+        Thread.sleep(10000);
+    }
+
 }
