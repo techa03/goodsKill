@@ -1,7 +1,7 @@
 //package com.goodskill.web.controller;
 //
 //import com.goodskill.entity.User;
-//import com.goodskill.web.util.HttpUrlUtil;
+//import com.goodskill.service.util.HttpUrlUtil;
 //import io.swagger.v3.oas.annotations.tags.Tag;
 //import lombok.extern.slf4j.Slf4j;
 //import org.apache.shiro.SecurityUtils;

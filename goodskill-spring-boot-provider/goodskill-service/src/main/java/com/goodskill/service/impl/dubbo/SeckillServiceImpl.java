@@ -1,4 +1,4 @@
-package com.goodskill.service.impl;
+package com.goodskill.service.impl.dubbo;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -32,7 +32,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -66,24 +65,26 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private SuccessKilledMongoService successKilledMongoService;
     @Resource
     private SuccessKilledMapper successKilledMapper;
-    @Autowired
+    @Resource
     private RedisService redisService;
-    @Autowired
+    @Resource
     private RedisTemplate redisTemplate;
-    @Autowired
+    @Resource
     private List<GoodsKillStrategy> goodskillStrategies;
-    @Autowired
+    @Resource
     private SeckillService seckillService;
-    @Autowired
+    @Resource
     private AlipayRunner alipayRunner;
     @DubboReference
     private GoodsService goodsService;
     @Resource(name = "taskExecutor")
     private ThreadPoolExecutor taskExecutor;
-    @Autowired
+    @Resource
     private StreamBridge streamBridge;
     @Value("${alipay.qrcodeImagePath:1}")
     private String qrcodeImagePath;
+    @Resource
+    private SeckillMapper baseMapper;
 
     @Override
     public PageDTO<SeckillVO> getSeckillList(int pageNum, int pageSize, String goodsName) {
@@ -96,7 +97,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
             if (StringUtils.isNotBlank(goodsName)) {
                 queryWrapper.lambda().like(Seckill::getName, goodsName);
             }
-            Page<Seckill> seckillPage = this.page(new Page(pageNum, pageSize), queryWrapper);
+            Page<Seckill> seckillPage = baseMapper.selectPage(new Page(pageNum, pageSize), queryWrapper);
             List<SeckillVO> collect = seckillPage.getRecords().stream().map(it -> {
                 SeckillVO seckillVO = new SeckillVO();
                 BeanUtils.copyProperties(it, seckillVO);
@@ -212,7 +213,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         entity.setSeckillId(seckillId);
         entity.setNumber(seckillCount);
         entity.setStatus(SeckillStatusConstant.IN_PROGRESS);
-        this.updateById(entity);
+        baseMapper.updateById(entity);
         // 清理已成功秒杀记录
         this.deleteSuccessKillRecord(seckillId);
         redisService.removeSeckill(seckillId);

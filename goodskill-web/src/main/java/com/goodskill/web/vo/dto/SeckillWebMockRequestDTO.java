@@ -1,4 +1,4 @@
-package com.goodskill.web.dto;
+package com.goodskill.web.vo.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

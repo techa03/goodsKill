@@ -1,4 +1,4 @@
-package com.goodskill.api.service;
+package com.goodskill.service.inner;
 
 import com.goodskill.api.bo.UserBO;
 

@@ -1,8 +1,8 @@
 //package com.goodskill.web.shiro;
 //
 //import com.goodskill.api.bo.UserBO;
-//import com.goodskill.api.service.UserAccountService;
-//import com.goodskill.api.service.UserAuthAccountService;
+//import com.goodskill.service.inner.UserAccountService;
+//import com.goodskill.service.inner.UserAuthAccountService;
 //import com.goodskill.entity.Permission;
 //import com.goodskill.entity.Role;
 //import org.apache.dubbo.config.annotation.DubboReference;

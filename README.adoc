@@ -72,7 +72,7 @@ goodsKill
 |   |--goodskill-generator                  ||项目代码生成
 |   |--goodskill-service                    ||服务API接口实现
 |--goodskill-spring-boot-starter            ||项目配置自动装配
-|--goodskill-web                            ||提供页面客户端访问，controller层在这一模块
+|--goodskill-web                            ||提供秒杀模拟接口访问
 |--goodskill-job                            ||elastic-job定时任务
 |--goodskill-seata                          ||集成nacos+dubbo+shardingjdbc+seata的分布式事务解决方案示例
 |--goodskill-oauth2                         ||oauth2.0自定义模块
@@ -257,7 +257,6 @@ ____
 
 == ✔️项目已知问题
 * oauth2模块升级后兼容性尚未测试
-* 单元测试待重新验证，目前为跳过单元测试状态
 * web服务移除shiro后的鉴权问题
 
 == ❓常见问题
@@ -319,39 +318,8 @@ hub.docker被墙，国内可使用阿里云镜像加速器，具体操作见 htt
 * `http://www.goodskill.com/goodskill/es/**` 对应访问``goodskill-es-provider``服务
 * `http://www.goodskill.com/goodskill/seata/**` 对应访问``goodskill-seata``服务
 * `http://www.goodskill.com/goodskill/common/**` 对应访问``goodskill-service-provider``服务
-____
 
-动态路由配置说明
-____
-* 网关支持动态加载路由配置，修改后实时生效，使用时需要在nacos配置中心添加配置文件，文件名可通过``application.yml``中的``nacos.router.data.id``配置进行修改（默认nacos dataId为``goodskill-gateway-routes``），例如：
 
-+
-.路由配置文件内容为json数组格式
-====
-[source,json]
-[
-    {
-        "id": "goodskill-service-provider",
-        "predicates": [
-            {
-                "name": "Path",
-                "args": {
-                    "_genkey_0": "/goodskill/common/**"
-                }
-            }
-        ],
-        "filters": [
-            {
-                "name": "StripPrefix",
-                "args": {
-                    "_genkey_1": "2"
-                }
-            }
-        ],
-        "uri": "lb://goodskill-service-provider"
-    }
-]
-====
 
 === API接口说明
 

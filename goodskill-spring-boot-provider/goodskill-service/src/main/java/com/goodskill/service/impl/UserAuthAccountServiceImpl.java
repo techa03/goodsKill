@@ -3,14 +3,14 @@ package com.goodskill.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.api.bo.UserBO;
-import com.goodskill.api.service.UserAuthAccountService;
 import com.goodskill.entity.User;
 import com.goodskill.entity.UserAuthAccount;
 import com.goodskill.service.common.UserService;
+import com.goodskill.service.inner.UserAuthAccountService;
 import com.goodskill.service.mapper.UserAuthAccountMapper;
 import jakarta.annotation.Resource;
-import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -20,10 +20,12 @@ import org.springframework.beans.BeanUtils;
  * @author heng
  * @since 2021-03-27
  */
-@DubboService
+@Service
 public class UserAuthAccountServiceImpl extends ServiceImpl<UserAuthAccountMapper, UserAuthAccount> implements UserAuthAccountService {
     @Resource
     private UserService userService;
+    @Resource
+    private UserAuthAccountMapper baseMapper;
 
     @Override
     public UserBO findByThirdAccount(String account, String sourceType) {
