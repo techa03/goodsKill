@@ -1,4 +1,4 @@
-package com.goodskill.web.vo;
+package com.goodskill.service.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;

@@ -11,6 +11,7 @@ import com.goodskill.entity.SuccessKilled;
 import com.goodskill.mongo.api.SuccessKilledMongoService;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.common.trade.alipay.AlipayRunner;
+import com.goodskill.service.impl.dubbo.SeckillServiceImpl;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
 import com.goodskill.service.mock.strategy.GoodsKillStrategy;

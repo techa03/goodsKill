@@ -1,6 +1,6 @@
 //package com.goodskill.web.shiro;
 //
-//import com.goodskill.api.service.UserAccountService;
+//import com.goodskill.service.inner.UserAccountService;
 //import com.goodskill.entity.Permission;
 //import com.goodskill.entity.Role;
 //import com.goodskill.entity.User;

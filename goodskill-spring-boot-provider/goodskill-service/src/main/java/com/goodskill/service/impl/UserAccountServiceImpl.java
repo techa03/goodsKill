@@ -5,14 +5,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.goodskill.api.service.UserAccountService;
 import com.goodskill.common.exception.CommonException;
 import com.goodskill.entity.*;
+import com.goodskill.service.inner.UserAccountService;
 import com.goodskill.service.mapper.*;
-import org.apache.dubbo.config.annotation.DubboService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
@@ -20,9 +19,9 @@ import java.util.*;
 /**
  * @author heng
  */
-@DubboService
+@Service
+@Slf4j
 public class UserAccountServiceImpl extends ServiceImpl<UserMapper, User> implements UserAccountService {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private UserRoleMapper userRoleMapper;
     @Autowired
@@ -31,15 +30,17 @@ public class UserAccountServiceImpl extends ServiceImpl<UserMapper, User> implem
     private PermissionMapper permissionMapper;
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private UserMapper baseMapper;
 
     @Override
     public void register(User user) {
         try {
             user.setPassword(user.getPassword());
             user.setUsername(user.getAccount());
-            this.save(user);
+            baseMapper.insert(user);
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             throw new CommonException(null);
         }
 

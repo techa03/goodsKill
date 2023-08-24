@@ -1,4 +1,4 @@
-package com.goodskill.service.impl;
+package com.goodskill.service.impl.dubbo;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -29,6 +29,8 @@ import java.util.List;
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements GoodsService {
     @Resource
     private GoodsEsService goodsEsService;
+    @Resource
+    private GoodsMapper baseMapper;
 
     @Override
     public void uploadGoodsPhoto(long goodsId, String fileUrl) {
@@ -36,13 +38,13 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         goods.setGoodsId((int) goodsId);
         goods.setPhotoUrl(fileUrl);
         log.info(goods.toString());
-        this.updateById(goods);
+        baseMapper.updateById(goods);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void addGoods(Goods goods) {
-        this.save(goods);
+        baseMapper.insert(goods);
         GoodsDTO goodsDto = new GoodsDTO();
         goodsDto.setId(IdWorker.getId());
         BeanUtils.copyProperties(goods, goodsDto);

@@ -1,4 +1,4 @@
-package com.goodskill.web.util;
+package com.goodskill.service.util;
 
 import io.minio.MinioClient;
 import io.minio.ObjectWriteResponse;

@@ -1,7 +1,8 @@
-package com.goodskill.api.service;
+package com.goodskill.service.inner;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.goodskill.entity.Permission;
 import com.goodskill.entity.Role;
 import com.goodskill.entity.User;
@@ -12,7 +13,7 @@ import java.util.Set;
 /**
  * @author heng
  */
-public interface UserAccountService {
+public interface UserAccountService extends IService<User> {
     /**
      * 注册用户信息
      *

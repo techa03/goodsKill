@@ -1,4 +1,4 @@
-package com.goodskill.web.constant;
+package com.goodskill.service.common;
 
 /**
  * 服务器响应码定义

@@ -1,6 +1,6 @@
-package com.goodskill.web.dto;
+package com.goodskill.service.dto;
 
-import com.goodskill.web.constant.ResponseInfo;
+import com.goodskill.service.common.ResponseInfo;
 import lombok.Data;
 
 import java.io.Serializable;

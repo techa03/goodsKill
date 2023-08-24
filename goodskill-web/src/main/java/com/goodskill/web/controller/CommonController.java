@@ -1,11 +1,11 @@
 //package com.goodskill.web.controller;
 //
 //import com.goodskill.api.bo.UserBO;
-//import com.goodskill.api.service.UserAuthAccountService;
+//import com.goodskill.service.inner.UserAuthAccountService;
 //import com.goodskill.common.info.OAuth2UserInfo;
 //import com.goodskill.common.util.OAuth2UserInfoConverUtil;
 //import com.goodskill.common.util.UserAccountUtil;
-//import com.goodskill.web.util.HttpUrlUtil;
+//import com.goodskill.service.util.HttpUrlUtil;
 //import io.swagger.v3.oas.annotations.tags.Tag;
 //import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;
