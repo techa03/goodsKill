@@ -199,7 +199,7 @@ docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行�
 
 * main方法运行``GoodsKillServiceApplication``类(订单、用户、登录、商品管理服务提供者)
 
-* main方法运行``SampleWebJspApplication``类(web服务)
+* main方法运行``SampleWebApplication``类(模拟秒杀web服务)
 
 * 启动完成后发送一个秒杀模拟请求：
 秒杀活动id 1000，商品数量10，执行20次购买操作，使用sychronized同步锁执行，例如：
@@ -207,7 +207,7 @@ docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行�
 .使用sychronized同步锁执行
 ====
 [source,bash]
-curl -X POST "http://www.goodskill.com:8080/goodskill/web/sychronized" \
+curl -X POST "http://www.goodskill.com:8080/sychronized" \
 -H "accept: */*" -H "Content-Type: application/json" -d \
 "{ \"requestCount\": 20, \"seckillCount\": 10, \"seckillId\": 1000}"
 ====
@@ -215,7 +215,7 @@ curl -X POST "http://www.goodskill.com:8080/goodskill/web/sychronized" \
 .使用Redisson分布式锁执行
 ====
 [source,bash]
-curl -X POST "http://www.goodskill.com:8080/goodskill/web/redisson" \
+curl -X POST "http://www.goodskill.com:8080/redisson" \
 -H "accept: */*" -H "Content-Type: application/json" -d \
 "{ \"requestCount\": 20, \"seckillCount\": 10, \"seckillId\": 1000}"
 ====
@@ -223,7 +223,7 @@ curl -X POST "http://www.goodskill.com:8080/goodskill/web/redisson" \
 .使用Redisson分布式锁执行，支持动态配置后台线程池核心线程数以及最大线程数
 ====
 [source,bash]
-curl --location --request POST 'http://www.goodskill.com:8080/goodskill/web/limit' \
+curl --location --request POST 'http://www.goodskill.com:8080/limit' \
 --header 'User-Agent: apifox/1.0.0 (https://www.apifox.cn)' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -314,10 +314,10 @@ hub.docker被墙，国内可使用阿里云镜像加速器，具体操作见 htt
 其他表均未分库分表，默认使用seckill作为主库
 
 == 🔖服务网关说明
-* `http://www.goodskill.com/goodskill/mongo/**` 对应访问``goodskill-mongo-provider``服务
-* `http://www.goodskill.com/goodskill/es/**` 对应访问``goodskill-es-provider``服务
-* `http://www.goodskill.com/goodskill/seata/**` 对应访问``goodskill-seata``服务
-* `http://www.goodskill.com/goodskill/common/**` 对应访问``goodskill-service-provider``服务
+* `http://www.goodskill.com/api/mongo/**` 对应访问``goodskill-mongo-provider``服务
+* `http://www.goodskill.com/api/es/**` 对应访问``goodskill-es-provider``服务
+* `http://www.goodskill.com/api/seata/**` 对应访问``goodskill-seata``服务
+* `http://www.goodskill.com/api/common/**` 对应访问``goodskill-service-provider``服务
 
 
 

@@ -6,7 +6,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 
 /**
@@ -17,12 +16,11 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients(value = {"com.goodskill.*.api", "com.goodskill.api"})
-@EnableRedisHttpSession
 @EnableAsync
-public class SampleWebJspApplication {
+public class SampleWebApplication {
 
     public static void main(String[] args) {
-        new SpringApplicationBuilder(SampleWebJspApplication.class)
+        new SpringApplicationBuilder(SampleWebApplication.class)
                 .web(WebApplicationType.SERVLET)
                 .registerShutdownHook(true)
                 .run(args);

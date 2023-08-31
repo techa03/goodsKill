@@ -5,23 +5,21 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.goodskill.api.dto.*;
+import com.goodskill.api.dto.ExposerDTO;
+import com.goodskill.api.dto.SeckillInfoDTO;
+import com.goodskill.api.dto.SeckillMockRequestDTO;
+import com.goodskill.api.dto.SeckillResponseDTO;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.common.constant.SeckillStatusConstant;
-import com.goodskill.common.enums.SeckillStatEnum;
-import com.goodskill.common.exception.RepeatKillException;
 import com.goodskill.common.exception.SeckillCloseException;
-import com.goodskill.common.exception.SeckillException;
-import com.goodskill.common.util.DateUtil;
 import com.goodskill.common.util.MD5Util;
 import com.goodskill.entity.Goods;
 import com.goodskill.entity.Seckill;
 import com.goodskill.entity.SuccessKilled;
 import com.goodskill.mongo.api.SuccessKilledMongoService;
 import com.goodskill.service.common.RedisService;
-import com.goodskill.service.common.trade.alipay.AlipayRunner;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
 import com.goodskill.service.mock.strategy.GoodsKillStrategy;
@@ -73,8 +71,6 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private List<GoodsKillStrategy> goodskillStrategies;
     @Resource
     private SeckillService seckillService;
-    @Resource
-    private AlipayRunner alipayRunner;
     @DubboReference
     private GoodsService goodsService;
     @Resource(name = "taskExecutor")
@@ -134,41 +130,6 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         return new ExposerDTO(true, md5, seckillId);
     }
 
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public SeckillExecutionDTO executeSeckill(long seckillId, String userPhone, String md5) {
-        if (md5 == null || !md5.equals(MD5Util.getMD5(seckillId))) {
-            throw new SeckillException("seckill data rewrite");
-        }
-        Date nowTime = DateUtil.getNowTime();
-        try {
-            int updateCount = baseMapper.reduceNumber(seckillId, nowTime);
-            if (updateCount <= 0) {
-                throw new SeckillCloseException("seckill is closed, seckillId: " + seckillId);
-            } else {
-                SuccessKilled successKilled = new SuccessKilled();
-                successKilled.setSeckillId(seckillId);
-                successKilled.setUserPhone(userPhone);
-                int insertCount = successKilledMapper.insert(successKilled);
-                String qrfilepath = alipayRunner.tradePrecreate(seckillId);
-                if (insertCount <= 0) {
-                    throw new RepeatKillException("seckill repeated, seckillId: " + seckillId);
-                } else {
-                    SuccessKilled key = new SuccessKilled();
-                    key.setSeckillId(seckillId);
-                    key.setUserPhone(userPhone);
-                    return new SeckillExecutionDTO(seckillId, SeckillStatEnum.SUCCESS.getStateInfo(), successKilledMapper.selectOne(new QueryWrapper<>(key)), qrfilepath);
-                }
-            }
-        } catch (SeckillCloseException | RepeatKillException e1) {
-            log.info(e1.getMessage(), e1);
-            throw e1;
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw new SeckillException("seckill inner error:" + e.getMessage());
-        }
-    }
 
     @Override
     public void deleteSuccessKillRecord(long seckillId) {

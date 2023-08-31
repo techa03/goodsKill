@@ -93,7 +93,7 @@ spring:
             password: nacos
 dubbo:
   scan:
-    base-packages: com.goodskill.service.impl
+    base-packages: com.goodskill.service.impl.dubbo
   protocol:
     name: dubbo
     ### 服务暴露端口
@@ -111,8 +111,12 @@ dubbo:
     register-mode: instance
     qos-port: 22222
 
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
+minio:
+  endpoint: http://localhost:19000
+  accessKey: goodskill
+  secretKey: password
+  bucketName: goodskill
+
 mybatis-plus:
   global-config:
     db-config:
@@ -144,11 +148,6 @@ seata:
       username: nacos
       password: nacos
 
-logging:
-  level:
-    org:
-      apache:
-        kafka: error
 management:
   endpoint:
     health:

@@ -1,7 +1,10 @@
 package com.goodskill.api.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import com.goodskill.api.dto.*;
+import com.goodskill.api.dto.ExposerDTO;
+import com.goodskill.api.dto.SeckillInfoDTO;
+import com.goodskill.api.dto.SeckillMockRequestDTO;
+import com.goodskill.api.dto.SeckillResponseDTO;
 import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.entity.Seckill;
 import com.goodskill.entity.SuccessKilled;
@@ -43,18 +46,6 @@ public interface SeckillService {
     @PostMapping("/exportSeckillUrl")
     ExposerDTO exportSeckillUrl(@RequestParam("seckillId") long seckillId);
 
-    /**
-     * 执行秒杀
-     *
-     * @param seckillId 秒杀活动id
-     * @param userPhone 用户手机号
-     * @param md5       md5值
-     * @return 秒杀执行状态
-     */
-    @PostMapping("/executeSeckill")
-    SeckillExecutionDTO executeSeckill(@RequestParam("seckillId") long seckillId,
-                                       @RequestParam("userPhone") String userPhone,
-                                       @RequestParam("md5") String md5);
 
     /**
      * 根据秒杀id删除成功记录

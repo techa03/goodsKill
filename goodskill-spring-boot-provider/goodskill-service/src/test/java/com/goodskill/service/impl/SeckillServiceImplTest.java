@@ -4,13 +4,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.common.util.MD5Util;
 import com.goodskill.entity.Goods;
 import com.goodskill.entity.Seckill;
 import com.goodskill.entity.SuccessKilled;
 import com.goodskill.mongo.api.SuccessKilledMongoService;
 import com.goodskill.service.common.RedisService;
-import com.goodskill.service.common.trade.alipay.AlipayRunner;
 import com.goodskill.service.impl.dubbo.SeckillServiceImpl;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
@@ -59,8 +57,6 @@ public class SeckillServiceImplTest {
     @Mock
     private RedisTemplate redisTemplate;
     @Mock
-    private AlipayRunner alipayRunner;
-    @Mock
     private ValueOperations valueOperations;
     @Mock
     private List<GoodsKillStrategy> goodskillStrategies;
@@ -89,21 +85,6 @@ public class SeckillServiceImplTest {
         t.setEndTime(new Date());
         when(redisService.getSeckill(1L)).thenReturn(t);
         assertNotNull(seckillService.exportSeckillUrl(1L));
-    }
-
-    @Test
-    public void executeSeckill() {
-        long seckillId = 1L;
-        String userPhone = "123213";
-        String md5 = MD5Util.getMD5(seckillId);
-        when(baseMapper.reduceNumber(eq(seckillId), any())).thenReturn(1);
-        SuccessKilled successKilled = new SuccessKilled();
-        successKilled.setSeckillId(seckillId);
-        successKilled.setUserPhone(userPhone);
-        when(successKilledMapper.insert(successKilled)).thenReturn(1);
-        when(successKilledMapper.selectOne(any())).thenReturn(new SuccessKilled());
-        when(alipayRunner.tradePrecreate(seckillId)).thenReturn("1");
-        assertNotNull(seckillService.executeSeckill(seckillId, userPhone, md5));
     }
 
     @Test

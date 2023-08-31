@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-
-         http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
-
-    <mvc:annotation-driven conversion-service="conversionService"/>
-    <mvc:default-servlet-handler/>
-
-<!--    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
-<!--        <property name="defaultEncoding" value="utf-8"/>-->
-<!--        <property name="maxUploadSize" value="10485760000"/>-->
-<!--        <property name="maxInMemorySize" value="40960"/>-->
-<!--    </bean>-->
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
     <!--线程池-->
     <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
@@ -27,16 +15,5 @@
         </property>
     </bean>
 
-    <!--日期字符串转data类型-->
-    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-        <property name="converters">
-            <bean class="com.goodskill.web.util.String2DateUtil"/>
-        </property>
-    </bean>
 
-
-<!--    可以解决启动报错问题-->
-<!--    Parameter 1 of method messageHandlerMethodFactory in org.springframework.cloud.stream.config.BinderFactoryAutoConfiguration-->
-<!--    required a single bean, but 2 were found:-->
-    <bean id="validator" class="org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean"/>
 </beans>

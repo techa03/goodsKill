@@ -2,7 +2,6 @@ package com.goodskill.service.controller;
 
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.entity.Goods;
-import com.goodskill.service.util.HttpUrlUtil;
 import com.goodskill.service.util.UploadFileUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -38,7 +37,7 @@ public class GoodsController {
         String url = uploadFileUtil.uploadFile(file);
         goods.setPhotoUrl(url);
         goodsService.addGoods(goods);
-        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
+        return url;
     }
 
     @RequestMapping(value = "/list",method = RequestMethod.GET,produces = {

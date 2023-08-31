@@ -57,10 +57,6 @@ spring:
             - Path=/admin/**
           filters:
             - StripPrefix=1
-        - id: goodskill-web
-          uri: lb://goodskill-web
-          predicates:
-            - Path=/goodskill/web/**
   main:
     allow-bean-definition-overriding: true
 management:
