@@ -1,3 +1,12 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+    register-default-servlet: true
+
 spring:
   profiles:
     active: dev
@@ -60,7 +69,7 @@ spring:
             username: nacos
             password: nacos
 
-
+##dubbo配置
 dubbo:
   protocol:
     name: dubbo
@@ -72,6 +81,7 @@ dubbo:
     enable-file-cache: false
     qos-port: 22224
 
+##监控配置
 management:
   endpoints:
     web:
@@ -80,20 +90,6 @@ management:
   endpoint:
     health:
       show-details: always
-
-goodskill:
-  loginUrl: ${goodskill.gateway.host}${server.servlet.context-path}/login
-  gateway:
-    host: http://www.goodskill.com:${server.port}
-
-server:
-  port: 8080
-  servlet:
-    encoding:
-      charset: utf-8
-      enabled: true
-      force: true
-    register-default-servlet: true
 
 springdoc:
   version: '@springdoc.version@'

@@ -117,13 +117,6 @@ minio:
   secretKey: password
   bucketName: goodskill
 
-goodskill:
-  loginUrl: ${goodskill.gateway.host}${server.servlet.context-path}/login
-  gateway:
-    host: http://www.goodskill.com:${server.port}
-
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
 mybatis-plus:
   global-config:
     db-config:
@@ -155,11 +148,6 @@ seata:
       username: nacos
       password: nacos
 
-logging:
-  level:
-    org:
-      apache:
-        kafka: error
 management:
   endpoint:
     health:

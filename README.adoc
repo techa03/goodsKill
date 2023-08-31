@@ -199,7 +199,7 @@ docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行�
 
 * main方法运行``GoodsKillServiceApplication``类(订单、用户、登录、商品管理服务提供者)
 
-* main方法运行``SampleWebJspApplication``类(web服务)
+* main方法运行``SampleWebApplication``类(模拟秒杀web服务)
 
 * 启动完成后发送一个秒杀模拟请求：
 秒杀活动id 1000，商品数量10，执行20次购买操作，使用sychronized同步锁执行，例如：

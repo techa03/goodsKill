@@ -17,10 +17,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableDiscoveryClient
 @EnableFeignClients(value = {"com.goodskill.*.api", "com.goodskill.api"})
 @EnableAsync
-public class SampleWebJspApplication {
+public class SampleWebApplication {
 
     public static void main(String[] args) {
-        new SpringApplicationBuilder(SampleWebJspApplication.class)
+        new SpringApplicationBuilder(SampleWebApplication.class)
                 .web(WebApplicationType.SERVLET)
                 .registerShutdownHook(true)
                 .run(args);

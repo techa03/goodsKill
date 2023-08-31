@@ -3,13 +3,9 @@ package com.goodskill.service.controller;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goodskill.api.dto.ExposerDTO;
-import com.goodskill.api.dto.SeckillExecutionDTO;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.SeckillVO;
-import com.goodskill.common.enums.SeckillStatEnum;
-import com.goodskill.common.exception.RepeatKillException;
-import com.goodskill.common.exception.SeckillCloseException;
 import com.goodskill.common.info.Result;
 import com.goodskill.entity.Seckill;
 import com.goodskill.es.api.GoodsEsService;
@@ -116,34 +112,6 @@ public class SeckillController {
         return result;
     }
 
-    @PostMapping(value = "/{seckillId}/{md5}/execution", produces = {
-            "application/json;charset=UTF-8"})
-    @ResponseBody
-    public Result<SeckillExecutionDTO> execute(@PathVariable("seckillId") Long seckillId,
-                                               @PathVariable("md5") String md5, @CookieValue(value = "killPhone", required = false) String phone) {
-        Result<SeckillExecutionDTO> result;
-        if (phone == null) {
-            result = Result.fail("未注册");
-            return result;
-        }
-        try {
-            SeckillExecutionDTO execution = seckillService.executeSeckill(seckillId, phone, md5);
-            result = Result.ok(execution);
-        } catch (RepeatKillException e) {
-            logger.info(e.getMessage(), e);
-            SeckillExecutionDTO execution = new SeckillExecutionDTO(seckillId, SeckillStatEnum.REPEAT_KILL.getStateInfo());
-            result = Result.fail(execution, null);
-        } catch (SeckillCloseException e) {
-            logger.info(e.getMessage(), e);
-            SeckillExecutionDTO execution = new SeckillExecutionDTO(seckillId, SeckillStatEnum.END.getStateInfo());
-            result = Result.fail(execution, null);
-        } catch (Exception e) {
-            logger.info(e.getMessage(), e);
-            SeckillExecutionDTO execution = new SeckillExecutionDTO(seckillId, SeckillStatEnum.INNER_ERROR.getStateInfo());
-            result = Result.fail(execution, null);
-        }
-        return result;
-    }
 
     @PostMapping(value = "/create")
     public String addSeckill(Seckill seckill) {

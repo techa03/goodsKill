@@ -1,23 +1,18 @@
 package com.goodskill.service.controller;
 
-import com.goodskill.api.dto.SeckillExecutionDTO;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.common.info.Result;
 import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.service.inner.PermissionService;
 import com.goodskill.service.inner.RolePermissionService;
 import com.goodskill.service.inner.UserAccountService;
 import com.goodskill.service.inner.UserRoleService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
-
-import static org.mockito.Mockito.*;
 
 class SeckillControllerTest {
     @Mock
@@ -42,14 +37,6 @@ class SeckillControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-    }
-
-    @Test
-    void testExecute() {
-        when(seckillService.executeSeckill(anyLong(), anyString(), anyString())).thenReturn(new SeckillExecutionDTO(0L, "statDesc", null, null));
-
-        Result<SeckillExecutionDTO> result = seckillController.execute(Long.valueOf(1), "md5", "phone");
-        Assertions.assertEquals(new Result<SeckillExecutionDTO>("200", true, new SeckillExecutionDTO(0L, "statDesc", null, null), null), result);
     }
 
 
