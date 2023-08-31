@@ -1,11 +1,10 @@
-package com.goodskill.web.controller;
+package com.goodskill.service.controller;
 
 import com.goodskill.api.dto.SeckillExecutionDTO;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.common.info.Result;
 import com.goodskill.es.api.GoodsEsService;
-import com.goodskill.service.controller.SeckillController;
 import com.goodskill.service.inner.PermissionService;
 import com.goodskill.service.inner.RolePermissionService;
 import com.goodskill.service.inner.UserAccountService;
@@ -53,11 +52,6 @@ class SeckillControllerTest {
         Assertions.assertEquals(new Result<SeckillExecutionDTO>("200", true, new SeckillExecutionDTO(0L, "statDesc", null, null), null), result);
     }
 
-    @Test
-    void testTime() {
-        Result<Long> result = seckillController.time();
-        Assertions.assertEquals(new Result<Long>("200", true, Long.valueOf(1), null), result);
-    }
 
     @Test
     void testUserPhoneCode() {

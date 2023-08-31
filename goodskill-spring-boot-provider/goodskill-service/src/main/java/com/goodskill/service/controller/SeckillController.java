@@ -4,7 +4,6 @@ import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goodskill.api.dto.ExposerDTO;
 import com.goodskill.api.dto.SeckillExecutionDTO;
-import com.goodskill.api.dto.SeckillResponseDTO;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.SeckillVO;
@@ -19,20 +18,16 @@ import com.goodskill.service.inner.PermissionService;
 import com.goodskill.service.inner.RolePermissionService;
 import com.goodskill.service.inner.UserAccountService;
 import com.goodskill.service.inner.UserRoleService;
-import com.goodskill.service.util.HttpUrlUtil;
 import com.goodskill.service.util.UploadFileUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -40,10 +35,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -65,13 +57,13 @@ public class SeckillController {
     private RolePermissionService rolePermissionService;
     @Resource
     private UserRoleService userRoleService;
-    @DubboReference
+    @Resource
     private UserAccountService userAccountService;
     @Resource
     private PermissionService permissionService;
     @Resource
     private GoodsEsService goodsEsService;
-    @Autowired
+    @Resource
     private UploadFileUtil uploadFileUtil;
 
     @Operation(summary = "秒杀列表", description = "分页显示秒杀列表")
@@ -153,17 +145,10 @@ public class SeckillController {
         return result;
     }
 
-    @GetMapping(value = "/time/now")
-    @ResponseBody
-    public Result<Long> time() {
-        Date now = new Date();
-        return Result.ok(now.getTime());
-    }
-
     @PostMapping(value = "/create")
     public String addSeckill(Seckill seckill) {
         seckillService.save(seckill);
-        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
+        return null;
     }
 
     @GetMapping(value = "/new")
@@ -174,7 +159,7 @@ public class SeckillController {
     @GetMapping(value = "/{seckillId}/delete")
     public String delete(@PathVariable("seckillId") Long seckillId) {
         seckillService.removeById(seckillId);
-        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
+        return null;
     }
 
     @Transactional
@@ -188,26 +173,7 @@ public class SeckillController {
     @PostMapping(value = "/{seckillId}/update")
     public String update(Seckill seckill) {
         seckillService.saveOrUpdate(seckill);
-        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
-    }
-
-    /**
-     * 显示二维码
-     *
-     * @param filename
-     * @param response
-     * @throws IOException
-     */
-    @GetMapping(value = "/Qrcode/{QRfilePath}")
-    @Deprecated
-    public void showQRcode(@PathVariable("QRfilePath") String filename, HttpServletResponse response) throws IOException {
-        response.setContentType("img/*");
-        SeckillResponseDTO responseDto = seckillService.getQrcode(filename);
-        try (OutputStream os = response.getOutputStream()) {
-            os.write(responseDto.getData());
-        } catch (FileNotFoundException e) {
-            logger.error("the error is :", e);
-        }
+        return null;
     }
 
     /**
@@ -223,16 +189,6 @@ public class SeckillController {
         return "seckill/payByQrcode";
     }
 
-    @GetMapping(value = "/uploadPhoto/{seckillId}")
-    public String toUploadPhoto(@PathVariable("seckillId") Long seckillId) {
-        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/upload/" + seckillId);
-    }
-
-    @GetMapping(value = "/upload/{seckillId}")
-    public String upload(@PathVariable("seckillId") Long seckillId, Model model) {
-        model.addAttribute("seckillId", seckillId);
-        return "upload";
-    }
 
     /**
      * 上传商品图片
@@ -247,7 +203,7 @@ public class SeckillController {
         Seckill seckill = seckillService.getById(seckillId);
         String url = uploadFileUtil.uploadFile(file);
         goodsService.uploadGoodsPhoto(seckill.getGoodsId(), url);
-        return HttpUrlUtil.replaceRedirectUrl("redirect:/seckill/list");
+        return url;
     }
 
     /**

@@ -39,12 +39,12 @@
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <fastjson2.version>2.0.24</fastjson2.version>
         <minio.version>8.4.2</minio.version>
-        <shiro.version>1.11.0</shiro.version>
         <shardingsphere.version>5.3.2</shardingsphere.version>
         <alipay.version>2.2.2</alipay.version>
         <redisson.version>3.22.0</redisson.version>
         <knife4j.version>4.1.0</knife4j.version>
         <springdoc.version>2.1.0</springdoc.version>
+        <satoken.version>1.35.0.RC</satoken.version>
     </properties>
 
     <build>
@@ -246,11 +246,6 @@
             <!--支付宝sdk需要的依赖END -->
             <!--base64 apache工具类 -->
             <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-core</artifactId>
-                <version>${shiro.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
@@ -319,6 +314,11 @@
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
                 <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot3-starter</artifactId>
+                <version>${satoken.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

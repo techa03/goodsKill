@@ -3,45 +3,15 @@ spring:
     active: dev
   application:
     name: goodskill-web
-  #OAuth2.0第三方登录配置
-  security:
-    oauth2:
-      client:
-        registration:
-          gitee:
-            ##替换成你自己的App密钥
-            client-id: xxx
-            client-secret: xxx
-          github:
-            ##替换成你自己的App密钥
-            client-id: xxx
-            client-secret: xxx
-          ## 使用自定义的OAuth2.0授权登录服务
-          goodskill:
-            ##替换成你自己的App密钥
-            client-id: second-client
-            client-secret: noonewilleverguess
-  session:
-    redis:
-      flush-mode: on_save
-      namespace: spring:session
-    store-type: redis
-    timeout: 1800
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true
   mvc:
-    view:
-      prefix: /WEB-INF/jsp/
-      suffix: .jsp
     # json格式请求前台到后台的格式转换
     format:
       date: yyyy-MM-dd HH:mm:ss
       date-time: yyyy-MM-dd HH:mm:ss
       time: HH:mm:ss
-    # 升级到springboot 2.6需要增加以下配置，否则springfox启动报错
-    pathmatch:
-      matching-strategy: ant_path_matcher
   output:
     ansi:
       enabled: always
@@ -90,6 +60,7 @@ spring:
             username: nacos
             password: nacos
 
+
 dubbo:
   protocol:
     name: dubbo
@@ -118,18 +89,11 @@ goodskill:
 server:
   port: 8080
   servlet:
-    context-path: /goodskill/web
     encoding:
       charset: utf-8
       enabled: true
       force: true
     register-default-servlet: true
-
-minio:
-  endpoint: http://localhost:19000
-  accessKey: goodskill
-  secretKey: password
-  bucketName: goodskill
 
 springdoc:
   version: '@springdoc.version@'
@@ -143,6 +107,7 @@ springdoc:
   group-configs:
     - group: web
       paths-to-match: /**
+
 ---
 spring:
   config:

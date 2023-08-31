@@ -19,7 +19,7 @@ open class GatewayConfiguration {
     open fun customizedLocator(builder: RouteLocatorBuilder): RouteLocator {
         return builder.routes()
             .route("es-service-provider") { r: PredicateSpec ->
-                r.path("/goodskill/es/**")
+                r.path("/api/es/**")
                     // 路径根据"/"分割符去掉前几位
                     .filters { f: GatewayFilterSpec ->
                         f.stripPrefix(2)
@@ -28,21 +28,21 @@ open class GatewayConfiguration {
                     .uri("lb://es-service-provider")
             }
             .route("mongo-service-provider") { r: PredicateSpec ->
-                r.path("/goodskill/mongo/**")
+                r.path("/api/mongo/**")
                     .filters { f: GatewayFilterSpec ->
                         f.stripPrefix(2)
                     }
                     .uri("lb://mongo-service-provider")
             }
             .route("goodskill-seata") { r: PredicateSpec ->
-                r.path("/goodskill/seata/**")
+                r.path("/api/seata/**")
                     .filters { f: GatewayFilterSpec ->
                         f.stripPrefix(2)
                     }
                     .uri("lb://goodskill-seata")
             }
             .route("goodskill-service-provider") { r: PredicateSpec ->
-                r.path("/goodskill/common/**")
+                r.path("/api/common/**")
                     .filters { f: GatewayFilterSpec ->
                         f.stripPrefix(2)
                     }
