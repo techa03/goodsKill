@@ -1,0 +1,37 @@
+type Query {
+    seckillById(id: ID): Seckill
+}
+
+type Seckill {
+    seckillId: ID
+    name: String
+    number: Int
+    startTime: String
+    endTime: String
+    createTime: String
+    price: Float
+    status: String
+    createUser: String
+    goods: Goods
+    successKilledList: [SuccessKilled]
+}
+
+type SuccessKilled {
+    seckillId: ID
+    userPhone: String
+    status: Int
+    createTime: String
+    serverIp: String
+    userIp: String
+    userId: String
+}
+
+type Goods {
+    goodsId: ID
+    photoUrl: String
+    name: String
+    price: String
+    createTime: String
+    introduce: String
+}
+
