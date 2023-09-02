@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    username: root
+    password: Password123
+    url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      server-addr: nacos:8848
+  config:
+    import: nacos:goodskill-auth-service.yml

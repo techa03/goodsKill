@@ -17,7 +17,7 @@
         <module>goodskill-job</module>
         <module>goodskill-gateway</module>
         <module>goodskill-seata</module>
-        <module>goodskill-oauth2</module>
+        <module>goodskill-auth</module>
         <module>goodskill-admin</module>
         <module>goodskill-canal</module>
     </modules>
@@ -328,11 +328,6 @@
             <artifactId>kotlin-test</artifactId>
             <version>${kotlin.version}</version>
             <scope>test</scope>
-        </dependency>
-        <!--升级到springboot2.4需要增加以下依赖，否则nacos无法拉取配置-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
         <!--升级到springboot2.4需要增加以下依赖，否则nacos无法拉取配置END-->
         <dependency>

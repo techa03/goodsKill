@@ -79,6 +79,10 @@
             <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
             <version>4.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
