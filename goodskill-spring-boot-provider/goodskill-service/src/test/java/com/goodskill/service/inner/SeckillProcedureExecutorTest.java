@@ -1,7 +1,7 @@
 package com.goodskill.service.inner;
 
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.common.constant.SeckillStatusConstant;
+import com.goodskill.common.core.constant.SeckillStatusConstant;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;

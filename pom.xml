@@ -193,7 +193,7 @@
             </dependency>
             <dependency>
                 <groupId>com.goodskill</groupId>
-                <artifactId>goodskill-common-util</artifactId>
+                <artifactId>goodskill-core</artifactId>
                 <version>${goodskill.version}</version>
             </dependency>
             <dependency>

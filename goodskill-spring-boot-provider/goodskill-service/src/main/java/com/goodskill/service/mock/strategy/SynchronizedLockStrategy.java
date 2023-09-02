@@ -2,7 +2,7 @@ package com.goodskill.service.mock.strategy;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.dto.SeckillMockResponseDTO;
-import com.goodskill.common.constant.SeckillStatusConstant;
+import com.goodskill.common.core.constant.SeckillStatusConstant;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.SeckillMapper;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.goodskill.common.enums.SeckillSolutionEnum.SYCHRONIZED;
+import static com.goodskill.common.core.enums.SeckillSolutionEnum.SYCHRONIZED;
 import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME;
 
 /**

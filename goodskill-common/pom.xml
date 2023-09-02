@@ -12,7 +12,7 @@
     <modules>
         <module>goodskill-common-api</module>
         <module>goodskill-common-service</module>
-        <module>goodskill-common-util</module>
+        <module>goodskill-core</module>
     </modules>
     <packaging>pom</packaging>
 

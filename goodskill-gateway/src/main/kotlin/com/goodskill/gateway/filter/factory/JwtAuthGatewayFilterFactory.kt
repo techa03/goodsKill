@@ -1,9 +1,9 @@
 package com.goodskill.gateway.filter.factory
 
-import com.goodskill.api.service.AuthService
+import com.goodskill.common.core.feign.AuthService
+import jakarta.annotation.Resource
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory
@@ -16,7 +16,7 @@ import org.springframework.web.server.ServerWebExchange
 class JwtAuthGatewayFilterFactory :
     AbstractGatewayFilterFactory<JwtAuthGatewayFilterFactory.Config>(Config::class.java) {
 
-    @Autowired
+    @Resource
     private lateinit var authService: AuthService
 
     private val log: Logger = LoggerFactory.getLogger(this::class.java)

@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.goodskill.common.enums.SeckillSolutionEnum.ZOOKEEPER_LOCK;
+import static com.goodskill.common.core.enums.SeckillSolutionEnum.ZOOKEEPER_LOCK;
 
 /**
  * @author techa03

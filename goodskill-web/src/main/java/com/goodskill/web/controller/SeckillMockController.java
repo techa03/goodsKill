@@ -3,9 +3,9 @@ package com.goodskill.web.controller;
 import com.alibaba.fastjson2.JSON;
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.common.enums.SeckillSolutionEnum;
-import com.goodskill.common.exception.CommonException;
-import com.goodskill.common.info.Result;
+import com.goodskill.common.core.enums.SeckillSolutionEnum;
+import com.goodskill.common.core.exception.CommonException;
+import com.goodskill.common.core.info.Result;
 import com.goodskill.web.util.TaskTimeCaculateUtil;
 import com.goodskill.web.vo.dto.SeckillWebMockRequestDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.goodskill.common.enums.SeckillSolutionEnum.*;
+import static com.goodskill.common.core.enums.SeckillSolutionEnum.*;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**

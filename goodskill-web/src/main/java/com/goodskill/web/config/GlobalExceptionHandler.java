@@ -1,7 +1,7 @@
 package com.goodskill.web.config;
 
-import com.goodskill.common.info.ApiResult;
-import com.goodskill.common.info.ResultCode;
+import com.goodskill.common.core.info.ApiResult;
+import com.goodskill.common.core.info.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;

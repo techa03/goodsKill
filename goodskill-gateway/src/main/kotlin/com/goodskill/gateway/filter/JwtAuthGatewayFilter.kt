@@ -1,11 +1,11 @@
 package com.goodskill.gateway.filter
 
-import com.goodskill.api.dto.AuthResponseDTO
-import com.goodskill.api.service.AuthService
+import com.goodskill.common.core.feign.AuthService
+import com.goodskill.common.core.pojo.dto.AuthResponseDTO
 import com.goodskill.gateway.config.IgnoreProperties
+import jakarta.annotation.Resource
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.cloud.gateway.filter.GlobalFilter
 import org.springframework.core.Ordered
@@ -27,9 +27,9 @@ import java.util.concurrent.TimeUnit
 class JwtAuthGatewayFilter: GlobalFilter, Ordered {
     private val log: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    @Autowired
+    @Resource
     private lateinit var authService: AuthService
-    @Autowired
+    @Resource
     private lateinit var ignoreProperties: IgnoreProperties
     private val pathMatcher: PathMatcher = AntPathMatcher()
 
