@@ -8,7 +8,7 @@ import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.api.vo.SeckillVO;
-import com.goodskill.mongo.api.SuccessKilledMongoService;
+import com.goodskill.order.api.SuccessKilledMongoService;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;

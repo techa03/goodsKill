@@ -55,8 +55,8 @@ goodsKill
 |--goodskill-gateway                        ||微服务网关，支持动态路由加载
 |--goodskill-es-provider                    ||elasticsearch搜索服务提供者，提供商品名称检索功能
 |   |--goodskill-es-service
-|--goodskill-mongo-provider                 ||mongo存储服务提供者
-|   |--goodskill-mongo-service
+|--goodskill-order-provider                 ||订单服务提供者
+|   |--goodskill-order-service
 |--goodskill-seckill-provider               ||秒杀服务提供者
 |   |--goodskill-api                        ||提供服务API接口
 |   |--goodskill-service                    ||服务API接口实现

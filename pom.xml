@@ -11,7 +11,7 @@
         <module>goodskill-web</module>
         <module>goodskill-seckill-provider</module>
         <module>goodskill-common</module>
-        <module>goodskill-mongo-provider</module>
+        <module>goodskill-order-provider</module>
         <module>goodskill-spring-boot-starter</module>
         <module>goodskill-es-provider</module>
         <module>goodskill-job</module>
@@ -198,7 +198,7 @@
             </dependency>
             <dependency>
                 <groupId>com.goodskill</groupId>
-                <artifactId>goodskill-mongo-api</artifactId>
+                <artifactId>goodskill-order-api</artifactId>
                 <version>${goodskill.version}</version>
             </dependency>
             <dependency>

@@ -14,7 +14,7 @@ import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.common.core.constant.SeckillStatusConstant;
 import com.goodskill.common.core.exception.SeckillCloseException;
 import com.goodskill.common.core.util.MD5Util;
-import com.goodskill.mongo.api.SuccessKilledMongoService;
+import com.goodskill.order.api.SuccessKilledMongoService;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;

@@ -52,7 +52,7 @@
         </dependency>
         <dependency>
             <groupId>com.goodskill</groupId>
-            <artifactId>goodskill-mongo-api</artifactId>
+            <artifactId>goodskill-order-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

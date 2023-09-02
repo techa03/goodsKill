@@ -1,14 +1,14 @@
 package com.goodskill.es.feign;
 
-import com.goodskill.mongo.api.SuccessKilledMongoService;
-import com.goodskill.mongo.entity.SuccessKilledDto;
+import com.goodskill.order.api.SuccessKilledMongoService;
+import com.goodskill.order.entity.SuccessKilledDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 
 /**
- * mongo feign客户端，支持服务降级
+ * order feign客户端，支持服务降级
  * @since 2021/1/24
  * @author techa03
  */

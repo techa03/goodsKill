@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableTransactionManagement
 @MapperScan("com.goodskill.service.mapper")
 @EnableDiscoveryClient
-@EnableFeignClients({"com.goodskill.mongo.api", "com.goodskill.es.api"})
+@EnableFeignClients({"com.goodskill.order.api", "com.goodskill.es.api"})
 @RestController
 public class GoodsKillServiceApplication {
 

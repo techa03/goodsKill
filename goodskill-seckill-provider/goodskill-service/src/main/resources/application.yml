@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: goodskill-seckill-provider
+    name: goodskill-seckill
   graphql:
     graphiql:
       enabled: true
@@ -81,7 +81,7 @@ spring:
           group: default
           destination: seckill
         seckillMongoSave-out-0:
-          destination: seckill-mongo-save
+          destination: seckill-order-save
       default-binder: rabbit
     sentinel:
       transport:

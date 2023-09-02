@@ -27,12 +27,12 @@ open class GatewayConfiguration {
                     // 访问的负载均衡地址
                     .uri("lb://es-service-provider")
             }
-            .route("mongo-service-provider") { r: PredicateSpec ->
+            .route("order-service-provider") { r: PredicateSpec ->
                 r.path("/api/mongo/**")
                     .filters { f: GatewayFilterSpec ->
                         f.stripPrefix(2)
                     }
-                    .uri("lb://mongo-service-provider")
+                    .uri("lb://order-service-provider")
             }
             .route("goodskill-seata") { r: PredicateSpec ->
                 r.path("/api/seata/**")
