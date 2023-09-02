@@ -52,10 +52,6 @@
 			<artifactId>curator-recipes</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.goodskill</groupId>
-			<artifactId>goodskill-es-api</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
 		</dependency>
