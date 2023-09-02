@@ -30,7 +30,9 @@ spring:
             data-type: json
             group-id: DEFAULT_GROUP
             rule-type: flow
-            server-addr: 127.0.0.1:8848
+            server-addr: nacos:8848
+            username: nacos
+            password: nacos
 
 logging:
   level:

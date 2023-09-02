@@ -1,6 +1,6 @@
 package com.goodskill.service.util;
 
-import com.goodskill.service.GoodsKillServiceApplication;
+import com.goodskill.service.SeckillApplication;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = GoodsKillServiceApplication.class)
+@SpringBootTest(classes = SeckillApplication.class)
 @Disabled
 @Slf4j
 class ZookeeperLockUtilTest {

@@ -185,9 +185,9 @@ docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行�
  127.0.0.1       www.goodskill.com
 ----
 
-* main方法运行``MongoReactiveApplication``类(mongo服务)
+* main方法运行``OrderApplication``类(mongo服务)
 
-* main方法运行``GoodsKillServiceApplication``类(订单、用户、登录、商品管理服务提供者)
+* main方法运行``SeckillApplication``类(订单、商品管理服务提供者)
 
 * main方法运行``SampleWebApplication``类(模拟秒杀web服务)
 

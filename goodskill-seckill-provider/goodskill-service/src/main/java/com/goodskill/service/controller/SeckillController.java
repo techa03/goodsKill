@@ -6,10 +6,6 @@ import com.goodskill.api.dto.ExposerDTO;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.SeckillVO;
-import com.goodskill.auth.service.PermissionService;
-import com.goodskill.auth.service.RolePermissionService;
-import com.goodskill.auth.service.UserAccountService;
-import com.goodskill.auth.service.UserRoleService;
 import com.goodskill.common.core.info.R;
 import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.service.dto.ResponseDTO;
@@ -48,14 +44,6 @@ public class SeckillController {
     private SeckillService seckillService;
     @Resource
     private GoodsService goodsService;
-    @Resource
-    private RolePermissionService rolePermissionService;
-    @Resource
-    private UserRoleService userRoleService;
-    @Resource
-    private UserAccountService userAccountService;
-    @Resource
-    private PermissionService permissionService;
     @Resource
     private GoodsEsService goodsEsService;
     @Resource

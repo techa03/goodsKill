@@ -182,11 +182,6 @@
 			<artifactId>sa-token-spring-boot3-starter</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.goodskill</groupId>
-			<artifactId>auth-service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-graphql</artifactId>
 		</dependency>
@@ -254,7 +249,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${springboot.version}</version>
 				<configuration>
-					<mainClass>com.goodskill.service.GoodsKillServiceApplication</mainClass>
+					<mainClass>com.goodskill.service.SeckillApplication</mainClass>
 				</configuration>
 				<executions>
 					<execution>

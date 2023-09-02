@@ -1,6 +1,6 @@
 package com.goodskill.service.mq;
 
-import com.goodskill.service.GoodsKillServiceApplication;
+import com.goodskill.service.SeckillApplication;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author techa03
  * @date 2020/7/19
  */
-@SpringBootTest(classes = GoodsKillServiceApplication.class)
+@SpringBootTest(classes = SeckillApplication.class)
 @ExtendWith(SpringExtension.class)
 @Disabled
 public class KafkaTest {

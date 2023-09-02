@@ -19,13 +19,13 @@ import java.util.function.Consumer;
  */
 @SpringBootApplication
 @EnableReactiveMongoRepositories(basePackages = "com.goodskill.order.repository")
-public class MongoReactiveApplication {
+public class OrderApplication {
 
     @Autowired
     private MongoReactiveServiceImpl mongoReactiveService;
 
     public static void main(String[] args) {
-        SpringApplication.run(MongoReactiveApplication.class, args);
+        SpringApplication.run(OrderApplication.class, args);
     }
 
     /**

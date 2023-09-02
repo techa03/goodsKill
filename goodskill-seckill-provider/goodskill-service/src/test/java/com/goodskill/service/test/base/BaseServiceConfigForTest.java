@@ -2,7 +2,7 @@ package com.goodskill.service.test.base;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.service.GoodsKillServiceApplication;
+import com.goodskill.service.SeckillApplication;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.SeckillMapper;
@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Created by heng on 2017/6/28.
  */
-@SpringBootTest(classes = GoodsKillServiceApplication.class)
+@SpringBootTest(classes = SeckillApplication.class)
 @ExtendWith(SpringExtension.class)
 @Disabled
 @Transactional

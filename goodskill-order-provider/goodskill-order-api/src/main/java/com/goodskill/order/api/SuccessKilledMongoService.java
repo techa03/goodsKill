@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
  * @author techa03
  * @date 2019/4/6
  */
-@FeignClient("mongo-service-provider")
+@FeignClient("goodskill-order")
 public interface SuccessKilledMongoService {
 
     /**

@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @author heng
  * @date 2016/7/16
  */
-@FeignClient("goodskill-service-provider")
+@FeignClient("goodskill-seckill")
 public interface SeckillService {
 
     /**

@@ -24,10 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableDiscoveryClient
 @EnableFeignClients({"com.goodskill.order.api", "com.goodskill.es.api"})
 @RestController
-public class GoodsKillServiceApplication {
+public class SeckillApplication {
 
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(GoodsKillServiceApplication.class);
+        SpringApplication application = new SpringApplication(SeckillApplication.class);
         application.setBannerMode(Banner.Mode.CONSOLE);
         application.run(args);
     }
