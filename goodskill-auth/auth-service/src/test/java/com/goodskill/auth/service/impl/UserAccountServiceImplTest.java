@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -32,6 +33,8 @@ public class UserAccountServiceImplTest {
     private UserMapper baseMapper;
     @Mock
     private PermissionMapper permissionMapper;
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @Test
     public void register() {

@@ -202,11 +202,6 @@
             </dependency>
             <dependency>
                 <groupId>com.goodskill</groupId>
-                <artifactId>goodskill-es-api</artifactId>
-                <version>${goodskill.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.goodskill</groupId>
                 <artifactId>goodskill-spring-boot-starter</artifactId>
                 <version>${goodskill.version}</version>
             </dependency>
