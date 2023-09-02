@@ -6,6 +6,7 @@ import com.goodskill.auth.entity.RolePermission;
 import com.goodskill.auth.entity.User;
 import com.goodskill.auth.entity.UserRole;
 import com.goodskill.auth.mapper.*;
+import com.goodskill.auth.pojo.dto.UserDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,7 +35,7 @@ public class UserAccountServiceImplTest {
 
     @Test
     public void register() {
-        User user = new User();
+        UserDTO user = new UserDTO();
         userService.register(user);
         verify(baseMapper,only()).insert(any());
     }

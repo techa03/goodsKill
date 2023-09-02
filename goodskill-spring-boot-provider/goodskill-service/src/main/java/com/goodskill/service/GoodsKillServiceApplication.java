@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author techa
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {
+        "com.goodskill.service.**",
+        "com.goodskill.common.core",
+})
 @EnableTransactionManagement
 @MapperScan("com.goodskill.service.mapper")
 @EnableDiscoveryClient

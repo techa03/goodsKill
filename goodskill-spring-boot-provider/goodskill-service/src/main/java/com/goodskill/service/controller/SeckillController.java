@@ -10,7 +10,7 @@ import com.goodskill.auth.service.PermissionService;
 import com.goodskill.auth.service.RolePermissionService;
 import com.goodskill.auth.service.UserAccountService;
 import com.goodskill.auth.service.UserRoleService;
-import com.goodskill.common.core.info.Result;
+import com.goodskill.common.core.info.R;
 import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.service.dto.ResponseDTO;
 import com.goodskill.service.util.UploadFileUtil;
@@ -99,14 +99,14 @@ public class SeckillController {
     @PostMapping(value = "/{seckillId}/exposer", produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public Result<ExposerDTO> exposer(@PathVariable("seckillId") Long seckillId) {
-        Result<ExposerDTO> result;
+    public R<ExposerDTO> exposer(@PathVariable("seckillId") Long seckillId) {
+        R<ExposerDTO> result;
         try {
             ExposerDTO exposerDTO = seckillService.exportSeckillUrl(seckillId);
-            result = Result.ok(exposerDTO);
+            result = R.ok(exposerDTO);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            result = Result.fail(e.getMessage());
+            result = R.fail(e.getMessage());
         }
         return result;
     }

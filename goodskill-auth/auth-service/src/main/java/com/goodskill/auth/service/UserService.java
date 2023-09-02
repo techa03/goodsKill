@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.goodskill.auth.entity.Permission;
 import com.goodskill.auth.entity.Role;
 import com.goodskill.auth.entity.User;
+import com.goodskill.auth.pojo.dto.UserDTO;
 
 import java.util.Set;
 
@@ -18,7 +19,7 @@ public interface UserService extends IService<User> {
      *
      * @param user 用户信息
      */
-    void register(User user);
+    void register(UserDTO user);
 
     /**
      * 获取当前用户所有角色
@@ -55,4 +56,13 @@ public interface UserService extends IService<User> {
     boolean removeById(int userId);
 
     boolean updateLastLoginTime(Integer id);
+
+    /**
+     * 校验密码
+     *
+     * @param password      数据库密码
+     * @param passwordInput 用户输入密码
+     * @return 是否一致
+     */
+    boolean checkPassword(String password, String passwordInput);
 }

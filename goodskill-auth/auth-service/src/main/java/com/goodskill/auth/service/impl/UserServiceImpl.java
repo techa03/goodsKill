@@ -7,9 +7,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.auth.entity.*;
 import com.goodskill.auth.mapper.*;
+import com.goodskill.auth.pojo.dto.UserDTO;
 import com.goodskill.auth.service.UserService;
-import com.goodskill.common.core.exception.CommonException;
 import jakarta.annotation.Resource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -17,7 +18,7 @@ import java.util.*;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author heng
@@ -35,18 +36,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private RoleMapper roleMapper;
     @Resource
     private UserMapper baseMapper;
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     @Override
-    public void register(User user) {
-        try {
-            user.setPassword(user.getPassword());
-            user.setUsername(user.getAccount());
-            baseMapper.insert(user);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw new CommonException(null);
-        }
-
+    public void register(UserDTO userDTO) {
+        User user = new User();
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        user.setUsername(userDTO.getUsername());
+        user.setAccount(userDTO.getUsername());
+        baseMapper.insert(user);
     }
 
     @Override
@@ -121,5 +120,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setId(id);
         user.setLastLoginTime(new Date());
         return this.updateById(user);
+    }
+
+    @Override
+    public boolean checkPassword(String password, String passwordInput) {
+        return passwordEncoder.matches(passwordInput, password);
     }
 }

@@ -15,6 +15,16 @@ spring:
       server-addr: nacos:8848
   config:
     import: optional:nacos:goodskill-auth-service.yml
+  flyway:
+    ##是否开启自动升级表结构功能
+    enabled: true
+    baseline-on-migrate: true
+    clean-disabled: true
+    locations:
+      - classpath:db/migration/mysql
+  data:
+    redis:
+      password: 123456
 
 ############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
 sa-token:
