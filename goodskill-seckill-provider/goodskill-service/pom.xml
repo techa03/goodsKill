@@ -7,7 +7,7 @@
 	<packaging>jar</packaging>
 	<parent>
 		<groupId>com.goodskill</groupId>
-		<artifactId>goodskill-spring-boot-provider</artifactId>
+		<artifactId>goodskill-seckill-provider</artifactId>
 		<version>3.0.0-SNAPSHOT</version>
 	</parent>
 

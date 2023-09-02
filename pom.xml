@@ -9,7 +9,7 @@
     <version>3.0.0-SNAPSHOT</version>
     <modules>
         <module>goodskill-web</module>
-        <module>goodskill-spring-boot-provider</module>
+        <module>goodskill-seckill-provider</module>
         <module>goodskill-common</module>
         <module>goodskill-mongo-provider</module>
         <module>goodskill-spring-boot-starter</module>

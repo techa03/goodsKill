@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: goodskill-service-provider
+    name: goodskill-seckill-provider
   graphql:
     graphiql:
       enabled: true

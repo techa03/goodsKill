@@ -57,7 +57,7 @@ goodsKill
 |   |--goodskill-es-service
 |--goodskill-mongo-provider                 ||mongo存储服务提供者
 |   |--goodskill-mongo-service
-|--goodskill-spring-boot-provider           ||订单、用户、登录、商品管理服务提供者（待拆分）
+|--goodskill-seckill-provider               ||秒杀服务提供者
 |   |--goodskill-api                        ||提供服务API接口
 |   |--goodskill-service                    ||服务API接口实现
 |--goodskill-spring-boot-starter            ||项目配置自动装配
