@@ -3,10 +3,10 @@ package com.goodskill.service.controller.graphql;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.entity.Goods;
-import com.goodskill.entity.Seckill;
-import com.goodskill.entity.SuccessKilled;
+import com.goodskill.api.vo.GoodsVO;
+import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.service.common.SuccessKilledService;
+import com.goodskill.service.entity.SuccessKilled;
 import jakarta.annotation.Resource;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -25,17 +25,17 @@ public class SeckillGraphqlController {
     private SuccessKilledService successKilledService;
 
     @QueryMapping
-    public Seckill seckillById(@Argument String id) {
-        return seckillService.getById(id);
+    public SeckillVO seckillById(@Argument String id) {
+        return seckillService.findById(id);
     }
 
     @SchemaMapping
-    public Goods goods(Seckill seckill) {
-        return goodsService.getById(seckill.getGoodsId());
+    public GoodsVO goods(SeckillVO seckill) {
+        return goodsService.findById(seckill.getGoodsId());
     }
 
     @SchemaMapping
-    public List<SuccessKilled> successKilledList(Seckill seckill) {
+    public List<SuccessKilled> successKilledList(SeckillVO seckill) {
         return successKilledService.list(Wrappers.<SuccessKilled>lambdaQuery().eq(SuccessKilled::getSeckillId, seckill.getSeckillId()));
     }
 
