@@ -1,25 +1,23 @@
 package com.goodskill.service.impl.dubbo;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.goodskill.api.dto.ExposerDTO;
-import com.goodskill.api.dto.SeckillInfoDTO;
-import com.goodskill.api.dto.SeckillMockRequestDTO;
-import com.goodskill.api.dto.SeckillResponseDTO;
+import com.goodskill.api.dto.*;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
+import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.common.constant.SeckillStatusConstant;
 import com.goodskill.common.exception.SeckillCloseException;
 import com.goodskill.common.util.MD5Util;
-import com.goodskill.entity.Goods;
-import com.goodskill.entity.Seckill;
-import com.goodskill.entity.SuccessKilled;
 import com.goodskill.mongo.api.SuccessKilledMongoService;
 import com.goodskill.service.common.RedisService;
+import com.goodskill.service.entity.Seckill;
+import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
 import com.goodskill.service.mock.strategy.GoodsKillStrategy;
@@ -97,7 +95,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
             List<SeckillVO> collect = seckillPage.getRecords().stream().map(it -> {
                 SeckillVO seckillVO = new SeckillVO();
                 BeanUtils.copyProperties(it, seckillVO);
-                Goods byId = goodsService.getById(it.getGoodsId());
+                GoodsVO byId = goodsService.findById(it.getGoodsId());
                 if (Objects.nonNull(byId)) {
                     String photoUrl = byId.getPhotoUrl();
                     seckillVO.setPhotoUrl(photoUrl);
@@ -194,7 +192,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     }
 
     @Override
-    public int reduceNumber(SuccessKilled successKilled) {
+    public int reduceNumber(SuccessKilledDTO successKilled) {
         int count = 0;
         try {
             count = seckillService.reduceNumberInner(successKilled);
@@ -206,13 +204,14 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int reduceNumberInner(SuccessKilled successKilled) {
-        successKilledMapper.insert(successKilled);
+    public int reduceNumberInner(SuccessKilledDTO successKilled) {
+        SuccessKilled entity = BeanUtil.copyProperties(successKilled, SuccessKilled.class);
+        successKilledMapper.insert(entity);
         Seckill wrapper = new Seckill();
-        wrapper.setSeckillId(successKilled.getSeckillId());
+        wrapper.setSeckillId(entity.getSeckillId());
         UpdateWrapper<Seckill> updateWrapper = new UpdateWrapper(wrapper);
-        updateWrapper.gt("end_time", successKilled.getCreateTime());
-        updateWrapper.lt("start_time", successKilled.getCreateTime());
+        updateWrapper.gt("end_time", entity.getCreateTime());
+        updateWrapper.lt("start_time", entity.getCreateTime());
         updateWrapper.gt("number", 0);
         updateWrapper.setSql("number = number - 1");
         int update = baseMapper.update(null, updateWrapper);
@@ -245,32 +244,32 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Override
     public SeckillInfoDTO getInfoById(Serializable seckillId) {
         SeckillInfoDTO seckillInfoDTO = new SeckillInfoDTO();
-        Seckill seckill = seckillService.getById(seckillId);
-        Goods goods = goodsService.getById(seckill.getGoodsId());
+        SeckillVO seckill = seckillService.findById(seckillId);
+        GoodsVO goods = goodsService.findById(seckill.getGoodsId());
         BeanUtils.copyProperties(seckill, seckillInfoDTO);
         seckillInfoDTO.setGoodsName(goods.getName());
         return seckillInfoDTO;
     }
 
     @Override
-    public boolean save(Seckill entity) {
-        return super.save(entity);
-    }
-
-    @Override
-    public boolean removeById(Serializable id) {
+    public boolean removeBySeckillId(Serializable id) {
         return super.removeById(id);
     }
 
     @Override
-    public Seckill getById(Serializable id) {
-        return super.getById(id);
+    public boolean save(SeckillVO seckill) {
+        return baseMapper.insert(BeanUtil.copyProperties(seckill, Seckill.class)) > 0;
+    }
+
+    @Override
+    public SeckillVO findById(Serializable id) {
+        return BeanUtil.copyProperties(super.getById(id), SeckillVO.class);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean saveOrUpdate(Seckill entity) {
-        boolean b = super.saveOrUpdate(entity);
-        return b;
+    public boolean saveOrUpdateSeckill(SeckillVO seckill) {
+        return saveOrUpdate(BeanUtil.copyProperties(seckill, Seckill.class));
     }
+
 }

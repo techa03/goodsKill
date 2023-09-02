@@ -28,22 +28,13 @@ ____
 
 |Spring Boot |Spring Boot框架 |https://spring.io/projects/spring-boot
 |MyBatis-Plus |MyBatis增强工具 |https://mp.baomidou.com/
-|Hikari |数据库连接池 |https://github.com/brettwooldridge/HikariCP
 |ZooKeeper |分布式协调服务 |http://zookeeper.apache.org/
 |Redis |分布式缓存数据库 |https://redis.io/
 |Kafka |消息队列 |http://kafka.apache.org/
 |RabbitMQ |消息队列 |https://www.rabbitmq.com/
-|Logback |日志组件 |https://logback.qos.ch/
-|Maven |项目构建管理 |http://maven.apache.org/
-|Swagger3 |项目API文档生成及测试工具 |http://swagger.io/
-|Mockito |mock类生成测试工具 |https://site.mockito.org/
-|Jacoco |测试覆盖率报告插件 |http://www.eclemma.org/jacoco/
 |MongoDB |Mongo数据库 |https://www.mongodb.com/
 |MySQL |MySQL数据库 |https://www.mysql.com/
-|Reactor |反应式异步编程 |https://projectreactor.io/
-|Spring Session |Spring会话管理 |https://spring.io/projects/spring-session
 |Elasticsearch |全文搜索引擎 |https://www.elastic.co
-|H2 |H2数据库 |http://www.h2database.com/html/main.html
 |Sharding-JDBC |分库分表组件 |https://shardingsphere.apache.org
 |Spring Cloud Alibaba |Cloud Alibaba组件 |https://github.com/alibaba/spring-cloud-alibaba
 |Apache Dubbo | RPC服务远程调用框架 |https://github.com/apache/dubbo
@@ -52,6 +43,7 @@ ____
 |Seata |分布式事务解决方案 |http://seata.io/zh-cn/index.html
 |Spring Security OAuth2.0 |OAuth2.0授权组件 |https://spring.io/projects/spring-security-oauth
 |Canal |基于MySQL数据库的增量日志解析工具 |https://github.com/alibaba/canal
+|GraphQL |一种用于 API 的查询语言 |https://docs.spring.io/spring-graphql/docs/current/reference/html
 |===
 
 == 📝项目模块介绍
@@ -60,7 +52,6 @@ ____
 goodsKill
 |--goodskill-admin                          ||SpringBoot Admin监控服务端，支持Spring Cloud微服务发现
 |--goodskill-canal                          ||用于完成MySQL数据库binlog收集的canal客户端程序
-|--goodskill-chat-provider                  ||一个基于netty实现的简易聊天程序
 |--goodskill-gateway                        ||微服务网关，支持动态路由加载
 |--goodskill-es-provider                    ||elasticsearch搜索服务提供者，提供商品名称检索功能
 |   |--goodskill-es-service
@@ -68,8 +59,6 @@ goodsKill
 |   |--goodskill-mongo-service
 |--goodskill-spring-boot-provider           ||订单、用户、登录、商品管理服务提供者（待拆分）
 |   |--goodskill-api                        ||提供服务API接口
-|   |--goodskill-entry                      ||实体类
-|   |--goodskill-generator                  ||项目代码生成
 |   |--goodskill-service                    ||服务API接口实现
 |--goodskill-spring-boot-starter            ||项目配置自动装配
 |--goodskill-web                            ||提供秒杀模拟接口访问

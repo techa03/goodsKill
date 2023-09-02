@@ -1,11 +1,13 @@
 package com.goodskill.service.impl.dubbo;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.api.service.GoodsService;
-import com.goodskill.entity.Goods;
+import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.es.dto.GoodsDTO;
+import com.goodskill.service.entity.Goods;
 import com.goodskill.service.mapper.GoodsMapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -43,8 +45,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void addGoods(Goods goods) {
-        baseMapper.insert(goods);
+    public void addGoods(GoodsVO goods) {
+        baseMapper.insert(BeanUtil.copyProperties(goods, Goods.class));
         GoodsDTO goodsDto = new GoodsDTO();
         goodsDto.setId(IdWorker.getId());
         BeanUtils.copyProperties(goods, goodsDto);
@@ -56,13 +58,14 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public Goods getById(Serializable id) {
-        return super.getById(id);
+    public GoodsVO findById(Serializable id) {
+        Goods byId = super.getById(id);
+        return BeanUtil.copyProperties(byId, GoodsVO.class);
     }
 
     @Override
-    public List<Goods> list() {
-        return super.list();
+    public List<GoodsVO> findMany() {
+        return BeanUtil.copyToList(super.list(), GoodsVO.class);
     }
 
 }

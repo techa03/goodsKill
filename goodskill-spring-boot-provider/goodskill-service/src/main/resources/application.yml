@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: goodskill-service-provider
+  graphql:
+    graphiql:
+      enabled: true
   kafka:
     consumer:
       group-id: seckill
@@ -57,6 +60,11 @@ spring:
 #    props:
 #      sql:
 #        show: false
+  mvc:
+    format:
+      date: yyyy-MM-dd HH:mm:ss
+      date-time: yyyy-MM-dd HH:mm:ss
+      time: HH:mm:ss
   rabbitmq:
     port: 5672
     username: guest

@@ -1,7 +1,7 @@
 package com.goodskill.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.goodskill.entity.UserRole;
+import com.goodskill.service.entity.UserRole;
 import com.goodskill.service.inner.UserRoleService;
 import com.goodskill.service.mapper.UserRoleMapper;
 import org.springframework.stereotype.Service;

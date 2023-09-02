@@ -1,8 +1,9 @@
 package com.goodskill.service.impl;
 
 import com.goodskill.api.bo.UserBO;
-import com.goodskill.entity.UserAuthAccount;
 import com.goodskill.service.common.UserService;
+import com.goodskill.service.entity.User;
+import com.goodskill.service.entity.UserAuthAccount;
 import com.goodskill.service.mapper.UserAuthAccountMapper;
 import org.apache.ibatis.logging.Log;
 import org.junit.jupiter.api.Assertions;
@@ -33,7 +34,7 @@ class UserAuthAccountServiceImplTest {
     @Test
     void testFindByThirdAccount() {
         when(baseMapper.selectOne(any())).thenReturn(new UserAuthAccount());
-        when(userService.getById(any())).thenReturn(new UserBO());
+        when(userService.getById(any())).thenReturn(new User());
         UserBO result = userAuthAccountServiceImpl.findByThirdAccount("account", "sourceType");
         Assertions.assertEquals(new UserBO(), result);
     }

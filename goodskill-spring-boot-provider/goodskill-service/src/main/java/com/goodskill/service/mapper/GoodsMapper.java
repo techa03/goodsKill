@@ -2,7 +2,7 @@ package com.goodskill.service.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.goodskill.entity.Goods;
+import com.goodskill.service.entity.Goods;
 
 /**
  * <p>

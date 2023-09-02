@@ -1,11 +1,11 @@
 package com.goodskill.service.inner;
 
 import com.goodskill.api.dto.SeckillMockResponseDTO;
+import com.goodskill.api.dto.SuccessKilledDTO;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.common.constant.SeckillStatusConstant;
-import com.goodskill.entity.Seckill;
-import com.goodskill.entity.SuccessKilled;
 import com.goodskill.service.common.RedisService;
+import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,7 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
     public void dealSeckill(long seckillId, String userPhone, String note, String taskId) {
         try {
             InetAddress localHost = InetAddress.getLocalHost();
-            SuccessKilled successKilled = new SuccessKilled();
+            SuccessKilledDTO successKilled = new SuccessKilledDTO();
             successKilled.setSeckillId(seckillId);
             successKilled.setUserPhone(userPhone);
             successKilled.setCreateTime(new Date());

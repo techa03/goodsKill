@@ -2,9 +2,9 @@ package com.goodskill.service.transaction;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.goodskill.entity.Goods;
-import com.goodskill.entity.SuccessKilled;
 import com.goodskill.service.common.SuccessKilledService;
+import com.goodskill.service.entity.Goods;
+import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.GoodsMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
 import org.junit.jupiter.api.Disabled;

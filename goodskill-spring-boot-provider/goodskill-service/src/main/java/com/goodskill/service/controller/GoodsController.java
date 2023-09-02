@@ -1,7 +1,7 @@
 package com.goodskill.service.controller;
 
 import com.goodskill.api.service.GoodsService;
-import com.goodskill.entity.Goods;
+import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.service.util.UploadFileUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -32,7 +32,7 @@ public class GoodsController {
 
     @Transactional
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public String add(Goods goods, @RequestParam("file") MultipartFile file){
+    public String add(GoodsVO goods, @RequestParam("file") MultipartFile file){
         goods.setCreateTime(new Date());
         String url = uploadFileUtil.uploadFile(file);
         goods.setPhotoUrl(url);
@@ -43,14 +43,14 @@ public class GoodsController {
     @RequestMapping(value = "/list",method = RequestMethod.GET,produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public List<Goods> list(){
-        return goodsService.list();
+    public List<GoodsVO> list(){
+        return goodsService.findMany();
     }
 
     @RequestMapping(value = "/{goodsId}", method = RequestMethod.GET, produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public Goods getGoodsById(@PathVariable(value = "goodsId") long goodsId) {
-        return goodsService.getById(goodsId);
+    public GoodsVO getGoodsById(@PathVariable(value = "goodsId") long goodsId) {
+        return goodsService.findById(goodsId);
     }
 }

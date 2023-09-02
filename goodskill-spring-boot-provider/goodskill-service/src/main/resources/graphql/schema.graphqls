@@ -1,0 +1,59 @@
+type Query {
+    seckillById(id: ID): SeckillVO
+}
+
+type SeckillVO {
+    #秒杀活动id
+    seckillId: ID
+    #秒杀活动名称
+    name: String
+    #秒杀活动商品库存
+    number: Int
+    #秒杀活动开始时间
+    startTime: String
+    #秒杀活动结束时间
+    endTime: String
+    #秒杀活动创建时间
+    createTime: String
+    #秒杀活动商品价格
+    price: Float
+    #秒杀活动状态
+    status: String
+    #秒杀活动创建用户
+    createUser: String
+    goods: GoodsVO
+    successKilledList: [SuccessKilled]
+}
+
+type SuccessKilled {
+    #秒杀活动id
+    seckillId: ID
+    #秒杀活动用户手机号
+    userPhone: String
+    #秒杀活动状态
+    status: Int
+    #秒杀活动创建时间
+    createTime: String
+    #秒杀活动服务器ip
+    serverIp: String
+    #秒杀活动用户ip
+    userIp: String
+    #秒杀活动用户id
+    userId: String
+}
+
+type GoodsVO {
+    #商品id
+    goodsId: ID
+    #商品图片
+    photoUrl: String
+    #商品名称
+    name: String
+    #商品价格
+    price: String
+    #商品创建时间
+    createTime: String
+    #商品介绍
+    introduce: String
+}
+

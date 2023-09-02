@@ -12,7 +12,6 @@
         <module>goodskill-spring-boot-provider</module>
         <module>goodskill-common</module>
         <module>goodskill-mongo-provider</module>
-        <module>goodskill-chat-provider</module>
         <module>goodskill-spring-boot-starter</module>
         <module>goodskill-es-provider</module>
         <module>goodskill-job</module>
@@ -27,9 +26,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <goodskill.version>1.0.0-SNAPSHOT</goodskill.version>
-        <springboot.version>3.1.0</springboot.version>
-        <spring-cloud.version>2022.0.3</spring-cloud.version>
-        <spring.cloud.alibaba.version>2022.0.0.0-RC2</spring.cloud.alibaba.version>
+        <springboot.version>3.1.2</springboot.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <spring.cloud.alibaba.version>2022.0.0.0</spring.cloud.alibaba.version>
         <kotlin.version>1.7.10</kotlin.version>
         <jacoco.version>0.8.8</jacoco.version>
         <maven.surefire.version>2.22.2</maven.surefire.version>
@@ -195,11 +194,6 @@
             <dependency>
                 <groupId>com.goodskill</groupId>
                 <artifactId>goodskill-common-util</artifactId>
-                <version>${goodskill.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.goodskill</groupId>
-                <artifactId>goodskill-entry</artifactId>
                 <version>${goodskill.version}</version>
             </dependency>
             <dependency>

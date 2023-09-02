@@ -3,7 +3,7 @@
 //import cn.hutool.crypto.digest.MD5;
 //import com.goodskill.api.service.GoodsService;
 //import com.goodskill.api.service.SeckillService;
-//import com.goodskill.entity.User;
+//import com.goodskill.service.entity.User;
 //import com.goodskill.service.inner.UserAccountService;
 //import io.swagger.v3.oas.annotations.tags.Tag;
 //import jakarta.annotation.Resource;

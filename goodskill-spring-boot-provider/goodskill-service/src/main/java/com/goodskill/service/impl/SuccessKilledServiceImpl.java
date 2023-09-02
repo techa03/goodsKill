@@ -1,10 +1,10 @@
 package com.goodskill.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.goodskill.entity.SuccessKilled;
 import com.goodskill.service.common.SuccessKilledService;
+import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.SuccessKilledMapper;
-import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -14,7 +14,7 @@ import org.apache.dubbo.config.annotation.DubboService;
  * @author heng
  * @since 2019-09-07
  */
-@DubboService
+@Service
 public class SuccessKilledServiceImpl extends ServiceImpl<SuccessKilledMapper, SuccessKilled> implements SuccessKilledService {
 
 }

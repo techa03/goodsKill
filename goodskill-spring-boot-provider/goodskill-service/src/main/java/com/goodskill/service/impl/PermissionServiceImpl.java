@@ -1,7 +1,7 @@
 package com.goodskill.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.goodskill.entity.Permission;
+import com.goodskill.service.entity.Permission;
 import com.goodskill.service.inner.PermissionService;
 import com.goodskill.service.mapper.PermissionMapper;
 import org.springframework.stereotype.Service;

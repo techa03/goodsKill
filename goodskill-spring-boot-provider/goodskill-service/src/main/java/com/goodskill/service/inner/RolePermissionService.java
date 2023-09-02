@@ -1,7 +1,7 @@
 package com.goodskill.service.inner;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.goodskill.entity.RolePermission;
+import com.goodskill.service.entity.RolePermission;
 
 /**
  * @author heng

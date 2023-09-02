@@ -3,9 +3,9 @@ package com.goodskill.service.inner;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.goodskill.entity.Permission;
-import com.goodskill.entity.Role;
-import com.goodskill.entity.User;
+import com.goodskill.service.entity.Permission;
+import com.goodskill.service.entity.Role;
+import com.goodskill.service.entity.User;
 
 import java.util.Set;
 

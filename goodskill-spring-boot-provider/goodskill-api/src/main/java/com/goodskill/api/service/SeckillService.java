@@ -1,13 +1,8 @@
 package com.goodskill.api.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import com.goodskill.api.dto.ExposerDTO;
-import com.goodskill.api.dto.SeckillInfoDTO;
-import com.goodskill.api.dto.SeckillMockRequestDTO;
-import com.goodskill.api.dto.SeckillResponseDTO;
+import com.goodskill.api.dto.*;
 import com.goodskill.api.vo.SeckillVO;
-import com.goodskill.entity.Seckill;
-import com.goodskill.entity.SuccessKilled;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -89,16 +84,16 @@ public interface SeckillService {
 
 
     @GetMapping("/getById")
-    Seckill getById(@RequestParam("seckillId") Serializable seckillId);
+    SeckillVO findById(@RequestParam("seckillId") Serializable seckillId);
 
     @PostMapping("/saveOrUpdate")
-    boolean saveOrUpdate(@RequestBody Seckill seckill);
+    boolean saveOrUpdateSeckill(@RequestBody SeckillVO seckill);
 
     @DeleteMapping("/removeById")
-    boolean removeById(@RequestParam("seckillId") Serializable seckillId);
+    boolean removeBySeckillId(@RequestParam("seckillId") Serializable seckillId);
 
     @PostMapping("/save")
-    boolean save(@RequestBody Seckill seckill);
+    boolean save(@RequestBody SeckillVO seckill);
 
     /**
      * 减商品库存
@@ -107,10 +102,10 @@ public interface SeckillService {
      * @return 1代表成功，小于1为失败
      */
     @PostMapping("/reduceNumber")
-    int reduceNumber(@RequestBody SuccessKilled successKilled);
+    int reduceNumber(@RequestBody SuccessKilledDTO successKilled);
 
     @PostMapping("/reduceNumberInner")
-    int reduceNumberInner(@RequestBody SuccessKilled successKilled);
+    int reduceNumberInner(@RequestBody SuccessKilledDTO successKilled);
 
     /**
      * 获取二维码

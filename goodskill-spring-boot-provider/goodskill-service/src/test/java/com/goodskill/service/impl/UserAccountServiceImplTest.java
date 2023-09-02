@@ -1,9 +1,9 @@
 package com.goodskill.service.impl;
 
-import com.goodskill.entity.Role;
-import com.goodskill.entity.RolePermission;
-import com.goodskill.entity.User;
-import com.goodskill.entity.UserRole;
+import com.goodskill.service.entity.Role;
+import com.goodskill.service.entity.RolePermission;
+import com.goodskill.service.entity.User;
+import com.goodskill.service.entity.UserRole;
 import com.goodskill.service.mapper.*;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;

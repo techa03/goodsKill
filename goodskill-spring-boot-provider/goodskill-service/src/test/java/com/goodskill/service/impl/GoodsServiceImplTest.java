@@ -1,6 +1,6 @@
 package com.goodskill.service.impl;
 
-import com.goodskill.entity.Goods;
+import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.service.impl.dubbo.GoodsServiceImpl;
 import com.goodskill.service.mapper.GoodsMapper;
@@ -31,7 +31,7 @@ public class GoodsServiceImplTest {
 
     @Test
     public void addGoods() {
-        Goods goods = new Goods();
+        GoodsVO goods = new GoodsVO();
         goodsService.addGoods(goods);
         verify(goodsEsService, only()).save(any());
     }
