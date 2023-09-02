@@ -13,7 +13,6 @@
         <module>goodskill-common</module>
         <module>goodskill-order-provider</module>
         <module>goodskill-spring-boot-starter</module>
-        <module>goodskill-es-provider</module>
         <module>goodskill-job</module>
         <module>goodskill-gateway</module>
         <module>goodskill-seata</module>

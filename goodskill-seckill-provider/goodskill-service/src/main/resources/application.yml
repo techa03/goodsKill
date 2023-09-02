@@ -27,6 +27,8 @@ spring:
     clean-disabled: true
     locations:
       - classpath:db/migration/mysql
+  elasticsearch:
+    uris: http://elasticsearch:9200
   datasource:
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
     url: jdbc:shardingsphere:classpath:sharding-sphere.yml
@@ -203,6 +205,8 @@ spring:
         ds0:
           nacos:
             server-addr: nacos:8848
+  elasticsearch:
+    uris: http://elasticsearch:9200
   rabbitmq:
     host: rabbitmq
     port: 5672

@@ -1,4 +1,4 @@
-package com.goodskill.es.dto;
+package com.goodskill.api.dto;
 
 
 import java.io.Serializable;

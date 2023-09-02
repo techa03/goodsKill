@@ -1,8 +1,8 @@
 package com.goodskill.service.controller;
 
+import com.goodskill.api.service.GoodsEsService;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.es.api.GoodsEsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

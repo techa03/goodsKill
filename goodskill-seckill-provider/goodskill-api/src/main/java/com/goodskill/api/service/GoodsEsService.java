@@ -1,6 +1,6 @@
-package com.goodskill.es.api;
+package com.goodskill.api.service;
 
-import com.goodskill.es.dto.GoodsDTO;
+import com.goodskill.api.dto.GoodsDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author heng
  */
-@FeignClient("es-service-provider")
+@FeignClient("goodskill-seckill")
 public interface GoodsEsService {
 
     /**

@@ -53,8 +53,6 @@ goodsKill
 |--goodskill-admin                          ||SpringBoot Admin监控服务端，支持Spring Cloud微服务发现
 |--goodskill-canal                          ||用于完成MySQL数据库binlog收集的canal客户端程序
 |--goodskill-gateway                        ||微服务网关，支持动态路由加载
-|--goodskill-es-provider                    ||elasticsearch搜索服务提供者，提供商品名称检索功能
-|   |--goodskill-es-service
 |--goodskill-order-provider                 ||订单服务提供者
 |   |--goodskill-order-service
 |--goodskill-seckill-provider               ||秒杀服务提供者
@@ -152,7 +150,7 @@ ns         %     Task name
   mvn clean install -DskipTests
 ----
 
-* 默认端口启动nacos、redis、mysql、rabbitmq、kafka、zookeeper，或者使用docker-compose{empty}footnote:[需要安装docker-desktop https://www.docker.com/products/docker-desktop/]命令：
+* 默认端口启动nacos、redis、mysql、rabbitmq、kafka、zookeeper、elasticsearch，或者使用docker-compose{empty}footnote:[需要安装docker-desktop https://www.docker.com/products/docker-desktop/]命令：
 +
 [source,bash]
 ----
@@ -185,9 +183,9 @@ docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行�
  127.0.0.1       www.goodskill.com
 ----
 
-* main方法运行``OrderApplication``类(mongo服务)
+* main方法运行``OrderApplication``类(订单服务)
 
-* main方法运行``SeckillApplication``类(订单、商品管理服务提供者)
+* main方法运行``SeckillApplication``类(秒杀管理服务提供者)
 
 * main方法运行``SampleWebApplication``类(模拟秒杀web服务)
 
@@ -233,7 +231,7 @@ curl --location --request POST 'http://www.goodskill.com:8080/limit' \
 
 * 进入``goodskill-gateway``模块，通过``GatewayApplication``类main方法启动服务网关
 
-* 找到``EsApplication``类main方法启动远程服务
+* 找到``AuthApplication``类main方法启动远程服务
 
 ____
 额外功能（可选）

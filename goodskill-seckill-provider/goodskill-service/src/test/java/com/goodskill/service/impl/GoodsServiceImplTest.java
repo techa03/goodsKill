@@ -1,7 +1,7 @@
 package com.goodskill.service.impl;
 
+import com.goodskill.api.service.GoodsEsService;
 import com.goodskill.api.vo.GoodsVO;
-import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.service.impl.dubbo.GoodsServiceImpl;
 import com.goodskill.service.mapper.GoodsMapper;
 import org.junit.jupiter.api.Test;

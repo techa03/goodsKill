@@ -1,4 +1,4 @@
-package com.goodskill.es.model;
+package com.goodskill.service.es.model;
 
 
 import lombok.Data;

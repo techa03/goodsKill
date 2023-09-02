@@ -1,6 +1,6 @@
-package com.goodskill.es.repository;
+package com.goodskill.service.es.repository;
 
-import com.goodskill.es.model.Goods;
+import com.goodskill.service.es.model.Goods;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**

@@ -1,8 +1,8 @@
 package com.goodskill.job.simple;
 
+import com.goodskill.api.service.GoodsEsService;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.vo.GoodsVO;
-import com.goodskill.es.api.GoodsEsService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;

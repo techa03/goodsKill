@@ -1,10 +1,10 @@
-package com.goodskill.es.service.impl;
+package com.goodskill.service.impl;
 
 
-import com.goodskill.es.api.GoodsEsService;
-import com.goodskill.es.dto.GoodsDTO;
-import com.goodskill.es.model.Goods;
-import com.goodskill.es.repository.GoodsRepository;
+import com.goodskill.api.dto.GoodsDTO;
+import com.goodskill.api.service.GoodsEsService;
+import com.goodskill.service.es.model.Goods;
+import com.goodskill.service.es.repository.GoodsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.data.domain.PageRequest;
