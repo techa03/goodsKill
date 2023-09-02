@@ -1,6 +1,5 @@
 package com.goodskill.api.dto;
 
-import com.goodskill.entity.SuccessKilled;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -21,11 +20,11 @@ public class SeckillExecutionDTO implements Serializable {
 
     private String stateInfo;
 
-    private SuccessKilled seccessKilled;
+    private SuccessKilledDTO seccessKilled;
 
     private String qrfilepath;
 
-    public SeckillExecutionDTO(long seckillId, String statDesc, SuccessKilled seccessKilled, String qrfilepath) {
+    public SeckillExecutionDTO(long seckillId, String statDesc, SuccessKilledDTO seccessKilled, String qrfilepath) {
         this.seckillId = seckillId;
         this.statDesc = statDesc;
         this.seccessKilled = seccessKilled;

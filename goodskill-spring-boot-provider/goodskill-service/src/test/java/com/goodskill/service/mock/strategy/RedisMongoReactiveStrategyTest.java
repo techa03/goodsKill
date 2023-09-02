@@ -1,8 +1,8 @@
 package com.goodskill.service.mock.strategy;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
-import com.goodskill.entity.Seckill;
 import com.goodskill.service.common.RedisService;
+import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

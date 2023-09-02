@@ -19,10 +19,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.goodskill</groupId>
-			<artifactId>goodskill-entry</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.goodskill</groupId>
 			<artifactId>goodskill-mongo-api</artifactId>
 		</dependency>
 		<dependency>

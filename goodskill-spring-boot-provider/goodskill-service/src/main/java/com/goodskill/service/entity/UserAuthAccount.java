@@ -1,4 +1,4 @@
-package com.goodskill.entity;
+package com.goodskill.service.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

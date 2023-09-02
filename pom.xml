@@ -12,7 +12,6 @@
         <module>goodskill-spring-boot-provider</module>
         <module>goodskill-common</module>
         <module>goodskill-mongo-provider</module>
-        <module>goodskill-chat-provider</module>
         <module>goodskill-spring-boot-starter</module>
         <module>goodskill-es-provider</module>
         <module>goodskill-job</module>
@@ -195,11 +194,6 @@
             <dependency>
                 <groupId>com.goodskill</groupId>
                 <artifactId>goodskill-common-util</artifactId>
-                <version>${goodskill.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.goodskill</groupId>
-                <artifactId>goodskill-entry</artifactId>
                 <version>${goodskill.version}</version>
             </dependency>
             <dependency>

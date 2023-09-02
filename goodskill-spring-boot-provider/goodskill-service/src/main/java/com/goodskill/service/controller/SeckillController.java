@@ -7,7 +7,6 @@ import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.common.info.Result;
-import com.goodskill.entity.Seckill;
 import com.goodskill.es.api.GoodsEsService;
 import com.goodskill.service.dto.ResponseDTO;
 import com.goodskill.service.inner.PermissionService;
@@ -87,8 +86,8 @@ public class SeckillController {
         if (seckillId == null) {
             return "redirect:/seckill/list";
         }
-        Seckill seckillInfo = null;
-        seckillInfo = seckillService.getById(seckillId);
+        SeckillVO seckillInfo = null;
+        seckillInfo = seckillService.findById(seckillId);
         if (seckillInfo == null) {
             return "forward:/seckill/list";
         }
@@ -114,7 +113,7 @@ public class SeckillController {
 
 
     @PostMapping(value = "/create")
-    public String addSeckill(Seckill seckill) {
+    public String addSeckill(SeckillVO seckill) {
         seckillService.save(seckill);
         return null;
     }
@@ -126,7 +125,7 @@ public class SeckillController {
 
     @GetMapping(value = "/{seckillId}/delete")
     public String delete(@PathVariable("seckillId") Long seckillId) {
-        seckillService.removeById(seckillId);
+        seckillService.removeBySeckillId(seckillId);
         return null;
     }
 
@@ -139,8 +138,8 @@ public class SeckillController {
 
     @Transactional
     @PostMapping(value = "/{seckillId}/update")
-    public String update(Seckill seckill) {
-        seckillService.saveOrUpdate(seckill);
+    public String update(SeckillVO seckill) {
+        seckillService.saveOrUpdateSeckill(seckill);
         return null;
     }
 
@@ -168,7 +167,7 @@ public class SeckillController {
     @Transactional
     @RequestMapping(value = "/upload/{seckillId}/create", method = RequestMethod.POST)
     public String uploadPhoto(@RequestParam("file") MultipartFile file, @RequestParam("seckillId") Long seckillId) {
-        Seckill seckill = seckillService.getById(seckillId);
+        SeckillVO seckill = seckillService.findById(seckillId);
         String url = uploadFileUtil.uploadFile(file);
         goodsService.uploadGoodsPhoto(seckill.getGoodsId(), url);
         return url;

@@ -1,8 +1,8 @@
 package com.goodskill.service.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.goodskill.entity.Seckill;
-import com.goodskill.entity.SuccessKilled;
+import com.goodskill.service.entity.Seckill;
+import com.goodskill.service.entity.SuccessKilled;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;

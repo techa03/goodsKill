@@ -1,7 +1,7 @@
 package com.goodskill.service.common;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.goodskill.entity.User;
+import com.goodskill.service.entity.User;
 
 /**
  * @author heng

@@ -1,8 +1,8 @@
 package com.goodskill.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.goodskill.entity.SuccessKilled;
 import com.goodskill.service.common.SuccessKilledService;
+import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.SuccessKilledMapper;
 import org.springframework.stereotype.Service;
 

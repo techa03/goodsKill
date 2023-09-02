@@ -1,14 +1,12 @@
 package com.goodskill.service.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
-@ApiModel("用户信息")
 public class UserVO {
 
     private Integer id;

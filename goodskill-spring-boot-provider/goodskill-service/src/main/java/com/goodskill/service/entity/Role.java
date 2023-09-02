@@ -1,10 +1,9 @@
-package com.goodskill.entity;
+package com.goodskill.service.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -13,7 +12,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author heng
@@ -35,7 +34,6 @@ public class Role extends BaseColEntity implements Serializable {
 
     private String roleCode;
 
-    @ApiModelProperty(value = "删除标识：0-未删除，1-已删除（逻辑删除）")
     @JsonIgnore
     @TableField(value = "delete_flag")
     private Integer deleteFlag;

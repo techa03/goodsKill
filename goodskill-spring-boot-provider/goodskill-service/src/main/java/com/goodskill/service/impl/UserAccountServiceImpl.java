@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.common.exception.CommonException;
-import com.goodskill.entity.*;
+import com.goodskill.service.entity.*;
 import com.goodskill.service.inner.UserAccountService;
 import com.goodskill.service.mapper.*;
 import jakarta.annotation.Resource;

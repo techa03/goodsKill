@@ -1,14 +1,17 @@
 package com.goodskill.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goodskill.api.dto.SeckillMockRequestDTO;
+import com.goodskill.api.dto.SuccessKilledDTO;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.entity.Goods;
-import com.goodskill.entity.Seckill;
-import com.goodskill.entity.SuccessKilled;
+import com.goodskill.api.vo.GoodsVO;
+import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.mongo.api.SuccessKilledMongoService;
 import com.goodskill.service.common.RedisService;
+import com.goodskill.service.entity.Seckill;
+import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.impl.dubbo.SeckillServiceImpl;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
@@ -117,19 +120,19 @@ public class SeckillServiceImplTest {
 
     @Test
     public void reduceNumber() {
-        SuccessKilled successKilled = new SuccessKilled();
+        SuccessKilledDTO successKilled = new SuccessKilledDTO();
         when(seckillService.reduceNumber(successKilled)).thenThrow(new RuntimeException());
         seckillService.reduceNumber(successKilled);
     }
 
     @Test
     public void reduceNumberInner() {
-        SuccessKilled successKilled = new SuccessKilled();
+        SuccessKilledDTO successKilled = new SuccessKilledDTO();
         successKilled.setSeckillId(100L);
         successKilled.setUserPhone("110");
         when(baseMapper.update(eq(null), any())).thenReturn(1);
         seckillService.reduceNumberInner(successKilled);
-        verify(successKilledMapper, times(1)).insert(successKilled);
+        verify(successKilledMapper, times(1)).insert(BeanUtil.copyProperties(successKilled, SuccessKilled.class));
 //        verify(seckillMockSaveTopic, times(1)).output();
     }
 
@@ -151,13 +154,13 @@ public class SeckillServiceImplTest {
 
     @Test
     public void getInfoById() {
-        Seckill seckill = new Seckill();
+        SeckillVO seckill = new SeckillVO();
         long seckillId = 1L;
         seckill.setSeckillId(seckillId);
         int goodsId = 2;
         seckill.setGoodsId(goodsId);
-        when(seckillServiceInterface.getById(seckillId)).thenReturn(seckill);
-        when(goodsService.getById(goodsId)).thenReturn(new Goods());
+        when(seckillServiceInterface.findById(seckillId)).thenReturn(seckill);
+        when(goodsService.findById(goodsId)).thenReturn(new GoodsVO());
         seckillService.getInfoById(seckillId);
     }
 }

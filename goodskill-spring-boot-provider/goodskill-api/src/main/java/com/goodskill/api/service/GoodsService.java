@@ -1,6 +1,6 @@
 package com.goodskill.api.service;
 
-import com.goodskill.entity.Goods;
+import com.goodskill.api.vo.GoodsVO;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,9 +21,9 @@ public interface GoodsService {
     /**
      * @param goods
      */
-    void addGoods(Goods goods);
+    void addGoods(GoodsVO goods);
 
-    List<Goods> list();
+    List<GoodsVO> findMany();
 
-    Goods getById(Serializable goodsId);
+    GoodsVO findById(Serializable goodsId);
 }

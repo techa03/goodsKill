@@ -1,4 +1,4 @@
-package com.goodskill.entity;
+package com.goodskill.service.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author heng
@@ -19,22 +19,15 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Permission extends BaseColEntity implements Serializable {
+public class UserRole extends BaseColEntity implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "permission_id", type = IdType.AUTO)
-    private Integer permissionId;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
-    private String permissionName;
+    private Integer userId;
 
-    private String permissionMenu;
-
-    private Integer parentPermissionId;
-
-    private String isDir;
-
-    private Integer orderNo;
-
+    private Integer roleId;
 
 }

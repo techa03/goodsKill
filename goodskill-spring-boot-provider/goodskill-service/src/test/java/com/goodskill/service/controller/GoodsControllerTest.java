@@ -1,16 +1,14 @@
 package com.goodskill.service.controller;
 
 import com.goodskill.api.service.GoodsService;
-import com.goodskill.entity.Goods;
+import com.goodskill.api.vo.GoodsVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.io.File;
 import java.util.List;
 
 import static org.mockito.Mockito.any;
@@ -21,8 +19,6 @@ class GoodsControllerTest {
     GoodsService goodsService;
     @InjectMocks
     GoodsController goodsController;
-    @TempDir
-    private File file;
 
     @BeforeEach
     void setUp() {
@@ -37,18 +33,18 @@ class GoodsControllerTest {
 
     @Test
     void testList() {
-        when(goodsService.list()).thenReturn(List.of(new Goods()));
+        when(goodsService.findMany()).thenReturn(List.of(new GoodsVO()));
 
-        List<Goods> result = goodsController.list();
-        Assertions.assertEquals(List.of(new Goods()), result);
+        List<GoodsVO> result = goodsController.list();
+        Assertions.assertEquals(List.of(new GoodsVO()), result);
     }
 
     @Test
     void testGetGoodsById() {
-        when(goodsService.getById(any())).thenReturn(new Goods());
+        when(goodsService.findById(any())).thenReturn(new GoodsVO());
 
-        Goods result = goodsController.getGoodsById(0L);
-        Assertions.assertEquals(new Goods(), result);
+        GoodsVO result = goodsController.getGoodsById(0L);
+        Assertions.assertEquals(new GoodsVO(), result);
     }
 }
 

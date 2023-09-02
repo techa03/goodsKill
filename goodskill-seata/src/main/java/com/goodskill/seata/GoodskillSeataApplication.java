@@ -2,8 +2,8 @@ package com.goodskill.seata;
 
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.entity.Goods;
-import com.goodskill.entity.Seckill;
+import com.goodskill.api.vo.GoodsVO;
+import com.goodskill.api.vo.SeckillVO;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.boot.SpringApplication;
@@ -25,12 +25,12 @@ public class GoodskillSeataApplication {
     @GetMapping("/test")
     @GlobalTransactional
     public void testGlobalTransaction() {
-        Goods goods = new Goods();
+        GoodsVO goods = new GoodsVO();
         goods.setName("test");
         goodsService.addGoods(goods);
-        Seckill seckill = seckillService.getById(1001L);
+        SeckillVO seckill = seckillService.findById(1001L);
         seckill.setNumber(seckill.getNumber() - 1);
-        seckillService.saveOrUpdate(seckill);
+        seckillService.saveOrUpdateSeckill(seckill);
         // 测试异常情况
         throw new RuntimeException();
     }

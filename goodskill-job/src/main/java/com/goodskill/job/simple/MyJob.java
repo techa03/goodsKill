@@ -1,7 +1,7 @@
 package com.goodskill.job.simple;
 
 import com.goodskill.api.service.GoodsService;
-import com.goodskill.entity.Goods;
+import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.es.api.GoodsEsService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +28,8 @@ public class MyJob implements SimpleJob {
             case 0:
                 try {
                     log.info("分片0 商品es索引开始更新。。。");
-                    List list = goodsService.list().parallelStream().map(g -> {
-                        Goods goods = new Goods();
+                    List list = goodsService.findMany().parallelStream().map(g -> {
+                        GoodsVO goods = new GoodsVO();
                         BeanUtils.copyProperties(g, goods);
                         return goods;
                     }).collect(Collectors.toList());

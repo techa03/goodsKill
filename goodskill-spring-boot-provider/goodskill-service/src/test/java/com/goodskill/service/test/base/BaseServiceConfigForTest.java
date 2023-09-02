@@ -2,9 +2,9 @@ package com.goodskill.service.test.base;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.entity.Seckill;
-import com.goodskill.entity.SuccessKilled;
 import com.goodskill.service.GoodsKillServiceApplication;
+import com.goodskill.service.entity.Seckill;
+import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
 import jakarta.annotation.Resource;

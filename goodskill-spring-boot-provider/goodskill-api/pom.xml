@@ -10,10 +10,6 @@
     </parent>
     <dependencies>
         <dependency>
-            <groupId>com.goodskill</groupId>
-            <artifactId>goodskill-entry</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-extension</artifactId>
         </dependency>
