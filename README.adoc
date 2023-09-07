@@ -44,6 +44,7 @@ ____
 |Spring Security OAuth2.0 |OAuth2.0授权组件 |https://spring.io/projects/spring-security-oauth
 |Canal |基于MySQL数据库的增量日志解析工具 |https://github.com/alibaba/canal
 |GraphQL |一种用于 API 的查询语言 |https://docs.spring.io/spring-graphql/docs/current/reference/html
+|Sa-Token |轻量级Java权限认证框架 |http://sa-token.dev33.cn
 |===
 
 == 📝项目模块介绍
@@ -245,7 +246,6 @@ ____
 
 == ✔️项目已知问题
 * oauth2模块升级后兼容性尚未测试
-* web服务移除shiro后的鉴权问题
 
 == ❓常见问题
 [qanda]

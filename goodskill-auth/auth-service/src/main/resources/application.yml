@@ -44,5 +44,8 @@ sa-token:
   is-log: true
   # 关闭banner打印
   is-print: false
+  # jwt秘钥
+  jwt-secret-key: asdasdasifhueuiwyurfewbfjsdafjk
+
 
 
