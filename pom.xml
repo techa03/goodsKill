@@ -28,7 +28,7 @@
         <springboot.version>3.1.2</springboot.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
         <spring.cloud.alibaba.version>2022.0.0.0</spring.cloud.alibaba.version>
-        <kotlin.version>1.7.10</kotlin.version>
+        <kotlin.version>1.8.22</kotlin.version>
         <jacoco.version>0.8.8</jacoco.version>
         <maven.surefire.version>2.22.2</maven.surefire.version>
         <net.logstash.version>7.1.1</net.logstash.version>
@@ -38,7 +38,6 @@
         <fastjson2.version>2.0.24</fastjson2.version>
         <minio.version>8.4.2</minio.version>
         <shardingsphere.version>5.3.2</shardingsphere.version>
-        <alipay.version>2.2.2</alipay.version>
         <redisson.version>3.22.0</redisson.version>
         <knife4j.version>4.1.0</knife4j.version>
         <springdoc.version>2.1.0</springdoc.version>
@@ -137,11 +136,6 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo</artifactId>
-                <version>${dubbo.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-spring-boot-starter</artifactId>
                 <version>${dubbo.version}</version>
             </dependency>
@@ -181,13 +175,8 @@
                 <version>${minio.version}</version>
             </dependency>
             <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>jstl</artifactId>
-                <version>1.2</version>
-            </dependency>
-            <dependency>
                 <groupId>com.goodskill</groupId>
-                <artifactId>goodskill-api</artifactId>
+                <artifactId>goodskill-seckill-api</artifactId>
                 <version>${goodskill.version}</version>
             </dependency>
             <dependency>
@@ -215,23 +204,6 @@
                 <artifactId>protostuff-runtime</artifactId>
                 <version>1.0.12</version>
             </dependency>
-            <dependency>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-core</artifactId>
-                <version>1.3.6</version>
-            </dependency>
-            <!--支付宝sdk需要的依赖 -->
-            <dependency>
-                <groupId>com.google.zxing</groupId>
-                <artifactId>core</artifactId>
-                <version>3.3.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.code.gson</groupId>
-                <artifactId>gson</artifactId>
-                <version>2.9.0</version>
-            </dependency>
-            <!--支付宝sdk需要的依赖END -->
             <!--base64 apache工具类 -->
             <dependency>
                 <groupId>org.redisson</groupId>
@@ -242,11 +214,6 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-generator</artifactId>
-                <version>3.2.0</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -262,11 +229,6 @@
                 <groupId>org.apache.shardingsphere</groupId>
                 <artifactId>shardingsphere-jdbc-core</artifactId>
                 <version>${shardingsphere.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alipay.sdk</groupId>
-                <artifactId>alipay-easysdk</artifactId>
-                <version>${alipay.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.hutool</groupId>
@@ -317,6 +279,11 @@
             <dependency>
                 <groupId>cn.dev33</groupId>
                 <artifactId>sa-token-redis-jackson</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-jwt</artifactId>
                 <version>${satoken.version}</version>
             </dependency>
         </dependencies>

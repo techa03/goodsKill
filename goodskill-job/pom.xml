@@ -32,7 +32,7 @@
         </dependency>
         <dependency>
             <groupId>com.goodskill</groupId>
-            <artifactId>goodskill-api</artifactId>
+            <artifactId>goodskill-seckill-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>

@@ -6,8 +6,8 @@
 	<artifactId>goodskill-seckill-provider</artifactId>
 	<packaging>pom</packaging>
 	<modules>
-		<module>goodskill-service</module>
-		<module>goodskill-api</module>
+		<module>goodskill-seckill-service</module>
+		<module>goodskill-seckill-api</module>
     </modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

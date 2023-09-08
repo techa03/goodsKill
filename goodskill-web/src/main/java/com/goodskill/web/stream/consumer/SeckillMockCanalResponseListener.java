@@ -1,7 +1,7 @@
 package com.goodskill.web.stream.consumer;
 
-import com.goodskill.api.dto.SeckillMockCanalResponseDTO;
-import com.goodskill.api.service.SeckillService;
+import com.goodskill.seckill.api.dto.SeckillMockCanalResponseDTO;
+import com.goodskill.seckill.api.service.SeckillService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.context.annotation.Bean;

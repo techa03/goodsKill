@@ -3,7 +3,7 @@ package com.goodskill.canal.client.sample;
 import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.client.CanalConnectors;
 import com.alibaba.otter.canal.common.utils.AddressUtils;
-import com.goodskill.api.dto.SeckillMockCanalResponseDTO;
+import com.goodskill.seckill.api.dto.SeckillMockCanalResponseDTO;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * 单机模式的测试例子
- * 
+ *
  * @author jianghang 2013-4-15 下午04:19:20
  * @version 1.0.4
  */

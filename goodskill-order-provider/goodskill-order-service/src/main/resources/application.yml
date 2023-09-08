@@ -33,6 +33,13 @@ spring:
             server-addr: nacos:8848
             username: nacos
             password: nacos
+  flyway:
+    ##是否开启自动升级表结构功能
+    enabled: true
+    baseline-on-migrate: true
+    clean-disabled: true
+    locations:
+      - classpath:db/migration/mysql
 
 logging:
   level:

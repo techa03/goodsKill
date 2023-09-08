@@ -57,8 +57,8 @@ goodsKill
 |--goodskill-order-provider                 ||订单服务提供者
 |   |--goodskill-order-service
 |--goodskill-seckill-provider               ||秒杀服务提供者
-|   |--goodskill-api                        ||提供服务API接口
-|   |--goodskill-service                    ||服务API接口实现
+|   |--goodskill-seckill-api                ||提供服务API接口
+|   |--goodskill-seckill-service            ||服务API接口实现
 |--goodskill-spring-boot-starter            ||项目配置自动装配
 |--goodskill-web                            ||提供秒杀模拟接口访问
 |--goodskill-job                            ||elastic-job定时任务

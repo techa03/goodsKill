@@ -1,7 +1,7 @@
 package com.goodskill.canal.client;
 
-import com.goodskill.api.dto.SeckillMockCanalResponseDTO;
 import com.goodskill.canal.client.sample.SimpleCanalClientTest;
+import com.goodskill.seckill.api.dto.SeckillMockCanalResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.WebApplicationType;

@@ -36,7 +36,6 @@
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-jwt</artifactId>
-            <version>1.35.0.RC</version>
         </dependency>
 
         <dependency>
@@ -88,7 +87,6 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-mysql</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>

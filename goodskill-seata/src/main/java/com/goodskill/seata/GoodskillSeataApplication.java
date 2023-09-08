@@ -1,9 +1,9 @@
 package com.goodskill.seata;
 
-import com.goodskill.api.service.GoodsService;
-import com.goodskill.api.service.SeckillService;
-import com.goodskill.api.vo.GoodsVO;
-import com.goodskill.api.vo.SeckillVO;
+import com.goodskill.seckill.api.service.GoodsService;
+import com.goodskill.seckill.api.service.SeckillService;
+import com.goodskill.seckill.api.vo.GoodsVO;
+import com.goodskill.seckill.api.vo.SeckillVO;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.boot.SpringApplication;
