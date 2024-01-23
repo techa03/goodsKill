@@ -1,11 +1,14 @@
 package com.goodskill.common.core.enums;
 
+import lombok.Getter;
+
 /**
  * 秒杀场景枚举
  *
  * @author techa03
  * @date 2019/4/4
  */
+@Getter
 public enum SeckillSolutionEnum {
     /**
      *
@@ -29,14 +32,6 @@ public enum SeckillSolutionEnum {
     SeckillSolutionEnum(int code, String name) {
         this.code = code;
         this.name = name;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getName() {
-        return name;
     }
 
 }

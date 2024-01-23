@@ -1,4 +1,4 @@
-package com.goodskill.service.vo;
+package com.goodskill.service.pojo.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

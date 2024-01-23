@@ -1,4 +1,4 @@
-package com.goodskill.service.dto;
+package com.goodskill.service.pojo.dto;
 
 import com.goodskill.service.common.ResponseInfo;
 import lombok.Data;

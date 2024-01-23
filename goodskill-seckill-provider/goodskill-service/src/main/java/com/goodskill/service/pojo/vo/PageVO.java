@@ -1,4 +1,4 @@
-package com.goodskill.service.vo;
+package com.goodskill.service.pojo.vo;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.Data;
