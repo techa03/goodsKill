@@ -1,7 +1,6 @@
 package com.goodskill.service.mock.strategy;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
-import com.goodskill.common.core.constant.SeckillStatusConstant;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
@@ -44,7 +43,7 @@ class AtomicWithCanalStrategyTest {
 
         Seckill sendTopicResult = new Seckill();
         sendTopicResult.setSeckillId(seckillId);
-        sendTopicResult.setStatus(SeckillStatusConstant.END);
+//        sendTopicResult.setStatus(SeckillStatusConstant.END);
 
         Seckill seckill1 = new Seckill();
         seckill1.setNumber(0);
@@ -68,7 +67,7 @@ class AtomicWithCanalStrategyTest {
 
         Seckill sendTopicResult = new Seckill();
         sendTopicResult.setSeckillId(seckillId);
-        sendTopicResult.setStatus(SeckillStatusConstant.END);
+//        sendTopicResult.setStatus(SeckillStatusConstant.END);
         verify(seckillMapper, never()).updateById(sendTopicResult);
     }
 }

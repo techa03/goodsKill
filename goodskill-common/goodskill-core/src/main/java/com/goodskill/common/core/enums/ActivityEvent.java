@@ -13,10 +13,14 @@ public enum ActivityEvent {
     ACTIVITY_CREATE,
     // 活动开始
     ACTIVITY_START,
+    // 活动开始结算
+    ACTIVITY_CALCULATE,
     // 活动结束
     ACTIVITY_END,
     // 中止活动
     ACTIVITY_INTERRUPT,
+    // 重置
+    ACTIVITY_RESET,
     ;
 
 }

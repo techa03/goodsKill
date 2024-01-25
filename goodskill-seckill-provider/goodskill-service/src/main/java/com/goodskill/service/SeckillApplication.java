@@ -1,8 +1,9 @@
 package com.goodskill.service;
 
 import com.goodskill.common.core.enums.ActivityEvent;
-import com.goodskill.common.core.enums.SeckillActivityStatesEnum;
+import com.goodskill.common.core.enums.SeckillActivityStates;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
@@ -28,11 +29,12 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableTransactionManagement
 @MapperScan("com.goodskill.service.mapper")
 @EnableDiscoveryClient
-@EnableFeignClients({"com.goodskill.order.api", "com.goodskill.es.api"})
+@EnableFeignClients({"com.goodskill.order.api"})
 @RestController
+@Slf4j
 public class SeckillApplication {
     @Resource
-    private StateMachine<SeckillActivityStatesEnum, ActivityEvent> stateMachine;
+    private StateMachine<SeckillActivityStates, ActivityEvent> stateMachine;
 
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(SeckillApplication.class);
@@ -43,10 +45,15 @@ public class SeckillApplication {
     @Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
-            stateMachine.sendEvent(ActivityEvent.ACTIVITY_CREATE);
-            stateMachine.sendEvent(ActivityEvent.ACTIVITY_START);
+//            feedMachine(stateMachine, ActivityEvent.ACTIVITY_CREATE);
+//            feedMachine(stateMachine, ActivityEvent.ACTIVITY_START);
+//            feedMachine(stateMachine, ActivityEvent.ACTIVITY_END);
+//            boolean b = feedMachine(stateMachine, ActivityEvent.ACTIVITY_RESET);
+            log.info("feedMachine");
         };
     }
+
+
 
 
 }

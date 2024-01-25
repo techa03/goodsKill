@@ -1,7 +1,6 @@
 package com.goodskill.service.inner;
 
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.common.core.constant.SeckillStatusConstant;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
@@ -37,7 +36,7 @@ class SeckillProcedureExecutorTest {
         seckillProcedureExecutor.dealSeckill(seckillId, "123", "test", "1");
         Seckill updateSeckill = new Seckill();
         updateSeckill.setSeckillId(seckillId);
-        updateSeckill.setStatus(SeckillStatusConstant.END);
+//        updateSeckill.setStatus(SeckillStatusConstant.END);
         verify(seckillMapper, times(1)).updateById(updateSeckill);
     }
 }

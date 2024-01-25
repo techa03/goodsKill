@@ -10,7 +10,7 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
-public enum SeckillActivityStatesEnum implements BaseStates {
+public enum SeckillActivityStates {
     /**
      * 活动已创建尚未开始
      */
@@ -19,6 +19,10 @@ public enum SeckillActivityStatesEnum implements BaseStates {
      * 活动进行中
      */
     IN_PROGRESS,
+    /**
+     * 活动结束结算中（统计成功交易笔数）,
+     */
+    CALCULATING,
     /**
      * 活动已结束
      */

@@ -55,6 +55,7 @@ public class SeckillMockResponseListener {
                     log.error(e.getMessage(), e);
                     Thread.currentThread().interrupt();
                 }
+                seckillService.endSeckill(seckillId);
             }
         };
     }

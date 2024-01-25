@@ -1,10 +1,11 @@
 package com.goodskill.service.config;
 
 import com.goodskill.common.core.enums.ActivityEvent;
-import com.goodskill.common.core.enums.SeckillActivityStatesEnum;
+import com.goodskill.common.core.enums.SeckillActivityStates;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.Message;
 import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
@@ -17,7 +18,7 @@ import org.springframework.statemachine.state.State;
 import java.util.EnumSet;
 
 import static com.goodskill.common.core.enums.ActivityEvent.*;
-import static com.goodskill.common.core.enums.SeckillActivityStatesEnum.*;
+import static com.goodskill.common.core.enums.SeckillActivityStates.*;
 
 /**
  * 控制秒杀活动的状态机配置
@@ -28,10 +29,10 @@ import static com.goodskill.common.core.enums.SeckillActivityStatesEnum.*;
 @EnableStateMachine
 @Slf4j
 public class StateMachineConfig
-        extends EnumStateMachineConfigurerAdapter<SeckillActivityStatesEnum, ActivityEvent> {
+        extends EnumStateMachineConfigurerAdapter<SeckillActivityStates, ActivityEvent> {
 
     @Override
-    public void configure(StateMachineConfigurationConfigurer<SeckillActivityStatesEnum, ActivityEvent> config)
+    public void configure(StateMachineConfigurationConfigurer<SeckillActivityStates, ActivityEvent> config)
             throws Exception {
         config
             .withConfiguration()
@@ -40,17 +41,17 @@ public class StateMachineConfig
     }
 
     @Override
-    public void configure(StateMachineStateConfigurer<SeckillActivityStatesEnum, ActivityEvent> states)
+    public void configure(StateMachineStateConfigurer<SeckillActivityStates, ActivityEvent> states)
             throws Exception {
         // 状态初始化
         states
             .withStates()
                 .initial(INIT)
-                    .states(EnumSet.allOf(SeckillActivityStatesEnum.class));
+                    .states(EnumSet.allOf(SeckillActivityStates.class));
     }
 
     @Override
-    public void configure(StateMachineTransitionConfigurer<SeckillActivityStatesEnum, ActivityEvent> transitions)
+    public void configure(StateMachineTransitionConfigurer<SeckillActivityStates, ActivityEvent> transitions)
             throws Exception {
         // 控制流程状态跳转
         transitions
@@ -61,21 +62,49 @@ public class StateMachineConfig
                 .source(INIT).target(IN_PROGRESS).event(ACTIVITY_START)
                 .and()
             .withExternal()
+                .source(IN_PROGRESS).target(CALCULATING).event(ACTIVITY_CALCULATE)
+                .and()
+            .withExternal()
+                .source(CALCULATING).target(END).event(ACTIVITY_END)
+                .and()
+            .withExternal()
                 .source(IN_PROGRESS).target(END).event(ACTIVITY_END)
                 .and()
             .withExternal()
                 .source(IN_PROGRESS).target(INTERRUPTTED).event(ACTIVITY_INTERRUPT)
+            .and()
+            .withExternal()
+                .source(END).target(INIT).event(ACTIVITY_RESET)
+                .and()
+            .withExternal()
+                .source(INTERRUPTTED).target(INIT).event(ACTIVITY_RESET)
+                .and()
+                .withExternal()
+                .source(INIT).target(INIT).event(ACTIVITY_RESET);
         ;
     }
 
     @Bean
-    public StateMachineListener<SeckillActivityStatesEnum, ActivityEvent> listener() {
+    public StateMachineListener<SeckillActivityStates, ActivityEvent> listener() {
         return new StateMachineListenerAdapter<>() {
             @Override
-            public void stateChanged(State<SeckillActivityStatesEnum, ActivityEvent> from, State<SeckillActivityStatesEnum, ActivityEvent> to) {
+            public void stateChanged(State<SeckillActivityStates, ActivityEvent> from, State<SeckillActivityStates, ActivityEvent> to) {
                 log.info("State change to {}", to.getId());
+            }
+
+            @Override
+            public void eventNotAccepted(Message<ActivityEvent> event) {
+                log.info("Event not accepted {}", event.getPayload());
+                super.eventNotAccepted(event);
             }
         };
     }
+
+//    @Bean
+//    public Guard<SeckillActivityStates, ActivityEvent> guard() {
+//        return context -> {
+//            context.getEvent()
+//        };
+//    }
 }
 

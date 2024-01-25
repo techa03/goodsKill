@@ -124,4 +124,14 @@ public interface SeckillService {
      */
     @GetMapping("/getInfoById")
     SeckillInfoDTO getInfoById(@RequestParam("seckillId") Serializable seckillId);
+
+
+    /**
+     * 结束秒杀操作
+     *
+     * @param seckillId 秒杀ID
+     * @return boolean 结束秒杀是否成功
+     */
+    boolean endSeckill(@RequestParam("seckillId") Long seckillId);
+
 }

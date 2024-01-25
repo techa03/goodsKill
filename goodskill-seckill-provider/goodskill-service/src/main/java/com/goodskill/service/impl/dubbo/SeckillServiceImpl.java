@@ -12,6 +12,8 @@ import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.common.core.constant.SeckillStatusConstant;
+import com.goodskill.common.core.enums.ActivityEvent;
+import com.goodskill.common.core.enums.SeckillActivityStates;
 import com.goodskill.common.core.exception.SeckillCloseException;
 import com.goodskill.common.core.util.MD5Util;
 import com.goodskill.order.api.SuccessKilledMongoService;
@@ -32,6 +34,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.statemachine.StateMachine;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,6 +47,8 @@ import java.util.Objects;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static com.goodskill.service.util.StateMachineUtil.feedMachine;
 
 /**
  * <p>
@@ -79,6 +84,8 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private String qrcodeImagePath;
     @Resource
     private SeckillMapper baseMapper;
+    @Resource
+    private StateMachine<SeckillActivityStates, ActivityEvent> activityStateMachine;
 
     @Override
     public PageDTO<SeckillVO> getSeckillList(int pageNum, int pageSize, String goodsName) {
@@ -168,13 +175,19 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Override
     public void prepareSeckill(Long seckillId, int seckillCount, String taskId) {
         // 初始化库存数量
+        // 使用状态机控制活动状态
+        if (!feedMachine(activityStateMachine, ActivityEvent.ACTIVITY_RESET)) {
+            throw new RuntimeException("当前状态不允许重置");
+        }
         Seckill entity = new Seckill();
         entity.setSeckillId(seckillId);
         entity.setNumber(seckillCount);
-        entity.setStatus(SeckillStatusConstant.IN_PROGRESS);
         baseMapper.updateById(entity);
+
+        feedMachine(activityStateMachine, ActivityEvent.ACTIVITY_START);
         // 清理已成功秒杀记录
         this.deleteSuccessKillRecord(seckillId);
+
         redisService.removeSeckill(seckillId);
         Seckill seckill = redisService.getSeckill(seckillId);
         redisTemplate.delete(seckillId);
@@ -249,6 +262,11 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         BeanUtils.copyProperties(seckill, seckillInfoDTO);
         seckillInfoDTO.setGoodsName(goods.getName());
         return seckillInfoDTO;
+    }
+
+    @Override
+    public boolean endSeckill(Long seckillId) {
+        return feedMachine(activityStateMachine, ActivityEvent.ACTIVITY_END);
     }
 
     @Override
