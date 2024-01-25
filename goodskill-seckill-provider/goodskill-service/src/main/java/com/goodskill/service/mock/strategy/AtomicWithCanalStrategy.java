@@ -1,17 +1,21 @@
 package com.goodskill.service.mock.strategy;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
-import com.goodskill.common.core.constant.SeckillStatusConstant;
+import com.goodskill.common.core.enums.ActivityEvent;
+import com.goodskill.common.core.enums.SeckillActivityStates;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.goodskill.service.util.StateMachineUtil.feedMachine;
 
 /**
  * 数据库原子性更新+canal 数据库binlog日志监听秒杀结果 秒杀策略
@@ -23,10 +27,12 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class AtomicWithCanalStrategy implements GoodsKillStrategy {
 
-    @Autowired
+    @Resource
     private SeckillMapper seckillMapper;
-    @Autowired
+    @Resource
     private SuccessKilledMapper successKilledMapper;
+    @Resource
+    private StateMachine<SeckillActivityStates, ActivityEvent> activityStateMachine;
 
     private final ConcurrentHashMap<Long, Object> seckillIdList = new ConcurrentHashMap<>();
 
@@ -51,12 +57,7 @@ public class AtomicWithCanalStrategy implements GoodsKillStrategy {
                 record.setCreateTime(new Date());
                 successKilledMapper.insert(record);
             } else {
-                if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
-                    Seckill sendTopicResult = new Seckill();
-                    sendTopicResult.setSeckillId(seckillId);
-                    sendTopicResult.setStatus(SeckillStatusConstant.END);
-                    seckillMapper.updateById(sendTopicResult);
-                }
+                feedMachine(activityStateMachine, ActivityEvent.ACTIVITY_CALCULATE);
                 if (log.isDebugEnabled()) {
                     log.debug("#execute 库存不足，无法继续秒杀！");
                 }

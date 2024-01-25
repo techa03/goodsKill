@@ -1,5 +1,6 @@
 package com.goodskill.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
@@ -22,8 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableTransactionManagement
 @MapperScan("com.goodskill.service.mapper")
 @EnableDiscoveryClient
-@EnableFeignClients({"com.goodskill.order.api", "com.goodskill.es.api"})
+@EnableFeignClients({"com.goodskill.order.api"})
 @RestController
+@Slf4j
 public class SeckillApplication {
 
     public static void main(String[] args) {
@@ -31,6 +33,5 @@ public class SeckillApplication {
         application.setBannerMode(Banner.Mode.CONSOLE);
         application.run(args);
     }
-
 
 }

@@ -8,7 +8,7 @@ import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.common.core.info.R;
-import com.goodskill.service.dto.ResponseDTO;
+import com.goodskill.service.pojo.dto.ResponseDTO;
 import com.goodskill.service.util.UploadFileUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

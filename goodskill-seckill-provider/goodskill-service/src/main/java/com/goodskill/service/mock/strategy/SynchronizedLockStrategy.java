@@ -2,15 +2,18 @@ package com.goodskill.service.mock.strategy;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.dto.SeckillMockResponseDTO;
-import com.goodskill.common.core.constant.SeckillStatusConstant;
+import com.goodskill.common.core.enums.ActivityEvent;
+import com.goodskill.common.core.enums.SeckillActivityStates;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -18,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static com.goodskill.common.core.enums.SeckillSolutionEnum.SYCHRONIZED;
 import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME;
+import static com.goodskill.service.util.StateMachineUtil.feedMachine;
 
 /**
  * @author techa03
@@ -32,6 +36,8 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
     private SuccessKilledMapper successKilledMapper;
     @Autowired
     private StreamBridge streamBridge;
+    @Resource
+    private StateMachine<SeckillActivityStates, ActivityEvent> activityStateMachine;
 
     private final ConcurrentHashMap<Long, Object> seckillIdList = new ConcurrentHashMap<>();
 
@@ -56,7 +62,7 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
                 record.setCreateTime(new Date());
                 successKilledMapper.insert(record);
             } else {
-                if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
+                if (feedMachine(activityStateMachine, ActivityEvent.ACTIVITY_CALCULATE)) {
                     streamBridge.send(DEFAULT_BINDING_NAME, MessageBuilder.withPayload(
                                     SeckillMockResponseDTO
                                             .builder()
@@ -66,10 +72,6 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
                                             .taskId(requestDto.getTaskId())
                                             .build())
                             .build());
-                    Seckill sendTopicResult = new Seckill();
-                    sendTopicResult.setSeckillId(seckillId);
-                    sendTopicResult.setStatus(SeckillStatusConstant.END);
-                    seckillMapper.updateById(sendTopicResult);
                 }
                 if (log.isDebugEnabled()) {
                     log.debug("库存不足，无法继续秒杀！");

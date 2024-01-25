@@ -3,16 +3,18 @@ package com.goodskill.service.mock.strategy;
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.dto.SeckillMockResponseDTO;
 import com.goodskill.common.core.constant.SeckillStatusConstant;
+import com.goodskill.common.core.enums.ActivityEvent;
+import com.goodskill.common.core.enums.SeckillActivityStates;
 import com.goodskill.order.vo.SeckillMockSaveVo;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ThreadPoolExecutor;
@@ -20,6 +22,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import static com.goodskill.common.core.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
 import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME;
 import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME_MONGO_SAVE;
+import static com.goodskill.service.util.StateMachineUtil.feedMachine;
 
 /**
  * @author techa03
@@ -28,16 +31,18 @@ import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDI
 @Component
 @Slf4j
 public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
-    @Autowired
+    @Resource
     private RedisService redisService;
-    @Autowired
+    @Resource
     private RedisTemplate redisTemplate;
     @Resource(name = "taskExecutor")
     private ThreadPoolExecutor taskExecutor;
     @Resource
     private SeckillMapper extSeckillMapper;
-    @Autowired
+    @Resource
     private StreamBridge streamBridge;
+    @Resource
+    private StateMachine<SeckillActivityStates, ActivityEvent> activityStateMachine;
 
     @Override
     public void execute(SeckillMockRequestDTO requestDto) {
@@ -57,7 +62,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
         } else {
             synchronized (this) {
                 seckill = redisService.getSeckill(seckillId);
-                if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
+                if (feedMachine(activityStateMachine, ActivityEvent.ACTIVITY_CALCULATE)) {
                     log.info("秒杀商品暂无库存，发送活动结束消息！");
                     streamBridge.send(DEFAULT_BINDING_NAME, MessageBuilder.withPayload(
                             SeckillMockResponseDTO
@@ -68,11 +73,6 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
                                     .taskId(requestDto.getTaskId())
                                     .build())
                             .build());
-
-                    Seckill sendTopicResult = new Seckill();
-                    sendTopicResult.setSeckillId(seckillId);
-                    sendTopicResult.setStatus(SeckillStatusConstant.END);
-                    extSeckillMapper.updateById(sendTopicResult);
                     seckill.setStatus(SeckillStatusConstant.END);
                     redisService.putSeckill(seckill);
                 }

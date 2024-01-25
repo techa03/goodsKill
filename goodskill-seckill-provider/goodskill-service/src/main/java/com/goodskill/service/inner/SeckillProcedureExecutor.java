@@ -3,14 +3,16 @@ package com.goodskill.service.inner;
 import com.goodskill.api.dto.SeckillMockResponseDTO;
 import com.goodskill.api.dto.SuccessKilledDTO;
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.common.core.constant.SeckillStatusConstant;
+import com.goodskill.common.core.enums.ActivityEvent;
+import com.goodskill.common.core.enums.SeckillActivityStates;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Service;
 
 import java.net.InetAddress;
@@ -18,6 +20,7 @@ import java.net.UnknownHostException;
 import java.util.Date;
 
 import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME;
+import static com.goodskill.service.util.StateMachineUtil.feedMachine;
 
 /**
  * @author heng
@@ -26,14 +29,17 @@ import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDI
 @Service
 public class SeckillProcedureExecutor implements SeckillExecutor {
 
-    @Autowired
+    @Resource
     private SeckillMapper seckillMapper;
-    @Autowired
+    @Resource
     private SeckillService seckillService;
-    @Autowired
+    @Resource
     private StreamBridge streamBridge;
-    @Autowired
+    @Resource
     private RedisService redisService;
+    @Resource
+    private StateMachine<SeckillActivityStates, ActivityEvent> activityStateMachine;
+
 
     /**
      * 处理用户秒杀请求
@@ -55,7 +61,7 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
             if (seckillService.reduceNumber(successKilled) < 1) {
                 Seckill seckill = seckillMapper.selectById(seckillId);
                 log.debug("#dealSeckill 当前库存：{}，秒杀活动id:{}，商品id:{}", seckill.getNumber(), seckill.getSeckillId(), seckill.getGoodsId());
-                if (!SeckillStatusConstant.END.equals(seckill.getStatus())) {
+                if (feedMachine(activityStateMachine, ActivityEvent.ACTIVITY_CALCULATE)) {
                     // 高并发时可能多次发送完成通知，使用锁控制
                     Boolean endFlag = redisService.setSeckillEndFlag(seckillId, taskId);
                     if (endFlag) {
@@ -63,10 +69,6 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
                                         SeckillMockResponseDTO.builder().seckillId(seckillId).note(note).status(true).taskId(taskId).build())
                                 .build());
                         log.info("#dealSeckill 商品已售罄，最新秒杀信息：{}", seckill);
-                        Seckill sendTopicResult = new Seckill();
-                        sendTopicResult.setSeckillId(seckillId);
-                        sendTopicResult.setStatus(SeckillStatusConstant.END);
-                        seckillMapper.updateById(sendTopicResult);
                     }
                 }
                 if (seckill.getNumber() <= 0) {

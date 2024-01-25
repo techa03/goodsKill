@@ -1,9 +1,12 @@
 package com.goodskill.common.core.enums;
 
+import lombok.Getter;
+
 /**
  * 用户账户登录状态枚举
  * @author heng
  */
+@Getter
 public enum UserAccountEnum {
 	/**
 	 *
@@ -15,14 +18,6 @@ public enum UserAccountEnum {
 	UserAccountEnum(int state, String stateInfo) {
 		this.state = state;
 		this.stateInfo = stateInfo;
-	}
-
-	public int getState() {
-		return state;
-	}
-
-	public String getStateInfo() {
-		return stateInfo;
 	}
 
 	public static UserAccountEnum stateOf(int index) {
