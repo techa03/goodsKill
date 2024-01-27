@@ -3,6 +3,7 @@ package com.goodskill.service.mock.strategy;
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.dto.SeckillMockResponseDTO;
 import com.goodskill.common.core.enums.Events;
+import com.goodskill.common.core.enums.States;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.SeckillMapper;
@@ -60,7 +61,8 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
                 record.setCreateTime(new Date());
                 successKilledMapper.insert(record);
             } else {
-                if (stateMachineUtil.feedMachine(Events.ACTIVITY_CALCULATE, seckillId)) {
+                if (stateMachineUtil.checkState(seckillId, States.IN_PROGRESS)) {
+                    stateMachineUtil.feedMachine(Events.ACTIVITY_CALCULATE, seckillId);
                     streamBridge.send(DEFAULT_BINDING_NAME, MessageBuilder.withPayload(
                                     SeckillMockResponseDTO
                                             .builder()

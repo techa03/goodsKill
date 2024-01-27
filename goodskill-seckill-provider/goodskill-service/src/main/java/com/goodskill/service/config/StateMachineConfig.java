@@ -86,7 +86,6 @@ public class StateMachineConfig
                 .and()
                 .withExternal()
                 .source(INIT).target(INIT).event(ACTIVITY_RESET);
-        ;
     }
 
     @Bean
