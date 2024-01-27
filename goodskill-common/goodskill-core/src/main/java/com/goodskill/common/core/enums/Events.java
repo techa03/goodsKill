@@ -8,7 +8,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum ActivityEvent {
+public enum Events {
     // 活动创建
     ACTIVITY_CREATE,
     // 活动开始

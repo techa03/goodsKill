@@ -10,7 +10,7 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
-public enum SeckillActivityStates {
+public enum States {
     /**
      * 活动已创建尚未开始
      */
