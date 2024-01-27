@@ -38,4 +38,19 @@ public class StateMachineUtil {
             return false;
         }
     }
+
+
+    /**
+     * 检查秒杀活动的状态是否符合要求
+     *
+     * @param seckillId 秒杀活动的ID
+     * @param state     指定的状态
+     * @return 如果当前状态与state相同则返回true，否则返回false
+     */
+    @SneakyThrows
+    public boolean checkState(long seckillId, States state) {
+        stateMachinePersister.restore(stateMachine, "seckillId:" + seckillId);
+        return stateMachine.getState().getId().equals(state);
+    }
+
 }

@@ -4,6 +4,7 @@ import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.dto.SeckillMockResponseDTO;
 import com.goodskill.common.core.constant.SeckillStatusConstant;
 import com.goodskill.common.core.enums.Events;
+import com.goodskill.common.core.enums.States;
 import com.goodskill.order.vo.SeckillMockSaveVo;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
@@ -57,7 +58,8 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
         } else {
             synchronized (this) {
                 seckill = redisService.getSeckill(seckillId);
-                if (stateMachineUtil.feedMachine(Events.ACTIVITY_CALCULATE, seckillId)) {
+                if (stateMachineUtil.checkState(seckillId, States.IN_PROGRESS)) {
+                    stateMachineUtil.feedMachine(Events.ACTIVITY_CALCULATE, seckillId);
                     log.info("秒杀商品暂无库存，发送活动结束消息！");
                     streamBridge.send(DEFAULT_BINDING_NAME, MessageBuilder.withPayload(
                             SeckillMockResponseDTO
