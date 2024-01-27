@@ -3,16 +3,15 @@ package com.goodskill.service.inner;
 import com.goodskill.api.dto.SeckillMockResponseDTO;
 import com.goodskill.api.dto.SuccessKilledDTO;
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.common.core.enums.ActivityEvent;
-import com.goodskill.common.core.enums.SeckillActivityStates;
+import com.goodskill.common.core.enums.Events;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
+import com.goodskill.service.util.StateMachineUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Service;
 
 import java.net.InetAddress;
@@ -20,7 +19,6 @@ import java.net.UnknownHostException;
 import java.util.Date;
 
 import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME;
-import static com.goodskill.service.util.StateMachineUtil.feedMachine;
 
 /**
  * @author heng
@@ -38,7 +36,7 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
     @Resource
     private RedisService redisService;
     @Resource
-    private StateMachine<SeckillActivityStates, ActivityEvent> activityStateMachine;
+    private StateMachineUtil stateMachineUtil;
 
 
     /**
@@ -61,7 +59,7 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
             if (seckillService.reduceNumber(successKilled) < 1) {
                 Seckill seckill = seckillMapper.selectById(seckillId);
                 log.debug("#dealSeckill 当前库存：{}，秒杀活动id:{}，商品id:{}", seckill.getNumber(), seckill.getSeckillId(), seckill.getGoodsId());
-                if (feedMachine(activityStateMachine, ActivityEvent.ACTIVITY_CALCULATE)) {
+                if (stateMachineUtil.feedMachine(Events.ACTIVITY_CALCULATE, seckillId)) {
                     // 高并发时可能多次发送完成通知，使用锁控制
                     Boolean endFlag = redisService.setSeckillEndFlag(seckillId, taskId);
                     if (endFlag) {

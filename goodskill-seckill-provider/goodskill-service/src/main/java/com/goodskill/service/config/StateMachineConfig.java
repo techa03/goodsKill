@@ -1,24 +1,29 @@
 package com.goodskill.service.config;
 
-import com.goodskill.common.core.enums.ActivityEvent;
-import com.goodskill.common.core.enums.SeckillActivityStates;
+import com.goodskill.common.core.enums.Events;
+import com.goodskill.common.core.enums.States;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.messaging.Message;
+import org.springframework.statemachine.StateMachinePersist;
 import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
+import org.springframework.statemachine.data.redis.RedisStateMachineContextRepository;
+import org.springframework.statemachine.data.redis.RedisStateMachinePersister;
 import org.springframework.statemachine.listener.StateMachineListener;
 import org.springframework.statemachine.listener.StateMachineListenerAdapter;
+import org.springframework.statemachine.persist.RepositoryStateMachinePersist;
 import org.springframework.statemachine.state.State;
 
 import java.util.EnumSet;
 
-import static com.goodskill.common.core.enums.ActivityEvent.*;
-import static com.goodskill.common.core.enums.SeckillActivityStates.*;
+import static com.goodskill.common.core.enums.Events.*;
+import static com.goodskill.common.core.enums.States.*;
 
 /**
  * 控制秒杀活动的状态机配置
@@ -29,10 +34,10 @@ import static com.goodskill.common.core.enums.SeckillActivityStates.*;
 @EnableStateMachine
 @Slf4j
 public class StateMachineConfig
-        extends EnumStateMachineConfigurerAdapter<SeckillActivityStates, ActivityEvent> {
+        extends EnumStateMachineConfigurerAdapter<States, Events> {
 
     @Override
-    public void configure(StateMachineConfigurationConfigurer<SeckillActivityStates, ActivityEvent> config)
+    public void configure(StateMachineConfigurationConfigurer<States, Events> config)
             throws Exception {
         config
             .withConfiguration()
@@ -41,17 +46,17 @@ public class StateMachineConfig
     }
 
     @Override
-    public void configure(StateMachineStateConfigurer<SeckillActivityStates, ActivityEvent> states)
+    public void configure(StateMachineStateConfigurer<States, Events> states)
             throws Exception {
         // 状态初始化
         states
             .withStates()
                 .initial(INIT)
-                    .states(EnumSet.allOf(SeckillActivityStates.class));
+                    .states(EnumSet.allOf(States.class));
     }
 
     @Override
-    public void configure(StateMachineTransitionConfigurer<SeckillActivityStates, ActivityEvent> transitions)
+    public void configure(StateMachineTransitionConfigurer<States, Events> transitions)
             throws Exception {
         // 控制流程状态跳转
         transitions
@@ -85,26 +90,32 @@ public class StateMachineConfig
     }
 
     @Bean
-    public StateMachineListener<SeckillActivityStates, ActivityEvent> listener() {
+    public StateMachineListener<States, Events> listener() {
         return new StateMachineListenerAdapter<>() {
             @Override
-            public void stateChanged(State<SeckillActivityStates, ActivityEvent> from, State<SeckillActivityStates, ActivityEvent> to) {
+            public void stateChanged(State<States, Events> from, State<States, Events> to) {
                 log.info("State change to {}", to.getId());
             }
 
             @Override
-            public void eventNotAccepted(Message<ActivityEvent> event) {
+            public void eventNotAccepted(Message<Events> event) {
                 log.info("Event not accepted {}", event.getPayload());
                 super.eventNotAccepted(event);
             }
         };
     }
 
-//    @Bean
-//    public Guard<SeckillActivityStates, ActivityEvent> guard() {
-//        return context -> {
-//            context.getEvent()
-//        };
-//    }
+    @Bean
+    public StateMachinePersist<States, Events, String> stateMachinePersist(RedisConnectionFactory connectionFactory) {
+        RedisStateMachineContextRepository<States, Events> repository =
+                new RedisStateMachineContextRepository<States, Events>(connectionFactory);
+        return new RepositoryStateMachinePersist<States, Events>(repository);
+    }
+
+    @Bean
+    public RedisStateMachinePersister<States, Events> redisStateMachinePersister(
+            StateMachinePersist<States, Events, String> stateMachinePersist) {
+        return new RedisStateMachinePersister<States, Events>(stateMachinePersist);
+    }
 }
 

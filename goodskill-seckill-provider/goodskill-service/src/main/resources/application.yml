@@ -15,6 +15,14 @@ spring:
   main:
     allow-circular-references: true
     allow-bean-definition-overriding: true
+  redis:
+    redisson:
+      ## 注:默认序列化方式Kryo5Codec与spring statemachine依赖冲突,使用json-jackson替代。config后的“|”代表多行文本
+      config: |
+        codec: !<org.redisson.codec.JsonJacksonCodec> {}
+        singleServerConfig:
+          password: 123456
+          address: "redis://redis:6379"
   output:
     ansi:
       enabled: ALWAYS
