@@ -10,7 +10,7 @@ image:https://github.com/techa03/goodsKill/actions/workflows/codeql.yml/badge.sv
 
 本项目为模拟秒杀项目，提供统一秒杀模拟请求接口，方便自行测试各个秒杀方案的执行速度。 技术上整体采用SpringMVC + Mybatis持久层框架，采用Dubbo3.x{empty}footnote:[由于SpringCloudAlibaba官方暂未支持Dubbo 3.x，本项目采用dubbo-spring-boot-starter集成]，服务注册发现以及配置中心使用Nacos，支持数据库分库分表、分布式事务，使用状态机完成数据状态间的转换（基于Spring Statemachine实现）。
 
-== 💎分支介绍
+== 💎 分支介绍
 
 ``master``分支基于最新Spring Cloud 2022.x+ Spring Boot 3.x + JDK17体系构建，目前仅保留核心的模拟秒杀API接口，如需使用Spring Boot 2.7.x + JDK11版本可以切换到tag https://github.com/techa03/goodsKill/tree/v2.7.4[v2.7.4]（支持登录注册以及简单的后台管理功能）。master分支目前升级改造中，功能不够稳定，如遇代码报错建议使用老版本。
 
@@ -21,7 +21,7 @@ ____
 
 ____
 
-== ✨技术选型
+== ✨ 技术选型
 
 |===
 |使用的工具或框架 |名称 |官网
@@ -47,7 +47,7 @@ ____
 |Spring Statemachine |Spring 状态机 |https://spring.io/projects/spring-statemachine
 |===
 
-== 📝项目模块介绍
+== 📝 项目模块介绍
 
 ----
 goodsKill
@@ -69,7 +69,7 @@ goodsKill
     |--oauth2-resource-server               ||oauth2.0资源服务端，自定义的登录授权服务
 ----
 
-== 🔥🔥秒杀方案
+== 🔥🔥 秒杀方案
 
 目前实现了几种秒杀方案，通过``SeckillMockController``提供测试接口
 
@@ -114,7 +114,7 @@ ns         %     Task name
 ----
 ====
 
-== 🧰开发环境版本说明
+== 🧰 开发环境版本说明
 
 * JDK: OpenJDK17
 * Sharding-JDBC: 5.3.2
@@ -140,7 +140,7 @@ ns         %     Task name
 |RabbitMQ |latest |5672 15672 |无
 |===
 
-== 🎯快速开始
+== 🎯 快速开始
 
 * 项目根目录``goodsKill``中执行
 +
@@ -227,7 +227,7 @@ curl --location --request POST 'http://www.goodskill.com:8080/limit' \
 请求默认异步执行，可在控制台查看执行日志，如果最终成功交易笔数等于商品数量10则表示没有出现超卖或者少卖问题
 
 
-== 🕹️️启动完整项目步骤
+== 🕹️️ 启动完整项目步骤
 在快速开始部分基础上增加以下步骤即可启动一个完整项目
 
 * 进入``goodskill-gateway``模块，通过``GatewayApplication``类main方法启动服务网关
@@ -244,9 +244,6 @@ ____
 
 * main方法运行``GoodskillAdminApplication``类(微服务健康状态指标监控)
 
-== ✔️项目已知问题
-* oauth2模块升级后兼容性尚未测试
-* web服务移除shiro后的鉴权问题
 
 == ❓常见问题
 [qanda]
@@ -289,6 +286,15 @@ hub.docker被墙，国内可使用阿里云镜像加速器，具体操作见 htt
 --add-opens java.base/java.math=ALL-UNNAMED
 --add-opens java.base/sun.reflect.generics.reflectiveObjects=ALL-UNNAMED
 ----
+
+== 🖲️ 状态机说明
+目前秒杀活动状态的控制基于Spring Statemachine状态机实现，使用状态机的优点：
+
+* 统一控制活动状态，便于状态的集中维护；
+* 防止业务状态被随意更改，保证状态的可控更新；
++
+image:./doc/shortcut/状态机.png[image]
+
 
 == 📚分库分表情况说明
 
