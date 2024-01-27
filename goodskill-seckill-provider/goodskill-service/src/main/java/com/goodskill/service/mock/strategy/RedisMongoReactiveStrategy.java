@@ -3,18 +3,16 @@ package com.goodskill.service.mock.strategy;
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.dto.SeckillMockResponseDTO;
 import com.goodskill.common.core.constant.SeckillStatusConstant;
-import com.goodskill.common.core.enums.ActivityEvent;
-import com.goodskill.common.core.enums.SeckillActivityStates;
+import com.goodskill.common.core.enums.Events;
 import com.goodskill.order.vo.SeckillMockSaveVo;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
-import com.goodskill.service.mapper.SeckillMapper;
+import com.goodskill.service.util.StateMachineUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ThreadPoolExecutor;
@@ -22,7 +20,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import static com.goodskill.common.core.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
 import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME;
 import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME_MONGO_SAVE;
-import static com.goodskill.service.util.StateMachineUtil.feedMachine;
 
 /**
  * @author techa03
@@ -38,11 +35,9 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
     @Resource(name = "taskExecutor")
     private ThreadPoolExecutor taskExecutor;
     @Resource
-    private SeckillMapper extSeckillMapper;
-    @Resource
     private StreamBridge streamBridge;
     @Resource
-    private StateMachine<SeckillActivityStates, ActivityEvent> activityStateMachine;
+    private StateMachineUtil stateMachineUtil;
 
     @Override
     public void execute(SeckillMockRequestDTO requestDto) {
@@ -62,7 +57,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
         } else {
             synchronized (this) {
                 seckill = redisService.getSeckill(seckillId);
-                if (feedMachine(activityStateMachine, ActivityEvent.ACTIVITY_CALCULATE)) {
+                if (stateMachineUtil.feedMachine(Events.ACTIVITY_CALCULATE, seckillId)) {
                     log.info("秒杀商品暂无库存，发送活动结束消息！");
                     streamBridge.send(DEFAULT_BINDING_NAME, MessageBuilder.withPayload(
                             SeckillMockResponseDTO

@@ -1,21 +1,19 @@
 package com.goodskill.service.mock.strategy;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
-import com.goodskill.common.core.enums.ActivityEvent;
-import com.goodskill.common.core.enums.SeckillActivityStates;
+import com.goodskill.common.core.enums.Events;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
+import com.goodskill.service.util.StateMachineUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.goodskill.service.util.StateMachineUtil.feedMachine;
 
 /**
  * 数据库原子性更新+canal 数据库binlog日志监听秒杀结果 秒杀策略
@@ -32,7 +30,7 @@ public class AtomicWithCanalStrategy implements GoodsKillStrategy {
     @Resource
     private SuccessKilledMapper successKilledMapper;
     @Resource
-    private StateMachine<SeckillActivityStates, ActivityEvent> activityStateMachine;
+    private StateMachineUtil stateMachineUtil;
 
     private final ConcurrentHashMap<Long, Object> seckillIdList = new ConcurrentHashMap<>();
 
@@ -57,7 +55,7 @@ public class AtomicWithCanalStrategy implements GoodsKillStrategy {
                 record.setCreateTime(new Date());
                 successKilledMapper.insert(record);
             } else {
-                feedMachine(activityStateMachine, ActivityEvent.ACTIVITY_CALCULATE);
+                stateMachineUtil.feedMachine(Events.ACTIVITY_CALCULATE, seckillId);
                 if (log.isDebugEnabled()) {
                     log.debug("#execute 库存不足，无法继续秒杀！");
                 }

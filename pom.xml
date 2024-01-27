@@ -40,7 +40,7 @@
         <minio.version>8.4.2</minio.version>
         <shardingsphere.version>5.3.2</shardingsphere.version>
         <alipay.version>2.2.2</alipay.version>
-        <redisson.version>3.22.0</redisson.version>
+        <redisson.version>3.26.0</redisson.version>
         <knife4j.version>4.1.0</knife4j.version>
         <springdoc.version>2.1.0</springdoc.version>
         <satoken.version>1.35.0.RC</satoken.version>

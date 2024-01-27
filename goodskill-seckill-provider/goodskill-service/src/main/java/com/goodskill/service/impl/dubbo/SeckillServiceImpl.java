@@ -12,8 +12,7 @@ import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.common.core.constant.SeckillStatusConstant;
-import com.goodskill.common.core.enums.ActivityEvent;
-import com.goodskill.common.core.enums.SeckillActivityStates;
+import com.goodskill.common.core.enums.Events;
 import com.goodskill.common.core.exception.SeckillCloseException;
 import com.goodskill.common.core.util.MD5Util;
 import com.goodskill.order.api.SuccessKilledMongoService;
@@ -24,6 +23,7 @@ import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
 import com.goodskill.service.mock.strategy.GoodsKillStrategy;
 import com.goodskill.service.mock.strategy.GoodsKillStrategyEnum;
+import com.goodskill.service.util.StateMachineUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -34,7 +34,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.statemachine.StateMachine;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,8 +46,6 @@ import java.util.Objects;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
-import static com.goodskill.service.util.StateMachineUtil.feedMachine;
 
 /**
  * <p>
@@ -85,7 +82,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Resource
     private SeckillMapper baseMapper;
     @Resource
-    private StateMachine<SeckillActivityStates, ActivityEvent> activityStateMachine;
+    private StateMachineUtil stateMachineUtil;
 
     @Override
     public PageDTO<SeckillVO> getSeckillList(int pageNum, int pageSize, String goodsName) {
@@ -176,15 +173,15 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     public void prepareSeckill(Long seckillId, int seckillCount, String taskId) {
         // 初始化库存数量
         // 使用状态机控制活动状态
-        if (!feedMachine(activityStateMachine, ActivityEvent.ACTIVITY_RESET)) {
-            throw new RuntimeException("当前状态不允许重置");
+        if (!stateMachineUtil.feedMachine(Events.ACTIVITY_RESET, seckillId)) {
+            throw new RuntimeException("活动尚未结束，请等待活动结束后再次操作");
         }
         Seckill entity = new Seckill();
         entity.setSeckillId(seckillId);
         entity.setNumber(seckillCount);
         baseMapper.updateById(entity);
 
-        feedMachine(activityStateMachine, ActivityEvent.ACTIVITY_START);
+        stateMachineUtil.feedMachine(Events.ACTIVITY_START, seckillId);
         // 清理已成功秒杀记录
         this.deleteSuccessKillRecord(seckillId);
 
@@ -266,7 +263,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
 
     @Override
     public boolean endSeckill(Long seckillId) {
-        return feedMachine(activityStateMachine, ActivityEvent.ACTIVITY_END);
+        return stateMachineUtil.feedMachine(Events.ACTIVITY_END, seckillId);
     }
 
     @Override
