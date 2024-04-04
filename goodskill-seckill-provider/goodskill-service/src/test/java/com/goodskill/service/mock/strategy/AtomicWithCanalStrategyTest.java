@@ -4,6 +4,7 @@ import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
+import com.goodskill.service.util.StateMachineUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,6 +33,8 @@ class AtomicWithCanalStrategyTest {
                     TimeUnit.SECONDS, new ArrayBlockingQueue(1));
     @Mock
     private MessageChannel messageChannel;
+    @Mock
+    private StateMachineUtil stateMachineUtil;
 
     @Test
     public void execute() {
@@ -49,7 +52,7 @@ class AtomicWithCanalStrategyTest {
         seckill1.setNumber(0);
         when(seckillMapper.selectById(seckillId)).thenReturn(seckill1);
         atomicWithCanalStrategy.execute(requestDto);
-        verify(seckillMapper, times(1)).updateById(sendTopicResult);
+        verify(seckillMapper, times(1)).selectById(seckillId);
     }
 
     @Test

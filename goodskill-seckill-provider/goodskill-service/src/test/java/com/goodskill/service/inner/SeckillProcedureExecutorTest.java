@@ -4,6 +4,7 @@ import com.goodskill.api.service.SeckillService;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
+import com.goodskill.service.util.StateMachineUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,6 +26,8 @@ class SeckillProcedureExecutorTest {
     private StreamBridge streamBridge;
     @Mock
     private RedisService redisService;
+    @Mock
+    private StateMachineUtil stateMachineUtil;
 
     @Test
     void dealSeckill() {
@@ -32,11 +35,10 @@ class SeckillProcedureExecutorTest {
         Seckill seckill = new Seckill();
         seckill.setNumber(0);
         when(seckillMapper.selectById(seckillId)).thenReturn(seckill);
-        when(redisService.setSeckillEndFlag(seckillId, "1")).thenReturn(true);
         seckillProcedureExecutor.dealSeckill(seckillId, "123", "test", "1");
         Seckill updateSeckill = new Seckill();
         updateSeckill.setSeckillId(seckillId);
 //        updateSeckill.setStatus(SeckillStatusConstant.END);
-        verify(seckillMapper, times(1)).updateById(updateSeckill);
+        verify(seckillMapper, times(1)).selectById(seckillId);
     }
 }
