@@ -1,9 +1,11 @@
 package com.goodskill.service.mock.strategy;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
+import com.goodskill.common.core.enums.States;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
+import com.goodskill.service.util.StateMachineUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -40,6 +42,8 @@ class RedisMongoReactiveStrategyTest {
     Logger log;
     @InjectMocks
     RedisMongoReactiveStrategy redisMongoReactiveStrategy;
+    @Mock
+    private StateMachineUtil stateMachineUtil;
 
     @BeforeEach
     void setUp() {
@@ -61,9 +65,11 @@ class RedisMongoReactiveStrategyTest {
     void testExecute2() {
         Seckill t = new Seckill();
         t.setNumber(1);
-        when(redisService.getSeckill(anyLong())).thenReturn(t);
+        long seckillId = anyLong();
+        when(redisService.getSeckill(seckillId)).thenReturn(t);
         when(redisTemplate.opsForValue()).thenReturn(redisOperations);
-        when(redisOperations.increment(anyLong())).thenReturn(2L);
+        when(redisOperations.increment(seckillId)).thenReturn(2L);
+        when(stateMachineUtil.checkState(seckillId, States.IN_PROGRESS)).thenReturn(true);
         redisMongoReactiveStrategy.execute(new SeckillMockRequestDTO(0L, 0, "phoneNumber", "requestTime"));
         assertNotNull(t);
     }
