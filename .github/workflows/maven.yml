@@ -28,4 +28,6 @@ jobs:
       run: mvn install
     - name: Codecov
       uses: codecov/codecov-action@v4.3.0
+      with:
+        token: 8b72f429-a91b-4ae3-8632-bb5e1586e37a
 
