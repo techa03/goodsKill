@@ -27,5 +27,6 @@ jobs:
     - name: Build with Maven
       run: mvn install
     - name: Codecov
-      uses: codecov/codecov-action@v3
-
+      uses: codecov/codecov-action@v4.3.0
+      with:
+        token: f2d92111-07d2-469b-bcba-4d7ad4c40574
