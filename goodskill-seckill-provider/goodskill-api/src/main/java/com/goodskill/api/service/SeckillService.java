@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @author heng
  * @date 2016/7/16
  */
-@FeignClient("goodskill-seckill")
+@FeignClient(value = "goodskill-seckill", contextId = "seckill")
 public interface SeckillService {
 
     /**

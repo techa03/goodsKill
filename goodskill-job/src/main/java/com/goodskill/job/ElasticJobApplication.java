@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author techa03
  */
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-@EnableFeignClients("com.goodskill.*.api")
+@EnableFeignClients("com.goodskill.**.api")
 public class ElasticJobApplication {
 
     public static void main(String[] args) {
