@@ -8,15 +8,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineEventResult;
+import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.statemachine.persist.StateMachinePersister;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Slf4j
 @Component
 public class StateMachineUtil {
+    private Map<String, StateMachine<States, Events>> stateMachineMap = new ConcurrentHashMap<>();
     @Resource
-    private StateMachine<States, Events> stateMachine;
+    private StateMachineFactory<States, Events> stateMachineFactory;
     @Resource
     private StateMachinePersister<States, Events, String> stateMachinePersister;
 
@@ -27,6 +32,7 @@ public class StateMachineUtil {
      */
     @SneakyThrows
     public boolean feedMachine(Events e, long seckillId) {
+        StateMachine<States, Events> stateMachine = stateMachineMap.get(String.valueOf(seckillId));
         stateMachinePersister.restore(stateMachine, "seckillId:" + seckillId);
         StateMachineEventResult<States, Events> eventResult =
                 stateMachine.sendEvent(Mono.just(MessageBuilder.withPayload(e).build())).blockLast();
@@ -49,8 +55,16 @@ public class StateMachineUtil {
      */
     @SneakyThrows
     public boolean checkState(long seckillId, States state) {
+        StateMachine<States, Events> stateMachine = stateMachineMap.get(String.valueOf(seckillId));
         stateMachinePersister.restore(stateMachine, "seckillId:" + seckillId);
         return stateMachine.getState().getId().equals(state);
+    }
+
+    @SneakyThrows
+    public StateMachine<States, Events> intStateMachine(long seckillId) {
+        StateMachine<States, Events> stateMachine = stateMachineFactory.getStateMachine();
+        stateMachinePersister.persist(stateMachine, "seckillId:" + seckillId);
+        return stateMachineMap.putIfAbsent(String.valueOf(seckillId), stateMachine);
     }
 
 }

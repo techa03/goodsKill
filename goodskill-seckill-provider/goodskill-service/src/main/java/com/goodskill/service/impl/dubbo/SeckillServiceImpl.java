@@ -171,6 +171,8 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
 
     @Override
     public void prepareSeckill(Long seckillId, int seckillCount, String taskId) {
+        // 状态机初始化
+        stateMachineUtil.intStateMachine(seckillId);
         // 初始化库存数量
         // 使用状态机控制活动状态
         if (!stateMachineUtil.feedMachine(Events.ACTIVITY_RESET, seckillId)) {

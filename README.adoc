@@ -118,11 +118,11 @@ ns         %     Task name
 
 * JDK: OpenJDK17
 * Sharding-JDBC: 5.3.2
-* SpringCloud: 2022.x.x
-* SpringBoot: 3.x.x
-* SpringCloudAlibaba: 2022.x.x
+* SpringCloud: 2023.x.x
+* SpringBoot: 3.2.x
+* SpringCloudAlibaba: 2023.x.x
 * Apache Dubbo: 3.x
-* Kotlin: 1.7.x
+* Kotlin: 1.9.x
 * 使用的Docker镜像
 +
 |===

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author heng
  */
-@FeignClient("goodskill-seckill")
+@FeignClient(value = "goodskill-seckill", contextId = "goods")
 public interface GoodsEsService {
 
     /**
