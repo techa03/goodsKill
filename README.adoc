@@ -117,7 +117,7 @@ ns         %     Task name
 == 🧰 开发环境版本说明
 
 * JDK: OpenJDK17
-* Sharding-JDBC: 5.3.2
+* Sharding-JDBC: 5.4.1
 * SpringCloud: 2023.x.x
 * SpringBoot: 3.2.x
 * SpringCloudAlibaba: 2023.x.x
