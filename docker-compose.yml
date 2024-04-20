@@ -216,7 +216,7 @@ services:
       - "8091:8091"
       - "7091:7091"
     environment:
-      - SEATA_IP=192.168.2.134
+      - SEATA_IP=192.168.0.103
       - SEATA_PORT=8091
       - STORE_MODE=db
     volumes:

@@ -38,9 +38,10 @@ spring:
   elasticsearch:
     uris: http://elasticsearch:9200
   datasource:
-    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
-    url: jdbc:shardingsphere:classpath:sharding-sphere.yml
-#    url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+#    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:shardingsphere:classpath:sharding-sphere.yml
+    url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
     username: root
     password: Password123
 #  shardingsphere:
