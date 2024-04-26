@@ -29,7 +29,7 @@
         <spring-cloud.version>2023.0.1</spring-cloud.version>
         <spring.cloud.alibaba.version>2023.0.0.0-RC1</spring.cloud.alibaba.version>
         <spring-statemachine.version>4.0.0</spring-statemachine.version>
-        <kotlin.version>1.9.10</kotlin.version>
+        <kotlin.version>1.9.23</kotlin.version>
         <jacoco.version>0.8.8</jacoco.version>
         <maven.surefire.version>2.22.2</maven.surefire.version>
         <net.logstash.version>7.1.1</net.logstash.version>
@@ -80,7 +80,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <jvmTarget>17</jvmTarget>
+                    <jvmTarget>21</jvmTarget>
                 </configuration>
             </plugin>
             <plugin>
@@ -88,8 +88,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <source>21</source>
+                    <target>21</target>
                     <compilerArgs>
                         <arg>-parameters</arg>
                     </compilerArgs>

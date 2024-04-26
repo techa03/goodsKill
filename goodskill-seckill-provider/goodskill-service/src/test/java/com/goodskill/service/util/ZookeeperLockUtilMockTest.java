@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
 public class ZookeeperLockUtilMockTest {
@@ -19,11 +19,7 @@ public class ZookeeperLockUtilMockTest {
 
     @Test
     public void lock() {
-        assertFalse(zookeeperLockUtil.lock(1L));
+        assertNull(zookeeperLockUtil.lock(1L));
     }
 
-    @Test
-    public void releaseLock() {
-        assertFalse(zookeeperLockUtil.releaseLock(1L));
-    }
 }

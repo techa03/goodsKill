@@ -4,6 +4,7 @@ import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
+import com.goodskill.service.mock.strategy.impl.AtomicWithCanalStrategy;
 import com.goodskill.service.util.StateMachineUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

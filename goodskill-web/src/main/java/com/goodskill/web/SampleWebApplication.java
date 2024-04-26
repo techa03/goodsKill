@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients(value = {"com.goodskill.*.api", "com.goodskill.api"})
+@EnableFeignClients(value = {"com.goodskill.**.api", "com.goodskill.api"})
 @EnableAsync
 public class SampleWebApplication {
 

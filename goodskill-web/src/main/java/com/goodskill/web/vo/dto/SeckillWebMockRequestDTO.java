@@ -31,4 +31,7 @@ public class SeckillWebMockRequestDTO {
 
     @Schema(description = "秒杀处理线程池最大线程数", example = "10")
     private Integer maxPoolSize;
+
+    @Schema(description = "是否开启虚拟线程", example = "false")
+    private boolean allowVirtualThread;
 }

@@ -1,9 +1,10 @@
-package com.goodskill.service.mock.strategy;
+package com.goodskill.service.mock.strategy.impl;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.service.inner.SeckillExecutor;
+import com.goodskill.service.mock.strategy.GoodsKillStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

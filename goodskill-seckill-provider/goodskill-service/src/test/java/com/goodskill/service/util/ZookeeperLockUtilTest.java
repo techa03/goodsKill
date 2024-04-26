@@ -2,6 +2,7 @@ package com.goodskill.service.util;
 
 import com.goodskill.service.SeckillApplication;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,25 +31,35 @@ class ZookeeperLockUtilTest {
         CountDownLatch countDownLatch = new CountDownLatch(count);
         for (int i = 0; i < count/2; i++) {
             executorService.execute(() -> {
-                if(zookeeperLockUtil.lock(10000L)) {
+                InterProcessMutex lock = zookeeperLockUtil.lock(10000L);
+                if(lock != null) {
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    zookeeperLockUtil.releaseLock(10000L);
+                    try {
+                        lock.release();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                     log.debug("计数器当前值{}", countDownLatch.getCount());
                     countDownLatch.countDown();
                 }
             });
             executorService.execute(() -> {
-                if(zookeeperLockUtil.lock(10001L)) {
+                InterProcessMutex lock = zookeeperLockUtil.lock(10001L);
+                if(lock != null) {
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    zookeeperLockUtil.releaseLock(10001L);
+                    try {
+                        lock.release();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                     log.debug("计数器当前值{}", countDownLatch.getCount());
                     countDownLatch.countDown();
                 }
