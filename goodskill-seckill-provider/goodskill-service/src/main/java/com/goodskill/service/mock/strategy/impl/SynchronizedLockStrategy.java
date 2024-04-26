@@ -1,4 +1,4 @@
-package com.goodskill.service.mock.strategy;
+package com.goodskill.service.mock.strategy.impl;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.dto.SeckillMockResponseDTO;
@@ -8,6 +8,7 @@ import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
+import com.goodskill.service.mock.strategy.GoodsKillStrategy;
 import com.goodskill.service.util.StateMachineUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

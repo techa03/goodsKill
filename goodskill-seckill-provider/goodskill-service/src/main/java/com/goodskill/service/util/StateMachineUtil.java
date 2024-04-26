@@ -19,7 +19,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 public class StateMachineUtil {
-    private Map<String, StateMachine<States, Events>> stateMachineMap = new ConcurrentHashMap<>();
+    public static final String STATEMACHINE_REDIS_KEY_PREFIX = "seckillId:";
+
+    private final Map<String, StateMachine<States, Events>> stateMachineMap = new ConcurrentHashMap<>();
     @Resource
     private StateMachineFactory<States, Events> stateMachineFactory;
     @Resource
@@ -33,16 +35,12 @@ public class StateMachineUtil {
     @SneakyThrows
     public boolean feedMachine(Events e, long seckillId) {
         StateMachine<States, Events> stateMachine = stateMachineMap.get(String.valueOf(seckillId));
-        stateMachinePersister.restore(stateMachine, "seckillId:" + seckillId);
+        stateMachinePersister.restore(stateMachine, STATEMACHINE_REDIS_KEY_PREFIX + seckillId);
         StateMachineEventResult<States, Events> eventResult =
                 stateMachine.sendEvent(Mono.just(MessageBuilder.withPayload(e).build())).blockLast();
         log.info("eventResult:{}", eventResult);
-        stateMachinePersister.persist(stateMachine, "seckillId:" + seckillId);
-        if (eventResult != null && StateMachineEventResult.ResultType.ACCEPTED.equals(eventResult.getResultType())) {
-            return true;
-        } else {
-            return false;
-        }
+        stateMachinePersister.persist(stateMachine, STATEMACHINE_REDIS_KEY_PREFIX + seckillId);
+        return eventResult != null && StateMachineEventResult.ResultType.ACCEPTED.equals(eventResult.getResultType());
     }
 
 
@@ -56,14 +54,14 @@ public class StateMachineUtil {
     @SneakyThrows
     public boolean checkState(long seckillId, States state) {
         StateMachine<States, Events> stateMachine = stateMachineMap.get(String.valueOf(seckillId));
-        stateMachinePersister.restore(stateMachine, "seckillId:" + seckillId);
+        stateMachinePersister.restore(stateMachine, STATEMACHINE_REDIS_KEY_PREFIX + seckillId);
         return stateMachine.getState().getId().equals(state);
     }
 
     @SneakyThrows
     public StateMachine<States, Events> intStateMachine(long seckillId) {
         StateMachine<States, Events> stateMachine = stateMachineFactory.getStateMachine();
-        stateMachinePersister.persist(stateMachine, "seckillId:" + seckillId);
+        stateMachinePersister.persist(stateMachine, STATEMACHINE_REDIS_KEY_PREFIX + seckillId);
         return stateMachineMap.putIfAbsent(String.valueOf(seckillId), stateMachine);
     }
 

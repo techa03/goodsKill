@@ -12,7 +12,7 @@ image:https://github.com/techa03/goodsKill/actions/workflows/codeql.yml/badge.sv
 
 == 💎 分支介绍
 
-``master``分支基于最新Spring Cloud 2023.x + Spring Boot 3.x + JDK17体系构建，目前仅保留核心的模拟秒杀API接口，如需使用Spring Boot 2.7.x + JDK11版本可以切换到tag https://github.com/techa03/goodsKill/tree/v2.7.4[v2.7.4]（支持登录注册以及简单的后台管理功能）。master分支目前升级改造中，功能不够稳定，如遇代码报错建议使用老版本。
+``master``分支基于最新Spring Cloud 2023.x + Spring Boot 3.x + JDK21体系构建，目前仅保留核心的模拟秒杀API接口，如需使用Spring Boot 2.7.x + JDK11版本可以切换到tag https://github.com/techa03/goodsKill/tree/v2.7.4[v2.7.4]（支持登录注册以及简单的后台管理功能）。master分支目前升级改造中，功能不够稳定，如遇代码报错建议使用老版本。
 
 本项目功能目前比较简陋且有很多不完善的地方，真实的秒杀场景远比本项目中的实现方式复杂，本项目省略了真实场景中的部分技术实现细节，目前仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
 ____
@@ -89,6 +89,7 @@ Spring Boot Admin应用监控地址: `http://www.goodskill.com:19031`, 登录用
 * 场景十：Sentinel限流+数据库原子性更新（需搭配sentinel控制台配置资源名``limit``的流控规则）
 * 场景十一：数据库原子性更新 + Canal数据库binlog日志监听秒杀结果
 
+
 .可在web控台查看秒杀结果，打印信息类似：
 [%collapsible]
 ====
@@ -116,7 +117,7 @@ ns         %     Task name
 
 == 🧰 开发环境版本说明
 
-* JDK: OpenJDK17
+* JDK: OpenJDK21
 * Sharding-JDBC: 5.4.1
 * SpringCloud: 2023.x.x
 * SpringBoot: 3.2.x
@@ -141,7 +142,6 @@ ns         %     Task name
 |===
 
 == 🎯 快速开始
-
 * 项目根目录``goodsKill``中执行
 +
 ----
@@ -190,8 +190,11 @@ docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行�
 
 * main方法运行``SampleWebApplication``类(模拟秒杀web服务)
 
-* 启动完成后发送一个秒杀模拟请求：
+* 发送一个秒杀模拟请求：
 秒杀活动id 1000，商品数量10，执行20次购买操作，使用sychronized同步锁执行，例如：
++
+可直接使用以下命令发送模拟秒杀请求，每个秒杀活动seckillId对应唯一的一个商品id，每次执行接口时会有一个库存初始化动作，接口执行完成后可重复调用
+
 +
 .使用sychronized同步锁执行
 ====
@@ -267,7 +270,7 @@ vm.max_map_count=262144
 
 项目集成的各个框架之间目前的兼容性如何，可以参考本项目的配置在生产环境使用吗？::
 
-本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试，目前仅用于学习。如果要在生产环境使用，建议使用官方推荐的稳定版本。比如目前的Spring Cloud Alibaba Dubbo官方不建议生产上使用，Spring Cloud Alibaba官方推荐的稳定版为2.2.x{empty}footnote:[附 https://start.aliyun.com/bootstrap.html[SpringCloudAlibaba兼容版本说明]]。
+本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试，目前仅用于学习。如果要在生产环境使用，建议使用官方推荐的稳定版本{empty}footnote:[附 https://start.aliyun.com/bootstrap.html[SpringCloudAlibaba兼容版本说明]]。
 
 服务启动控制台报ERROR日志 ``no available service found in cluster 'default', please make sure registry config correct and keep your seata server running`` 如何解决？::
 
@@ -277,7 +280,7 @@ docker-compose无法拉取镜像::
 
 hub.docker被墙，国内可使用阿里云镜像加速器，具体操作见 https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors[阿里云镜像加速器]
 
-使用JDK17启动项目失败::
+使用JDK17以上启动项目失败::
 
 启动时添加以下jvm参数，例如：
 +

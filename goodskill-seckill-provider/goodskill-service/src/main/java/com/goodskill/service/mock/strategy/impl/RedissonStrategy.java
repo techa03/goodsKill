@@ -1,7 +1,8 @@
-package com.goodskill.service.mock.strategy;
+package com.goodskill.service.mock.strategy.impl;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.service.inner.SeckillExecutor;
+import com.goodskill.service.mock.strategy.GoodsKillStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;

@@ -1,4 +1,4 @@
-package com.goodskill.service.mock.strategy;
+package com.goodskill.service.mock.strategy.impl;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.dto.SeckillMockResponseDTO;
@@ -8,6 +8,7 @@ import com.goodskill.common.core.enums.States;
 import com.goodskill.order.vo.SeckillMockSaveVo;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
+import com.goodskill.service.mock.strategy.GoodsKillStrategy;
 import com.goodskill.service.util.StateMachineUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import static com.goodskill.common.core.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
@@ -42,6 +44,17 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
 
     @Override
     public void execute(SeckillMockRequestDTO requestDto) {
+        var executorService = Executors.newVirtualThreadPerTaskExecutor();
+        executorService.execute(() -> {
+            try {
+                doExecute(requestDto);
+            } catch (Exception e) {
+                log.error("秒杀失败", e);
+            }
+        });
+    }
+
+    private void doExecute(SeckillMockRequestDTO requestDto) {
         long seckillId = requestDto.getSeckillId();
         Seckill seckill = redisService.getSeckill(seckillId);
         if (redisTemplate.opsForValue().increment(seckillId) <= seckill.getNumber()) {

@@ -5,6 +5,7 @@ import com.goodskill.common.core.enums.States;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
+import com.goodskill.service.mock.strategy.impl.RedisMongoReactiveStrategy;
 import com.goodskill.service.util.StateMachineUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

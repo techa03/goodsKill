@@ -1,4 +1,6 @@
-package com.goodskill.service.mock.strategy;
+package com.goodskill.service.common.enums;
+
+import com.goodskill.service.mock.strategy.impl.*;
 
 /**
  * 秒杀策略枚举，通过枚举避免暴露具体方法
@@ -17,6 +19,7 @@ public enum GoodsKillStrategyEnum {
     REDIS_MONGO_REACTIVE(8, "秒杀商品存放redis减库存，异步发送秒杀成功MQ", RedisMongoReactiveStrategy.class.getName()),
     SENTINEL_LIMIT(10, "Sentinel限流+数据库原子性更新", SentinelLimitStrategy.class.getName()),
     ATOMIC_CANAL(11, "数据库原子性更新+canal 数据库binlog日志监听秒杀结果", AtomicWithCanalStrategy.class.getName()),
+
     ;
 
 

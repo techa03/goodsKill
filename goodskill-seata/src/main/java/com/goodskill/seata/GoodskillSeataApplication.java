@@ -4,7 +4,6 @@ import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.api.vo.SeckillVO;
-import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,7 +22,7 @@ public class GoodskillSeataApplication {
      * 测试seata分布式事务
      */
     @GetMapping("/test")
-    @GlobalTransactional
+//    @GlobalTransactional
     public void testGlobalTransaction() {
         GoodsVO goods = new GoodsVO();
         goods.setName("test");

@@ -11,8 +11,6 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -27,7 +25,6 @@ public class ZookeeperLockUtil {
     private CuratorFramework client;
     @Value("${zookeeper_ip}")
     private String zookeeperIp;
-    private ThreadLocal<Map<Long, InterProcessMutex>> threadLock = ThreadLocal.withInitial(ConcurrentHashMap::new);
 
     /**
      * 采用curator提供的互斥锁获取锁方法
@@ -36,45 +33,20 @@ public class ZookeeperLockUtil {
      * @param seckillId 秒杀id
      * @return true 加锁成功
      */
-    public boolean lock(long seckillId) {
+    public InterProcessMutex lock(long seckillId) {
         try {
             String rootLockPath = "/goodskill";
-            Map<Long, InterProcessMutex> processMutexMap = threadLock.get();
-            if (processMutexMap.get(seckillId) == null) {
-                processMutexMap.put(seckillId, new InterProcessMutex(client, rootLockPath + "/" + seckillId));
-            }
-            boolean acquire = processMutexMap.get(seckillId).acquire(1000L, TimeUnit.MILLISECONDS);
-            if (log.isDebugEnabled() && acquire) {
-                log.debug("成功获取到zk锁,秒杀id{}", seckillId);
+            InterProcessMutex interProcessMutex = new InterProcessMutex(client, rootLockPath + "/" + seckillId);
+            boolean acquire = interProcessMutex.acquire(1000L, TimeUnit.MILLISECONDS);
+            if (acquire) {
+                log.info("成功获取到zk锁,秒杀id{}", seckillId);
             } else {
-                log.debug("未获取到zk锁,秒杀id{}", seckillId);
+                log.info("未获取到zk锁,秒杀id{}", seckillId);
             }
-            return acquire;
+            return interProcessMutex;
         } catch (Exception e) {
             log.warn("获取zk锁异常:{}", e.getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * 采用curator提供的互斥锁释放方法
-     *
-     * @param seckillId 秒杀id
-     * @return true 释放锁成功
-     */
-    public boolean releaseLock(long seckillId) {
-        try {
-            Map<Long, InterProcessMutex> processMutexMap = threadLock.get();
-            processMutexMap.get(seckillId).release();
-            // 释放内存资源
-            threadLock.remove();
-            if (log.isDebugEnabled()) {
-                log.debug("zk锁已释放，秒杀id{}", seckillId);
-            }
-            return true;
-        } catch (Exception e) {
-            log.warn("释放zk锁异常:{}", e.getMessage());
-            return false;
+            return null;
         }
     }
 

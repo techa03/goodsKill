@@ -1,10 +1,13 @@
-package com.goodskill.service.mock.strategy;
+package com.goodskill.service.mock.strategy.impl;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.service.inner.SeckillExecutor;
+import com.goodskill.service.mock.strategy.GoodsKillStrategy;
 import com.goodskill.service.util.ZookeeperLockUtil;
+import jakarta.annotation.Resource;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.springframework.stereotype.Component;
 
 import static com.goodskill.common.core.enums.SeckillSolutionEnum.ZOOKEEPER_LOCK;
@@ -16,19 +19,21 @@ import static com.goodskill.common.core.enums.SeckillSolutionEnum.ZOOKEEPER_LOCK
 @Component
 @Slf4j
 public class ZookeeperLockStrategy implements GoodsKillStrategy {
-    @Autowired
+    @Resource
     private ZookeeperLockUtil zookeeperLockUtil;
-    @Autowired
+    @Resource
     private SeckillExecutor seckillExecutor;
 
     @Override
+    @SneakyThrows
     public void execute(SeckillMockRequestDTO requestDto) {
         long seckillId = requestDto.getSeckillId();
-        if (zookeeperLockUtil.lock(seckillId)) {
+        InterProcessMutex lock = zookeeperLockUtil.lock(seckillId);
+        if (lock != null) {
             try {
                 seckillExecutor.dealSeckill(seckillId, requestDto.getPhoneNumber(), ZOOKEEPER_LOCK.getName(), requestDto.getTaskId());
             } finally {
-                zookeeperLockUtil.releaseLock(seckillId);
+                lock.release();
             }
         }
     }
