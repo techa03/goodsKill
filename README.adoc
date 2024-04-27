@@ -166,7 +166,6 @@ docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行�
 * 配置host
 [source,text]
 +
-
 ----
  127.0.0.1       kafka
  127.0.0.1       nacos
@@ -268,7 +267,7 @@ vm.max_map_count=262144
 
 项目集成的各个框架之间目前的兼容性如何？::
 
-本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试{empty}footnote:[附 https://start.aliyun.com/bootstrap.html[SpringCloudAlibaba兼容版本说明]]。
+本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试{empty}footnote:[附 https://start.aliyun.com/bootstrap.html[SpringCloudAlibaba]兼容版本说明]]。
 
 服务启动控制台报ERROR日志 ``no available service found in cluster 'default', please make sure registry config correct and keep your seata server running`` 如何解决？::
 
@@ -312,10 +311,6 @@ image:./doc/shortcut/状态机.png[image]
 :note-caption: 📢
 [NOTE]
 其他表均未分库分表，默认使用seckill作为主库
-
-
-
-
 
 === API接口说明
 
