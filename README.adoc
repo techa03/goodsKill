@@ -227,16 +227,17 @@ curl --location --request POST 'http://www.goodskill.com:8080/limit' \
 请求默认异步执行，可在控制台查看执行日志，如果最终成功交易笔数等于商品数量10则表示没有出现超卖或者少卖问题
 
 
-== 🕹️️ 启动完整项目步骤
+== 🕹️️ 启动其他可选项目步骤
 在快速开始部分基础上增加以下步骤即可启动一个完整项目
 
-* 进入``goodskill-gateway``模块，通过``GatewayApplication``类main方法启动服务网关
+* 进入``goodskill-gateway``模块，通过``GatewayApplication``类main方法启动服务网关，统一通过网关访问各个服务
 
-* 找到``AuthApplication``类main方法启动远程服务
-
-____
-额外功能（可选）
-____
+====
+* `http://www.goodskill.com/api/mongo/**` 对应访问``goodskill-mongo-provider``服务
+* `http://www.goodskill.com/api/es/**` 对应访问``goodskill-es-provider``服务
+* `http://www.goodskill.com/api/seata/**` 对应访问``goodskill-seata``服务
+* `http://www.goodskill.com/api/common/**` 对应访问``goodskill-service-provider``服务
+====
 
 * 已集成``Sentinel``限流组件，支持``nacos``配置中心方式推送限流规则，使用时需启动``Sentinel``控制台，并以``18088``端口启动，docker环境暂不支持。
 
@@ -312,11 +313,7 @@ image:./doc/shortcut/状态机.png[image]
 [NOTE]
 其他表均未分库分表，默认使用seckill作为主库
 
-== 🔖服务网关说明
-* `http://www.goodskill.com/api/mongo/**` 对应访问``goodskill-mongo-provider``服务
-* `http://www.goodskill.com/api/es/**` 对应访问``goodskill-es-provider``服务
-* `http://www.goodskill.com/api/seata/**` 对应访问``goodskill-seata``服务
-* `http://www.goodskill.com/api/common/**` 对应访问``goodskill-service-provider``服务
+
 
 
 
