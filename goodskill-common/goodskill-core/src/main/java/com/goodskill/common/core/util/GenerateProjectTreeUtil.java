@@ -3,6 +3,7 @@ package com.goodskill.common.core.util;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 生成项目结构的工具类
@@ -12,8 +13,8 @@ import java.util.List;
  *
  */
 public class GenerateProjectTreeUtil {
-    private static List<String> regExpList = new ArrayList<>();
-    private static List<String> regDirExpList = new ArrayList<>();
+    private static final List<String> regExpList = new ArrayList<>();
+    private static final List<String> regDirExpList = new ArrayList<>();
 
     public static void main(String[] args) {
         File file = new File("项目根目录");
@@ -52,11 +53,10 @@ public class GenerateProjectTreeUtil {
                     if (i == regDirExpList.size() - 1) {
                         printByDeepth(deepth);
                         System.out.println(name);
-                        for (File f : file.listFiles()) {
+                        for (File f : Objects.requireNonNull(file.listFiles())) {
                             print(f, f.isDirectory(), deepth + 1);
                         }
                     }
-                    continue;
                 }
             }
         } else {
@@ -68,7 +68,6 @@ public class GenerateProjectTreeUtil {
                         printByDeepth(deepth);
                         System.out.println(name);
                     }
-                    continue;
                 }
             }
         }

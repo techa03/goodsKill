@@ -12,8 +12,8 @@ public enum UserAccountEnum {
 	 *
 	 */
 	LOGIN_SUCCESS(1, "登录成功"), LOGIN_FAIL(0, "登录失败");
-	private int state;
-	private String stateInfo;
+	private final int state;
+	private final String stateInfo;
 
 	UserAccountEnum(int state, String stateInfo) {
 		this.state = state;

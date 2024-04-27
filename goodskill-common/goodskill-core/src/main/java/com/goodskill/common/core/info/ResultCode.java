@@ -1,11 +1,16 @@
 package com.goodskill.common.core.info;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 系统响应码
  *
  * @since 2020-08-02
  */
+@AllArgsConstructor
+@Getter
 public enum ResultCode {
     /**
      *
@@ -39,13 +44,8 @@ public enum ResultCode {
     C606(606, "1.0");
 
 
-    int code;
-    String desc;
-
-    ResultCode(int code, String desc) {
-        this.code = code;
-        this.desc = desc;
-    }
+    final int code;
+    final String desc;
 
     public static ResultCode format(String name) {
         for (ResultCode value : ResultCode.values()) {
@@ -55,23 +55,6 @@ public enum ResultCode {
         }
         return null;
 
-    }
-
-    public static ResultCode formatName(int valKey) {
-        for (ResultCode value : ResultCode.values()) {
-            if (valKey == value.getCode()) {
-                return value;
-            }
-        }
-        return null;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getDesc() {
-        return desc;
     }
 
 }

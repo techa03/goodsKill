@@ -2,6 +2,7 @@ package com.goodskill.api.dto;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.Date;
  */
 @Data
 public class SeckillInfoDTO implements Serializable{
+    @Serial
     private static final long serialVersionUID = 1L;
     private Long seckillId;
     private String name;
@@ -21,9 +23,5 @@ public class SeckillInfoDTO implements Serializable{
     private Integer goodsId;
     private BigDecimal price;
     private String goodsName;
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
 }

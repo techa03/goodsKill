@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.Objects;
 
 @Component
 @Slf4j
@@ -29,7 +30,7 @@ public class UploadFileUtil {
                 .bucket(bucketName).object(file.getOriginalFilename())
                 .stream(file.getInputStream(), file.getSize(), 5 * 1024 * 1024).build());
         log.info(String.valueOf(objectWriteResponse));
-        return endpoint + "/" + bucketName + "/" + URLEncoder.encode(file.getOriginalFilename(), Charset.defaultCharset());
+        return endpoint + "/" + bucketName + "/" + URLEncoder.encode(Objects.requireNonNull(file.getOriginalFilename()), Charset.defaultCharset());
     }
 
     private UploadFileUtil() {

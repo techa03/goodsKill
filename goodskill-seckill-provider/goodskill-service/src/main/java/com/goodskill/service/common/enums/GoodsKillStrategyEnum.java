@@ -1,12 +1,16 @@
 package com.goodskill.service.common.enums;
 
 import com.goodskill.service.mock.strategy.impl.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * 秒杀策略枚举，通过枚举避免暴露具体方法
  *
  * @author heng
  */
+@Getter
+@AllArgsConstructor
 public enum GoodsKillStrategyEnum {
 
     /**
@@ -23,29 +27,11 @@ public enum GoodsKillStrategyEnum {
     ;
 
 
-    private int code;
+    private final int code;
 
-    private String strategyName;
+    private final String strategyName;
 
-    private String className;
-
-    public String getStrategyName() {
-        return strategyName;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    GoodsKillStrategyEnum(int code, String strategyName, String className) {
-        this.code = code;
-        this.strategyName = strategyName;
-        this.className = className;
-    }
+    private final String className;
 
     public static GoodsKillStrategyEnum stateOf(int code) {
         for (GoodsKillStrategyEnum state : values()) {

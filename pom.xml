@@ -18,7 +18,7 @@
         <module>goodskill-seata</module>
         <module>goodskill-auth</module>
         <module>goodskill-admin</module>
-        <module>goodskill-canal</module>
+<!--        <module>goodskill-canal</module>-->
     </modules>
 
     <properties>
@@ -34,16 +34,17 @@
         <maven.surefire.version>2.22.2</maven.surefire.version>
         <net.logstash.version>7.1.1</net.logstash.version>
         <dubbo.version>3.2.11</dubbo.version>
-        <hutool.version>5.8.20</hutool.version>
+        <hutool.version>5.8.25</hutool.version>
         <mybatis-plus.version>3.5.6</mybatis-plus.version>
         <fastjson2.version>2.0.24</fastjson2.version>
         <minio.version>8.4.2</minio.version>
         <shardingsphere.version>5.3.2</shardingsphere.version>
         <alipay.version>2.2.2</alipay.version>
         <redisson.version>3.26.0</redisson.version>
-        <knife4j.version>4.1.0</knife4j.version>
+        <knife4j.version>4.5.0</knife4j.version>
         <springdoc.version>2.1.0</springdoc.version>
         <satoken.version>1.35.0.RC</satoken.version>
+        <spring-boot-admin.version>3.2.3</spring-boot-admin.version>
     </properties>
 
     <build>
@@ -301,7 +302,7 @@
             </dependency>
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
             </dependency>
             <dependency>
@@ -329,6 +330,11 @@
                 <groupId>cn.dev33</groupId>
                 <artifactId>sa-token-redis-jackson</artifactId>
                 <version>${satoken.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring-boot-admin.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -2,12 +2,13 @@ package com.goodskill.common.core.pojo.bo;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
 public class UserBO implements Serializable {
-
+    @Serial
     private static final long serialVersionUID = 6359738517769849900L;
 
     private Integer id;

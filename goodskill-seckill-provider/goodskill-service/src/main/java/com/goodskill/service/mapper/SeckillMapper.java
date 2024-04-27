@@ -2,7 +2,6 @@ package com.goodskill.service.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.goodskill.service.entity.Seckill;
-import com.goodskill.service.entity.SuccessKilled;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -35,11 +34,4 @@ public interface SeckillMapper extends BaseMapper<Seckill> {
      */
     int reduceNumberOptimized(@Param("seckillId") long seckillId, @Param("killTime") Date killTime, @Param("number") int number);
 
-    /**
-     * 调用存储过程
-     *
-     * @return
-     */
-    @Deprecated
-    void reduceNumberByProcedure(SuccessKilled successKilled);
 }

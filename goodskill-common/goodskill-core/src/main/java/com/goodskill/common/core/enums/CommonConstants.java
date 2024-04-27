@@ -21,8 +21,8 @@ public class CommonConstants {
          */
         NORMAL(0, "正常"),  LOCKED(1, "已冻结"),  INVALID(3, "已注销");
 
-        private int code;
-        private String desc;
+        private final int code;
+        private final String desc;
 
     }
 

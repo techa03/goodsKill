@@ -42,7 +42,6 @@ ____
 |Kotlin |Kotlin |https://kotlinlang.org/
 |Seata |分布式事务解决方案 |http://seata.io/zh-cn/index.html
 |Spring Security OAuth2.0 |OAuth2.0授权组件 |https://spring.io/projects/spring-security-oauth
-|Canal |基于MySQL数据库的增量日志解析工具 |https://github.com/alibaba/canal
 |GraphQL |一种用于 API 的查询语言 |https://docs.spring.io/spring-graphql/docs/current/reference/html
 |Spring Statemachine |Spring 状态机 |https://spring.io/projects/spring-statemachine
 |===
@@ -52,7 +51,6 @@ ____
 ----
 goodsKill
 |--goodskill-admin                          ||SpringBoot Admin监控服务端，支持Spring Cloud微服务发现
-|--goodskill-canal                          ||用于完成MySQL数据库binlog收集的canal客户端程序
 |--goodskill-gateway                        ||微服务网关，支持动态路由加载
 |--goodskill-order-provider                 ||订单服务提供者
 |   |--goodskill-order-service
@@ -87,7 +85,6 @@ Spring Boot Admin应用监控地址: `http://www.goodskill.com:19031`, 登录用
 * 场景八：使用Redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用MongoDB完成数据落地
 * 场景九：Spring Cloud Stream实现
 * 场景十：Sentinel限流+数据库原子性更新（需搭配sentinel控制台配置资源名``limit``的流控规则）
-* 场景十一：数据库原子性更新 + Canal数据库binlog日志监听秒杀结果
 
 
 .可在web控台查看秒杀结果，打印信息类似：

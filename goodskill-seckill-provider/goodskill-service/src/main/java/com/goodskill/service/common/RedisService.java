@@ -28,7 +28,7 @@ public class RedisService {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    private RuntimeSchema<Seckill> schema = RuntimeSchema.createFrom(Seckill.class);
+    private final RuntimeSchema<Seckill> schema = RuntimeSchema.createFrom(Seckill.class);
 
     public Seckill getSeckill(long seckillId) {
         String key = "seckill:" + seckillId;

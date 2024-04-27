@@ -16,8 +16,7 @@ public class UserAccountUtil {
      * @return 用户授权通用信息
      */
     public static String generateUsername(String username, String extraInfo) {
-        StringBuilder sb = new StringBuilder(username).append("-").append(extraInfo);
-        return sb.toString();
+        return username + "-" + extraInfo;
     }
 
     private UserAccountUtil() {

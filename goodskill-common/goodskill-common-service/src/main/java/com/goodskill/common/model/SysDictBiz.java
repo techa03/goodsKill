@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serial;
 
 /**
  * <p>
@@ -18,7 +19,7 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_dict_biz")
 public class SysDictBiz extends SysDict {
-
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "所属系统")

@@ -8,6 +8,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.annotations.Setting;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,7 +19,7 @@ import java.util.Date;
 @Setting(shards = 2, replicas = 2)
 @Data
 public class Goods implements Serializable {
-
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id

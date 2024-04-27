@@ -31,7 +31,6 @@ public enum States {
      * 活动已中断
      */
     INTERRUPTTED,
-    ;
 
 
 }

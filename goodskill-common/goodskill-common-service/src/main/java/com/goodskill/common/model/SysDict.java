@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serial;
+
 /**
  * <p>
  * 系统字典表
@@ -18,7 +20,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @TableName("sys_dict")
 public class SysDict extends BaseColEntity {
-
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.ASSIGN_UUID)

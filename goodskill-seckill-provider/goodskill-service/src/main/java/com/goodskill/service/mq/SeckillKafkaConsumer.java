@@ -24,8 +24,7 @@ public class SeckillKafkaConsumer {
 
     @KafkaListener(topics = "goodskill-kafka")
     public void onMessage(Object data) {
-        if (data instanceof ConsumerRecord) {
-            ConsumerRecord record = (ConsumerRecord) data;
+        if (data instanceof ConsumerRecord record) {
             String userPhone = record.key().toString();
             String value = (String) record.value();
             SeckillMockRequestDTO seckillMockRequestDTO;
