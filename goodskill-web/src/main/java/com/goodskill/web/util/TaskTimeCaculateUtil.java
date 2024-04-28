@@ -23,7 +23,7 @@ public class TaskTimeCaculateUtil {
     /**
      * 任务计时器映射, taskId:stopWatch
      */
-    private static Map<String, StopWatch> taskWatchMap = new ConcurrentHashMap<>();
+    private static final Map<String, StopWatch> taskWatchMap = new ConcurrentHashMap<>();
 
 
     /**

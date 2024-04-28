@@ -107,14 +107,14 @@ public class StateMachineConfig
     @Bean
     public StateMachinePersist<States, Events, String> stateMachinePersist(RedisConnectionFactory connectionFactory) {
         RedisStateMachineContextRepository<States, Events> repository =
-                new RedisStateMachineContextRepository<States, Events>(connectionFactory);
-        return new RepositoryStateMachinePersist<States, Events>(repository);
+                new RedisStateMachineContextRepository<>(connectionFactory);
+        return new RepositoryStateMachinePersist<>(repository);
     }
 
     @Bean
     public RedisStateMachinePersister<States, Events> redisStateMachinePersister(
             StateMachinePersist<States, Events, String> stateMachinePersist) {
-        return new RedisStateMachinePersister<States, Events>(stateMachinePersist);
+        return new RedisStateMachinePersister<>(stateMachinePersist);
     }
 }
 

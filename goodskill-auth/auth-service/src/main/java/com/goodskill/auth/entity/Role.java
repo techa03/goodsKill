@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -24,6 +25,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class Role extends BaseColEntity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID=1L;
 
     @TableId(value = "role_id", type = IdType.AUTO)

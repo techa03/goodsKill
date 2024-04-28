@@ -14,13 +14,11 @@
     <packaging>jar</packaging>
     <properties>
         <java.version>21</java.version>
-        <spring-boot-admin.version>3.0.4</spring-boot-admin.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-server</artifactId>
-            <version>${spring-boot-admin.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

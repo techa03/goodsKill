@@ -21,6 +21,5 @@ public enum ActivityEvent {
     ACTIVITY_INTERRUPT,
     // 重置
     ACTIVITY_RESET,
-    ;
 
 }

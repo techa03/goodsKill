@@ -42,7 +42,6 @@ ____
 |Kotlin |Kotlin |https://kotlinlang.org/
 |Seata |分布式事务解决方案 |http://seata.io/zh-cn/index.html
 |Spring Security OAuth2.0 |OAuth2.0授权组件 |https://spring.io/projects/spring-security-oauth
-|Canal |基于MySQL数据库的增量日志解析工具 |https://github.com/alibaba/canal
 |GraphQL |一种用于 API 的查询语言 |https://docs.spring.io/spring-graphql/docs/current/reference/html
 |Spring Statemachine |Spring 状态机 |https://spring.io/projects/spring-statemachine
 |===
@@ -52,7 +51,6 @@ ____
 ----
 goodsKill
 |--goodskill-admin                          ||SpringBoot Admin监控服务端，支持Spring Cloud微服务发现
-|--goodskill-canal                          ||用于完成MySQL数据库binlog收集的canal客户端程序
 |--goodskill-gateway                        ||微服务网关，支持动态路由加载
 |--goodskill-order-provider                 ||订单服务提供者
 |   |--goodskill-order-service
@@ -87,7 +85,6 @@ Spring Boot Admin应用监控地址: `http://www.goodskill.com:19031`, 登录用
 * 场景八：使用Redis进行秒杀商品减库存操作，秒杀结束后异步发送MQ，使用MongoDB完成数据落地
 * 场景九：Spring Cloud Stream实现
 * 场景十：Sentinel限流+数据库原子性更新（需搭配sentinel控制台配置资源名``limit``的流控规则）
-* 场景十一：数据库原子性更新 + Canal数据库binlog日志监听秒杀结果
 
 
 .可在web控台查看秒杀结果，打印信息类似：
@@ -169,7 +166,6 @@ docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行�
 * 配置host
 [source,text]
 +
-
 ----
  127.0.0.1       kafka
  127.0.0.1       nacos
@@ -230,16 +226,17 @@ curl --location --request POST 'http://www.goodskill.com:8080/limit' \
 请求默认异步执行，可在控制台查看执行日志，如果最终成功交易笔数等于商品数量10则表示没有出现超卖或者少卖问题
 
 
-== 🕹️️ 启动完整项目步骤
+== 🕹️️ 启动其他可选项目步骤
 在快速开始部分基础上增加以下步骤即可启动一个完整项目
 
-* 进入``goodskill-gateway``模块，通过``GatewayApplication``类main方法启动服务网关
+* 进入``goodskill-gateway``模块，通过``GatewayApplication``类main方法启动服务网关，统一通过网关访问各个服务
 
-* 找到``AuthApplication``类main方法启动远程服务
++
+- `http://www.goodskill.com/api/mongo/**` 对应访问``goodskill-mongo-provider``服务
+- `http://www.goodskill.com/api/es/**` 对应访问``goodskill-es-provider``服务
+- `http://www.goodskill.com/api/seata/**` 对应访问``goodskill-seata``服务
+- `http://www.goodskill.com/api/common/**` 对应访问``goodskill-service-provider``服务
 
-____
-额外功能（可选）
-____
 
 * 已集成``Sentinel``限流组件，支持``nacos``配置中心方式推送限流规则，使用时需启动``Sentinel``控制台，并以``18088``端口启动，docker环境暂不支持。
 
@@ -268,9 +265,9 @@ vm.max_map_count=262144
 
 待完善。。
 
-项目集成的各个框架之间目前的兼容性如何，可以参考本项目的配置在生产环境使用吗？::
+项目集成的各个框架之间目前的兼容性如何？::
 
-本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试，目前仅用于学习。如果要在生产环境使用，建议使用官方推荐的稳定版本{empty}footnote:[附 https://start.aliyun.com/bootstrap.html[SpringCloudAlibaba兼容版本说明]]。
+本项目目前依赖的各个主流框架的版本比较新，尚未经过完整测试{empty}footnote:[附 https://start.aliyun.com/bootstrap.html[SpringCloudAlibaba]兼容版本说明]]。
 
 服务启动控制台报ERROR日志 ``no available service found in cluster 'default', please make sure registry config correct and keep your seata server running`` 如何解决？::
 
@@ -314,14 +311,6 @@ image:./doc/shortcut/状态机.png[image]
 :note-caption: 📢
 [NOTE]
 其他表均未分库分表，默认使用seckill作为主库
-
-== 🔖服务网关说明
-* `http://www.goodskill.com/api/mongo/**` 对应访问``goodskill-mongo-provider``服务
-* `http://www.goodskill.com/api/es/**` 对应访问``goodskill-es-provider``服务
-* `http://www.goodskill.com/api/seata/**` 对应访问``goodskill-seata``服务
-* `http://www.goodskill.com/api/common/**` 对应访问``goodskill-service-provider``服务
-
-
 
 === API接口说明
 

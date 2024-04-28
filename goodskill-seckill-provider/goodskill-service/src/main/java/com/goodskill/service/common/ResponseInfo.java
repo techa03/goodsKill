@@ -1,10 +1,15 @@
 package com.goodskill.service.common;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 服务器响应码定义
  *
  * @author heng
  */
+@AllArgsConstructor
+@Getter
 public enum ResponseInfo {
     /**
      *
@@ -16,24 +21,4 @@ public enum ResponseInfo {
     private String code;
     private String message;
 
-    ResponseInfo(String code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }

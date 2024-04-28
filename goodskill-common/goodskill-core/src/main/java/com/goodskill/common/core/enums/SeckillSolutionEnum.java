@@ -26,8 +26,8 @@ public enum SeckillSolutionEnum {
     ATOMIC_CANAL(11, "秒杀场景十一(数据库原子性更新+canal 数据库binlog日志监听秒杀结果)"),
     ;
 
-    private int code;
-    private String name;
+    private final int code;
+    private final String name;
 
     SeckillSolutionEnum(int code, String name) {
         this.code = code;

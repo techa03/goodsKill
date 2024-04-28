@@ -32,8 +32,7 @@ import java.util.stream.Collectors;
 @RestController
 @Service
 public class GoodsEsServiceImpl implements GoodsEsService {
-    private BeanCopier beanCopier = BeanCopier.create(GoodsDTO.class, Goods.class, false);
-    private BeanCopier beanCopierReverse = BeanCopier.create(Goods.class, GoodsDTO.class, false);
+    private final BeanCopier beanCopier = BeanCopier.create(GoodsDTO.class, Goods.class, false);
     @Autowired
     private ElasticsearchOperations elasticsearchOperations;
     @Autowired
@@ -78,7 +77,7 @@ public class GoodsEsServiceImpl implements GoodsEsService {
                 .getSearchHits().stream().map(s -> {
                     Goods goods = s.getContent();
                     GoodsDTO goodsDto = new GoodsDTO();
-                    goodsDto.setName(s.getHighlightField("name").get(0));
+                    goodsDto.setName(s.getHighlightField("name").getFirst());
                     goodsDto.setRawName(goods.getName());
                     return goodsDto;
                 }).collect(Collectors.toList());

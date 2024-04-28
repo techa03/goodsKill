@@ -14,7 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -55,7 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         List<User> users = baseMapper.selectList(new QueryWrapper(entity));
         Set<Role> roles = new HashSet<>();
         if (CollectionUtils.hasUniqueObject(users)) {
-            User user = users.get(0);
+            User user = users.getFirst();
 
             UserRole role = new UserRole();
             role.setUserId(user.getId());
@@ -72,8 +75,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Permission permission;
         Set<Role> roles = findRoles(account);
         Set<Permission> permissions = new HashSet<>();
-        for (Iterator<Role> iterator = roles.iterator(); iterator.hasNext(); ) {
-            Role role = iterator.next();
+        for (Role role : roles) {
             RolePermission rolePermission1 = new RolePermission();
             rolePermission1.setRoleId(role.getRoleId());
             List<RolePermission> rolePermissions = rolePermissionMapper.selectList(new QueryWrapper<>(rolePermission1));
@@ -91,7 +93,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setAccount(userAccount);
         List<User> userList = baseMapper.selectList(new LambdaQueryWrapper<>(user));
         if (CollectionUtils.hasUniqueObject(userList)) {
-            return userList.get(0);
+            return userList.getFirst();
         } else {
             return null;
         }

@@ -21,15 +21,4 @@
         AND end_time <![CDATA[ >= ]]> #{killTime,jdbcType=TIMESTAMP}
         AND number <![CDATA[ > ]]> 0 AND number=#{number,jdbcType=INTEGER}
     </update>
-    <select id="reduceNumberByProcedure" statementType="CALLABLE" parameterType="com.goodskill.service.entity.SuccessKilled">
-        <![CDATA[
-            {CALL execute_seckill(
-                #{seckillId,jdbcType=BIGINT,mode=IN},
-                #{userPhone,jdbcType=BIGINT,mode=IN},
-                #{createTime,jdbcType=TIMESTAMP,mode=IN},
-                #{serverIp,jdbcType=VARCHAR,mode=IN},
-                #{status,jdbcType=INTEGER,mode=OUT}
-            )}
-        ]]>
-    </select>
 </mapper>

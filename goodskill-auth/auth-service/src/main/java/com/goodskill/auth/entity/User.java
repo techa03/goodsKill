@@ -6,6 +6,7 @@ import com.goodskill.common.core.entity.BaseColEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -21,6 +22,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 public class User extends BaseColEntity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID=1L;
 
     @TableId(value = "id", type = IdType.AUTO)

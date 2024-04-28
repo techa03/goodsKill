@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,6 +17,7 @@ import java.util.Date;
  */
 @Data
 public class BaseColEntity implements Serializable {
+    @Serial
     private static final long serialVersionUID = 5844391225728004746L;
 
     @ApiModelProperty(value = "创建人")

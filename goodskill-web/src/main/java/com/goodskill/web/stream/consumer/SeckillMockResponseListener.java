@@ -38,7 +38,7 @@ public class SeckillMockResponseListener {
                     try {
                         Thread.sleep(1500L);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        log.warn(e.getMessage(), e);
                     }
                     temp = seckillService.getSuccessKillCount(seckillId);
                 }

@@ -1,13 +1,17 @@
 package com.goodskill.common.core.info;
 
+import lombok.Data;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * @author techa03
  * @date 2020-08-02
  */
+@Data
 public class ApiResult<T> implements Serializable {
-
+    @Serial
     private static final long serialVersionUID = -4696898674758059398L;
 
     /**
@@ -53,11 +57,11 @@ public class ApiResult<T> implements Serializable {
     }
 
     public static <T> ApiResult<T> ok(T value, String message) {
-        return new ApiResult(ResultCode.C200.getCode(), message, true, (Object) null, ResultCode.C606.getDesc());
+        return new ApiResult(ResultCode.C200.getCode(), message, true, null, ResultCode.C606.getDesc());
     }
 
     public static <T> ApiResult<T> ok() {
-        return new ApiResult(ResultCode.C200.getCode(), ResultCode.C200.getDesc(), true, (Object) null, ResultCode.C606.getDesc());
+        return new ApiResult(ResultCode.C200.getCode(), ResultCode.C200.getDesc(), true, null, ResultCode.C606.getDesc());
     }
 
     public static <T> ApiResult<T> ok(T value) {
@@ -65,11 +69,11 @@ public class ApiResult<T> implements Serializable {
     }
 
     public static <T> ApiResult<T> error(ResultCode errorCode) {
-        return new ApiResult(errorCode.getCode(), errorCode.getDesc(), false, (Object) null, ResultCode.C606.getDesc());
+        return new ApiResult(errorCode.getCode(), errorCode.getDesc(), false, null, ResultCode.C606.getDesc());
     }
 
     public static <T> ApiResult<T> error(int code, String message) {
-        return new ApiResult(code, message, false, (Object) null, ResultCode.C606.getDesc());
+        return new ApiResult(code, message, false, null, ResultCode.C606.getDesc());
     }
 
     public static <T> ApiResult<T> error(int code, String message, Object result) {
@@ -104,30 +108,6 @@ public class ApiResult<T> implements Serializable {
         }
     }
 
-    public int getCode() {
-        return this.code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
 
     public void setFormatMessage(String message, Object... args) {
         if (args != null && args.length != 0) {
@@ -138,19 +118,4 @@ public class ApiResult<T> implements Serializable {
 
     }
 
-    public boolean isSuccess() {
-        return isSuccess;
-    }
-
-    public void setSuccess(boolean success) {
-        isSuccess = success;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
 }

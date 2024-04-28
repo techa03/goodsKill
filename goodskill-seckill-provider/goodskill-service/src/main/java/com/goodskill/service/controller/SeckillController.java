@@ -74,7 +74,7 @@ public class SeckillController {
         if (seckillId == null) {
             return "redirect:/seckill/list";
         }
-        SeckillVO seckillInfo = null;
+        SeckillVO seckillInfo;
         seckillInfo = seckillService.findById(seckillId);
         if (seckillInfo == null) {
             return "forward:/seckill/list";

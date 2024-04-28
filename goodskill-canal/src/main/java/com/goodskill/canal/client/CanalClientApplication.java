@@ -42,7 +42,7 @@ public class CanalClientApplication implements CommandLineRunner {
             }
             log.debug("开始拉取秒杀结果通知。。");
             if (!CollectionUtils.isEmpty(CANAL_RESPONSE_LIST)) {
-                SeckillMockCanalResponseDTO seckillMockCanalResponseDTO = CANAL_RESPONSE_LIST.get(0);
+                SeckillMockCanalResponseDTO seckillMockCanalResponseDTO = CANAL_RESPONSE_LIST.getFirst();
                 if (seckillMockCanalResponseDTO != null) {
                     CANAL_RESPONSE_LIST.remove(seckillMockCanalResponseDTO);
                 }

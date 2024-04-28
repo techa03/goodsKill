@@ -1,5 +1,7 @@
 package com.goodskill.common.core.exception;
 
+import java.io.Serial;
+
 /**
  *
  * @author heng
@@ -7,9 +9,7 @@ package com.goodskill.common.core.exception;
  */
 public class RepeatKillException extends SeckillException {
 
-	/**
-	 *
-	 */
+	@Serial
 	private static final long serialVersionUID = -7588706798824576584L;
 
 	public RepeatKillException(String message) {

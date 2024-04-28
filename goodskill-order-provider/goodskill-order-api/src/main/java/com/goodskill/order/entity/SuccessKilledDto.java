@@ -2,6 +2,7 @@ package com.goodskill.order.entity;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Date;
  */
 @Data
 public class SuccessKilledDto implements Serializable {
+    @Serial
     private static final long serialVersionUID=1L;
 
     private BigInteger seckillId;
