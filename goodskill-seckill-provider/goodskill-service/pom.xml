@@ -164,7 +164,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shardingsphere</groupId>
-			<artifactId>shardingsphere-jdbc-core</artifactId>
+			<artifactId>shardingsphere-jdbc</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.shardingsphere</groupId>
+					<artifactId>shardingsphere-test-util</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 <!--		flyway-->
 		<dependency>

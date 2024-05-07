@@ -115,7 +115,7 @@ ns         %     Task name
 == 🧰 开发环境版本说明
 
 * JDK: OpenJDK21
-* Sharding-JDBC: 5.4.1
+* Sharding-JDBC: 5.5.0
 * SpringCloud: 2023.x.x
 * SpringBoot: 3.2.x
 * SpringCloudAlibaba: 2023.x.x
@@ -243,10 +243,6 @@ curl --location --request POST 'http://www.goodskill.com:8080/limit' \
 * Seata分布式事务测试方法见 https://github.com/techa03/goodsKill/tree/master/goodskill-seata/README.md[Seata分布式事务测试示例运行说明]
 
 * main方法运行``GoodskillAdminApplication``类(微服务健康状态指标监控)
-
-== ✔️ 目前已知问题
-[qanda]
-- ShardingSphere分库分表``v5.4.1``版本功能启用后无法正常启动项目，目前已禁用分库分表功能，待后续升级
 
 == ❓常见问题
 [qanda]

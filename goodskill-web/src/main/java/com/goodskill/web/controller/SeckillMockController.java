@@ -265,7 +265,7 @@ public class SeckillMockController {
         // 初始化库存数量
         prepareSeckill(seckillId, seckillCount, seckillSolutionEnum.getName(), taskId);
         changeThreadPoolParam(dto);
-        log.info(seckillSolutionEnum.getName() + "开始时间:{}, 秒杀id:{}, 任务Id:{}", new Date(), seckillId, taskId);
+        log.info("{}开始时间:{}, 秒杀id:{}, 任务Id:{}", seckillSolutionEnum.getName(), new Date(), seckillId, taskId);
         if (runnable == null) {
             // 默认的执行方法
             runnable = () -> {
