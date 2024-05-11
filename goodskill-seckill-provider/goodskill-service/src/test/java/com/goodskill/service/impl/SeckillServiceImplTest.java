@@ -8,16 +8,16 @@ import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.api.vo.SeckillVO;
-import com.goodskill.common.core.enums.Events;
 import com.goodskill.order.api.SuccessKilledMongoService;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
+import com.goodskill.service.handler.PreRequestPipeline;
 import com.goodskill.service.impl.dubbo.SeckillServiceImpl;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
 import com.goodskill.service.mock.strategy.GoodsKillStrategy;
-import com.goodskill.service.util.StateMachineUtil;
+import com.goodskill.service.util.StateMachineService;
 import org.apache.curator.shaded.com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -70,7 +70,9 @@ public class SeckillServiceImplTest {
     @Mock
     private GoodsService goodsService;
     @Mock
-    private StateMachineUtil stateMachineUtil;
+    private StateMachineService stateMachineService;
+    @Mock
+    private PreRequestPipeline preRequestPipeline;
 
     @Test
     public void getSeckillList() {
@@ -111,11 +113,8 @@ public class SeckillServiceImplTest {
     public void prepareSeckill() {
         long seckillId = 1L;
         Seckill t = new Seckill();
-        when(redisService.getSeckill(seckillId)).thenReturn(t);
-        when(redisTemplate.delete(seckillId)).thenReturn(true);
-        when(stateMachineUtil.feedMachine(Events.ACTIVITY_RESET, seckillId)).thenReturn(true);
         seckillService.prepareSeckill(seckillId, 10, "1");
-        verify(successKilledMongoService, times(1)).deleteRecord(seckillId);
+        verify(successKilledMongoService, times(0)).deleteRecord(seckillId);
     }
 
     @Test

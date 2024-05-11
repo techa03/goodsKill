@@ -6,7 +6,7 @@ import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
 import com.goodskill.service.mock.strategy.impl.SynchronizedLockStrategy;
-import com.goodskill.service.util.StateMachineUtil;
+import com.goodskill.service.util.StateMachineService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,7 +36,7 @@ public class SynchronizedLockStrategyTest {
     @Mock
     private StreamBridge streamBridge;
     @Mock
-    private StateMachineUtil stateMachineUtil;
+    private StateMachineService stateMachineService;
 
     @Test
     public void execute() {
@@ -49,7 +49,7 @@ public class SynchronizedLockStrategyTest {
         Seckill seckill = new Seckill();
         seckill.setNumber(0);
         when(seckillMapper.selectById(seckillId)).thenReturn(seckill);
-        when(stateMachineUtil.checkState(seckillId, States.IN_PROGRESS)).thenReturn(true);
+        when(stateMachineService.checkState(seckillId, States.IN_PROGRESS)).thenReturn(true);
         synchronizedLockStrategy.execute(requestDto);
 
         Seckill sendTopicResult = new Seckill();

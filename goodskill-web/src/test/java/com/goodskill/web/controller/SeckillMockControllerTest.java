@@ -3,7 +3,7 @@ package com.goodskill.web.controller;
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.common.core.info.R;
-import com.goodskill.web.vo.dto.SeckillWebMockRequestDTO;
+import com.goodskill.common.core.pojo.dto.SeckillWebMockRequestDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;

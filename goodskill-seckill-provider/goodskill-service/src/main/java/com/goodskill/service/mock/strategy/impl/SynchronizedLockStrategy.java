@@ -9,7 +9,7 @@ import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
 import com.goodskill.service.mock.strategy.GoodsKillStrategy;
-import com.goodskill.service.util.StateMachineUtil;
+import com.goodskill.service.util.StateMachineService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
     @Autowired
     private StreamBridge streamBridge;
     @Resource
-    private StateMachineUtil stateMachineUtil;
+    private StateMachineService stateMachineService;
 
     private final ConcurrentHashMap<Long, Object> seckillIdList = new ConcurrentHashMap<>();
 
@@ -62,8 +62,8 @@ public class SynchronizedLockStrategy implements GoodsKillStrategy {
                 record.setCreateTime(new Date());
                 successKilledMapper.insert(record);
             } else {
-                if (stateMachineUtil.checkState(seckillId, States.IN_PROGRESS)) {
-                    stateMachineUtil.feedMachine(Events.ACTIVITY_CALCULATE, seckillId);
+                if (stateMachineService.checkState(seckillId, States.IN_PROGRESS)) {
+                    stateMachineService.feedMachine(Events.ACTIVITY_CALCULATE, seckillId);
                     streamBridge.send(DEFAULT_BINDING_NAME, MessageBuilder.withPayload(
                                     SeckillMockResponseDTO
                                             .builder()

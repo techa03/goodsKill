@@ -11,19 +11,20 @@ import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.api.vo.SeckillVO;
-import com.goodskill.common.core.constant.SeckillStatusConstant;
 import com.goodskill.common.core.enums.Events;
 import com.goodskill.common.core.exception.SeckillCloseException;
+import com.goodskill.common.core.pojo.dto.SeckillWebMockRequestDTO;
 import com.goodskill.common.core.util.MD5Util;
 import com.goodskill.order.api.SuccessKilledMongoService;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.common.enums.GoodsKillStrategyEnum;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
+import com.goodskill.service.handler.PreRequestPipeline;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
 import com.goodskill.service.mock.strategy.GoodsKillStrategy;
-import com.goodskill.service.util.StateMachineUtil;
+import com.goodskill.service.util.StateMachineService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -82,7 +83,9 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Resource
     private SeckillMapper baseMapper;
     @Resource
-    private StateMachineUtil stateMachineUtil;
+    private StateMachineService stateMachineService;
+    @Resource
+    private PreRequestPipeline preRequestPipeline;
 
     @Override
     public PageDTO<SeckillVO> getSeckillList(int pageNum, int pageSize, String goodsName) {
@@ -171,36 +174,11 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
 
     @Override
     public void prepareSeckill(Long seckillId, int seckillCount, String taskId) {
-        // 状态机初始化
-        stateMachineUtil.intStateMachine(seckillId);
-        // 初始化库存数量
-        // 使用状态机控制活动状态
-        if (!stateMachineUtil.feedMachine(Events.ACTIVITY_RESET, seckillId)) {
-            throw new RuntimeException("活动尚未结束，请等待活动结束后再次操作");
-        }
-        Seckill entity = new Seckill();
-        entity.setSeckillId(seckillId);
-        entity.setNumber(seckillCount);
-        baseMapper.updateById(entity);
-
-        stateMachineUtil.feedMachine(Events.ACTIVITY_START, seckillId);
-        // 清理已成功秒杀记录
-        this.deleteSuccessKillRecord(seckillId);
-
-        redisService.removeSeckill(seckillId);
-        Seckill seckill = redisService.getSeckill(seckillId);
-        redisTemplate.delete(seckillId);
-        seckill.setStatus(SeckillStatusConstant.IN_PROGRESS);
-        redisService.putSeckill(seckill);
-        redisService.clearSeckillEndFlag(seckillId, taskId);
-
-        // 清理mongo表数据
-        try {
-            successKilledMongoService.deleteRecord(seckillId);
-        } catch (Exception e) {
-            log.error("mongo服务不可用请检查！", e);
-            throw e;
-        }
+        SeckillWebMockRequestDTO request = new SeckillWebMockRequestDTO();
+        request.setSeckillId(seckillId);
+        request.setSeckillCount(seckillCount);
+        request.setTaskId(taskId);
+        preRequestPipeline.handle(request);
     }
 
     @Override
@@ -265,7 +243,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
 
     @Override
     public boolean endSeckill(Long seckillId) {
-        return stateMachineUtil.feedMachine(Events.ACTIVITY_END, seckillId);
+        return stateMachineService.feedMachine(Events.ACTIVITY_END, seckillId);
     }
 
     @Override

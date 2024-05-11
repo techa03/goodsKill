@@ -9,7 +9,7 @@ import com.goodskill.order.vo.SeckillMockSaveVo;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mock.strategy.GoodsKillStrategy;
-import com.goodskill.service.util.StateMachineUtil;
+import com.goodskill.service.util.StateMachineService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -40,7 +40,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
     @Resource
     private StreamBridge streamBridge;
     @Resource
-    private StateMachineUtil stateMachineUtil;
+    private StateMachineService stateMachineService;
 
     @Override
     public void execute(SeckillMockRequestDTO requestDto) {
@@ -71,8 +71,8 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
         } else {
             synchronized (this) {
                 seckill = redisService.getSeckill(seckillId);
-                if (stateMachineUtil.checkState(seckillId, States.IN_PROGRESS)) {
-                    stateMachineUtil.feedMachine(Events.ACTIVITY_CALCULATE, seckillId);
+                if (stateMachineService.checkState(seckillId, States.IN_PROGRESS)) {
+                    stateMachineService.feedMachine(Events.ACTIVITY_CALCULATE, seckillId);
                     log.info("秒杀商品暂无库存，发送活动结束消息！");
                     streamBridge.send(DEFAULT_BINDING_NAME, MessageBuilder.withPayload(
                             SeckillMockResponseDTO
