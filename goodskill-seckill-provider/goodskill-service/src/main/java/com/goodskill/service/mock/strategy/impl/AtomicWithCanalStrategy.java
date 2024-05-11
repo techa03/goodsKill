@@ -7,7 +7,7 @@ import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
 import com.goodskill.service.mock.strategy.GoodsKillStrategy;
-import com.goodskill.service.util.StateMachineUtil;
+import com.goodskill.service.util.StateMachineService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -31,7 +31,7 @@ public class AtomicWithCanalStrategy implements GoodsKillStrategy {
     @Resource
     private SuccessKilledMapper successKilledMapper;
     @Resource
-    private StateMachineUtil stateMachineUtil;
+    private StateMachineService stateMachineService;
 
     private final ConcurrentHashMap<Long, Object> seckillIdList = new ConcurrentHashMap<>();
 
@@ -56,7 +56,7 @@ public class AtomicWithCanalStrategy implements GoodsKillStrategy {
                 record.setCreateTime(new Date());
                 successKilledMapper.insert(record);
             } else {
-                stateMachineUtil.feedMachine(Events.ACTIVITY_CALCULATE, seckillId);
+                stateMachineService.feedMachine(Events.ACTIVITY_CALCULATE, seckillId);
                 if (log.isDebugEnabled()) {
                     log.debug("#execute 库存不足，无法继续秒杀！");
                 }

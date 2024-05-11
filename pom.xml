@@ -27,7 +27,7 @@
         <goodskill.version>1.0.0-SNAPSHOT</goodskill.version>
         <springboot.version>3.2.4</springboot.version>
         <spring-cloud.version>2023.0.1</spring-cloud.version>
-        <spring.cloud.alibaba.version>2023.0.0.0-RC1</spring.cloud.alibaba.version>
+        <spring.cloud.alibaba.version>2023.0.1.0</spring.cloud.alibaba.version>
         <spring-statemachine.version>4.0.0</spring-statemachine.version>
         <kotlin.version>1.9.23</kotlin.version>
         <jacoco.version>0.8.12</jacoco.version>
@@ -38,13 +38,14 @@
         <mybatis-plus.version>3.5.6</mybatis-plus.version>
         <fastjson2.version>2.0.24</fastjson2.version>
         <minio.version>8.4.2</minio.version>
-        <shardingsphere.version>5.3.2</shardingsphere.version>
+        <shardingsphere.version>5.5.0</shardingsphere.version>
         <alipay.version>2.2.2</alipay.version>
         <redisson.version>3.26.0</redisson.version>
         <knife4j.version>4.5.0</knife4j.version>
         <springdoc.version>2.1.0</springdoc.version>
         <satoken.version>1.35.0.RC</satoken.version>
         <spring-boot-admin.version>3.2.3</spring-boot-admin.version>
+        <netty.version>4.1.100.Final</netty.version>
     </properties>
 
     <build>
@@ -272,7 +273,7 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.shardingsphere</groupId>
-                <artifactId>shardingsphere-jdbc-core</artifactId>
+                <artifactId>shardingsphere-jdbc</artifactId>
                 <version>${shardingsphere.version}</version>
             </dependency>
             <dependency>
@@ -356,7 +357,7 @@
             <groupId>io.netty</groupId>
             <artifactId>netty-resolver-dns-native-macos</artifactId>
             <classifier>osx-aarch_64</classifier>
-            <version>4.1.79.Final</version>
+            <version>${netty.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

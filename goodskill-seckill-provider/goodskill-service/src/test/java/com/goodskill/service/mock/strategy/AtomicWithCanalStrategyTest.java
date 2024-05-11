@@ -5,7 +5,7 @@ import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
 import com.goodskill.service.mock.strategy.impl.AtomicWithCanalStrategy;
-import com.goodskill.service.util.StateMachineUtil;
+import com.goodskill.service.util.StateMachineService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,7 +35,7 @@ class AtomicWithCanalStrategyTest {
     @Mock
     private MessageChannel messageChannel;
     @Mock
-    private StateMachineUtil stateMachineUtil;
+    private StateMachineService stateMachineService;
 
     @Test
     public void execute() {

@@ -6,8 +6,8 @@ import com.goodskill.api.service.SeckillService;
 import com.goodskill.common.core.enums.SeckillSolutionEnum;
 import com.goodskill.common.core.exception.CommonException;
 import com.goodskill.common.core.info.R;
+import com.goodskill.common.core.pojo.dto.SeckillWebMockRequestDTO;
 import com.goodskill.web.util.TaskTimeCaculateUtil;
-import com.goodskill.web.vo.dto.SeckillWebMockRequestDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -265,7 +265,7 @@ public class SeckillMockController {
         // 初始化库存数量
         prepareSeckill(seckillId, seckillCount, seckillSolutionEnum.getName(), taskId);
         changeThreadPoolParam(dto);
-        log.info(seckillSolutionEnum.getName() + "开始时间:{}, 秒杀id:{}, 任务Id:{}", new Date(), seckillId, taskId);
+        log.info("{}开始时间:{}, 秒杀id:{}, 任务Id:{}", seckillSolutionEnum.getName(), new Date(), seckillId, taskId);
         if (runnable == null) {
             // 默认的执行方法
             runnable = () -> {

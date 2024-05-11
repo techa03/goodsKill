@@ -1,5 +1,6 @@
 package com.goodskill.service.common.enums;
 
+import com.goodskill.common.core.enums.SeckillSolutionEnum;
 import com.goodskill.service.mock.strategy.impl.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,18 +17,16 @@ public enum GoodsKillStrategyEnum {
     /**
      *
      */
-    SYNCHRONIZED(1, "Synchronized同步锁", SynchronizedLockStrategy.class.getName()),
-    REDISSON(2, "redis分布式锁", RedissonStrategy.class.getName()),
-    ATOMIC_UPDATE(5, "数据库原子性更新", AtomicUpdateStrategy.class.getName()),
-    ZOOKEEPER_LOCK(7, "zookeeper分布式锁", ZookeeperLockStrategy.class.getName()),
-    REDIS_MONGO_REACTIVE(8, "秒杀商品存放redis减库存，异步发送秒杀成功MQ", RedisMongoReactiveStrategy.class.getName()),
-    SENTINEL_LIMIT(10, "Sentinel限流+数据库原子性更新", SentinelLimitStrategy.class.getName()),
-    ATOMIC_CANAL(11, "数据库原子性更新+canal 数据库binlog日志监听秒杀结果", AtomicWithCanalStrategy.class.getName()),
-
+    SYNCHRONIZED(SeckillSolutionEnum.SYCHRONIZED, "Synchronized同步锁", SynchronizedLockStrategy.class.getName()),
+    REDISSON(SeckillSolutionEnum.REDISSION_LOCK, "redis分布式锁", RedissonStrategy.class.getName()),
+    ATOMIC_UPDATE(SeckillSolutionEnum.ATOMIC_UPDATE, "数据库原子性更新", AtomicUpdateStrategy.class.getName()),
+    ZOOKEEPER_LOCK(SeckillSolutionEnum.ZOOKEEPER_LOCK, "zookeeper分布式锁", ZookeeperLockStrategy.class.getName()),
+    REDIS_MONGO_REACTIVE(SeckillSolutionEnum.REDIS_MONGO_REACTIVE, "秒杀商品存放redis减库存，异步发送秒杀成功MQ", RedisMongoReactiveStrategy.class.getName()),
+    SENTINEL_LIMIT(SeckillSolutionEnum.SENTINEL_LIMIT, "Sentinel限流+数据库原子性更新", SentinelLimitStrategy.class.getName()),
+    ATOMIC_CANAL(SeckillSolutionEnum.ATOMIC_CANAL, "数据库原子性更新+canal 数据库binlog日志监听秒杀结果", AtomicWithCanalStrategy.class.getName()),
     ;
 
-
-    private final int code;
+    private final SeckillSolutionEnum seckillSolutionEnum;
 
     private final String strategyName;
 
@@ -35,7 +34,7 @@ public enum GoodsKillStrategyEnum {
 
     public static GoodsKillStrategyEnum stateOf(int code) {
         for (GoodsKillStrategyEnum state : values()) {
-            if (state.code == code) {
+            if (state.seckillSolutionEnum.getCode() == code) {
                 return state;
             }
         }

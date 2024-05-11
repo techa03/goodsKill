@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
-public class StateMachineUtil {
+public class StateMachineService {
     public static final String STATEMACHINE_REDIS_KEY_PREFIX = "seckillId:";
 
     private final Map<String, StateMachine<States, Events>> stateMachineMap = new ConcurrentHashMap<>();
@@ -59,7 +59,7 @@ public class StateMachineUtil {
     }
 
     @SneakyThrows
-    public StateMachine<States, Events> intStateMachine(long seckillId) {
+    public StateMachine<States, Events> initStateMachine(long seckillId) {
         StateMachine<States, Events> stateMachine = stateMachineFactory.getStateMachine();
         stateMachinePersister.persist(stateMachine, STATEMACHINE_REDIS_KEY_PREFIX + seckillId);
         return stateMachineMap.putIfAbsent(String.valueOf(seckillId), stateMachine);

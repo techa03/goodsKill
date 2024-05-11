@@ -8,7 +8,7 @@ import com.goodskill.common.core.enums.States;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
-import com.goodskill.service.util.StateMachineUtil;
+import com.goodskill.service.util.StateMachineService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -37,7 +37,7 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
     @Resource
     private RedisService redisService;
     @Resource
-    private StateMachineUtil stateMachineUtil;
+    private StateMachineService stateMachineService;
 
 
     /**
@@ -60,8 +60,8 @@ public class SeckillProcedureExecutor implements SeckillExecutor {
             if (seckillService.reduceNumber(successKilled) < 1) {
                 Seckill seckill = seckillMapper.selectById(seckillId);
                 log.debug("#dealSeckill 当前库存：{}，秒杀活动id:{}，商品id:{}", seckill.getNumber(), seckill.getSeckillId(), seckill.getGoodsId());
-                if (stateMachineUtil.checkState(seckillId, States.IN_PROGRESS)) {
-                    stateMachineUtil.feedMachine(Events.ACTIVITY_CALCULATE, seckillId);
+                if (stateMachineService.checkState(seckillId, States.IN_PROGRESS)) {
+                    stateMachineService.feedMachine(Events.ACTIVITY_CALCULATE, seckillId);
                     // 高并发时可能多次发送完成通知，使用锁控制
                     Boolean endFlag = redisService.setSeckillEndFlag(seckillId, taskId);
                     if (endFlag) {

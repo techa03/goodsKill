@@ -4,7 +4,7 @@ import com.goodskill.api.service.SeckillService;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
-import com.goodskill.service.util.StateMachineUtil;
+import com.goodskill.service.util.StateMachineService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,7 +27,7 @@ class SeckillProcedureExecutorTest {
     @Mock
     private RedisService redisService;
     @Mock
-    private StateMachineUtil stateMachineUtil;
+    private StateMachineService stateMachineService;
 
     @Test
     void dealSeckill() {
