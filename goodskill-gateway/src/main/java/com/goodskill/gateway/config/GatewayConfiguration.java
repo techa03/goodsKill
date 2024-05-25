@@ -17,21 +17,21 @@ public class GatewayConfiguration {
     @Bean
     public RouteLocator customizedLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("es-service-provider", r -> r.path("/api/es/**")
+                .route("goodskill-order", r -> r.path("/api/order/**")
                         .filters(f -> f.stripPrefix(2))
-                        .uri("lb://es-service-provider"))
-                .route("order-service-provider", r -> r.path("/api/mongo/**")
-                        .filters(f -> f.stripPrefix(2))
-                        .uri("lb://order-service-provider"))
+                        .uri("lb://goodskill-order"))
                 .route("goodskill-seata", r -> r.path("/api/seata/**")
                         .filters(f -> f.stripPrefix(2))
                         .uri("lb://goodskill-seata"))
-                .route("goodskill-service-provider", r -> r.path("/api/common/**")
+                .route("goodskill-seckill", r -> r.path("/api/seckill/**")
                         .filters(f -> f.stripPrefix(2))
-                        .uri("lb://goodskill-service-provider"))
+                        .uri("lb://goodskill-seckill"))
                 .route("goodskill-auth", r -> r.path("/api/auth/**")
                         .filters(f -> f.stripPrefix(2))
                         .uri("lb://goodskill-auth"))
+                .route("goodskill-web", r -> r.path("/api/web/**")
+                        .filters(f -> f.stripPrefix(2))
+                        .uri("lb://goodskill-web"))
                 .build();
     }
 
