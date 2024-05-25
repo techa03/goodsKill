@@ -94,9 +94,25 @@ knife4j:
     routes:
       - name: web服务
         service-name: goodskill-web
-        url: /goodskill/web/v3/api-docs?group=default
-        context-path: /goodskill/web
+        url: /api/web/v3/api-docs?group=default
         order: 1
+      - name: 认证服务
+        service-name: goodskill-auth
+        url: /api/auth/v3/api-docs?group=default
+        order: 3
+      - name: 订单服务
+        service-name: goodskill-order
+        url: /api/order/v3/api-docs?group=default
+        order: 4
+      - name: seata服务
+        service-name: goodskill-seata
+        url: /api/seata/v3/api-docs?group=default
+        order: 5
+      - name: 秒杀服务
+        service-name: goodskill-service-provider
+        url: /api/seckill/v3/api-docs?group=default
+        order: 6
+
     discover:
       enabled: true
       # 指定版本号(Swagger2|OpenAPI3)
