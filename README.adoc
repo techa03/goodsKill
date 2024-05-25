@@ -8,7 +8,7 @@ image:https://github.com/techa03/goodsKill/actions/workflows/codeql.yml/badge.sv
 项目命名为 *goodsKill* 一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为 *good skill*，本项目就是希望搭建一套完整的项目框架，把一些好的技术和开发技巧整合进来（偏向于后端技术），方便学习和查阅。
 
 
-本项目为模拟秒杀项目，提供统一秒杀模拟请求接口，方便自行测试各个秒杀方案的执行速度。 技术上整体采用SpringMVC + Mybatis持久层框架，采用Dubbo3.x{empty}footnote:[由于SpringCloudAlibaba官方暂未支持Dubbo 3.x，本项目采用dubbo-spring-boot-starter集成]，服务注册发现以及配置中心使用Nacos，支持数据库分库分表、分布式事务，使用状态机完成数据状态间的转换（基于Spring Statemachine实现）。
+本项目为模拟秒杀项目，提供统一秒杀模拟请求接口，技术上整体采用SpringMVC + Mybatis持久层框架，采用Dubbo3.x{empty}footnote:[由于SpringCloudAlibaba官方暂未支持Dubbo 3.x，本项目采用dubbo-spring-boot-starter集成]，服务注册发现以及配置中心使用Nacos，支持数据库分库分表、分布式事务，使用状态机完成数据状态间的转换（基于Spring Statemachine实现）。
 
 == 💎 分支介绍
 
@@ -39,11 +39,11 @@ ____
 |Spring Cloud Alibaba |Cloud Alibaba组件 |https://github.com/alibaba/spring-cloud-alibaba
 |Apache Dubbo | RPC服务远程调用框架 |https://github.com/apache/dubbo
 |Spring Cloud Gateway |网关组件 |https://spring.io/projects/spring-cloud-gateway
-|Kotlin |Kotlin |https://kotlinlang.org/
 |Seata |分布式事务解决方案 |http://seata.io/zh-cn/index.html
 |Spring Security OAuth2.0 |OAuth2.0授权组件 |https://spring.io/projects/spring-security-oauth
 |GraphQL |一种用于 API 的查询语言 |https://docs.spring.io/spring-graphql/docs/current/reference/html
 |Spring Statemachine |Spring 状态机 |https://spring.io/projects/spring-statemachine
+|Sa-Token |轻量级权限认证框架 |https://sa-token.cc/
 |===
 
 == 📝 项目模块介绍
@@ -51,7 +51,7 @@ ____
 ----
 goodsKill
 |--goodskill-admin                          ||SpringBoot Admin监控服务端，支持Spring Cloud微服务发现
-|--goodskill-gateway                        ||微服务网关，支持动态路由加载
+|--goodskill-gateway                        ||微服务API网关，统一服务鉴权，支持动态路由加载
 |--goodskill-order-provider                 ||订单服务提供者
 |   |--goodskill-order-service
 |--goodskill-seckill-provider               ||秒杀服务提供者
@@ -62,7 +62,7 @@ goodsKill
 |--goodskill-job                            ||elastic-job定时任务
 |--goodskill-seata                          ||集成nacos+dubbo+shardingjdbc+seata的分布式事务解决方案示例
 |--goodskill-auth                           ||auth登录以及授权模块
-|   |--auth-service                         ||基于本项目用户体系的用户登录授权服务
+|   |--auth-service                         ||基于Sa-Token框架的用户登录授权服务
     |--oauth2-auth-server                   ||oauth2.0登录授权服务端，自定义的登录授权服务
     |--oauth2-resource-server               ||oauth2.0资源服务端，自定义的登录授权服务
 ----
@@ -120,13 +120,12 @@ ns         %     Task name
 * SpringBoot: 3.2.x
 * SpringCloudAlibaba: 2023.x.x
 * Apache Dubbo: 3.x
-* Kotlin: 1.9.x
 * 使用的Docker镜像
 +
 |===
 |镜像 |版本 |端口 |用户名密码
 
-|Nacos |2.2.3 |8848 |nacos:nacos
+|Nacos |2.3.2-slim |8848 |nacos:nacos
 |Redis |latest |6379 |密码:123456
 |Kafka |3.1.1 |9092 |无
 |KafkaManager |latest |9001:9000 |无
@@ -236,6 +235,7 @@ curl --location --request POST 'http://www.goodskill.com:8080/limit' \
 - `http://www.goodskill.com/api/es/**` 对应访问``goodskill-es-provider``服务
 - `http://www.goodskill.com/api/seata/**` 对应访问``goodskill-seata``服务
 - `http://www.goodskill.com/api/common/**` 对应访问``goodskill-service-provider``服务
+- `http://www.goodskill.com/api/auth/**` 对应访问``goodskill-auth``服务
 
 
 * 已集成``Sentinel``限流组件，支持``nacos``配置中心方式推送限流规则，使用时需启动``Sentinel``控制台，并以``18088``端口启动，docker环境暂不支持。

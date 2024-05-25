@@ -1,4 +1,4 @@
-package com.goodskill.gateway.config;
+package com.goodskill.gateway.service;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.nacos.api.NacosFactory;
@@ -19,14 +19,14 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 /**
- * 动态路由配置初始化
+ * 动态路由配置监听以及初始化
  *
  * @author heng
  * @since  2022/1/6 1:47 下午
  */
 @Slf4j
 @Component
-public class DynamicRouteConfig implements CommandLineRunner {
+public class DynamicRouteConfigWatcher implements CommandLineRunner {
 
     @Autowired
     private DynamicRouteRefresh dynamicRouteService;

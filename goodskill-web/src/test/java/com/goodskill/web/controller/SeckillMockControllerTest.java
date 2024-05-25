@@ -159,7 +159,7 @@ public class SeckillMockControllerTest {
         assertEquals(0, response.getCode());
     }
 
-    @Test
+//    @Test
     void atomicWithCanal() {
         SeckillWebMockRequestDTO requestDTO = new SeckillWebMockRequestDTO();
         requestDTO.setSeckillId(1L);

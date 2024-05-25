@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.goodskill.common.core.entity.BaseColEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -20,7 +19,6 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 public class Permission extends BaseColEntity implements Serializable {
 
     @Serial
@@ -38,6 +36,11 @@ public class Permission extends BaseColEntity implements Serializable {
     private String isDir;
 
     private Integer orderNo;
+
+    /**
+     * 权限标识
+     */
+    private String permissionCode;
 
 
 }

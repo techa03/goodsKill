@@ -1,4 +1,4 @@
-package com.goodskill.gateway.config;
+package com.goodskill.gateway.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -19,8 +19,13 @@ import java.util.List;
 public class IgnoreProperties
 {
     /**
-     * 白名单配置
+     * 全局白名单配置
      */
     private List<String> whiteUrl = new ArrayList<>();
+
+    /**
+     * 登录用户访问白名单
+     */
+    private List<String> loginUserWhiteUrls = new ArrayList<>();
 
 }
