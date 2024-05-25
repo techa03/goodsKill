@@ -42,7 +42,7 @@
         <redisson.version>3.26.0</redisson.version>
         <knife4j.version>4.5.0</knife4j.version>
         <springdoc.version>2.1.0</springdoc.version>
-        <satoken.version>1.35.0.RC</satoken.version>
+        <satoken.version>1.38.0</satoken.version>
         <spring-boot-admin.version>3.2.3</spring-boot-admin.version>
         <netty.version>4.1.100.Final</netty.version>
     </properties>
@@ -288,12 +288,7 @@
             </dependency>
             <dependency>
                 <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-reactor-spring-boot-starter</artifactId>
-                <version>${satoken.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-redis</artifactId>
+                <artifactId>sa-token-reactor-spring-boot3-starter</artifactId>
                 <version>${satoken.version}</version>
             </dependency>
             <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->

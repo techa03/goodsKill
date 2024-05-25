@@ -41,6 +41,8 @@ public class LoginController {
     @GetMapping("/user")
     public R<?> getUser() {
         Object loginId = StpUtil.getLoginId();
+        StpUtil.hasPermission("/test");
+        StpUtil.hasRole("test");
         User info = userService.getUserInfoById(loginId.toString());
         return R.ok(info);
     }

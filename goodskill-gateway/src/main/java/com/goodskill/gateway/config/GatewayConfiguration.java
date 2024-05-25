@@ -29,6 +29,9 @@ public class GatewayConfiguration {
                 .route("goodskill-service-provider", r -> r.path("/api/common/**")
                         .filters(f -> f.stripPrefix(2))
                         .uri("lb://goodskill-service-provider"))
+                .route("goodskill-auth", r -> r.path("/api/auth/**")
+                        .filters(f -> f.stripPrefix(2))
+                        .uri("lb://goodskill-auth"))
                 .build();
     }
 
