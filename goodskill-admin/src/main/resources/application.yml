@@ -15,3 +15,12 @@ spring:
     user:
       name: user
       password: 123456
+  #微服务配置
+  cloud:
+    nacos:
+      server-addr: nacos:8848
+      username: nacos
+      password: nacos
+      config:
+        import-check:
+          enabled: false

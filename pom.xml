@@ -29,7 +29,6 @@
         <spring-cloud.version>2023.0.1</spring-cloud.version>
         <spring.cloud.alibaba.version>2023.0.1.0</spring.cloud.alibaba.version>
         <spring-statemachine.version>4.0.0</spring-statemachine.version>
-        <kotlin.version>1.9.23</kotlin.version>
         <jacoco.version>0.8.12</jacoco.version>
         <maven.surefire.version>2.22.2</maven.surefire.version>
         <net.logstash.version>7.1.1</net.logstash.version>
@@ -51,40 +50,6 @@
     <build>
         <finalName>goodskill</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirs>
-                                <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
-                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
-                            </sourceDirs>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>test-compile</id>
-                        <goals>
-                            <goal>test-compile</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirs>
-                                <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
-                                <sourceDir>${project.basedir}/src/test/java</sourceDir>
-                            </sourceDirs>
-                        </configuration>
-                    </execution>
-                </executions>
-                <configuration>
-                    <jvmTarget>21</jvmTarget>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -323,6 +288,11 @@
             </dependency>
             <dependency>
                 <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-reactor-spring-boot-starter</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
                 <artifactId>sa-token-redis</artifactId>
                 <version>${satoken.version}</version>
             </dependency>
@@ -341,17 +311,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
-        </dependency>
         <!--升级到springboot2.4需要增加以下依赖，否则nacos无法拉取配置END-->
         <dependency>
             <groupId>io.netty</groupId>

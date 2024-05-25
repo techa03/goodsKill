@@ -39,7 +39,6 @@ ____
 |Spring Cloud Alibaba |Cloud Alibaba组件 |https://github.com/alibaba/spring-cloud-alibaba
 |Apache Dubbo | RPC服务远程调用框架 |https://github.com/apache/dubbo
 |Spring Cloud Gateway |网关组件 |https://spring.io/projects/spring-cloud-gateway
-|Kotlin |Kotlin |https://kotlinlang.org/
 |Seata |分布式事务解决方案 |http://seata.io/zh-cn/index.html
 |Spring Security OAuth2.0 |OAuth2.0授权组件 |https://spring.io/projects/spring-security-oauth
 |GraphQL |一种用于 API 的查询语言 |https://docs.spring.io/spring-graphql/docs/current/reference/html
@@ -120,7 +119,6 @@ ns         %     Task name
 * SpringBoot: 3.2.x
 * SpringCloudAlibaba: 2023.x.x
 * Apache Dubbo: 3.x
-* Kotlin: 1.9.x
 * 使用的Docker镜像
 +
 |===
