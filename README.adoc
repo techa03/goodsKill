@@ -44,6 +44,7 @@ ____
 |GraphQL |一种用于 API 的查询语言 |https://docs.spring.io/spring-graphql/docs/current/reference/html
 |Spring Statemachine |Spring 状态机 |https://spring.io/projects/spring-statemachine
 |Sa-Token |轻量级权限认证框架 |https://sa-token.cc/
+|Flyway |数据库版本控制工具 |https://flywaydb.org/
 |===
 
 == 📝 项目模块介绍
