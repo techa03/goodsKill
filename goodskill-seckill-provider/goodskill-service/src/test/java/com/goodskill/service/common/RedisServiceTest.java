@@ -1,8 +1,5 @@
 package com.goodskill.service.common;
 
-import com.dyuproject.protostuff.LinkedBuffer;
-import com.dyuproject.protostuff.ProtostuffIOUtil;
-import com.dyuproject.protostuff.runtime.RuntimeSchema;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
 import org.junit.jupiter.api.Assertions;
@@ -27,11 +24,9 @@ class RedisServiceTest {
     @Mock
     private SeckillMapper seckillMapper;
     @Mock
-    private RedisTemplate<byte[], Object> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
     @Mock
     private StringRedisTemplate stringRedisTemplate;
-    private static byte[] bytes;
-    private static RuntimeSchema<Seckill> schema = RuntimeSchema.createFrom(Seckill.class);
 
     @Test
     void getSeckillError() {
@@ -46,7 +41,9 @@ class RedisServiceTest {
         String key = "seckill:" + seckillId;
         ValueOperations valueOperations = mock(ValueOperations.class);
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
-        when(valueOperations.get(key.getBytes())).thenReturn(bytes);
+        Seckill t = new Seckill();
+        t.setSeckillId(seckillId);
+        when(valueOperations.get(key)).thenReturn(t);
         assertEquals((long) redisService.getSeckill(seckillId).getSeckillId(), seckillId);
     }
 
@@ -56,7 +53,7 @@ class RedisServiceTest {
         String key = "seckill:" + seckillId;
         ValueOperations valueOperations = mock(ValueOperations.class);
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
-        when(valueOperations.get(key.getBytes())).thenReturn(null);
+        when(valueOperations.get(key)).thenReturn(null);
         when(seckillMapper.selectById(seckillId)).thenReturn(new Seckill());
 
         assertNotNull(redisService.getSeckill(seckillId));
@@ -96,7 +93,6 @@ class RedisServiceTest {
         long seckillId = 1001L;
         Seckill seckill = new Seckill();
         seckill.setSeckillId(seckillId);
-        bytes = ProtostuffIOUtil.toByteArray(seckill, schema, LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE));
     }
 
 }
