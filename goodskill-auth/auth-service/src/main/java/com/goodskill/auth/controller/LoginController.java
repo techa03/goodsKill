@@ -6,6 +6,8 @@ import com.goodskill.auth.entity.User;
 import com.goodskill.auth.pojo.dto.UserDTO;
 import com.goodskill.auth.service.UserService;
 import com.goodskill.common.core.info.R;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * 登录测试
  */
 @RestController
+@Tag(name = "登录测试")
 public class LoginController {
     @Resource
     private UserService userService;
@@ -23,22 +26,26 @@ public class LoginController {
      * @return
      */
     @RequestMapping("/isLogin")
+    @Operation(summary = "测试登录")
     public R<String> isLogin() {
         return R.ok("是否登录：" + StpUtil.isLogin());
     }
 
     @RequestMapping("/tokenInfo")
+    @Operation(summary = "获取token信息")
     public R<SaTokenInfo> tokenInfo() {
         return R.ok(StpUtil.getTokenInfo());
     }
 
     @PostMapping("/logout")
+    @Operation(summary = "退出登录")
     public R<String> logout() {
         StpUtil.logout();
         return R.ok();
     }
 
     @GetMapping("/user")
+    @Operation(summary = "获取用户信息")
     public R<?> getUser() {
         Object loginId = StpUtil.getLoginId();
         StpUtil.hasPermission("/test");
@@ -48,12 +55,14 @@ public class LoginController {
     }
 
     @PostMapping("/register")
+    @Operation(summary = "注册")
     public R<String> register(@RequestBody UserDTO userDTO) {
         userService.register(userDTO);
         return R.ok("注册成功");
     }
 
     @PostMapping("/login")
+    @Operation(summary = "登录")
     public R<String> login(@RequestBody UserDTO userDTO) {
         User userAccount = userService.findByUserAccount(userDTO.getUsername());
         if (userAccount != null) {

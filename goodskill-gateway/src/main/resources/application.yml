@@ -57,12 +57,20 @@ spring:
             - Path=/admin/**
           filters:
             - StripPrefix=1
+        - id: prefixpath_route
+          uri: lb://goodskill-web
+          predicates:
+            - Path=/api/test
+          filters:
+            - RedirectTo=302, https://www.baidu.com, true
   data:
     redis:
       password: 123456
       host: redis
   main:
     allow-bean-definition-overriding: true
+
+# 监控
 management:
   endpoint:
     health:
@@ -82,10 +90,11 @@ security:
   ignore:
     whiteUrl:
       - "/api/auth/login"
+      - "/api/web/**"
     loginUserWhiteUrls:
       - "/api/xxx"
 
-
+# knife4j配置
 knife4j:
   gateway:
     enabled: true
@@ -96,23 +105,27 @@ knife4j:
         service-name: goodskill-web
         url: /api/web/v3/api-docs?group=default
         order: 1
+        context-path: /api/web
       - name: 认证服务
         service-name: goodskill-auth
         url: /api/auth/v3/api-docs?group=default
         order: 3
+        context-path: /api/auth
       - name: 订单服务
         service-name: goodskill-order
         url: /api/order/v3/api-docs?group=default
         order: 4
+        context-path: /api/order
       - name: seata服务
         service-name: goodskill-seata
         url: /api/seata/v3/api-docs?group=default
         order: 5
+        context-path: /api/seata
       - name: 秒杀服务
         service-name: goodskill-service-provider
         url: /api/seckill/v3/api-docs?group=default
         order: 6
-
+        context-path: /api/seckill
     discover:
       enabled: true
       # 指定版本号(Swagger2|OpenAPI3)

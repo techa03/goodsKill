@@ -17,7 +17,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import static com.goodskill.common.core.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
@@ -34,7 +33,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
     @Resource
     private RedisService redisService;
     @Resource
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
     @Resource(name = "taskExecutor")
     private ThreadPoolExecutor taskExecutor;
     @Resource
@@ -44,8 +43,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
 
     @Override
     public void execute(SeckillMockRequestDTO requestDto) {
-        var executorService = Executors.newVirtualThreadPerTaskExecutor();
-        executorService.execute(() -> {
+        taskExecutor.execute(() -> {
             try {
                 doExecute(requestDto);
             } catch (Exception e) {
@@ -57,7 +55,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
     private void doExecute(SeckillMockRequestDTO requestDto) {
         long seckillId = requestDto.getSeckillId();
         Seckill seckill = redisService.getSeckill(seckillId);
-        if (redisTemplate.opsForValue().increment(seckillId) <= seckill.getNumber()) {
+        if (redisTemplate.opsForValue().increment(String.valueOf(seckillId)) <= seckill.getNumber()) {
             taskExecutor.execute(() ->
                     streamBridge.send(DEFAULT_BINDING_NAME_MONGO_SAVE, MessageBuilder.withPayload(
                             SeckillMockSaveVo

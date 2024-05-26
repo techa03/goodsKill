@@ -1,8 +1,5 @@
 package com.goodskill.service.common;
 
-import com.dyuproject.protostuff.LinkedBuffer;
-import com.dyuproject.protostuff.ProtostuffIOUtil;
-import com.dyuproject.protostuff.runtime.RuntimeSchema;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
 import jakarta.annotation.Resource;
@@ -24,21 +21,18 @@ public class RedisService {
     @Autowired
     private SeckillMapper seckillMapper;
     @Resource
-    private RedisTemplate<byte[], Object> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    private final RuntimeSchema<Seckill> schema = RuntimeSchema.createFrom(Seckill.class);
 
     public Seckill getSeckill(long seckillId) {
         String key = "seckill:" + seckillId;
-        byte[] bytes = (byte[]) redisTemplate.opsForValue().get(key.getBytes());
-        if (bytes != null) {
-            Seckill seckill = schema.newMessage();
-            ProtostuffIOUtil.mergeFrom(bytes, seckill, schema);
+        Seckill seckill = (Seckill) redisTemplate.opsForValue().get(key);
+        if (seckill != null) {
             return seckill;
         } else {
-            Seckill seckill = seckillMapper.selectById(seckillId);
+            seckill = seckillMapper.selectById(seckillId);
             if (seckill == null) {
                 throw new RuntimeException("秒杀活动不存在！");
             }
@@ -49,14 +43,14 @@ public class RedisService {
 
     public void putSeckill(Seckill seckill) {
         String key = "seckill:" + seckill.getSeckillId();
-        byte[] bytes = ProtostuffIOUtil.toByteArray(seckill, schema, LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE));
         int timeout = 60;
-        redisTemplate.opsForValue().set(key.getBytes(), bytes, timeout, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(key, seckill, timeout, TimeUnit.SECONDS);
     }
 
     public void removeSeckill(long seckillId) {
         String key = "seckill:" + seckillId;
-        redisTemplate.delete(key.getBytes());
+        redisTemplate.delete(key);
+        redisTemplate.delete(String.valueOf(seckillId));
     }
 
     /**
