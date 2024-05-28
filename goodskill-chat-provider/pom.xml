@@ -23,11 +23,6 @@
             <version>${netty.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.goodskill</groupId>
-            <artifactId>goodskill-common-util</artifactId>
-            <version>${goodskill.version}</version>
-        </dependency>
-        <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
