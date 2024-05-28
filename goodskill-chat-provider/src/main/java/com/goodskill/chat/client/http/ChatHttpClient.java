@@ -1,12 +1,8 @@
 package com.goodskill.chat.client.http;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.RandomUtil;
 import com.goodskill.chat.client.ChatClient;
 import com.goodskill.chat.common.http.HttpPipelineInitializer;
 import com.goodskill.chat.dto.ChatMessageDto;
-import com.goodskill.chat.server.User;
-import com.goodskill.common.util.JwtUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
@@ -18,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Scanner;
 
 
 @Slf4j
@@ -104,24 +99,4 @@ public class ChatHttpClient extends ChatClient {
 
 
 
-    public static void main(String[] args) {
-        ChatMessageDto dto = new ChatMessageDto();
-        dto.setMessage("你好啊！！");
-
-        User user = new User();
-        user.setAccount(RandomUtil.randomString(3));
-        user.setUsername("李四");
-        user.setId(1);
-        BeanUtil.beanToMap(user);
-        String token = JwtUtils.createToken(BeanUtil.beanToMap(user));
-        dto.setToken(token);
-        ChatHttpClient chatHttpClient = new ChatHttpClient();
-        Channel channel = chatHttpClient.sendMsg(dto);
-        while (true) {
-            Scanner reader = new Scanner(System.in);
-            String next = reader.next();
-            dto.setMessage(next);
-            chatHttpClient.sendMsg(dto);
-        }
-    }
 }
