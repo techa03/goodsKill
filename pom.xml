@@ -18,6 +18,7 @@
         <module>goodskill-seata</module>
         <module>goodskill-auth</module>
         <module>goodskill-admin</module>
+        <module>goodskill-chat-provider</module>
 <!--        <module>goodskill-canal</module>-->
     </modules>
 
