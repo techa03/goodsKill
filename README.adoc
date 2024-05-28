@@ -293,8 +293,8 @@ hub.docker被墙，国内可使用阿里云镜像加速器，具体操作见 htt
 * 统一控制活动状态，便于状态的集中维护；
 * 防止业务状态被随意更改，保证状态的可控更新；
 
-==== 状态机流程图
-image:./doc/shortcut/状态机.png[image]
+=== 状态机流程图
+image:docs/shortcut/状态机.png[image]
 
 
 == 📚分库分表情况说明
@@ -311,17 +311,17 @@ image:./doc/shortcut/状态机.png[image]
 
 === API接口说明
 
-image:./doc/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png[image]
+image:docs/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png[image]
 
 == 💻相关页面展示
 
-==== 模拟秒杀接口测试
+=== 模拟秒杀接口测试
 
-image:doc/shortcut/模拟秒杀接口测试.gif[image]
+image:docs/shortcut/模拟秒杀接口测试.gif[image]
 
 == 📑数据库表结构
 
-image:doc/model_table.png[image]
+image:docs/shortcut/model_table.png[image]
 
 == 📖参考文档
 

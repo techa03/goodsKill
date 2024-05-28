@@ -18,7 +18,6 @@ import io.netty.handler.codec.http.multipart.InterfaceHttpData;
 import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Map;
@@ -88,7 +87,6 @@ public class ChatServerHandler extends ChannelInboundHandlerAdapter {
         }
     }
 
-    @NotNull
     private FullHttpResponse getFullHttpResponse(HttpMessage obj, String outMessage) {
         // Decide whether to close the connection or not.
         boolean keepAlive = HttpUtil.isKeepAlive(obj);
