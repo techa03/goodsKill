@@ -7,7 +7,7 @@ import com.goodskill.api.service.GoodsEsService;
 import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.SeckillVO;
-import com.goodskill.common.core.info.R;
+import com.goodskill.common.core.info.Result;
 import com.goodskill.service.pojo.dto.ResponseDTO;
 import com.goodskill.service.util.UploadFileUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -87,14 +87,14 @@ public class SeckillController {
     @PostMapping(value = "/{seckillId}/exposer", produces = {
             "application/json;charset=UTF-8"})
     @ResponseBody
-    public R<ExposerDTO> exposer(@PathVariable("seckillId") Long seckillId) {
-        R<ExposerDTO> result;
+    public Result<ExposerDTO> exposer(@PathVariable("seckillId") Long seckillId) {
+        Result<ExposerDTO> result;
         try {
             ExposerDTO exposerDTO = seckillService.exportSeckillUrl(seckillId);
-            result = R.ok(exposerDTO);
+            result = Result.ok(exposerDTO);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            result = R.fail(e.getMessage());
+            result = Result.fail(e.getMessage());
         }
         return result;
     }

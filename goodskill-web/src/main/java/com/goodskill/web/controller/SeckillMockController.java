@@ -5,7 +5,7 @@ import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.common.core.enums.SeckillSolutionEnum;
 import com.goodskill.common.core.exception.CommonException;
-import com.goodskill.common.core.info.R;
+import com.goodskill.common.core.info.Result;
 import com.goodskill.common.core.pojo.dto.SeckillWebMockRequestDTO;
 import com.goodskill.web.util.TaskTimeCaculateUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -62,9 +62,9 @@ public class SeckillMockController {
      */
     @Operation(summary = "秒杀场景一(sychronized同步锁实现)")
     @PostMapping("/sychronized")
-    public R doWithSychronized(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result doWithSychronized(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, SYCHRONIZED);
-        return R.ok();
+        return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -76,9 +76,9 @@ public class SeckillMockController {
      */
     @Operation(summary = "秒杀场景二(redis分布式锁实现)", description = "秒杀场景二(redis分布式锁实现)", method = "POST")
     @PostMapping("/redisson")
-    public R doWithRedissionLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result doWithRedissionLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, REDISSION_LOCK);
-        return R.ok();
+        return Result.ok();
     }
 
     /**
@@ -90,8 +90,8 @@ public class SeckillMockController {
     @Operation(summary = "秒杀场景三(activemq消息队列实现)")
     @PostMapping("/activemq")
     @Deprecated
-    public R doWithActiveMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        return R.ok();
+    public Result doWithActiveMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+        return Result.ok();
     }
 
     /**
@@ -102,14 +102,14 @@ public class SeckillMockController {
      */
     @Operation(summary = "秒杀场景四(kafka消息队列实现)")
     @PostMapping("/kafka")
-    public R doWithKafkaMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result doWithKafkaMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, KAFKA_MQ, () -> {
             String phoneNumber = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
             String taskId = String.valueOf(stringRedisTemplate.opsForValue().get("SECKILL_TASK_ID_COUNTER"));
             SeckillMockRequestDTO payload = new SeckillMockRequestDTO(dto.getSeckillId(), 1, phoneNumber, taskId);
             kafkaTemplate.send("goodskill-kafka", phoneNumber, JSON.toJSONString(payload));
         });
-        return R.ok();
+        return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -121,9 +121,9 @@ public class SeckillMockController {
      */
     @Operation(summary = "秒杀场景五(数据库原子性更新update set num = num -1)")
     @PostMapping("/procedure")
-    public R doWithProcedure(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result doWithProcedure(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, ATOMIC_UPDATE);
-        return R.ok();
+        return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -137,8 +137,8 @@ public class SeckillMockController {
     @RequestMapping(value = "/activemq/reply/{seckillId}", method = POST, produces = {
             "application/json;charset=UTF-8"})
     @Deprecated
-    public R doWithActiveMqMessageWithReply(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "userPhone") String userPhone) {
-        return R.ok();
+    public Result doWithActiveMqMessageWithReply(@PathVariable("seckillId") Long seckillId, @RequestParam(name = "userPhone") String userPhone) {
+        return Result.ok();
     }
 
 
@@ -148,9 +148,9 @@ public class SeckillMockController {
     @Operation(summary = "秒杀场景七(zookeeper分布式锁)")
     @RequestMapping(value = "/zookeeperLock", method = POST, produces = {
             "application/json;charset=UTF-8"})
-    public R doWithZookeeperLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result doWithZookeeperLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, ZOOKEEPER_LOCK);
-        return R.ok();
+        return Result.ok();
     }
 
     /**
@@ -159,29 +159,29 @@ public class SeckillMockController {
     @Operation(summary = "秒杀场景八(秒杀商品存放redis减库存，异步发送秒杀成功MQ，mongoDb数据落地)")
     @RequestMapping(value = "/redisReactiveMongo", method = POST, produces = {
             "application/json;charset=UTF-8"})
-    public R redisReactiveMongo(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result redisReactiveMongo(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, REDIS_MONGO_REACTIVE);
-        return R.ok();
+        return Result.ok();
     }
 
     @Operation(summary = "秒杀场景九(rabbitmq)")
     @PostMapping("/rabbitmq")
-    public R doWithRabbitmq(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result doWithRabbitmq(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, RABBIT_MQ, () -> {
             String phoneNumber = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
             String taskId = String.valueOf(stringRedisTemplate.opsForValue().get("SECKILL_TASK_ID_COUNTER"));
             SeckillMockRequestDTO payload = new SeckillMockRequestDTO(dto.getSeckillId(), 1, phoneNumber, taskId);
             streamBridge.send("seckill-out-0", payload);
         });
-        return R.ok();
+        return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
     @Operation(summary = "秒杀场景十(Sentinel限流+数据库原子性更新)")
     @PostMapping("/limit")
-    public R limit(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result limit(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, SENTINEL_LIMIT);
-        return R.ok();
+        return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -194,9 +194,9 @@ public class SeckillMockController {
      */
     @Operation(summary = "秒杀场景十一(数据库原子性更新+canal 数据库binlog日志监听秒杀结果)")
     @PostMapping("/atomicWithCanal")
-    public R atomicWithCanal(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+    public Result atomicWithCanal(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
         processSeckill(dto, ATOMIC_CANAL);
-        return R.ok();
+        return Result.ok();
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 

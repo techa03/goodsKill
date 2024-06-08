@@ -45,6 +45,7 @@ ____
 |Spring Statemachine |Spring 状态机 |https://spring.io/projects/spring-statemachine
 |Sa-Token |轻量级权限认证框架 |https://sa-token.cc/
 |Flyway |数据库版本控制工具 |https://flywaydb.org/
+|MinIO |对象存储服务 |https://min.io/
 |===
 
 == 📝 项目模块介绍
@@ -54,11 +55,9 @@ goodsKill
 |--goodskill-admin                          ||SpringBoot Admin监控服务端，支持Spring Cloud微服务发现
 |--goodskill-gateway                        ||微服务API网关，统一服务鉴权，支持动态路由加载
 |--goodskill-order-provider                 ||订单服务提供者
-|   |--goodskill-order-service
 |--goodskill-seckill-provider               ||秒杀服务提供者
-|   |--goodskill-api                        ||提供服务API接口
-|   |--goodskill-service                    ||服务API接口实现
 |--goodskill-spring-boot-starter            ||项目配置自动装配
+|--goodskill-common                         ||公共服务(目前包含minio上传下载功能)
 |--goodskill-web                            ||提供秒杀模拟接口访问
 |--goodskill-job                            ||elastic-job定时任务
 |--goodskill-seata                          ||集成nacos+dubbo+shardingjdbc+seata的分布式事务解决方案示例
@@ -136,6 +135,7 @@ ns         %     Task name
 |Elasticsearch |7.17.3 |9200 9300 |无
 |Kibana |7.17.3 |5601 |无
 |RabbitMQ |latest |5672 15672 |无
+|MinIO |latest |9000 |root:password
 |===
 
 == 🎯 快速开始

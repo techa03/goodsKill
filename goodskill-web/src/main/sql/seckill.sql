@@ -397,48 +397,6 @@ comment '秒杀成功明细表' charset=utf8;
 create index idx_create_time
 	on seckill_01.success_killed_1 (create_time);
 
-create schema gs_sys collate utf8mb4_0900_ai_ci;
-create table gs_sys.sys_dict_biz
-(
-    id          char(32)                not null comment '主键'
-        primary key,
-    parent_id   char(32)     default '' null comment '父主键',
-    dict_code   varchar(255)            null comment '字典码',
-    dict_key    varchar(255)            null comment '字典值',
-    dict_value  varchar(255)            null comment '字典名称',
-    description varchar(255) default '' null comment '字典备注',
-    sort_no     int          default 0  null comment '排序',
-    status      tinyint(1)   default 0  null comment '是否禁用：0-否；1-是；',
-    del_flag    tinyint(1)   default 0  null comment '是否已删除：0-否；1-是；',
-    root_flag   tinyint(1)   default 0  null comment '是否为父节点',
-    sys_code    varchar(10)             null comment '系统编码',
-    update_user varchar(32)             null comment '更新人',
-    update_time datetime                null comment '更新时间',
-    create_user varchar(32)             null comment '创建人',
-    create_time datetime                null comment '创建时间'
-)
-    comment '业务字典表';
-
-create table gs_sys.sys_dict
-(
-    id          char(32)                not null comment '主键'
-        primary key,
-    parent_id   char(32)     default '' null comment '父主键',
-    dict_code   varchar(255)            null comment '字典码',
-    dict_key    varchar(255)            null comment '字典值',
-    dict_value  varchar(255)            null comment '字典名称',
-    description varchar(255) default '' null comment '字典备注',
-    sort_no     int          default 0  null comment '排序',
-    status      tinyint(1)   default 0  null comment '是否禁用：0-否；1-是；',
-    del_flag    tinyint(1)   default 0  null comment '是否已删除：0-否；1-是；',
-    root_flag   tinyint(1)   default 0  null comment '是否为父节点',
-    update_user varchar(32)             null comment '更新人',
-    update_time datetime                null comment '更新时间',
-    create_user varchar(32)             null comment '创建人',
-    create_time datetime                null comment '创建时间'
-)
-    comment '字典表';
-
 CREATE TABLE gs_sys.`undo_log` (
                             `id` bigint(20) NOT NULL AUTO_INCREMENT,
                             `branch_id` bigint(20) NOT NULL,

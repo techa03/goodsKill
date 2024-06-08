@@ -37,7 +37,7 @@
         <hutool.version>5.8.25</hutool.version>
         <mybatis-plus.version>3.5.6</mybatis-plus.version>
         <fastjson2.version>2.0.24</fastjson2.version>
-        <minio.version>8.4.2</minio.version>
+        <minio.version>8.5.10</minio.version>
         <shardingsphere.version>5.5.0</shardingsphere.version>
         <alipay.version>2.2.2</alipay.version>
         <redisson.version>3.26.0</redisson.version>
@@ -153,11 +153,6 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>jstl</artifactId>
-                <version>1.2</version>
             </dependency>
             <dependency>
                 <groupId>com.goodskill</groupId>

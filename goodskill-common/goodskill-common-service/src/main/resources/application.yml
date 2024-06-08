@@ -2,16 +2,29 @@ server:
   port: 18049
 
 spring:
+  #系统名称
+  application:
+    name: goodskill-common
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://mysql:3306/gs_sys?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
     username: root
     password: Password123
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      server-addr: nacos:8848
+  config:
+    import: optional:nacos:goodskill-common-service.yml
   main:
     allow-circular-references: true
   flyway:
-    locations: classpath:db/migration
+    enabled: false
     baseline-on-migrate: true
+    clean-disabled: true
+    locations:
+      - classpath:db/migration/mysql
 ## dubbo服务注册和发现
 dubbo:
   protocol:
@@ -24,8 +37,16 @@ dubbo:
     base-packages: com.goodskill.common.service.dubbo
   application:
     enable-file-cache: false
+    qos-port: 0
 #  cloud:
 #    subscribed-services: ""
+
+## oss配置
+minio:
+  endpoint: http://localhost:19000
+  accessKey: YghdgTEEJnvvrUm5nX70
+  secretKey: hCv6xU4TEembK6Fr2pHvJWxlijKUXySDIS4sSTMK
+  bucketName: goodskill
 
 seata:
   enabled: false
