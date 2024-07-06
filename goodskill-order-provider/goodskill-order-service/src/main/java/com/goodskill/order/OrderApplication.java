@@ -1,14 +1,15 @@
 package com.goodskill.order;
 
-import com.goodskill.order.entity.SuccessKilledDto;
-import com.goodskill.order.service.impl.MongoReactiveServiceImpl;
+import com.goodskill.order.entity.OrderDTO;
+import com.goodskill.order.service.impl.OrderServiceImpl;
 import com.goodskill.order.vo.SeckillMockSaveVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
-import reactor.core.publisher.Flux;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -18,14 +19,18 @@ import java.util.function.Consumer;
  * @author heng
  */
 @SpringBootApplication
-@EnableReactiveMongoRepositories(basePackages = "com.goodskill.order.repository")
+@EnableMongoRepositories(basePackages = "com.goodskill.order.repository")
+@Slf4j
 public class OrderApplication {
 
     @Autowired
-    private MongoReactiveServiceImpl mongoReactiveService;
+    private OrderServiceImpl mongoService;
 
     public static void main(String[] args) {
-        SpringApplication.run(OrderApplication.class, args);
+        new SpringApplicationBuilder(OrderApplication.class)
+                .web(WebApplicationType.SERVLET)
+                .registerShutdownHook(true)
+                .run(args);
     }
 
     /**
@@ -34,14 +39,15 @@ public class OrderApplication {
      * @return
      */
     @Bean
-    public Consumer<Flux<SeckillMockSaveVo>> seckillMongoSave() {
-        return saveVoFlux -> saveVoFlux.flatMap(it -> {
-            SuccessKilledDto successKilledDto = new SuccessKilledDto();
-            successKilledDto.setSeckillId(BigInteger.valueOf(it.getSeckillId()));
-            successKilledDto.setUserPhone(it.getUserPhone());
-            successKilledDto.setCreateTime(new Date());
-            return mongoReactiveService.saveRecord(successKilledDto);
-        }).subscribe();
+    public Consumer<SeckillMockSaveVo> seckillMongoSave() {
+        return it -> {
+            log.info("接收到消息:{}", it);
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setSeckillId(BigInteger.valueOf(it.getSeckillId()));
+            orderDTO.setUserPhone(it.getUserPhone());
+            orderDTO.setCreateTime(new Date());
+            mongoService.saveRecord(orderDTO);
+        };
     }
 
 }

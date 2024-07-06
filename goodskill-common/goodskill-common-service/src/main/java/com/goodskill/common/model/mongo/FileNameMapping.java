@@ -2,15 +2,15 @@ package com.goodskill.common.model.mongo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.Date;
 
 @Document(collection = "oss_file_name_mapping")
 @Data
 public class FileNameMapping {
-    @Id
+    @MongoId
     private String id;
 
     /**

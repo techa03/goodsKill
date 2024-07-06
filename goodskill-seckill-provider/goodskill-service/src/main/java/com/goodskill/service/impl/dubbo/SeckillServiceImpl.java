@@ -15,7 +15,7 @@ import com.goodskill.common.core.enums.Events;
 import com.goodskill.common.core.exception.SeckillCloseException;
 import com.goodskill.common.core.pojo.dto.SeckillWebMockRequestDTO;
 import com.goodskill.common.core.util.MD5Util;
-import com.goodskill.order.api.SuccessKilledMongoService;
+import com.goodskill.order.api.OrderService;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.common.enums.GoodsKillStrategyEnum;
 import com.goodskill.service.entity.Seckill;
@@ -61,7 +61,7 @@ import java.util.stream.Collectors;
 @DubboService
 public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> implements SeckillService {
     @Resource
-    private SuccessKilledMongoService successKilledMongoService;
+    private OrderService orderService;
     @Resource
     private SuccessKilledMapper successKilledMapper;
     @Resource
@@ -163,7 +163,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         long count = successKilledMapper.selectCount(new QueryWrapper<>(example));
         if (count == 0) {
             try {
-                count = successKilledMongoService.count(seckillId);
+                count = orderService.count(seckillId);
             } catch (Exception e) {
                 log.error("mongo服务不可用，请检查！", e);
                 throw e;

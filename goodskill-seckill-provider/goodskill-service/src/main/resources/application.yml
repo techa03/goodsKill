@@ -2,11 +2,12 @@ server:
   port: 0
 
 spring:
+  profiles:
+    active: dev
+  config:
+    import: optional:nacos:goodskill-common-connection.yml
   application:
     name: goodskill-seckill
-  graphql:
-    graphiql:
-      enabled: true
   kafka:
     consumer:
       group-id: seckill
@@ -23,64 +24,53 @@ spring:
         singleServerConfig:
           password: 123456
           address: "redis://redis:6379"
-  output:
-    ansi:
-      enabled: ALWAYS
-  data:
-    mongodb:
-      database: test
   flyway:
     enabled: false
     baseline-on-migrate: true
     clean-disabled: true
     locations:
       - classpath:db/migration/mysql
-  elasticsearch:
-    uris: http://elasticsearch:9200
+
   datasource:
-    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:shardingsphere:classpath:sharding-sphere.yml
-#    url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+    #    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    url: jdbc:shardingsphere:classpath:sharding-sphere.yml
+    url: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false&rewriteBatchedStatements=true
     username: root
     password: Password123
-#  shardingsphere:
-#    datasource:
-#      names: ds0,ds1
-#      ds0:
-#        driver-class-name: com.mysql.cj.jdbc.Driver
-#        type: com.zaxxer.hikari.HikariDataSource
-#      ds1:
-#        driver-class-name: com.mysql.cj.jdbc.Driver
-#        type: com.zaxxer.hikari.HikariDataSource
-#    sharding:
-#      binding-tables: success_killed
-#      tables:
-#        success_killed:
-#          actual-data-nodes: ds$->{0..1}.success_killed_$->{0..1}
-#          database-strategy:
-#            inline:
-#              algorithm-expression: ds$->{seckill_id % 2}
-#              sharding-column: seckill_id
-#          table-strategy:
-#            inline:
-#              algorithm-expression: success_killed_$->{user_phone.toLong() % 2}
-#              sharding-column: user_phone
-#      #必须配置，否则未配置的表会被应用分库分表规则
-#      default-data-source-name: ds0
-#    props:
-#      sql:
-#        show: false
-  mvc:
-    format:
-      date: yyyy-MM-dd HH:mm:ss
-      date-time: yyyy-MM-dd HH:mm:ss
-      time: HH:mm:ss
-  rabbitmq:
-    port: 5672
-    username: guest
-    password: guest
+  #  shardingsphere:
+  #    datasource:
+  #      names: ds0,ds1
+  #      ds0:
+  #        driver-class-name: com.mysql.cj.jdbc.Driver
+  #        type: com.zaxxer.hikari.HikariDataSource
+  #      ds1:
+  #        driver-class-name: com.mysql.cj.jdbc.Driver
+  #        type: com.zaxxer.hikari.HikariDataSource
+  #    sharding:
+  #      binding-tables: success_killed
+  #      tables:
+  #        success_killed:
+  #          actual-data-nodes: ds$->{0..1}.success_killed_$->{0..1}
+  #          database-strategy:
+  #            inline:
+  #              algorithm-expression: ds$->{seckill_id % 2}
+  #              sharding-column: seckill_id
+  #          table-strategy:
+  #            inline:
+  #              algorithm-expression: success_killed_$->{user_phone.toLong() % 2}
+  #              sharding-column: user_phone
+  #      #必须配置，否则未配置的表会被应用分库分表规则
+  #      default-data-source-name: ds0
+  #    props:
+  #      sql:
+  #        show: false
+
   cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      server-addr: nacos:8848
     function:
       definition: seckill
     stream:
@@ -94,22 +84,7 @@ spring:
         seckillMongoSave-out-0:
           destination: seckill-order-save
       default-binder: rabbit
-    sentinel:
-      transport:
-        port: 8719
-        ## 默认端口8080，已改为自定义18088端口，通过http://127.0.0.1:18088/#/dashboard访问
-        dashboard: localhost:18088
-      ##使用nacos配置中心存储限流规则
-      datasource:
-        ds0:
-          nacos:
-            data-id: ${spring.application.name}-flow-rules
-            data-type: json
-            group-id: DEFAULT_GROUP
-            rule-type: flow
-            server-addr: nacos:8848
-            username: nacos
-            password: nacos
+
 dubbo:
   scan:
     base-packages: com.goodskill.service.impl.dubbo
@@ -119,7 +94,6 @@ dubbo:
     port: -1
     status: server
   registry:
-    address: zookeeper://zookeeper:2181
     timeout: 30000
     id: my-registry
   provider:
@@ -129,19 +103,6 @@ dubbo:
     ##开启应用级地址注册
     register-mode: instance
     qos-port: 22222
-
-minio:
-  endpoint: http://localhost:19000
-  accessKey: goodskill
-  secretKey: password
-  bucketName: goodskill
-
-mybatis-plus:
-  global-config:
-    db-config:
-      logic-delete-field: deleteFlag  # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
-      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
-      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
 
 seata:
   enabled: false
@@ -167,76 +128,7 @@ seata:
       username: nacos
       password: nacos
 
-management:
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  health:
-    db:
-      enabled: false
----
-######################docker环境配置#####################
-spring:
-  ##下面是redis哨兵模式的配置信息
-  #    redisson:
-  #      config: |
-  #        sentinelServersConfig:
-  #          checkSentinelsList: false
-  #          masterName: mymaster
-  #          sentinelAddresses:
-  #          - "redis://127.0.0.1:26379"
-  #          - "redis://127.0.0.1:26380"
-  #          - "redis://127.0.0.1:26381"
-  #    sentinel:
-  #      master: mymaster
-  #      nodes: 127.0.0.1:26379,127.0.0.1:26380,127.0.0.1:26381
-  kafka:
-    bootstrap-servers: kafka:9092
-  shardingsphere:
-    datasource:
-      ds0:
-        password: Password123
-        jdbcUrl: jdbc:mysql://mysql:3306/seckill?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
-        username: root
-      ds1:
-        password: Password123
-        jdbcUrl: jdbc:mysql://mysql:3306/seckill_01?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
-        username: root
-  cloud:
-    nacos:
-      server-addr: nacos:8848
-    sentinel:
-      datasource:
-        ds0:
-          nacos:
-            server-addr: nacos:8848
-  elasticsearch:
-    uris: http://elasticsearch:9200
-  rabbitmq:
-    host: rabbitmq
-    port: 5672
-    username: guest
-    password: guest
-  config:
-    activate:
-      on-profile: docker,dev
-  data:
-    redis:
-      port: 6379
-      host: redis
-      password: 123456
-dubbo:
-  registry:
-    address: zookeeper://zookeeper:2181
-  provider:
-    timeout: 30000
-
-zookeeper_ip: zookeeper:2181
-
-
-
-
+feign:
+  sentinel:
+    ##开启sentinel对feign的支持
+    enabled: false
