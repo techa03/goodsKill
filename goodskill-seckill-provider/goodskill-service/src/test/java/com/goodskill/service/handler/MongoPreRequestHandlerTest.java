@@ -1,7 +1,7 @@
 package com.goodskill.service.handler;
 
 import com.goodskill.common.core.pojo.dto.SeckillWebMockRequestDTO;
-import com.goodskill.order.api.SuccessKilledMongoService;
+import com.goodskill.order.api.OrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,7 +15,7 @@ import static org.mockito.Mockito.verify;
 public class MongoPreRequestHandlerTest {
 
     @Mock
-    private SuccessKilledMongoService successKilledMongoService;
+    private OrderService orderService;
 
     @InjectMocks
     private MongoPreRequestHandler mongoPreRequestHandler;
@@ -32,6 +32,6 @@ public class MongoPreRequestHandlerTest {
 
         mongoPreRequestHandler.handle(request);
 
-        verify(successKilledMongoService, times(1)).deleteRecord(anyLong());
+        verify(orderService, times(1)).deleteRecord(anyLong());
     }
 }

@@ -180,6 +180,8 @@ docker-compose启动MySQL镜像时会自动执行初始化脚本，如已执行�
  127.0.0.1       www.goodskill.com
 ----
 
+* 在Nacos配置中心中添加DataId为``goodskill-common-connection.yml``的服务公共配置，Group为``DEFAULT_GROUP``，具体内容可参考项目根目录中的``goodskill-common-connection.yml``文件
+
 * main方法运行``OrderApplication``类(订单服务)
 
 * main方法运行``SeckillApplication``类(秒杀管理服务提供者)

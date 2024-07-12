@@ -8,7 +8,7 @@ import com.goodskill.api.service.GoodsService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.api.vo.SeckillVO;
-import com.goodskill.order.api.SuccessKilledMongoService;
+import com.goodskill.order.api.OrderService;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
@@ -58,7 +58,7 @@ public class SeckillServiceImplTest {
     @Mock
     private SuccessKilledMapper successKilledMapper;
     @Mock
-    private SuccessKilledMongoService successKilledMongoService;
+    private OrderService orderService;
     @Mock
     private RedisTemplate redisTemplate;
     @Mock
@@ -105,7 +105,7 @@ public class SeckillServiceImplTest {
     @Test
     public void getSuccessKillCount() {
         when(successKilledMapper.selectCount(any())).thenReturn(0L);
-        when(successKilledMongoService.count(1L)).thenReturn(1L);
+        when(orderService.count(1L)).thenReturn(1L);
         assertEquals(seckillService.getSuccessKillCount(1L), 1L);
     }
 
@@ -114,7 +114,7 @@ public class SeckillServiceImplTest {
         long seckillId = 1L;
         Seckill t = new Seckill();
         seckillService.prepareSeckill(seckillId, 10, "1");
-        verify(successKilledMongoService, times(0)).deleteRecord(seckillId);
+        verify(orderService, times(0)).deleteRecord(seckillId);
     }
 
     @Test

@@ -12,7 +12,7 @@ import java.util.Date;
  * @date 2019/4/3
  */
 @Data
-public class SuccessKilledDto implements Serializable {
+public class OrderDTO implements Serializable {
     @Serial
     private static final long serialVersionUID=1L;
 

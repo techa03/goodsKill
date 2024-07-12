@@ -32,13 +32,13 @@ public class DynamicRouteConfigWatcher implements CommandLineRunner {
     private DynamicRouteRefresh dynamicRouteService;
 
     private ConfigService configService;
-    @Value("${spring.cloud.nacos.discovery.server-addr}")
+    @Value("${spring.cloud.nacos.server-addr}")
     private String NACOS_SERVER_ADDR;
 
-    @Value("${spring.cloud.nacos.discovery.namespace:}")
+    @Value("${spring.cloud.nacos.namespace:}")
     private String NACOS_NAMESPACE;
 
-    @Value("${spring.cloud.nacos.discovery.group:DEFAULT_GROUP}")
+    @Value("${spring.cloud.nacos.group:DEFAULT_GROUP}")
     private String NACOS_ROUTE_GROUP;
 
     @Value("${spring.cloud.nacos.username}")

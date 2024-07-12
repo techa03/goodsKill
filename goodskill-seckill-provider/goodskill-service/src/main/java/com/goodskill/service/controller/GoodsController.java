@@ -1,56 +1,26 @@
 package com.goodskill.service.controller;
 
-import com.goodskill.api.service.GoodsService;
-import com.goodskill.api.vo.GoodsVO;
-import com.goodskill.service.util.UploadFileUtil;
+import com.goodskill.order.api.OrderService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Date;
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *  Created by heng on 17/1/18.
  */
 @Tag(name = "商品管理")
-@Controller
+@RestController
 @RequestMapping("/seckill/goods")
 public class GoodsController {
     @Resource
-    private GoodsService goodsService;
-    @Resource
-    private UploadFileUtil uploadFileUtil;
+    private OrderService orderService;
 
-    @GetMapping("/new")
-    public String addGoodsPage(){
-        return "addGoods";
+    @GetMapping("/orders/count")
+    public Long countOrders(@RequestParam("seckillId") long seckillId) {
+        return orderService.count(seckillId);
     }
 
-    @Transactional
-    @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public String add(GoodsVO goods, @RequestParam("file") MultipartFile file){
-        goods.setCreateTime(new Date());
-        String url = uploadFileUtil.uploadFile(file);
-        goods.setPhotoUrl(url);
-        goodsService.addGoods(goods);
-        return url;
-    }
-
-    @RequestMapping(value = "/list",method = RequestMethod.GET,produces = {
-            "application/json;charset=UTF-8"})
-    @ResponseBody
-    public List<GoodsVO> list(){
-        return goodsService.findMany();
-    }
-
-    @RequestMapping(value = "/{goodsId}", method = RequestMethod.GET, produces = {
-            "application/json;charset=UTF-8"})
-    @ResponseBody
-    public GoodsVO getGoodsById(@PathVariable(value = "goodsId") long goodsId) {
-        return goodsService.findById(goodsId);
-    }
 }
