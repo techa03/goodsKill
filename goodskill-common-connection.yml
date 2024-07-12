@@ -1,0 +1,103 @@
+spring:
+  mvc:
+    # json格式请求前台到后台的格式转换
+    format:
+      date: yyyy-MM-dd HH:mm:ss
+      date-time: yyyy-MM-dd HH:mm:ss
+      time: HH:mm:ss
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+  kafka:
+    bootstrap-servers: kafka:9092
+  elasticsearch:
+    uris: http://elasticsearch:9200
+  data:
+    redis:
+      port: 6379
+      host: redis
+      password: 123456
+    mongodb:
+      database: test
+  output:
+    ansi:
+      enabled: ALWAYS
+  graphql:
+    graphiql:
+      enabled: true
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: false
+    openfeign:
+      client:
+        config:
+          default:
+            connect-timeout: 2000 # 连接超时时间，单位为毫秒
+            read-timeout: 4000 # 读取超时时间，单位为毫秒
+    sentinel:
+      transport:
+        port: 8719
+        ## 默认端口8080，已改为自定义18088端口，通过http://127.0.0.1:18088/#/dashboard访问
+        dashboard: localhost:18088
+      ##使用nacos配置中心存储限流规则
+      datasource:
+        ds0:
+          nacos:
+            data-id: ${spring.application.name}-flow-rules
+            data-type: json
+            group-id: DEFAULT_GROUP
+            rule-type: flow
+            server-addr: nacos:8848
+            username: nacos
+            password: nacos
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: deleteFlag  # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+dubbo:
+  registry:
+    address: zookeeper://zookeeper:2181
+
+zookeeper_ip: zookeeper:2181
+
+## oss配置
+minio:
+  endpoint: http://localhost:19000
+  accessKey: YghdgTEEJnvvrUm5nX70
+  secretKey: hCv6xU4TEembK6Fr2pHvJWxlijKUXySDIS4sSTMK
+  bucketName: goodskill
+
+############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
+sa-token:
+  # token 名称（同时也是 cookie 名称）
+  token-name: access_token
+  # token 有效期（单位：秒） 默认30天，-1 代表永久有效
+  timeout: 2592000
+  # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
+  active-timeout: -1
+  # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）
+  is-share: true
+  # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+  token-style: simple-uuid
+  # 是否输出操作日志
+  is-log: true
+  # 关闭banner打印
+  is-print: true
