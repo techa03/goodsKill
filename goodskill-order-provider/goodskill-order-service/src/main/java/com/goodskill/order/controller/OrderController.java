@@ -29,12 +29,7 @@ public class OrderController {
     }
 
     @GetMapping("/count")
-    public Long count(long seckillId) throws InterruptedException {
-        // 模拟一个空指针
-        String str = null;
-        str.length();
-        log.info("count start");
-        Thread.sleep(10000L);
+    public Long count(long seckillId) {
         return orderService.count(seckillId);
     }
 
