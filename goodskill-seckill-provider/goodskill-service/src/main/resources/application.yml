@@ -1,11 +1,17 @@
 server:
-  port: 0
+  port: 54870
+
 
 spring:
+  graphql:
+    graphiql:
+      enabled: true
   profiles:
     active: dev
   config:
-    import: optional:nacos:goodskill-common-connection.yml
+    import:
+      - optional:nacos:goodskill-common-connection.yml
+      - optional:nacos:goodskill-common.yml
   application:
     name: goodskill-seckill
   kafka:
@@ -84,6 +90,10 @@ spring:
         seckillMongoSave-out-0:
           destination: seckill-order-save
       default-binder: rabbit
+  ##开启虚拟线程
+  threads:
+    virtual:
+      enabled: true
 
 dubbo:
   scan:
@@ -132,3 +142,6 @@ feign:
   sentinel:
     ##开启sentinel对feign的支持
     enabled: false
+logging:
+  level:
+    com.goodskill: debug

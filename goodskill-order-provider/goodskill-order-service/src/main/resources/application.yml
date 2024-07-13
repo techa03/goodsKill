@@ -9,7 +9,9 @@ spring:
   main:
     allow-circular-references: true
   config:
-    import: optional:nacos:goodskill-common-connection.yml
+    import:
+      - optional:nacos:goodskill-common-connection.yml
+      - optional:nacos:goodskill-common.yml
   cloud:
     nacos:
       username: nacos

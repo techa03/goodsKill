@@ -6,7 +6,9 @@ spring:
   application:
     name: goodskill-gateway
   config:
-    import: optional:nacos:goodskill-common-connection.yml
+    import:
+      - optional:nacos:goodskill-common-connection.yml
+      - optional:nacos:goodskill-common.yml
   main:
     allow-bean-definition-overriding: true
   cloud:

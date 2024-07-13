@@ -13,7 +13,9 @@ spring:
       password: nacos
       server-addr: nacos:8848
   config:
-    import: optional:nacos:goodskill-common-connection.yml
+    import:
+      - optional:nacos:goodskill-common-connection.yml
+      - optional:nacos:goodskill-common.yml
   main:
     allow-circular-references: true
   flyway:

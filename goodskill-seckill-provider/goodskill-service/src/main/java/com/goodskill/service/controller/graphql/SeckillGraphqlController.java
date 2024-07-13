@@ -39,4 +39,6 @@ public class SeckillGraphqlController {
         return successKilledService.list(Wrappers.<SuccessKilled>lambdaQuery().eq(SuccessKilled::getSeckillId, seckill.getSeckillId()));
     }
 
+
+
 }

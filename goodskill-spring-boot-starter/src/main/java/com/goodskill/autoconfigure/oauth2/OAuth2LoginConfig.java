@@ -2,7 +2,7 @@ package com.goodskill.autoconfigure.oauth2;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
-import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientPropertiesRegistrationAdapter;
+import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientPropertiesMapper;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -43,8 +44,9 @@ public class OAuth2LoginConfig {
     public ClientRegistrationRepository clientRegistrationRepository(OAuth2ClientProperties properties) {
         properties.getRegistration().remove("gitee");
         properties.getRegistration().remove("goodskill");
-        List<ClientRegistration> registrations = new ArrayList<>(
-                OAuth2ClientPropertiesRegistrationAdapter.getClientRegistrations(properties).values());
+        OAuth2ClientPropertiesMapper oAuth2ClientPropertiesMapper = new OAuth2ClientPropertiesMapper(properties);
+        Collection<ClientRegistration> values = oAuth2ClientPropertiesMapper.asClientRegistrations().values();
+        List<ClientRegistration> registrations = new ArrayList<>(values);
         registrations.add(giteeClientRegistration());
         registrations.add(goodskillClientRegistration());
         return new InMemoryClientRegistrationRepository(registrations);
