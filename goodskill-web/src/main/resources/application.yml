@@ -11,7 +11,9 @@ spring:
   profiles:
     active: dev
   config:
-    import: optional:nacos:goodskill-common-connection.yml
+    import:
+      - optional:nacos:goodskill-common-connection.yml
+      - optional:nacos:goodskill-common.yml
   application:
     name: goodskill-web
   main:
