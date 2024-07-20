@@ -65,4 +65,12 @@ public interface UserService extends IService<User> {
      * @return 是否一致
      */
     boolean checkPassword(String password, String passwordInput);
+
+    /**
+     * 为用户添加角色
+     *
+     * @param userId 用户id
+     * @param roleId 角色id
+     */
+    boolean addRole(int userId, int roleId);
 }

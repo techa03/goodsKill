@@ -37,9 +37,7 @@ public class SaTokenConfiguration {
                     RequestPath path = SaReactorSyncHolder.getContext().getRequest().getPath();
                     log.info("---------- sa全局认证, 请求url:{}", path);
                     SaRouter.notMatch(ignoreProperties.getWhiteUrl())
-                            .match("/**", () -> {
-                                StpUtil.checkLogin();
-                            });
+                            .match("/**", StpUtil::checkLogin);
                 })
                 // 指定[异常处理函数]：每次[认证函数]发生异常时执行此函数
                 .setError(e -> {

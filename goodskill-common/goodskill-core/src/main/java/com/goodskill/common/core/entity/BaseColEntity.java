@@ -26,5 +26,11 @@ public class BaseColEntity implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
+    @TableField(value = "create_user", fill = FieldFill.INSERT)
+    private String createUser;
+
+    @TableField(value = "update_user", fill = FieldFill.INSERT_UPDATE)
+    private String updateUser;
+
 
 }

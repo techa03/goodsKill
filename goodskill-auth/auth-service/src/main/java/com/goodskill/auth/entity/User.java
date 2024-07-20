@@ -44,4 +44,6 @@ public class User extends BaseColEntity implements Serializable {
 
     private String emailAddr;
 
+    private Integer deleteFlag;
+
 }

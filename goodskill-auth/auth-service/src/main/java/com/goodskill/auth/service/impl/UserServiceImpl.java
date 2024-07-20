@@ -128,4 +128,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public boolean checkPassword(String password, String passwordInput) {
         return passwordEncoder.matches(passwordInput, password);
     }
+
+    @Override
+    public boolean addRole(int userId, int roleId) {
+        // 校验角色id是否存在
+        if (roleMapper.selectById(roleId) != null) {
+            UserRole userRole = new UserRole();
+            userRole.setUserId(userId);
+            userRole.setRoleId(roleId);
+            return userRoleMapper.insert(userRole) > 0;
+        } else {
+            throw new RuntimeException("角色id不存在");
+        }
+    }
 }
