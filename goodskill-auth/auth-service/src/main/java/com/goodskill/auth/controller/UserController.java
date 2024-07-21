@@ -1,6 +1,7 @@
 package com.goodskill.auth.controller;
 
 import cn.dev33.satoken.session.SaSession;
+import cn.dev33.satoken.stp.StpInterface;
 import cn.dev33.satoken.stp.StpUtil;
 import com.goodskill.auth.entity.User;
 import com.goodskill.auth.pojo.vo.UserInfoVO;
@@ -22,6 +23,8 @@ import java.util.List;
 public class UserController {
     @Resource
     private UserService userService;
+    @Resource
+    private StpInterface stpInterface;
 
     /**
      * 为用户增加角色
@@ -50,6 +53,18 @@ public class UserController {
         userInfoVO.setPermissions(permissionList);
         userInfoVO.setRoles(roleList);
         return Result.ok(userInfoVO);
+    }
+
+    @GetMapping("/listUserPermission")
+    @Operation(summary = "获取用户权限")
+    public List<String> listUserPermission(String loginId, String loginType) {
+        return stpInterface.getPermissionList(loginId, loginType);
+    }
+
+    @GetMapping("/listUserRole")
+    @Operation(summary = "获取用户角色")
+    public List<String> listUserRole(String loginId, String loginType) {
+        return stpInterface.getRoleList(loginId, loginType);
     }
 
 }

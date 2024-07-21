@@ -2,6 +2,7 @@ package com.goodskill.service.impl;
 
 import com.goodskill.api.service.GoodsEsService;
 import com.goodskill.api.vo.GoodsVO;
+import com.goodskill.service.entity.Goods;
 import com.goodskill.service.impl.dubbo.GoodsServiceImpl;
 import com.goodskill.service.mapper.GoodsMapper;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ public class GoodsServiceImplTest {
     @Test
     public void uploadGoodsPhoto() {
         goodsService.uploadGoodsPhoto(1L, "http://localhost/goodskill/1.png");
-        verify(baseMapper, only()).updateById(any());
+        verify(baseMapper, only()).updateById(any(Goods.class));
     }
 
     @Test

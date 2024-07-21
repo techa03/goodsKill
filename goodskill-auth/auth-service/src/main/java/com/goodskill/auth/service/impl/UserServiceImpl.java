@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -120,7 +120,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public boolean updateLastLoginTime(Integer id) {
         User user = new User();
         user.setId(id);
-        user.setLastLoginTime(new Date());
+        user.setLastLoginTime(LocalDateTime.now());
         return this.updateById(user);
     }
 
