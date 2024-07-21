@@ -1,5 +1,6 @@
 package com.goodskill.common.core.orm.mybatis.config;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
@@ -15,20 +16,17 @@ import java.util.Date;
 @Slf4j
 public class FieldMetaObjectHandler implements MetaObjectHandler {
 
-    private static final String CREATED_TIME = "createTime";
-    private static final String UPDATED_TIME = "updateTime";
-
-
     @Override
     public void insertFill(MetaObject metaObject) {
-        Date now = new Date();
-        this.strictInsertFill(metaObject, CREATED_TIME, Date.class, now);
-        this.strictInsertFill(metaObject, UPDATED_TIME, Date.class, now);
+        this.strictInsertFill(metaObject, "createTime", Date.class, new Date());
+        this.strictInsertFill(metaObject, "createUser", () -> StpUtil.getLoginId(""), String.class);
+        this.strictInsertFill(metaObject, "updateTime", Date.class, new Date());
+        this.strictInsertFill(metaObject, "updateUser", () -> StpUtil.getLoginId(""), String.class);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        Date now = new Date();
-        this.strictUpdateFill(metaObject, UPDATED_TIME, Date.class, now);
+        this.strictUpdateFill(metaObject, "updateTime", Date.class, new Date());
+        this.strictUpdateFill(metaObject, "updateUser", () -> StpUtil.getLoginId(""), String.class);
     }
 }

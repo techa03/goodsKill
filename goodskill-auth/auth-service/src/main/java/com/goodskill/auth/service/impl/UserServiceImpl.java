@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -120,12 +120,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public boolean updateLastLoginTime(Integer id) {
         User user = new User();
         user.setId(id);
-        user.setLastLoginTime(new Date());
+        user.setLastLoginTime(LocalDateTime.now());
         return this.updateById(user);
     }
 
     @Override
     public boolean checkPassword(String password, String passwordInput) {
         return passwordEncoder.matches(passwordInput, password);
+    }
+
+    @Override
+    public boolean addRole(int userId, int roleId) {
+        // 校验角色id是否存在
+        if (roleMapper.selectById(roleId) != null) {
+            UserRole userRole = new UserRole();
+            userRole.setUserId(userId);
+            userRole.setRoleId(roleId);
+            return userRoleMapper.insert(userRole) > 0;
+        } else {
+            throw new RuntimeException("角色id不存在");
+        }
     }
 }

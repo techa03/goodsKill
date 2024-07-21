@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -38,10 +38,12 @@ public class User extends BaseColEntity implements Serializable {
 
     private String avatar;
 
-    private Date lastLoginTime;
+    private LocalDateTime lastLoginTime;
 
     private String mobile;
 
     private String emailAddr;
+
+    private Integer deleteFlag;
 
 }

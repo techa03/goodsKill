@@ -7,7 +7,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 通用基础Entity，租户主表除外
@@ -20,11 +20,17 @@ public class BaseColEntity implements Serializable {
 
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date updateTime;
+    private LocalDateTime updateTime;
+
+    @TableField(value = "create_user", fill = FieldFill.INSERT)
+    private String createUser;
+
+    @TableField(value = "update_user", fill = FieldFill.INSERT_UPDATE)
+    private String updateUser;
 
 
 }

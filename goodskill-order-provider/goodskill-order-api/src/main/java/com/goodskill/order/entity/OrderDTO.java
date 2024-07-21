@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author techa03
@@ -22,7 +22,7 @@ public class OrderDTO implements Serializable {
 
     private Byte status;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private String serverIp;
 

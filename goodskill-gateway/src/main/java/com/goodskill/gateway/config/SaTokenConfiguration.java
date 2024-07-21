@@ -3,6 +3,7 @@ package com.goodskill.gateway.config;
 import cn.dev33.satoken.reactor.context.SaReactorSyncHolder;
 import cn.dev33.satoken.reactor.filter.SaReactorFilter;
 import cn.dev33.satoken.router.SaRouter;
+import cn.dev33.satoken.spring.pathmatch.SaPathMatcherHolder;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import com.goodskill.gateway.properties.IgnoreProperties;
@@ -11,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.RequestPath;
+
+import java.util.List;
 
 /**
  * [Sa-Token 权限认证] 全局配置类
@@ -30,15 +33,20 @@ public class SaTokenConfiguration {
                 // 指定 [拦截路由]
                 .addInclude("/**")    /* 拦截所有path */
                 // 指定 [放行路由]
-                .addExclude("/favicon.ico", "/actuator/**", "/**")
+                .addExclude("/favicon.ico", "/actuator/**", "/api/**")
                 // 指定[认证函数]: 每次请求执行
                 .setAuth(obj -> {
                     // 打印路径
                     RequestPath path = SaReactorSyncHolder.getContext().getRequest().getPath();
                     log.info("---------- sa全局认证, 请求url:{}", path);
                     SaRouter.notMatch(ignoreProperties.getWhiteUrl())
-                            .match("/**", () -> {
+                            .check(r -> {
                                 StpUtil.checkLogin();
+                                List<String> userWhiteUrlList = ignoreProperties.getLoginUserWhiteUrls();
+                                // 登录用户白名单接口放行
+                                if (!ifMatchUserLoginWhiteUrl(userWhiteUrlList, path)) {
+//                                    StpUtil.checkPermission(path.value());
+                                }
                             });
                 })
                 // 指定[异常处理函数]：每次[认证函数]发生异常时执行此函数
@@ -46,5 +54,25 @@ public class SaTokenConfiguration {
                     log.error("---------- sa全局异常", e);
                     return SaResult.error(e.getMessage());
                 });
+    }
+
+
+    /**
+     * 判断当前url是否命中白名单
+     *
+     * @param userWhite
+     * @param path
+     * @return
+     */
+    private static boolean ifMatchUserLoginWhiteUrl(List<String> userWhite, RequestPath path) {
+        boolean found = false;
+        for (String pattern : userWhite) {
+            boolean match = SaPathMatcherHolder.getPathMatcher().match(pattern, path.value());
+            if (match) {
+                found = true;
+                break;
+            }
+        }
+        return found;
     }
 }

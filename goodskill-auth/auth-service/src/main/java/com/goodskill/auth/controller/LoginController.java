@@ -9,7 +9,10 @@ import com.goodskill.common.core.info.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 登录测试
@@ -44,16 +47,6 @@ public class LoginController {
         return Result.ok();
     }
 
-    @GetMapping("/user")
-    @Operation(summary = "获取用户信息")
-    public Result<?> getUser() {
-        Object loginId = StpUtil.getLoginId();
-        StpUtil.hasPermission("/test");
-        StpUtil.hasRole("test");
-        User info = userService.getUserInfoById(loginId.toString());
-        return Result.ok(info);
-    }
-
     @PostMapping("/register")
     @Operation(summary = "注册")
     public Result<String> register(@RequestBody UserDTO userDTO) {
@@ -72,7 +65,7 @@ public class LoginController {
                 return Result.fail("用户名或密码错误");
             }
             StpUtil.login(userAccount.getId());
-            return Result.ok("登录成功");
+            return Result.ok(StpUtil.getTokenInfo().getTokenValue());
         }
         return Result.fail("用户名或密码错误");
     }

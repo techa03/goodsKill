@@ -40,7 +40,7 @@ public class UserAccountServiceImplTest {
     public void register() {
         UserDTO user = new UserDTO();
         userService.register(user);
-        verify(baseMapper,only()).insert(any());
+        verify(baseMapper,only()).insert(any(User.class));
     }
 
     @Test
