@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -77,8 +77,8 @@ public class OssFileController {
             fileNameMapping.setOriginalFileName(file.getOriginalFilename());
             fileNameMapping.setUniqueFileName(uniqueFileName);
             fileNameMapping.setFileMd5(fileMd5);
-            fileNameMapping.setCreateTime(new Date());
-            fileNameMapping.setUpdateTime(new Date());
+            fileNameMapping.setCreateTime(LocalDateTime.now());
+            fileNameMapping.setUpdateTime(LocalDateTime.now());
             fileNameMappingRepository.save(fileNameMapping);
 
             // 返回上传文件的 URL

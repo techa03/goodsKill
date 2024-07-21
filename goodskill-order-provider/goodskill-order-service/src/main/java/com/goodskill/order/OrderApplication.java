@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.math.BigInteger;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.function.Consumer;
 
 /**
@@ -45,7 +45,7 @@ public class OrderApplication {
             OrderDTO orderDTO = new OrderDTO();
             orderDTO.setSeckillId(BigInteger.valueOf(it.getSeckillId()));
             orderDTO.setUserPhone(it.getUserPhone());
-            orderDTO.setCreateTime(new Date());
+            orderDTO.setCreateTime(LocalDateTime.now());
             mongoService.saveRecord(orderDTO);
         };
     }
