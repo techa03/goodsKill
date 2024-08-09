@@ -25,6 +25,7 @@
   store.db.branchTable=branch_table
   # 全局锁表名 默认lock_table
   store.db.lockTable=lock_table
+  store.db.distributedLockTable=distributed_lock
   # 查询全局事务一次的最大条数 默认100
   store.db.queryLimit=100
   
@@ -53,6 +54,7 @@
   docker-compose up -d seata-server
   ```
   **注意**:修改environment SEATA_IP ，不配置则默认使用容器ip，会导致服务连不上seata server
+- 参考官方建表语句初始化seata_server数据库
 - 在nacos控制台中增加以下配置（group需配置为SEATA_GROUP，dataId为对应key，配置文件内容为value）
   ```
   service.vgroupMapping.my_test_tx_group=default

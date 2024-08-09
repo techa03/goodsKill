@@ -48,7 +48,7 @@ seata:
   #  server:
   #    service-port: 8091 #If not configured, the default is '${server.port} + 1000'
   security:
-    secretKey: SeataSecretKey0c382ef121d778043159209298fd40bf3850a017
+    secretKey: SecretKey012345678901234567890123456789012345678901234567890123456789
     tokenValidityInMilliseconds: 1800000
     ignore:
       urls: /,/**/*.css,/**/*.js,/**/*.html,/**/*.map,/**/*.svg,/**/*.png,/**/*.ico,/console-fe/public/**,/api/v1/auth/login

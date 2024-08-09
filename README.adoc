@@ -125,7 +125,7 @@ ns         %     Task name
 |===
 |镜像 |版本 |端口 |用户名密码
 
-|Nacos |2.3.2-slim |8848 |nacos:nacos
+|Nacos |2.3.2-slim |8848 |nacos:nacos（控制台）
 |Redis |latest |6379 |密码:123456
 |Kafka |3.1.1 |9092 |无
 |KafkaManager |latest |9001:9000 |无
@@ -136,6 +136,7 @@ ns         %     Task name
 |Kibana |7.17.3 |5601 |无
 |RabbitMQ |latest |5672 15672 |无
 |MinIO |latest |9000 |root:password
+|Seata |2.0.0 |7091 8091|seata:seata（控制台）
 |===
 
 == 🎯 快速开始
@@ -148,7 +149,7 @@ ns         %     Task name
   mvn clean install -DskipTests
 ----
 
-* 默认端口启动nacos、redis、mysql、rabbitmq、kafka、zookeeper、elasticsearch，或者使用docker-compose{empty}footnote:[需要安装docker-desktop https://www.docker.com/products/docker-desktop/]命令：
+* 默认端口启动nacos、redis、mysql、rabbitmq、kafka、zookeeper、elasticsearch、seataServer，或者使用docker-compose{empty}footnote:[需要安装docker-desktop https://www.docker.com/products/docker-desktop/]命令：
 +
 [source,bash]
 ----
