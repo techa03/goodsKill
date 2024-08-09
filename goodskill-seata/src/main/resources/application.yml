@@ -27,7 +27,7 @@ dubbo:
     qos-port: 22223
 
 seata:
-  enabled: false
+  enabled: true
   #1.4.2使用此配置禁用seata
   enable-auto-data-source-proxy: true
   application-id: goodskill-seata
