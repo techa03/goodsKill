@@ -5,7 +5,7 @@ import com.alibaba.otter.canal.protocol.CanalEntry;
 import com.alibaba.otter.canal.protocol.CanalEntry.*;
 import com.alibaba.otter.canal.protocol.Message;
 import com.goodskill.api.dto.SeckillMockCanalResponseDTO;
-import com.goodskill.common.core.constant.SeckillStatusConstant;
+import com.goodskill.core.constant.SeckillStatusConstant;
 import com.google.protobuf.InvalidProtocolBufferException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;

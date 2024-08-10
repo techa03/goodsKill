@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.springframework.stereotype.Component;
 
-import static com.goodskill.common.core.enums.SeckillSolutionEnum.ZOOKEEPER_LOCK;
+import static com.goodskill.core.enums.SeckillSolutionEnum.ZOOKEEPER_LOCK;
 
 /**
  * @author techa03

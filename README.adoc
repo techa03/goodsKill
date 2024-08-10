@@ -231,7 +231,7 @@ curl --location --request POST 'http://www.goodskill.com:8080/limit' \
 == 🕹️️ 启动其他可选项目步骤
 在快速开始部分基础上增加以下步骤即可启动一个完整项目
 
-* 进入``goodskill-gateway``模块，通过``GatewayApplication``类main方法启动服务网关，统一通过网关访问各个服务
+* 进入``goodskill-gateway``模块，通过``GatewayBootApplication``类main方法启动服务网关，统一通过网关访问各个服务
 
 +
 - `http://www.goodskill.com/api/order/**` 对应访问``goodskill-order``服务

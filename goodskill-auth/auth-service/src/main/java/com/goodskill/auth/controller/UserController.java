@@ -6,7 +6,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.goodskill.auth.entity.User;
 import com.goodskill.auth.pojo.vo.UserInfoVO;
 import com.goodskill.auth.service.UserService;
-import com.goodskill.common.core.info.Result;
+import com.goodskill.core.info.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;

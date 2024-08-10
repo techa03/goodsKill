@@ -1,6 +1,6 @@
 package com.goodskill.service.handler;
 
-import com.goodskill.common.core.pojo.dto.SeckillWebMockRequestDTO;
+import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
 
 /**
  * 请求处理类

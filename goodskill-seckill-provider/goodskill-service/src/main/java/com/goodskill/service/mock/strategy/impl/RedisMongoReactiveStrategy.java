@@ -2,9 +2,9 @@ package com.goodskill.service.mock.strategy.impl;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.dto.SeckillMockResponseDTO;
-import com.goodskill.common.core.constant.SeckillStatusConstant;
-import com.goodskill.common.core.enums.Events;
-import com.goodskill.common.core.enums.States;
+import com.goodskill.core.constant.SeckillStatusConstant;
+import com.goodskill.core.enums.Events;
+import com.goodskill.core.enums.States;
 import com.goodskill.order.vo.SeckillMockSaveVo;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
-import static com.goodskill.common.core.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
+import static com.goodskill.core.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
 import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME;
 import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME_MONGO_SAVE;
 

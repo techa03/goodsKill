@@ -1,6 +1,6 @@
 package com.goodskill.service.common.enums;
 
-import com.goodskill.common.core.enums.SeckillSolutionEnum;
+import com.goodskill.core.enums.SeckillSolutionEnum;
 import com.goodskill.service.mock.strategy.impl.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

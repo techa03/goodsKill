@@ -1,7 +1,7 @@
 package com.goodskill.service.handler;
 
-import com.goodskill.common.core.enums.Events;
-import com.goodskill.common.core.pojo.dto.SeckillWebMockRequestDTO;
+import com.goodskill.core.enums.Events;
+import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
 import com.goodskill.service.util.StateMachineService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;

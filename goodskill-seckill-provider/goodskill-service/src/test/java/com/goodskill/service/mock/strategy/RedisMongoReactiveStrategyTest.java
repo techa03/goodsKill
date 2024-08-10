@@ -1,7 +1,7 @@
 package com.goodskill.service.mock.strategy;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
-import com.goodskill.common.core.enums.States;
+import com.goodskill.core.enums.States;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;

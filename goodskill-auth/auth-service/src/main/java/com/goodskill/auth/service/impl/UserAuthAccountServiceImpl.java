@@ -7,7 +7,7 @@ import com.goodskill.auth.entity.UserAuthAccount;
 import com.goodskill.auth.mapper.UserAuthAccountMapper;
 import com.goodskill.auth.service.UserAuthAccountService;
 import com.goodskill.auth.service.UserService;
-import com.goodskill.common.core.pojo.bo.UserBO;
+import com.goodskill.core.pojo.bo.UserBO;
 import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;

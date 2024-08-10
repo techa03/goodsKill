@@ -4,7 +4,7 @@ import com.goodskill.auth.entity.User;
 import com.goodskill.auth.entity.UserAuthAccount;
 import com.goodskill.auth.mapper.UserAuthAccountMapper;
 import com.goodskill.auth.service.UserService;
-import com.goodskill.common.core.pojo.bo.UserBO;
+import com.goodskill.core.pojo.bo.UserBO;
 import org.apache.ibatis.logging.Log;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

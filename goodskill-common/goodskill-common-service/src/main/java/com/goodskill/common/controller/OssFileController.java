@@ -1,9 +1,9 @@
 package com.goodskill.common.controller;
 
 import cn.hutool.core.util.IdUtil;
-import com.goodskill.common.core.info.Result;
 import com.goodskill.common.model.mongo.FileNameMapping;
 import com.goodskill.common.repository.FileNameMappingRepository;
+import com.goodskill.core.info.Result;
 import io.minio.GetObjectArgs;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;

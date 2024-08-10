@@ -161,7 +161,17 @@
             </dependency>
             <dependency>
                 <groupId>com.goodskill</groupId>
-                <artifactId>goodskill-core</artifactId>
+                <artifactId>core-util</artifactId>
+                <version>${goodskill.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.goodskill</groupId>
+                <artifactId>core-jwt</artifactId>
+                <version>${goodskill.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.goodskill</groupId>
+                <artifactId>core-orm</artifactId>
                 <version>${goodskill.version}</version>
             </dependency>
             <dependency>

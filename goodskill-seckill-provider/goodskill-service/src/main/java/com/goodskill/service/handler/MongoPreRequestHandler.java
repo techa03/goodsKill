@@ -1,6 +1,6 @@
 package com.goodskill.service.handler;
 
-import com.goodskill.common.core.pojo.dto.SeckillWebMockRequestDTO;
+import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
 import com.goodskill.order.api.OrderService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
