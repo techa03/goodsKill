@@ -1,7 +1,7 @@
 package com.goodskill.auth.service;
 
 
-import com.goodskill.common.core.pojo.bo.UserBO;
+import com.goodskill.core.pojo.bo.UserBO;
 
 /**
  * <p>

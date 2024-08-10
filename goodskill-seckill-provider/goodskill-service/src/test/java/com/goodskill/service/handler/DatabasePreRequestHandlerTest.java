@@ -1,6 +1,6 @@
 package com.goodskill.service.handler;
 
-import com.goodskill.common.core.pojo.dto.SeckillWebMockRequestDTO;
+import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;

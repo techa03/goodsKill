@@ -38,7 +38,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import static com.goodskill.common.core.enums.SeckillSolutionEnum.SYCHRONIZED;
+import static com.goodskill.core.enums.SeckillSolutionEnum.SYCHRONIZED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;

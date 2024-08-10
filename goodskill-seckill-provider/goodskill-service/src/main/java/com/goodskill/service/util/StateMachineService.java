@@ -1,7 +1,7 @@
 package com.goodskill.service.util;
 
-import com.goodskill.common.core.enums.Events;
-import com.goodskill.common.core.enums.States;
+import com.goodskill.core.enums.Events;
+import com.goodskill.core.enums.States;
 import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package com.goodskill.service.config;
 
-import com.goodskill.common.core.enums.Events;
-import com.goodskill.common.core.enums.States;
+import com.goodskill.core.enums.Events;
+import com.goodskill.core.enums.States;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,8 +22,8 @@ import org.springframework.statemachine.state.State;
 
 import java.util.EnumSet;
 
-import static com.goodskill.common.core.enums.Events.*;
-import static com.goodskill.common.core.enums.States.*;
+import static com.goodskill.core.enums.Events.*;
+import static com.goodskill.core.enums.States.*;
 
 /**
  * 控制秒杀活动的状态机配置

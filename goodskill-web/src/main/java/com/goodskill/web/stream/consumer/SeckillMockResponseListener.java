@@ -2,7 +2,7 @@ package com.goodskill.web.stream.consumer;
 
 import com.goodskill.api.dto.SeckillMockResponseDTO;
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.common.core.enums.SeckillSolutionEnum;
+import com.goodskill.core.enums.SeckillSolutionEnum;
 import com.goodskill.web.util.TaskTimeCaculateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;

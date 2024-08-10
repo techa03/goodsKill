@@ -1,7 +1,7 @@
 package com.goodskill.service.handler;
 
 
-import com.goodskill.common.core.pojo.dto.SeckillWebMockRequestDTO;
+import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
 import org.springframework.core.Ordered;
 
 public abstract class AbstractPreRequestHandler implements PreRequestHandler, Ordered {

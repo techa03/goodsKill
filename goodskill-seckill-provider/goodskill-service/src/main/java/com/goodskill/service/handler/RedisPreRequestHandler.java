@@ -1,7 +1,7 @@
 package com.goodskill.service.handler;
 
-import com.goodskill.common.core.constant.SeckillStatusConstant;
-import com.goodskill.common.core.pojo.dto.SeckillWebMockRequestDTO;
+import com.goodskill.core.constant.SeckillStatusConstant;
+import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import jakarta.annotation.Resource;

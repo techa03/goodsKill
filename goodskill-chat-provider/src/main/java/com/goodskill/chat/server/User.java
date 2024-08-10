@@ -2,7 +2,7 @@ package com.goodskill.chat.server;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.goodskill.common.core.entity.BaseColEntity;
+import com.goodskill.core.entity.BaseColEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

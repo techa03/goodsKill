@@ -12,8 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.RequestPath;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 
 import java.util.List;
+
+import static com.goodskill.core.enums.CommonConstants.USER_ID_HEADER;
 
 /**
  * [Sa-Token 权限认证] 全局配置类
@@ -25,7 +28,7 @@ public class SaTokenConfiguration {
     private IgnoreProperties ignoreProperties;
 
     /**
-     * 注册 [Sa-Token全局过滤器]
+     * 注册 [Sa-Token全局过滤器]，优先级高于GlobalFilter，即在GlobalFilter之前执行
      */
     @Bean
     public SaReactorFilter getSaReactorFilter() {
@@ -33,15 +36,17 @@ public class SaTokenConfiguration {
                 // 指定 [拦截路由]
                 .addInclude("/**")    /* 拦截所有path */
                 // 指定 [放行路由]
-                .addExclude("/favicon.ico", "/actuator/**", "/api/**")
+                .addExclude("/favicon.ico", "/actuator/**")
                 // 指定[认证函数]: 每次请求执行
                 .setAuth(obj -> {
                     // 打印路径
-                    RequestPath path = SaReactorSyncHolder.getContext().getRequest().getPath();
+                    ServerHttpRequest request = SaReactorSyncHolder.getContext().getRequest();
+                    RequestPath path = request.getPath();
                     log.info("---------- sa全局认证, 请求url:{}", path);
                     SaRouter.notMatch(ignoreProperties.getWhiteUrl())
                             .check(r -> {
                                 StpUtil.checkLogin();
+                                request.mutate().header(USER_ID_HEADER, StpUtil.getLoginId() + "");
                                 List<String> userWhiteUrlList = ignoreProperties.getLoginUserWhiteUrls();
                                 // 登录用户白名单接口放行
                                 if (!ifMatchUserLoginWhiteUrl(userWhiteUrlList, path)) {

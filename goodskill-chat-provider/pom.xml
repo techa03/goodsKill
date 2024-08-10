@@ -15,7 +15,11 @@
     <dependencies>
         <dependency>
             <groupId>com.goodskill</groupId>
-            <artifactId>goodskill-core</artifactId>
+            <artifactId>core-jwt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.goodskill</groupId>
+            <artifactId>core-util</artifactId>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>

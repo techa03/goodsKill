@@ -1,7 +1,7 @@
 package com.goodskill.service.mq;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
-import com.goodskill.common.core.enums.SeckillSolutionEnum;
+import com.goodskill.core.enums.SeckillSolutionEnum;
 import com.goodskill.service.inner.SeckillExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

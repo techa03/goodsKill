@@ -1,7 +1,7 @@
 package com.goodskill.service.mock.strategy.impl;
 
 import com.goodskill.api.dto.SeckillMockRequestDTO;
-import com.goodskill.common.core.enums.Events;
+import com.goodskill.core.enums.Events;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.SeckillMapper;

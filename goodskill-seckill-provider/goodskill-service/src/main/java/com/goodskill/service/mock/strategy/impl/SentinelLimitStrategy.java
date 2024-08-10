@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.goodskill.common.core.enums.SeckillSolutionEnum.ATOMIC_UPDATE;
+import static com.goodskill.core.enums.SeckillSolutionEnum.ATOMIC_UPDATE;
 
 /**
  * @author techa03

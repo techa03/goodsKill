@@ -5,10 +5,11 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.goodskill.auth.entity.User;
 import com.goodskill.auth.pojo.dto.UserDTO;
 import com.goodskill.auth.service.UserService;
-import com.goodskill.common.core.info.Result;
+import com.goodskill.core.info.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class LoginController {
      */
     @RequestMapping("/isLogin")
     @Operation(summary = "测试登录")
-    public Result<String> isLogin() {
+    public Result<String> isLogin(HttpServletRequest request) {
         return Result.ok("是否登录：" + StpUtil.isLogin());
     }
 

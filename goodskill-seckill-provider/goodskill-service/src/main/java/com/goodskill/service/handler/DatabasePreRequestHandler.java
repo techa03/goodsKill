@@ -1,7 +1,7 @@
 package com.goodskill.service.handler;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.goodskill.common.core.pojo.dto.SeckillWebMockRequestDTO;
+import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.mapper.SeckillMapper;
