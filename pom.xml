@@ -224,11 +224,6 @@
             </dependency>
             <dependency>
                 <groupId>com.goodskill</groupId>
-                <artifactId>goodskill-es-dao</artifactId>
-                <version>${goodskill.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.goodskill</groupId>
                 <artifactId>goodskill-common-api</artifactId>
                 <version>${goodskill.version}</version>
             </dependency>

@@ -1,4 +1,4 @@
-package com.goodskill.core.orm.mybatis.config;
+package com.goodskill.core.util;
 
 import com.goodskill.core.enums.CommonConstants;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,7 +6,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 
-public class HeaderUtils {
+public class HeaderUtil {
 
     /**
      * 从当前请求的 Header 中提取 userId。
