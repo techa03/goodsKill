@@ -115,7 +115,7 @@ public class DynamicRouteConfigWatcher implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         String configInfo = configService.getConfig(NACOS_ROUTE_DATA_ID, NACOS_ROUTE_GROUP, 3000);
-        log.info("获取网关当前配置:\r\n{}", configInfo);
+        log.info("获取网关当前配置:{}", configInfo);
         List<RouteDefinition> definitionList = JSON.parseArray(configInfo, RouteDefinition.class);
         if (!CollectionUtils.isEmpty(definitionList)) {
             definitionList.forEach(definition -> {

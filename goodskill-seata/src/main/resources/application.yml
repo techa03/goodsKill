@@ -3,9 +3,19 @@ spring:
     active: docker
 ---
 spring:
+  application:
+    name: goodskill-seata
   config:
     activate:
       on-profile: docker
+    import:
+      - optional:nacos:goodskill-common-connection.yml
+      - optional:nacos:goodskill-common.yml
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      server-addr: nacos:8848
   main:
     allow-circular-references: true
 dubbo:

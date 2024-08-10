@@ -45,11 +45,6 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>core-util</artifactId>
         </dependency>

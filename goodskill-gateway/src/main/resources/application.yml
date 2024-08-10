@@ -76,6 +76,10 @@ spring:
           filters:
             - RedirectTo=302, https://www.baidu.com, true
 
+management:
+  endpoint:
+    gateway:
+      enabled: true
 
 nacos:
   router:
