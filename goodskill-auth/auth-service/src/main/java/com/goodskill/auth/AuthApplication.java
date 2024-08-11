@@ -5,8 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = {
-        "com.goodskill.auth.**",
-        "com.goodskill.core.orm",
+        "com.goodskill.auth",
+        "com.goodskill.core",
 })
 @MapperScan("com.goodskill.auth.mapper")
 public class AuthApplication {

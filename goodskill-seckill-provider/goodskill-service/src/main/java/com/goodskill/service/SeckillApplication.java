@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @SpringBootApplication(scanBasePackages = {
         "com.goodskill.service",
-        "com.goodskill.core.orm",
+        "com.goodskill.core",
         "com.goodskill.order.api",
 })
 @EnableTransactionManagement

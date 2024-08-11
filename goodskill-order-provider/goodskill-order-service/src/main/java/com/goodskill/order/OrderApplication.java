@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 /**
  * @author heng
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.goodskill.order", "com.goodskill.core"})
 @EnableMongoRepositories(basePackages = "com.goodskill.order.repository")
 @Slf4j
 public class OrderApplication {

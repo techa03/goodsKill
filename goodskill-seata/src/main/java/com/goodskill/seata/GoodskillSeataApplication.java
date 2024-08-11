@@ -14,7 +14,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.goodskill.seata", "com.goodskill.core"})
 @RestController
 @EnableFeignClients(basePackages = "com.goodskill.seata.feign")
 public class GoodskillSeataApplication {
