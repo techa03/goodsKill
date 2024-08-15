@@ -5,10 +5,9 @@
     <parent>
         <artifactId>goodskill-core</artifactId>
         <groupId>com.goodskill</groupId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>core-util</artifactId>
-    <version>${goodskill.version}</version>
     <name>core-util</name>
     <description>core-util</description>
     <url/>
@@ -69,6 +68,14 @@
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -76,6 +83,25 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

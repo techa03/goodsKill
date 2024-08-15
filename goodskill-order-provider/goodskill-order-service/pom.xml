@@ -5,10 +5,9 @@
     <parent>
         <artifactId>goodskill-order-provider</artifactId>
         <groupId>com.goodskill</groupId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <version>${goodskill.version}</version>
 
     <artifactId>goodskill-order-service</artifactId>
 
@@ -82,6 +81,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.goodskill</groupId>
+            <artifactId>core-util</artifactId>
         </dependency>
     </dependencies>
     <build>

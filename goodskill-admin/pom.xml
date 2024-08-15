@@ -5,10 +5,9 @@
     <parent>
         <artifactId>goodskill</artifactId>
         <groupId>com.goodskill</groupId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>goodskill-admin</artifactId>
-    <version>${goodskill.version}</version>
     <name>goodskill-admin</name>
     <description>goodskill-admin</description>
     <packaging>jar</packaging>
