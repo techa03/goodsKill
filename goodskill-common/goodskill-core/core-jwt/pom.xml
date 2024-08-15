@@ -4,11 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>goodskill-core</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>${revision}</version>
         <groupId>com.goodskill</groupId>
     </parent>
     <artifactId>core-jwt</artifactId>
-    <version>${goodskill.version}</version>
     <name>core-jwt</name>
     <description>core-jwt</description>
     <url/>

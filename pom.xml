@@ -6,7 +6,7 @@
     <groupId>com.goodskill</groupId>
     <artifactId>goodskill</artifactId>
     <packaging>pom</packaging>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>${revision}</version>
     <modules>
         <module>goodskill-web</module>
         <module>goodskill-seckill-provider</module>
@@ -25,15 +25,15 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <goodskill.version>1.0.0-SNAPSHOT</goodskill.version>
+        <revision>3.2.7-SNAPSHOT</revision>
         <springboot.version>3.2.7</springboot.version>
-        <spring-cloud.version>2023.0.1</spring-cloud.version>
-        <spring.cloud.alibaba.version>2023.0.1.0</spring.cloud.alibaba.version>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <spring.cloud.alibaba.version>2023.0.1.2</spring.cloud.alibaba.version>
         <spring-statemachine.version>4.0.0</spring-statemachine.version>
         <jacoco.version>0.8.12</jacoco.version>
         <maven.surefire.version>2.22.2</maven.surefire.version>
         <net.logstash.version>7.1.1</net.logstash.version>
-        <dubbo.version>3.2.11</dubbo.version>
+        <dubbo.version>3.2.15</dubbo.version>
         <hutool.version>5.8.29</hutool.version>
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
         <fastjson2.version>2.0.51</fastjson2.version>
@@ -46,6 +46,7 @@
         <satoken.version>1.38.0</satoken.version>
         <spring-boot-admin.version>3.2.3</spring-boot-admin.version>
         <netty.version>4.1.100.Final</netty.version>
+        <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
     </properties>
 
     <build>
@@ -62,6 +63,31 @@
                         <arg>-parameters</arg>
                     </compilerArgs>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${flatten-maven-plugin.version}</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
         <pluginManagement>
@@ -157,32 +183,32 @@
             <dependency>
                 <groupId>com.goodskill</groupId>
                 <artifactId>goodskill-api</artifactId>
-                <version>${goodskill.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.goodskill</groupId>
                 <artifactId>core-util</artifactId>
-                <version>${goodskill.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.goodskill</groupId>
                 <artifactId>core-jwt</artifactId>
-                <version>${goodskill.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.goodskill</groupId>
                 <artifactId>core-orm</artifactId>
-                <version>${goodskill.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.goodskill</groupId>
                 <artifactId>goodskill-order-api</artifactId>
-                <version>${goodskill.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.goodskill</groupId>
                 <artifactId>goodskill-spring-boot-starter</artifactId>
-                <version>${goodskill.version}</version>
+                <version>${revision}</version>
             </dependency>
             <!--支付宝sdk需要的依赖 -->
             <dependency>
@@ -225,7 +251,7 @@
             <dependency>
                 <groupId>com.goodskill</groupId>
                 <artifactId>goodskill-common-api</artifactId>
-                <version>${goodskill.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>

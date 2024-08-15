@@ -5,9 +5,8 @@
     <parent>
         <artifactId>goodskill-common</artifactId>
         <groupId>com.goodskill</groupId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
-    <version>${goodskill.version}</version>
     <artifactId>goodskill-common-service</artifactId>
     <name>goodskill-common-service</name>
     <description>goodskill-common-service</description>

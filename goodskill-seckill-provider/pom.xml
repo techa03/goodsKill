@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>com.goodskill</groupId>
 		<artifactId>goodskill</artifactId>
-		<version>3.0.0-SNAPSHOT</version>
+		<version>${revision}</version>
 	</parent>
 	<name>goodskill-seckill-provider</name>
 

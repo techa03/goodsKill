@@ -5,10 +5,9 @@
     <parent>
         <artifactId>goodskill-core</artifactId>
         <groupId>com.goodskill</groupId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>core-util</artifactId>
-    <version>${goodskill.version}</version>
     <name>core-util</name>
     <description>core-util</description>
     <url/>

@@ -1,0 +1,8 @@
+#spring:
+#  cloud:
+#    ai:
+#      tongyi:
+#        api-key: sk-cb05ff8db5f849c7816ddcc25ce18fe7
+#        chat:
+#          options:
+#            api-key: sk-cb05ff8db5f849c7816ddcc25ce18fe7
