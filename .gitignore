@@ -18,3 +18,4 @@
 /build/
 /.classpath
 !/pom.xml
+/goodskill-ai/target/

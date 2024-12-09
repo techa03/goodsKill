@@ -62,9 +62,9 @@ public class SeckillMockController {
      */
     @Operation(summary = "秒杀场景一(sychronized同步锁实现)")
     @PostMapping("/sychronized")
-    public Result doWithSychronized(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        processSeckill(dto, SYCHRONIZED);
-        return Result.ok();
+    public Result<Long> doWithSychronized(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+        Long l = processSeckill(dto, SYCHRONIZED);
+        return Result.ok(l);
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -201,6 +201,28 @@ public class SeckillMockController {
     }
 
     /**
+     * 获取秒杀活动最新任务id fixme 目前只能拿到全局最新的任务id，不能区分秒杀活动id
+     * @param seckillId 秒杀活动id
+     * @return 秒杀活动最新任务id
+     */
+    @PostMapping("/task-info")
+    public Result<Long> getTaskId(@RequestParam Long seckillId) {
+        return Result.ok(Long.valueOf(stringRedisTemplate.opsForValue().get("SECKILL_TASK_ID_COUNTER")));
+    }
+
+    /**
+     * 获取任务耗时统计信息
+     *
+     * @param seckillId 秒杀活动的ID
+     * @return 返回一个Result对象，其中包含格式化后的任务时间信息字符串
+     */
+    @GetMapping("/task-time-info")
+    public Result<String> getTaskTimeInfo(@RequestParam Long seckillId) {
+        return Result.ok(TaskTimeCaculateUtil.prettyPrint(String.valueOf(stringRedisTemplate.opsForValue().get("SECKILL_TASK_ID_COUNTER"))));
+    }
+
+
+    /**
      * 准备商品库存
      *
      * @param seckillId
@@ -242,8 +264,8 @@ public class SeckillMockController {
      * @param dto                 秒杀请求
      * @param seckillSolutionEnum 秒杀策略
      */
-    private void processSeckill(SeckillWebMockRequestDTO dto, SeckillSolutionEnum seckillSolutionEnum) {
-        processSeckill(dto, seckillSolutionEnum, null);
+    private Long processSeckill(SeckillWebMockRequestDTO dto, SeckillSolutionEnum seckillSolutionEnum) {
+        return processSeckill(dto, seckillSolutionEnum, null);
     }
 
     /**
@@ -252,8 +274,9 @@ public class SeckillMockController {
      * @param dto                 秒杀请求
      * @param seckillSolutionEnum 秒杀策略
      * @param runnable            待执行的任务
+     * @return 秒杀任务id
      */
-    private void processSeckill(SeckillWebMockRequestDTO dto, SeckillSolutionEnum seckillSolutionEnum, Runnable runnable) {
+    private Long processSeckill(SeckillWebMockRequestDTO dto, SeckillSolutionEnum seckillSolutionEnum, Runnable runnable) {
         log.debug("#processSeckill start count:{},当前线程池队列长度:{},线程数:{},是否空:{}", SECKILL_PHONE_NUM_COUNTER.get(),
                 taskExecutor.getThreadPoolExecutor().getQueue().size(),
                 taskExecutor.getPoolSize(), taskExecutor.getThreadPoolExecutor().getQueue().isEmpty());
@@ -282,6 +305,7 @@ public class SeckillMockController {
             }
             taskExecutor.execute(runnable);
         }
+        return seckillTaskIdCounter;
     }
 
 }
