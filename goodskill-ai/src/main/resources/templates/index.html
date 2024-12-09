@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AI 对话</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .chat-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: calc(100% - 22px);
+            height: 500px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+        .message {
+            margin: 5px 0;
+        }
+        .user-message {
+            text-align: right;
+            color: blue;
+        }
+        .ai-message {
+            text-align: left;
+            color: green;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container" id="chatContainer">
+    <!-- 消息将在这里动态添加 -->
+</div>
+
+<input type="text" id="userInput" placeholder="输入您的消息...">
+<button onclick="sendMessage()">发送</button>
+
+<script>
+    function sendMessage() {
+        const userInput = document.getElementById('userInput').value;
+        if (userInput.trim() === '') return;
+
+        // 显示用户消息
+        addMessage(userInput, 'user-message');
+
+        // 清空输入框
+        document.getElementById('userInput').value = '';
+
+        // 发送请求到后端
+        fetch('/api/assistant/chat?chatId=12345&userMessage=' + encodeURIComponent(userInput), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(data => {
+                // 处理 SSE 响应
+                const lines = data.split('\n');
+                let fullMessage = '';
+                lines.forEach(line => {
+                    if (line.startsWith('data:')) {
+                        const message = line.substring(5).trim(); // 去掉 "data:" 前缀
+                        const cleanedMessage = message.replace(/\n/g, ''); // 去掉换行符
+                        if (cleanedMessage.trim() !== '') { // 过滤掉空行
+                            fullMessage += cleanedMessage; // 拼接消息
+                        }
+                    }
+                });
+                if (fullMessage.trim() !== '') { // 确保有内容才添加
+                    addMessage(fullMessage, 'ai-message');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                addMessage('无法获取 AI 回复', 'ai-message');
+            });
+    }
+
+    function addMessage(message, className) {
+        const chatContainer = document.getElementById('chatContainer');
+        const messageElement = document.createElement('div');
+        messageElement.className = 'message ' + className;
+        messageElement.textContent = message;
+        chatContainer.appendChild(messageElement);
+        chatContainer.scrollTop = chatContainer.scrollHeight; // 自动滚动到底部
+    }
+
+
+</script>
+
+</body>
+</html>
