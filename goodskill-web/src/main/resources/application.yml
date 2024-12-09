@@ -49,7 +49,7 @@ spring:
 ##dubbo配置
 dubbo:
   protocol:
-    name: dubbo
+    name: triple
     port: -1
   consumer:
     timeout: 30000

@@ -39,9 +39,8 @@ spring:
 
 dubbo:
   protocol:
-    name: dubbo
+    name: triple
     port: -1
-    id: dubbo
 #  cloud:
 #    subscribed-services: "goodskill-service-provider"
   provider:
