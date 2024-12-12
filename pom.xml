@@ -19,21 +19,22 @@
         <module>goodskill-auth</module>
         <module>goodskill-admin</module>
         <module>goodskill-chat-provider</module>
-<!--        <module>goodskill-canal</module>-->
+        <module>goodskill-ai</module>
+        <!--        <module>goodskill-canal</module>-->
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <revision>3.2.7-SNAPSHOT</revision>
-        <springboot.version>3.2.7</springboot.version>
+        <springboot.version>3.3.3</springboot.version>
         <spring-cloud.version>2023.0.3</spring-cloud.version>
-        <spring.cloud.alibaba.version>2023.0.1.2</spring.cloud.alibaba.version>
+        <spring.cloud.alibaba.version>2023.0.1.3</spring.cloud.alibaba.version>
         <spring-statemachine.version>4.0.0</spring-statemachine.version>
         <jacoco.version>0.8.12</jacoco.version>
         <maven.surefire.version>2.22.2</maven.surefire.version>
         <net.logstash.version>7.1.1</net.logstash.version>
-        <dubbo.version>3.2.15</dubbo.version>
+        <dubbo.version>3.3.1</dubbo.version>
         <hutool.version>5.8.29</hutool.version>
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
         <fastjson2.version>2.0.51</fastjson2.version>

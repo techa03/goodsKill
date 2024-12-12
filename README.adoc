@@ -10,6 +10,8 @@ image:https://github.com/techa03/goodsKill/actions/workflows/codeql.yml/badge.sv
 
 本项目为模拟秒杀项目，提供统一秒杀模拟请求接口，技术上整体采用SpringMVC + Mybatis持久层框架，采用Dubbo3.x{empty}footnote:[由于SpringCloudAlibaba官方暂未支持Dubbo 3.x，本项目采用dubbo-spring-boot-starter集成]+Feign完成服务间接口调用，服务注册发现以及配置中心使用Nacos，支持数据库分库分表、分布式事务，使用状态机完成数据状态间的转换（基于Spring Statemachine实现）。
 
+集成了Spring AI服务，可以通过AI机器人完成模拟秒杀动作。
+
 == 💎 分支介绍
 
 ``master``分支基于最新Spring Cloud 2023.x + Spring Boot 3.x + JDK21体系构建，目前仅保留核心的模拟秒杀API接口，如需使用Spring Boot 2.7.x + JDK11版本可以切换到tag https://github.com/techa03/goodsKill/tree/v2.7.4[v2.7.4]（支持登录注册以及简单的后台管理功能）。master分支目前升级改造中，功能不够稳定，如遇代码报错建议使用老版本。
@@ -46,6 +48,7 @@ ____
 |Sa-Token |轻量级权限认证框架 |https://sa-token.cc/
 |Flyway |数据库版本控制工具 |https://flywaydb.org/
 |MinIO |对象存储服务 |https://min.io/
+|Spring AI |AI组件 |https://spring.io/projects/spring-ai
 |===
 
 == 📝 项目模块介绍
@@ -53,6 +56,7 @@ ____
 ----
 goodsKill
 |--goodskill-admin                          ||SpringBoot Admin监控服务端，支持Spring Cloud微服务发现
+|--goodskill-ai                             ||AI机器人聊天服务
 |--goodskill-gateway                        ||微服务API网关，统一服务鉴权，支持动态路由加载
 |--goodskill-order-provider                 ||订单服务提供者
 |--goodskill-seckill-provider               ||秒杀服务提供者
@@ -117,9 +121,9 @@ ns         %     Task name
 * JDK: OpenJDK21
 * Sharding-JDBC: 5.5.0
 * SpringCloud: 2023.x.x
-* SpringBoot: 3.2.x
+* SpringBoot: 3.3.x
 * SpringCloudAlibaba: 2023.x.x
-* Apache Dubbo: 3.x
+* Apache Dubbo: 3.3.x
 * 使用的Docker镜像
 +
 |===
@@ -228,6 +232,25 @@ curl --location --request POST 'http://www.goodskill.com:8080/limit' \
 +
 请求默认异步执行，可在控制台查看执行日志，如果最终成功交易笔数等于商品数量10则表示没有出现超卖或者少卖问题
 
+== 🤖️ 使用AI机器人聊天服务
+基于Spring AI Alibaba构建的简易秒杀机器人服务，可以通过机器人服务完成服务调用，目前仅支持开启秒杀活动，以及输出活动耗时情况
+
+* 进入``goodskill-ai``模块，替换配置``spring.ai.dashscope.api-key``，可通过阿里云百炼平台获取
+
+* main方法运行``AiBotApplication``类，访问聊天页面 `http://127.0.0.1:18077`
+
+* 以下是一个对话示例
+[source,text]
++
+----
+我: 帮我执行秒杀
+
+AI: 当然可以帮助您执行秒杀活动啦！为了顺利进行，请告诉我以下几个信息：1.秒杀活动的ID是多少？2. 这次秒杀的商品数量是多少？3.您打算这次请求的次数是多少？有了这些信息，我就能帮您开始了！😊
+
+我: 秒杀活动id 1001，请求次数20，商品数量10个
+
+AI: 秒杀活动已成功开启！我们现在等待10秒钟，然后我会为您获取任务的耗时统计信息。秒杀活动已成功启动，并在10秒后获得了任务耗时统计信息：总耗时：6.673773375秒具体耗时分布如下：- 秒杀活动id:1001，秒杀场景五(数据库原子性更新update setnum = num -1)耗时 3.528280125 秒，占比 53%-秒杀活动id:1001，秒杀场景五(数据库原子性更新updateset num = num-1)耗时3.14549325 秒，占比 47%希望这些信息对您有帮助！如果还有其他问题或需要进一步的帮助，请随时告诉我哦！😊
+----
 
 == 🕹️️ 启动其他可选项目步骤
 在快速开始部分基础上增加以下步骤即可启动一个完整项目
