@@ -27,9 +27,8 @@ spring:
 ## dubbo服务注册和发现
 dubbo:
   protocol:
-    name: dubbo
+    name: tri
     port: -1
-    id: dubbo
   registry:
     address: zookeeper://zookeeper:2181
   scan:

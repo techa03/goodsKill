@@ -20,7 +20,7 @@ spring:
     allow-circular-references: true
 dubbo:
   protocol:
-    name: dubbo
+    name: tri
     ### 服务暴露端口
     port: -1
     status: server
