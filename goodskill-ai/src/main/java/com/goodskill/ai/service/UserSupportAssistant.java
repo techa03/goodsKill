@@ -55,17 +55,16 @@ public class UserSupportAssistant {
 					   今天的日期是 {current_date}.
 					""")
 				.defaultAdvisors(
-						new PromptChatMemoryAdvisor(chatMemory), // Chat Memory
+						// Chat Memory
+						new PromptChatMemoryAdvisor(chatMemory),
 						// new VectorStoreChatMemoryAdvisor(vectorStore)),
-
-						new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults()), // RAG
+						// RAG
+						new QuestionAnswerAdvisor(vectorStore, SearchRequest.builder().topK(4).similarityThresholdAll().build()),
 						// new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults()
 						// 	.withFilterExpression("'documentType' == 'terms-of-service' && region in ['EU', 'US']")),
-
 						new LoggingAdvisor())
-
-				.defaultFunctions("startSeckill", "getTaskTimeInfo") // FUNCTION CALLING
-
+				// FUNCTION CALLING
+				.defaultFunctions("startSeckill", "getTaskTimeInfo")
 				.build();
 		// @formatter:on
     }
@@ -75,7 +74,7 @@ public class UserSupportAssistant {
                 .user(userMessageContent)
                 .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
                 .stream()
-                .content();
+				.content();
     }
 
 }
