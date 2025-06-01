@@ -5,7 +5,7 @@ image:https://github.com/techa03/goodsKill/actions/workflows/maven.yml/badge.svg
 image:https://codecov.io/gh/techa03/goodsKill/branch/master/graph/badge.svg[codecov,link=https://codecov.io/gh/techa03/goodsKill]
 image:https://github.com/techa03/goodsKill/actions/workflows/codeql.yml/badge.svg?branch=master[CodeQL,link=https://github.com/techa03/goodsKill/actions/workflows/codeql.yml]
 
-https://github.com/techa03/goodsKill/blob/master/README_CN.adoc[中文说明]
+https://github.com/techa03/goodsKill/blob/master/README.adoc[中文说明]
 
 The project is named *goodsKill*, which carries a double meaning - "product flash sale" (with a slight Chinglish flavor) and "*good skill*". This project aims to build a complete framework that integrates excellent technologies and development techniques (focusing on backend technologies) for learning and reference purposes.
 

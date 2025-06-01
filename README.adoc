@@ -5,7 +5,7 @@ image:https://github.com/techa03/goodsKill/actions/workflows/maven.yml/badge.svg
 image:https://codecov.io/gh/techa03/goodsKill/branch/master/graph/badge.svg[codecov,link=https://codecov.io/gh/techa03/goodsKill]
 image:https://github.com/techa03/goodsKill/actions/workflows/codeql.yml/badge.svg?branch=main[CodeQL,link=https://github.com/techa03/goodsKill/actions/workflows/codeql.yml]
 
-https://github.com/techa03/goodsKill/blob/master/README.adoc[English]
+https://github.com/techa03/goodsKill/blob/master/README_EN.adoc[English]
 
 项目命名为 *goodsKill* 一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为 *good skill*，本项目就是希望搭建一套完整的项目框架，把一些好的技术和开发技巧整合进来（偏向于后端技术），方便学习和查阅。
 
