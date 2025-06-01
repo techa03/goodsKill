@@ -1,11 +1,11 @@
 = 前言
 
 image:https://img.shields.io/badge/license-MIT-blue.svg[License,link=LICENSE]
-image:https://github.com/techa03/goodsKill/actions/workflows/maven.yml/badge.svg?branch=master[Java CI with Maven,link=https://github.com/techa03/goodsKill/actions/workflows/maven.yml]
-image:https://codecov.io/gh/techa03/goodsKill/branch/master/graph/badge.svg[codecov,link=https://codecov.io/gh/techa03/goodsKill]
+image:https://github.com/techa03/goodsKill/actions/workflows/maven.yml/badge.svg?branch=main[Java CI with Maven,link=https://github.com/techa03/goodsKill/actions/workflows/maven.yml]
+image:https://codecov.io/gh/techa03/goodsKill/branch/main/graph/badge.svg[codecov,link=https://codecov.io/gh/techa03/goodsKill]
 image:https://github.com/techa03/goodsKill/actions/workflows/codeql.yml/badge.svg?branch=main[CodeQL,link=https://github.com/techa03/goodsKill/actions/workflows/codeql.yml]
 
-https://github.com/techa03/goodsKill/blob/master/README_EN.adoc[English]
+https://github.com/techa03/goodsKill/blob/main/README_EN.adoc[English]
 
 项目命名为 *goodsKill* 一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为 *good skill*，本项目就是希望搭建一套完整的项目框架，把一些好的技术和开发技巧整合进来（偏向于后端技术），方便学习和查阅。
 
@@ -269,7 +269,7 @@ AI: 秒杀活动已成功开启！我们现在等待10秒钟，然后我会为�
 
 * 已集成``Sentinel``限流组件，支持``nacos``配置中心方式推送限流规则，使用时需启动``Sentinel``控制台，并以``18088``端口启动，docker环境暂不支持。
 
-* Seata分布式事务测试方法见 https://github.com/techa03/goodsKill/tree/master/goodskill-seata/README.md[Seata分布式事务测试示例运行说明]
+* Seata分布式事务测试方法见 https://github.com/techa03/goodsKill/tree/main/goodskill-seata/README.md[Seata分布式事务测试示例运行说明]
 
 * main方法运行``GoodskillAdminApplication``类(微服务健康状态指标监控)
 

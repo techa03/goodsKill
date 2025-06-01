@@ -1,11 +1,11 @@
 = Introduction
 
 image:https://img.shields.io/badge/license-MIT-blue.svg[License,link=LICENSE]
-image:https://github.com/techa03/goodsKill/actions/workflows/maven.yml/badge.svg?branch=master[Java CI with Maven,link=https://github.com/techa03/goodsKill/actions/workflows/maven.yml]
-image:https://codecov.io/gh/techa03/goodsKill/branch/master/graph/badge.svg[codecov,link=https://codecov.io/gh/techa03/goodsKill]
-image:https://github.com/techa03/goodsKill/actions/workflows/codeql.yml/badge.svg?branch=master[CodeQL,link=https://github.com/techa03/goodsKill/actions/workflows/codeql.yml]
+image:https://github.com/techa03/goodsKill/actions/workflows/maven.yml/badge.svg?branch=main[Java CI with Maven,link=https://github.com/techa03/goodsKill/actions/workflows/maven.yml]
+image:https://codecov.io/gh/techa03/goodsKill/branch/main/graph/badge.svg[codecov,link=https://codecov.io/gh/techa03/goodsKill]
+image:https://github.com/techa03/goodsKill/actions/workflows/codeql.yml/badge.svg?branch=main[CodeQL,link=https://github.com/techa03/goodsKill/actions/workflows/codeql.yml]
 
-https://github.com/techa03/goodsKill/blob/master/README.adoc[中文说明]
+https://github.com/techa03/goodsKill/blob/main/README.adoc[中文说明]
 
 The project is named *goodsKill*, which carries a double meaning - "product flash sale" (with a slight Chinglish flavor) and "*good skill*". This project aims to build a complete framework that integrates excellent technologies and development techniques (focusing on backend technologies) for learning and reference purposes.
 
@@ -15,7 +15,7 @@ The project integrates Spring AI service, allowing flash sale simulations to be 
 
 == 💎 Branch Introduction
 
-The ``master`` branch is built on the latest Spring Cloud 2023.x + Spring Boot 3.x + JDK21 system. Currently it only retains core flash sale simulation API interfaces. If you need Spring Boot 2.7.x + JDK11 version, please switch to tag https://github.com/techa03/goodsKill/tree/v2.7.4[v2.7.4] (which supports login/registration and simple admin functions). The master branch is currently undergoing upgrades and may not be stable. If you encounter errors, please use the older version.
+The ``main`` branch is built on the latest Spring Cloud 2023.x + Spring Boot 3.x + JDK21 system. Currently it only retains core flash sale simulation API interfaces. If you need Spring Boot 2.7.x + JDK11 version, please switch to tag https://github.com/techa03/goodsKill/tree/v2.7.4[v2.7.4] (which supports login/registration and simple admin functions). The main branch is currently undergoing upgrades and may not be stable. If you encounter errors, please use the older version.
 
 This project currently has relatively simple functionality and many incomplete aspects. Real flash sale scenarios are much more complex than the implementation in this project, which omits some technical details of real-world scenarios. Currently it's only for learning and reference purposes. If you find this project helpful, please give it a star 👍~~~~.
 ____
@@ -272,7 +272,7 @@ Additional steps to start complete project after Quick Start:
 
 * Integrated ``Sentinel`` rate limiting component (supports nacos config center). Requires starting ``Sentinel`` console on port ``18088`` (not supported in docker yet).
 
-* For Seata distributed transaction testing, see https://github.com/techa03/goodsKill/tree/master/goodskill-seata/README.md[Seata Distributed Transaction Test Example]
+* For Seata distributed transaction testing, see https://github.com/techa03/goodsKill/tree/main/goodskill-seata/README.md[Seata Distributed Transaction Test Example]
 
 * Run ``GoodskillAdminApplication`` class (microservice health monitoring)
 
