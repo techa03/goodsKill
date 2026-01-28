@@ -3,15 +3,21 @@ package com.goodskill.service.handler;
 import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class PreRequestPipelineTest {
+@ExtendWith(MockitoExtension.class)
+class PreRequestPipelineTest {
+    @InjectMocks
+    private PreRequestPipeline preRequestPipeline;
 
     @Mock
     private AbstractPreRequestHandler handler1;
@@ -19,48 +25,142 @@ public class PreRequestPipelineTest {
     @Mock
     private AbstractPreRequestHandler handler2;
 
-    @InjectMocks
-    private PreRequestPipeline preRequestPipeline;
+    @Mock
+    private AbstractPreRequestHandler handler3;
+
+    private List<AbstractPreRequestHandler> handlers;
 
     @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-        preRequestPipeline.setPrePreRequestHandlers(Arrays.asList(handler1, handler2));
+    void setUp() {
+        handlers = new ArrayList<>();
+        handlers.add(handler1);
+        handlers.add(handler2);
+        handlers.add(handler3);
+
+        preRequestPipeline.setPrePreRequestHandlers(handlers);
     }
 
     @Test
-    public void shouldHandleRequestSuccessfully() {
+    void testHandleSuccess() {
         SeckillWebMockRequestDTO request = new SeckillWebMockRequestDTO();
-        doNothing().when(handler1).handle(request);
-        doNothing().when(handler2).handle(request);
+        request.setSeckillId(1000L);
+        request.setSeckillCount(10);
+        request.setTaskId("task1");
+
+        when(handler1.getOrder()).thenReturn(1);
+        when(handler2.getOrder()).thenReturn(2);
+        when(handler3.getOrder()).thenReturn(3);
 
         preRequestPipeline.handle(request);
 
         verify(handler1, times(1)).handle(request);
         verify(handler2, times(1)).handle(request);
+        verify(handler3, times(1)).handle(request);
     }
 
     @Test
-    public void shouldHandleRequestEvenWhenOneHandlerFails() {
+    void testHandleWithReverseOrder() {
         SeckillWebMockRequestDTO request = new SeckillWebMockRequestDTO();
-        doThrow(new RuntimeException()).when(handler1).handle(request);
-        doNothing().when(handler2).handle(request);
+        request.setSeckillId(1000L);
+        request.setSeckillCount(10);
+        request.setTaskId("task1");
+
+        when(handler1.getOrder()).thenReturn(3);
+        when(handler2.getOrder()).thenReturn(2);
+        when(handler3.getOrder()).thenReturn(1);
+
+        preRequestPipeline.handle(request);
+
+        verify(handler3, times(1)).handle(request);
+        verify(handler2, times(1)).handle(request);
+        verify(handler1, times(1)).handle(request);
+    }
+
+    @Test
+    void testHandleWithException() {
+        SeckillWebMockRequestDTO request = new SeckillWebMockRequestDTO();
+        request.setSeckillId(1000L);
+        request.setSeckillCount(10);
+        request.setTaskId("task1");
+
+        when(handler1.getOrder()).thenReturn(1);
+        when(handler2.getOrder()).thenReturn(2);
+        when(handler3.getOrder()).thenReturn(3);
+
+        doThrow(new RuntimeException("Handler error")).when(handler2).handle(any());
 
         preRequestPipeline.handle(request);
 
         verify(handler1, times(1)).handle(request);
         verify(handler2, times(1)).handle(request);
+        verify(handler3, times(1)).handle(request);
     }
 
     @Test
-    public void shouldNotHandleRequestWhenNoHandlers() {
-        PreRequestPipeline pipeline = new PreRequestPipeline();
-        pipeline.setPrePreRequestHandlers(Arrays.asList());
+    void testHandleWithMultipleExceptions() {
+        SeckillWebMockRequestDTO request = new SeckillWebMockRequestDTO();
+        request.setSeckillId(1000L);
+        request.setSeckillCount(10);
+        request.setTaskId("task1");
+
+        when(handler1.getOrder()).thenReturn(1);
+        when(handler2.getOrder()).thenReturn(2);
+        when(handler3.getOrder()).thenReturn(3);
+
+        doThrow(new RuntimeException("Handler1 error")).when(handler1).handle(any());
+        doThrow(new RuntimeException("Handler3 error")).when(handler3).handle(any());
+
+        preRequestPipeline.handle(request);
+
+        verify(handler1, times(1)).handle(request);
+        verify(handler2, times(1)).handle(request);
+        verify(handler3, times(1)).handle(request);
+    }
+
+    @Test
+    void testHandleWithEmptyHandlers() {
+        preRequestPipeline.setPrePreRequestHandlers(new ArrayList<>());
 
         SeckillWebMockRequestDTO request = new SeckillWebMockRequestDTO();
-        pipeline.handle(request);
+        request.setSeckillId(1000L);
+        request.setSeckillCount(10);
+        request.setTaskId("task1");
 
-        verify(handler1, times(0)).handle(any());
-        verify(handler2, times(0)).handle(any());
+        preRequestPipeline.handle(request);
+
+        verify(handler1, never()).handle(any());
+        verify(handler2, never()).handle(any());
+        verify(handler3, never()).handle(any());
+    }
+
+    @Test
+    void testHandleWithNullRequest() {
+        when(handler1.getOrder()).thenReturn(1);
+        when(handler2.getOrder()).thenReturn(2);
+        when(handler3.getOrder()).thenReturn(3);
+
+        preRequestPipeline.handle(null);
+
+        verify(handler1, times(1)).handle(null);
+        verify(handler2, times(1)).handle(null);
+        verify(handler3, times(1)).handle(null);
+    }
+
+    @Test
+    void testHandleWithSameOrder() {
+        SeckillWebMockRequestDTO request = new SeckillWebMockRequestDTO();
+        request.setSeckillId(1000L);
+        request.setSeckillCount(10);
+        request.setTaskId("task1");
+
+        when(handler1.getOrder()).thenReturn(1);
+        when(handler2.getOrder()).thenReturn(1);
+        when(handler3.getOrder()).thenReturn(1);
+
+        preRequestPipeline.handle(request);
+
+        verify(handler1, times(1)).handle(request);
+        verify(handler2, times(1)).handle(request);
+        verify(handler3, times(1)).handle(request);
     }
 }
