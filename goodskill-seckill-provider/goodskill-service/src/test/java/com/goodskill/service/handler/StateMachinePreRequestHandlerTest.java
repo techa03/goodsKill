@@ -5,51 +5,87 @@ import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
 import com.goodskill.service.util.StateMachineService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class StateMachinePreRequestHandlerTest {
-
+@ExtendWith(MockitoExtension.class)
+class StateMachinePreRequestHandlerTest {
     @Mock
     private StateMachineService stateMachineService;
 
     @InjectMocks
-    private StateMachinePreRequestHandler stateMachinePreRequestHandler;
+    private StateMachinePreRequestHandler handler;
+
+    private SeckillWebMockRequestDTO request;
 
     @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
+    void setUp() {
+        request = new SeckillWebMockRequestDTO();
+        request.setSeckillId(1000L);
+        request.setSeckillCount(100);
+        request.setTaskId("task1");
     }
 
     @Test
-    public void shouldHandleRequestSuccessfully() {
-        SeckillWebMockRequestDTO request = new SeckillWebMockRequestDTO();
-        request.setSeckillId(123L);
-        when(stateMachineService.feedMachine(Events.ACTIVITY_RESET, request.getSeckillId())).thenReturn(true);
-        when(stateMachineService.feedMachine(Events.ACTIVITY_START, request.getSeckillId())).thenReturn(true);
+    void testHandle() {
+        when(stateMachineService.feedMachine(Events.ACTIVITY_RESET, 1000L)).thenReturn(true);
+        when(stateMachineService.feedMachine(Events.ACTIVITY_START, 1000L)).thenReturn(true);
 
-        stateMachinePreRequestHandler.handle(request);
+        handler.handle(request);
 
-        verify(stateMachineService, times(1)).initStateMachine(request.getSeckillId());
-        verify(stateMachineService, times(1)).feedMachine(Events.ACTIVITY_RESET, request.getSeckillId());
-        verify(stateMachineService, times(1)).feedMachine(Events.ACTIVITY_START, request.getSeckillId());
+        verify(stateMachineService, times(1)).initStateMachine(1000L);
+        verify(stateMachineService, times(1)).feedMachine(Events.ACTIVITY_RESET, 1000L);
+        verify(stateMachineService, times(1)).feedMachine(Events.ACTIVITY_START, 1000L);
     }
 
     @Test
-    public void shouldThrowExceptionWhenActivityNotEnded() {
-        SeckillWebMockRequestDTO request = new SeckillWebMockRequestDTO();
-        request.setSeckillId(123L);
-        when(stateMachineService.feedMachine(Events.ACTIVITY_RESET, request.getSeckillId())).thenReturn(false);
+    void testHandleWithDifferentSeckillId() {
+        request.setSeckillId(2000L);
+        when(stateMachineService.feedMachine(Events.ACTIVITY_RESET, 2000L)).thenReturn(true);
+        when(stateMachineService.feedMachine(Events.ACTIVITY_START, 2000L)).thenReturn(true);
 
-        try {
-            stateMachinePreRequestHandler.handle(request);
-        } catch (RuntimeException e) {
-            verify(stateMachineService, times(1)).initStateMachine(request.getSeckillId());
-            verify(stateMachineService, times(1)).feedMachine(Events.ACTIVITY_RESET, request.getSeckillId());
-            verify(stateMachineService, times(0)).feedMachine(Events.ACTIVITY_START, request.getSeckillId());
-        }
+        handler.handle(request);
+
+        verify(stateMachineService, times(1)).initStateMachine(2000L);
+        verify(stateMachineService, times(1)).feedMachine(Events.ACTIVITY_RESET, 2000L);
+        verify(stateMachineService, times(1)).feedMachine(Events.ACTIVITY_START, 2000L);
+    }
+
+    @Test
+    void testHandleWithResetFailure() {
+        when(stateMachineService.feedMachine(Events.ACTIVITY_RESET, 1000L)).thenReturn(false);
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            handler.handle(request);
+        });
+
+        assertEquals("活动尚未结束，请等待活动结束后再次操作", exception.getMessage());
+        verify(stateMachineService, times(1)).initStateMachine(1000L);
+        verify(stateMachineService, times(1)).feedMachine(Events.ACTIVITY_RESET, 1000L);
+        verify(stateMachineService, never()).feedMachine(Events.ACTIVITY_START, 1000L);
+    }
+
+    @Test
+    void testHandleWithStartFailure() {
+        when(stateMachineService.feedMachine(Events.ACTIVITY_RESET, 1000L)).thenReturn(true);
+        when(stateMachineService.feedMachine(Events.ACTIVITY_START, 1000L)).thenReturn(false);
+
+        handler.handle(request);
+
+        verify(stateMachineService, times(1)).initStateMachine(1000L);
+        verify(stateMachineService, times(1)).feedMachine(Events.ACTIVITY_RESET, 1000L);
+        verify(stateMachineService, times(1)).feedMachine(Events.ACTIVITY_START, 1000L);
+    }
+
+    @Test
+    void testGetOrder() {
+        int order = handler.getOrder();
+
+        assertEquals(2, order);
     }
 }
