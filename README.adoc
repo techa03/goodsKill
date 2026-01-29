@@ -71,6 +71,7 @@ goodsKill
 |   |--auth-service                         ||基于Sa-Token框架的用户登录授权服务
     |--oauth2-auth-server                   ||oauth2.0登录授权服务端，自定义的登录授权服务
     |--oauth2-resource-server               ||oauth2.0资源服务端，自定义的登录授权服务
+|--goodskill-ui                             ||前端项目，基于Vue 3 + Vite构建的管理系统
 ----
 
 == 🔥🔥 秒杀方案
@@ -273,6 +274,63 @@ AI: 秒杀活动已成功开启！我们现在等待10秒钟，然后我会为�
 
 * main方法运行``GoodskillAdminApplication``类(微服务健康状态指标监控)
 
+== 🎨 前端项目启动说明
+
+### 项目位置
+前端项目位于 ``goodskill-ui`` 目录下，基于Vue 3 + Vite构建。
+
+### 技术栈
+- Vue 3 Composition API
+- Vite 构建工具
+- Axios 网络请求
+- Chart.js 图表库
+- Stomp.js WebSocket通信
+- 响应式设计
+
+### 启动步骤
+
+* **安装依赖**
++
+[source,bash]
+----
+cd goodskill-ui
+npm install
+----
+
+* **启动开发服务器**
++
+[source,bash]
+----
+npm run dev
+----
+
+* **访问地址**
++
+开发服务器启动后，可通过以下地址访问前端项目：
+`http://localhost:5173`
+
+* **登录凭证**
++
+- 用户名：admin123
+- 密码：aa123456
+
+### 功能说明
+前端项目提供以下功能：
+- 用户登录与身份认证
+- 用户管理（列表、新增、编辑、删除、状态管理）
+- 商品管理（列表、新增、编辑、删除、图片上传）
+- 秒杀模拟（多种策略选择、实时日志、执行统计）
+
+### 构建生产版本
+
+[source,bash]
+----
+  cd goodskill-ui
+  npm run build
+----
+
+构建产物将生成在 ``dist`` 目录中，可部署到任何静态文件服务器。
+
 == ❓常见问题
 [qanda]
 docker es镜像启动失败::
@@ -343,9 +401,18 @@ image:docs/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png[imag
 
 == 💻相关页面展示
 
-=== 模拟秒杀接口测试
+=== 网站登录页面以及工作台
+image::docs/shortcut/image-2026-01-29-18-00-41-208.png[]
+image::docs/shortcut/image-2026-01-29-17-51-34-547.png[]
 
-image:docs/shortcut/模拟秒杀接口测试.gif[image]
+=== 用户管理
+image::docs/shortcut/image-2026-01-29-18-01-31-190.png[]
+
+=== 商品管理
+image::docs/shortcut/image-2026-01-29-18-01-52-357.png[]
+
+=== 秒杀模拟
+image::docs/shortcut/image-2026-01-29-18-02-22-212.png[]
 
 == 📑数据库表结构
 
