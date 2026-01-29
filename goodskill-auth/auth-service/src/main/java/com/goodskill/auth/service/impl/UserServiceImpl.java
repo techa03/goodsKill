@@ -141,4 +141,78 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new RuntimeException("角色id不存在");
         }
     }
+
+    @Override
+    public IPage<User> page(Page<User> page, String keyword) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        if (keyword != null && !keyword.isEmpty()) {
+            queryWrapper.like(User::getUsername, keyword)
+                    .or()
+                    .like(User::getAccount, keyword)
+                    .or()
+                    .like(User::getEmailAddr, keyword);
+        }
+        queryWrapper.orderByDesc(User::getCreateTime);
+        return super.page(page, queryWrapper);
+    }
+
+    @Override
+    public User getUserById(Integer id) {
+        User user = baseMapper.selectById(id);
+        if (user != null) {
+            user.setPassword(null);
+        }
+        return user;
+    }
+
+    @Override
+    public boolean createUser(User user) {
+        // 检查用户名是否已存在
+        User existUser = findByUserAccount(user.getUsername());
+        if (existUser != null) {
+            throw new RuntimeException("用户名已存在");
+        }
+        // 加密密码
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        user.setAccount(user.getUsername());
+        return baseMapper.insert(user) > 0;
+    }
+
+    @Override
+    public boolean updateUser(User user) {
+        User existUser = baseMapper.selectById(user.getId());
+        if (existUser == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        // 如果修改了用户名，检查是否重复
+        if (!existUser.getUsername().equals(user.getUsername())) {
+            User checkUser = findByUserAccount(user.getUsername());
+            if (checkUser != null) {
+                throw new RuntimeException("用户名已存在");
+            }
+        }
+        // 不更新密码字段
+        user.setPassword(null);
+        user.setAccount(user.getUsername());
+        return baseMapper.updateById(user) > 0;
+    }
+
+    @Override
+    public boolean deleteUser(Integer id) {
+        User existUser = baseMapper.selectById(id);
+        if (existUser == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        return baseMapper.deleteById(id) > 0;
+    }
+
+    @Override
+    public boolean batchDeleteUsers(List<Integer> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return false;
+        }
+        return baseMapper.deleteBatchIds(ids) == ids.size();
+    }
 }

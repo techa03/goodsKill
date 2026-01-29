@@ -18,6 +18,8 @@
             <pattern>${FILE_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
+    <!--WebSocket日志appender-->
+    <appender name="WEBSOCKET" class="com.goodskill.web.handler.Slf4jWebSocketLogHandler"/>
     <!--输出到logstash的appender-->
 
     <springProfile name="docker">
@@ -30,6 +32,7 @@
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="FILE"/>
             <appender-ref ref="LOGSTASH"/>
+            <appender-ref ref="WEBSOCKET"/>
         </root>
     </springProfile>
 
@@ -37,6 +40,7 @@
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="FILE"/>
+            <appender-ref ref="WEBSOCKET"/>
         </root>
     </springProfile>
 </configuration>

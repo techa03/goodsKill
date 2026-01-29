@@ -1,7 +1,7 @@
 package com.goodskill.job.simple;
 
 import com.goodskill.api.service.GoodsEsService;
-import com.goodskill.api.service.GoodsService;
+import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.vo.GoodsVO;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MyJob implements SimpleJob {
     @DubboReference
-    private GoodsService goodsService;
+    private GoodsThirdPartyService goodsThirdPartyService;
     @Resource
     private GoodsEsService goodsEsService;
 
@@ -28,7 +28,7 @@ public class MyJob implements SimpleJob {
             case 0:
                 try {
                     log.info("分片0 商品es索引开始更新。。。");
-                    List list = goodsService.findMany().parallelStream().map(g -> {
+                    List list = goodsThirdPartyService.findMany().parallelStream().map(g -> {
                         GoodsVO goods = new GoodsVO();
                         BeanUtils.copyProperties(g, goods);
                         return goods;

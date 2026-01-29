@@ -1,6 +1,6 @@
 package com.goodskill.seata;
 
-import com.goodskill.api.service.GoodsService;
+import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.api.vo.SeckillVO;
@@ -21,7 +21,7 @@ public class GoodskillSeataApplication {
     @DubboReference
     private SeckillService seckillService;
     @DubboReference
-    private GoodsService goodsService;
+    private GoodsThirdPartyService goodsThirdPartyService;
     @Resource
     private AuthFeignClient authFeignClient;
 
@@ -33,7 +33,7 @@ public class GoodskillSeataApplication {
     public void testGlobalTransaction() {
         GoodsVO goods = new GoodsVO();
         goods.setName("test");
-        goodsService.addGoods(goods);
+        goodsThirdPartyService.addGoods(goods);
         SeckillVO seckill = seckillService.findById(1001L);
         seckill.setNumber(seckill.getNumber() - 1);
         seckillService.saveOrUpdateSeckill(seckill);

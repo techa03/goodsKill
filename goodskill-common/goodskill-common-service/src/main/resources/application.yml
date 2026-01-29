@@ -18,12 +18,6 @@ spring:
       - optional:nacos:goodskill-common.yml
   main:
     allow-circular-references: true
-  flyway:
-    enabled: false
-    baseline-on-migrate: true
-    clean-disabled: true
-    locations:
-      - classpath:db/migration/mysql
 ## dubbo服务注册和发现
 dubbo:
   protocol:

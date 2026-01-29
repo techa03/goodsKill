@@ -60,15 +60,22 @@ public class SeckillMockControllerTest {
     }
 
     @Test
-    void testDoWithRedissionLock() {
+    void testDoWithRedissonLock() {
         SeckillWebMockRequestDTO requestDTO = new SeckillWebMockRequestDTO();
         requestDTO.setSeckillId(1L);
         requestDTO.setRequestCount(1);
         SeckillMockRequestDTO any = new SeckillMockRequestDTO();
         any.setSeckillId(1L);
-        Result response = seckillMockController.doWithRedissionLock(requestDTO);
+        Result response = seckillMockController.doWithRedissonLock(requestDTO);
 
-        verify(seckillService, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
+        // 等待异步任务执行完成
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        verify(seckillService, times(1)).execute(any(SeckillMockRequestDTO.class), anyInt());
         assertEquals(0, response.getCode());
     }
 
@@ -99,7 +106,14 @@ public class SeckillMockControllerTest {
         any.setSeckillId(1L);
         Result response = seckillMockController.doWithProcedure(requestDTO);
 
-        verify(seckillService, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
+        // 等待异步任务执行完成
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        verify(seckillService, times(1)).execute(any(SeckillMockRequestDTO.class), anyInt());
         assertEquals(0, response.getCode());
     }
 

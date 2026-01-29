@@ -28,6 +28,6 @@ zookeeper_ip: zookeeper:2181
 ## oss配置
 minio:
   endpoint: http://localhost:19000
-  accessKey: YghdgTEEJnvvrUm5nX70
-  secretKey: hCv6xU4TEembK6Fr2pHvJWxlijKUXySDIS4sSTMK
+  accessKey: mhv4f3xIpR4HoXE2wgb4
+  secretKey: ySLrAz4aj0LzaUOZHmnJXcQDpOOHm2zl0WtA4xL5
   bucketName: goodskill

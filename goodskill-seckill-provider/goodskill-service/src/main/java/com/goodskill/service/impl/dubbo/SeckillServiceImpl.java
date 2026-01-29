@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.api.dto.*;
-import com.goodskill.api.service.GoodsService;
+import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.api.vo.SeckillVO;
@@ -73,7 +73,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Resource
     private SeckillService seckillService;
     @DubboReference
-    private GoodsService goodsService;
+    private GoodsThirdPartyService goodsThirdPartyService;
     @Resource(name = "taskExecutor")
     private ThreadPoolExecutor taskExecutor;
     @Resource
@@ -102,7 +102,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
             List<SeckillVO> collect = seckillPage.getRecords().stream().map(it -> {
                 SeckillVO seckillVO = new SeckillVO();
                 BeanUtils.copyProperties(it, seckillVO);
-                GoodsVO byId = goodsService.findById(it.getGoodsId());
+                GoodsVO byId = goodsThirdPartyService.findById(it.getGoodsId());
                 if (Objects.nonNull(byId)) {
                     String photoUrl = byId.getPhotoUrl();
                     seckillVO.setPhotoUrl(photoUrl);
@@ -235,7 +235,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     public SeckillInfoDTO getInfoById(Serializable seckillId) {
         SeckillInfoDTO seckillInfoDTO = new SeckillInfoDTO();
         SeckillVO seckill = seckillService.findById(seckillId);
-        GoodsVO goods = goodsService.findById(seckill.getGoodsId());
+        GoodsVO goods = goodsThirdPartyService.findById(seckill.getGoodsId());
         BeanUtils.copyProperties(seckill, seckillInfoDTO);
         seckillInfoDTO.setGoodsName(goods.getName());
         return seckillInfoDTO;

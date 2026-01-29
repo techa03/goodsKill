@@ -18,7 +18,7 @@ public enum GoodsKillStrategyEnum {
      *
      */
     SYNCHRONIZED(SeckillSolutionEnum.SYCHRONIZED, "Synchronized同步锁", SynchronizedLockStrategy.class.getName()),
-    REDISSON(SeckillSolutionEnum.REDISSION_LOCK, "redis分布式锁", RedissonStrategy.class.getName()),
+    REDISSON(SeckillSolutionEnum.REDISSON_LOCK, "redis分布式锁", RedissonStrategy.class.getName()),
     ATOMIC_UPDATE(SeckillSolutionEnum.ATOMIC_UPDATE, "数据库原子性更新", AtomicUpdateStrategy.class.getName()),
     ZOOKEEPER_LOCK(SeckillSolutionEnum.ZOOKEEPER_LOCK, "zookeeper分布式锁", ZookeeperLockStrategy.class.getName()),
     REDIS_MONGO_REACTIVE(SeckillSolutionEnum.REDIS_MONGO_REACTIVE, "秒杀商品存放redis减库存，异步发送秒杀成功MQ", RedisMongoReactiveStrategy.class.getName()),

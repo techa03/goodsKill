@@ -10,7 +10,7 @@ import java.util.List;
  * @author heng
  * @date 2017/1/7
  */
-public interface GoodsService {
+public interface GoodsThirdPartyService {
 
     /**
      * @param goodsId

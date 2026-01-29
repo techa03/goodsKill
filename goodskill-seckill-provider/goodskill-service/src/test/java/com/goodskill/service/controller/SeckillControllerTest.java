@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.goodskill.api.dto.ExposerDTO;
 import com.goodskill.api.dto.SeckillInfoDTO;
 import com.goodskill.api.service.GoodsEsService;
-import com.goodskill.api.service.GoodsService;
+import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.core.info.Result;
@@ -34,7 +34,7 @@ class SeckillControllerTest {
     @Mock
     private SeckillService seckillService;
     @Mock
-    private GoodsService goodsService;
+    private GoodsThirdPartyService goodsThirdPartyService;
     @Mock
     private GoodsEsService goodsEsService;
     @Mock
@@ -225,7 +225,7 @@ class SeckillControllerTest {
         assertEquals(fileUrl, result);
         verify(seckillService, times(1)).findById(seckillId);
         verify(uploadFileUtil, times(1)).uploadFile(file);
-        verify(goodsService, times(1)).uploadGoodsPhoto(1L, fileUrl);
+        verify(goodsThirdPartyService, times(1)).uploadGoodsPhoto(1L, fileUrl);
     }
 
     @Test
