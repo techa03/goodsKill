@@ -129,6 +129,11 @@ knife4j:
         url: /api/seckill/v3/api-docs?group=default
         order: 6
         context-path: /api/seckill
+      - name: 公共服务
+        service-name: goodskill-common
+        url: /api/common/v3/api-docs?group=default
+        order: 7
+        context-path: /api/common
     discover:
       enabled: true
       # 指定版本号(Swagger2|OpenAPI3)
