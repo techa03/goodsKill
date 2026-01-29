@@ -11,7 +11,7 @@ import reactor.core.publisher.Flux;
 /**
  * @author techa03
  */
-@RequestMapping("/api/assistant")
+@RequestMapping("/assistant")
 @RestController
 public class AssistantController {
 

@@ -59,7 +59,7 @@
         document.getElementById('userInput').value = '';
 
         // 发送请求到后端
-        fetch('/api/assistant/chat?chatId=12345&userMessage=' + encodeURIComponent(userInput), {
+        fetch('/assistant/chat?chatId=12345&userMessage=' + encodeURIComponent(userInput), {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

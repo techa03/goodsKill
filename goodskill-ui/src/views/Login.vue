@@ -21,7 +21,7 @@ const handleLogin = async () => {
   errorMessage.value = ''
 
   try {
-    const response = await axios.post('http://127.0.0.1:80/api/auth/login', {
+    const response = await axios.post('/api/auth/login', {
       username: username.value,
       password: password.value
     })
