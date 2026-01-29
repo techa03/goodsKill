@@ -68,7 +68,9 @@ const handleLogin = async () => {
           <div class="form-group" :class="{ 'focused': isFocused.username || username }">
             <label for="username">用户名</label>
             <div class="input-wrapper">
-              <i class="fas fa-user input-icon"></i>
+              <div class="icon-container">
+                <i class="fas fa-user input-icon"></i>
+              </div>
               <input
                 type="text"
                 id="username"
@@ -84,7 +86,9 @@ const handleLogin = async () => {
           <div class="form-group" :class="{ 'focused': isFocused.password || password }">
             <label for="password">密码</label>
             <div class="input-wrapper">
-              <i class="fas fa-lock input-icon"></i>
+              <div class="icon-container">
+                <i class="fas fa-lock input-icon"></i>
+              </div>
               <input
                 type="password"
                 id="password"
@@ -284,26 +288,40 @@ const handleLogin = async () => {
 }
 
 .input-wrapper {
-  position: relative;
+  display: flex;
+  align-items: stretch;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.form-group.focused .input-wrapper {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.icon-container {
+  width: 56px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  background-color: #f1f5f9;
+  border-right: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.form-group.focused .icon-container {
+  background-color: #eef2ff;
+  border-right-color: #c7d2fe;
 }
 
 .input-icon {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
   color: #94a3b8;
-  font-size: 20px;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-size: 18px;
+  width: 20px;
+  height: 20px;
   transition: color 0.2s;
-  pointer-events: none;
-  z-index: 10;
 }
 
 .form-group.focused .input-icon {
@@ -311,12 +329,11 @@ const handleLogin = async () => {
 }
 
 input {
-  width: 100%;
-  padding: 0 20px 0 60px;
+  flex: 1;
+  padding: 0 20px;
   font-size: 15px;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  background-color: #f8fafc;
+  border: none;
+  background-color: #ffffff;
   color: #1e293b;
   transition: all 0.2s ease;
   outline: none;

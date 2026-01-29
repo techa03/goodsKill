@@ -15,10 +15,10 @@ const menuItems = ref([
   { icon: 'users', title: '用户管理', color: '#22c55e', description: '用户列表和权限' },
   { icon: 'shopping-cart', title: '订单管理', color: '#f59e0b', description: '订单处理和追踪' },
   { icon: 'box', title: '商品管理', color: '#ef4444', description: '商品上架和编辑' },
+  { icon: 'bolt', title: '秒杀模拟', color: '#f97316', description: '秒杀策略测试' },
   { icon: 'chart-line', title: '数据统计', color: '#8b5cf6', description: '销售数据分析' },
   { icon: 'cog', title: '系统设置', color: '#6b7280', description: '系统参数配置' },
-  { icon: 'shield-alt', title: '安全管理', color: '#14b8a6', description: '权限和安全' },
-  { icon: 'history', title: '操作日志', color: '#ec4899', description: '系统操作记录' }
+  { icon: 'shield-alt', title: '安全管理', color: '#14b8a6', description: '权限和安全' }
 ])
 
 const systemStats = ref([
@@ -54,6 +54,8 @@ const handleMenuClick = (item) => {
     router.push('/users')
   } else if (item.title === '商品管理') {
     router.push('/products')
+  } else if (item.title === '秒杀模拟') {
+    router.push('/seckill-simulation')
   }
 }
 
@@ -63,10 +65,10 @@ const getIconPath = (icon) => {
     users: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2',
     'shopping-cart': 'M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6',
     box: 'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z',
+    bolt: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z',
     'chart-line': 'M23 6l-9.5 9.5-5-5L1 18',
     cog: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z',
-    'shield-alt': 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z',
-    history: 'M3 3v5h5M21 21v-5h-5'
+    'shield-alt': 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z'
   }
   return icons[icon] || ''
 }

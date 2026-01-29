@@ -3,6 +3,7 @@ import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import UserManagement from '../views/UserManagement.vue'
 import ProductsManagement from '../views/ProductsManagement.vue'
+import SeckillSimulation from '../views/SeckillSimulation.vue'
 
 const routes = [
   {
@@ -32,6 +33,12 @@ const routes = [
     name: 'ProductsManagement',
     component: ProductsManagement,
     meta: { title: '商品管理' }
+  },
+  {
+    path: '/seckill-simulation',
+    name: 'SeckillSimulation',
+    component: SeckillSimulation,
+    meta: { title: '秒杀模拟' }
   }
 ]
 
