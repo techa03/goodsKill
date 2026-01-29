@@ -66,7 +66,7 @@ public class SeckillMockControllerTest {
         requestDTO.setRequestCount(1);
         SeckillMockRequestDTO any = new SeckillMockRequestDTO();
         any.setSeckillId(1L);
-        Result response = seckillMockController.doWithRedissionLock(requestDTO);
+        Result response = seckillMockController.doWithRedissonLock(requestDTO);
 
         verify(seckillService, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
         assertEquals(0, response.getCode());

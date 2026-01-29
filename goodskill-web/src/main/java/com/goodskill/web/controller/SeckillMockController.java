@@ -22,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.goodskill.core.enums.SeckillSolutionEnum.*;
@@ -76,9 +77,9 @@ public class SeckillMockController {
      */
     @Operation(summary = "秒杀场景二(redis分布式锁实现)", description = "秒杀场景二(redis分布式锁实现)", method = "POST")
     @PostMapping("/redisson")
-    public Result doWithRedissionLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        processSeckill(dto, REDISSION_LOCK);
-        return Result.ok();
+    public Result doWithRedissonLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+        Long l = processSeckill(dto, REDISSON_LOCK);
+        return Result.ok(l);
     }
 
     /**
@@ -102,14 +103,14 @@ public class SeckillMockController {
      */
     @Operation(summary = "秒杀场景四(kafka消息队列实现)")
     @PostMapping("/kafka")
-    public Result doWithKafkaMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        processSeckill(dto, KAFKA_MQ, () -> {
+    public Result<Long> doWithKafkaMqMessage(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
+        Long l = processSeckill(dto, KAFKA_MQ, () -> {
             String phoneNumber = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
             String taskId = String.valueOf(stringRedisTemplate.opsForValue().get("SECKILL_TASK_ID_COUNTER"));
             SeckillMockRequestDTO payload = new SeckillMockRequestDTO(dto.getSeckillId(), 1, phoneNumber, taskId);
             kafkaTemplate.send("goodskill-kafka", phoneNumber, JSON.toJSONString(payload));
         });
-        return Result.ok();
+        return Result.ok(l);
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -122,8 +123,8 @@ public class SeckillMockController {
     @Operation(summary = "秒杀场景五(数据库原子性更新update set num = num -1)")
     @PostMapping("/procedure")
     public Result doWithProcedure(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        processSeckill(dto, ATOMIC_UPDATE);
-        return Result.ok();
+        Long l = processSeckill(dto, ATOMIC_UPDATE);
+        return Result.ok(l);
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -149,8 +150,8 @@ public class SeckillMockController {
     @RequestMapping(value = "/zookeeperLock", method = POST, produces = {
             "application/json;charset=UTF-8"})
     public Result doWithZookeeperLock(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        processSeckill(dto, ZOOKEEPER_LOCK);
-        return Result.ok();
+        Long l = processSeckill(dto, ZOOKEEPER_LOCK);
+        return Result.ok(l);
     }
 
     /**
@@ -160,28 +161,28 @@ public class SeckillMockController {
     @RequestMapping(value = "/redisReactiveMongo", method = POST, produces = {
             "application/json;charset=UTF-8"})
     public Result redisReactiveMongo(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        processSeckill(dto, REDIS_MONGO_REACTIVE);
-        return Result.ok();
+        Long l = processSeckill(dto, REDIS_MONGO_REACTIVE);
+        return Result.ok(l);
     }
 
     @Operation(summary = "秒杀场景九(rabbitmq)")
     @PostMapping("/rabbitmq")
     public Result doWithRabbitmq(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        processSeckill(dto, RABBIT_MQ, () -> {
+        Long l = processSeckill(dto, RABBIT_MQ, () -> {
             String phoneNumber = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
             String taskId = String.valueOf(stringRedisTemplate.opsForValue().get("SECKILL_TASK_ID_COUNTER"));
             SeckillMockRequestDTO payload = new SeckillMockRequestDTO(dto.getSeckillId(), 1, phoneNumber, taskId);
             streamBridge.send("seckill-out-0", payload);
         });
-        return Result.ok();
+        return Result.ok(l);
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
     @Operation(summary = "秒杀场景十(Sentinel限流+数据库原子性更新)")
     @PostMapping("/limit")
     public Result limit(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        processSeckill(dto, SENTINEL_LIMIT);
-        return Result.ok();
+        Long l = processSeckill(dto, SENTINEL_LIMIT);
+        return Result.ok(l);
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -195,8 +196,8 @@ public class SeckillMockController {
     @Operation(summary = "秒杀场景十一(数据库原子性更新+canal 数据库binlog日志监听秒杀结果)")
     @PostMapping("/atomicWithCanal")
     public Result atomicWithCanal(@RequestBody @Valid SeckillWebMockRequestDTO dto) {
-        processSeckill(dto, ATOMIC_CANAL);
-        return Result.ok();
+        Long l = processSeckill(dto, ATOMIC_CANAL);
+        return Result.ok(l);
         //待mq监听器处理完成打印日志，不在此处打印日志
     }
 
@@ -221,6 +222,50 @@ public class SeckillMockController {
         return Result.ok(TaskTimeCaculateUtil.prettyPrint(String.valueOf(stringRedisTemplate.opsForValue().get("SECKILL_TASK_ID_COUNTER"))));
     }
 
+    /**
+     * 获取最新任务的详细信息
+     *
+     * @return 返回一个Result对象，其中包含最新任务的详细信息
+     */
+    @GetMapping("/task-info/latest")
+    public Result<Map<String, Object>> getLatestTaskDetails() {
+        String latestTaskId = stringRedisTemplate.opsForValue().get("SECKILL_TASK_ID_COUNTER");
+        if (latestTaskId == null) {
+            return Result.fail("暂无任务数据");
+        }
+        Map<String, Object> taskDetails = TaskTimeCaculateUtil.getTaskDetails(latestTaskId);
+        if (taskDetails == null) {
+            return Result.fail("任务不存在或已过期");
+        }
+        return Result.ok(taskDetails);
+    }
+
+    /**
+     * 获取指定任务的详细信息
+     *
+     * @param taskId 任务ID
+     * @return 返回一个Result对象，其中包含任务的详细信息
+     */
+    @GetMapping("/task-info/{taskId}")
+    public Result<Map<String, Object>> getTaskDetails(@PathVariable String taskId) {
+        Map<String, Object> taskDetails = TaskTimeCaculateUtil.getTaskDetails(taskId);
+        if (taskDetails == null) {
+            return Result.fail("任务不存在或已过期");
+        }
+        return Result.ok(taskDetails);
+    }
+
+    /**
+     * 获取全部任务的详细信息
+     *
+     * @return 返回一个Result对象，其中包含所有任务的详细信息
+     */
+    @GetMapping("/task-info/all")
+    public Result<Map<String, Map<String, Object>>> getAllTaskDetails() {
+        Map<String, Map<String, Object>> allTaskDetails = TaskTimeCaculateUtil.getAllTaskDetails();
+        return Result.ok(allTaskDetails);
+    }
+
 
     /**
      * 准备商品库存
@@ -232,7 +277,7 @@ public class SeckillMockController {
      */
     private void prepareSeckill(long seckillId, int seckillCount, String name, String taskId) {
         seckillService.prepareSeckill(seckillId, seckillCount, taskId);
-        TaskTimeCaculateUtil.startTask("秒杀活动id:" + seckillId + "," + name, taskId);
+        TaskTimeCaculateUtil.startTask("活动id:" + seckillId + "," + name, taskId);
     }
 
     /**
@@ -277,34 +322,46 @@ public class SeckillMockController {
      * @return 秒杀任务id
      */
     private Long processSeckill(SeckillWebMockRequestDTO dto, SeckillSolutionEnum seckillSolutionEnum, Runnable runnable) {
-        log.debug("#processSeckill start count:{},当前线程池队列长度:{},线程数:{},是否空:{}", SECKILL_PHONE_NUM_COUNTER.get(),
-                taskExecutor.getThreadPoolExecutor().getQueue().size(),
-                taskExecutor.getPoolSize(), taskExecutor.getThreadPoolExecutor().getQueue().isEmpty());
         long seckillId = dto.getSeckillId();
         int seckillCount = dto.getSeckillCount();
         int requestCount = dto.getRequestCount();
         Long seckillTaskIdCounter = stringRedisTemplate.opsForValue().increment("SECKILL_TASK_ID_COUNTER");
         String taskId = String.valueOf(seckillTaskIdCounter);
-        // 初始化库存数量
-        prepareSeckill(seckillId, seckillCount, seckillSolutionEnum.getName(), taskId);
-        changeThreadPoolParam(dto);
-        log.info("{}开始时间:{}, 秒杀id:{}, 任务Id:{}", seckillSolutionEnum.getName(), new Date(), seckillId, taskId);
-        if (runnable == null) {
-            // 默认的执行方法
-            runnable = () -> {
-                String phoneNumber = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
-                seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, phoneNumber, taskId),
-                        seckillSolutionEnum.getCode());
-            };
-        }
-        for (int i = 0; i < requestCount; i++) {
-            if (log.isDebugEnabled()) {
-                log.debug("#processSeckill begin count:{},当前线程池队列长度:{},线程数:{},是否空:{}", SECKILL_PHONE_NUM_COUNTER.get(),
+
+        // 立即返回任务ID，异步执行秒杀逻辑
+        taskExecutor.execute(() -> {
+            try {
+                log.debug("#processSeckill start count:{},当前线程池队列长度:{},线程数:{},是否空:{}", SECKILL_PHONE_NUM_COUNTER.get(),
                         taskExecutor.getThreadPoolExecutor().getQueue().size(),
                         taskExecutor.getPoolSize(), taskExecutor.getThreadPoolExecutor().getQueue().isEmpty());
+                // 初始化库存数量
+                prepareSeckill(seckillId, seckillCount, seckillSolutionEnum.getName(), taskId);
+                changeThreadPoolParam(dto);
+                log.info("{}开始时间:{}, 秒杀id:{}, 任务Id:{}", seckillSolutionEnum.getName(), new Date(), seckillId, taskId);
+                Runnable finalRunnable;
+                if (runnable == null) {
+                    // 默认的执行方法
+                    finalRunnable = () -> {
+                        String phoneNumber = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
+                        seckillService.execute(new SeckillMockRequestDTO(seckillId, 1, phoneNumber, taskId),
+                                seckillSolutionEnum.getCode());
+                    };
+                } else {
+                    finalRunnable = runnable;
+                }
+                for (int i = 0; i < requestCount; i++) {
+                    if (log.isDebugEnabled()) {
+                        log.debug("#processSeckill begin count:{},当前线程池队列长度:{},线程数:{},是否空:{}", SECKILL_PHONE_NUM_COUNTER.get(),
+                                taskExecutor.getThreadPoolExecutor().getQueue().size(),
+                                taskExecutor.getPoolSize(), taskExecutor.getThreadPoolExecutor().getQueue().isEmpty());
+                    }
+                    taskExecutor.execute(finalRunnable);
+                }
+            } catch (Exception e) {
+                log.error("执行秒杀任务失败，任务ID:{}", taskId, e);
             }
-            taskExecutor.execute(runnable);
-        }
+        });
+
         return seckillTaskIdCounter;
     }
 
