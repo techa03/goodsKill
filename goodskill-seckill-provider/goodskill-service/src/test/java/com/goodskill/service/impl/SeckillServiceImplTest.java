@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goodskill.api.dto.SeckillMockRequestDTO;
 import com.goodskill.api.dto.SuccessKilledDTO;
-import com.goodskill.api.service.GoodsService;
+import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.api.vo.SeckillVO;
@@ -68,7 +68,7 @@ public class SeckillServiceImplTest {
     @Spy
     private ThreadPoolExecutor taskExecutor = new ThreadPoolExecutor(1,1,2L, TimeUnit.SECONDS, new ArrayBlockingQueue(1));
     @Mock
-    private GoodsService goodsService;
+    private GoodsThirdPartyService goodsThirdPartyService;
     @Mock
     private StateMachineService stateMachineService;
     @Mock
@@ -164,7 +164,7 @@ public class SeckillServiceImplTest {
         int goodsId = 2;
         seckill.setGoodsId(goodsId);
         when(seckillServiceInterface.findById(seckillId)).thenReturn(seckill);
-        when(goodsService.findById(goodsId)).thenReturn(new GoodsVO());
+        when(goodsThirdPartyService.findById(goodsId)).thenReturn(new GoodsVO());
         seckillService.getInfoById(seckillId);
     }
 }

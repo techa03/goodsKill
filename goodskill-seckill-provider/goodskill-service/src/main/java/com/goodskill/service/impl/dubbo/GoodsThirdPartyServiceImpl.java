@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.api.dto.GoodsDTO;
 import com.goodskill.api.service.GoodsEsService;
-import com.goodskill.api.service.GoodsService;
+import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.service.entity.Goods;
 import com.goodskill.service.mapper.GoodsMapper;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 @DubboService
 @Slf4j
-public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements GoodsService {
+public class GoodsThirdPartyServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements GoodsThirdPartyService {
     @Resource
     private GoodsEsService goodsEsService;
     @Resource

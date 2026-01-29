@@ -4,7 +4,7 @@ import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goodskill.api.dto.ExposerDTO;
 import com.goodskill.api.service.GoodsEsService;
-import com.goodskill.api.service.GoodsService;
+import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.core.info.Result;
@@ -43,7 +43,7 @@ public class SeckillController {
     @Resource
     private SeckillService seckillService;
     @Resource
-    private GoodsService goodsService;
+    private GoodsThirdPartyService goodsThirdPartyService;
     @Resource
     private GoodsEsService goodsEsService;
     @Resource
@@ -157,7 +157,7 @@ public class SeckillController {
     public String uploadPhoto(@RequestParam("file") MultipartFile file, @RequestParam("seckillId") Long seckillId) {
         SeckillVO seckill = seckillService.findById(seckillId);
         String url = uploadFileUtil.uploadFile(file);
-        goodsService.uploadGoodsPhoto(seckill.getGoodsId(), url);
+        goodsThirdPartyService.uploadGoodsPhoto(seckill.getGoodsId(), url);
         return url;
     }
 

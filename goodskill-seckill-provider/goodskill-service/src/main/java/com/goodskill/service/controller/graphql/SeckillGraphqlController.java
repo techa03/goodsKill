@@ -1,7 +1,7 @@
 package com.goodskill.service.controller.graphql;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.goodskill.api.service.GoodsService;
+import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.api.vo.SeckillVO;
@@ -20,7 +20,7 @@ public class SeckillGraphqlController {
     @Resource
     private SeckillService seckillService;
     @Resource
-    private GoodsService goodsService;
+    private GoodsThirdPartyService goodsThirdPartyService;
     @Resource
     private SuccessKilledService successKilledService;
 
@@ -31,7 +31,7 @@ public class SeckillGraphqlController {
 
     @SchemaMapping
     public GoodsVO goods(SeckillVO seckill) {
-        return goodsService.findById(seckill.getGoodsId());
+        return goodsThirdPartyService.findById(seckill.getGoodsId());
     }
 
     @SchemaMapping

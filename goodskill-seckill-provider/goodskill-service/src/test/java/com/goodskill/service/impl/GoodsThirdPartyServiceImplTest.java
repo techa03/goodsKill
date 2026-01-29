@@ -6,7 +6,7 @@ import com.goodskill.api.dto.GoodsDTO;
 import com.goodskill.api.service.GoodsEsService;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.service.entity.Goods;
-import com.goodskill.service.impl.dubbo.GoodsServiceImpl;
+import com.goodskill.service.impl.dubbo.GoodsThirdPartyServiceImpl;
 import com.goodskill.service.mapper.GoodsMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,14 +25,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class GoodsServiceImplTest {
+public class GoodsThirdPartyServiceImplTest {
     @Mock
     private GoodsMapper baseMapper;
     @Mock
     private GoodsEsService goodsEsService;
 
     @InjectMocks
-    private GoodsServiceImpl goodsService;
+    private GoodsThirdPartyServiceImpl goodsService;
 
     private GoodsVO goodsVO;
     private Goods goods;

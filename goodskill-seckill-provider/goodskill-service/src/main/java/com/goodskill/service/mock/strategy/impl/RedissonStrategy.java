@@ -9,7 +9,7 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.goodskill.core.enums.SeckillSolutionEnum.REDISSION_LOCK;
+import static com.goodskill.core.enums.SeckillSolutionEnum.REDISSON_LOCK;
 
 /**
  * @author techa03
@@ -29,7 +29,7 @@ public class RedissonStrategy implements GoodsKillStrategy {
         RLock lock = redissonClient.getLock(requestDto.getSeckillId() + "");
         lock.lock();
         try {
-            seckillExecutor.dealSeckill(requestDto.getSeckillId(), requestDto.getPhoneNumber(), REDISSION_LOCK.getName(), requestDto.getTaskId());
+            seckillExecutor.dealSeckill(requestDto.getSeckillId(), requestDto.getPhoneNumber(), REDISSON_LOCK.getName(), requestDto.getTaskId());
         } finally {
             lock.unlock();
         }

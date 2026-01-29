@@ -2,10 +2,11 @@ package com.goodskill.service.impl.dubbo;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.goodskill.api.dto.*;
-import com.goodskill.api.service.GoodsService;
+import com.goodskill.api.dto.ExposerDTO;
+import com.goodskill.api.dto.SeckillInfoDTO;
+import com.goodskill.api.dto.SuccessKilledDTO;
+import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.api.vo.SeckillVO;
@@ -19,7 +20,6 @@ import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.handler.PreRequestPipeline;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
-import com.goodskill.service.mock.strategy.GoodsKillStrategy;
 import com.goodskill.service.util.StateMachineService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,15 +31,13 @@ import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
-import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,7 +53,7 @@ class SeckillServiceImplTest {
     @Mock
     private SeckillService mockSeckillService;
     @Mock
-    private GoodsService goodsService;
+    private GoodsThirdPartyService goodsThirdPartyService;
     @Mock
     private ThreadPoolExecutor taskExecutor;
     @Mock
@@ -246,7 +244,7 @@ class SeckillServiceImplTest {
     @Test
     void testGetInfoById() {
         when(mockSeckillService.findById(1000L)).thenReturn(seckillVO);
-        when(goodsService.findById(1)).thenReturn(goodsVO);
+        when(goodsThirdPartyService.findById(1)).thenReturn(goodsVO);
 
         SeckillInfoDTO result = seckillService.getInfoById(1000L);
 
@@ -254,7 +252,7 @@ class SeckillServiceImplTest {
         assertEquals("test seckill", result.getName());
         assertEquals("test goods", result.getGoodsName());
         verify(mockSeckillService, times(1)).findById(1000L);
-        verify(goodsService, times(1)).findById(1);
+        verify(goodsThirdPartyService, times(1)).findById(1);
     }
 
     @Test
