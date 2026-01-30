@@ -15,14 +15,14 @@ const router = useRouter()
 const currentRoute = computed(() => router.currentRoute.value.path)
 
 const menuItems = [
-  { icon: 'home', title: '控制台', path: '/dashboard', color: '#3b82f6' },
-  { icon: 'users', title: '用户管理', path: '/users', color: '#22c55e' },
+  { icon: 'dashboard', title: '控制台', path: '/dashboard', color: '#3b82f6' },
+  { icon: 'users-cog', title: '用户管理', path: '/users', color: '#22c55e' },
   { icon: 'shopping-cart', title: '订单管理', path: '/orders', color: '#f59e0b' },
-  { icon: 'box', title: '商品管理', path: '/products', color: '#ef4444' },
-  { icon: 'chart-line', title: '数据统计', path: '/stats', color: '#8b5cf6' },
-  { icon: 'cog', title: '系统设置', path: '/settings', color: '#6b7280' },
-  { icon: 'shield-alt', title: '安全管理', path: '/security', color: '#14b8a6' },
-  { icon: 'history', title: '操作日志', path: '/logs', color: '#ec4899' }
+  { icon: 'box-open', title: '商品管理', path: '/products', color: '#ef4444' },
+  { icon: 'chart-bar', title: '数据统计', path: '/stats', color: '#8b5cf6' },
+  { icon: 'sliders', title: '系统设置', path: '/settings', color: '#6b7280' },
+  { icon: 'shield-check', title: '安全管理', path: '/security', color: '#14b8a6' },
+  { icon: 'file-text', title: '操作日志', path: '/logs', color: '#ec4899' }
 ]
 
 const toggleSidebar = () => {
@@ -35,14 +35,15 @@ const isActive = (path) => {
 
 const getIconPath = (icon) => {
   const icons = {
-    home: 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z',
-    users: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2',
-    'shopping-cart': 'M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6',
-    box: 'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z',
-    'chart-line': 'M23 6l-9.5 9.5-5-5L1 18',
-    cog: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z',
-    'shield-alt': 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z',
-    history: 'M3 3v5h5M21 21v-5h-5'
+    dashboard: 'M3 3h7v7H3V3zm11 0h7v7h-7V3zm0 11h7v7h-7v-7zM3 14h7v7H3v-7z',
+    'users-cog': 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75',
+    'shopping-cart': 'M6 2L3 6v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0',
+    'box-open': 'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16zM3.27 6.96L12 12.01l8.73-5.05M12 22.08V12',
+    'chart-bar': 'M18 20V10M12 20V4M6 20v-6M3 20h18',
+    robot: 'M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM5 10a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V10zM9 13h.01M15 13h.01M9 17h6',
+    sliders: 'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6',
+    'shield-check': 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4',
+    'file-text': 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8'
   }
   return icons[icon] || ''
 }

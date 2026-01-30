@@ -168,9 +168,49 @@ const openEditModal = async (user) => {
 }
 
 const closeModal = () => {
+  showUserModal.value = false
   showDeleteModal.value = false
   userForm.value = { id: null, username: '', password: '', account: '', mobile: '', emailAddr: '', locked: 0 }
   formErrors.value = {}
+  deleteUserId.value = null
+}
+
+const saveUser = async () => {
+  formErrors.value = {}
+  
+  if (modalType.value === 'create') {
+    if (!userForm.value.username) {
+      formErrors.value.username = '请输入用户名'
+      return
+    }
+    if (!userForm.value.password) {
+      formErrors.value.password = '请输入密码'
+      return
+    }
+  }
+  
+  loading.value = true
+  try {
+    let response
+    if (modalType.value === 'create') {
+      response = await api.post('/user', userForm.value)
+    } else {
+      const { password, ...updateData } = userForm.value
+      response = await api.put(`/user/${userForm.value.id}`, updateData)
+    }
+    
+    if (response.data.code === 0) {
+      closeModal()
+      fetchUsers()
+    } else {
+      formErrors.value.general = response.data.msg || '操作失败'
+    }
+  } catch (error) {
+    console.error('保存用户失败:', error)
+    formErrors.value.general = error.response?.data?.msg || '网络错误，请稍后重试'
+  } finally {
+    loading.value = false
+  }
 }
 
 const batchDelete = async () => {

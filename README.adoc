@@ -261,11 +261,17 @@ AI: 秒杀活动已成功开启！我们现在等待10秒钟，然后我会为�
 * 进入``goodskill-gateway``模块，通过``GatewayBootApplication``类main方法启动服务网关，统一通过网关访问各个服务
 
 +
-- `http://www.goodskill.com/api/order/**` 对应访问``goodskill-order``服务
-- `http://www.goodskill.com/api/seata/**` 对应访问``goodskill-seata``服务
-- `http://www.goodskill.com/api/seckill/**` 对应访问``goodskill-seckill``服务
-- `http://www.goodskill.com/api/auth/**` 对应访问``goodskill-auth``服务
-- `http://www.goodskill.com/api/web/**` 对应访问``goodskill-web``服务
+|===
+| 访问路径 | 对应服务
+
+| `http://www.goodskill.com/api/order/**` | ``goodskill-order`` 服务
+| `http://www.goodskill.com/api/seata/**` | ``goodskill-seata`` 服务
+| `http://www.goodskill.com/api/seckill/**` | ``goodskill-seckill`` 服务
+| `http://www.goodskill.com/api/auth/**` | ``goodskill-auth`` 服务
+| `http://www.goodskill.com/api/web/**` | ``goodskill-web`` 服务
+| `http://www.goodskill.com/api/common/**` | ``goodskill-common`` 服务
+| `http://www.goodskill.com/api/ai/**` | ``goodskill-ai`` 服务
+|===
 
 
 * 已集成``Sentinel``限流组件，支持``nacos``配置中心方式推送限流规则，使用时需启动``Sentinel``控制台，并以``18088``端口启动，docker环境暂不支持。
@@ -404,7 +410,7 @@ image:docs/shortcut/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180819224521.png[imag
 
 === 网站登录页面以及工作台
 image::docs/shortcut/image-2026-01-29-18-00-41-208.png[]
-image::docs/shortcut/image-2026-01-29-17-51-34-547.png[]
+image::docs/shortcut/image-2026-01-30-00-17-27-581.png[]
 
 === 用户管理
 image::docs/shortcut/image-2026-01-29-18-01-31-190.png[]

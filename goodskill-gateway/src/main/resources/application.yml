@@ -69,6 +69,18 @@ spring:
             - Path=/admin/**
           filters:
             - StripPrefix=1
+        - id: goodskill-common
+          uri: lb://goodskill-common
+          predicates:
+            - Path=/api/common/**
+          filters:
+            - StripPrefix=2
+        - id: goodskill-ai
+          uri: lb://goodskill-ai
+          predicates:
+            - Path=/api/ai/**
+          filters:
+            - StripPrefix=2
         - id: prefixpath_route
           uri: lb://goodskill-web
           predicates:
@@ -134,6 +146,11 @@ knife4j:
         url: /api/common/v3/api-docs?group=default
         order: 7
         context-path: /api/common
+      - name: AI服务
+        service-name: goodskill-ai
+        url: /api/ai/v3/api-docs?group=default
+        order: 8
+        context-path: /api/ai
     discover:
       enabled: true
       # 指定版本号(Swagger2|OpenAPI3)

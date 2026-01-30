@@ -123,6 +123,24 @@ defineExpose({ toggleTheme, isDark })
   border-bottom: 1px solid var(--border-color);
 }
 
+/* 确保夜间模式下的一致性 */
+[data-theme="dark"] .page-header {
+  background: var(--bg-secondary) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+/* 为glass-header类添加专门的样式 */
+.glass-header {
+  background: var(--bg-secondary) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+/* 确保glass-header在夜间模式下的一致性 */
+[data-theme="dark"] .glass-header {
+  background: var(--bg-secondary) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
 .header-left {
   display: flex;
   align-items: center;

@@ -487,9 +487,16 @@ const initWebSocket = () => {
 // 断开WebSocket连接
 const disconnectWebSocket = () => {
   if (stompClient.value) {
-    stompClient.value.disconnect()
-    websocketConnected.value = false
-
+    try {
+      if (typeof stompClient.value.deactivate === 'function') {
+        stompClient.value.deactivate()
+      } else if (typeof stompClient.value.disconnect === 'function') {
+        stompClient.value.disconnect()
+      }
+      websocketConnected.value = false
+    } catch (error) {
+      console.error('断开WebSocket连接失败:', error)
+    }
   }
 }
 
