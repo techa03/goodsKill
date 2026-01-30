@@ -40,7 +40,7 @@ onMounted(() => {
         <main class="main-content" :class="{ 'sidebar-collapsed': sidebarCollapsed }">
           <RouterView v-slot="{ Component }">
             <transition name="fade" mode="out-in">
-              <component :is="Component" />
+              <component :is="Component" @error="(err) => console.error('Component error:', err)" />
             </transition>
           </RouterView>
         </main>
@@ -49,10 +49,10 @@ onMounted(() => {
       </template>
       <template v-else>
         <RouterView v-slot="{ Component }">
-          <transition name="fade" mode="out-in">
-            <component :is="Component" />
-          </transition>
-        </RouterView>
+            <transition name="fade" mode="out-in">
+              <component :is="Component" @error="(err) => console.error('Component error:', err)" />
+            </transition>
+          </RouterView>
       </template>
     </template>
   </div>

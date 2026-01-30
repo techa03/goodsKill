@@ -6,15 +6,40 @@ const inputMessage = ref('')
 const isLoading = ref(false)
 const eventSource = ref(null)
 const isChatOpen = ref(false)
-const chatPosition = ref({ x: 20, y: 20 })
+// 计算初始聊天窗口位置，确保完全显示在屏幕内
+const calculateInitialPosition = () => {
+  const windowWidth = window.innerWidth
+  const windowHeight = window.innerHeight
+  const chatWidth = 500
+  const chatHeight = 700
+  
+  // 确保窗口完全在屏幕内
+  const x = Math.max(0, windowWidth - chatWidth - 20) // 20px 边距
+  const y = Math.max(0, windowHeight - chatHeight - 20) // 20px 边距
+  
+  return { x, y }
+}
+
+const chatPosition = ref(calculateInitialPosition())
+const iconPosition = ref({ x: window.innerWidth - 88, y: window.innerHeight - 88 })
 const isDragging = ref(false)
+const isIconDragging = ref(false)
 const dragStart = ref({ x: 0, y: 0 })
 const dragOffset = ref({ x: 0, y: 0 })
+const dragIconOffset = ref({ x: 0, y: 0 })
 const chatWindowRef = ref(null)
+const iconRef = ref(null)
+const chatWindowScale = ref(0)
+const chatWindowOpacity = ref(0)
+const iconScale = ref(1)
 
 // 发送消息到AI助手
 const sendMessage = () => {
-  if (!inputMessage.value || !inputMessage.value.trim()) return
+  console.log('sendMessage called!', { inputMessage: inputMessage.value, trimmed: inputMessage.value?.trim() })
+  if (!inputMessage.value || !inputMessage.value.trim()) {
+    console.log('Empty message, returning')
+    return
+  }
 
   // 添加用户消息到聊天记录
   const userMessage = {
@@ -308,9 +333,15 @@ const clearChat = () => {
 // 切换聊天窗口显示状态
 const toggleChat = () => {
   isChatOpen.value = !isChatOpen.value
+  
   if (isChatOpen.value) {
-    // 滚动到底部
+    // 动画打开聊天窗口
+    chatWindowScale.value = 0
+    chatWindowOpacity.value = 0
+    
     nextTick(() => {
+      chatWindowScale.value = 1
+      chatWindowOpacity.value = 1
       scrollToBottom()
     })
   }
@@ -318,12 +349,8 @@ const toggleChat = () => {
 
 // 拖拽开始
 const startDrag = (event) => {
-  // 只有左键才能拖拽
   if (event.button !== 0) return
-
   isDragging.value = true
-
-  // 获取当前窗口位置
   const rect = chatWindowRef.value?.getBoundingClientRect()
   if (rect) {
     dragOffset.value = {
@@ -331,48 +358,70 @@ const startDrag = (event) => {
       y: event.clientY - rect.top
     }
   }
+  event.preventDefault()
+  event.stopPropagation()
+}
 
-  // 阻止默认行为和事件冒泡
+// 图标拖拽开始
+const startDragIcon = (event) => {
+  if (event.button !== 0) return
+  isIconDragging.value = true
+  dragStart.value = { x: event.clientX, y: event.clientY }
+  const rect = iconRef.value?.getBoundingClientRect()
+  if (rect) {
+    dragIconOffset.value = {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    }
+  }
   event.preventDefault()
   event.stopPropagation()
 }
 
 // 拖拽移动
 const onDrag = (event) => {
-  if (!isDragging.value) return
-
-  // 使用 requestAnimationFrame 优化性能
-  requestAnimationFrame(() => {
-    if (!isDragging.value) return
-
-    const windowWidth = window.innerWidth
-    const windowHeight = window.innerHeight
-
-    // 获取聊天窗口尺寸
-    const rect = chatWindowRef.value?.getBoundingClientRect()
-    const chatWidth = rect?.width || 400
-    const chatHeight = rect?.height || 550
-
-    // 计算新位置
-    let newX = event.clientX - dragOffset.value.x
-    let newY = event.clientY - dragOffset.value.y
-
-    // 边界限制 - 防止拖出屏幕
-    const minX = 0
-    const minY = 0
-    const maxX = windowWidth - chatWidth
-    const maxY = windowHeight - chatHeight
-
-    newX = Math.max(minX, Math.min(newX, maxX))
-    newY = Math.max(minY, Math.min(newY, maxY))
-
-    chatPosition.value = { x: newX, y: newY }
-  })
+  if (isDragging.value) {
+    requestAnimationFrame(() => {
+      const windowWidth = window.innerWidth
+      const windowHeight = window.innerHeight
+      const rect = chatWindowRef.value?.getBoundingClientRect()
+      const chatWidth = rect?.width || 400
+      const chatHeight = rect?.height || 550
+      let newX = event.clientX - dragOffset.value.x
+      let newY = event.clientY - dragOffset.value.y
+      newX = Math.max(0, Math.min(newX, windowWidth - chatWidth))
+      newY = Math.max(0, Math.min(newY, windowHeight - chatHeight))
+      chatPosition.value = { x: newX, y: newY }
+    })
+  } else if (isIconDragging.value) {
+    requestAnimationFrame(() => {
+      const windowWidth = window.innerWidth
+      const windowHeight = window.innerHeight
+      const rect = iconRef.value?.getBoundingClientRect()
+      const iconWidth = rect?.width || 56
+      const iconHeight = rect?.height || 56
+      let newX = event.clientX - dragIconOffset.value.x
+      let newY = event.clientY - dragIconOffset.value.y
+      newX = Math.max(0, Math.min(newX, windowWidth - iconWidth))
+      newY = Math.max(0, Math.min(newY, windowHeight - iconHeight))
+      iconPosition.value = { x: newX, y: newY }
+    })
+  }
 }
 
 // 拖拽结束
-const endDrag = () => {
+const endDrag = (event) => {
+  if (isIconDragging.value) {
+    const dragDistance = Math.sqrt(
+      Math.pow(event.clientX - dragStart.value.x, 2) +
+      Math.pow(event.clientY - dragStart.value.y, 2)
+    )
+    if (dragDistance < 5) {
+      toggleChat()
+    }
+  }
   isDragging.value = false
+  isIconDragging.value = false
 }
 
 // 初始化AI聊天界面
@@ -389,6 +438,14 @@ onMounted(() => {
   // 添加全局鼠标移动监听
   document.addEventListener('mousemove', onDrag)
   document.addEventListener('mouseup', endDrag)
+  
+  // 窗口大小变化处理函数
+const handleResize = () => {
+  chatPosition.value = calculateInitialPosition()
+}
+
+// 添加窗口大小变化监听
+window.addEventListener('resize', handleResize)
 })
 
 // 清理资源
@@ -400,19 +457,42 @@ onUnmounted(() => {
   // 移除全局鼠标监听
   document.removeEventListener('mousemove', onDrag)
   document.removeEventListener('mouseup', endDrag)
+  
+  // 移除窗口大小变化监听
+  window.removeEventListener('resize', handleResize)
 })
 </script>
 
 <template>
   <!-- AI助手唤醒图标 -->
-  <div
-    class="ai-assistant-icon"
-    @click="toggleChat"
+  <div 
+    ref="iconRef"
+    class="ai-assistant-icon" 
+    :class="{ 'is-active': isChatOpen, 'dragging': isIconDragging }"
+    :style="{
+      left: `${iconPosition.x}px`,
+      top: `${iconPosition.y}px`
+    }"
+    @mousedown="startDragIcon"
+    @mouseenter="iconScale = 1.1"
+    @mouseleave="iconScale = 1"
   >
-    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zM19 6v8.9c0 2.1-1.7 3.9-3.9 3.9H8.9C6.8 17.9 5 16.2 5 14.1V6c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2zm-7 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-    </svg>
-    <div class="pulse-effect"></div>
+    <div class="icon-inner" :style="{ transform: `scale(${iconScale})` }">
+      <svg v-if="!isChatOpen" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 8V4H8"></path>
+        <rect width="16" height="12" x="4" y="8" rx="2"></rect>
+        <path d="M2 14h2"></path>
+        <path d="M20 14h2"></path>
+        <path d="M15 13v2"></path>
+        <path d="M9 13v2"></path>
+      </svg>
+      <svg v-else width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </div>
+    <div class="pulse-ring"></div>
+    <div class="icon-glow"></div>
   </div>
 
   <!-- AI聊天窗口 -->
@@ -423,7 +503,10 @@ onUnmounted(() => {
     :class="{ dragging: isDragging }"
     :style="{
       left: `${chatPosition.x}px`,
-      top: `${chatPosition.y}px`
+      top: `${chatPosition.y}px`,
+      transform: `scale(${chatWindowScale}) translateZ(0)`,
+      opacity: chatWindowOpacity,
+      transition: 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
     }"
   >
     <!-- 聊天窗口头部（可拖拽区域） -->
@@ -432,16 +515,11 @@ onUnmounted(() => {
       @mousedown="startDrag"
     >
       <div class="header-left">
-        <div class="ai-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zM19 6v8.9c0 2.1-1.7 3.9-3.9 3.9H8.9C6.8 17.9 5 16.2 5 14.1V6c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2zm-7 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-          </svg>
-        </div>
         <h2 class="chat-title">AI聊天助手</h2>
       </div>
       <div class="header-right">
         <button class="btn btn-sm btn-outline" @click="clearChat">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="3 6 5 6 21 6"></polyline>
             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
             <line x1="10" y1="11" x2="10" y2="17"></line>
@@ -449,8 +527,8 @@ onUnmounted(() => {
           </svg>
           清空聊天
         </button>
-        <button class="close-button" @click="toggleChat">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <button class="close-button" @click="isChatOpen = false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
@@ -463,7 +541,12 @@ onUnmounted(() => {
       <div v-if="messages.length === 0" class="empty-state">
         <div class="empty-icon">
           <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-            <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zM19 6v8.9c0 2.1-1.7 3.9-3.9 3.9H8.9C6.8 17.9 5 16.2 5 14.1V6c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2zm-7 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+            <path d="M12 8V4H8"></path>
+            <rect width="16" height="12" x="4" y="8" rx="2"></rect>
+            <path d="M2 14h2"></path>
+            <path d="M20 14h2"></path>
+            <path d="M15 13v2"></path>
+            <path d="M9 13v2"></path>
           </svg>
         </div>
         <h3>开始与AI助手聊天</h3>
@@ -483,25 +566,30 @@ onUnmounted(() => {
           :class="[message.sender, { 'system-message': message.sender === 'system', 'streaming': message.isStreaming }]"
         >
           <div v-if="message.sender === 'ai'" class="message-avatar ai-avatar">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zM19 6v8.9c0 2.1-1.7 3.9-3.9 3.9H8.9C6.8 17.9 5 16.2 5 14.1V6c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2zm-7 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 8V4H8"></path>
+              <rect width="16" height="12" x="4" y="8" rx="2"></rect>
+              <path d="M2 14h2"></path>
+              <path d="M20 14h2"></path>
+              <path d="M15 13v2"></path>
+              <path d="M9 13v2"></path>
             </svg>
           </div>
           <div v-else-if="message.sender === 'user'" class="message-avatar user-avatar">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
           </div>
           <div v-else class="message-avatar system-avatar">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"></circle>
               <line x1="12" y1="8" x2="12" y2="12"></line>
               <line x1="12" y1="16" x2="12.01" y2="16"></line>
             </svg>
           </div>
           <div class="message-content">
-            <div class="message-text" :class="{ 'streaming-text': message.isStreaming }">{{ message.text }}</div>
+            <div class="message-text" :class="{ 'streaming-text': message.isStreaming }" v-html="message.text"></div>
             <div class="message-meta">
               <div class="message-time">{{ message.timestamp }}</div>
               <div v-if="message.isStreaming" class="streaming-indicator">
@@ -526,17 +614,18 @@ onUnmounted(() => {
         <textarea
           v-model="inputMessage"
           @keydown="handleKeyPress"
+          @input="console.log('Input changed:', inputMessage.value)"
           placeholder="输入消息..."
           class="message-input"
           rows="1"
           :disabled="isLoading"
         ></textarea>
         <button
-          @click="sendMessage"
+          @click="console.log('Button clicked!', { inputMessage: inputMessage.value, isLoading: isLoading.value }); sendMessage()"
           class="send-button"
-          :disabled="isLoading || !inputMessage.value || !inputMessage.value.trim()"
+          :disabled="isLoading"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="22" y1="2" x2="11" y2="13"></line>
             <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
           </svg>
@@ -553,83 +642,112 @@ onUnmounted(() => {
 /* AI助手唤醒图标 */
 .ai-assistant-icon {
   position: fixed;
-  right: 20px;
-  bottom: 20px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
   cursor: pointer;
   z-index: 1000;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: pulse 2s infinite;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  user-select: none;
+}
+
+.ai-assistant-icon.dragging {
+  transition: none;
+  cursor: grabbing;
+  opacity: 0.9;
+  transform: scale(1.05);
 }
 
 .ai-assistant-icon:hover {
-  transform: scale(1.1);
-  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.6);
+  transform: scale(1.1) translateY(-4px);
+  background: rgba(30, 41, 59, 0.9);
+  border-color: var(--accent-primary);
+  box-shadow: 0 12px 40px rgba(56, 189, 248, 0.3);
 }
 
-.pulse-effect {
+.ai-assistant-icon.is-active {
+  background: var(--accent-primary);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg) scale(0.9);
+}
+
+.icon-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pulse-ring {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius: 50%;
-  background: rgba(14, 165, 233, 0.3);
-  animation: pulse-ring 2s infinite;
+  border-radius: 16px;
+  background: var(--accent-primary);
+  opacity: 0;
+  z-index: 1;
+  animation: pulse-ring-new 3s infinite;
 }
 
-@keyframes pulse {
-  0% {
-    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
-  }
-  50% {
-    box-shadow: 0 8px 24px rgba(14, 165, 233, 0.6);
-  }
-  100% {
-    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
-  }
+@keyframes pulse-ring-new {
+  0% { transform: scale(0.9); opacity: 0; }
+  50% { opacity: 0.2; }
+  100% { transform: scale(1.4); opacity: 0; }
 }
 
-@keyframes pulse-ring {
-  0% {
-    transform: scale(0.8);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1.5);
-    opacity: 0;
-  }
+.icon-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
+  opacity: 0.2;
+  filter: blur(10px);
+  pointer-events: none;
 }
 
 /* AI聊天窗口 */
 .ai-chat-window {
   position: fixed;
-  width: 400px;
-  max-width: 90vw;
-  height: 550px;
-  max-height: 80vh;
+  width: 500px;
+  max-width: 95vw;
+  height: 700px;
+  max-height: 90vh;
   background: white;
   border-radius: 16px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
   z-index: 999;
   overflow: hidden;
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   will-change: left, top;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.ai-chat-window:hover {
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
 }
 
 .ai-chat-window.dragging {
   transition: none;
   cursor: move;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+  transform: scale(0.98);
 }
 
 /* 聊天头部 */
@@ -638,12 +756,14 @@ onUnmounted(() => {
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--accent-light) 100%);
+  backdrop-filter: blur(20px);
+  color: var(--text-primary);
   cursor: move;
   user-select: none;
   position: relative;
   z-index: 10;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .header-left {
@@ -656,12 +776,12 @@ onUnmounted(() => {
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--accent-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
 }
 
 .chat-title {
@@ -681,18 +801,20 @@ onUnmounted(() => {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--bg-tertiary);
   border: none;
-  color: white;
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
 }
 
 .close-button:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--border-color);
+  color: var(--text-primary);
   transform: scale(1.05);
 }
 
@@ -710,12 +832,14 @@ onUnmounted(() => {
 }
 
 .btn-outline {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
 }
 
 .btn-outline:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--border-color);
+  color: var(--text-primary);
   transform: translateY(-1px);
 }
 
@@ -891,8 +1015,156 @@ onUnmounted(() => {
 }
 
 .message-text {
-  white-space: pre-wrap;
+  white-space: normal;
   word-break: break-word;
+  line-height: 1.5;
+  text-align: left;
+  letter-spacing: normal;
+}
+
+.message-text * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.message-text p {
+  margin: 0 0 8px 0;
+  line-height: 1.5;
+}
+
+.message-text p:last-child {
+  margin-bottom: 0;
+}
+
+.message-text h1,
+.message-text h2,
+.message-text h3,
+.message-text h4,
+.message-text h5,
+.message-text h6 {
+  margin: 12px 0 8px 0;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.message-text h1 {
+  font-size: 18px;
+}
+
+.message-text h2 {
+  font-size: 16px;
+}
+
+.message-text h3,
+.message-text h4,
+.message-text h5,
+.message-text h6 {
+  font-size: 14px;
+}
+
+.message-text ul,
+.message-text ol {
+  margin: 8px 0;
+  padding-left: 24px;
+}
+
+.message-text li {
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+.message-text strong,
+.message-text b {
+  font-weight: 600;
+}
+
+.message-text em,
+.message-text i {
+  font-style: italic;
+}
+
+.message-text code {
+  background: rgba(148, 163, 184, 0.1);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.message-text pre {
+  background: rgba(148, 163, 184, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 8px 0;
+}
+
+.message-text pre code {
+  background: transparent;
+  padding: 0;
+  white-space: pre;
+}
+
+.message-text a {
+  color: #0ea5e9;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.message-text a:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.message-text img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+.message-text table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0;
+}
+
+.message-text th,
+.message-text td {
+  padding: 6px 10px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  text-align: left;
+}
+
+.message-text th {
+  background: rgba(241, 245, 249, 0.8);
+  font-weight: 600;
+}
+
+.message.user .message-text a {
+  color: #93c5fd;
+}
+
+.message.user .message-text a:hover {
+  color: #bfdbfe;
+}
+
+.message.user .message-text code {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.message.user .message-text pre {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.message.user .message-text th {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.message.user .message-text th,
+.message.user .message-text td {
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .message-meta {
@@ -1019,7 +1291,8 @@ onUnmounted(() => {
 .send-button {
   position: absolute;
   right: 4px;
-  bottom: 4px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -1032,11 +1305,13 @@ onUnmounted(() => {
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .send-button:hover:not(:disabled) {
   background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
-  transform: scale(1.05);
+  transform: translateY(-50%) scale(1.05);
   box-shadow: 0 6px 16px rgba(14, 165, 233, 0.4);
 }
 
