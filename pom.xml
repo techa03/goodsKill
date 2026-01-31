@@ -38,7 +38,7 @@
         <hutool.version>5.8.29</hutool.version>
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
         <fastjson2.version>2.0.51</fastjson2.version>
-        <minio.version>8.5.10</minio.version>
+        <minio.version>8.6.0</minio.version>
         <shardingsphere.version>5.5.0</shardingsphere.version>
         <alipay.version>2.2.2</alipay.version>
         <redisson.version>3.26.0</redisson.version>
