@@ -1,5 +1,7 @@
 <script setup>
 import {nextTick, onMounted, onUnmounted, ref} from 'vue'
+import {handleUnauthorized} from '../utils/request'
+import {getAccessToken} from '../utils/auth'
 
 const messages = ref([])
 const inputMessage = ref('')
@@ -67,18 +69,23 @@ const sendMessage = () => {
   console.log('Sending message to API:', {
     chatId,
     userMessage: messageText,
-    access_token: localStorage.getItem('token') || ''
+    access_token: getAccessToken()
   })
 
   fetch(`/api/ai/assistant/chat?chatId=${encodeURIComponent(chatId)}&userMessage=${encodeURIComponent(messageText)}`, {
     method: 'GET',
     headers: {
-      'access_token': localStorage.getItem('token') || ''
+      'access_token': getAccessToken()
     }
   })
   .then(response => {
     console.log('API Response Status:', response.status)
     console.log('API Response Headers:', Object.fromEntries(response.headers))
+
+    if (response.status === 401) {
+      handleUnauthorized()
+      return
+    }
 
     if (!response.ok) {
       throw new Error('Failed to send message')
@@ -424,6 +431,11 @@ const endDrag = (event) => {
   isIconDragging.value = false
 }
 
+// 窗口大小变化处理函数
+const handleResize = () => {
+  chatPosition.value = calculateInitialPosition()
+}
+
 // 初始化AI聊天界面
 onMounted(() => {
   // 添加欢迎消息
@@ -439,13 +451,8 @@ onMounted(() => {
   document.addEventListener('mousemove', onDrag)
   document.addEventListener('mouseup', endDrag)
   
-  // 窗口大小变化处理函数
-const handleResize = () => {
-  chatPosition.value = calculateInitialPosition()
-}
-
-// 添加窗口大小变化监听
-window.addEventListener('resize', handleResize)
+  // 添加窗口大小变化监听
+  window.addEventListener('resize', handleResize)
 })
 
 // 清理资源

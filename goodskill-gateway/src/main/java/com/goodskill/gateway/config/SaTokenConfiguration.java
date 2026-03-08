@@ -57,6 +57,12 @@ public class SaTokenConfiguration {
                 // 指定[异常处理函数]：每次[认证函数]发生异常时执行此函数
                 .setError(e -> {
                     log.error("---------- sa全局异常", e);
+                    // 检查是否是token无效错误
+                    if (e.getMessage().contains("token 无效") || e.getMessage().contains("未提供token") || e.getMessage().contains("token已过期")) {
+                        // 设置HTTP 401状态码
+                        SaReactorSyncHolder.getContext().getResponse().setStatusCode(org.springframework.http.HttpStatus.UNAUTHORIZED);
+                        return SaResult.error(e.getMessage());
+                    }
                     return SaResult.error(e.getMessage());
                 });
     }

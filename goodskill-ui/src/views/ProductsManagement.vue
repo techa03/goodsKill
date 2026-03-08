@@ -1,50 +1,15 @@
 <script setup>
 import {computed, onMounted, ref} from 'vue'
 import {useRouter} from 'vue-router'
-import axios from 'axios'
+import {createRequest} from '../utils/request'
 import PageHeader from '../components/PageHeader.vue'
 
 const router = useRouter()
 const API_BASE = '/api/seckill'
 const COMMON_API_BASE = '/api/common'
 
-const api = axios.create({
-  baseURL: API_BASE,
-  timeout: 10000
-})
-
-const commonApi = axios.create({
-  baseURL: COMMON_API_BASE,
-  timeout: 10000
-})
-
-const setupAxiosInterceptors = (instance) => {
-  instance.interceptors.request.use(
-    (config) => {
-      const token = localStorage.getItem('token')
-      if (token) {
-        config.headers['access_token'] = token
-      }
-      return config
-    },
-    (error) => Promise.reject(error)
-  )
-
-  instance.interceptors.response.use(
-    (response) => response,
-    (error) => {
-      if (error.response?.status === 401) {
-        localStorage.removeItem('token')
-        localStorage.removeItem('currentUser')
-        router.push('/login')
-      }
-      return Promise.reject(error)
-    }
-  )
-}
-
-setupAxiosInterceptors(api)
-setupAxiosInterceptors(commonApi)
+const api = createRequest(API_BASE)
+const commonApi = createRequest(COMMON_API_BASE)
 
 const products = ref([])
 const loading = ref(false)

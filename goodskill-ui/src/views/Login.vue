@@ -1,7 +1,8 @@
 <script setup>
 import {ref} from 'vue'
-import axios from 'axios'
+import request from '../utils/request'
 import {useRouter} from 'vue-router'
+import {setAuthTokens} from '../utils/auth'
 
 const router = useRouter()
 
@@ -21,13 +22,18 @@ const handleLogin = async () => {
   errorMessage.value = ''
 
   try {
-    const response = await axios.post('/api/auth/login', {
+    const response = await request.post('/auth/login', {
       username: username.value,
       password: password.value
     })
 
     if (response.data.code === 0) {
-      localStorage.setItem('token', response.data.data)
+      const loginData = response.data.data
+      if (typeof loginData === 'string') {
+        setAuthTokens({ accessToken: loginData })
+      } else {
+        setAuthTokens(loginData || {})
+      }
       localStorage.setItem('currentUser', JSON.stringify({
         username: username.value,
         role: '管理员',
@@ -54,7 +60,7 @@ const handleLogin = async () => {
         <div class="logo-circle">
           <i class="fas fa-bolt logo-icon"></i>
         </div>
-        <h1>GoodSkill</h1>
+        <h1>GoodsKill</h1>
         <p class="subtitle">高性能秒杀后台管理系统</p>
       </div>
 
