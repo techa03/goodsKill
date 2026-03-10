@@ -44,8 +44,8 @@ public enum ResultCode {
     C606(606, "1.0");
 
 
-    final int code;
-    final String desc;
+    private final int code;
+    private final String desc;
 
     public static ResultCode format(String name) {
         for (ResultCode value : ResultCode.values()) {

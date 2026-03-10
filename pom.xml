@@ -18,7 +18,7 @@
         <module>goodskill-seata</module>
         <module>goodskill-auth</module>
         <module>goodskill-admin</module>
-        <module>goodskill-chat-provider</module>
+<!--        <module>goodskill-chat-provider</module>-->
         <module>goodskill-ai</module>
         <!--        <module>goodskill-canal</module>-->
     </modules>
@@ -56,13 +56,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.11.0</version>
                 <configuration>
                     <source>21</source>
                     <target>21</target>
                     <compilerArgs>
                         <arg>-parameters</arg>
                     </compilerArgs>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.34</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
