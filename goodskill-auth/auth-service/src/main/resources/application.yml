@@ -1,6 +1,11 @@
 server:
   port: 19081
 
+auth:
+  token:
+    # refresh token 过期时间（秒），默认7天
+    refresh-expire-seconds: 604800
+
 spring:
   application:
     name: goodskill-auth

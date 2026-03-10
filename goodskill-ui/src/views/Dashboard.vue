@@ -2,6 +2,7 @@
 import {onMounted, ref} from 'vue'
 import {useRouter} from 'vue-router'
 import PageHeader from '../components/PageHeader.vue'
+import {hasAccessToken} from '../utils/auth'
 
 const router = useRouter()
 const currentUser = ref({
@@ -36,8 +37,7 @@ const recentActivities = ref([
 ])
 
 onMounted(() => {
-  const token = localStorage.getItem('token')
-  if (!token) {
+  if (!hasAccessToken()) {
     router.push('/login')
     return
   }
@@ -54,6 +54,8 @@ const handleMenuClick = (item) => {
     router.push('/users')
   } else if (item.title === '商品管理') {
     router.push('/products')
+  } else if (item.title === '订单管理') {
+    router.push('/orders')
   } else if (item.title === '秒杀模拟') {
     router.push('/seckill-simulation')
   }

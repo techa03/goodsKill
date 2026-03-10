@@ -4,6 +4,8 @@ import Dashboard from '../views/Dashboard.vue'
 import UserManagement from '../views/UserManagement.vue'
 import ProductsManagement from '../views/ProductsManagement.vue'
 import SeckillSimulation from '../views/SeckillSimulation.vue'
+import OrderManagement from '../views/OrderManagement.vue'
+import {hasAccessToken} from '../utils/auth'
 
 const routes = [
   {
@@ -35,6 +37,12 @@ const routes = [
     meta: { title: '商品管理' }
   },
   {
+    path: '/orders',
+    name: 'OrderManagement',
+    component: OrderManagement,
+    meta: { title: '订单管理' }
+  },
+  {
     path: '/seckill-simulation',
     name: 'SeckillSimulation',
     component: SeckillSimulation,
@@ -51,8 +59,7 @@ router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title || '秒杀后台管理'} - 秒杀后台管理`
 
   if (to.path !== '/login') {
-    const token = localStorage.getItem('token')
-    if (!token) {
+    if (!hasAccessToken()) {
       next('/login')
       return
     }

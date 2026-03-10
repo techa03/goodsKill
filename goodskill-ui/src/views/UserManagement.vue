@@ -1,39 +1,14 @@
 <script setup>
 import {computed, onMounted, ref} from 'vue'
 import {useRouter} from 'vue-router'
-import axios from 'axios'
+import {createRequest} from '../utils/request'
 import PageHeader from '../components/PageHeader.vue'
 
 const router = useRouter()
 const API_BASE = '/api/auth'
 
-const api = axios.create({
-  baseURL: API_BASE,
-  timeout: 10000
-})
+const api = createRequest(API_BASE)
 
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      config.headers['access_token'] = token
-    }
-    return config
-  },
-  (error) => Promise.reject(error)
-)
-
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('currentUser')
-      router.push('/login')
-    }
-    return Promise.reject(error)
-  }
-)
 
 const users = ref([])
 const loading = ref(false)

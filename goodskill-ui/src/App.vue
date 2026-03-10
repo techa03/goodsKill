@@ -1,24 +1,78 @@
 <script setup>
-import {computed, onMounted, ref} from 'vue'
+import {computed, onMounted, onUnmounted, ref} from 'vue'
 import {RouterView, useRoute} from 'vue-router'
 import Sidebar from './components/Sidebar.vue'
 import AIChat from './views/AIChat.vue'
+import {GLOBAL_ERROR_EVENT} from './utils/request'
 
 const sidebarCollapsed = ref(false)
 const route = useRoute()
 const isLoginPage = computed(() => route.path === '/login')
 const isLoading = ref(true)
+const globalNotice = ref({
+  visible: false,
+  type: 'error',
+  message: ''
+})
+let noticeTimer = null
+
+const closeGlobalNotice = () => {
+  globalNotice.value.visible = false
+}
+
+const showGlobalNotice = (message, type = 'error') => {
+  if (!message) return
+
+  globalNotice.value = {
+    visible: true,
+    type,
+    message
+  }
+
+  if (noticeTimer) {
+    clearTimeout(noticeTimer)
+  }
+  noticeTimer = setTimeout(() => {
+    closeGlobalNotice()
+  }, 2600)
+}
+
+const handleGlobalError = (event) => {
+  const message = event?.detail?.message || '系统异常，请稍后重试'
+  const type = event?.detail?.type || 'error'
+  showGlobalNotice(message, type)
+}
 
 // 页面加载动画
 onMounted(() => {
   setTimeout(() => {
     isLoading.value = false
   }, 500)
+
+  window.addEventListener(GLOBAL_ERROR_EVENT, handleGlobalError)
+})
+
+onUnmounted(() => {
+  window.removeEventListener(GLOBAL_ERROR_EVENT, handleGlobalError)
+  if (noticeTimer) {
+    clearTimeout(noticeTimer)
+  }
 })
 </script>
 
 <template>
   <div class="app-container" :class="{ 'app-loaded': !isLoading }">
+    <transition name="notice-slide">
+      <div
+        v-if="globalNotice.visible"
+        class="global-notice"
+        :class="`global-notice-${globalNotice.type}`"
+      >
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>{{ globalNotice.message }}</span>
+      </div>
+    </transition>
+
     <!-- 页面加载动画 -->
     <div v-if="isLoading" class="page-loader">
       <div class="loader-content">
@@ -59,6 +113,39 @@ onMounted(() => {
 </template>
 
 <style>
+.notice-slide-enter-active,
+.notice-slide-leave-active {
+  transition: all 0.25s ease;
+}
+
+.notice-slide-enter-from,
+.notice-slide-leave-to {
+  opacity: 0;
+  transform: translate(-50%, -10px);
+}
+
+.global-notice {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12000;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.22);
+}
+
+.global-notice-error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
 /* 全局动画 */
 .fade-enter-active,
 .fade-leave-active {

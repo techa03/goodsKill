@@ -53,7 +53,7 @@ public class ApiResult<T> implements Serializable {
     }
 
     public static <T> ApiResult<T> newInstance(ResultCode resultCode, boolean success, T value, String version) {
-        return new ApiResult(resultCode.code, resultCode.getDesc(), success, value, version);
+        return new ApiResult(resultCode.getCode(), resultCode.getDesc(), success, value, version);
     }
 
     public static <T> ApiResult<T> ok(T value, String message) {
@@ -100,7 +100,7 @@ public class ApiResult<T> implements Serializable {
         if (errorCode == null) {
             return null;
         } else {
-            this.code = errorCode.code;
+            this.code = errorCode.getCode();
             this.setFormatMessage(errorCode.getDesc(), args);
             this.isSuccess = false;
             this.version = ResultCode.C606.getDesc();

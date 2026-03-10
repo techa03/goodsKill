@@ -1,6 +1,8 @@
 <script setup>
 import {computed, onMounted, ref} from 'vue'
 import {useRouter} from 'vue-router'
+import request from '../utils/request'
+import {clearAuthState, getRefreshToken} from '../utils/auth'
 
 const props = defineProps({
   title: {
@@ -38,10 +40,17 @@ const handleBack = () => {
   }
 }
 
-const handleLogout = () => {
-  localStorage.removeItem('token')
-  localStorage.removeItem('currentUser')
-  router.push('/login')
+const handleLogout = async () => {
+  try {
+    await request.post('/auth/logout', {
+      refreshToken: getRefreshToken()
+    })
+  } catch (error) {
+    console.warn('退出登录接口调用失败，将执行本地退出', error)
+  } finally {
+    clearAuthState()
+    router.push('/login')
+  }
 }
 
 const currentUser = computed(() => {

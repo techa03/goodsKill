@@ -104,6 +104,8 @@ security:
     ##普通接口白名单
     whiteUrl:
       - "/api/auth/login"
+      - "/api/auth/refresh"
+      - "/api/auth/register"
       - "/api/web/**"
     ##登录用户接口白名单
     loginUserWhiteUrls:

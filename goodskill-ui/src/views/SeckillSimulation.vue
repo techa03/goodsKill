@@ -1,7 +1,7 @@
 <script setup>
 import {computed, onMounted, onUnmounted, ref, watch} from 'vue'
 import {useRouter} from 'vue-router'
-import axios from 'axios'
+import {createRequest} from '../utils/request'
 import PageHeader from '../components/PageHeader.vue'
 import Chart from 'chart.js/auto'
 import SockJS from 'sockjs-client'
@@ -10,21 +10,7 @@ import {Client} from '@stomp/stompjs'
 const router = useRouter()
 const API_BASE = '/api/web'
 
-const api = axios.create({
-  baseURL: API_BASE,
-  timeout: 10000
-})
-
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      config.headers['access_token'] = token
-    }
-    return config
-  },
-  (error) => Promise.reject(error)
-)
+const api = createRequest(API_BASE)
 
 // 秒杀策略枚举
 const seckillStrategies = [

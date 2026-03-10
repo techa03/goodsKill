@@ -1,11 +1,12 @@
 package com.goodskill.service.util;
 
 import com.goodskill.service.SeckillApplication;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -19,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = SeckillApplication.class)
 @Disabled
-@Slf4j
 class ZookeeperLockUtilTest {
+    private static final Logger log = LoggerFactory.getLogger(ZookeeperLockUtilTest.class);
     @Autowired
     private ZookeeperLockUtil zookeeperLockUtil;
 
