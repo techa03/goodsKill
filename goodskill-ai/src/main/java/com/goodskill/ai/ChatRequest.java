@@ -1,4 +1,4 @@
-package com.goodskill.ai.controller;
+package com.goodskill.ai;
 
 import java.util.List;
 
