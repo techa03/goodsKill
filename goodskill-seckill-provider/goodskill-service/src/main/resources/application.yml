@@ -112,7 +112,8 @@ dubbo:
     enable-file-cache: false
     ##开启应用级地址注册
     register-mode: instance
-    qos-port: 22222
+    ## 完全禁用 QoS 避免端口冲突
+    qos-enable: false
 
 seata:
   enabled: false

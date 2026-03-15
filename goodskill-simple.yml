@@ -93,12 +93,13 @@ services:
     command: [ "redis-server", "--appendonly", "yes", "--requirepass", "123456" ]
 
   elasticsearch:
-    image: elasticsearch:7.16.2
+    image: elasticsearch:8.14.3
     container_name: elasticsearch
     environment:
       - "cluster.name=elasticsearch" #设置集群名称为elasticsearch
       - "discovery.type=single-node" #以单一节点模式启动
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m" #设置使用jvm内存大小
+      - "xpack.security.enabled=false" #禁用安全功能
     volumes:
       - ./doc/docker/elasticsearch/plugins:/usr/share/elasticsearch/plugins #插件文件挂载
     #      - ./doc/docker/elasticsearch/data:/usr/share/elasticsearch/data #数据文件挂载

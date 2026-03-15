@@ -51,6 +51,7 @@ public class RedisService {
         String key = "seckill:" + seckillId;
         redisTemplate.delete(key);
         redisTemplate.delete(String.valueOf(seckillId));
+        stringRedisTemplate.delete(String.valueOf(seckillId));
     }
 
     /**
