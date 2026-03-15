@@ -15,39 +15,46 @@
  */
 package com.goodskill.ai.service;
 
+import com.alibaba.cloud.ai.graph.OverAllState;
 import com.alibaba.cloud.ai.graph.agent.ReactAgent;
 import com.alibaba.cloud.ai.graph.agent.extension.tools.filesystem.ReadFileTool;
 import com.alibaba.cloud.ai.graph.agent.hook.shelltool.ShellToolAgentHook;
+import com.alibaba.cloud.ai.graph.agent.hook.skills.SkillsAgentHook;
 import com.alibaba.cloud.ai.graph.agent.tools.ShellTool;
 import com.alibaba.cloud.ai.graph.checkpoint.savers.redis.RedisSaver;
 import com.alibaba.cloud.ai.graph.serializer.StateSerializer;
-import com.alibaba.cloud.ai.graph.serializer.std.SpringAIStateSerializer;
+import com.alibaba.cloud.ai.graph.serializer.plain_text.jackson.SpringAIJacksonStateSerializer;
+import com.alibaba.cloud.ai.graph.skills.registry.SkillRegistry;
+import com.alibaba.cloud.ai.graph.skills.registry.filesystem.FileSystemSkillRegistry;
 import com.goodskill.ai.tool.PythonTool;
 import com.goodskill.ai.tool.SeckillTools;
 import com.goodskill.ai.tool.TaskTimeInfoTool;
 import org.redisson.api.RedissonClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.tool.ToolCallback;
+import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.tool.function.FunctionToolCallback;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 
 @Configuration
 public class ChatbotAgent {
 
 	private static final String INSTRUCTION = """
-				您是用户聊天支持代理。请以友好、乐于助人且愉快的方式来回复。
-				您正在通过在线聊天系统与用户互动。
-				您能够支持已有秒杀商品详情查询、开启秒杀活动、重置秒杀活动等操作，其余功能将在后续版本中添加，如果用户问的问题不支持请告知详情。
-			   在提供有关秒杀活动查询、开启秒杀活动、重置秒杀活动等操作之前，您必须始终从用户处获取以下信息：秒杀活动id、秒杀商品数量、请求次数。
+				你是用户聊天支持代理。
+				你正在通过在线聊天系统与用户互动。
+				你能够支持已有秒杀商品详情查询、开启秒杀活动、重置秒杀活动等操作，其余功能将在后续版本中添加，如果用户问的问题不支持请告知详情。
+			   在提供有关秒杀活动查询、开启秒杀活动、重置秒杀活动等操作之前，你必须始终从用户处获取以下信息：秒杀活动id、秒杀商品数量、请求次数。
 			   如果需要提前结束秒杀活动，您必须在继续之前征得用户同意。
 			   使用提供的功能获取秒杀活动以及商品详细信息、开启秒杀活动和重置秒杀。
 			   用户开始秒杀活动后，等待10秒，然后调用 获取任务耗时统计信息 函数，最后将函数结果返回给用户。
-			   如果需要，您可以调用相应函数辅助完成。
-			   请讲中文。
+			   如果需要，你可以调用相应函数辅助完成。
+			   请讲中文，回答确保简洁准确，可以回答无关秒杀的问题，不确定答案的直接回复不知道。
 			""";
 
 	@Bean
@@ -57,16 +64,26 @@ public class ChatbotAgent {
 			ToolCallback viewTextFile,
 			ToolCallback executeSeckillTool,
 			ToolCallback getTaskTimeInfoTool,
-			RedisSaver checkpointSaver) {
+			RedisSaver checkpointSaver, ToolCallbackProvider toolCallbackProvider) {
+		List<ToolCallback> toolCallbacks = Arrays.asList(toolCallbackProvider.getToolCallbacks());
+
+		SkillRegistry registry = FileSystemSkillRegistry.builder()
+				.projectSkillsDirectory(System.getProperty("user.dir") + "/.codex/skills")
+				.build();
+
+		SkillsAgentHook skillsAgentHook = SkillsAgentHook.builder()
+				.skillRegistry(registry)
+				.build();
+
+		ShellToolAgentHook shellToolAgentHook = ShellToolAgentHook.builder().shellToolName(executeShellCommand.getToolDefinition().name()).build();
 		return ReactAgent.builder()
-				.name("SAA")
+				.name("goodskill")
 				.model(chatModel)
 				.instruction(INSTRUCTION)
 				.enableLogging(true)
 				// Redis 持久化对话 checkpoint
 				.saver(checkpointSaver)
-				// Must set ShellToolAgentHook to manage shell session lifecycle for executeShellCommand
-				.hooks(ShellToolAgentHook.builder().shellToolName(executeShellCommand.getToolDefinition().name()).build())
+//				.hooks(shellToolAgentHook, skillsAgentHook)
 				.tools(
 						executeShellCommand,
 						executePythonCode,
@@ -75,13 +92,14 @@ public class ChatbotAgent {
 						// 获取任务耗时统计信息工具
 						getTaskTimeInfoTool
 				)
+//				.tools(toolCallbacks)
 				.build();
 	}
 
 	@Bean
 	public StateSerializer stateSerializer() {
 		// 使用 SpringAIStateSerializer 统一序列化对话状态
-		return new SpringAIStateSerializer();
+		return new SpringAIJacksonStateSerializer(OverAllState::new);
 	}
 
 	@Bean
@@ -92,6 +110,13 @@ public class ChatbotAgent {
 				.stateSerializer(stateSerializer)
 				.build();
 	}
+
+//	@Bean
+//	public SaverConfig saverConfig(RedisSaver redisSaver) {
+//		return SaverConfig.builder()
+//				.register(redisSaver)
+//				.build();
+//	}
 
 	// Tool: execute_shell_command
 	@Bean

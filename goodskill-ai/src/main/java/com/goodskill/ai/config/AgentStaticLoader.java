@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.goodskill.ai;
+package com.goodskill.ai.config;
 
 import com.alibaba.cloud.ai.agent.studio.loader.AgentLoader;
 import com.alibaba.cloud.ai.graph.GraphRepresentation;
