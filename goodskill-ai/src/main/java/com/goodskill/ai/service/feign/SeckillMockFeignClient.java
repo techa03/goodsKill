@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
@@ -66,12 +68,11 @@ public interface SeckillMockFeignClient {
     Result<Long> getTaskId(@RequestParam Long seckillId);
 
     /**
-     * 获取任务耗时统计信息
-     *
-     * @param seckillId 秒杀活动的ID
-     * @return 返回一个Result对象，其中包含格式化后的任务时间信息字符串
+     * 根据任务id获取任务详情
+     * @param taskId 任务id
+     * @return
      */
-    @GetMapping("/task-time-info")
-    Result<String> getTaskTimeInfo(@RequestParam Long seckillId);
+    @GetMapping("/task-info/{taskId}")
+    Result<Map<String, Object>> getTaskDetails(@PathVariable String taskId);
 
 }

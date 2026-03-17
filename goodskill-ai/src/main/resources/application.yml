@@ -4,9 +4,33 @@ server:
 spring:
   application:
     name: goodskill-ai
+  redis:
+    redisson:
+      config: |
+        singleServerConfig:
+          address: "redis://${spring.data.redis.host}:${spring.data.redis.port}"
+          password: ${spring.data.redis.password}
   ai:
     dashscope:
-      api-key: ${AI_DASHSCOPE_API_KEY}
+      # 从环境变量读取 API Key，避免硬编码泄漏风险
+      api-key: ${DASHSCOPE_API_KEY}
+    ollama:
+      base-url: http://${OLLAMA_HOST}:11434
+      chat:
+        options:
+          model: qwen3.5:9b
+    mcp:
+      client:
+        enabled: true
+        toolcallback:
+          enabled: true
+        streamable-http:
+          connections:
+            jina:
+              # 官方地址：https://mcp.jina.ai 本地部署：http://127.0.0.1:8787
+              url: "https://mcp.jina.ai"
+              endpoint: "/sse"
+        request-timeout: 60000
   cloud:
     nacos:
       username: nacos
@@ -16,3 +40,7 @@ spring:
     import:
       - optional:nacos:goodskill-common-connection.yml
       - optional:nacos:goodskill-common.yml
+
+goodskill:
+  ai:
+    provider: dashscope

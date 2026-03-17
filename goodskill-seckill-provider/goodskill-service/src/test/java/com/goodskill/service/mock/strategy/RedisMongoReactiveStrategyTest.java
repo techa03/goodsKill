@@ -13,26 +13,32 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.messaging.support.MessageBuilder;
 
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class RedisMongoReactiveStrategyTest {
     @Mock
     RedisService redisService;
     @Mock
     RedisTemplate<String, Object> redisTemplate;
+    @Mock
+    StringRedisTemplate stringRedisTemplate;
+    @Mock
+    RedissonClient redissonClient;
+    @Mock
+    RLock rLock;
     @Mock
     ValueOperations redisOperations;
     @Spy
@@ -58,8 +64,7 @@ class RedisMongoReactiveStrategyTest {
         Seckill t = new Seckill();
         t.setNumber(10);
         when(redisService.getSeckill(anyLong())).thenReturn(t);
-        when(redisTemplate.opsForValue()).thenReturn(redisOperations);
-        when(redisOperations.increment(anyLong())).thenReturn(1L);
+        when(stringRedisTemplate.execute(any(), anyList(), anyString())).thenReturn(1L);
         redisMongoReactiveStrategy.execute(new SeckillMockRequestDTO(0L, 0, "phoneNumber", "requestTime"));
         assertNotNull(t);
     }
@@ -68,13 +73,14 @@ class RedisMongoReactiveStrategyTest {
     void testExecute2() {
         Seckill t = new Seckill();
         t.setNumber(1);
-        long seckillId = anyLong();
+        long seckillId = 1L;
+        String lockKey = "lock:seckill:" + seckillId;
         when(redisService.getSeckill(seckillId)).thenReturn(t);
-        when(redisTemplate.opsForValue()).thenReturn(redisOperations);
-        when(redisOperations.increment(String.valueOf(seckillId))).thenReturn(2L);
+        when(stringRedisTemplate.execute(any(), anyList(), anyString())).thenReturn(0L);
+        when(redissonClient.getLock(anyString())).thenReturn(rLock);
         when(stateMachineService.checkState(seckillId, States.IN_PROGRESS)).thenReturn(true);
-        when(streamBridge.send(DEFAULT_BINDING_NAME, MessageBuilder.withPayload(new SeckillMockRequestDTO()).build())).thenReturn(true);
-        redisMongoReactiveStrategy.execute(new SeckillMockRequestDTO(0L, 0, "phoneNumber", "requestTime"));
+        when(streamBridge.send(anyString(), any())).thenReturn(true);
+        redisMongoReactiveStrategy.execute(new SeckillMockRequestDTO(seckillId, 0, "phoneNumber", "requestTime"));
         assertNotNull(t);
     }
 }

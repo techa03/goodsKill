@@ -1,6 +1,6 @@
 package com.goodskill.ai.controller;
 
-import com.goodskill.ai.service.UserSupportAssistant;
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,15 +15,15 @@ import reactor.core.publisher.Flux;
 @RestController
 public class AssistantController {
 
-	private final UserSupportAssistant agent;
+	private final ChatClient chatClient;
 
-	public AssistantController(UserSupportAssistant agent) {
-		this.agent = agent;
+	public AssistantController(ChatClient.Builder chatClientBuilder) {
+		this.chatClient = chatClientBuilder.build();
 	}
 
 	@RequestMapping(path="/chat", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public Flux<String> chat(@RequestParam String chatId, @RequestParam String userMessage) {
-		return agent.chat(chatId, userMessage);
+		return chatClient.prompt().user(userMessage).stream().content();
 	}
 
 }

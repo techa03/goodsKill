@@ -139,8 +139,8 @@ ns         %     Task name
 |Mongo |6.0.7 |27017 |无
 |MySQL |8.0.29 |3306 |root:Password123
 |Zookeeper |3.6.2 |2181 |无
-|Elasticsearch |7.17.3 |9200 9300 |无
-|Kibana |7.17.3 |5601 |无
+|Elasticsearch |8.14.3 |9200 9300 |无
+|Kibana |8.14.3 |5601 |无
 |RabbitMQ |latest |5672 15672 |无
 |MinIO |latest |9000 |root:password
 |Seata |2.0.0 |7091 8091|seata:seata（控制台）
