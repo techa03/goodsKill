@@ -272,7 +272,7 @@ Additional steps to start complete project after Quick Start:
 
 ## ❓FAQ
 
-**Docker ES image fails to start**
+### Q: Docker ES image fails to start?
 
 Usually occurs on Linux. Run: `sysctl -w vm.max_map_count=262144`
 or edit /etc/sysctl.conf:
@@ -282,25 +282,25 @@ grep vm.max_map_count /etc/sysctl.conf
 vm.max_map_count=262144
 ```
 
-**How to use custom OAuth2.0 auth server for login?**
+### Q: How to use custom OAuth2.0 auth server for login?
 
 To be completed..
 
-**Framework compatibility?**
+### Q: Framework compatibility?
 
 Current versions of main frameworks are relatively new and not fully tested[^3].
 
 [^3]: Refer to [SpringCloudAlibaba](https://start.aliyun.com/bootstrap.html) compatibility guide
 
-**Service startup error `no available service found in cluster 'default', please make sure registry config correct and keep your seata server running`**
+### Q: Service startup error `no available service found in cluster 'default', please make sure registry config correct and keep your seata server running`?
 
 Start `seata-server` service (provided in docker-compose.yml). Refer to Seata docs for nacos config. If not using distributed transactions, this error can be ignored.
 
-**Cannot pull docker-compose images**
+### Q: Cannot pull docker-compose images?
 
 hub.docker may be blocked in China. Use Alibaba Cloud image accelerator: [Alibaba Cloud Image Accelerator](https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors)
 
-**JDK17+ startup failure**
+### Q: JDK17+ startup failure?
 
 Add these JVM parameters:
 
