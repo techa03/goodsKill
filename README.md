@@ -128,8 +128,8 @@ ns         %     Task name
 |---|---|---|---|
 | Nacos | 2.3.2-slim | 8848 | nacos:nacos（控制台） |
 | Redis | latest | 6379 | 密码:123456 |
-| Kafka | 3.1.1 | 9092 | 无 |
-| KafkaManager | latest | 9001:9000 | 无 |
+| Kafka | 3.9.1 | 9092 | 无 |
+| Kafbat UI | latest | 38080:8080 | 无 |
 | Mongo | 6.0.7 | 27017 | 无 |
 | MySQL | 8.0.29 | 3306 | root:Password123 |
 | Zookeeper | 3.6.2 | 2181 | 无 |
