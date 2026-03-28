@@ -35,6 +35,7 @@
 | RabbitMQ | 消息队列 | https://www.rabbitmq.com/ |
 | MongoDB | Mongo数据库 | https://www.mongodb.com/ |
 | MySQL | MySQL数据库 | https://www.mysql.com/ |
+| PostgreSQL | PostgreSQL数据库 | https://www.postgresql.org/ |
 | Elasticsearch | 全文搜索引擎 | https://www.elastic.co |
 | Sharding-JDBC | 分库分表组件 | https://shardingsphere.apache.org |
 | Spring Cloud Alibaba | Cloud Alibaba组件 | https://github.com/alibaba/spring-cloud-alibaba |
@@ -136,6 +137,7 @@ ns         %     Task name
 | Elasticsearch | 8.14.3 | 9200 9300 | 无 |
 | Kibana | 8.14.3 | 5601 | 无 |
 | RabbitMQ | latest | 5672 15672 | 无 |
+| PostgreSQL | pgvector/pgvector:pg15 | 5432 | goodskill:Password123 |
 | MinIO | latest | 9000 | root:password |
 | Seata | 2.0.0 | 7091 8091 | seata:seata（控制台） |
 
@@ -174,6 +176,7 @@ ns         %     Task name
  127.0.0.1       elasticsearch
  127.0.0.1       rabbitmq
  127.0.0.1       logstash
+ 127.0.0.1       postgres
  ##如果网关服务部署在远程机器，此处改为相应的远程机器ip
  127.0.0.1       www.goodskill.com
 ```
@@ -226,23 +229,9 @@ curl --location --request POST 'http://www.goodskill.com:8080/limit' \
 
 ## 🤖️ 使用AI机器人聊天服务
 
-基于Spring AI Alibaba构建的简易秒杀机器人服务，可以通过机器人服务完成服务调用，目前仅支持开启秒杀活动，以及输出活动耗时情况
+基于 Spring AI Alibaba 构建的简易秒杀机器人服务，可以通过机器人服务完成服务调用，目前支持开启秒杀活动、输出活动耗时情况，以及知识库问答功能。
 
-* 进入`goodskill-ai`模块，替换配置`spring.ai.dashscope.api-key`，可通过阿里云百炼平台获取
-
-* main方法运行`AiBotApplication`类，访问聊天页面 `http://127.0.0.1:18077`
-
-* 以下是一个对话示例
-
-```text
-我: 帮我执行秒杀
-
-AI: 当然可以帮助您执行秒杀活动啦！为了顺利进行，请告诉我以下几个信息：1.秒杀活动的ID是多少？2. 这次秒杀的商品数量是多少？3.您打算这次请求的次数是多少？有了这些信息，我就能帮您开始了！😊
-
-我: 秒杀活动id 1001，请求次数20，商品数量10个
-
-AI: 秒杀活动已成功开启！我们现在等待10秒钟，然后我会为您获取任务的耗时统计信息。秒杀活动已成功启动，并在10秒后获得了任务耗时统计信息：总耗时：6.673773375秒具体耗时分布如下：- 秒杀活动id:1001，秒杀场景五(数据库原子性更新update setnum = num -1)耗时 3.528280125 秒，占比 53%-秒杀活动id:1001，秒杀场景五(数据库原子性更新updateset num = num-1)耗时3.14549325 秒，占比 47%希望这些信息对您有帮助！如果还有其他问题或需要进一步的帮助，请随时告诉我哦！😊
-```
+详细的环境配置和 API 介绍请参考 [goodskill-ai/README.md](goodskill-ai/README.md)。
 
 ## 🕹️️ 启动其他可选项目步骤
 

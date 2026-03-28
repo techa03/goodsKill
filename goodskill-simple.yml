@@ -175,6 +175,21 @@ services:
     networks:
       - somenetwork
 
+  postgres-ai:
+    image: pgvector/pgvector:pg15
+    container_name: postgres-ai
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: vector_db
+      POSTGRES_USER: goodskill
+      POSTGRES_PASSWORD: Password123
+    volumes:
+      - ./doc/docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - somenetwork
+
 networks:
   somenetwork:
     driver: bridge
