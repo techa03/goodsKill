@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.goodskill.ai.service;
+package com.goodskill.ai.config;
 
 import com.alibaba.cloud.ai.graph.OverAllState;
 import com.alibaba.cloud.ai.graph.agent.ReactAgent;
@@ -42,8 +42,11 @@ import java.util.Arrays;
 import java.util.List;
 
 
+/**
+ * AI Agent configuration
+ */
 @Configuration
-public class ChatbotAgent {
+public class AgentConfig {
 
 	private static final String INSTRUCTION = """
 				你是用户聊天支持代理。
