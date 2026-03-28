@@ -19,6 +19,9 @@ spring:
       chat:
         options:
           model: qwen3.5:9b
+    vectorstore:
+      pgvector:
+        initialize-schema: true
     mcp:
       client:
         enabled: true
@@ -31,6 +34,11 @@ spring:
               url: "https://mcp.jina.ai"
               endpoint: "/sse"
         request-timeout: 60000
+  datasource:
+    url: jdbc:postgresql://localhost:5432/vector_db
+    username: goodskill
+    password: Password123
+    driver-class-name: org.postgresql.Driver
   cloud:
     nacos:
       username: nacos
@@ -44,3 +52,8 @@ spring:
 goodskill:
   ai:
     provider: dashscope
+  kb:
+    default-top-k: 4
+  vectorstore:
+    table-name: vector_store
+    dimensions: 1024

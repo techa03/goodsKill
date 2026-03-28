@@ -209,6 +209,21 @@ services:
 #      MONGO_INITDB_ROOT_USERNAME: root
 #      MONGO_INITDB_ROOT_PASSWORD: root
 
+  postgres-ai:
+    image: pgvector/pgvector:pg15
+    container_name: postgres-ai
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: vector_db
+      POSTGRES_USER: goodskill
+      POSTGRES_PASSWORD: Password123
+    volumes:
+      - ./doc/docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - somenetwork
+
   seata-server:
     image: seataio/seata-server:2.0.0
     container_name: seata-server
