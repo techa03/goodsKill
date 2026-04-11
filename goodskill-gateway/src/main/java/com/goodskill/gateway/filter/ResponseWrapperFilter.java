@@ -3,6 +3,7 @@ package com.goodskill.gateway.filter;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.goodskill.core.info.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -27,6 +28,7 @@ import java.nio.charset.StandardCharsets;
  * 确保所有 C 端后端接口都使用 Result 类包装返回值
  */
 @Component
+@Slf4j
 public class ResponseWrapperFilter implements GlobalFilter, Ordered {
 
     @Override
@@ -53,19 +55,35 @@ public class ResponseWrapperFilter implements GlobalFilter, Ordered {
                         // 解析响应体
                         String responseBody = new String(content, StandardCharsets.UTF_8);
                         try {
-                            // 检查是否已经是 Result 包装
-                            JSONObject jsonObject = JSON.parseObject(responseBody);
-                            if (jsonObject.containsKey("code") && jsonObject.containsKey("msg") && jsonObject.containsKey("data")) {
-                                // 已经是 Result 包装，直接返回
+                            // 检查是否为空响应
+                            if (responseBody == null || responseBody.trim().isEmpty()) {
                                 return dataBufferFactory.wrap(content);
+                            }
+                            
+                            // 尝试解析为 JSON
+                            Object jsonElement = JSON.parse(responseBody);
+                            
+                            // 如果已经是 Result 包装（JSON 对象且包含 code、msg、data 字段）
+                            if (jsonElement instanceof JSONObject) {
+                                JSONObject jsonObject = (JSONObject) jsonElement;
+                                if (jsonObject.containsKey("code") && jsonObject.containsKey("msg") && jsonObject.containsKey("data")) {
+                                    // 已经是 Result 包装，直接返回
+                                    return dataBufferFactory.wrap(content);
+                                } else {
+                                    // 不是 Result 包装，包装为 Result
+                                    Result<Object> result = Result.ok(jsonObject);
+                                    String wrappedResponse = JSON.toJSONString(result);
+                                    return dataBufferFactory.wrap(wrappedResponse.getBytes(StandardCharsets.UTF_8));
+                                }
                             } else {
-                                // 不是 Result 包装，包装为 Result
-                                Result<Object> result = Result.ok(jsonObject);
+                                // JSON 数组或其他类型，直接包装为 Result
+                                Result<Object> result = Result.ok(jsonElement);
                                 String wrappedResponse = JSON.toJSONString(result);
                                 return dataBufferFactory.wrap(wrappedResponse.getBytes(StandardCharsets.UTF_8));
                             }
                         } catch (Exception e) {
                             // 解析失败，可能不是 JSON，直接返回
+                            log.error("响应解析失败：{}", e.getMessage(), e);
                             return dataBufferFactory.wrap(content);
                         }
                     }));
