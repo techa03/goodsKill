@@ -72,5 +72,10 @@ public class Order {
      * 状态描述
      */
     private String stateDesc;
+    
+    /**
+     * 支付宝订单号
+     */
+    private String alipayTradeNo;
 
 }

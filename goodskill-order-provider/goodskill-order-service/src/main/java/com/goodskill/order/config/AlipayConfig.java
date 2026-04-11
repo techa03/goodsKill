@@ -30,7 +30,7 @@ public class AlipayConfig {
     @Bean
     public AlipayClient alipayClient() {
         return new DefaultAlipayClient(
-            "https://" + gateway + "/gateway.do",
+            "https://" + gateway,
             appId,
             privateKey,
             "JSON",

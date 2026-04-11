@@ -38,10 +38,10 @@ class OrderServiceImplTest {
         orderDTO.setUserPhone("13800138000");
 
         // When
-        Boolean result = orderService.saveRecord(orderDTO);
+        String result = orderService.saveRecord(orderDTO);
 
         // Then
-        assertTrue(result);
+        assertNotNull(result);
         verify(orderRepository).insert(any(Order.class));
     }
 

@@ -1,5 +1,6 @@
 package com.goodskill.order.controller;
 
+import com.goodskill.core.util.UserInfoUtil;
 import com.goodskill.order.entity.Order;
 import com.goodskill.order.entity.OrderDTO;
 import com.goodskill.order.service.impl.OrderServiceImpl;
@@ -31,10 +32,9 @@ public class OrderController {
 
     @GetMapping("/list")
     public Page<Order> list(
-            @RequestParam(required = false) String userPhone,
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize) {
-        return orderService.list(userPhone, pageNum, pageSize);
+        return orderService.list(UserInfoUtil.getUserId(), pageNum, pageSize);
     }
 
     @GetMapping("/detail/{orderId}")

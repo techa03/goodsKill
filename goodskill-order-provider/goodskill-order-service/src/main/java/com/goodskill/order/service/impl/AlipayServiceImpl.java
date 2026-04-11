@@ -2,6 +2,7 @@ package com.goodskill.order.service.impl;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
@@ -10,6 +11,8 @@ import com.goodskill.order.config.AlipayConfig;
 import com.goodskill.order.dto.AlipayRequestDTO;
 import com.goodskill.order.dto.AlipayResponseDTO;
 import com.goodskill.order.api.AlipayService;
+import com.goodskill.order.enums.OrderStatusEnum;
+import com.goodskill.order.service.impl.OrderServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,9 @@ public class AlipayServiceImpl implements AlipayService {
 
     @Autowired
     private AlipayConfig alipayConfig;
+    
+    @Autowired
+    private OrderServiceImpl orderService;
 
     @Override
     public AlipayResponseDTO createPayOrder(AlipayRequestDTO request) {
@@ -73,11 +79,11 @@ public class AlipayServiceImpl implements AlipayService {
     }
 
     @Override
-    public String handleCallback(String requestBody) {
+    public String handleCallback(Map<String, String> params) {
         try {
-            Map<String, String> params = parseCallbackParams(requestBody);
+            log.info("支付宝回调参数: {}", params);
 
-            boolean signVerified = com.alipay.api.internal.util.AlipaySignature.rsaCheckV1(
+            boolean signVerified = AlipaySignature.rsaCheckV1(
                 params,
                 alipayConfig.getPublicKey(),
                 "UTF-8",
@@ -85,10 +91,23 @@ public class AlipayServiceImpl implements AlipayService {
             );
 
             if (signVerified) {
-                log.info("支付宝回调验证成功: {}", requestBody);
+                log.info("支付宝回调验证成功: {}", params);
+                
+                // 获取订单号和交易状态
+                String orderId = params.get("out_trade_no");
+                String tradeStatus = params.get("trade_status");
+                String tradeNo = params.get("trade_no");
+                
+                // 如果交易成功，更新订单状态
+                if ("TRADE_SUCCESS".equals(tradeStatus) || "TRADE_FINISHED".equals(tradeStatus)) {
+                    log.info("支付成功: orderId={}, tradeNo={}", orderId, tradeNo);
+                    OrderStatusEnum paidStatus = OrderStatusEnum.PAID;
+                    orderService.updateOrderStatus(orderId, paidStatus.getCode(), paidStatus.getDesc(), tradeNo);
+                }
+                
                 return "success";
             } else {
-                log.warn("支付宝回调验证失败: {}", requestBody);
+                log.warn("支付宝回调验证失败: {}", params);
                 return "failure";
             }
         } catch (Exception e) {
@@ -115,6 +134,7 @@ public class AlipayServiceImpl implements AlipayService {
             } else {
                 response.setStatus("UNKNOWN");
             }
+            log.info("支付宝查询结果: {}", queryResponse.getBody());
         } catch (AlipayApiException e) {
             log.error("查询支付状态失败: {}", e.getMessage(), e);
             response.setStatus("UNKNOWN");
@@ -123,15 +143,18 @@ public class AlipayServiceImpl implements AlipayService {
         return response;
     }
 
-    private Map<String, String> parseCallbackParams(String requestBody) throws java.io.UnsupportedEncodingException {
-        java.util.Map<String, String> params = new java.util.HashMap<>();
-        String[] pairs = requestBody.split("&");
-        for (String pair : pairs) {
-            String[] keyValue = pair.split("=", 2);
-            if (keyValue.length == 2) {
-                params.put(keyValue[0], java.net.URLDecoder.decode(keyValue[1], "UTF-8"));
-            }
+    @Override
+    public boolean verifyCallbackSignature(Map<String, String> params) {
+        try {
+            return AlipaySignature.rsaCheckV1(
+                params,
+                alipayConfig.getPublicKey(),
+                "UTF-8",
+                "RSA2"
+            );
+        } catch (Exception e) {
+            log.error("验证签名失败: {}", e.getMessage(), e);
+            return false;
         }
-        return params;
     }
 }

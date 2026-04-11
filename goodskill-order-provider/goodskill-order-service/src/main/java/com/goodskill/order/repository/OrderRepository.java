@@ -15,6 +15,9 @@ public interface OrderRepository extends MongoRepository<Order, String> {
     long countBySeckillId(BigInteger seckillId);
 
     List<Order> findByUserPhone(String userPhone);
-    
-    Page<Order> findByUserPhone(String userPhone, Pageable pageable);
+
+    Page<Order> findByUserPhoneOrderByCreateTimeDesc(String userPhone, Pageable pageable);
+
+    Page<Order> findByUserIdOrderByCreateTimeDesc(String userId, Pageable pageable);
+
 }
