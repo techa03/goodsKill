@@ -29,6 +29,8 @@ public class OrderServiceImpl {
                 .id(UUID.randomUUID().toString())
                 .seckillId(orderDTO.getSeckillId())
                 .userPhone(orderDTO.getUserPhone())
+                .status(orderDTO.getStatus())
+                .createTime(orderDTO.getCreateTime())
                 .build();
         orderRepository.insert(order);
         log.info("保存成功,{}", order);

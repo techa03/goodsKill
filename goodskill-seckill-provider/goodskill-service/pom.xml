@@ -72,6 +72,12 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
 		</dependency>
@@ -91,10 +97,11 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-stream-rabbit</artifactId>
 		</dependency>
-		<!--支付宝新版SDK-->
+		<!--支付宝SDK-->
 		<dependency>
 			<groupId>com.alipay.sdk</groupId>
-			<artifactId>alipay-easysdk</artifactId>
+			<artifactId>alipay-sdk-java</artifactId>
+			<version>4.40.731.ALL</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
@@ -200,7 +207,12 @@
 			<groupId>org.springframework.statemachine</groupId>
 			<artifactId>spring-statemachine-data-redis</artifactId>
 		</dependency>
-    </dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<resources>

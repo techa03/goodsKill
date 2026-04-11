@@ -7,17 +7,17 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.api.dto.*;
-import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.service.SeckillService;
-import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.core.enums.Events;
 import com.goodskill.core.exception.SeckillCloseException;
 import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
 import com.goodskill.core.util.MD5Util;
 import com.goodskill.order.api.OrderService;
+import com.goodskill.service.common.GoodsService;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.common.enums.GoodsKillStrategyEnum;
+import com.goodskill.service.entity.Goods;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.handler.PreRequestPipeline;
@@ -28,7 +28,6 @@ import com.goodskill.service.util.StateMachineService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,8 +71,8 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     private List<GoodsKillStrategy> goodskillStrategies;
     @Resource
     private SeckillService seckillService;
-    @DubboReference
-    private GoodsThirdPartyService goodsThirdPartyService;
+    @Resource
+    private GoodsService goodsService;
     @Resource(name = "taskExecutor")
     private ThreadPoolExecutor taskExecutor;
     @Resource
@@ -102,7 +101,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
             List<SeckillVO> collect = seckillPage.getRecords().stream().map(it -> {
                 SeckillVO seckillVO = new SeckillVO();
                 BeanUtils.copyProperties(it, seckillVO);
-                GoodsVO byId = goodsThirdPartyService.findById(it.getGoodsId());
+                Goods byId = goodsService.getById(it.getGoodsId());
                 if (Objects.nonNull(byId)) {
                     String photoUrl = byId.getPhotoUrl();
                     seckillVO.setPhotoUrl(photoUrl);
@@ -235,7 +234,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     public SeckillInfoDTO getInfoById(Serializable seckillId) {
         SeckillInfoDTO seckillInfoDTO = new SeckillInfoDTO();
         SeckillVO seckill = seckillService.findById(seckillId);
-        GoodsVO goods = goodsThirdPartyService.findById(seckill.getGoodsId());
+        Goods goods = goodsService.getById(seckill.getGoodsId());
         BeanUtils.copyProperties(seckill, seckillInfoDTO);
         seckillInfoDTO.setGoodsName(goods.getName());
         return seckillInfoDTO;
@@ -258,7 +257,15 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
 
     @Override
     public SeckillVO findById(Serializable id) {
-        return BeanUtil.copyProperties(super.getById(id), SeckillVO.class);
+        Seckill seckill = super.getById(id);
+        SeckillVO seckillVO = BeanUtil.copyProperties(seckill, SeckillVO.class);
+        // 获取商品信息，设置图片URL
+        Goods goods = goodsService.getById(seckill.getGoodsId());
+        if (Objects.nonNull(goods)) {
+            String photoUrl = goods.getPhotoUrl();
+            seckillVO.setPhotoUrl(photoUrl);
+        }
+        return seckillVO;
     }
 
     @Override

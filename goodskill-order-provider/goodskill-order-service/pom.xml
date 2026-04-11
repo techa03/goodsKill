@@ -86,9 +86,14 @@
             <groupId>com.goodskill</groupId>
             <artifactId>core-util</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
     <build>
-        <finalName>goodskill-mongo-service</finalName>
+        <finalName>goodskill-order-service</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -1,4 +1,4 @@
-package com.goodskill.api.service;
+package com.goodskill.web.feign;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.goodskill.api.dto.*;
@@ -15,8 +15,8 @@ import java.io.Serializable;
  * @author heng
  * @date 2016/7/16
  */
-@FeignClient(value = "goodskill-seckill", contextId = "seckill")
-public interface SeckillService {
+@FeignClient(value = "goodskill-seckill", contextId = "web.seckill")
+public interface SeckillFeignClient {
 
     /**
      * 获取秒杀活动列表

@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 库存实体
@@ -36,7 +36,7 @@ public class Order {
      */
     private Byte status;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 服务器ip

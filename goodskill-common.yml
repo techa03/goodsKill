@@ -21,6 +21,13 @@ spring:
           default:
             connect-timeout: 2000 # 连接超时时间，单位为毫秒
             read-timeout: 4000 # 读取超时时间，单位为毫秒
+      compression:
+        request:
+          enabled: true
+          mime-types: text/xml,application/xml,application/json
+          min-request-size: 2048
+        response:
+          enabled: true
     sentinel:
       ##使用nacos配置中心存储限流规则
       datasource:

@@ -32,12 +32,15 @@ public class OssFileController {
     private final MinioClient minioClient;
     private final FileNameMappingRepository fileNameMappingRepository;
     private final String bucketName;
+    private final String minioEndpoint;
 
     public OssFileController(MinioClient minioClient, FileNameMappingRepository fileNameMappingRepository,
-                             @Value("${minio.bucketName}") String bucketName) {
+                             @Value("${minio.bucketName}") String bucketName,
+                             @Value("${minio.endpoint}") String minioEndpoint) {
         this.minioClient = minioClient;
         this.fileNameMappingRepository = fileNameMappingRepository;
         this.bucketName = bucketName;
+        this.minioEndpoint = minioEndpoint;
     }
 
     /**
@@ -81,9 +84,12 @@ public class OssFileController {
             fileNameMapping.setUpdateTime(LocalDateTime.now());
             fileNameMappingRepository.save(fileNameMapping);
 
-            // 返回上传文件的 URL
-            logger.info("文件上传成功: {}", fileNameMapping.getId());
-            return Result.ok(fileNameMapping.getId());
+            // 构建公开访问链接
+            String publicUrl = minioEndpoint + "/" + bucketName + "/" + uniqueFileName;
+
+            // 返回上传文件的公开访问链接
+            logger.info("文件上传成功: {}, 公开链接: {}", fileNameMapping.getId(), publicUrl);
+            return Result.ok(publicUrl);
         } catch (Exception e) {
             logger.error("文件上传失败: {}", file.getOriginalFilename(), e);
             return Result.fail("文件上传失败: " + e.getMessage());

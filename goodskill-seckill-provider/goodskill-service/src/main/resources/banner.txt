@@ -5,6 +5,6 @@
   \__, |\___/ \___/ \__,_|___/_|\_\_|_|_|
   |___/
 
- :: Spring Boot ::                  (v${spring-boot.version})
- :: Spring Cloud ::                 (v${spring-cloud.version})
- :: Spring Cloud Alibaba ::         (v${spring.cloud.alibaba.version})
+ :: Spring Boot ::                  (v@springboot.version@)
+ :: Spring Cloud ::                 (v@spring-cloud.version@)
+ :: Spring Cloud Alibaba ::         (v@spring.cloud.alibaba.version@)
