@@ -2,10 +2,14 @@ package com.goodskill.service.controller;
 
 import com.goodskill.api.dto.SuccessKilledDTO;
 import com.goodskill.api.service.SeckillService;
+import com.goodskill.api.vo.SeckillVO;
+import com.goodskill.core.exception.SeckillException;
 import com.goodskill.core.info.Result;
 import com.goodskill.core.util.MD5Util;
+import com.goodskill.core.util.UserInfoUtil;
 import com.goodskill.order.api.OrderService;
 import com.goodskill.order.entity.OrderDTO;
+import cn.dev33.satoken.stp.StpUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -48,6 +53,9 @@ public class SeckillCustomerController {
             return Result.fail("秒杀地址已失效");
         }
 
+        // 获取用户ID
+        String userId = UserInfoUtil.getUserId();
+
         // 创建秒杀请求对象
         SuccessKilledDTO successKilledDTO = new SuccessKilledDTO();
         successKilledDTO.setSeckillId(seckillId);
@@ -60,20 +68,35 @@ public class SeckillCustomerController {
             return Result.fail("秒杀失败，库存不足");
         }
 
+        // 获取商品信息
+        SeckillVO seckillVO = seckillService.findById(seckillId);
+        if (seckillVO == null) {
+            throw new SeckillException("商品信息不存在");
+        }
+
         // 生成订单
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setSeckillId(BigInteger.valueOf(seckillId));
         orderDTO.setUserPhone(userPhone);
+        orderDTO.setUserId(userId);
         orderDTO.setStatus((byte) 1);
         orderDTO.setCreateTime(LocalDateTime.now());
-        boolean saveResult = orderService.saveRecord(orderDTO);
-        if (!saveResult) {
-            return Result.fail("创建订单失败");
+        // 添加商品信息
+        orderDTO.setGoodsName(seckillVO.getName());
+        orderDTO.setGoodsTitle(seckillVO.getName());
+        orderDTO.setGoodsImg(seckillVO.getPhotoUrl());
+        orderDTO.setSeckillPrice(seckillVO.getPrice().doubleValue());
+        orderDTO.setStateDesc("待支付");
+        String saveResult = null;
+        try {
+            saveResult = orderService.saveRecord(orderDTO);
+        } catch (Exception e) {
+            throw new SeckillException("创建订单失败");
         }
 
         // 构建返回结果
         Map<String, Object> data = new HashMap<>();
-        data.put("orderId", seckillId + "-" + userPhone + "-" + System.currentTimeMillis());
+        data.put("orderId", saveResult);
         data.put("seckillId", seckillId);
         data.put("userPhone", userPhone);
         data.put("state", 1);
