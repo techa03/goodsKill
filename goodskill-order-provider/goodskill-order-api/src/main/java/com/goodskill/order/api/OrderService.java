@@ -25,7 +25,7 @@ public interface OrderService {
      * @return
      */
     @PostMapping("/saveRecord")
-    Boolean saveRecord(@RequestBody OrderDTO orderDTO);
+    String saveRecord(@RequestBody OrderDTO orderDTO);
 
     /**
      *
@@ -54,8 +54,8 @@ class OrderServiceFallback implements OrderService {
         return false;
     }
 
-    public Boolean saveRecord(OrderDTO orderDTO) {
-        return false;
+    public String saveRecord(OrderDTO orderDTO) {
+        return "";
     }
 
     public long count(long seckillId) {

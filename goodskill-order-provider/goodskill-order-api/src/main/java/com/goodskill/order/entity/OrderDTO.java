@@ -7,10 +7,6 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
-/**
- * @author techa03
- * @date 2019/4/3
- */
 @Data
 public class OrderDTO implements Serializable {
     @Serial
@@ -29,5 +25,30 @@ public class OrderDTO implements Serializable {
     private String userIp;
 
     private String userId;
+
+    /**
+     * 商品名称
+     */
+    private String goodsName;
+
+    /**
+     * 商品标题
+     */
+    private String goodsTitle;
+
+    /**
+     * 商品图片
+     */
+    private String goodsImg;
+
+    /**
+     * 秒杀价格
+     */
+    private Double seckillPrice;
+
+    /**
+     * 状态描述
+     */
+    private String stateDesc;
 
 }
