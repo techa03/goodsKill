@@ -215,4 +215,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         return baseMapper.deleteBatchIds(ids) == ids.size();
     }
+
+    @Override
+    public com.goodskill.auth.pojo.vo.CustomerUserInfoVO getCustomerUserInfo(Integer userId) {
+        User user = baseMapper.selectById(userId);
+        if (user == null) {
+            return null;
+        }
+        com.goodskill.auth.pojo.vo.CustomerUserInfoVO vo = new com.goodskill.auth.pojo.vo.CustomerUserInfoVO();
+        vo.setUserId(user.getId());
+        vo.setUsername(user.getUsername());
+        vo.setMobile(user.getMobile());
+        vo.setAvatar(user.getAvatar());
+        vo.setEmailAddr(user.getEmailAddr());
+        return vo;
+    }
 }
