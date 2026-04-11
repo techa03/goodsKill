@@ -2,8 +2,9 @@
 /out/
 /.settings/
 */.settings/
-/.idea/
+*/.idea/
 */.classpath
+**/.flattened-pom.xml
 */.project
 */*.iml
 */build/
@@ -18,4 +19,6 @@
 /build/
 /.classpath
 !/pom.xml
-/goodskill-ai/target/
+**/target/*
+/standalone-logs/
+*.sh
