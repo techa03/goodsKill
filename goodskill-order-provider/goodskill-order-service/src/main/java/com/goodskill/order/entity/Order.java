@@ -8,11 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
-/**
- * 库存实体
- * @author techa03
- * @date 2020/5/24
- */
 @Data
 @Builder
 @Document
@@ -52,4 +47,30 @@ public class Order {
      * 用户id
      */
     private String userId;
+
+    /**
+     * 商品名称
+     */
+    private String goodsName;
+
+    /**
+     * 商品标题
+     */
+    private String goodsTitle;
+
+    /**
+     * 商品图片
+     */
+    private String goodsImg;
+
+    /**
+     * 秒杀价格
+     */
+    private Double seckillPrice;
+
+    /**
+     * 状态描述
+     */
+    private String stateDesc;
+
 }
