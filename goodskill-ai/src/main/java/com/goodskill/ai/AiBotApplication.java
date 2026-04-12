@@ -1,5 +1,6 @@
 package com.goodskill.ai;
 
+import com.goodskill.ai.config.KnowledgeBaseProperties;
 import io.modelcontextprotocol.client.transport.customizer.McpSyncHttpClientRequestCustomizer;
 import io.modelcontextprotocol.common.McpTransportContext;
 import org.springframework.beans.factory.ObjectProvider;
@@ -7,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -17,10 +19,11 @@ import java.net.http.HttpRequest;
 import java.util.stream.Collectors;
 
 /**
- * AI机器人启动类
+ * AI 机器人启动类
  */
 @SpringBootApplication
 @EnableFeignClients(basePackages = "com.goodskill.ai.service.feign")
+@EnableConfigurationProperties(KnowledgeBaseProperties.class)
 public class AiBotApplication {
 
     @Bean
@@ -49,7 +52,7 @@ public class AiBotApplication {
     }
 
     /**
-     * 修复使用feign client远程调用服务时报HttpMessageConverters缺失问题
+     * 修复使用 feign client 远程调用服务时 HttpMessageConverters 缺失问题
      */
     @Bean
     @ConditionalOnMissingBean
