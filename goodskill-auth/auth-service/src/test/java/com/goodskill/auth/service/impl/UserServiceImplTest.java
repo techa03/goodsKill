@@ -334,4 +334,48 @@ class UserServiceImplTest {
         // Then
         assertNull(result);
     }
+
+    /**
+     * 测试：获取C端用户信息成功
+     */
+    @Test
+    void shouldGetCustomerUserInfoSuccessfully() {
+        // Given
+        Integer userId = 1;
+        User user = new User();
+        user.setId(userId);
+        user.setUsername("testuser");
+        user.setMobile("13800138000");
+        user.setAvatar("avatar.jpg");
+        user.setEmailAddr("test@example.com");
+
+        when(baseMapper.selectById(userId)).thenReturn(user);
+
+        // When
+        var result = userService.getCustomerUserInfo(userId);
+
+        // Then
+        assertNotNull(result);
+        assertEquals(userId, result.getUserId());
+        assertEquals("testuser", result.getUsername());
+        assertEquals("13800138000", result.getMobile());
+        assertEquals("avatar.jpg", result.getAvatar());
+        assertEquals("test@example.com", result.getEmailAddr());
+    }
+
+    /**
+     * 测试：获取C端用户信息时用户不存在
+     */
+    @Test
+    void shouldReturnNullWhenGetCustomerUserInfoNotFound() {
+        // Given
+        Integer userId = 999;
+        when(baseMapper.selectById(userId)).thenReturn(null);
+
+        // When
+        var result = userService.getCustomerUserInfo(userId);
+
+        // Then
+        assertNull(result);
+    }
 }

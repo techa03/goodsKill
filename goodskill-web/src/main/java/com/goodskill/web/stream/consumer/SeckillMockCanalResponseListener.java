@@ -1,7 +1,7 @@
 package com.goodskill.web.stream.consumer;
 
 import com.goodskill.api.dto.SeckillMockCanalResponseDTO;
-import com.goodskill.api.service.SeckillService;
+import com.goodskill.core.feign.SeckillFeignClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 @Configuration
 public class SeckillMockCanalResponseListener {
     @DubboReference
-    private SeckillService seckillService;
+    private SeckillFeignClient seckillFeignClient;
 
     @Bean
     public Consumer<SeckillMockCanalResponseDTO> seckillCanalResult() {
@@ -27,7 +27,7 @@ public class SeckillMockCanalResponseListener {
 
             if (Boolean.TRUE.equals(responseDto.getStatus())) {
                 log.info("binlog监控到秒杀活动结束，{}时间：{},秒杀id：{}", note, new Date(), seckillId);
-                long successKillCount = seckillService.getSuccessKillCount(seckillId);
+                long successKillCount = seckillFeignClient.getSuccessKillCount(seckillId);
                 log.info("最终成功交易笔数：{}", successKillCount);
             }
         };

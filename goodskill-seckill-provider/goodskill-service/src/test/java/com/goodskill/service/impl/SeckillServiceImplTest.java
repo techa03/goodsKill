@@ -2,23 +2,23 @@ package com.goodskill.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.goodskill.api.dto.SeckillMockRequestDTO;
-import com.goodskill.api.dto.SuccessKilledDTO;
 import com.goodskill.api.service.GoodsThirdPartyService;
-import com.goodskill.api.service.SeckillService;
-import com.goodskill.api.vo.GoodsVO;
-import com.goodskill.api.vo.SeckillVO;
-import com.goodskill.order.api.OrderService;
+import com.goodskill.core.feign.OrderFeignClient;
+import com.goodskill.core.pojo.dto.SeckillMockRequestDTO;
+import com.goodskill.core.pojo.dto.SuccessKilledDTO;
+import com.goodskill.service.common.GoodsService;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.handler.PreRequestPipeline;
 import com.goodskill.service.impl.dubbo.SeckillServiceImpl;
+import com.goodskill.service.inner.SeckillService;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
 import com.goodskill.service.mock.strategy.GoodsKillStrategy;
 import com.goodskill.service.util.StateMachineService;
 import org.apache.curator.shaded.com.google.common.collect.Lists;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -49,7 +49,7 @@ import static org.mockito.Mockito.*;
 public class SeckillServiceImplTest {
     @InjectMocks
     private SeckillServiceImpl seckillService;
-    @Mock
+    @Spy
     private SeckillService seckillServiceInterface;
     @Mock
     private SeckillMapper baseMapper;
@@ -58,7 +58,7 @@ public class SeckillServiceImplTest {
     @Mock
     private SuccessKilledMapper successKilledMapper;
     @Mock
-    private OrderService orderService;
+    private OrderFeignClient orderFeignClient;
     @Mock
     private RedisTemplate redisTemplate;
     @Mock
@@ -73,10 +73,21 @@ public class SeckillServiceImplTest {
     private StateMachineService stateMachineService;
     @Mock
     private PreRequestPipeline preRequestPipeline;
+    @Mock
+    private GoodsService goodsService;
+
+    @BeforeEach
+    public void setUp() throws Exception {
+        // 设置 baseMapper，因为 ServiceImpl 需要通过反射访问
+        java.lang.reflect.Field baseMapperField = com.baomidou.mybatisplus.extension.service.impl.ServiceImpl.class.getDeclaredField("baseMapper");
+        baseMapperField.setAccessible(true);
+        baseMapperField.set(seckillService, baseMapper);
+    }
 
     @Test
     public void getSeckillList() {
         Seckill seckillEntity = new Seckill();
+        seckillEntity.setGoodsId(1);
         String goodsName = "test";
         String key = "seckill:list:" + 1 + ":" + 1 + ":" + goodsName;
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
@@ -84,6 +95,7 @@ public class SeckillServiceImplTest {
         Page<Seckill> page = new Page<>();
         page.setRecords(Lists.newArrayList(seckillEntity));
         when(baseMapper.selectPage(any(), any())).thenReturn(page);
+        when(goodsService.getById(1)).thenReturn(null);
         assertEquals(1, seckillService.getSeckillList(1, 1, goodsName).getRecords().size());
     }
 
@@ -105,7 +117,7 @@ public class SeckillServiceImplTest {
     @Test
     public void getSuccessKillCount() {
         when(successKilledMapper.selectCount(any())).thenReturn(0L);
-        when(orderService.count(1L)).thenReturn(1L);
+        when(orderFeignClient.count(1L)).thenReturn(1L);
         assertEquals(seckillService.getSuccessKillCount(1L), 1L);
     }
 
@@ -114,7 +126,7 @@ public class SeckillServiceImplTest {
         long seckillId = 1L;
         Seckill t = new Seckill();
         seckillService.prepareSeckill(seckillId, 10, "1");
-        verify(orderService, times(0)).deleteRecord(seckillId);
+        verify(orderFeignClient, times(0)).deleteRecord(seckillId);
     }
 
     @Test
@@ -125,8 +137,11 @@ public class SeckillServiceImplTest {
     @Test
     public void reduceNumber() {
         SuccessKilledDTO successKilled = new SuccessKilledDTO();
-        when(seckillService.reduceNumber(successKilled)).thenThrow(new RuntimeException());
-        seckillService.reduceNumber(successKilled);
+        // Mock the actual behavior instead of throwing exception
+        when(successKilledMapper.insert(any(SuccessKilled.class))).thenThrow(new RuntimeException());
+        int result = seckillService.reduceNumber(successKilled);
+        // Should catch exception and return 0
+        assertEquals(0, result);
     }
 
     @Test
@@ -158,13 +173,25 @@ public class SeckillServiceImplTest {
 
     @Test
     public void getInfoById() {
-        SeckillVO seckill = new SeckillVO();
         long seckillId = 1L;
-        seckill.setSeckillId(seckillId);
         int goodsId = 2;
-        seckill.setGoodsId(goodsId);
-        when(seckillServiceInterface.findById(seckillId)).thenReturn(seckill);
-        when(goodsThirdPartyService.findById(goodsId)).thenReturn(new GoodsVO());
+
+        // Mock baseMapper.selectById to return a Seckill entity
+        Seckill seckillEntity = new Seckill();
+        seckillEntity.setSeckillId(seckillId);
+        seckillEntity.setGoodsId(goodsId);
+        when(baseMapper.selectById(seckillId)).thenReturn(seckillEntity);
+
+        // Mock goodsService
+        com.goodskill.service.entity.Goods goods = new com.goodskill.service.entity.Goods();
+        goods.setGoodsId(goodsId);
+        goods.setName("test goods");
+        when(goodsService.getById(goodsId)).thenReturn(goods);
+
         seckillService.getInfoById(seckillId);
+
+        verify(baseMapper, times(1)).selectById(seckillId);
+        // getInfoById 会调用两次 getById: 一次在 findById 中，一次在 getInfoById 中
+        verify(goodsService, times(2)).getById(goodsId);
     }
 }

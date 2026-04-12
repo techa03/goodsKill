@@ -43,40 +43,29 @@ services:
       - somenetwork
 
   kafka:
-    image: bitnami/kafka:3.1.1
+    image: apache/kafka:3.9.1
+    hostname: kafka
     container_name: kafka
     ports:
       - "9092:9092"
-      - "1099:1099"
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: "kafka"
-      KAFKA_ADVERTISED_PORT: "9092"
-      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-      #自动创建topic,goodskill-kafka:12:1表示创建“goodskill-kafka”topic,12个分区,1个副本
-      KAFKA_CREATE_TOPICS: "goodskill-kafka:12:1"
-      JMX_PORT: "1099"
-      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka -Dcom.sun.management.jmxremote.rmi.port=1099"
-      ALLOW_PLAINTEXT_LISTENER: "yes"
-      KAFKA_BROKER_ID: "1"
-      KAFKA_CFG_LISTENERS: "PLAINTEXT://:9092"
-      KAFKA_CFG_ADVERTISED_LISTENERS: "PLAINTEXT://127.0.0.1:9092"
-    depends_on:
-      - zookeeper
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:9092'
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:29093'
+      KAFKA_LISTENERS: 'CONTROLLER://:29093,PLAINTEXT://:9092'
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      CLUSTER_ID: '4L6g3nShT-eMCtK--X86sw'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_SHARE_COORDINATOR_STATE_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_SHARE_COORDINATOR_STATE_TOPIC_MIN_ISR: 1
+      KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
     restart: always
-    networks:
-      - somenetwork
-
-  kafka-manager:
-    image: kafkamanager/kafka-manager:latest
-    container_name: kafkamanager
-    restart: always
-    ports:
-      - "9001:9000"
-    environment:
-      - ZK_HOSTS=zookeeper:2181
-    depends_on:
-      - zookeeper
-      - kafka
     networks:
       - somenetwork
 

@@ -1,6 +1,6 @@
 package com.goodskill.service.controller;
 
-import com.goodskill.order.api.OrderService;
+import com.goodskill.core.feign.OrderFeignClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class GoodsControllerTest {
     @Mock
-    private OrderService orderService;
+    private OrderFeignClient orderFeignClient;
 
     @InjectMocks
     private GoodsController goodsController;
@@ -29,12 +29,12 @@ class GoodsControllerTest {
         Long seckillId = 1000L;
         Long expectedCount = 10L;
 
-        when(orderService.count(seckillId)).thenReturn(expectedCount);
+        when(orderFeignClient.count(seckillId)).thenReturn(expectedCount);
 
         Long result = goodsController.countOrders(seckillId);
 
         assertEquals(expectedCount, result);
-        verify(orderService, times(1)).count(seckillId);
+        verify(orderFeignClient, times(1)).count(seckillId);
     }
 
     @Test
@@ -42,12 +42,12 @@ class GoodsControllerTest {
         Long seckillId = 1001L;
         Long expectedCount = 0L;
 
-        when(orderService.count(seckillId)).thenReturn(expectedCount);
+        when(orderFeignClient.count(seckillId)).thenReturn(expectedCount);
 
         Long result = goodsController.countOrders(seckillId);
 
         assertEquals(expectedCount, result);
-        verify(orderService, times(1)).count(seckillId);
+        verify(orderFeignClient, times(1)).count(seckillId);
     }
 
     @Test
@@ -55,24 +55,24 @@ class GoodsControllerTest {
         Long seckillId = 1002L;
         Long expectedCount = 999999L;
 
-        when(orderService.count(seckillId)).thenReturn(expectedCount);
+        when(orderFeignClient.count(seckillId)).thenReturn(expectedCount);
 
         Long result = goodsController.countOrders(seckillId);
 
         assertEquals(expectedCount, result);
-        verify(orderService, times(1)).count(seckillId);
+        verify(orderFeignClient, times(1)).count(seckillId);
     }
 
     @Test
     void testCountOrdersWithException() {
         Long seckillId = 1003L;
 
-        when(orderService.count(seckillId)).thenThrow(new RuntimeException("Service unavailable"));
+        when(orderFeignClient.count(seckillId)).thenThrow(new RuntimeException("Service unavailable"));
 
         assertThrows(RuntimeException.class, () -> {
             goodsController.countOrders(seckillId);
         });
 
-        verify(orderService, times(1)).count(seckillId);
+        verify(orderFeignClient, times(1)).count(seckillId);
     }
 }

@@ -1,20 +1,19 @@
 package com.goodskill.order.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
-import java.util.Date;
+import java.time.LocalDateTime;
 
-/**
- * 库存实体
- * @author techa03
- * @date 2020/5/24
- */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Document
 public class Order {
 
@@ -36,7 +35,7 @@ public class Order {
      */
     private Byte status;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 服务器ip
@@ -52,4 +51,35 @@ public class Order {
      * 用户id
      */
     private String userId;
+
+    /**
+     * 商品名称
+     */
+    private String goodsName;
+
+    /**
+     * 商品标题
+     */
+    private String goodsTitle;
+
+    /**
+     * 商品图片
+     */
+    private String goodsImg;
+
+    /**
+     * 秒杀价格
+     */
+    private Double seckillPrice;
+
+    /**
+     * 状态描述
+     */
+    private String stateDesc;
+
+    /**
+     * 支付宝订单号
+     */
+    private String alipayTradeNo;
+
 }

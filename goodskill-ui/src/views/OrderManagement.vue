@@ -1,7 +1,7 @@
 <script setup>
-import {computed, onMounted, ref} from 'vue'
+import {computed, onMounted, onUnmounted, ref} from 'vue'
 import {useRouter} from 'vue-router'
-import {createRequest} from '../utils/request'
+import {createRequest, GLOBAL_ERROR_EVENT} from '../utils/request'
 import PageHeader from '../components/PageHeader.vue'
 
 const router = useRouter()
@@ -11,7 +11,15 @@ const api = createRequest(API_BASE)
 
 const orders = ref([])
 const loading = ref(false)
-const searchSeckillId = ref('')
+const searchParams = ref({
+  orderId: '',
+  seckillId: '',
+  userPhone: '',
+  userId: '',
+  status: '',
+  startTime: '',
+  endTime: ''
+})
 const currentPage = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
@@ -43,19 +51,65 @@ const showDeleteModal = ref(false)
 const deleteOrderId = ref(null)
 const deleteType = ref('single') // 'single' or 'batch'
 
+// 订单详情相关
+const showDetailModal = ref(false)
+const currentOrder = ref(null)
+const detailLoading = ref(false)
+
+// 全局通知
+const globalNotice = ref({
+  visible: false,
+  type: 'error',
+  message: ''
+})
+let noticeTimer = null
+
 const fetchOrders = async () => {
   loading.value = true
   try {
     const params = { page: currentPage.value, size: pageSize.value }
-    if (searchSeckillId.value !== '') {
-      const sid = Number(searchSeckillId.value)
+
+    // 处理订单ID
+    if (searchParams.value.orderId !== '') {
+      params.orderId = searchParams.value.orderId
+    }
+
+    // 处理秒杀ID
+    if (searchParams.value.seckillId !== '') {
+      const sid = Number(searchParams.value.seckillId)
       if (!Number.isNaN(sid)) params.seckillId = sid
     }
-    const response = await api.get('/list', { params })
-    const data = response.data
-    if (data != null) {
-      orders.value = Array.isArray(data.records) ? data.records : []
-      total.value = Number(data.total) >= 0 ? Number(data.total) : 0
+
+    // 处理用户手机
+    if (searchParams.value.userPhone !== '') {
+      params.userPhone = searchParams.value.userPhone
+    }
+
+    // 处理用户ID
+    if (searchParams.value.userId !== '') {
+      const uid = Number(searchParams.value.userId)
+      if (!Number.isNaN(uid)) params.userId = uid
+    }
+
+    // 处理订单状态
+    if (searchParams.value.status !== '') {
+      const status = Number(searchParams.value.status)
+      if (!Number.isNaN(status)) params.status = status
+    }
+
+    // 处理时间范围
+    if (searchParams.value.startTime !== '') {
+      params.startTime = searchParams.value.startTime
+    }
+    if (searchParams.value.endTime !== '') {
+      params.endTime = searchParams.value.endTime
+    }
+
+    const response = await api.get('/admin/list', { params })
+    const resData = response.data
+    if (resData && resData.code === 0 && resData.data) {
+      orders.value = Array.isArray(resData.data.records) ? resData.data.records : []
+      total.value = Number(resData.data.total) >= 0 ? Number(resData.data.total) : 0
     }
   } catch (error) {
     console.error('获取订单列表失败:', error)
@@ -70,7 +124,15 @@ const handleSearch = () => {
 }
 
 const resetSearch = () => {
-  searchSeckillId.value = ''
+  searchParams.value = {
+    orderId: '',
+    seckillId: '',
+    userPhone: '',
+    userId: '',
+    status: '',
+    startTime: '',
+    endTime: ''
+  }
   currentPage.value = 1
   fetchOrders()
 }
@@ -112,10 +174,10 @@ const confirmDelete = async () => {
     let response
     if (deleteType.value === 'single') {
       if (!deleteOrderId.value) return
-      response = await api.delete('/deleteById', { params: { id: deleteOrderId.value } })
+      response = await api.delete('/admin/deleteById', { params: { id: deleteOrderId.value } })
     } else {
       if (selectedOrders.value.length === 0) return
-      response = await api.delete('/batch', { data: selectedOrders.value })
+      response = await api.delete('/admin/batch', { data: selectedOrders.value })
     }
     if (response && (response.data === true || response.status === 200)) {
       closeModal()
@@ -158,12 +220,81 @@ const formatTime = (time) => {
 
 const statusText = (status) => {
   if (status == null || status === undefined) return '-'
-  const map = { 0: '待支付', 1: '已支付', 2: '已取消', 3: '已关闭' }
+  // 与后端 OrderStatusEnum 保持一致
+  const map = { 1: '待支付', 2: '已支付', 3: '已取消' }
   return map[status] ?? `状态${status}`
+}
+
+// 订单详情相关函数
+const openDetailModal = (order) => {
+  currentOrder.value = order
+  showDetailModal.value = true
+  fetchOrderDetail(order.id)
+}
+
+const closeDetailModal = () => {
+  showDetailModal.value = false
+  currentOrder.value = null
+}
+
+const fetchOrderDetail = async (orderId) => {
+  if (!orderId) return
+
+  detailLoading.value = true
+  try {
+    const response = await api.get('/admin/detail', { params: { id: orderId } })
+    const resData = response.data
+    if (resData && resData.code === 0 && resData.data) {
+      currentOrder.value = resData.data
+    } else if (resData && resData.data) {
+      currentOrder.value = resData.data
+    }
+  } catch (error) {
+    console.error('获取订单详情失败:', error)
+    showGlobalNotice('获取订单详情失败，请稍后重试', 'error')
+  } finally {
+    detailLoading.value = false
+  }
+}
+
+// 全局通知函数
+const closeGlobalNotice = () => {
+  globalNotice.value.visible = false
+}
+
+const showGlobalNotice = (message, type = 'error') => {
+  if (!message) return
+
+  globalNotice.value = {
+    visible: true,
+    type,
+    message
+  }
+
+  if (noticeTimer) {
+    clearTimeout(noticeTimer)
+  }
+  noticeTimer = setTimeout(() => {
+    closeGlobalNotice()
+  }, 2600)
+}
+
+const handleGlobalError = (event) => {
+  const message = event?.detail?.message || '系统异常，请稍后重试'
+  const type = event?.detail?.type || 'error'
+  showGlobalNotice(message, type)
 }
 
 onMounted(() => {
   fetchOrders()
+  window.addEventListener(GLOBAL_ERROR_EVENT, handleGlobalError)
+})
+
+onUnmounted(() => {
+  window.removeEventListener(GLOBAL_ERROR_EVENT, handleGlobalError)
+  if (noticeTimer) {
+    clearTimeout(noticeTimer)
+  }
 })
 </script>
 
@@ -171,24 +302,78 @@ onMounted(() => {
   <div class="order-management">
     <PageHeader title="订单管理" :show-back="true" @back="goBack" />
 
-    <div class="toolbar">
-      <div class="search-box">
-        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"/>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-        </svg>
-        <input type="text" v-model="searchSeckillId" placeholder="按秒杀ID筛选..." @keyup.enter="handleSearch"/>
-        <button class="search-btn" @click="handleSearch">搜索</button>
-        <button class="reset-btn" @click="resetSearch">重置</button>
+    <transition name="notice-slide">
+      <div
+          v-if="globalNotice.visible"
+          class="global-notice"
+          :class="`global-notice-${globalNotice.type}`"
+      >
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>{{ globalNotice.message }}</span>
       </div>
-      <div class="toolbar-actions">
-        <button class="action-btn danger" @click="openBatchDeleteModal" :disabled="selectedOrders.length === 0">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="3 6 5 6 21 6"/>
-            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-          </svg>
-          <span>批量删除</span>
-        </button>
+    </transition>
+
+    <div class="toolbar">
+      <div class="search-form">
+        <div class="search-row">
+          <div class="search-item">
+            <label>订单 ID</label>
+            <input type="text" v-model="searchParams.orderId" placeholder="输入订单 ID"/>
+          </div>
+          <div class="search-item">
+            <label>秒杀 ID</label>
+            <input type="number" v-model="searchParams.seckillId" placeholder="输入秒杀 ID"/>
+          </div>
+          <div class="search-item">
+            <label>用户手机</label>
+            <input type="text" v-model="searchParams.userPhone" placeholder="输入用户手机"/>
+          </div>
+          <div class="search-item">
+            <label>用户 ID</label>
+            <input type="number" v-model="searchParams.userId" placeholder="输入用户 ID"/>
+          </div>
+        </div>
+        <div class="search-row">
+          <div class="search-item">
+            <label>订单状态</label>
+            <select v-model="searchParams.status">
+              <option value="">全部状态</option>
+              <option value="1">待支付</option>
+              <option value="2">已支付</option>
+              <option value="3">已取消</option>
+            </select>
+          </div>
+          <div class="search-item">
+            <label>开始时间</label>
+            <input type="datetime-local" v-model="searchParams.startTime"/>
+          </div>
+          <div class="search-item">
+            <label>结束时间</label>
+            <input type="datetime-local" v-model="searchParams.endTime"/>
+          </div>
+          <div class="search-item">
+            <label>&nbsp;</label>
+            <div class="search-actions">
+              <button class="search-btn" @click="handleSearch" :disabled="loading">
+                <svg v-if="loading" class="spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+                  <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round">
+                    <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
+                  </path>
+                </svg>
+                <span v-else>搜索</span>
+              </button>
+              <button class="reset-btn" @click="resetSearch" :disabled="loading">重置</button>
+              <button class="action-btn danger" @click="openBatchDeleteModal" :disabled="selectedOrders.length === 0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+                <span>批量删除</span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -196,66 +381,72 @@ onMounted(() => {
       <div class="table-wrapper">
         <table class="order-table">
           <thead>
-            <tr>
-              <th class="checkbox-cell">
-                <input type="checkbox" :checked="isAllSelected" :indeterminate="isIndeterminate" @change="toggleSelectAll"/>
-              </th>
-              <th class="id-cell">订单ID</th>
-              <th class="seckill-cell">秒杀ID</th>
-              <th class="phone-cell">用户手机</th>
-              <th class="user-id-cell">用户ID</th>
-              <th class="status-cell">状态</th>
-              <th class="time-cell">创建时间</th>
-              <th class="action-cell">操作</th>
-            </tr>
+          <tr>
+            <th class="checkbox-cell">
+              <input type="checkbox" :checked="isAllSelected" :indeterminate="isIndeterminate" @change="toggleSelectAll"/>
+            </th>
+            <th class="id-cell">订单ID</th>
+            <th class="seckill-cell">秒杀ID</th>
+            <th class="phone-cell">用户手机</th>
+            <th class="user-id-cell">用户ID</th>
+            <th class="status-cell">状态</th>
+            <th class="time-cell">创建时间</th>
+            <th class="action-cell">操作</th>
+          </tr>
           </thead>
           <tbody>
-            <tr v-if="loading && orders.length === 0">
-              <td colspan="8" class="loading-cell">
-                <div class="loading-spinner">
-                  <svg class="spinner" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
-                    <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round">
-                      <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
-                    </path>
+          <tr v-if="loading && orders.length === 0">
+            <td colspan="8" class="loading-cell">
+              <div class="loading-spinner">
+                <svg class="spinner" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+                  <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round">
+                    <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
+                  </path>
+                </svg>
+                <span>加载中...</span>
+              </div>
+            </td>
+          </tr>
+          <tr v-else-if="orders.length === 0">
+            <td colspan="8" class="empty-cell">
+              <div class="empty-state">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                <p>暂无订单数据</p>
+              </div>
+            </td>
+          </tr>
+          <template v-else>
+            <tr v-for="order in orders" :key="order.id">
+              <td class="checkbox-cell">
+                <input type="checkbox" :checked="selectedOrders.includes(order.id)" @change="toggleSelect(order.id)"/>
+              </td>
+              <td class="id-cell">{{ order.id || '-' }}</td>
+              <td class="seckill-cell">{{ order.seckillId ?? '-' }}</td>
+              <td class="phone-cell">{{ order.userPhone || '-' }}</td>
+              <td class="user-id-cell">{{ order.userId || '-' }}</td>
+              <td class="status-cell">
+                <span class="status-badge">{{ statusText(order.status) }}</span>
+              </td>
+              <td class="time-cell">{{ formatTime(order.createTime) }}</td>
+              <td class="action-cell">
+                <button class="icon-btn detail" @click="openDetailModal(order)" title="详情">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
                   </svg>
-                  <span>加载中...</span>
-                </div>
+                </button>
+                <button class="icon-btn delete" @click="openDeleteModal(order)" title="删除">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                  </svg>
+                </button>
               </td>
             </tr>
-            <tr v-else-if="orders.length === 0">
-              <td colspan="8" class="empty-cell">
-                <div class="empty-state">
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/>
-                  </svg>
-                  <p>暂无订单数据</p>
-                </div>
-              </td>
-            </tr>
-            <template v-else>
-              <tr v-for="order in orders" :key="order.id">
-                <td class="checkbox-cell">
-                  <input type="checkbox" :checked="selectedOrders.includes(order.id)" @change="toggleSelect(order.id)"/>
-                </td>
-                <td class="id-cell">{{ order.id || '-' }}</td>
-                <td class="seckill-cell">{{ order.seckillId ?? '-' }}</td>
-                <td class="phone-cell">{{ order.userPhone || '-' }}</td>
-                <td class="user-id-cell">{{ order.userId || '-' }}</td>
-                <td class="status-cell">
-                  <span class="status-badge">{{ statusText(order.status) }}</span>
-                </td>
-                <td class="time-cell">{{ formatTime(order.createTime) }}</td>
-                <td class="action-cell">
-                  <button class="icon-btn delete" @click="openDeleteModal(order)" title="删除">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polyline points="3 6 5 6 21 6"/>
-                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                    </svg>
-                  </button>
-                </td>
-              </tr>
-            </template>
+          </template>
           </tbody>
         </table>
       </div>
@@ -266,10 +457,10 @@ onMounted(() => {
         </div>
         <div class="pagination-controls">
           <button
-            class="page-btn page-btn--prev"
-            :disabled="currentPage === 1"
-            @click="handlePageChange(currentPage - 1)"
-            aria-label="上一页"
+              class="page-btn page-btn--prev"
+              :disabled="currentPage === 1"
+              @click="handlePageChange(currentPage - 1)"
+              aria-label="上一页"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="15 18 9 12 15 6"/>
@@ -278,20 +469,20 @@ onMounted(() => {
           <template v-for="(page, index) in pageNumbers" :key="index">
             <span v-if="page === '...'" class="page-ellipsis">...</span>
             <button
-              v-else
-              class="page-btn page-btn--number"
-              :class="{ 'page-btn--active': page === currentPage }"
-              @click="handlePageChange(page)"
-              :aria-label="`第 ${page} 页`"
+                v-else
+                class="page-btn page-btn--number"
+                :class="{ 'page-btn--active': page === currentPage }"
+                @click="handlePageChange(page)"
+                :aria-label="`第 ${page} 页`"
             >
               {{ page }}
             </button>
           </template>
           <button
-            class="page-btn page-btn--next"
-            :disabled="currentPage * pageSize >= total"
-            @click="handlePageChange(currentPage + 1)"
-            aria-label="下一页"
+              class="page-btn page-btn--next"
+              :disabled="currentPage * pageSize >= total"
+              @click="handlePageChange(currentPage + 1)"
+              aria-label="下一页"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="9 18 15 12 9 6"/>
@@ -300,11 +491,11 @@ onMounted(() => {
           <div class="page-size-selector">
             <label for="pageSize" class="page-size-label">每页：</label>
             <select
-              id="pageSize"
-              class="page-size-select"
-              v-model="pageSize"
-              @change="handleSizeChange(pageSize)"
-              aria-label="每页显示条数"
+                id="pageSize"
+                class="page-size-select"
+                v-model="pageSize"
+                @change="handleSizeChange(pageSize)"
+                aria-label="每页显示条数"
             >
               <option :value="10">10条</option>
               <option :value="20">20条</option>
@@ -356,6 +547,123 @@ onMounted(() => {
           </div>
         </div>
       </Transition>
+
+      <Transition name="modal">
+        <div class="modal-overlay" v-if="showDetailModal" @click.self="closeDetailModal">
+          <div class="modal-container detail-modal">
+            <button class="close-btn-absolute" @click="closeDetailModal">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+            <div class="modal-header">
+              <h2>订单详情</h2>
+            </div>
+            <div class="modal-body">
+              <div v-if="detailLoading" class="loading-spinner">
+                <svg class="spinner" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+                  <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round">
+                    <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
+                  </path>
+                </svg>
+                <span>加载中...</span>
+              </div>
+              <div v-else-if="currentOrder" class="order-detail-content">
+                <div class="detail-section">
+                  <h3>基本信息</h3>
+                  <div class="detail-grid">
+                    <div class="detail-item">
+                      <label>订单ID</label>
+                      <span>{{ currentOrder.id || '-' }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <label>秒杀ID</label>
+                      <span>{{ currentOrder.seckillId || '-' }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <label>订单状态</label>
+                      <span>{{ statusText(currentOrder.status) }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <label>创建时间</label>
+                      <span>{{ formatTime(currentOrder.createTime) }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="detail-section">
+                  <h3>用户信息</h3>
+                  <div class="detail-grid">
+                    <div class="detail-item">
+                      <label>用户ID</label>
+                      <span>{{ currentOrder.userId || '-' }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <label>用户手机</label>
+                      <span>{{ currentOrder.userPhone || '-' }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="detail-section">
+                  <h3>商品信息</h3>
+                  <div class="detail-grid">
+                    <div class="detail-item">
+                      <label>商品名称</label>
+                      <span>{{ currentOrder.goodsName || '-' }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <label>商品价格</label>
+                      <span>{{ currentOrder.goodsPrice || '-' }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <label>购买数量</label>
+                      <span>{{ currentOrder.quantity || 1 }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <label>总价</label>
+                      <span>{{ currentOrder.totalPrice || '-' }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="detail-section">
+                  <h3>支付信息</h3>
+                  <div class="detail-grid">
+                    <div class="detail-item">
+                      <label>支付状态</label>
+                      <span>{{ currentOrder.payStatus ? '已支付' : '未支付' }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <label>支付时间</label>
+                      <span>{{ formatTime(currentOrder.payTime) }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <label>支付方式</label>
+                      <span>{{ currentOrder.payMethod || '-' }}</span>
+                    </div>
+                    <div class="detail-item">
+                      <label>交易号</label>
+                      <span>{{ currentOrder.transactionId || '-' }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div v-else class="empty-state">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                <p>暂无订单详情数据</p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn secondary large" @click="closeDetailModal">关闭</button>
+            </div>
+          </div>
+        </div>
+      </Transition>
     </Teleport>
   </div>
 </template>
@@ -370,18 +678,77 @@ onMounted(() => {
 }
 
 .toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 16px 24px;
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.toolbar-actions {
+.search-form {
+  width: 100%;
+}
+
+.search-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  align-items: end;
+}
+
+.search-row:last-child {
+  margin-top: 12px;
+}
+
+.search-item {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.search-item label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.search-item input,
+.search-item select {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-size: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  box-sizing: border-box;
+  height: 40px;
+}
+
+.search-item input:focus,
+.search-item select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  transform: translateY(-1px);
+}
+
+.search-item input::placeholder {
+  color: var(--text-tertiary);
+  transition: color 0.2s ease;
+}
+
+.search-item input:focus::placeholder {
+  color: var(--text-secondary);
+}
+
+.search-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  height: 40px;
 }
 
 .action-btn {
@@ -412,53 +779,6 @@ onMounted(() => {
   cursor: not-allowed;
 }
 
-.search-box {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 8px 16px;
-  width: 400px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.search-box:focus-within {
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  transform: translateY(-1px);
-}
-
-.search-box .search-icon {
-  color: var(--text-tertiary);
-  flex-shrink: 0;
-  transition: color 0.2s ease;
-}
-
-.search-box:focus-within .search-icon {
-  color: var(--accent-primary);
-}
-
-.search-box input {
-  flex: 1;
-  background: none;
-  border: none;
-  outline: none;
-  color: var(--text-primary);
-  font-size: 14px;
-  transition: color 0.2s ease;
-}
-
-.search-box input::placeholder {
-  color: var(--text-tertiary);
-  transition: color 0.2s ease;
-}
-
-.search-box:focus-within input::placeholder {
-  color: var(--text-secondary);
-}
-
 .search-btn, .reset-btn {
   padding: 8px 16px;
   border: none;
@@ -469,7 +789,10 @@ onMounted(() => {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
+  height: 40px;
+  min-width: 80px;
 }
 
 .search-btn {
@@ -499,10 +822,11 @@ onMounted(() => {
 
 .order-table-container {
   flex: 1;
-  padding: 24px;
+  padding: 0 24px 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  position: relative;
   min-height: 0;
 }
 
@@ -511,15 +835,10 @@ onMounted(() => {
   overflow: auto;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  max-height: calc(100vh - 280px);
-  min-height: 400px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.table-wrapper:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  border-bottom: none;
+  max-height: calc(100vh - 240px);
+  min-height: 300px;
 }
 
 .order-table {
@@ -618,36 +937,31 @@ onMounted(() => {
 }
 
 .action-cell {
-  width: 100px;
+  width: 80px;
+  white-space: nowrap;
 }
 
 .icon-btn {
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
+  margin-right: 4px;
 }
 
-.icon-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
+.icon-btn.detail {
+  background: var(--accent-light);
+  color: var(--accent-primary);
 }
 
-.icon-btn:hover::before {
-  left: 100%;
+.icon-btn.detail:hover {
+  background: var(--accent-primary);
+  color: white;
 }
 
 .icon-btn.delete {
@@ -658,8 +972,6 @@ onMounted(() => {
 .icon-btn.delete:hover {
   background: var(--danger-color);
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
 }
 
 .loading-cell, .empty-cell {
@@ -718,17 +1030,14 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 24px;
+  padding: 16px 20px;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  margin-top: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.pagination:hover {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  box-shadow: 0 -1px 8px rgba(0, 0, 0, 0.05);
 }
 
 .pagination-info {
@@ -856,6 +1165,167 @@ onMounted(() => {
   transform: translateY(-10px);
   opacity: 0;
   animation: modalSlideIn 0.3s ease forwards;
+}
+
+.modal-container.detail-modal {
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(-10px);
+  opacity: 0;
+  animation: modalSlideIn 0.3s ease forwards;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.detail-modal .modal-body {
+  padding: 32px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.order-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.detail-section {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.detail-section:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.detail-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-item label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-item span {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  word-break: break-all;
+}
+
+.detail-modal .modal-footer {
+  padding: 24px 32px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .modal-container.detail-modal {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .detail-modal .modal-body {
+    padding: 20px;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 全局通知样式 */
+.notice-slide-enter-active,
+.notice-slide-leave-active {
+  transition: all 0.25s ease;
+}
+
+.notice-slide-enter-from,
+.notice-slide-leave-to {
+  opacity: 0;
+  transform: translate(-50%, -10px);
+}
+
+.global-notice {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12000;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.22);
+}
+
+.global-notice-error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.global-notice-success {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.global-notice-warning {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
 }
 
 @keyframes modalSlideIn {
@@ -1005,58 +1475,71 @@ onMounted(() => {
   transform: scale(0.95);
 }
 
+.table-wrapper::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
 /* 响应式设计 */
-@media (max-width: 1024px) {
-  .search-box {
-    width: 320px;
+@media (max-width: 1200px) {
+  .toolbar, .order-table-container {
+    padding-left: 24px;
+    padding-right: 24px;
   }
-  
-  .order-table-container {
-    padding: 16px;
+
+  .search-row {
+    grid-template-columns: repeat(3, 1fr);
   }
-  
-  .table-wrapper {
-    max-height: calc(100vh - 260px);
-  }
-  
-  .id-cell {
-    min-width: 120px;
-    font-size: 12px;
-  }
-  
-  .time-cell {
-    min-width: 160px;
-    font-size: 12px;
+}
+
+@media (max-width: 992px) {
+  .search-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
 }
 
 @media (max-width: 768px) {
   .toolbar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
     padding: 16px;
   }
-  
-  .search-box {
-    width: 100%;
+
+  .search-row {
+    grid-template-columns: 1fr;
   }
-  
+
+  .search-actions {
+    justify-content: flex-end;
+  }
+
   .order-table th, .order-table td {
     padding: 10px 12px;
     font-size: 13px;
   }
-  
+
   .pagination {
     flex-direction: column;
     align-items: stretch;
     gap: 16px;
   }
-  
+
   .pagination-controls {
     justify-content: center;
   }
-  
+
   .modal-container.delete-modal {
     margin: 20px;
     max-width: calc(100% - 40px);

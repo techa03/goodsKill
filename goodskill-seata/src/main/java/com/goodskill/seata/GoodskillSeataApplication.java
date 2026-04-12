@@ -1,13 +1,13 @@
 package com.goodskill.seata;
 
 import com.goodskill.api.service.GoodsThirdPartyService;
-import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.GoodsVO;
-import com.goodskill.api.vo.SeckillVO;
+import com.goodskill.core.feign.SeckillFeignClient;
+import com.goodskill.core.pojo.vo.SeckillVO;
 import com.goodskill.seata.feign.AuthFeignClient;
-import io.seata.spring.annotation.GlobalTransactional;
 import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.seata.spring.annotation.GlobalTransactional;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableFeignClients(basePackages = "com.goodskill.seata.feign")
 public class GoodskillSeataApplication {
     @DubboReference
-    private SeckillService seckillService;
+    private SeckillFeignClient seckillFeignClient;
     @DubboReference
     private GoodsThirdPartyService goodsThirdPartyService;
     @Resource
@@ -34,9 +34,9 @@ public class GoodskillSeataApplication {
         GoodsVO goods = new GoodsVO();
         goods.setName("test");
         goodsThirdPartyService.addGoods(goods);
-        SeckillVO seckill = seckillService.findById(1001L);
+        SeckillVO seckill = seckillFeignClient.findById(1001L);
         seckill.setNumber(seckill.getNumber() - 1);
-        seckillService.saveOrUpdateSeckill(seckill);
+        seckillFeignClient.saveOrUpdateSeckill(seckill);
         authFeignClient.addRole(21, 7);
         // 测试异常情况
         throw new RuntimeException();

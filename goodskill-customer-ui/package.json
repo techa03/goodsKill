@@ -1,0 +1,24 @@
+{
+  "name": "goodskill-customer-ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "create-config": "echo 'export default {\n  plugins: {\n    tailwindcss: {},\n    autoprefixer: {},\n  },\n}' > postcss.config.js"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.19",
+    "axios": "^1.14.0",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "vue": "^3.5.30",
+    "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.5",
+    "vite": "^8.0.1"
+  }
+}

@@ -146,3 +146,5 @@ feign:
 logging:
   level:
     com.goodskill: debug
+
+

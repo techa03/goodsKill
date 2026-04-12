@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.auth.entity.*;
 import com.goodskill.auth.mapper.*;
 import com.goodskill.auth.pojo.dto.UserDTO;
+import com.goodskill.auth.pojo.vo.CustomerUserInfoVO;
 import com.goodskill.auth.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -214,5 +215,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return false;
         }
         return baseMapper.deleteBatchIds(ids) == ids.size();
+    }
+
+    @Override
+    public CustomerUserInfoVO getCustomerUserInfo(Integer userId) {
+        User user = baseMapper.selectById(userId);
+        if (user == null) {
+            return null;
+        }
+        CustomerUserInfoVO vo = new CustomerUserInfoVO();
+        vo.setUserId(user.getId());
+        vo.setUsername(user.getUsername());
+        vo.setMobile(user.getMobile());
+        vo.setAvatar(user.getAvatar());
+        vo.setEmailAddr(user.getEmailAddr());
+        return vo;
     }
 }

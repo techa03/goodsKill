@@ -107,6 +107,10 @@ security:
       - "/api/auth/refresh"
       - "/api/auth/register"
       - "/api/web/**"
+      - "/doc.html"
+      - "/webjars/**"
+      - "/v3/api-docs"
+      - "/api/order/pay/alipay/return"
     ##登录用户接口白名单
     loginUserWhiteUrls:
       - "/api/xxx"

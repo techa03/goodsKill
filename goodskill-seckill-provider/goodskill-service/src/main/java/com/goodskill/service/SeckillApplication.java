@@ -18,13 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @SpringBootApplication(scanBasePackages = {
         "com.goodskill.service",
-        "com.goodskill.core",
-        "com.goodskill.order.api",
+        "com.goodskill.core"
 })
 @EnableTransactionManagement
 @MapperScan("com.goodskill.service.mapper")
 @EnableDiscoveryClient
-@EnableFeignClients({"com.goodskill.order.api"})
+@EnableFeignClients({"com.goodskill.core.feign"})
 @RestController
 @Slf4j
 public class SeckillApplication {

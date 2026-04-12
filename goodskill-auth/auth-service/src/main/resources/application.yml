@@ -39,7 +39,7 @@ seata:
   enabled: false
   #1.4.2使用此配置禁用seata
   enable-auto-data-source-proxy: true
-  application-id: goodskill-seata
+  application-id: goodskill-auth
   tx-service-group: my_test_tx_group
   config:
     type: nacos

@@ -957,21 +957,21 @@ onMounted(() => {
 }
 
 .action-cell {
-  width: 110px;
+  width: 80px;
+  white-space: nowrap;
 }
 
 .icon-btn {
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-right: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-right: 4px;
 }
 
 .icon-btn.edit {
@@ -982,8 +982,6 @@ onMounted(() => {
 .icon-btn.edit:hover {
   background: var(--accent-primary);
   color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
 }
 
 .icon-btn.delete {
@@ -994,8 +992,6 @@ onMounted(() => {
 .icon-btn.delete:hover {
   background: var(--danger-color);
   color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
 }
 
 .loading-cell, .empty-cell {

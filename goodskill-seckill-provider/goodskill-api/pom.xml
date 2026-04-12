@@ -20,6 +20,10 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-openfeign-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.goodskill</groupId>
+            <artifactId>core-feign</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

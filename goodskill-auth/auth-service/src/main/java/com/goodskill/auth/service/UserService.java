@@ -124,4 +124,12 @@ public interface UserService extends IService<User> {
      * @return 是否成功
      */
     boolean batchDeleteUsers(List<Integer> ids);
+
+    /**
+     * 获取C端用户信息
+     *
+     * @param userId 用户ID
+     * @return C端用户信息
+     */
+    com.goodskill.auth.pojo.vo.CustomerUserInfoVO getCustomerUserInfo(Integer userId);
 }

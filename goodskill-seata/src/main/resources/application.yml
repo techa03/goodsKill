@@ -39,7 +39,7 @@ dubbo:
 seata:
   enabled: true
   enable-auto-data-source-proxy: true
-  application-id:
+  application-id: ${spring.application.name}
   tx-service-group: my_test_tx_group
   config:
     type: nacos

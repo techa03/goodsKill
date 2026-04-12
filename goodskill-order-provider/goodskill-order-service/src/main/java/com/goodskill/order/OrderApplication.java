@@ -1,6 +1,6 @@
 package com.goodskill.order;
 
-import com.goodskill.order.entity.OrderDTO;
+import com.goodskill.core.pojo.dto.OrderDTO;
 import com.goodskill.order.service.impl.OrderServiceImpl;
 import com.goodskill.order.vo.SeckillMockSaveVo;
 import lombok.extern.slf4j.Slf4j;
