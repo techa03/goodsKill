@@ -305,7 +305,7 @@ npm run dev
 * 商品管理（列表、新增、编辑、删除、图片上传）
 * 秒杀模拟（多种策略选择、实时日志、执行统计）
 
-### C端用户前端 (goodskill-customer)
+### C端用户前端 (goodskill-customer-ui)
 
 #### 项目位置
 
