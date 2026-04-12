@@ -1,5 +1,48 @@
 import { reactive, ref, computed } from 'vue'
 
+// 主题状态
+export const useThemeStore = () => {
+  const theme = ref(localStorage.getItem('theme') || 'dark')
+
+  const isDark = computed(() => theme.value === 'dark')
+  const isLight = computed(() => theme.value === 'light')
+
+  const setTheme = (newTheme) => {
+    theme.value = newTheme
+    localStorage.setItem('theme', newTheme)
+    applyTheme()
+  }
+
+  const toggleTheme = () => {
+    const newTheme = theme.value === 'dark' ? 'light' : 'dark'
+    setTheme(newTheme)
+  }
+
+  const applyTheme = () => {
+    const html = document.documentElement
+    if (theme.value === 'dark') {
+      html.classList.add('dark')
+      html.classList.remove('light')
+    } else {
+      html.classList.add('light')
+      html.classList.remove('dark')
+    }
+  }
+
+  const initTheme = () => {
+    applyTheme()
+  }
+
+  return {
+    theme,
+    isDark,
+    isLight,
+    setTheme,
+    toggleTheme,
+    initTheme
+  }
+}
+
 // 用户状态
 export const useUserStore = () => {
   const user = reactive({
