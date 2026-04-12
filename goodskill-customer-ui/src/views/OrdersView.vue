@@ -154,10 +154,10 @@
                 </div>
                 <div :class="[
                   'flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium',
-                  getStatusStyle(order.state)
+                  getStatusStyle(order.status)
                 ]">
-                  <span class="w-2 h-2 rounded-full" :class="getStatusDotColor(order.state)"></span>
-                  {{ order.stateDesc }}
+                  <span class="w-2 h-2 rounded-full" :class="getStatusDotColor(order.status)"></span>
+                  {{ getStatusText(order.status) }}
                 </div>
               </div>
             </div>
@@ -194,14 +194,14 @@
                     查看详情
                   </router-link>
                   <button
-                    v-if="order.state === 1"
+                    v-if="order.status === 0 || order.status === 1"
                     @click="handlePay(order)"
                     class="px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-[var(--text-primary)] font-medium hover:shadow-glow transition-all text-sm whitespace-nowrap"
                   >
                     立即支付
                   </button>
                   <button
-                    v-if="order.state === 2"
+                    v-if="order.status === 2"
                     class="px-6 py-3 rounded-xl bg-success/20 text-success border border-success/30 font-medium hover:bg-success/30 transition-all text-sm whitespace-nowrap"
                   >
                     查看物流
@@ -328,6 +328,7 @@ const formatTime = (timestamp) => {
 
 const getStatusStyle = (state) => {
   const styles = {
+    0: 'bg-warning/10 text-warning border border-warning/30',
     1: 'bg-warning/10 text-warning border border-warning/30',
     2: 'bg-success/10 text-success border border-success/30',
     3: 'bg-danger/10 text-danger border border-danger/30',
@@ -337,6 +338,7 @@ const getStatusStyle = (state) => {
 
 const getStatusDotColor = (state) => {
   const colors = {
+    0: 'bg-warning shadow-[0_0_8px_#f59e0b]',
     1: 'bg-warning shadow-[0_0_8px_#f59e0b]',
     2: 'bg-success shadow-[0_0_8px_#10b981]',
     3: 'bg-danger shadow-[0_0_8px_#ef4444]',
@@ -344,11 +346,25 @@ const getStatusDotColor = (state) => {
   return colors[state] || 'bg-white/40'
 }
 
+const getStatusText = (state) => {
+  const statusMap = {
+    0: '待支付',
+    1: '待支付',
+    2: '已支付',
+    3: '已取消',
+  }
+  return statusMap[state] || '未知状态'
+}
+
 const filteredOrders = computed(() => {
   if (activeStatus.value === 'all') {
     return orderList.value || []
   }
-  return (orderList.value || []).filter(order => order.state === parseInt(activeStatus.value))
+  const targetStatus = parseInt(activeStatus.value)
+  return (orderList.value || []).filter(order => {
+    const orderStatus = typeof order.status === 'string' ? parseInt(order.status) : order.status
+    return orderStatus === targetStatus
+  })
 })
 
 const handlePay = (order) => {
@@ -372,9 +388,18 @@ const fetchOrderList = async () => {
       
       // Update counts
       const orders = response.data.records || []
-      orderStatuses[1].count = orders.filter(o => o.state === 1).length
-      orderStatuses[2].count = orders.filter(o => o.state === 2).length
-      orderStatuses[3].count = orders.filter(o => o.state === 3).length
+      orderStatuses[1].count = orders.filter(o => {
+        const status = typeof o.status === 'string' ? parseInt(o.status) : o.status
+        return status === 0 || status === 1
+      }).length
+      orderStatuses[2].count = orders.filter(o => {
+        const status = typeof o.status === 'string' ? parseInt(o.status) : o.status
+        return status === 2
+      }).length
+      orderStatuses[3].count = orders.filter(o => {
+        const status = typeof o.status === 'string' ? parseInt(o.status) : o.status
+        return status === 3
+      }).length
     } else {
       setError(response.message || response.msg)
     }
