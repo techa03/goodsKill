@@ -2,12 +2,12 @@ package com.goodskill.service.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.goodskill.api.dto.ExposerDTO;
-import com.goodskill.api.service.GoodsEsService;
 import com.goodskill.api.service.GoodsThirdPartyService;
-import com.goodskill.api.service.SeckillService;
-import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.core.info.Result;
+import com.goodskill.core.pojo.dto.ExposerDTO;
+import com.goodskill.core.pojo.vo.SeckillVO;
+import com.goodskill.service.inner.SeckillGoodsService;
+import com.goodskill.service.inner.SeckillService;
 import com.goodskill.service.pojo.dto.ResponseDTO;
 import com.goodskill.service.util.UploadFileUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,7 +45,7 @@ public class SeckillController {
     @Resource
     private GoodsThirdPartyService goodsThirdPartyService;
     @Resource
-    private GoodsEsService goodsEsService;
+    private SeckillGoodsService seckillGoodsService;
     @Resource
     private UploadFileUtil uploadFileUtil;
 
@@ -171,7 +171,7 @@ public class SeckillController {
             "application/json;charset=UTF-8"})
     @ResponseBody
     public ResponseDTO searchGoods(@PathVariable("goodsName") String goodsName) {
-        List goodsList = goodsEsService.searchWithNameByPage(goodsName);
+        List goodsList = seckillGoodsService.searchWithNameByPage(goodsName);
         ResponseDTO responseDto = ResponseDTO.ok();
         responseDto.setData(goodsList.toArray());
         return responseDto;

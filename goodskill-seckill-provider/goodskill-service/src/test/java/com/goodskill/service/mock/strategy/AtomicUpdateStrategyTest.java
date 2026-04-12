@@ -1,6 +1,6 @@
 package com.goodskill.service.mock.strategy;
 
-import com.goodskill.api.dto.SeckillMockRequestDTO;
+import com.goodskill.core.pojo.dto.SeckillMockRequestDTO;
 import com.goodskill.service.inner.SeckillExecutor;
 import com.goodskill.service.mock.strategy.impl.AtomicUpdateStrategy;
 import org.junit.jupiter.api.Test;

@@ -1,10 +1,10 @@
 package com.goodskill.service.impl;
 
 
-import com.goodskill.api.dto.GoodsDTO;
-import com.goodskill.api.service.GoodsEsService;
+import com.goodskill.core.pojo.dto.GoodsDTO;
 import com.goodskill.service.es.model.Goods;
 import com.goodskill.service.es.repository.GoodsRepository;
+import com.goodskill.service.inner.SeckillGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.data.domain.PageRequest;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @Service
-public class GoodsEsServiceImpl implements GoodsEsService {
+public class SeckillGoodsServiceImpl implements SeckillGoodsService {
     private final BeanCopier beanCopier = BeanCopier.create(GoodsDTO.class, Goods.class, false);
     @Autowired
     private ElasticsearchOperations elasticsearchOperations;

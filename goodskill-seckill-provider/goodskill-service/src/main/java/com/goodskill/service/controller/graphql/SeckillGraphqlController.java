@@ -2,11 +2,11 @@ package com.goodskill.service.controller.graphql;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.goodskill.api.service.GoodsThirdPartyService;
-import com.goodskill.api.service.SeckillService;
 import com.goodskill.api.vo.GoodsVO;
-import com.goodskill.api.vo.SeckillVO;
+import com.goodskill.core.pojo.vo.SeckillVO;
 import com.goodskill.service.common.SuccessKilledService;
 import com.goodskill.service.entity.SuccessKilled;
+import com.goodskill.service.inner.SeckillService;
 import jakarta.annotation.Resource;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;

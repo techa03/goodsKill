@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableTransactionManagement
 @MapperScan("com.goodskill.service.mapper")
 @EnableDiscoveryClient
-@EnableFeignClients({"com.goodskill.order.api"})
+@EnableFeignClients({"com.goodskill.core.feign"})
 @RestController
 @Slf4j
 public class SeckillApplication {

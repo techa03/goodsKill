@@ -1,7 +1,7 @@
 package com.goodskill.service.test.base;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.goodskill.api.service.SeckillService;
+import com.goodskill.core.feign.SeckillFeignClient;
 import com.goodskill.service.SeckillApplication;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Transactional
 public class BaseServiceConfigForTest {
     @Resource
-    private SeckillService seckillService;
+    private SeckillFeignClient seckillFeignClient;
     @Resource
     private RedisTemplate redisTemplate;
     @Resource
@@ -53,7 +53,7 @@ public class BaseServiceConfigForTest {
 
     @Test
     public void test() {
-        Page seckillList = seckillService.getSeckillList(0, 10, "小");
+        Page seckillList = seckillFeignClient.getSeckillList(0, 10, "小");
         seckillList.getRecords().forEach(System.out::println);
         assertTrue(seckillList.getTotal() > 0);
     }

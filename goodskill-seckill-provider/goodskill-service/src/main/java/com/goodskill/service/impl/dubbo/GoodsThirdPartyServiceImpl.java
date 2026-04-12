@@ -3,11 +3,11 @@ package com.goodskill.service.impl.dubbo;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.goodskill.api.dto.GoodsDTO;
-import com.goodskill.api.service.GoodsEsService;
 import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.vo.GoodsVO;
+import com.goodskill.core.pojo.dto.GoodsDTO;
 import com.goodskill.service.entity.Goods;
+import com.goodskill.service.inner.SeckillGoodsService;
 import com.goodskill.service.mapper.GoodsMapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ import java.util.List;
 @Slf4j
 public class GoodsThirdPartyServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements GoodsThirdPartyService {
     @Resource
-    private GoodsEsService goodsEsService;
+    private SeckillGoodsService seckillGoodsService;
     @Resource
     private GoodsMapper baseMapper;
 
@@ -51,7 +51,7 @@ public class GoodsThirdPartyServiceImpl extends ServiceImpl<GoodsMapper, Goods> 
         goodsDto.setId(IdWorker.getId());
         BeanUtils.copyProperties(goods, goodsDto);
         try {
-            goodsEsService.save(goodsDto);
+            seckillGoodsService.save(goodsDto);
         } catch (Exception e) {
             log.warn("es服务不可用，请检查！", e);
         }

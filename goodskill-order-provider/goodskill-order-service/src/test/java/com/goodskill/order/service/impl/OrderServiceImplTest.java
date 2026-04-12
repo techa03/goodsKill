@@ -1,7 +1,7 @@
 package com.goodskill.order.service.impl;
 
+import com.goodskill.core.pojo.dto.OrderDTO;
 import com.goodskill.order.entity.Order;
-import com.goodskill.order.entity.OrderDTO;
 import com.goodskill.order.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -129,5 +129,88 @@ class OrderServiceImplTest {
         assertThrows(RuntimeException.class, () -> {
             orderService.saveRecord(orderDTO);
         });
+    }
+
+    /**
+     * 测试：根据用户ID查询订单列表
+     */
+    @Test
+    void shouldFindOrdersByUserId() {
+        // Given
+        String userId = "123";
+        int pageNum = 1;
+        int pageSize = 10;
+
+        // When
+        orderService.list(userId, pageNum, pageSize);
+
+        // Then
+        verify(orderRepository).findByUserIdOrderByCreateTimeDesc(eq(userId), any());
+    }
+
+    /**
+     * 测试：用户ID为空时返回空列表
+     */
+    @Test
+    void shouldReturnEmptyListWhenUserIdIsNull() {
+        // Given
+        String userId = null;
+        int pageNum = 1;
+        int pageSize = 10;
+
+        // When
+        var result = orderService.list(userId, pageNum, pageSize);
+
+        // Then
+        assertNotNull(result);
+        assertTrue(result.getContent().isEmpty());
+    }
+
+    /**
+     * 测试：更新订单状态成功
+     */
+    @Test
+    void shouldUpdateOrderStatusSuccessfully() {
+        // Given
+        String orderId = "order-123";
+        Byte status = 2;
+        String stateDesc = "已支付";
+        String alipayTradeNo = "ali-123";
+
+        Order order = new Order();
+        order.setId(orderId);
+
+        when(orderRepository.findById(orderId)).thenReturn(java.util.Optional.of(order));
+
+        // When
+        boolean result = orderService.updateOrderStatus(orderId, status, stateDesc, alipayTradeNo);
+
+        // Then
+        assertTrue(result);
+        verify(orderRepository).save(order);
+        assertEquals(status, order.getStatus());
+        assertEquals(stateDesc, order.getStateDesc());
+        assertEquals(alipayTradeNo, order.getAlipayTradeNo());
+    }
+
+    /**
+     * 测试：订单不存在时更新失败
+     */
+    @Test
+    void shouldReturnFalseWhenOrderNotFound() {
+        // Given
+        String orderId = "non-existent-order";
+        Byte status = 2;
+        String stateDesc = "已支付";
+        String alipayTradeNo = "ali-123";
+
+        when(orderRepository.findById(orderId)).thenReturn(java.util.Optional.empty());
+
+        // When
+        boolean result = orderService.updateOrderStatus(orderId, status, stateDesc, alipayTradeNo);
+
+        // Then
+        assertFalse(result);
+        verify(orderRepository, never()).save(any());
     }
 }

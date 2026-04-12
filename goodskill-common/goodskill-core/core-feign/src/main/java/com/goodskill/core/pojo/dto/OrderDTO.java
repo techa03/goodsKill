@@ -1,55 +1,29 @@
-package com.goodskill.order.entity;
+package com.goodskill.core.pojo.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Document
-public class Order {
+public class OrderDTO implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-    @Id
-    private String id;
-
-    /**
-     * 秒杀活动id
-     */
     private BigInteger seckillId;
 
-    /**
-     * 用户手机号
-     */
     private String userPhone;
 
-    /**
-     * 状态
-     */
     private Byte status;
 
     private LocalDateTime createTime;
 
-    /**
-     * 服务器ip
-     */
     private String serverIp;
 
-    /**
-     * 用户ip
-     */
     private String userIp;
 
-    /**
-     * 用户id
-     */
     private String userId;
 
     /**
@@ -76,10 +50,5 @@ public class Order {
      * 状态描述
      */
     private String stateDesc;
-
-    /**
-     * 支付宝订单号
-     */
-    private String alipayTradeNo;
 
 }

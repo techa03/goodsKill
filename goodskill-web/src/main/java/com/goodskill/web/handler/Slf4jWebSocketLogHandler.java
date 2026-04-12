@@ -52,10 +52,20 @@ public class Slf4jWebSocketLogHandler extends AppenderBase<ILoggingEvent> {
 
     @Override
     protected void append(ILoggingEvent eventObject) {
+        // 过滤低级别日志
+        if (eventObject.getLevel().toInt() < ch.qos.logback.classic.Level.INFO.toInt()) {
+            return;
+        }
+
+        // 过滤非业务logger
+        String loggerName = eventObject.getLoggerName();
+        if (!loggerName.startsWith("com.goodskill")) {
+            return;
+        }
+
         // 格式化日志消息
         String timestamp = dateFormat.format(new Date(eventObject.getTimeStamp()));
         String level = eventObject.getLevel().levelStr;
-        String loggerName = eventObject.getLoggerName();
         String message = eventObject.getFormattedMessage();
 
         // 构建日志对象
@@ -91,6 +101,22 @@ public class Slf4jWebSocketLogHandler extends AppenderBase<ILoggingEvent> {
 
         LogMessage logMessage;
         while ((logMessage = LOG_CACHE.poll()) != null) {
+            // 过滤无效日志
+            if (logMessage.getLevel() == null) {
+                continue;
+            }
+            
+            // 过滤低级别日志
+            ch.qos.logback.classic.Level level = ch.qos.logback.classic.Level.toLevel(logMessage.getLevel());
+            if (level.toInt() < ch.qos.logback.classic.Level.INFO.toInt()) {
+                continue;
+            }
+            
+            // 过滤非业务logger
+            if (logMessage.getLogger() == null || !logMessage.getLogger().startsWith("com.goodskill")) {
+                continue;
+            }
+            
             try {
                 messagingTemplate.convertAndSend(LOG_TOPIC, logMessage);
             } catch (Exception e) {

@@ -1,4 +1,4 @@
-package com.goodskill.api.vo;
+package com.goodskill.core.pojo.vo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

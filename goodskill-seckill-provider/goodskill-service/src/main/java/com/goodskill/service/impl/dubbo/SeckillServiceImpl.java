@@ -6,14 +6,12 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.goodskill.api.dto.*;
-import com.goodskill.api.service.SeckillService;
-import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.core.enums.Events;
 import com.goodskill.core.exception.SeckillCloseException;
-import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
+import com.goodskill.core.feign.OrderFeignClient;
+import com.goodskill.core.pojo.dto.*;
+import com.goodskill.core.pojo.vo.SeckillVO;
 import com.goodskill.core.util.MD5Util;
-import com.goodskill.order.api.OrderService;
 import com.goodskill.service.common.GoodsService;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.common.enums.GoodsKillStrategyEnum;
@@ -21,6 +19,7 @@ import com.goodskill.service.entity.Goods;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;
 import com.goodskill.service.handler.PreRequestPipeline;
+import com.goodskill.service.inner.SeckillService;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;
 import com.goodskill.service.mock.strategy.GoodsKillStrategy;
@@ -60,7 +59,7 @@ import java.util.stream.Collectors;
 @DubboService
 public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> implements SeckillService {
     @Resource
-    private OrderService orderService;
+    private OrderFeignClient orderFeignClient;
     @Resource
     private SuccessKilledMapper successKilledMapper;
     @Resource
@@ -162,7 +161,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         long count = successKilledMapper.selectCount(new QueryWrapper<>(example));
         if (count == 0) {
             try {
-                count = orderService.count(seckillId);
+                count = orderFeignClient.count(seckillId);
             } catch (Exception e) {
                 log.error("mongo服务不可用，请检查！", e);
                 throw e;
@@ -181,10 +180,10 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     }
 
     @Override
-    public int reduceNumber(SuccessKilledDTO successKilled) {
+    public int reduceNumber(com.goodskill.core.pojo.dto.SuccessKilledDTO successKilled) {
         int count = 0;
         try {
-            count = seckillService.reduceNumberInner(successKilled);
+            count = this.reduceNumberInner(successKilled);
         } catch (Exception e) {
             log.warn(e.getMessage());
         }
@@ -193,7 +192,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int reduceNumberInner(SuccessKilledDTO successKilled) {
+    public int reduceNumberInner(com.goodskill.core.pojo.dto.SuccessKilledDTO successKilled) {
         SuccessKilled entity = BeanUtil.copyProperties(successKilled, SuccessKilled.class);
         successKilledMapper.insert(entity);
         Seckill wrapper = new Seckill();
@@ -233,7 +232,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Override
     public SeckillInfoDTO getInfoById(Serializable seckillId) {
         SeckillInfoDTO seckillInfoDTO = new SeckillInfoDTO();
-        SeckillVO seckill = seckillService.findById(seckillId);
+        SeckillVO seckill = this.findById(seckillId);
         Goods goods = goodsService.getById(seckill.getGoodsId());
         BeanUtils.copyProperties(seckill, seckillInfoDTO);
         seckillInfoDTO.setGoodsName(goods.getName());

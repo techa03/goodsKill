@@ -1,9 +1,11 @@
-package com.goodskill.api.service;
+package com.goodskill.service.inner;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import com.goodskill.api.dto.*;
-import com.goodskill.api.vo.SeckillVO;
-import org.springframework.cloud.openfeign.FeignClient;
+import com.goodskill.core.pojo.dto.ExposerDTO;
+import com.goodskill.core.pojo.dto.SeckillInfoDTO;
+import com.goodskill.core.pojo.dto.SeckillMockRequestDTO;
+import com.goodskill.core.pojo.dto.SeckillResponseDTO;
+import com.goodskill.core.pojo.vo.SeckillVO;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -15,7 +17,6 @@ import java.io.Serializable;
  * @author heng
  * @date 2016/7/16
  */
-@FeignClient(value = "goodskill-seckill", contextId = "seckill")
 public interface SeckillService {
 
     /**
@@ -102,10 +103,10 @@ public interface SeckillService {
      * @return 1代表成功，小于1为失败
      */
     @PostMapping("/reduceNumber")
-    int reduceNumber(@RequestBody SuccessKilledDTO successKilled);
+    int reduceNumber(@RequestBody com.goodskill.core.pojo.dto.SuccessKilledDTO successKilled);
 
     @PostMapping("/reduceNumberInner")
-    int reduceNumberInner(@RequestBody SuccessKilledDTO successKilled);
+    int reduceNumberInner(@RequestBody com.goodskill.core.pojo.dto.SuccessKilledDTO successKilled);
 
     /**
      * 获取二维码

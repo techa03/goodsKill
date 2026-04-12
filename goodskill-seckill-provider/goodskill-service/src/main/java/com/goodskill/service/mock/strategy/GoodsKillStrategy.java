@@ -1,6 +1,6 @@
 package com.goodskill.service.mock.strategy;
 
-import com.goodskill.api.dto.SeckillMockRequestDTO;
+import com.goodskill.core.pojo.dto.SeckillMockRequestDTO;
 
 /**
  * 秒杀策略接口

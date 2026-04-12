@@ -1,8 +1,8 @@
 package com.goodskill.web.stream.consumer;
 
-import com.goodskill.api.dto.SeckillMockResponseDTO;
-import com.goodskill.api.service.SeckillService;
 import com.goodskill.core.enums.SeckillSolutionEnum;
+import com.goodskill.core.feign.SeckillFeignClient;
+import com.goodskill.core.pojo.dto.SeckillMockResponseDTO;
 import com.goodskill.web.util.TaskTimeCaculateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 @Configuration
 public class SeckillMockResponseListener {
     @DubboReference
-    private SeckillService seckillService;
+    private SeckillFeignClient seckillFeignClient;
 
     @Bean
     public Consumer<SeckillMockResponseDTO> seckillResult() {
@@ -29,7 +29,7 @@ public class SeckillMockResponseListener {
 
             if (Boolean.TRUE.equals(responseDto.getStatus())) {
                 log.info("秒杀活动结束，{}时间：{},秒杀id：{}", note, new Date(), seckillId);
-                long successKillCount = seckillService.getSuccessKillCount(seckillId);
+                long successKillCount = seckillFeignClient.getSuccessKillCount(seckillId);
                 long temp = 0;
                 while (successKillCount != temp) {
                     // 计算总数可能有延迟，等待统计数据稳定后得到最终结果
@@ -40,7 +40,7 @@ public class SeckillMockResponseListener {
                     } catch (InterruptedException e) {
                         log.warn(e.getMessage(), e);
                     }
-                    temp = seckillService.getSuccessKillCount(seckillId);
+                    temp = seckillFeignClient.getSuccessKillCount(seckillId);
                 }
                 TaskTimeCaculateUtil.stop(responseDto.getTaskId());
                 log.info("最终成功交易笔数：{}", successKillCount);
@@ -55,7 +55,7 @@ public class SeckillMockResponseListener {
                     log.error(e.getMessage(), e);
                     Thread.currentThread().interrupt();
                 }
-                seckillService.endSeckill(seckillId);
+                seckillFeignClient.endSeckill(seckillId);
             }
         };
     }

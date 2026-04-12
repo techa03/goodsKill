@@ -2,11 +2,11 @@ package com.goodskill.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.goodskill.api.dto.GoodsDTO;
-import com.goodskill.api.service.GoodsEsService;
 import com.goodskill.api.vo.GoodsVO;
+import com.goodskill.core.pojo.dto.GoodsDTO;
 import com.goodskill.service.entity.Goods;
 import com.goodskill.service.impl.dubbo.GoodsThirdPartyServiceImpl;
+import com.goodskill.service.inner.SeckillGoodsService;
 import com.goodskill.service.mapper.GoodsMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ public class GoodsThirdPartyServiceImplTest {
     @Mock
     private GoodsMapper baseMapper;
     @Mock
-    private GoodsEsService goodsEsService;
+    private SeckillGoodsService seckillGoodsService;
 
     @InjectMocks
     private GoodsThirdPartyServiceImpl goodsService;
@@ -88,7 +88,7 @@ public class GoodsThirdPartyServiceImplTest {
             goodsService.addGoods(goods);
 
             verify(baseMapper, times(1)).insert(any(Goods.class));
-            verify(goodsEsService, times(1)).save(any(GoodsDTO.class));
+            verify(seckillGoodsService, times(1)).save(any(GoodsDTO.class));
         }
     }
 
@@ -102,12 +102,12 @@ public class GoodsThirdPartyServiceImplTest {
             idWorkerMock.when(IdWorker::getId).thenReturn(12345L);
 
             doThrow(new RuntimeException("ES service unavailable"))
-                .when(goodsEsService).save(any(GoodsDTO.class));
+                .when(seckillGoodsService).save(any(GoodsDTO.class));
 
             assertDoesNotThrow(() -> goodsService.addGoods(goods));
 
             verify(baseMapper, times(1)).insert(any(Goods.class));
-            verify(goodsEsService, times(1)).save(any(GoodsDTO.class));
+            verify(seckillGoodsService, times(1)).save(any(GoodsDTO.class));
         }
     }
 

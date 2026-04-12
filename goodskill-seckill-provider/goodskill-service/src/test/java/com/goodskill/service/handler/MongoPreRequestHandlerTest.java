@@ -1,7 +1,7 @@
 package com.goodskill.service.handler;
 
+import com.goodskill.core.feign.OrderFeignClient;
 import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
-import com.goodskill.order.api.OrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,12 +10,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class MongoPreRequestHandlerTest {
     @Mock
-    private OrderService orderService;
+    private OrderFeignClient orderFeignClient;
 
     @InjectMocks
     private MongoPreRequestHandler handler;
@@ -34,7 +35,7 @@ class MongoPreRequestHandlerTest {
     void testHandle() {
         handler.handle(request);
 
-        verify(orderService, times(1)).deleteRecord(1000L);
+        verify(orderFeignClient, times(1)).deleteRecord(1000L);
     }
 
     @Test
@@ -43,7 +44,7 @@ class MongoPreRequestHandlerTest {
 
         handler.handle(request);
 
-        verify(orderService, times(1)).deleteRecord(2000L);
+        verify(orderFeignClient, times(1)).deleteRecord(2000L);
     }
 
     @Test

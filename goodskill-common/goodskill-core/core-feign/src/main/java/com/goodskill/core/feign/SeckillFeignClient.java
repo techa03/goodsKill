@@ -1,4 +1,4 @@
-package com.goodskill.web.feign;
+package com.goodskill.core.feign;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.goodskill.core.pojo.dto.ExposerDTO;
@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @author heng
  * @date 2016/7/16
  */
-@FeignClient(value = "goodskill-seckill", contextId = "web.seckill")
+@FeignClient(value = "goodskill-seckill", contextId = "seckill")
 public interface SeckillFeignClient {
 
     /**

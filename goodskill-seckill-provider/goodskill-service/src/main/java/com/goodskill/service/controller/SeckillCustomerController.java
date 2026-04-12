@@ -1,15 +1,14 @@
 package com.goodskill.service.controller;
 
-import com.goodskill.api.dto.SuccessKilledDTO;
-import com.goodskill.api.service.SeckillService;
-import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.core.exception.SeckillException;
+import com.goodskill.core.feign.OrderFeignClient;
 import com.goodskill.core.info.Result;
+import com.goodskill.core.pojo.dto.OrderDTO;
+import com.goodskill.core.pojo.dto.SuccessKilledDTO;
+import com.goodskill.core.pojo.vo.SeckillVO;
 import com.goodskill.core.util.MD5Util;
 import com.goodskill.core.util.UserInfoUtil;
-import com.goodskill.order.api.OrderService;
-import com.goodskill.order.entity.OrderDTO;
-import cn.dev33.satoken.stp.StpUtil;
+import com.goodskill.service.inner.SeckillService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -33,7 +31,7 @@ public class SeckillCustomerController {
     private SeckillService seckillService;
 
     @Resource
-    private OrderService orderService;
+    private OrderFeignClient orderFeignClient;
 
     /**
      * 执行秒杀
@@ -89,7 +87,7 @@ public class SeckillCustomerController {
         orderDTO.setStateDesc("待支付");
         String saveResult = null;
         try {
-            saveResult = orderService.saveRecord(orderDTO);
+            saveResult = orderFeignClient.saveRecord(orderDTO);
         } catch (Exception e) {
             throw new SeckillException("创建订单失败");
         }

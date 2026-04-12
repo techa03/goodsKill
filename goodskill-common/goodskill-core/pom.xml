@@ -21,6 +21,7 @@
         <module>core-util</module>
         <module>core-jwt</module>
         <module>core-orm</module>
+        <module>core-feign</module>
     </modules>
 
     <dependencyManagement>

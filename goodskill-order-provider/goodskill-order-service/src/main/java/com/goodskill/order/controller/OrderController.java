@@ -1,8 +1,8 @@
 package com.goodskill.order.controller;
 
+import com.goodskill.core.pojo.dto.OrderDTO;
 import com.goodskill.core.util.UserInfoUtil;
 import com.goodskill.order.entity.Order;
-import com.goodskill.order.entity.OrderDTO;
 import com.goodskill.order.service.impl.OrderServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

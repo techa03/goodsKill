@@ -1,10 +1,9 @@
 package com.goodskill.service.inner;
 
-import com.goodskill.api.dto.SeckillMockResponseDTO;
-import com.goodskill.api.dto.SuccessKilledDTO;
-import com.goodskill.api.service.SeckillService;
 import com.goodskill.core.enums.Events;
 import com.goodskill.core.enums.States;
+import com.goodskill.core.pojo.dto.SeckillMockResponseDTO;
+import com.goodskill.core.pojo.dto.SuccessKilledDTO;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;

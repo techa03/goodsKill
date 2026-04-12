@@ -1,22 +1,20 @@
 package com.goodskill.order.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import com.goodskill.core.pojo.dto.OrderDTO;
 import com.goodskill.order.entity.Order;
-import com.goodskill.order.entity.OrderDTO;
 import com.goodskill.order.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
-import org.springframework.data.domain.PageImpl;
 
 @Slf4j
 @Service

@@ -1,7 +1,6 @@
-package com.goodskill.api.service;
+package com.goodskill.service.inner;
 
-import com.goodskill.api.dto.GoodsDTO;
-import org.springframework.cloud.openfeign.FeignClient;
+import com.goodskill.core.pojo.dto.GoodsDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,8 +8,7 @@ import java.util.List;
 /**
  * @author heng
  */
-@FeignClient(value = "goodskill-seckill", contextId = "goods")
-public interface GoodsEsService {
+public interface SeckillGoodsService {
 
     /**
      * 保存

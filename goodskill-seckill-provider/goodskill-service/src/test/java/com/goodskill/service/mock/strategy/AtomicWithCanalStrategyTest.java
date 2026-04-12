@@ -1,6 +1,6 @@
 package com.goodskill.service.mock.strategy;
 
-import com.goodskill.api.dto.SeckillMockRequestDTO;
+import com.goodskill.core.pojo.dto.SeckillMockRequestDTO;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.mapper.SeckillMapper;
 import com.goodskill.service.mapper.SuccessKilledMapper;

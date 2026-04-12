@@ -1,4 +1,4 @@
-package com.goodskill.api.dto;
+package com.goodskill.core.pojo.dto;
 
 
 import lombok.Data;

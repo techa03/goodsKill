@@ -212,7 +212,11 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.goodskill</groupId>
+            <artifactId>core-feign</artifactId>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<resources>

@@ -1,13 +1,13 @@
 package com.goodskill.service.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import com.goodskill.api.dto.ExposerDTO;
-import com.goodskill.api.dto.SeckillInfoDTO;
-import com.goodskill.api.service.GoodsEsService;
 import com.goodskill.api.service.GoodsThirdPartyService;
-import com.goodskill.api.service.SeckillService;
-import com.goodskill.api.vo.SeckillVO;
 import com.goodskill.core.info.Result;
+import com.goodskill.core.pojo.dto.ExposerDTO;
+import com.goodskill.core.pojo.dto.SeckillInfoDTO;
+import com.goodskill.core.pojo.vo.SeckillVO;
+import com.goodskill.service.inner.SeckillGoodsService;
+import com.goodskill.service.inner.SeckillService;
 import com.goodskill.service.pojo.dto.ResponseDTO;
 import com.goodskill.service.util.UploadFileUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +36,7 @@ class SeckillControllerTest {
     @Mock
     private GoodsThirdPartyService goodsThirdPartyService;
     @Mock
-    private GoodsEsService goodsEsService;
+    private SeckillGoodsService seckillGoodsService;
     @Mock
     private UploadFileUtil uploadFileUtil;
     @Mock
@@ -234,13 +234,13 @@ class SeckillControllerTest {
         List goodsList = new ArrayList();
         goodsList.add("item1");
 
-        when(goodsEsService.searchWithNameByPage(goodsName)).thenReturn(goodsList);
+        when(seckillGoodsService.searchWithNameByPage(goodsName)).thenReturn(goodsList);
 
         ResponseDTO result = seckillController.searchGoods(goodsName);
 
         assertNotNull(result);
         assertEquals("0000", result.getCode());
         assertEquals(goodsList.size(), ((Object[]) result.getData()).length);
-        verify(goodsEsService, times(1)).searchWithNameByPage(goodsName);
+        verify(seckillGoodsService, times(1)).searchWithNameByPage(goodsName);
     }
 }

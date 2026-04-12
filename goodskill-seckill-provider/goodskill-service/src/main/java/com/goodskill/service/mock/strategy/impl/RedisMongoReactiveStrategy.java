@@ -1,10 +1,10 @@
 package com.goodskill.service.mock.strategy.impl;
 
-import com.goodskill.api.dto.SeckillMockRequestDTO;
-import com.goodskill.api.dto.SeckillMockResponseDTO;
 import com.goodskill.core.constant.SeckillStatusConstant;
 import com.goodskill.core.enums.Events;
 import com.goodskill.core.enums.States;
+import com.goodskill.core.pojo.dto.SeckillMockRequestDTO;
+import com.goodskill.core.pojo.dto.SeckillMockResponseDTO;
 import com.goodskill.order.vo.SeckillMockSaveVo;
 import com.goodskill.service.common.RedisService;
 import com.goodskill.service.entity.Seckill;
