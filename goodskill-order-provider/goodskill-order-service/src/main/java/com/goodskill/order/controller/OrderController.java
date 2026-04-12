@@ -1,5 +1,6 @@
 package com.goodskill.order.controller;
 
+import com.goodskill.core.info.Result;
 import com.goodskill.core.pojo.dto.OrderDTO;
 import com.goodskill.core.util.UserInfoUtil;
 import com.goodskill.order.entity.Order;
@@ -8,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -31,10 +35,19 @@ public class OrderController {
     }
 
     @GetMapping("/list")
-    public Page<Order> list(
+    public Result<Map<String, Object>> list(
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize) {
-        return orderService.list(UserInfoUtil.getUserId(), pageNum, pageSize);
+        Page<Order> orderPage = orderService.list(UserInfoUtil.getUserId(), pageNum, pageSize);
+        
+        Map<String, Object> result = new HashMap<>();
+        result.put("records", orderPage.getContent());
+        result.put("total", orderPage.getTotalElements());
+        result.put("size", orderPage.getSize());
+        result.put("current", orderPage.getNumber() + 1);
+        result.put("pages", orderPage.getTotalPages());
+        
+        return Result.ok(result);
     }
 
     @GetMapping("/detail/{orderId}")
