@@ -2,8 +2,8 @@ package com.goodskill.web.stream.consumer;
 
 import com.goodskill.api.dto.SeckillMockCanalResponseDTO;
 import com.goodskill.core.feign.SeckillFeignClient;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 @Slf4j
 @Configuration
 public class SeckillMockCanalResponseListener {
-    @DubboReference
+    @Resource
     private SeckillFeignClient seckillFeignClient;
 
     @Bean

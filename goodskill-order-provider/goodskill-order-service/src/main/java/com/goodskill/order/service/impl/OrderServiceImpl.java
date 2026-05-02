@@ -72,7 +72,7 @@ public class OrderServiceImpl {
         return order.orElse(null);
     }
 
-    public boolean updateOrderStatus(String orderId, Byte status, String stateDesc, String alipayTradeNo) {
+    public boolean updateOrderStatus(String orderId, Byte status, String stateDesc, String alipayTradeNo, String timestamp) {
         Optional<Order> optionalOrder = orderRepository.findById(orderId);
         if (optionalOrder.isPresent()) {
             Order order = optionalOrder.get();
@@ -81,6 +81,12 @@ public class OrderServiceImpl {
             if (alipayTradeNo != null) {
                 order.setAlipayTradeNo(alipayTradeNo);
             }
+            // timestamp时间转成LocalDateTime 2017-06-10 11:23:43
+            LocalDateTime tradeTime = null;
+            if (timestamp != null && !timestamp.isEmpty()) {
+                tradeTime = LocalDateTime.parse(timestamp, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            }
+            order.setPayCompleteTime(tradeTime);
             orderRepository.save(order);
             log.info("更新订单状态成功: orderId={}, status={}, stateDesc={}, alipayTradeNo={}",
                     orderId, status, stateDesc, alipayTradeNo);
@@ -178,6 +184,32 @@ public class OrderServiceImpl {
             return true;
         } catch (Exception e) {
             log.error("批量删除订单失败: ids={}", ids, e);
+            return false;
+        }
+    }
+
+    public Boolean cancelOrder(String orderId, String userId) {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        if (optionalOrder.isPresent()) {
+            Order order = optionalOrder.get();
+            // 验证订单是否属于当前用户
+            if (order.getUserId() == null || !order.getUserId().equals(userId)) {
+                log.warn("取消订单失败: 订单不属于当前用户, orderId={}, userId={}", orderId, userId);
+                return false;
+            }
+            // 验证订单状态是否可以取消（只有待支付状态可以取消）
+            if (order.getStatus() == null || !order.getStatus().equals((byte) 1)) {
+                log.warn("取消订单失败: 订单状态不允许取消, orderId={}, status={}", orderId, order.getStatus());
+                return false;
+            }
+            // 更新订单状态为已取消
+            order.setStatus((byte) 3);
+            order.setStateDesc("已取消");
+            orderRepository.save(order);
+            log.info("取消订单成功: orderId={}, userId={}", orderId, userId);
+            return true;
+        } else {
+            log.warn("取消订单失败: 订单不存在, orderId={}", orderId);
             return false;
         }
     }

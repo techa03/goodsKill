@@ -207,11 +207,6 @@
 			<groupId>org.springframework.statemachine</groupId>
 			<artifactId>spring-statemachine-data-redis</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-		</dependency>
         <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>core-feign</artifactId>

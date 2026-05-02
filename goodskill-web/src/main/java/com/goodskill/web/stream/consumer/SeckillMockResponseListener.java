@@ -4,8 +4,8 @@ import com.goodskill.core.enums.SeckillSolutionEnum;
 import com.goodskill.core.feign.SeckillFeignClient;
 import com.goodskill.core.pojo.dto.SeckillMockResponseDTO;
 import com.goodskill.web.util.TaskTimeCaculateUtil;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 @Slf4j
 @Configuration
 public class SeckillMockResponseListener {
-    @DubboReference
+    @Resource
     private SeckillFeignClient seckillFeignClient;
 
     @Bean

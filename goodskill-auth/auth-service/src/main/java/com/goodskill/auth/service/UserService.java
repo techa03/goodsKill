@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.goodskill.auth.entity.Permission;
 import com.goodskill.auth.entity.Role;
 import com.goodskill.auth.entity.User;
+import com.goodskill.auth.pojo.dto.CustomerUserInfoUpdateDTO;
 import com.goodskill.auth.pojo.dto.UserDTO;
+import com.goodskill.auth.pojo.vo.CustomerUserInfoVO;
 
 import java.util.List;
 import java.util.Set;
@@ -131,5 +133,23 @@ public interface UserService extends IService<User> {
      * @param userId 用户ID
      * @return C端用户信息
      */
-    com.goodskill.auth.pojo.vo.CustomerUserInfoVO getCustomerUserInfo(Integer userId);
+    CustomerUserInfoVO getCustomerUserInfo(String userId);
+
+    /**
+     * 更新C端用户信息
+     *
+     * @param userId 用户ID
+     * @param updateDTO 更新信息DTO
+     * @return 更新后的C端用户信息
+     */
+    CustomerUserInfoVO updateCustomerUserInfo(String userId, CustomerUserInfoUpdateDTO updateDTO);
+
+    /**
+     * 更新C端用户头像
+     *
+     * @param userId 用户ID
+     * @param avatarUrl 头像URL
+     * @return 更新后的C端用户信息
+     */
+    CustomerUserInfoVO updateCustomerUserAvatar(String userId, String avatarUrl);
 }

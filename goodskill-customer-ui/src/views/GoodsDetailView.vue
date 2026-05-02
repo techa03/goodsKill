@@ -78,9 +78,9 @@
           <!-- Left: Image Gallery -->
           <div class="space-y-4">
             <div class="glass-card rounded-3xl overflow-hidden aspect-square relative group">
-              <img 
-                :src="goods.goodsImg" 
-                :alt="goods.goodsName" 
+              <img
+                :src="goods.goodsImg"
+                :alt="goods.goodsName"
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <!-- Discount Badge -->
@@ -101,8 +101,8 @@
             </div>
             <!-- Thumbnail Gallery -->
             <div class="flex gap-3">
-              <div 
-                v-for="i in 4" 
+              <div
+                v-for="i in 4"
                 :key="i"
                 class="w-20 h-20 rounded-xl overflow-hidden cursor-pointer border-2 transition-all"
                 :class="i === 1 ? 'border-primary' : 'border-[var(--border-color)] hover:border-[var(--text-muted)]'"
@@ -137,7 +137,7 @@
                 <span class="text-xl text-[var(--text-muted)] line-through">¥{{ goods.goodsPrice }}</span>
                 <span class="badge badge-danger">限时特惠</span>
               </div>
-              
+
               <!-- Countdown Timer -->
               <div class="flex items-center gap-4 text-[var(--text-secondary)]">
                 <span class="text-sm">距离结束还剩:</span>
@@ -167,7 +167,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                <span class="text-[var(--text-secondary)]">{{ Math.floor(Math.random() * 500 + 100) }} 人正在浏览</span>
+                <span class="text-[var(--text-secondary)]">{{ viewerCount }} 人正在浏览</span>
               </div>
             </div>
 
@@ -263,7 +263,7 @@
             </div>
             <h3 class="text-2xl font-bold text-[var(--text-primary)] mb-2 font-display">秒杀成功!</h3>
             <p class="text-[var(--text-secondary)] mb-6">恭喜您成功抢到商品，请在30分钟内完成支付</p>
-            
+
             <div class="glass-card rounded-2xl p-4 mb-6 text-left">
               <div class="flex justify-between mb-2">
                 <span class="text-[var(--text-muted)]">订单号</span>
@@ -278,7 +278,7 @@
                 <span class="text-success font-bold">¥{{ goods?.seckillPrice }}</span>
               </div>
             </div>
-            
+
             <div class="flex gap-3">
               <button
                 @click="showResultModal = false"
@@ -294,7 +294,7 @@
               </button>
             </div>
           </div>
-          
+
           <!-- Error State -->
           <div v-else class="text-center">
             <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-danger/20 flex items-center justify-center">
@@ -335,6 +335,7 @@ const goods = computed(() => currentGoods.value)
 const seckillLoading = ref(false)
 const showResultModal = ref(false)
 const seckillResult = ref({})
+const viewerCount = ref(0)
 
 // Countdown timer
 const countdown = ref({ hours: '00', minutes: '00', seconds: '00' })
@@ -347,20 +348,20 @@ const handleLogout = () => {
 
 const updateCountdown = () => {
   if (!goods.value) return
-  
+
   const now = Date.now()
   const endTime = goods.value.endTime
   const diff = endTime - now
-  
+
   if (diff <= 0) {
     countdown.value = { hours: '00', minutes: '00', seconds: '00' }
     return
   }
-  
+
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
   const minutes = Math.floor((diff / (1000 * 60)) % 60)
   const seconds = Math.floor((diff / 1000) % 60)
-  
+
   countdown.value = {
     hours: hours.toString().padStart(2, '0'),
     minutes: minutes.toString().padStart(2, '0'),
@@ -382,27 +383,31 @@ const fetchGoodsDetail = async () => {
   setError(null)
   try {
     const response = await api.getGoodsDetail(goodsId.value)
+    console.log('商品详情响应:', response)
     if (response && (response.seckillId || response.goodsId)) {
       setCurrentGoods(response)
-    } else if (response.code === 0) {
+    } else if (response.code === 0 || response.code === 200) {
       let goodsImg = `https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800&h=800&fit=crop`
-      if (response.data.photoUrl) {
+      if (response.data.goodsImg) {
+        goodsImg = response.data.goodsImg
+      } else if (response.data.photoUrl) {
         goodsImg = response.data.photoUrl
       }
       const transformedGoods = {
-        id: response.data.seckillId,
-        goodsName: response.data.name,
-        goodsTitle: response.data.name,
-        seckillPrice: response.data.price,
-        goodsPrice: response.data.price * 1.2,
-        stockCount: response.data.number,
-        endTime: new Date(response.data.endTime).getTime(),
-        goodsDesc: response.data.name + ' 是一款非常好的商品，采用优质材料制作，工艺精湛，品质保证。限时秒杀价，抢到就是赚到！',
+        id: response.data.seckillId || response.data.id,
+        goodsName: response.data.name || response.data.goodsName,
+        goodsTitle: response.data.name || response.data.goodsTitle,
+        seckillPrice: response.data.price || response.data.seckillPrice,
+        goodsPrice: (response.data.price || response.data.seckillPrice) * 1.2,
+        stockCount: response.data.number || response.data.stockCount,
+        endTime: new Date(response.data.endTime).getTime() || response.data.endTime,
+        goodsDesc: (response.data.name || response.data.goodsName || '商品') + ' 是一款非常好的商品，采用优质材料制作，工艺精湛，品质保证。限时秒杀价，抢到就是赚到！',
         goodsImg: goodsImg
       }
+      console.log('处理后transformedGoods:', transformedGoods)
       setCurrentGoods(transformedGoods)
     } else {
-      setError(response.message)
+      setError(response.message || response.msg || '获取商品详情失败')
     }
   } catch (err) {
     setError('获取商品详情失败，请稍后重试')
@@ -477,6 +482,8 @@ onMounted(() => {
   fetchGoodsDetail()
   countdownInterval = setInterval(updateCountdown, 1000)
   updateCountdown()
+  // 生成浏览人数
+  viewerCount.value = Math.floor(300 + Math.random() * 200)
 })
 
 onUnmounted(() => {

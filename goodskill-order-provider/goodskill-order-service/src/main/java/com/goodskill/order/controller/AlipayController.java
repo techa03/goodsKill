@@ -1,20 +1,16 @@
 package com.goodskill.order.controller;
 
+import com.goodskill.core.info.Result;
+import com.goodskill.order.api.AlipayService;
 import com.goodskill.order.dto.AlipayRequestDTO;
 import com.goodskill.order.dto.AlipayResponseDTO;
-import com.goodskill.order.api.AlipayService;
-import com.goodskill.core.info.Result;
+import com.goodskill.order.enums.OrderStatusEnum;
+import com.goodskill.order.service.impl.OrderServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.Map;
-
-import com.goodskill.order.service.impl.OrderServiceImpl;
-import com.goodskill.order.enums.OrderStatusEnum;
 
 @RestController
 @RequestMapping("/pay/alipay")
@@ -23,7 +19,7 @@ public class AlipayController {
 
     @Autowired
     private AlipayService alipayService;
-    
+
     @Autowired
     private OrderServiceImpl orderService;
 
@@ -67,8 +63,8 @@ public class AlipayController {
             @RequestParam("trade_no") String tradeNo,
             @RequestParam("total_amount") String totalAmount,
             @RequestParam Map<String, String> allParams) {
-        log.info("支付宝同步回调: orderId={}, tradeStatus={}, tradeNo={}, totalAmount={}",
-                orderId, tradeStatus, tradeNo, totalAmount);
+        log.info("支付宝同步回调: orderId={}, tradeStatus={}, tradeNo={}, totalAmount={}, allParams={}",
+                orderId, tradeStatus, tradeNo, totalAmount, allParams);
 
         // 验证签名
         boolean signVerified = alipayService.verifyCallbackSignature(allParams);
@@ -80,7 +76,8 @@ public class AlipayController {
                 log.info("支付成功: orderId={}", orderId);
                 // 更新订单状态为已支付
                 OrderStatusEnum paidStatus = OrderStatusEnum.PAID;
-                orderService.updateOrderStatus(orderId, paidStatus.getCode(), paidStatus.getDesc(), tradeNo);
+                String timestamp = allParams.get("timestamp");
+                orderService.updateOrderStatus(orderId, paidStatus.getCode(), paidStatus.getDesc(), tradeNo, timestamp);
             } else {
                 log.warn("支付状态异常: orderId={}, tradeStatus={}", orderId, tradeStatus);
             }

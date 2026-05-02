@@ -39,20 +39,31 @@ public class OrderController {
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize) {
         Page<Order> orderPage = orderService.list(UserInfoUtil.getUserId(), pageNum, pageSize);
-        
+
         Map<String, Object> result = new HashMap<>();
         result.put("records", orderPage.getContent());
         result.put("total", orderPage.getTotalElements());
         result.put("size", orderPage.getSize());
         result.put("current", orderPage.getNumber() + 1);
         result.put("pages", orderPage.getTotalPages());
-        
+
         return Result.ok(result);
     }
 
     @GetMapping("/detail/{orderId}")
     public Order detail(@PathVariable String orderId) {
         return orderService.findById(orderId);
+    }
+
+    @PostMapping("/cancel/{orderId}")
+    public Result<Boolean> cancelOrder(@PathVariable String orderId) {
+        String userId = UserInfoUtil.getUserId();
+        boolean result = orderService.cancelOrder(orderId, userId);
+        if (result) {
+            return Result.ok(true);
+        } else {
+            return Result.fail("取消订单失败");
+        }
     }
 
 }

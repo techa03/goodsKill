@@ -145,7 +145,7 @@ class AlipayControllerTest {
         allParams.put("out_trade_no", orderId);
 
         when(alipayService.verifyCallbackSignature(allParams)).thenReturn(true);
-        when(orderService.updateOrderStatus(eq(orderId), anyByte(), anyString(), eq(tradeNo))).thenReturn(true);
+        when(orderService.updateOrderStatus(eq(orderId), anyByte(), anyString(), eq(tradeNo), nullable(String.class))).thenReturn(true);
 
         // When
         String result = alipayController.handleReturn(orderId, tradeStatus, tradeNo, totalAmount, allParams);
@@ -153,7 +153,7 @@ class AlipayControllerTest {
         // Then
         assertNotNull(result);
         assertTrue(result.contains(orderId));
-        verify(orderService).updateOrderStatus(eq(orderId), anyByte(), anyString(), eq(tradeNo));
+        verify(orderService).updateOrderStatus(eq(orderId), anyByte(), anyString(), eq(tradeNo), nullable(String.class));
     }
 
     @Test
@@ -164,14 +164,14 @@ class AlipayControllerTest {
         Map<String, String> allParams = new HashMap<>();
 
         when(alipayService.verifyCallbackSignature(allParams)).thenReturn(true);
-        when(orderService.updateOrderStatus(eq(orderId), anyByte(), anyString(), eq(tradeNo))).thenReturn(true);
+        doReturn(true).when(orderService).updateOrderStatus(anyString(), anyByte(), anyString(), anyString(), any());
 
         // When
         String result = alipayController.handleReturn(orderId, null, tradeNo, "100.00", allParams);
 
         // Then
         assertNotNull(result);
-        verify(orderService).updateOrderStatus(eq(orderId), anyByte(), anyString(), eq(tradeNo));
+        verify(orderService).updateOrderStatus(eq(orderId), anyByte(), anyString(), eq(tradeNo), any());
     }
 
     @Test
@@ -185,7 +185,7 @@ class AlipayControllerTest {
 
         // Then
         assertNotNull(result);
-        verify(orderService, never()).updateOrderStatus(anyString(), anyByte(), anyString(), anyString());
+        verify(orderService, never()).updateOrderStatus(anyString(), anyByte(), anyString(), anyString(), anyString());
     }
 
     @Test
@@ -199,6 +199,6 @@ class AlipayControllerTest {
 
         // Then
         assertNotNull(result);
-        verify(orderService, never()).updateOrderStatus(anyString(), anyByte(), anyString(), anyString());
+        verify(orderService, never()).updateOrderStatus(anyString(), anyByte(), anyString(), anyString(), anyString());
     }
 }
