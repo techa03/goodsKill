@@ -356,7 +356,7 @@ class UserServiceImplTest {
 
         // Then
         assertNotNull(result);
-        assertEquals(userId, result.getUserId());
+        assertEquals(Integer.valueOf(userId), result.getUserId());
         assertEquals("testuser", result.getUsername());
         assertEquals("13800138000", result.getMobile());
         assertEquals("avatar.jpg", result.getAvatar());

@@ -5,7 +5,6 @@ import com.goodskill.core.enums.States;
 import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineEventResult;
@@ -19,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
-public class StateMachineService implements CommandLineRunner {
+public class StateMachineService {
     public static final String STATEMACHINE_REDIS_KEY_PREFIX = "seckillId:";
 
     private final Map<String, StateMachine<States, Events>> stateMachineMap = new ConcurrentHashMap<>();
@@ -111,11 +110,4 @@ public class StateMachineService implements CommandLineRunner {
         return previous;
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        initStateMachine(1001L);
-        feedMachine(Events.ACTIVITY_START, 1001L);
-        boolean b = checkState(1001L, States.IN_PROGRESS);
-        System.out.println(b);
-    }
 }
