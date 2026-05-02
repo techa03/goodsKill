@@ -2,7 +2,8 @@
 /out/
 /.settings/
 */.settings/
-*/.idea/
+**/.idea/**
+/.idea/**
 */.classpath
 **/.flattened-pom.xml
 */.project
@@ -22,3 +23,13 @@
 **/target/*
 /standalone-logs/
 *.sh
+/goodskill-chat-ui/.gitignore
+/goodskill-seckill-provider/goodskill-api/goodskill-api.iml
+/goodskill-common/goodskill-common-api/goodskill-common-api.iml
+/goodskill-order-provider/goodskill-order-api/goodskill-order-api.iml
+/goodskill-order-provider/goodskill-order-service/goodskill-order-service.iml
+/.codex
+/.trae
+/doc/docker/minio_data/*
+
+
