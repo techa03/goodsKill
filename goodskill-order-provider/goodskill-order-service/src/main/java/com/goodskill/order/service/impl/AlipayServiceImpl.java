@@ -7,12 +7,11 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayTradeQueryResponse;
+import com.goodskill.order.api.AlipayService;
 import com.goodskill.order.config.AlipayConfig;
 import com.goodskill.order.dto.AlipayRequestDTO;
 import com.goodskill.order.dto.AlipayResponseDTO;
-import com.goodskill.order.api.AlipayService;
 import com.goodskill.order.enums.OrderStatusEnum;
-import com.goodskill.order.service.impl.OrderServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,7 @@ public class AlipayServiceImpl implements AlipayService {
 
     @Autowired
     private AlipayConfig alipayConfig;
-    
+
     @Autowired
     private OrderServiceImpl orderService;
 
@@ -92,19 +91,19 @@ public class AlipayServiceImpl implements AlipayService {
 
             if (signVerified) {
                 log.info("支付宝回调验证成功: {}", params);
-                
+
                 // 获取订单号和交易状态
                 String orderId = params.get("out_trade_no");
                 String tradeStatus = params.get("trade_status");
                 String tradeNo = params.get("trade_no");
-                
+
                 // 如果交易成功，更新订单状态
                 if ("TRADE_SUCCESS".equals(tradeStatus) || "TRADE_FINISHED".equals(tradeStatus)) {
                     log.info("支付成功: orderId={}, tradeNo={}", orderId, tradeNo);
                     OrderStatusEnum paidStatus = OrderStatusEnum.PAID;
-                    orderService.updateOrderStatus(orderId, paidStatus.getCode(), paidStatus.getDesc(), tradeNo);
+                    orderService.updateOrderStatus(orderId, paidStatus.getCode(), paidStatus.getDesc(), tradeNo, null);
                 }
-                
+
                 return "success";
             } else {
                 log.warn("支付宝回调验证失败: {}", params);

@@ -1,5 +1,16 @@
 <template>
   <div class="min-h-screen bg-[var(--bg-primary)] transition-colors duration-300">
+    <!-- 确认弹窗 -->
+    <ConfirmDialog
+      :visible="showConfirmDialog"
+      title="取消订单"
+      message="确定要取消这个订单吗？"
+      confirm-text="确定取消"
+      cancel-text="再想想"
+      @confirm="handleConfirmCancelOrder"
+      @cancel="showConfirmDialog = false"
+    />
+
     <!-- 导航栏 -->
     <nav class="fixed top-0 left-0 right-0 z-50 glass-card border-b border-[var(--border-color)]">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -109,7 +120,7 @@
 
             <!-- Progress Steps -->
             <div class="relative">
-              <div class="absolute top-5 left-0 right-0 h-0.5 bg-black/10 dark:bg-white/10"></div>
+              <div class="absolute top-5 left-0 right-0 h-0.5 bg-[var(--border-color)]"></div>
               <div class="relative flex justify-between">
                 <div
                   v-for="(step, index) in orderSteps"
@@ -261,7 +272,8 @@
                   </button>
                   <button
                     v-if="currentOrder.state === 1"
-                    class="w-full py-3 rounded-xl bg-black/5 dark:bg-white/5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-black/10 dark:hover:bg-white/10 transition-all"
+                    @click="handleCancelOrder"
+                    class="w-full py-3 rounded-xl bg-danger/20 text-danger border border-danger/30 font-medium hover:bg-danger/30 transition-all"
                   >
                     取消订单
                   </button>
@@ -344,6 +356,7 @@ import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { api } from '../api'
 import { useUserStore, useOrderStore, useThemeStore } from '../stores'
+import ConfirmDialog from '../components/ConfirmDialog.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -355,12 +368,20 @@ const orderId = computed(() => route.params.id)
 const isPaying = ref(false)
 const showToast = ref(false)
 const toastMessage = ref('')
+const showConfirmDialog = ref(false)
 
 const orderSteps = computed(() => {
   const state = currentOrder.value?.state || 1
+  // 已取消订单显示特殊流程
+  if (state === 3) {
+    return [
+      { label: '提交订单', completed: true, time: formatTime(currentOrder.value?.createTime) },
+      { label: '订单取消', completed: true, time: formatTime(currentOrder.value?.updateTime) },
+    ]
+  }
   return [
     { label: '提交订单', completed: true, time: formatTime(currentOrder.value?.createTime) },
-    { label: '支付订单', completed: state >= 2, time: state >= 2 ? formatTime(currentOrder.value?.payTime) : '' },
+    { label: '支付订单', completed: state >= 2, time: state >= 2 ? formatTime(currentOrder.value?.payCompleteTime) : '' },
     { label: '商家发货', completed: state >= 3, time: '' },
     { label: '确认收货', completed: state >= 4, time: '' },
   ]
@@ -375,10 +396,12 @@ const formatTime = (timestamp) => {
   if (!timestamp) return ''
   const date = new Date(timestamp)
   return date.toLocaleString('zh-CN', {
+    year: 'numeric',
     month: '2-digit',
     day: '2-digit',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
+    second: '2-digit'
   })
 }
 
@@ -435,10 +458,10 @@ const fetchOrderDetail = async () => {
   try {
     const response = await api.getOrderDetail(orderId.value)
     console.log('订单详情响应:', response)
-    if (response.code === 0) {
+    if (response.code === 0 || response.code === 200) {
       const orderData = {
         ...response.data,
-        state: Number(response.data.status) || 1,
+        state: Number(response.data.status) || Number(response.data.state) || 1,
         stateDesc: response.data.stateDesc || '待支付',
         seckillPrice: response.data.seckillPrice || 0,
         goodsName: response.data.goodsName || '商品名称',
@@ -448,7 +471,7 @@ const fetchOrderDetail = async () => {
       console.log('处理后orderData:', orderData)
       setCurrentOrder(orderData)
     } else {
-      setError(response.message)
+      setError(response.message || response.msg || '获取订单详情失败')
     }
   } catch (err) {
     setError('获取订单详情失败，请稍后重试')
@@ -512,7 +535,7 @@ const pollPaymentStatus = async () => {
   if (pollInterval) {
     clearInterval(pollInterval)
   }
-  
+
   pollInterval = setInterval(async () => {
     try {
       const response = await api.queryPayStatus(currentOrder.value.id)
@@ -538,6 +561,30 @@ onMounted(() => {
   initTheme()
   fetchOrderDetail()
 })
+
+const handleCancelOrder = () => {
+  showConfirmDialog.value = true
+}
+
+const handleConfirmCancelOrder = async () => {
+  if (!currentOrder.value) return
+
+  try {
+    const response = await api.cancelOrder(currentOrder.value.id)
+    if (response.code === 0 || response.code === 200) {
+      showToastMessage('取消订单成功')
+      // 重新获取订单详情
+      fetchOrderDetail()
+    } else {
+      showToastMessage(response.message || response.msg || '取消订单失败')
+    }
+  } catch (err) {
+    showToastMessage('取消订单失败，请稍后重试')
+    console.error('取消订单失败:', err)
+  } finally {
+    showConfirmDialog.value = false
+  }
+}
 
 onUnmounted(() => {
   if (pollInterval) {

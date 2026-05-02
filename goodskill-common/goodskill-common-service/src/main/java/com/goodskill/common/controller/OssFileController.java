@@ -1,27 +1,11 @@
 package com.goodskill.common.controller;
 
-import cn.hutool.core.util.IdUtil;
-import com.goodskill.common.model.mongo.FileNameMapping;
-import com.goodskill.common.repository.FileNameMappingRepository;
+import com.goodskill.common.application.service.FileApplicationService;
 import com.goodskill.core.info.Result;
-import io.minio.GetObjectArgs;
-import io.minio.GetPresignedObjectUrlArgs;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
-import io.minio.http.Method;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.InputStream;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/oss/files")
@@ -29,18 +13,10 @@ public class OssFileController {
 
     private static final Logger logger = LoggerFactory.getLogger(OssFileController.class);
 
-    private final MinioClient minioClient;
-    private final FileNameMappingRepository fileNameMappingRepository;
-    private final String bucketName;
-    private final String minioEndpoint;
+    private final FileApplicationService fileApplicationService;
 
-    public OssFileController(MinioClient minioClient, FileNameMappingRepository fileNameMappingRepository,
-                             @Value("${minio.bucketName}") String bucketName,
-                             @Value("${minio.endpoint}") String minioEndpoint) {
-        this.minioClient = minioClient;
-        this.fileNameMappingRepository = fileNameMappingRepository;
-        this.bucketName = bucketName;
-        this.minioEndpoint = minioEndpoint;
+    public OssFileController(FileApplicationService fileApplicationService) {
+        this.fileApplicationService = fileApplicationService;
     }
 
     /**
@@ -52,43 +28,7 @@ public class OssFileController {
     @PostMapping("/upload")
     public Result<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
-            // 计算文件的 MD5 哈希值
-            String fileMd5 = DigestUtils.md5Hex(file.getInputStream());
-
-            // 检查文件是否已经存在
-            Optional<FileNameMapping> existingMapping = fileNameMappingRepository.findFirstByFileMd5(fileMd5);
-            String uniqueFileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-
-            if (existingMapping.isPresent()) {
-                uniqueFileName = existingMapping.get().getUniqueFileName();
-                logger.info("File already exists: {}", file.getOriginalFilename());
-            } else {
-                // 上传文件到 MinIO
-                minioClient.putObject(
-                        PutObjectArgs.builder()
-                                .bucket(bucketName)
-                                .object(uniqueFileName)
-                                .stream(file.getInputStream(), file.getSize(), -1)
-                                .contentType(file.getContentType())
-                                .build()
-                );
-            }
-
-            // 保存文件映射关系到 MongoDB
-            FileNameMapping fileNameMapping = new FileNameMapping();
-            fileNameMapping.setId(IdUtil.fastSimpleUUID());
-            fileNameMapping.setOriginalFileName(file.getOriginalFilename());
-            fileNameMapping.setUniqueFileName(uniqueFileName);
-            fileNameMapping.setFileMd5(fileMd5);
-            fileNameMapping.setCreateTime(LocalDateTime.now());
-            fileNameMapping.setUpdateTime(LocalDateTime.now());
-            fileNameMappingRepository.save(fileNameMapping);
-
-            // 构建公开访问链接
-            String publicUrl = minioEndpoint + "/" + bucketName + "/" + uniqueFileName;
-
-            // 返回上传文件的公开访问链接
-            logger.info("文件上传成功: {}, 公开链接: {}", fileNameMapping.getId(), publicUrl);
+            String publicUrl = fileApplicationService.uploadFile(file);
             return Result.ok(publicUrl);
         } catch (Exception e) {
             logger.error("文件上传失败: {}", file.getOriginalFilename(), e);
@@ -107,47 +47,11 @@ public class OssFileController {
     @GetMapping("/download/{fileId}")
     public Result<?> downloadFile(@PathVariable String fileId,
                                   @RequestParam(value = "responseType", defaultValue = "url") String responseType) {
-        String originalFileName = null;
         try {
-            // 从 MongoDB 获取唯一文件名
-            Optional<FileNameMapping> fileNameMapping = fileNameMappingRepository.findById(fileId);
-            if (fileNameMapping.isEmpty()) {
-                logger.warn("File not found: {}", fileId);
-                return Result.fail("File not found");
-            }
-            originalFileName = fileNameMapping.get().getOriginalFileName();
-
-            if ("binary".equalsIgnoreCase(responseType)) {
-                // 返回二进制数据
-                InputStream inputStream = minioClient.getObject(
-                        GetObjectArgs.builder()
-                                .bucket(bucketName)
-                                .object(fileNameMapping.get().getUniqueFileName())
-                                .build()
-                );
-
-                byte[] content = inputStream.readAllBytes();
-
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-                headers.setContentDispositionFormData("attachment", originalFileName);
-
-                logger.info("File downloaded as binary: {}", originalFileName);
-                return Result.ok(content);
-            } else {
-                // 返回文件的 URL
-                String presignedObjectUrl = minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
-                        .method(Method.GET)
-                        .bucket(bucketName)
-                        .object(fileNameMapping.get().getUniqueFileName())
-                        .expiry(60 * 60 * 24)
-                        .build()
-                );
-                logger.info("File URL generated: {}", presignedObjectUrl);
-                return Result.ok(presignedObjectUrl);
-            }
+            Object result = fileApplicationService.downloadFile(fileId, responseType);
+            return Result.ok(result);
         } catch (Exception e) {
-            logger.error("文件下载失败: {}", originalFileName, e);
+            logger.error("文件下载失败: {}", fileId, e);
             return Result.fail("文件下载失败: " + e.getMessage());
         }
     }

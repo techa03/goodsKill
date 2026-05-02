@@ -183,7 +183,7 @@ class OrderServiceImplTest {
         when(orderRepository.findById(orderId)).thenReturn(java.util.Optional.of(order));
 
         // When
-        boolean result = orderService.updateOrderStatus(orderId, status, stateDesc, alipayTradeNo);
+        boolean result = orderService.updateOrderStatus(orderId, status, stateDesc, alipayTradeNo, null);
 
         // Then
         assertTrue(result);
@@ -207,7 +207,7 @@ class OrderServiceImplTest {
         when(orderRepository.findById(orderId)).thenReturn(java.util.Optional.empty());
 
         // When
-        boolean result = orderService.updateOrderStatus(orderId, status, stateDesc, alipayTradeNo);
+        boolean result = orderService.updateOrderStatus(orderId, status, stateDesc, alipayTradeNo, null);
 
         // Then
         assertFalse(result);

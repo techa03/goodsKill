@@ -1,4 +1,4 @@
-import { reactive, ref, computed } from 'vue'
+import {computed, reactive, ref} from 'vue'
 
 // 主题状态
 export const useThemeStore = () => {
@@ -50,6 +50,8 @@ export const useUserStore = () => {
     userId: null,
     username: null,
     phone: null,
+    email: null,
+    avatar: null,
     token: localStorage.getItem('access_token') || null
   })
 
@@ -72,6 +74,8 @@ export const useUserStore = () => {
     user.userId = null
     user.username = null
     user.phone = null
+    user.email = null
+    user.avatar = null
     user.isLoggedIn = false
     localStorage.removeItem('access_token')
     localStorage.removeItem('userinfo')
@@ -90,6 +94,8 @@ export const useUserStore = () => {
           user.userId = userinfo.userId
           user.username = userinfo.username
           user.phone = userinfo.phone
+          user.email = userinfo.email
+          user.avatar = userinfo.avatar
         } catch (e) {
           console.error('解析用户信息失败:', e)
         }
@@ -112,12 +118,48 @@ export const useUserStore = () => {
     }
   }
 
+  const updateUserInfo = (userInfo) => {
+    user.username = userInfo.username
+    user.email = userInfo.emailAddr
+    user.avatar = userInfo.avatar
+    // 更新localStorage中的用户信息
+    const userinfoStr = localStorage.getItem('userinfo')
+    if (userinfoStr) {
+      try {
+        const userinfo = JSON.parse(userinfoStr)
+        userinfo.username = userInfo.username
+        userinfo.email = userInfo.emailAddr
+        userinfo.avatar = userInfo.avatar
+        localStorage.setItem('userinfo', JSON.stringify(userinfo))
+      } catch (e) {
+        console.error('更新用户信息失败:', e)
+      }
+    }
+  }
+
+  const updateAvatar = (avatarUrl) => {
+    user.avatar = avatarUrl
+    // 更新localStorage中的用户信息
+    const userinfoStr = localStorage.getItem('userinfo')
+    if (userinfoStr) {
+      try {
+        const userinfo = JSON.parse(userinfoStr)
+        userinfo.avatar = avatarUrl
+        localStorage.setItem('userinfo', JSON.stringify(userinfo))
+      } catch (e) {
+        console.error('更新头像失败:', e)
+      }
+    }
+  }
+
   return {
     user,
     login,
     logout,
     checkLoginStatus,
-    updateUserPhone
+    updateUserPhone,
+    updateUserInfo,
+    updateAvatar
   }
 }
 

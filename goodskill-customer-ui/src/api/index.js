@@ -1,6 +1,9 @@
 import request from '../utils/request'
 
-const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true'
+// 强制使用mock数据
+const USE_MOCK = true
+
+console.log('USE_MOCK:', USE_MOCK)
 
 const mockData = {
   login: {
@@ -21,63 +24,90 @@ const mockData = {
   },
   goodsList: {
     code: 200,
-    data: [
-      {
-        id: 1001,
-        goodsId: 1001,
-        goodsName: 'iPhone 15 Pro',
-        goodsTitle: '苹果最新款手机',
-        seckillPrice: 7999,
-        goodsPrice: 9999,
-        stockCount: 100,
-        endTime: new Date(Date.now() + 3600000).toISOString()
-      },
-      {
-        id: 1002,
-        goodsId: 1002,
-        goodsName: 'MacBook Pro',
-        goodsTitle: '苹果最新款笔记本电脑',
-        seckillPrice: 12999,
-        goodsPrice: 15999,
-        stockCount: 50,
-        endTime: new Date(Date.now() + 7200000).toISOString()
-      },
-      {
-        id: 1003,
-        goodsId: 1003,
-        goodsName: 'AirPods Pro',
-        goodsTitle: '苹果无线降噪耳机',
-        seckillPrice: 1599,
-        goodsPrice: 1999,
-        stockCount: 200,
-        endTime: new Date(Date.now() + 1800000).toISOString()
-      }
-    ]
+    data: {
+      records: [
+        {
+          id: 1001,
+          goodsId: 1001,
+          goodsName: 'iPhone 15 Pro',
+          goodsTitle: '苹果最新款手机',
+          seckillPrice: 7999,
+          goodsPrice: 9999,
+          stockCount: 100,
+          endTime: new Date(Date.now() + 3600000).toISOString(),
+          goodsImg: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=iPhone%2015%20Pro%20product%20photo&image_size=square'
+        },
+        {
+          id: 1002,
+          goodsId: 1002,
+          goodsName: 'MacBook Pro',
+          goodsTitle: '苹果最新款笔记本电脑',
+          seckillPrice: 12999,
+          goodsPrice: 15999,
+          stockCount: 50,
+          endTime: new Date(Date.now() + 7200000).toISOString(),
+          goodsImg: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=MacBook%20Pro%20laptop%20product%20photo&image_size=square'
+        },
+        {
+          id: 1003,
+          goodsId: 1003,
+          goodsName: 'AirPods Pro',
+          goodsTitle: '苹果无线降噪耳机',
+          seckillPrice: 1599,
+          goodsPrice: 1999,
+          stockCount: 200,
+          endTime: new Date(Date.now() + 1800000).toISOString(),
+          goodsImg: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=AirPods%20Pro%20wireless%20earbuds%20product%20photo&image_size=square'
+        }
+      ],
+      total: 3,
+      pages: 1
+    }
   },
   orderList: {
     code: 200,
-    data: [
-      {
-        id: 'ORD001',
-        goodsName: 'iPhone 15 Pro',
-        goodsImg: 'https://via.placeholder.com/200',
-        seckillPrice: 7999,
-        state: 1,
-        stateDesc: '待支付',
-        createTime: new Date().toISOString(),
-        userPhone: '13800138000'
-      },
-      {
-        id: 'ORD002',
-        goodsName: 'MacBook Pro',
-        goodsImg: 'https://via.placeholder.com/200',
-        seckillPrice: 12999,
-        state: 2,
-        stateDesc: '已完成',
-        createTime: new Date(Date.now() - 86400000).toISOString(),
-        userPhone: '13800138000'
-      }
-    ]
+    data: {
+      records: [
+        {
+          id: 'ORD001',
+          goodsName: 'iPhone 15 Pro',
+          goodsTitle: '苹果最新款手机 256GB 深空灰',
+          goodsImg: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=iPhone%2015%20Pro%20product%20photo&image_size=square',
+          seckillPrice: 7999,
+          state: 1,
+          status: 1,
+          stateDesc: '待支付',
+          createTime: new Date().toISOString(),
+          userPhone: '13800138000'
+        },
+        {
+          id: 'ORD002',
+          goodsName: 'MacBook Pro',
+          goodsTitle: '苹果最新款笔记本电脑 14英寸 M3 Pro',
+          goodsImg: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=MacBook%20Pro%20laptop%20product%20photo&image_size=square',
+          seckillPrice: 12999,
+          state: 2,
+          status: 2,
+          stateDesc: '已完成',
+          createTime: new Date(Date.now() - 86400000).toISOString(),
+          userPhone: '13800138000'
+        },
+        {
+          id: 'ORD003',
+          goodsName: 'AirPods Pro',
+          goodsTitle: '苹果无线降噪耳机 第二代',
+          goodsImg: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=AirPods%20Pro%20wireless%20earbuds%20product%20photo&image_size=square',
+          seckillPrice: 1599,
+          state: 3,
+          status: 3,
+          stateDesc: '已取消',
+          createTime: new Date(Date.now() - 172800000).toISOString(),
+          userPhone: '13800138000'
+        }
+      ],
+      total: 3,
+      pages: 1
+    }
   },
   orderDetail: {
     code: 200,
@@ -85,7 +115,7 @@ const mockData = {
       id: 'ORD001',
       goodsName: 'iPhone 15 Pro',
       goodsTitle: '苹果最新款手机 256GB 深空灰',
-      goodsImg: 'https://via.placeholder.com/200',
+      goodsImg: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=iPhone%2015%20Pro%20product%20photo&image_size=square',
       seckillPrice: 7999,
       state: 1,
       stateDesc: '待支付',
@@ -134,7 +164,11 @@ export const api = {
     if (USE_MOCK) {
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(mockData.goodsList.data.find(item => item.id === Number(id)))
+          const goods = mockData.goodsList.data.records.find(item => item.id === Number(id))
+          resolve({
+            code: 200,
+            data: goods || null
+          })
         }, 300)
       })
     }
@@ -275,7 +309,7 @@ export const api = {
               userId: 1,
               username: 'test03',
               mobile: '13800138000',
-              avatar: '',
+              avatar: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20user%20avatar%20portrait&image_size=square',
               emailAddr: 'test@example.com'
             }
           })
@@ -285,6 +319,98 @@ export const api = {
     return request({
       url: '/auth/customer/userinfo',
       method: 'get'
+    })
+  },
+
+  cancelOrder: (orderId) => {
+    if (USE_MOCK) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            code: 200,
+            data: true,
+            message: '取消订单成功'
+          })
+        }, 300)
+      })
+    }
+    return request({
+      url: `/order/cancel/${orderId}`,
+      method: 'post'
+    })
+  },
+
+  updateCustomerUserInfo: (data) => {
+    if (USE_MOCK) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            code: 200,
+            data: {
+              userId: 1,
+              username: data.username,
+              mobile: '13800138000',
+              avatar: data.avatar || '',
+              emailAddr: data.emailAddr
+            },
+            message: '更新成功'
+          })
+        }, 300)
+      })
+    }
+    return request({
+      url: '/auth/customer/userinfo',
+      method: 'put',
+      data
+    })
+  },
+
+  uploadAvatar: (file) => {
+    if (USE_MOCK) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            code: 200,
+            data: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop',
+            message: '上传成功'
+          })
+        }, 500)
+      })
+    }
+    const formData = new FormData()
+    formData.append('file', file)
+    return request({
+      url: '/common/oss/files/upload',
+      method: 'post',
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+  },
+
+  updateCustomerUserAvatar: (avatarUrl) => {
+    if (USE_MOCK) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            code: 200,
+            data: {
+              userId: 1,
+              username: 'test03',
+              mobile: '13800138000',
+              avatar: avatarUrl,
+              emailAddr: 'test@example.com'
+            },
+            message: '头像更新成功'
+          })
+        }, 300)
+      })
+    }
+    return request({
+      url: '/auth/customer/avatar',
+      method: 'put',
+      params: { avatarUrl }
     })
   }
 }

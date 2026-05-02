@@ -341,9 +341,9 @@ class UserServiceImplTest {
     @Test
     void shouldGetCustomerUserInfoSuccessfully() {
         // Given
-        Integer userId = 1;
+        String userId = "1";
         User user = new User();
-        user.setId(userId);
+        user.setId(Integer.valueOf(userId));
         user.setUsername("testuser");
         user.setMobile("13800138000");
         user.setAvatar("avatar.jpg");
@@ -369,7 +369,7 @@ class UserServiceImplTest {
     @Test
     void shouldReturnNullWhenGetCustomerUserInfoNotFound() {
         // Given
-        Integer userId = 999;
+        String userId = "999";
         when(baseMapper.selectById(userId)).thenReturn(null);
 
         // When

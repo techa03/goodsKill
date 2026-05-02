@@ -1,5 +1,16 @@
 <template>
   <div class="min-h-screen bg-[var(--bg-primary)] transition-colors duration-300">
+    <!-- 确认弹窗 -->
+    <ConfirmDialog
+      :visible="showConfirmDialog"
+      title="取消订单"
+      message="确定要取消这个订单吗？"
+      confirm-text="确定取消"
+      cancel-text="再想想"
+      @confirm="handleConfirmCancelOrder"
+      @cancel="showConfirmDialog = false"
+    />
+
     <!-- 导航栏 -->
     <nav class="fixed top-0 left-0 right-0 z-50 glass-card border-b border-[var(--border-color)]">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,7 +37,40 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
               </svg>
             </button>
-            <button @click="handleLogout" class="text-[var(--text-muted)] hover:text-[var(--text-primary)] px-4 py-2 rounded-xl text-sm font-medium transition-all hover:bg-black/5 dark:hover:bg-white/5">退出登录</button>
+            <!-- 用户中心 -->
+            <div class="relative">
+              <button @click="toggleUserMenu" class="flex items-center space-x-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-all">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center border border-[var(--border-color)] overflow-hidden">
+                  <img
+                    v-if="user.avatar && user.avatar.trim() !== ''"
+                    :src="user.avatar"
+                    alt="头像"
+                    class="w-full h-full object-cover"
+                    @error="user.avatar = ''"
+                  />
+                  <svg
+                    v-else
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 text-[var(--text-primary)]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <span class="hidden md:inline text-sm font-medium">我的账户</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 hidden md:block text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div v-if="showUserMenu" class="absolute right-0 mt-2 w-48 glass-card rounded-2xl py-2 z-50 shadow-card border border-[var(--border-color)]">
+                <router-link to="/profile" class="block px-4 py-2.5 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5 transition-colors">个人中心</router-link>
+                <router-link to="/orders" class="block px-4 py-2.5 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5 transition-colors">我的订单</router-link>
+                <div class="my-1 border-t border-[var(--border-color)]"></div>
+                <button @click="handleLogout" class="block w-full text-left px-4 py-2.5 text-sm text-danger hover:bg-black/5 dark:hover:bg-white/5 transition-colors">退出登录</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -167,13 +211,13 @@
               <div class="flex flex-col sm:flex-row gap-6">
                 <!-- Product Image -->
                 <div class="w-full sm:w-32 h-32 rounded-2xl overflow-hidden bg-[var(--bg-secondary)] flex-shrink-0">
-                  <img 
-                    :src="order.goodsImg || 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=200&h=200&fit=crop'" 
-                    :alt="order.goodsName" 
+                  <img
+                    :src="order.goodsImg || 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=200&h=200&fit=crop'"
+                    :alt="order.goodsName"
                     class="w-full h-full object-cover"
                   />
                 </div>
-                
+
                 <!-- Product Info -->
                 <div class="flex-1 min-w-0">
                   <h3 class="text-lg font-semibold text-[var(--text-primary)] mb-2 line-clamp-1">{{ order.goodsName || '商品名称' }}</h3>
@@ -199,6 +243,13 @@
                     class="px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-[var(--text-primary)] font-medium hover:shadow-glow transition-all text-sm whitespace-nowrap"
                   >
                     立即支付
+                  </button>
+                  <button
+                    v-if="order.status === 0 || order.status === 1"
+                    @click="handleCancelOrder(order)"
+                    class="px-6 py-3 rounded-xl bg-danger/20 text-danger border border-danger/30 font-medium hover:bg-danger/30 transition-all text-sm whitespace-nowrap"
+                  >
+                    取消订单
                   </button>
                   <button
                     v-if="order.status === 2"
@@ -230,7 +281,7 @@
               </div>
             </div>
           </div>
-          
+
           <!-- 分页控件 -->
           <div v-if="total > 0" class="flex justify-center mt-8">
             <nav class="flex items-center gap-2">
@@ -252,13 +303,13 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
-              
+
               <div class="flex items-center gap-1 px-4">
                 <span class="text-[var(--text-primary)] font-medium">{{ currentPage }}</span>
                 <span class="text-[var(--text-muted)]">/</span>
                 <span class="text-[var(--text-muted)]">{{ totalPages }}</span>
               </div>
-              
+
               <button
                 @click="handlePageChange(currentPage + 1)"
                 :disabled="currentPage === totalPages"
@@ -290,17 +341,40 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from '../api'
 import { useUserStore, useOrderStore, useThemeStore } from '../stores'
+import ConfirmDialog from '../components/ConfirmDialog.vue'
 
 const router = useRouter()
-const { user, logout } = useUserStore()
+const { user, logout, updateUserInfo } = useUserStore()
 const { orderList, loading, error, setOrderList, setLoading, setError } = useOrderStore()
 const { toggleTheme, initTheme } = useThemeStore()
+
+// 用户菜单状态
+const showUserMenu = ref(false)
+
+// 切换用户菜单
+const toggleUserMenu = () => {
+  showUserMenu.value = !showUserMenu.value
+}
+
+// 获取用户信息
+const fetchUserInfo = async () => {
+  try {
+    const response = await api.getCustomerUserInfo()
+    if (response.code === 0 || response.code === 200) {
+      updateUserInfo(response.data)
+    }
+  } catch (error) {
+    console.error('获取用户信息失败:', error)
+  }
+}
 
 const activeStatus = ref('all')
 const currentPage = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
 const totalPages = ref(0)
+const showConfirmDialog = ref(false)
+const currentOrder = ref(null)
 
 const orderStatuses = [
   { label: '全部订单', value: 'all', icon: '📦', count: 0 },
@@ -322,7 +396,8 @@ const formatTime = (timestamp) => {
     month: '2-digit',
     day: '2-digit',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
+    second: '2-digit'
   })
 }
 
@@ -371,12 +446,58 @@ const handlePay = (order) => {
   router.push(`/order/${order.id}`)
 }
 
+const handleCancelOrder = (order) => {
+  currentOrder.value = order
+  showConfirmDialog.value = true
+}
+
+const handleConfirmCancelOrder = async () => {
+  if (!currentOrder.value) return
+
+  try {
+    const response = await api.cancelOrder(currentOrder.value.id)
+    if (response.code === 0 || response.code === 200) {
+      showToastMessage('取消订单成功')
+      // 重新获取订单列表
+      fetchOrderList()
+    } else {
+      showToastMessage(response.message || response.msg || '取消订单失败')
+    }
+  } catch (err) {
+    showToastMessage('取消订单失败，请稍后重试')
+    console.error('取消订单失败:', err)
+  } finally {
+    showConfirmDialog.value = false
+    currentOrder.value = null
+  }
+}
+
+const showToastMessage = (message) => {
+  const toast = document.createElement('div')
+  toast.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 z-50 glass-card px-6 py-3 rounded-full flex items-center gap-2'
+  toast.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+    </svg>
+    <span class="text-[var(--text-primary)]">${message}</span>
+  `
+  document.body.appendChild(toast)
+
+  setTimeout(() => {
+    toast.style.opacity = '0'
+    toast.style.transition = 'opacity 0.3s ease'
+    setTimeout(() => {
+      document.body.removeChild(toast)
+    }, 300)
+  }, 2000)
+}
+
 const fetchOrderList = async () => {
   setLoading(true)
   setError(null)
   try {
-    const response = await api.getOrderList({ 
-      pageNum: currentPage.value, 
+    const response = await api.getOrderList({
+      pageNum: currentPage.value,
       pageSize: pageSize.value,
       sortField: 'createTime',
       sortOrder: 'desc'
@@ -385,7 +506,7 @@ const fetchOrderList = async () => {
       setOrderList(Array.isArray(response.data.records) ? response.data.records : [])
       total.value = response.data.total || 0
       totalPages.value = response.data.pages || 0
-      
+
       // Update counts
       const orders = response.data.records || []
       orderStatuses[1].count = orders.filter(o => {
@@ -421,6 +542,7 @@ const handlePageChange = (page) => {
 onMounted(() => {
   initTheme()
   fetchOrderList()
+  fetchUserInfo()
 })
 </script>
 

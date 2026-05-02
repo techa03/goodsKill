@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.auth.entity.*;
 import com.goodskill.auth.mapper.*;
+import com.goodskill.auth.pojo.dto.CustomerUserInfoUpdateDTO;
 import com.goodskill.auth.pojo.dto.UserDTO;
 import com.goodskill.auth.pojo.vo.CustomerUserInfoVO;
 import com.goodskill.auth.service.UserService;
@@ -218,7 +219,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public CustomerUserInfoVO getCustomerUserInfo(Integer userId) {
+    public CustomerUserInfoVO getCustomerUserInfo(String userId) {
         User user = baseMapper.selectById(userId);
         if (user == null) {
             return null;
@@ -230,5 +231,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         vo.setAvatar(user.getAvatar());
         vo.setEmailAddr(user.getEmailAddr());
         return vo;
+    }
+
+    @Override
+    public CustomerUserInfoVO updateCustomerUserInfo(String userId, CustomerUserInfoUpdateDTO updateDTO) {
+        User user = baseMapper.selectById(userId);
+        if (user == null) {
+            return null;
+        }
+        user.setEmailAddr(updateDTO.getEmailAddr());
+        baseMapper.updateById(user);
+        return getCustomerUserInfo(userId);
+    }
+
+    @Override
+    public CustomerUserInfoVO updateCustomerUserAvatar(String userId, String avatarUrl) {
+        User user = baseMapper.selectById(userId);
+        if (user == null) {
+            return null;
+        }
+        user.setAvatar(avatarUrl);
+        baseMapper.updateById(user);
+        return getCustomerUserInfo(userId);
     }
 }

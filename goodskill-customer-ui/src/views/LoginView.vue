@@ -11,7 +11,7 @@
         <h2 class="text-2xl font-bold text-gray-800">欢迎登录</h2>
         <p class="text-gray-500 mt-2">请输入您的账号和密码</p>
       </div>
-      
+
       <form @submit.prevent="handleLogin" class="space-y-6">
         <!-- Username Field -->
         <div class="relative">
@@ -26,13 +26,13 @@
               type="text"
               id="username"
               v-model="form.username"
-              class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+              class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
               placeholder="请输入用户名"
               required
             />
           </div>
         </div>
-        
+
         <!-- Password Field -->
         <div class="relative">
           <label for="password" class="block text-sm font-medium text-gray-700 mb-1">密码</label>
@@ -46,13 +46,13 @@
               type="password"
               id="password"
               v-model="form.password"
-              class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+              class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
               placeholder="请输入密码"
               required
             />
           </div>
         </div>
-        
+
         <!-- Error Message -->
         <div v-if="error" class="bg-red-50 border border-red-200 rounded-lg p-3 text-red-600 text-sm">
           <div class="flex items-center">
@@ -62,7 +62,7 @@
             {{ error }}
           </div>
         </div>
-        
+
         <!-- Login Button -->
         <button
           type="submit"
@@ -76,7 +76,7 @@
           {{ loading ? '登录中...' : '登录' }}
         </button>
       </form>
-      
+
       <!-- Test Account Info -->
       <div class="mt-8 p-4 bg-blue-50 rounded-lg">
         <h3 class="text-sm font-medium text-blue-800 mb-2">测试账号</h3>

@@ -32,16 +32,23 @@ import java.util.stream.Collectors;
 @RestController
 @Service
 public class SeckillGoodsServiceImpl implements SeckillGoodsService {
-    private final BeanCopier beanCopier = BeanCopier.create(GoodsDTO.class, Goods.class, false);
+    private BeanCopier beanCopier;
     @Autowired
     private ElasticsearchOperations elasticsearchOperations;
     @Autowired
     private GoodsRepository goodsRepository;
 
+    private BeanCopier getBeanCopier() {
+        if (beanCopier == null) {
+            beanCopier = BeanCopier.create(GoodsDTO.class, Goods.class, false);
+        }
+        return beanCopier;
+    }
+
     @Override
     public void save(GoodsDTO goodsDto) {
         Goods goods = new Goods();
-        beanCopier.copy(goodsDto, goods, null);
+        getBeanCopier().copy(goodsDto, goods, null);
         goodsRepository.save(goods);
     }
 
@@ -49,7 +56,7 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
     public void saveBatch(List<GoodsDTO> list) {
         List<Goods> collect = list.stream().map(dto -> {
             Goods goods = new Goods();
-            beanCopier.copy(dto, goods, null);
+            getBeanCopier().copy(dto, goods, null);
             return goods;
         }).collect(Collectors.toList());
         goodsRepository.saveAll(collect);

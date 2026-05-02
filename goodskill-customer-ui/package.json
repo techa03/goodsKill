@@ -19,6 +19,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.5",
-    "vite": "^8.0.8"
+    "mockjs": "^1.1.0",
+    "vite": "^8.0.8",
+    "vite-plugin-mock": "^3.0.2"
   }
 }

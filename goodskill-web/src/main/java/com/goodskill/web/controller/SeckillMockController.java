@@ -10,9 +10,9 @@ import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
 import com.goodskill.web.util.TaskTimeCaculateUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -40,7 +40,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @Validated
 public class SeckillMockController {
 
-    @DubboReference
+    @Resource
     private SeckillFeignClient seckillFeignClient;
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;

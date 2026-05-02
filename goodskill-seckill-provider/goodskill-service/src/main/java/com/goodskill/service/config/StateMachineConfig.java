@@ -93,7 +93,7 @@ public class StateMachineConfig
         return new StateMachineListenerAdapter<>() {
             @Override
             public void stateChanged(State<States, Events> from, State<States, Events> to) {
-                log.info("State change to {}", to.getId());
+                log.info("状态机状态已变更为： {}, 原状态：{}", to.getId(), from != null ? from.getId() : null);
             }
 
             @Override

@@ -82,4 +82,9 @@ public class Order {
      */
     private String alipayTradeNo;
 
+    /**
+     * 支付完成时间
+     */
+    private LocalDateTime payCompleteTime;
+
 }

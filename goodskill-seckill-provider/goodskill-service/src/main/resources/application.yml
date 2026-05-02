@@ -143,8 +143,8 @@ feign:
   sentinel:
     ##开启sentinel对feign的支持
     enabled: false
-logging:
-  level:
-    com.goodskill: debug
+#logging:
+#  level:
+#    com.goodskill: debug
 
 

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import LoginView from '../views/LoginView.vue'
 
 const routes = [
@@ -26,6 +26,11 @@ const routes = [
     path: '/order/:id',
     name: 'orderDetail',
     component: () => import('../views/OrderDetailView.vue')
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('../views/ProfileView.vue')
   }
 ]
 

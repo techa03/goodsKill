@@ -16,9 +16,6 @@
             </router-link>
             <nav class="hidden md:ml-10 md:flex space-x-1">
               <a href="#" class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] px-4 py-2 rounded-xl text-sm font-medium transition-all hover:bg-black/5 dark:hover:bg-white/5">首页</a>
-              <a href="#" class="text-[var(--text-muted)] hover:text-[var(--text-primary)] px-4 py-2 rounded-xl text-sm font-medium transition-all hover:bg-black/5 dark:hover:bg-white/5">商品分类</a>
-              <a href="#" class="text-[var(--text-muted)] hover:text-[var(--text-primary)] px-4 py-2 rounded-xl text-sm font-medium transition-all hover:bg-black/5 dark:hover:bg-white/5">限时秒杀</a>
-              <a href="#" class="text-[var(--text-muted)] hover:text-[var(--text-primary)] px-4 py-2 rounded-xl text-sm font-medium transition-all hover:bg-black/5 dark:hover:bg-white/5">热门活动</a>
             </nav>
           </div>
           <!-- 右侧搜索和用户中心 -->
@@ -58,8 +55,22 @@
             <!-- 用户中心 -->
             <div class="relative">
               <button @click="toggleUserMenu" class="flex items-center space-x-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-all">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center border border-[var(--border-color)]">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[var(--text-primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center border border-[var(--border-color)] overflow-hidden">
+                  <img
+                    v-if="user.avatar && user.avatar.trim() !== ''"
+                    :src="user.avatar"
+                    alt="头像"
+                    class="w-full h-full object-cover"
+                    @error="user.avatar = ''"
+                  />
+                  <svg
+                    v-else
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 text-[var(--text-primary)]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </div>
@@ -69,9 +80,8 @@
                 </svg>
               </button>
               <div v-if="showUserMenu" class="absolute right-0 mt-2 w-48 glass-card rounded-2xl py-2 z-50 shadow-card border border-[var(--border-color)]">
-                <a href="#" class="block px-4 py-2.5 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5 transition-colors">个人中心</a>
+                <router-link to="/profile" class="block px-4 py-2.5 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5 transition-colors">个人中心</router-link>
                 <router-link to="/orders" class="block px-4 py-2.5 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5 transition-colors">我的订单</router-link>
-                <a href="#" class="block px-4 py-2.5 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/5 transition-colors">收货地址</a>
                 <div class="my-1 border-t border-[var(--border-color)]"></div>
                 <button @click="handleLogout" class="block w-full text-left px-4 py-2.5 text-sm text-danger hover:bg-black/5 dark:hover:bg-white/5 transition-colors">退出登录</button>
               </div>
@@ -142,9 +152,9 @@
           <div class="lg:w-1/2 relative">
             <div class="relative">
               <div class="absolute -inset-4 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-3xl blur-2xl dark:opacity-100 opacity-40"></div>
-              <img 
-                src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800&h=600&fit=crop" 
-                alt="限时秒杀" 
+              <img
+                src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800&h=600&fit=crop"
+                alt="限时秒杀"
                 class="relative rounded-3xl shadow-2xl w-full h-[400px] object-cover border border-[var(--border-color)]"
               />
               <!-- Floating Card -->
@@ -171,14 +181,14 @@
     <section class="py-12">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-          <button 
-            v-for="(category, index) in categories" 
+          <button
+            v-for="(category, index) in categories"
             :key="index"
             @click="activeCategory = index"
             :class="[
               'flex items-center gap-3 px-6 py-3 rounded-2xl whitespace-nowrap transition-all',
-              activeCategory === index 
-                ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-glow' 
+              activeCategory === index
+                ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-glow'
                 : 'bg-[var(--bg-secondary)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card)] border border-[var(--border-color)]'
             ]"
           >
@@ -199,8 +209,8 @@
             <p class="text-[var(--text-muted)]">精选优质商品，限时特价优惠</p>
           </div>
           <div class="flex gap-2">
-            <button 
-              v-for="filter in filters" 
+            <button
+              v-for="filter in filters"
               :key="filter.value"
               @click="activeFilter = filter.value"
               :class="[
@@ -251,9 +261,9 @@
           >
             <!-- Image Container -->
             <div class="relative h-56 overflow-hidden">
-              <img 
-                :src="goods.goodsImg" 
-                :alt="goods.goodsName" 
+              <img
+                :src="goods.goodsImg"
+                :alt="goods.goodsName"
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <!-- Discount Badge -->
@@ -279,12 +289,12 @@
                 </div>
               </div>
             </div>
-            
+
             <!-- Content -->
             <div class="p-5">
               <h3 class="text-lg font-semibold text-[var(--text-primary)] mb-2 line-clamp-1 group-hover:text-primary transition-colors">{{ goods.goodsName }}</h3>
               <p class="text-sm text-[var(--text-muted)] mb-4 line-clamp-2">{{ goods.goodsTitle }}</p>
-              
+
               <!-- Price Row -->
               <div class="flex items-end justify-between mb-4">
                 <div class="flex items-baseline gap-2">
@@ -292,7 +302,7 @@
                   <span class="text-sm text-[var(--text-muted)] line-through">¥{{ goods.goodsPrice }}</span>
                 </div>
               </div>
-              
+
               <!-- Action Button -->
               <button class="w-full py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-medium transition-all hover:shadow-glow flex items-center justify-center gap-2 group-hover:scale-[1.02]">
                 <span>立即抢购</span>
@@ -364,7 +374,7 @@
               </a>
             </div>
           </div>
-          
+
           <!-- Links -->
           <div>
             <h4 class="text-[var(--text-primary)] font-semibold mb-6">关于我们</h4>
@@ -423,7 +433,7 @@ import { api } from '../api'
 import { useUserStore, useGoodsStore, useThemeStore } from '../stores'
 
 const router = useRouter()
-const { logout } = useUserStore()
+const { user, logout, updateUserInfo } = useUserStore()
 const { goodsList, loading, error, setGoodsList, setLoading, setError } = useGoodsStore()
 const { toggleTheme, initTheme } = useThemeStore()
 
@@ -466,38 +476,38 @@ const handleLogout = () => {
 
 const formatTimeLeft = (milliseconds) => {
   if (milliseconds <= 0) return '已结束'
-  
+
   const seconds = Math.floor((milliseconds / 1000) % 60)
   const minutes = Math.floor((milliseconds / (1000 * 60)) % 60)
   const hours = Math.floor((milliseconds / (1000 * 60 * 60)) % 24)
-  
+
   return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
 }
 
 const filteredGoodsList = computed(() => {
   let result = goodsList.value || []
-  
+
   // Search filter
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
-    result = result.filter(goods => 
+    result = result.filter(goods =>
       goods.goodsName.toLowerCase().includes(query) ||
       goods.goodsTitle.toLowerCase().includes(query)
     )
   }
-  
+
   // Category filter (mock implementation)
   if (activeCategory.value > 0) {
     // In real implementation, filter by category
   }
-  
+
   // Sort filter
   if (activeFilter.value === 'price') {
     result = [...result].sort((a, b) => a.seckillPrice - b.seckillPrice)
   } else if (activeFilter.value === 'new') {
     result = [...result].sort((a, b) => b.id - a.id)
   }
-  
+
   return result
 })
 
@@ -506,28 +516,34 @@ const fetchGoodsList = async () => {
   setError(null)
   try {
     const response = await api.getGoodsList({ pageNum: 1, pageSize: 12 })
-    if (response && response.records) {
-      setGoodsList(response.records)
-    } else if (response.code === 0) {
-      const transformedGoods = response.data.records.map((goods) => {
-        let goodsImg = `https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400&h=300&fit=crop`
-        if (goods.photoUrl) {
-          goodsImg = goods.photoUrl
-        }
-        return {
-          id: goods.seckillId,
-          goodsName: goods.name,
-          goodsTitle: goods.name,
-          seckillPrice: goods.price,
-          goodsPrice: goods.price * 1.2,
-          stockCount: goods.number,
-          endTime: new Date(goods.endTime).getTime(),
-          goodsImg: goodsImg
-        }
-      })
-      setGoodsList(transformedGoods)
+    if (response.code === 0 || response.code === 200) {
+      if (response.data && response.data.records) {
+        const transformedGoods = response.data.records.map((goods) => {
+          let goodsImg = `https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400&h=300&fit=crop`
+          if (goods.goodsImg) {
+            goodsImg = goods.goodsImg
+          } else if (goods.photoUrl) {
+            goodsImg = goods.photoUrl
+          }
+          return {
+            id: goods.id || goods.seckillId,
+            goodsName: goods.goodsName || goods.name,
+            goodsTitle: goods.goodsTitle || goods.name,
+            seckillPrice: goods.seckillPrice || goods.price,
+            goodsPrice: goods.goodsPrice || (goods.price * 1.2),
+            stockCount: goods.stockCount || goods.number,
+            endTime: new Date(goods.endTime).getTime(),
+            goodsImg: goodsImg
+          }
+        })
+        setGoodsList(transformedGoods)
+      } else if (response.records) {
+        setGoodsList(response.records)
+      } else {
+        setGoodsList([])
+      }
     } else {
-      setError(response.message)
+      setError(response.message || response.msg || '获取商品列表失败')
     }
   } catch (err) {
     setError('获取商品列表失败，请稍后重试')
@@ -537,9 +553,22 @@ const fetchGoodsList = async () => {
   }
 }
 
+// 获取用户信息
+const fetchUserInfo = async () => {
+  try {
+    const response = await api.getCustomerUserInfo()
+    if (response.code === 0 || response.code === 200) {
+      updateUserInfo(response.data)
+    }
+  } catch (error) {
+    console.error('获取用户信息失败:', error)
+  }
+}
+
 onMounted(() => {
   initTheme()
   fetchGoodsList()
+  fetchUserInfo()
 })
 </script>
 
