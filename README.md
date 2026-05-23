@@ -11,13 +11,7 @@
 
 集成了Spring AI服务，可以通过AI机器人完成模拟秒杀动作。
 
-[^1]: 由于SpringCloudAlibaba官方暂未支持Dubbo 3.x，本项目采用dubbo-spring-boot-starter集成
-
-## 💎 分支介绍
-
-`main`分支基于最新Spring Cloud 2025.x + Spring Boot 4.x + JDK21体系构建，目前仅保留核心的模拟秒杀API接口，如需使用Spring Boot 2.7.x + JDK11版本可以切换到tag [v2.7.4](https://github.com/techa03/goodsKill/tree/v2.7.4)（支持登录注册以及简单的后台管理功能）。
-
-本项目功能目前比较简陋且有很多不完善的地方，真实的秒杀场景远比本项目中的实现方式复杂，本项目省略了真实场景中的部分技术实现细节，目前仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
+本项目基于最新Spring Cloud 2025.x + Spring Boot 4.x + JDK21体系构建，目前比较简陋且有很多不完善的地方，真实的秒杀场景远比本项目中的实现方式复杂，本项目省略了真实场景中的部分技术实现细节，目前仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
 
 > 附：码云项目链接 `https://gitee.com/techa/goodsKill`，clone速度慢的用码云仓库拉吧，不定期同步到码云~
 
