@@ -32,7 +32,7 @@
         <spring.cloud.alibaba.version>2025.1.0.0</spring.cloud.alibaba.version>
         <spring-statemachine.version>4.0.1</spring-statemachine.version>
         <jacoco.version>0.8.12</jacoco.version>
-        <maven.surefire.version>2.22.2</maven.surefire.version>
+        <maven.surefire.version>3.5.5</maven.surefire.version>
         <net.logstash.version>7.1.1</net.logstash.version>
         <dubbo.version>3.3.6</dubbo.version>
         <hutool.version>5.8.29</hutool.version>
