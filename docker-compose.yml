@@ -16,15 +16,16 @@ services:
     environment:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
-#      - NACOS_AUTH_IDENTITY_KEY=nacos
-#      - NACOS_AUTH_IDENTITY_VALUE=my-nacos
-#      - NACOS_AUTH_TOKEN=123456
       - NACOS_AUTH_ENABLE=true
+      - NACOS_AUTH_TOKEN=MTIzNDU2Nzg5MGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6MQ==
+      - NACOS_AUTH_IDENTITY_KEY=nacos
+      - NACOS_AUTH_IDENTITY_VALUE=nacos
     volumes:
       - ./doc/docker/nacos/standalone-logs/:/home/nacos/standalone-logs
       - ./doc/docker/nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
       - ./doc/docker/nacos/conf/application.properties:/home/nacos/conf/application.properties
     ports:
+      - "18080:8080"
       - "8848:8848"
       - "9848:9848"
     restart: always
@@ -141,13 +142,14 @@ services:
       - somenetwork
 
   elasticsearch:
-    image: elasticsearch:8.14.3
+    image: elasticsearch:9.2.2
     container_name: elasticsearch
     environment:
       - "cluster.name=elasticsearch" #设置集群名称为elasticsearch
       - "discovery.type=single-node" #以单一节点模式启动
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m" #设置使用jvm内存大小
       - "xpack.security.enabled=false" #禁用安全功能
+      - "xpack.security.enrollment.enabled=false" #禁用自动 enrollment
     volumes:
       - ./doc/docker/elasticsearch/plugins:/usr/share/elasticsearch/plugins #插件文件挂载
 #      - ./doc/docker/elasticsearch/data:/usr/share/elasticsearch/data #数据文件挂载
@@ -158,7 +160,7 @@ services:
       - somenetwork
 
   kibana:
-    image: kibana:8.14.3
+    image: kibana:9.2.2
     container_name: kibana
     depends_on:
       - elasticsearch
@@ -170,7 +172,7 @@ services:
       - somenetwork
 
   logstash:
-    image: logstash:8.14.3
+    image: logstash:9.2.2
     container_name: logstash
     volumes:
       - ./doc/docker/logstash/logstash-springboot.conf:/usr/share/logstash/pipeline/logstash.conf #挂载logstash的配置文件
@@ -210,9 +212,6 @@ services:
       - "27017:27017"
     networks:
       - somenetwork
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: root
-#      MONGO_INITDB_ROOT_PASSWORD: root
 
   postgres-ai:
     image: pgvector/pgvector:pg15
@@ -248,86 +247,19 @@ services:
     networks:
       - somenetwork
 
-#  goodses:
-#    build: ./goodskill-es-provider
-#    container_name: goodses
-#    volumes:
-#      - /logs/goods-es/:/logs/goodskill
-#    depends_on:
-#      - elasticsearch
-#      - nacos
-##      - elasticsearch1
-#    networks:
-#      - somenetwork
-#
-#  goodsservice:
-#    build: ./goodskill-spring-boot-provider
-#    container_name: goodsservice
-
-#    restart: on-failure:3
-#    volumes:
-#      - /logs/goods-service/:/logs/goodskill
-#    depends_on:
-#      - elasticsearch
-#      - zookeeper
-#      - goodsmongo
-#      - goodses
-#      - redis
-#      - nacos
-##      - seata-server
-#    networks:
-#      - somenetwork
-#
-#  goodsweb:
-#    build: ./goodskill-web
-#    container_name: goodsweb
-#    restart: on-failure:5
-#    volumes:
-#      - /logs/goods-web/:/logs/goodskill
-#    depends_on:
-#      - goodsservice
-#      - zookeeper
-#      - redis
-#      - nacos
-#    networks:
-#      - somenetwork
-#
-#  goodsgateway:
-#    build: ./goodskill-gateway
-#    container_name: goodsgateway
-#    restart: on-failure:3
-#    volumes:
-#      - /logs/goods-gateway/:/logs/goodskill
-#    ports:
-#      - "80:80"
-#    depends_on:
-#      - nacos
-#    networks:
-#      - somenetwork
-#
-##  goodsseata:
-##    build: ./goodskill-seata
-##    container_name: goodsseata
-##    restart: on-failure:3
-##    volumes:
-##      - /logs/goods-seata/:/logs/goodskill
-##    depends_on:
-##      - seata-server
-##      - goodsservice
-##    networks:
-##      - somenetwork
-#
-#  goodsadmin:
-#    build: ./goodskill-admin
-#    container_name: goodsadmin
-#    ports:
-#      - "8083:8083"
-#    volumes:
-#      - /logs/goods-admin/:/logs/goodskill
-#    depends_on:
-#      - nacos
-#    networks:
-#      - somenetwork
+  minio:
+    container_name: minio
+    image: bitnami/minio:latest
+    ports:
+      - '19000:9000'
+      - '19001:9001'
+    volumes:
+      - ./doc/docker/minio_data:/data
+    environment:
+      - MINIO_ROOT_USER=root
+      - MINIO_ROOT_PASSWORD=password
+    networks:
+      - somenetwork
 
 networks:
   somenetwork:

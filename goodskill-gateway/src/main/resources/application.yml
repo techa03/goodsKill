@@ -115,52 +115,6 @@ security:
     loginUserWhiteUrls:
       - "/api/xxx"
 
-# knife4j配置
-knife4j:
-  gateway:
-    enabled: true
-    # 指定服务发现的模式聚合微服务文档，并且是默认`default`分组
-    strategy: manual
-    routes:
-      - name: web服务
-        service-name: goodskill-web
-        url: /api/web/v3/api-docs?group=default
-        order: 1
-        context-path: /api/web
-      - name: 认证服务
-        service-name: goodskill-auth
-        url: /api/auth/v3/api-docs?group=default
-        order: 3
-        context-path: /api/auth
-      - name: 订单服务
-        service-name: goodskill-order
-        url: /api/order/v3/api-docs?group=default
-        order: 4
-        context-path: /api/order
-      - name: seata服务
-        service-name: goodskill-seata
-        url: /api/seata/v3/api-docs?group=default
-        order: 5
-        context-path: /api/seata
-      - name: 秒杀服务
-        service-name: goodskill-service-provider
-        url: /api/seckill/v3/api-docs?group=default
-        order: 6
-        context-path: /api/seckill
-      - name: 公共服务
-        service-name: goodskill-common
-        url: /api/common/v3/api-docs?group=default
-        order: 7
-        context-path: /api/common
-      - name: AI服务
-        service-name: goodskill-ai
-        url: /api/ai/v3/api-docs?group=default
-        order: 8
-        context-path: /api/ai
-    discover:
-      enabled: true
-      # 指定版本号(Swagger2|OpenAPI3)
-      version : openapi3
 logging:
   level:
     reactor.netty: info

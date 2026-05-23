@@ -1,12 +1,12 @@
 package com.goodskill.service.handler;
 
 import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
+import jakarta.annotation.Resource;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.Comparator;
 import java.util.List;
 

@@ -5,21 +5,13 @@
 [![codecov](https://codecov.io/gh/techa03/goodsKill/branch/main/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
 [![CodeQL](https://github.com/techa03/goodsKill/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/techa03/goodsKill/actions/workflows/codeql.yml)
 
-[English](https://github.com/techa03/goodsKill/blob/main/README_EN.md)
-
 项目命名为 **goodsKill** 一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为 **good skill**，本项目就是希望搭建一套完整的项目框架，把一些好的技术和开发技巧整合进来（偏向于后端技术），方便学习和查阅。另外需要注意的是，实际项目中并不是使用越多技术栈越好，过多的技术栈引入会带来额外的维护成本以及使用成本。
 
 本项目为模拟秒杀项目，提供统一秒杀模拟请求接口，技术上整体采用SpringMVC + Mybatis持久层框架，采用Dubbo3.x[^1]+Feign完成服务间接口调用，服务注册发现以及配置中心使用Nacos，支持数据库分库分表、分布式事务，使用状态机完成数据状态间的转换（基于Spring Statemachine实现）。
 
 集成了Spring AI服务，可以通过AI机器人完成模拟秒杀动作。
 
-[^1]: 由于SpringCloudAlibaba官方暂未支持Dubbo 3.x，本项目采用dubbo-spring-boot-starter集成
-
-## 💎 分支介绍
-
-`main`分支基于最新Spring Cloud 2023.x + Spring Boot 3.x + JDK21体系构建，目前仅保留核心的模拟秒杀API接口，如需使用Spring Boot 2.7.x + JDK11版本可以切换到tag [v2.7.4](https://github.com/techa03/goodsKill/tree/v2.7.4)（支持登录注册以及简单的后台管理功能）。
-
-本项目功能目前比较简陋且有很多不完善的地方，真实的秒杀场景远比本项目中的实现方式复杂，本项目省略了真实场景中的部分技术实现细节，目前仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
+本项目基于最新Spring Cloud 2025.x + Spring Boot 4.x + JDK21体系构建，目前比较简陋且有很多不完善的地方，真实的秒杀场景远比本项目中的实现方式复杂，本项目省略了真实场景中的部分技术实现细节，目前仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
 
 > 附：码云项目链接 `https://gitee.com/techa/goodsKill`，clone速度慢的用码云仓库拉吧，不定期同步到码云~
 
@@ -120,27 +112,27 @@ ns         %     Task name
 
 * JDK: OpenJDK21
 * Sharding-JDBC: 5.5.0
-* SpringCloud: 2023.x.x
-* SpringBoot: 3.3.x
-* SpringCloudAlibaba: 2023.x.x
+* SpringCloud: 2025.x.x
+* SpringBoot: 4.x.x
+* SpringCloudAlibaba: 2025.x.x
 * Apache Dubbo: 3.3.x
 * 使用的Docker镜像
 
-| 镜像 | 版本 | 端口 | 用户名密码 |
-|---|---|---|---|
-| Nacos | 2.3.2-slim | 8848 | nacos:nacos（控制台） |
-| Redis | latest | 6379 | 密码:123456 |
-| Kafka | 3.9.1 | 9092 | 无 |
+| 镜像 | 版本 | 端口         | 用户名密码 |
+|---|---|------------|---|
+| Nacos | 3.1.1 | 18080      | nacos:nacos（控制台） |
+| Redis | latest | 6379       | 密码:123456 |
+| Kafka | 3.9.1 | 9092       | 无 |
 | Kafbat UI | latest | 38080:8080 | 无 |
-| Mongo | 6.0.7 | 27017 | 无 |
-| MySQL | 8.0.29 | 3306 | root:Password123 |
-| Zookeeper | 3.6.2 | 2181 | 无 |
-| Elasticsearch | 8.14.3 | 9200 9300 | 无 |
-| Kibana | 8.14.3 | 5601 | 无 |
+| Mongo | 6.0.7 | 27017      | 无 |
+| MySQL | 8.0.29 | 3306       | root:Password123 |
+| Zookeeper | 3.6.2 | 2181       | 无 |
+| Elasticsearch | 8.14.3 | 9200 9300  | 无 |
+| Kibana | 8.14.3 | 5601       | 无 |
 | RabbitMQ | latest | 5672 15672 | 无 |
-| PostgreSQL | pgvector/pgvector:pg15 | 5432 | goodskill:Password123 |
-| MinIO | latest | 9000 | root:password |
-| Seata | 2.0.0 | 7091 8091 | seata:seata（控制台） |
+| PostgreSQL | pgvector/pgvector:pg15 | 5432       | goodskill:Password123 |
+| MinIO | latest | 9000       | root:password |
+| Seata | 2.0.0 | 7091 8091  | seata:seata（控制台） |
 
 ## 🎯 快速开始
 
@@ -156,7 +148,7 @@ ns         %     Task name
 * 默认端口启动nacos、redis、mysql、rabbitmq、kafka、zookeeper、elasticsearch、seataServer，或者使用docker-compose[^2]命令：
 
 ```bash
-  docker-compose -f goodskill-simple.yml up -d
+  docker-compose up -d
 ```
 
 [^2]: 需要安装docker-desktop https://www.docker.com/products/docker-desktop/
@@ -349,6 +341,10 @@ C端用户前端项目提供以下功能：
 * **订单管理**：订单列表、订单状态筛选、订单详情查看
 * **主题切换**：支持亮色/暗色主题切换
 * **响应式设计**：适配桌面端和移动端
+
+## ❓已知问题
+* goodskill-job无法正常启动，elasticjob目前不支持springboot4.x，待后续升级
+
 
 ## ❓常见问题
 
