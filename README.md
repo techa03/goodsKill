@@ -128,7 +128,7 @@ ns         %     Task name
 
 | 镜像 | 版本 | 端口 | 用户名密码 |
 |---|---|---|---|
-| Nacos | 2.3.2-slim | 8848 | nacos:nacos（控制台） |
+| Nacos | 3.1.1 | 8848 | nacos:nacos（控制台） |
 | Redis | latest | 6379 | 密码:123456 |
 | Kafka | 3.9.1 | 9092 | 无 |
 | Kafbat UI | latest | 38080:8080 | 无 |

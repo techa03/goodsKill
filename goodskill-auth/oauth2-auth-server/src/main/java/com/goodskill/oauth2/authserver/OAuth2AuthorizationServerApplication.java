@@ -18,7 +18,6 @@ package com.goodskill.oauth2.authserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 /**
  * OAuth2.0授权服务器
@@ -31,7 +30,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @since 2022/1/28
  *
  */
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication
 public class OAuth2AuthorizationServerApplication {
 
 	public static void main(String[] args) {

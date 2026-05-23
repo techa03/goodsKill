@@ -3,20 +3,16 @@ package com.goodskill.ai;
 import com.goodskill.ai.config.KnowledgeBaseProperties;
 import io.modelcontextprotocol.client.transport.customizer.McpSyncHttpClientRequestCustomizer;
 import io.modelcontextprotocol.common.McpTransportContext;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.client.RestClient;
 
 import java.net.URI;
 import java.net.http.HttpRequest;
-import java.util.stream.Collectors;
+import java.time.Duration;
 
 /**
  * AI 机器人启动类
@@ -36,7 +32,7 @@ public class AiBotApplication {
                 if (jinaApiKey != null && !jinaApiKey.isEmpty()) {
                     builder.header("Authorization", "Bearer " + jinaApiKey);
                 }
-                builder.timeout(java.time.Duration.ofSeconds(120));
+                builder.timeout(Duration.ofSeconds(120));
             }
         };
     }
@@ -46,18 +42,8 @@ public class AiBotApplication {
     }
 
     @Bean
-    @ConditionalOnMissingBean
     public RestClient.Builder restClientBuilder() {
         return RestClient.builder();
-    }
-
-    /**
-     * 修复使用 feign client 远程调用服务时 HttpMessageConverters 缺失问题
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public HttpMessageConverters messageConverters(ObjectProvider<HttpMessageConverter<?>> converters) {
-        return new HttpMessageConverters(converters.orderedStream().collect(Collectors.toList()));
     }
 
 }

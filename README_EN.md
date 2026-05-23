@@ -125,7 +125,7 @@ ns         %     Task name
 
 | Image | Version | Port | Credentials |
 |---|---|---|---|
-| Nacos | 2.3.2-slim | 8848 | nacos:nacos (console) |
+| Nacos | 3.1.1 | 8848 | nacos:nacos (console) |
 | Redis | latest | 6379 | password:123456 |
 | Kafka | 3.9.1 | 9092 | None |
 | Kafbat UI | latest | 38080:8080 | None |
