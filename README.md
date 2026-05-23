@@ -120,15 +120,15 @@ ns         %     Task name
 
 | 镜像 | 版本 | 端口         | 用户名密码 |
 |---|---|------------|---|
-| Nacos | 3.1.1 | 18080      | nacos:nacos（控制台） |
+| Nacos | 3.2.1 | 18080      | nacos:nacos（控制台） |
 | Redis | latest | 6379       | 密码:123456 |
 | Kafka | 3.9.1 | 9092       | 无 |
 | Kafbat UI | latest | 38080:8080 | 无 |
 | Mongo | 6.0.7 | 27017      | 无 |
 | MySQL | 8.0.29 | 3306       | root:Password123 |
 | Zookeeper | 3.6.2 | 2181       | 无 |
-| Elasticsearch | 8.14.3 | 9200 9300  | 无 |
-| Kibana | 8.14.3 | 5601       | 无 |
+| Elasticsearch | 9.2.2 | 9200 9300  | 无 |
+| Kibana | 9.2.2 | 5601       | 无 |
 | RabbitMQ | latest | 5672 15672 | 无 |
 | PostgreSQL | pgvector/pgvector:pg15 | 5432       | goodskill:Password123 |
 | MinIO | latest | 9000       | root:password |
