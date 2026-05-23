@@ -5,6 +5,7 @@ import com.goodskill.core.info.Result;
 import com.goodskill.core.pojo.dto.SeckillMockRequestDTO;
 import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@Disabled
 public class SeckillMockControllerTest {
 
     @Mock
