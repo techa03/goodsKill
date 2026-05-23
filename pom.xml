@@ -42,7 +42,6 @@
         <shardingsphere.version>5.5.0</shardingsphere.version>
         <alipay.version>2.2.2</alipay.version>
         <redisson.version>4.4.0</redisson.version>
-        <knife4j.version>4.5.0</knife4j.version>
         <springdoc.version>2.1.0</springdoc.version>
         <satoken.version>1.45.0</satoken.version>
         <spring-boot-admin.version>3.3.0</spring-boot-admin.version>
@@ -272,11 +271,6 @@
                 <version>32.0.0-jre</version>
             </dependency>
             <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-core</artifactId>
                 <version>${hutool.version}</version>
@@ -293,7 +287,7 @@
             </dependency>
             <dependency>
                 <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-reactor-spring-boot3-starter</artifactId>
+                <artifactId>sa-token-reactor-spring-boot4-starter</artifactId>
                 <version>${satoken.version}</version>
             </dependency>
             <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->
