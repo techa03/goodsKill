@@ -17,7 +17,7 @@ The project integrates Spring AI service, allowing flash sale simulations to be 
 
 ## 💎 Branch Introduction
 
-The `main` branch is built on the latest Spring Cloud 2023.x + Spring Boot 3.x + JDK21 system. Currently it only retains core flash sale simulation API interfaces. If you need Spring Boot 2.7.x + JDK11 version, please switch to tag [v2.7.4](https://github.com/techa03/goodsKill/tree/v2.7.4) (which supports login/registration and simple admin functions). The main branch is currently undergoing upgrades and may not be stable. If you encounter errors, please use the older version.
+The `main` branch is built on the latest Spring Cloud 2025.x + Spring Boot 4.x + JDK21 system. Currently it only retains core flash sale simulation API interfaces. If you need Spring Boot 2.7.x + JDK11 version, please switch to tag [v2.7.4](https://github.com/techa03/goodsKill/tree/v2.7.4) (which supports login/registration and simple admin functions). The main branch is currently undergoing upgrades and may not be stable. If you encounter errors, please use the older version.
 
 This project currently has relatively simple functionality and many incomplete aspects. Real flash sale scenarios are much more complex than the implementation in this project, which omits some technical details of real-world scenarios. Currently it's only for learning and reference purposes. If you find this project helpful, please give it a star 👍~~~~.
 
@@ -152,7 +152,7 @@ ns         %     Task name
 * Start default services (nacos, redis, mysql, rabbitmq, kafka, zookeeper, elasticsearch, seataServer) or use docker-compose[^2]:
 
 ```bash
-  docker-compose -f goodskill-simple.yml up -d
+  docker-compose up -d
 ```
 
 [^2]: Requires docker-desktop https://www.docker.com/products/docker-desktop/

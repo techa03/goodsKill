@@ -9,7 +9,7 @@ Statemachine实现）。
 
 ## 💎 分支介绍
 
-`master`分支基于最新Spring Cloud 2023.x + Spring Boot 3.x +
+`master`分支基于最新Spring Cloud 2025.x + Spring Boot 4.x +
 JDK21体系构建，目前仅保留核心的模拟秒杀API接口，如需使用Spring Boot
 2.7.x + JDK11版本可以切换到tag
 [v2.7.4](https://github.com/techa03/goodsKill/tree/v2.7.4)（支持登录注册以及简单的后台管理功能）。master分支目前升级改造中，功能不够稳定，如遇代码报错建议使用老版本。
@@ -227,11 +227,11 @@ Spring Boot Admin应用监控地址: `http://www.goodskill.com:19031`,
 
 -   Sharding-JDBC: 5.5.0
 
--   SpringCloud: 2023.x.x
+-   SpringCloud: 2025.1.0
 
--   SpringBoot: 3.2.x
+-   SpringBoot: 4.0.0
 
--   SpringCloudAlibaba: 2023.x.x
+-   SpringCloudAlibaba: 2025.1.0.0
 
 -   Apache Dubbo: 3.x
 
@@ -255,7 +255,7 @@ Spring Boot Admin应用监控地址: `http://www.goodskill.com:19031`,
     <tbody>
     <tr class="odd">
     <td style="text-align: left;"><p>Nacos</p></td>
-    <td style="text-align: left;"><p>2.3.2-slim</p></td>
+    <td style="text-align: left;"><p>3.1.1</p></td>
     <td style="text-align: left;"><p>8848</p></td>
     <td style="text-align: left;"><p>nacos:nacos</p></td>
     </tr>
@@ -297,13 +297,13 @@ Spring Boot Admin应用监控地址: `http://www.goodskill.com:19031`,
     </tr>
     <tr class="even">
     <td style="text-align: left;"><p>Elasticsearch</p></td>
-    <td style="text-align: left;"><p>7.17.3</p></td>
+    <td style="text-align: left;"><p>9.2.2</p></td>
     <td style="text-align: left;"><p>9200 9300</p></td>
     <td style="text-align: left;"><p>无</p></td>
     </tr>
     <tr class="odd">
     <td style="text-align: left;"><p>Kibana</p></td>
-    <td style="text-align: left;"><p>7.17.3</p></td>
+    <td style="text-align: left;"><p>9.2.2</p></td>
     <td style="text-align: left;"><p>5601</p></td>
     <td style="text-align: left;"><p>无</p></td>
     </tr>

@@ -17,7 +17,7 @@
 
 ## 💎 分支介绍
 
-`main`分支基于最新Spring Cloud 2023.x + Spring Boot 3.x + JDK21体系构建，目前仅保留核心的模拟秒杀API接口，如需使用Spring Boot 2.7.x + JDK11版本可以切换到tag [v2.7.4](https://github.com/techa03/goodsKill/tree/v2.7.4)（支持登录注册以及简单的后台管理功能）。
+`main`分支基于最新Spring Cloud 2025.x + Spring Boot 4.x + JDK21体系构建，目前仅保留核心的模拟秒杀API接口，如需使用Spring Boot 2.7.x + JDK11版本可以切换到tag [v2.7.4](https://github.com/techa03/goodsKill/tree/v2.7.4)（支持登录注册以及简单的后台管理功能）。
 
 本项目功能目前比较简陋且有很多不完善的地方，真实的秒杀场景远比本项目中的实现方式复杂，本项目省略了真实场景中的部分技术实现细节，目前仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
 
@@ -120,9 +120,9 @@ ns         %     Task name
 
 * JDK: OpenJDK21
 * Sharding-JDBC: 5.5.0
-* SpringCloud: 2023.x.x
-* SpringBoot: 3.3.x
-* SpringCloudAlibaba: 2023.x.x
+* SpringCloud: 2025.x.x
+* SpringBoot: 4.x.x
+* SpringCloudAlibaba: 2025.x.x
 * Apache Dubbo: 3.3.x
 * 使用的Docker镜像
 
@@ -156,7 +156,7 @@ ns         %     Task name
 * 默认端口启动nacos、redis、mysql、rabbitmq、kafka、zookeeper、elasticsearch、seataServer，或者使用docker-compose[^2]命令：
 
 ```bash
-  docker-compose -f goodskill-simple.yml up -d
+  docker-compose up -d
 ```
 
 [^2]: 需要安装docker-desktop https://www.docker.com/products/docker-desktop/
