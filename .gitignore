@@ -30,6 +30,12 @@
 /goodskill-order-provider/goodskill-order-service/goodskill-order-service.iml
 /.codex
 /.trae
+/.claude
 /doc/docker/minio_data/*
 
 
+/goodskill-auth/oauth2-resource-server/oauth2-resource-server.iml
+!/goodskill-ui/.vscode/
+/doc/docker/nacos/logs/nacos_gc.log.0.current
+/doc/docker/nacos/standalone-logs/nacos_gc.log.0.current
+/1.puml

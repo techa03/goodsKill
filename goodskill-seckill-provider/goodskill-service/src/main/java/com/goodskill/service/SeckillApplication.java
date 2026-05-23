@@ -19,7 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication(scanBasePackages = {
         "com.goodskill.service",
         "com.goodskill.core"
-}, excludeName = "org.springframework.statemachine.boot.autoconfigure.StateMachineRedisRepositoriesAutoConfiguration")
+}, excludeName = {
+        "org.springframework.statemachine.boot.autoconfigure.StateMachineRedisRepositoriesAutoConfiguration",
+        "org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration",
+        "org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientAutoConfiguration",
+        "org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration"
+})
 @EnableTransactionManagement
 @MapperScan("com.goodskill.service.mapper")
 @EnableDiscoveryClient

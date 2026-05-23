@@ -5,22 +5,21 @@ import com.goodskill.core.enums.States;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.messaging.Message;
-import org.springframework.statemachine.StateMachinePersist;
+import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.config.EnableStateMachineFactory;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
-import org.springframework.statemachine.data.redis.RedisStateMachineContextRepository;
-import org.springframework.statemachine.data.redis.RedisStateMachinePersister;
 import org.springframework.statemachine.listener.StateMachineListener;
 import org.springframework.statemachine.listener.StateMachineListenerAdapter;
-import org.springframework.statemachine.persist.RepositoryStateMachinePersist;
+import org.springframework.statemachine.persist.StateMachinePersister;
 import org.springframework.statemachine.state.State;
 
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.goodskill.core.enums.Events.*;
 import static com.goodskill.core.enums.States.*;
@@ -48,7 +47,6 @@ public class StateMachineConfig
     @Override
     public void configure(StateMachineStateConfigurer<States, Events> states)
             throws Exception {
-        // 状态初始化
         states
             .withStates()
                 .initial(INIT)
@@ -58,7 +56,6 @@ public class StateMachineConfig
     @Override
     public void configure(StateMachineTransitionConfigurer<States, Events> transitions)
             throws Exception {
-        // 控制流程状态跳转
         transitions
             .withExternal()
                 .source(INIT).target(INIT).event(ACTIVITY_CREATE)
@@ -105,16 +102,24 @@ public class StateMachineConfig
     }
 
     @Bean
-    public StateMachinePersist<States, Events, String> stateMachinePersist(RedisConnectionFactory connectionFactory) {
-        RedisStateMachineContextRepository<States, Events> repository =
-                new RedisStateMachineContextRepository<>(connectionFactory);
-        return new RepositoryStateMachinePersist<>(repository);
-    }
+    public StateMachinePersister<States, Events, String> stateMachinePersister() {
+        return new StateMachinePersister<>() {
+            private final Map<String, StateMachine<States, Events>> cache = new HashMap<>();
 
-    @Bean
-    public RedisStateMachinePersister<States, Events> redisStateMachinePersister(
-            StateMachinePersist<States, Events, String> stateMachinePersist) {
-        return new RedisStateMachinePersister<>(stateMachinePersist);
+            @Override
+            public void persist(StateMachine<States, Events> sm, String s) {
+                cache.put(s, sm);
+            }
+
+            @Override
+            public StateMachine<States, Events> restore(StateMachine<States, Events> sm, String s) {
+                StateMachine<States, Events> cached = cache.get(s);
+                if (cached != null) {
+                    return cached;
+                }
+                return sm;
+            }
+        };
     }
 }
 
