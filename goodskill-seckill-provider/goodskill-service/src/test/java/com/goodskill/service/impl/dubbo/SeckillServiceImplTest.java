@@ -2,6 +2,7 @@ package com.goodskill.service.impl.dubbo;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.repository.CrudRepository;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.vo.GoodsVO;
@@ -98,7 +99,7 @@ class SeckillServiceImplTest {
         goodsVO.setName("test goods");
         goodsVO.setPhotoUrl("http://test.com/image.jpg");
 
-        Field baseMapperField = ServiceImpl.class.getDeclaredField("baseMapper");
+        Field baseMapperField = CrudRepository.class.getDeclaredField("baseMapper");
         baseMapperField.setAccessible(true);
         baseMapperField.set(seckillService, baseMapper);
 

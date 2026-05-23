@@ -1,6 +1,7 @@
 package com.goodskill.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.baomidou.mybatisplus.extension.repository.CrudRepository;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.core.pojo.dto.GoodsDTO;
@@ -51,7 +52,7 @@ public class GoodsThirdPartyServiceImplTest {
         goods.setPrice("100");
         goods.setPhotoUrl("http://test.com/image.jpg");
 
-        Field baseMapperField = ServiceImpl.class.getDeclaredField("baseMapper");
+        Field baseMapperField = CrudRepository.class.getDeclaredField("baseMapper");
         baseMapperField.setAccessible(true);
         baseMapperField.set(goodsService, baseMapper);
     }

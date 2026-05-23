@@ -79,7 +79,7 @@ public class SeckillServiceImplTest {
     @BeforeEach
     public void setUp() throws Exception {
         // 设置 baseMapper，因为 ServiceImpl 需要通过反射访问
-        java.lang.reflect.Field baseMapperField = com.baomidou.mybatisplus.extension.service.impl.ServiceImpl.class.getDeclaredField("baseMapper");
+        java.lang.reflect.Field baseMapperField = com.baomidou.mybatisplus.extension.repository.CrudRepository.class.getDeclaredField("baseMapper");
         baseMapperField.setAccessible(true);
         baseMapperField.set(seckillService, baseMapper);
     }
