@@ -25,7 +25,7 @@ services:
       - ./doc/docker/nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
       - ./doc/docker/nacos/conf/application.properties:/home/nacos/conf/application.properties
     ports:
-      - "8080:8080"
+      - "18080:8080"
       - "8848:8848"
       - "9848:9848"
     restart: always

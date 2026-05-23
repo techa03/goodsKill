@@ -5,8 +5,6 @@
 [![codecov](https://codecov.io/gh/techa03/goodsKill/branch/main/graph/badge.svg)](https://codecov.io/gh/techa03/goodsKill)
 [![CodeQL](https://github.com/techa03/goodsKill/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/techa03/goodsKill/actions/workflows/codeql.yml)
 
-[English](https://github.com/techa03/goodsKill/blob/main/README_EN.md)
-
 项目命名为 **goodsKill** 一方面有商品秒杀的意思(好像有点chinglish的味道)，另外也可理解为 **good skill**，本项目就是希望搭建一套完整的项目框架，把一些好的技术和开发技巧整合进来（偏向于后端技术），方便学习和查阅。另外需要注意的是，实际项目中并不是使用越多技术栈越好，过多的技术栈引入会带来额外的维护成本以及使用成本。
 
 本项目为模拟秒杀项目，提供统一秒杀模拟请求接口，技术上整体采用SpringMVC + Mybatis持久层框架，采用Dubbo3.x[^1]+Feign完成服务间接口调用，服务注册发现以及配置中心使用Nacos，支持数据库分库分表、分布式事务，使用状态机完成数据状态间的转换（基于Spring Statemachine实现）。
@@ -126,21 +124,21 @@ ns         %     Task name
 * Apache Dubbo: 3.3.x
 * 使用的Docker镜像
 
-| 镜像 | 版本 | 端口 | 用户名密码 |
-|---|---|---|---|
-| Nacos | 3.1.1 | 8848 | nacos:nacos（控制台） |
-| Redis | latest | 6379 | 密码:123456 |
-| Kafka | 3.9.1 | 9092 | 无 |
+| 镜像 | 版本 | 端口         | 用户名密码 |
+|---|---|------------|---|
+| Nacos | 3.1.1 | 18080      | nacos:nacos（控制台） |
+| Redis | latest | 6379       | 密码:123456 |
+| Kafka | 3.9.1 | 9092       | 无 |
 | Kafbat UI | latest | 38080:8080 | 无 |
-| Mongo | 6.0.7 | 27017 | 无 |
-| MySQL | 8.0.29 | 3306 | root:Password123 |
-| Zookeeper | 3.6.2 | 2181 | 无 |
-| Elasticsearch | 8.14.3 | 9200 9300 | 无 |
-| Kibana | 8.14.3 | 5601 | 无 |
+| Mongo | 6.0.7 | 27017      | 无 |
+| MySQL | 8.0.29 | 3306       | root:Password123 |
+| Zookeeper | 3.6.2 | 2181       | 无 |
+| Elasticsearch | 8.14.3 | 9200 9300  | 无 |
+| Kibana | 8.14.3 | 5601       | 无 |
 | RabbitMQ | latest | 5672 15672 | 无 |
-| PostgreSQL | pgvector/pgvector:pg15 | 5432 | goodskill:Password123 |
-| MinIO | latest | 9000 | root:password |
-| Seata | 2.0.0 | 7091 8091 | seata:seata（控制台） |
+| PostgreSQL | pgvector/pgvector:pg15 | 5432       | goodskill:Password123 |
+| MinIO | latest | 9000       | root:password |
+| Seata | 2.0.0 | 7091 8091  | seata:seata（控制台） |
 
 ## 🎯 快速开始
 
