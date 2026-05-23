@@ -27,8 +27,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <revision>3.2.7-SNAPSHOT</revision>
-        <springboot.version>4.0.0</springboot.version>
-        <spring-cloud.version>2025.1.0</spring-cloud.version>
+        <springboot.version>4.0.6</springboot.version>
+        <spring-cloud.version>2025.1.1</spring-cloud.version>
         <spring.cloud.alibaba.version>2025.1.0.0</spring.cloud.alibaba.version>
         <spring-statemachine.version>4.0.1</spring-statemachine.version>
         <jacoco.version>0.8.12</jacoco.version>
@@ -44,7 +44,7 @@
         <redisson.version>4.4.0</redisson.version>
         <springdoc.version>2.1.0</springdoc.version>
         <satoken.version>1.45.0</satoken.version>
-        <spring-boot-admin.version>3.3.0</spring-boot-admin.version>
+        <spring-boot-admin.version>4.0.4</spring-boot-admin.version>
         <netty.version>4.1.100.Final</netty.version>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
     </properties>
