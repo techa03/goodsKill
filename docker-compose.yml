@@ -16,15 +16,16 @@ services:
     environment:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
-#      - NACOS_AUTH_IDENTITY_KEY=nacos
-#      - NACOS_AUTH_IDENTITY_VALUE=my-nacos
-#      - NACOS_AUTH_TOKEN=123456
       - NACOS_AUTH_ENABLE=true
+      - NACOS_AUTH_TOKEN=MTIzNDU2Nzg5MGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6MQ==
+      - NACOS_AUTH_IDENTITY_KEY=nacos
+      - NACOS_AUTH_IDENTITY_VALUE=nacos
     volumes:
       - ./doc/docker/nacos/standalone-logs/:/home/nacos/standalone-logs
       - ./doc/docker/nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
       - ./doc/docker/nacos/conf/application.properties:/home/nacos/conf/application.properties
     ports:
+      - "8080:8080"
       - "8848:8848"
       - "9848:9848"
     restart: always
