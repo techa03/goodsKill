@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -29,7 +28,7 @@ public class OrderServiceImpl {
     private MongoTemplate mongoTemplate;
 
     public Boolean deleteRecord(long seckillId) {
-        orderRepository.deleteBySeckillId(BigInteger.valueOf(seckillId));
+        orderRepository.deleteBySeckillId(seckillId);
         return true;
     }
 
@@ -55,7 +54,7 @@ public class OrderServiceImpl {
     }
 
     public Long count(long seckillId) {
-        return orderRepository.countBySeckillId(BigInteger.valueOf(seckillId));
+        return orderRepository.countBySeckillId(seckillId);
     }
 
     public Page<Order> list(String userId, int pageNum, int pageSize) {

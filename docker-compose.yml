@@ -37,6 +37,10 @@ services:
   prometheus:
     container_name: prometheus
     image: prom/prometheus:latest
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-otlp-receiver
     volumes:
       - ./doc/docker/nacos/prometheus/prometheus-standalone.yaml:/etc/prometheus/prometheus.yml
     ports:
@@ -258,6 +262,27 @@ services:
     environment:
       - MINIO_ROOT_USER=root
       - MINIO_ROOT_PASSWORD=password
+    networks:
+      - somenetwork
+
+  jaeger:
+    image: cr.jaegertracing.io/jaegertracing/jaeger:2.11.0
+    container_name: jaeger
+    restart: always
+    ports:
+      - "16686:16686"
+      - "16687:16687"
+      - "4317:4317"
+      - "4318:4318"
+      - "14250:14250"
+      - "14268:14268"
+      - "9411:9411"
+    networks:
+      - somenetwork
+
+  loki:
+    image: grafana/loki:3.2.0
+    container_name: loki
     networks:
       - somenetwork
 

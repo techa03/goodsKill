@@ -27,9 +27,11 @@ spring:
           ##解决重复消费问题，注意：同一组下只消费一次
           group: default
           destination: seckill-order-save
-  data:
-    mongodb:
-      auto-index-creation: true
+  mongodb:
+    host: mongo
+    port: 27017
+    auto-index-creation: true
+
 
 logging:
   level:

@@ -1,0 +1,10 @@
+﻿docker : 2026/06/13 10:32:11 application version: git-commit=a204929483c734da6c54eaa75f3f7c322b3e886b, git-version=v2.11.0, build-
+date=2025-10-03T02:41:46Z
+所在位置 行:1 字符: 5
++ & { docker run --rm -v "c:\Users\27568\IdeaProjects\goodsKill:/host"  ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (2026/06/13 10:3...10-03T02:41:46Z:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Error: at least one config flag must be provided
+2026/06/13 10:32:11 at least one config flag must be provided

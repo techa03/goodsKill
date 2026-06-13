@@ -3,6 +3,7 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <include resource="goodskill/core/tracing/logback-trace.xml"/>
     <!--应用名称-->
     <property name="APP_NAME" value="goodskill-web"/>
     <!--日志文件保存路径-->
@@ -18,9 +19,9 @@
             <pattern>${FILE_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
-    <!--WebSocket日志appender-->
+    <!--WebSocket鏃ュ織appender-->
     <appender name="WEBSOCKET" class="com.goodskill.web.handler.Slf4jWebSocketLogHandler"/>
-    <!--输出到logstash的appender-->
+    <!--杈撳嚭鍒發ogstash鐨刟ppender-->
 
     <springProfile name="docker">
         <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
@@ -33,6 +34,7 @@
             <appender-ref ref="FILE"/>
             <appender-ref ref="LOGSTASH"/>
             <appender-ref ref="WEBSOCKET"/>
+            <appender-ref ref="OTEL"/>
         </root>
     </springProfile>
 
@@ -41,6 +43,7 @@
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="FILE"/>
             <appender-ref ref="WEBSOCKET"/>
+            <appender-ref ref="OTEL"/>
         </root>
     </springProfile>
 </configuration>

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
@@ -74,7 +73,7 @@ public class SeckillCustomerController {
 
         // 生成订单
         OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setSeckillId(BigInteger.valueOf(seckillId));
+        orderDTO.setSeckillId(seckillId);
         orderDTO.setUserPhone(userPhone);
         orderDTO.setUserId(userId);
         orderDTO.setStatus((byte) 1);

@@ -22,6 +22,7 @@
         <module>core-jwt</module>
         <module>core-orm</module>
         <module>core-feign</module>
+        <module>core-tracing</module>
     </modules>
 
     <dependencyManagement>

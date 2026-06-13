@@ -11,7 +11,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.function.Consumer;
 
@@ -43,7 +42,7 @@ public class OrderApplication {
         return it -> {
             log.info("接收到消息:{}", it);
             OrderDTO orderDTO = new OrderDTO();
-            orderDTO.setSeckillId(BigInteger.valueOf(it.getSeckillId()));
+            orderDTO.setSeckillId(it.getSeckillId());
             orderDTO.setUserPhone(it.getUserPhone());
             orderDTO.setCreateTime(LocalDateTime.now());
             mongoService.saveRecord(orderDTO);

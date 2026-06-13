@@ -214,6 +214,11 @@
             </dependency>
             <dependency>
                 <groupId>com.goodskill</groupId>
+                <artifactId>core-tracing</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.goodskill</groupId>
                 <artifactId>goodskill-order-api</artifactId>
                 <version>${revision}</version>
             </dependency>
@@ -310,6 +315,21 @@
                 <groupId>net.sourceforge.htmlunit</groupId>
                 <artifactId>htmlunit</artifactId>
                 <version>4.4.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>4.32.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-opentelemetry</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.opentelemetry.instrumentation</groupId>
+                <artifactId>opentelemetry-logback-appender-1.0</artifactId>
+                <version>2.23.0-alpha</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

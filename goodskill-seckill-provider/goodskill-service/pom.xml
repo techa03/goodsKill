@@ -1,6 +1,6 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>goodskill-service</artifactId>
 	<packaging>jar</packaging>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-        </dependency>
+		</dependency>
 		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>core</artifactId>
@@ -59,10 +59,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-framework</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-framework</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-spring-boot4-starter</artifactId>
@@ -124,9 +124,9 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-loadbalancer</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>com.goodskill</groupId>
-            <artifactId>core-util</artifactId>
+		<dependency>
+			<groupId>com.goodskill</groupId>
+			<artifactId>core-util</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.goodskill</groupId>
@@ -170,7 +170,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-<!--		flyway-->
+		<!--		flyway-->
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
@@ -183,18 +183,10 @@
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>cn.dev33</groupId>-->
-<!--			<artifactId>sa-token-spring-boot4-starter</artifactId>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-graphql</artifactId>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.cloud</groupId>-->
-<!--			<artifactId>spring-cloud-starter-bootstrap</artifactId>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
@@ -203,11 +195,15 @@
 			<groupId>org.springframework.statemachine</groupId>
 			<artifactId>spring-statemachine-starter</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>com.goodskill</groupId>
-            <artifactId>core-feign</artifactId>
-        </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>com.goodskill</groupId>
+			<artifactId>core-feign</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.goodskill</groupId>
+			<artifactId>core-tracing</artifactId>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<resources>

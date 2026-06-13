@@ -100,9 +100,13 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
-        <dependency>
+                <dependency>
             <groupId>com.goodskill</groupId>
             <artifactId>core-feign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.goodskill</groupId>
+            <artifactId>core-tracing</artifactId>
         </dependency>
     </dependencies>
     <build>

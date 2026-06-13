@@ -3,6 +3,7 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <include resource="goodskill/core/tracing/logback-trace.xml"/>
     <!--应用名称-->
     <property name="APP_NAME" value="goodskill-service-provider"/>
     <!--日志文件保存路径-->
@@ -30,6 +31,7 @@
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="FILE"/>
             <appender-ref ref="LOGSTASH"/>
+            <appender-ref ref="OTEL"/>
         </root>
     </springProfile>
 
@@ -37,6 +39,7 @@
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="FILE"/>
+            <appender-ref ref="OTEL"/>
         </root>
     </springProfile>
 </configuration>
