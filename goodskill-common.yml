@@ -68,7 +68,7 @@ management:
     logging:
       export:
         otlp:
-          endpoint: http://localhost:4318/v1/logs #Loki otlp协议 http地址
+          endpoint: http://localhost:4319/v1/logs #Loki otlp协议 http地址
 
 ############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
 sa-token:

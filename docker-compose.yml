@@ -283,8 +283,17 @@ services:
   loki:
     image: grafana/loki:3.2.0
     container_name: loki
+    command:
+      - -config.file=/etc/loki/loki.yaml
+    ports:
+      - "3100:3100"
+      - "4319:4319"
+    volumes:
+      - ./doc/docker/loki/loki.yaml:/etc/loki/loki.yaml:ro
+      - ./doc/docker/loki/data:/loki
     networks:
       - somenetwork
+    restart: unless-stopped
 
 networks:
   somenetwork:
