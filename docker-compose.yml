@@ -50,14 +50,6 @@ services:
     restart: on-failure
     networks:
       - somenetwork
-  grafana:
-    container_name: grafana
-    image: grafana/grafana:latest
-    ports:
-      - 3000:3000
-    restart: on-failure
-    networks:
-      - somenetwork
 
   nginx:
     image: nginx
@@ -280,20 +272,14 @@ services:
     networks:
       - somenetwork
 
-  loki:
-    image: grafana/loki:3.2.0
-    container_name: loki
-    command:
-      - -config.file=/etc/loki/loki.yaml
+  grafana-lgtm:
+    image: 'grafana/otel-lgtm:latest'
     ports:
-      - "3100:3100"
-      - "4319:4319"
-    volumes:
-      - ./doc/docker/loki/loki.yaml:/etc/loki/loki.yaml:ro
-      - ./doc/docker/loki/data:/loki
+      - '3000:3000' # UI
+      - '4317:4317'
+      - '4318:4318'
     networks:
       - somenetwork
-    restart: unless-stopped
 
 networks:
   somenetwork:
