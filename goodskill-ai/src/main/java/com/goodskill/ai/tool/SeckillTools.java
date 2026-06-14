@@ -1,6 +1,6 @@
 package com.goodskill.ai.tool;
 
-import com.goodskill.ai.service.feign.SeckillMockFeignClient;
+import com.goodskill.ai.service.feign.SeckillMockRestClient;
 import com.goodskill.core.info.Result;
 import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
 import org.slf4j.Logger;
@@ -24,7 +24,7 @@ public class SeckillTools implements Function<SeckillTools.StartSeckillRequest, 
 	private static final Logger logger = LoggerFactory.getLogger(SeckillTools.class);
 
 	@Autowired
-	private SeckillMockFeignClient seckillMockFeignClient;
+	private SeckillMockRestClient seckillMockRestClient;
 
 	@Override
 	public Long apply(StartSeckillRequest request) {
@@ -32,7 +32,7 @@ public class SeckillTools implements Function<SeckillTools.StartSeckillRequest, 
 		dto.setSeckillId(request.seckillId);
 		dto.setSeckillCount(request.seckillCount);
 		dto.setRequestCount(request.requestCount);
-		CompletableFuture<Result<Long>> resultCompletableFuture = CompletableFuture.supplyAsync(() -> seckillMockFeignClient.doWithProcedure(dto));
+		CompletableFuture<Result<Long>> resultCompletableFuture = CompletableFuture.supplyAsync(() -> seckillMockRestClient.doWithProcedure(dto));
 		if (resultCompletableFuture.isCompletedExceptionally()) {
 			return -1L;
 		} else {

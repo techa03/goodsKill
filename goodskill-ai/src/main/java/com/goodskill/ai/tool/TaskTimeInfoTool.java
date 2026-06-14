@@ -1,6 +1,6 @@
 package com.goodskill.ai.tool;
 
-import com.goodskill.ai.service.feign.SeckillMockFeignClient;
+import com.goodskill.ai.service.feign.SeckillMockRestClient;
 import com.goodskill.core.info.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,10 +13,10 @@ import java.util.function.Function;
 @Component
 public class TaskTimeInfoTool implements Function<TaskTimeInfoTool.GetTaskTimeInfoRequest, String> {
     @Autowired
-    private SeckillMockFeignClient seckillMockFeignClient;
+    private SeckillMockRestClient seckillMockRestClient;
     @Override
     public String apply(TaskTimeInfoTool.GetTaskTimeInfoRequest request) {
-        CompletableFuture<Result<Map<String, Object>>> resultCompletableFuture = CompletableFuture.supplyAsync(() -> seckillMockFeignClient.getTaskDetails(request.taskId));
+        CompletableFuture<Result<Map<String, Object>>> resultCompletableFuture = CompletableFuture.supplyAsync(() -> seckillMockRestClient.getTaskDetails(request.taskId));
         if (resultCompletableFuture.isCompletedExceptionally()) {
             return "";
         } else {

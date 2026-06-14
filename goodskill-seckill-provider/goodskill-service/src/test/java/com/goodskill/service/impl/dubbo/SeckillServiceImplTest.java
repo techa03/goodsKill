@@ -3,12 +3,11 @@ package com.goodskill.service.impl.dubbo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.repository.CrudRepository;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.vo.GoodsVO;
 import com.goodskill.core.enums.Events;
 import com.goodskill.core.exception.SeckillCloseException;
-import com.goodskill.core.feign.OrderFeignClient;
+import com.goodskill.core.feign.OrderRestClient;
 import com.goodskill.core.pojo.dto.ExposerDTO;
 import com.goodskill.core.pojo.dto.SeckillInfoDTO;
 import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
@@ -45,7 +44,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class SeckillServiceImplTest {
     @Mock
-    private OrderFeignClient orderFeignClient;
+    private OrderRestClient orderRestClient;
     @Mock
     private SuccessKilledMapper successKilledMapper;
     @Mock
@@ -165,19 +164,19 @@ class SeckillServiceImplTest {
 
         assertEquals(10L, count);
         verify(successKilledMapper, times(1)).selectCount(any(QueryWrapper.class));
-        verify(orderFeignClient, never()).count(anyLong());
+        verify(orderRestClient, never()).count(anyLong());
     }
 
     @Test
     void testGetSuccessKillCountFromMongo() {
         when(successKilledMapper.selectCount(any(QueryWrapper.class))).thenReturn(0L);
-        when(orderFeignClient.count(1000L)).thenReturn(20L);
+        when(orderRestClient.count(1000L)).thenReturn(20L);
 
         long count = seckillService.getSuccessKillCount(1000L);
 
         assertEquals(20L, count);
         verify(successKilledMapper, times(1)).selectCount(any(QueryWrapper.class));
-        verify(orderFeignClient, times(1)).count(1000L);
+        verify(orderRestClient, times(1)).count(1000L);
     }
 
     @Test

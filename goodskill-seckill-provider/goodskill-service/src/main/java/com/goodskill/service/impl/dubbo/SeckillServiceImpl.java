@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.core.enums.Events;
 import com.goodskill.core.exception.SeckillCloseException;
-import com.goodskill.core.feign.OrderFeignClient;
+import com.goodskill.core.feign.OrderRestClient;
 import com.goodskill.core.pojo.dto.*;
 import com.goodskill.core.pojo.vo.SeckillVO;
 import com.goodskill.core.util.MD5Util;
@@ -59,7 +59,7 @@ import java.util.stream.Collectors;
 @DubboService
 public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> implements SeckillService {
     @Resource
-    private OrderFeignClient orderFeignClient;
+    private OrderRestClient orderRestClient;
     @Resource
     private SuccessKilledMapper successKilledMapper;
     @Resource
@@ -161,7 +161,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         long count = successKilledMapper.selectCount(new QueryWrapper<>(example));
         if (count == 0) {
             try {
-                count = orderFeignClient.count(seckillId);
+                count = orderRestClient.count(seckillId);
             } catch (Exception e) {
                 log.error("mongo服务不可用，请检查！", e);
                 throw e;

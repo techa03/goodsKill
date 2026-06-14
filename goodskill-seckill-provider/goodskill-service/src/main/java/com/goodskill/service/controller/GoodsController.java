@@ -3,7 +3,7 @@ package com.goodskill.service.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.goodskill.core.feign.OrderFeignClient;
+import com.goodskill.core.feign.OrderRestClient;
 import com.goodskill.core.info.Result;
 import com.goodskill.service.common.GoodsService;
 import com.goodskill.service.entity.Goods;
@@ -23,13 +23,13 @@ import java.util.List;
 @RequestMapping("/goods")
 public class GoodsController {
     @Resource
-    private OrderFeignClient orderFeignClient;
+    private OrderRestClient orderRestClient;
     @Resource
     private GoodsService goodsService;
 
     @GetMapping("/orders/count")
     public Long countOrders(@RequestParam("seckillId") long seckillId) {
-        return orderFeignClient.count(seckillId);
+        return orderRestClient.count(seckillId);
     }
 
     @GetMapping("/list")

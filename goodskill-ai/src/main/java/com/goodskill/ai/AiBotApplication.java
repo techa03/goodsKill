@@ -6,7 +6,6 @@ import io.modelcontextprotocol.common.McpTransportContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestClient;
 
@@ -18,7 +17,6 @@ import java.time.Duration;
  * AI 机器人启动类
  */
 @SpringBootApplication
-@EnableFeignClients(basePackages = {"com.goodskill.ai.service.feign", "com.goodskill.core.tracing"})
 @EnableConfigurationProperties(KnowledgeBaseProperties.class)
 public class AiBotApplication {
 

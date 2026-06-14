@@ -1,7 +1,7 @@
 package com.goodskill.service.controller;
 
 import com.goodskill.core.exception.SeckillException;
-import com.goodskill.core.feign.OrderFeignClient;
+import com.goodskill.core.feign.OrderRestClient;
 import com.goodskill.core.info.Result;
 import com.goodskill.core.pojo.dto.OrderDTO;
 import com.goodskill.core.pojo.dto.SuccessKilledDTO;
@@ -30,7 +30,7 @@ public class SeckillCustomerController {
     private SeckillService seckillService;
 
     @Resource
-    private OrderFeignClient orderFeignClient;
+    private OrderRestClient orderRestClient;
 
     /**
      * 执行秒杀
@@ -86,7 +86,7 @@ public class SeckillCustomerController {
         orderDTO.setStateDesc("待支付");
         String saveResult = null;
         try {
-            saveResult = orderFeignClient.saveRecord(orderDTO);
+            saveResult = orderRestClient.saveRecord(orderDTO);
         } catch (Exception e) {
             throw new SeckillException("创建订单失败");
         }

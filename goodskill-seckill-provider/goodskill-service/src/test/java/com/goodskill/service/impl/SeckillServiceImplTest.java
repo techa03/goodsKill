@@ -3,7 +3,7 @@ package com.goodskill.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goodskill.api.service.GoodsThirdPartyService;
-import com.goodskill.core.feign.OrderFeignClient;
+import com.goodskill.core.feign.OrderRestClient;
 import com.goodskill.core.pojo.dto.SeckillMockRequestDTO;
 import com.goodskill.core.pojo.dto.SuccessKilledDTO;
 import com.goodskill.service.common.GoodsService;
@@ -58,7 +58,7 @@ public class SeckillServiceImplTest {
     @Mock
     private SuccessKilledMapper successKilledMapper;
     @Mock
-    private OrderFeignClient orderFeignClient;
+    private OrderRestClient orderRestClient;
     @Mock
     private RedisTemplate redisTemplate;
     @Mock
@@ -117,7 +117,7 @@ public class SeckillServiceImplTest {
     @Test
     public void getSuccessKillCount() {
         when(successKilledMapper.selectCount(any())).thenReturn(0L);
-        when(orderFeignClient.count(1L)).thenReturn(1L);
+        when(orderRestClient.count(1L)).thenReturn(1L);
         assertEquals(seckillService.getSuccessKillCount(1L), 1L);
     }
 
@@ -126,7 +126,7 @@ public class SeckillServiceImplTest {
         long seckillId = 1L;
         Seckill t = new Seckill();
         seckillService.prepareSeckill(seckillId, 10, "1");
-        verify(orderFeignClient, times(0)).deleteRecord(seckillId);
+        verify(orderRestClient, times(0)).deleteRecord(seckillId);
     }
 
     @Test

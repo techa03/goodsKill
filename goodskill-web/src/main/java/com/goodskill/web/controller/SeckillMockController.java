@@ -3,7 +3,7 @@ package com.goodskill.web.controller;
 import com.alibaba.fastjson2.JSON;
 import com.goodskill.core.enums.SeckillSolutionEnum;
 import com.goodskill.core.exception.CommonException;
-import com.goodskill.core.feign.SeckillFeignClient;
+import com.goodskill.core.feign.SeckillRestClient;
 import com.goodskill.core.info.Result;
 import com.goodskill.core.pojo.dto.SeckillMockRequestDTO;
 import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
@@ -41,7 +41,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class SeckillMockController {
 
     @Resource
-    private SeckillFeignClient seckillFeignClient;
+    private SeckillRestClient seckillRestClient;
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
     @Autowired
@@ -276,7 +276,7 @@ public class SeckillMockController {
      * @param taskId
      */
     private void prepareSeckill(long seckillId, int seckillCount, String name, String taskId) {
-        seckillFeignClient.prepareSeckill(seckillId, seckillCount, taskId);
+        seckillRestClient.prepareSeckill(seckillId, seckillCount, taskId);
         TaskTimeCaculateUtil.startTask("活动id:" + seckillId + "," + name, taskId);
     }
 
@@ -343,7 +343,7 @@ public class SeckillMockController {
                     // 默认的执行方法
                     finalRunnable = () -> {
                         String phoneNumber = String.valueOf(SECKILL_PHONE_NUM_COUNTER.incrementAndGet());
-                        seckillFeignClient.execute(new SeckillMockRequestDTO(seckillId, 1, phoneNumber, taskId),
+                        seckillRestClient.execute(new SeckillMockRequestDTO(seckillId, 1, phoneNumber, taskId),
                                 seckillSolutionEnum.getCode());
                     };
                 } else {
