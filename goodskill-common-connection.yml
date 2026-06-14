@@ -18,6 +18,9 @@ spring:
         port: 8719
         ## 默认端口8080，已改为自定义18088端口，通过http://127.0.0.1:18088/#/dashboard访问
         dashboard: localhost:18088
+  mongodb:
+    host: mongo
+    port: 27017
 
 dubbo:
   registry:
@@ -27,7 +30,7 @@ zookeeper_ip: zookeeper:2181
 
 ## oss配置
 minio:
-  endpoint: http://localhost:19000
+  endpoint: http://minio:19000
   accessKey: 9U3G8higct0CRdRRubkj
   secretKey: b5U3y8WqvgQXt92PKHRyVIGPizGQltto88wNus2A
   bucketName: test

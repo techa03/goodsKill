@@ -45,17 +45,22 @@ const fetchProducts = async () => {
     })
     if (response.data.code === 0) {
       const records = response.data.data.records
-      // 为每个商品获取图片URL
       for (const product of records) {
         if (product.photoUrl) {
-          try {
-            const imageResponse = await commonApi.get(`/oss/files/download/${product.photoUrl}?responseType=url`)
-            if (imageResponse.data.code === 0) {
-              product.imageUrl = imageResponse.data.data
+          if (product.photoUrl.startsWith('http')) {
+            product.imageUrl = product.photoUrl
+          } else {
+            try {
+              const imageResponse = await commonApi.get(`/oss/files/download/${product.photoUrl}?responseType=url`)
+              if (imageResponse.data.code === 0) {
+                product.imageUrl = imageResponse.data.data
+              } else {
+                product.imageUrl = ''
+              }
+            } catch (e) {
+              console.error('获取图片URL失败:', e)
+              product.imageUrl = ''
             }
-          } catch (e) {
-            console.error('获取图片URL失败:', e)
-            product.imageUrl = ''
           }
         }
       }
@@ -115,14 +120,18 @@ const openEditModal = async (product) => {
       productForm.value = { ...response.data.data }
       // 如果有图片，生成预览链接
       if (productForm.value.photoUrl) {
-        try {
-          const previewResponse = await commonApi.get(`/oss/files/download/${productForm.value.photoUrl}?responseType=url`)
-          if (previewResponse.data.code === 0) {
-            previewImage.value = previewResponse.data.data
+        if (productForm.value.photoUrl.startsWith('http')) {
+          previewImage.value = productForm.value.photoUrl
+        } else {
+          try {
+            const previewResponse = await commonApi.get(`/oss/files/download/${productForm.value.photoUrl}?responseType=url`)
+            if (previewResponse.data.code === 0) {
+              previewImage.value = previewResponse.data.data
+            }
+          } catch (e) {
+            console.error('获取图片预览失败:', e)
+            previewImage.value = ''
           }
-        } catch (e) {
-          console.error('获取图片预览失败:', e)
-          previewImage.value = ''
         }
       }
       showProductModal.value = true
@@ -254,12 +263,15 @@ const handleFileUpload = async (event) => {
     })
 
     if (response.data.code === 0) {
-      const fileId = response.data.data
-      productForm.value.photoUrl = fileId
-      // 生成预览链接
-      const previewResponse = await commonApi.get(`/oss/files/download/${fileId}?responseType=url`)
-      if (previewResponse.data.code === 0) {
-        previewImage.value = previewResponse.data.data
+      const fileUrl = response.data.data
+      productForm.value.photoUrl = fileUrl
+      if (fileUrl.startsWith('http')) {
+        previewImage.value = fileUrl
+      } else {
+        const previewResponse = await commonApi.get(`/oss/files/download/${fileUrl}?responseType=url`)
+        if (previewResponse.data.code === 0) {
+          previewImage.value = previewResponse.data.data
+        }
       }
     } else {
       formErrors.value.photoUrl = response.data.msg || '文件上传失败'

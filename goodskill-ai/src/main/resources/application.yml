@@ -2,6 +2,8 @@ server:
   port: 18077
 
 spring:
+  profiles:
+    active: dev
   application:
     name: goodskill-ai
   redis:

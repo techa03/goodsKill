@@ -29,6 +29,11 @@ public class SeckillMockResponseListener {
 
             if (Boolean.TRUE.equals(responseDto.getStatus())) {
                 log.info("秒杀活动结束，{}时间：{},秒杀id：{}", note, new Date(), seckillId);
+                try {
+                    Thread.sleep(100L);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 long successKillCount = seckillFeignClient.getSuccessKillCount(seckillId);
                 long temp = 0;
                 while (successKillCount != temp) {

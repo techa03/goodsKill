@@ -28,8 +28,6 @@ spring:
           group: default
           destination: seckill-order-save
   mongodb:
-    host: mongo
-    port: 27017
     auto-index-creation: true
 
 
