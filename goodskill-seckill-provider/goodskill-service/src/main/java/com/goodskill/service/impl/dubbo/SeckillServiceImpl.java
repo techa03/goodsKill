@@ -31,6 +31,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +43,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -73,7 +73,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Resource
     private GoodsService goodsService;
     @Resource(name = "taskExecutor")
-    private ThreadPoolExecutor taskExecutor;
+    private TaskExecutor taskExecutor;
     @Resource
     private StreamBridge streamBridge;
     @Value("${alipay.qrcodeImagePath:1}")

@@ -16,6 +16,7 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -23,7 +24,6 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import static com.goodskill.core.enums.SeckillSolutionEnum.REDIS_MONGO_REACTIVE;
 import static com.goodskill.service.common.constant.CommonConstant.DEFAULT_BINDING_NAME;
@@ -45,7 +45,7 @@ public class RedisMongoReactiveStrategy implements GoodsKillStrategy {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
     @Resource(name = "taskExecutor")
-    private ThreadPoolExecutor taskExecutor;
+    private TaskExecutor taskExecutor;
     @Resource
     private StreamBridge streamBridge;
     @Resource

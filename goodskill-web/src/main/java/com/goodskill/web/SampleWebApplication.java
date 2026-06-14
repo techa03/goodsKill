@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  *
  * @author heng
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.goodskill.web", "com.goodskill.core.tracing"})
 @EnableDiscoveryClient
 @EnableFeignClients(value = {"com.goodskill.core.feign", "com.goodskill.order.api", "com.goodskill.core.tracing"})
 @EnableAsync
