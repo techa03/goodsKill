@@ -11,6 +11,8 @@
 
 集成了Spring AI服务，可以通过AI机器人完成模拟秒杀动作。
 
+已集成基于 OpenTelemetry 的全链路可观测性能力，通过 Grafana OTel LGTM（内置 OpenTelemetry Collector / Grafana / Loki / Mimir / Tempo）一站式实现指标、日志、分布式追踪的统一观测。
+
 本项目基于最新Spring Cloud 2025.x + Spring Boot 4.x + JDK21体系构建，目前比较简陋且有很多不完善的地方，真实的秒杀场景远比本项目中的实现方式复杂，本项目省略了真实场景中的部分技术实现细节，目前仅作学习参考之用，如果觉得本项目对你有帮助的请多多star支持一下👍~~~~。
 
 > 附：码云项目链接 `https://gitee.com/techa/goodsKill`，clone速度慢的用码云仓库拉吧，不定期同步到码云~
@@ -41,6 +43,7 @@
 | Flyway | 数据库版本控制工具 | https://flywaydb.org/ |
 | MinIO | 对象存储服务 | https://min.io/ |
 | Spring AI | AI组件 | https://spring.io/projects/spring-ai |
+| OpenTelemetry | 可观测性追踪框架 | https://opentelemetry.io/ |
 
 ## 📝 项目模块介绍
 
@@ -133,6 +136,7 @@ ns         %     Task name
 | PostgreSQL | pgvector/pgvector:pg15 | 5432       | goodskill:Password123 |
 | MinIO | latest | 9000       | root:password |
 | Seata | 2.0.0 | 7091 8091  | seata:seata（控制台） |
+| Grafana OTel LGTM | latest | 3000 (Grafana UI) / 4317 (OTLP gRPC) / 4318 (OTLP HTTP) | admin:admin（Grafana 控制台） |
 
 ## 🎯 快速开始
 
@@ -170,6 +174,7 @@ ns         %     Task name
  127.0.0.1       rabbitmq
  127.0.0.1       logstash
  127.0.0.1       postgres
+ 127.0.0.1       minio
  ##如果网关服务部署在远程机器，此处改为相应的远程机器ip
  127.0.0.1       www.goodskill.com
 ```

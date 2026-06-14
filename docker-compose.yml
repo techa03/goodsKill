@@ -257,19 +257,6 @@ services:
     networks:
       - somenetwork
 
-  jaeger:
-    image: cr.jaegertracing.io/jaegertracing/jaeger:2.11.0
-    container_name: jaeger
-    restart: always
-    ports:
-      - "16686:16686"
-      - "16687:16687"
-      - "14250:14250"
-      - "14268:14268"
-      - "9411:9411"
-    networks:
-      - somenetwork
-
   grafana-lgtm:
     image: grafana/otel-lgtm:latest
     ports:
