@@ -7,6 +7,8 @@ auth:
     refresh-expire-seconds: 604800
 
 spring:
+  profiles:
+    active: dev
   application:
     name: goodskill-auth
   cloud:

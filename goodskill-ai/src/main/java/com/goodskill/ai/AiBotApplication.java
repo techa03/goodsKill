@@ -18,7 +18,7 @@ import java.time.Duration;
  * AI 机器人启动类
  */
 @SpringBootApplication
-@EnableFeignClients(basePackages = "com.goodskill.ai.service.feign")
+@EnableFeignClients(basePackages = {"com.goodskill.ai.service.feign", "com.goodskill.core.tracing"})
 @EnableConfigurationProperties(KnowledgeBaseProperties.class)
 public class AiBotApplication {
 

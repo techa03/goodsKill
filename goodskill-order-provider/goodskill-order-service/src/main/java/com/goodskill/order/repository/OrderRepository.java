@@ -5,14 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import java.math.BigInteger;
 import java.util.List;
 
 public interface OrderRepository extends MongoRepository<Order, String> {
 
-    void deleteBySeckillId(BigInteger seckillId);
+    void deleteBySeckillId(Long seckillId);
 
-    long countBySeckillId(BigInteger seckillId);
+    long countBySeckillId(Long seckillId);
 
     List<Order> findByUserPhone(String userPhone);
 

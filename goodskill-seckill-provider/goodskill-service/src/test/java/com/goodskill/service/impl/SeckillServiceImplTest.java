@@ -138,7 +138,7 @@ public class SeckillServiceImplTest {
     public void reduceNumber() {
         SuccessKilledDTO successKilled = new SuccessKilledDTO();
         // Mock the actual behavior instead of throwing exception
-        when(successKilledMapper.insert(any(SuccessKilled.class))).thenThrow(new RuntimeException());
+        lenient().when(successKilledMapper.insert(any(SuccessKilled.class))).thenThrow(new RuntimeException());
         int result = seckillService.reduceNumber(successKilled);
         // Should catch exception and return 0
         assertEquals(0, result);

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Data
@@ -23,7 +22,7 @@ public class Order {
     /**
      * 秒杀活动id
      */
-    private BigInteger seckillId;
+    private Long seckillId;
 
     /**
      * 用户手机号

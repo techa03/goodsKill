@@ -5,9 +5,8 @@ spring:
       date: yyyy-MM-dd HH:mm:ss
       date-time: yyyy-MM-dd HH:mm:ss
       time: HH:mm:ss
-  data:
-    mongodb:
-      database: test
+  mongodb:
+    database: test
   output:
     ansi:
       enabled: ALWAYS
@@ -56,6 +55,20 @@ management:
     web:
       exposure:
         include: '*'
+  otlp:
+    metrics:
+      export:
+        url: http://localhost:9090/api/v1/otlp/v1/metrics
+        step: 30s
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/traces
+    logging:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/logs
 
 ############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
 sa-token:
@@ -75,3 +88,5 @@ sa-token:
   is-log: true
   # 关闭banner打印
   is-print: true
+
+

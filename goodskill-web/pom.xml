@@ -123,10 +123,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.goodskill</groupId>
-			<artifactId>goodskill-order-api</artifactId>
-		</dependency>
+		        <dependency>
+            <groupId>com.goodskill</groupId>
+            <artifactId>goodskill-order-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.goodskill</groupId>
+            <artifactId>core-tracing</artifactId>
+        </dependency>
 		<!--		<dependency>-->
 <!--			<groupId>org.springframework.cloud</groupId>-->
 <!--			<artifactId>spring-cloud-starter-bootstrap</artifactId>-->
@@ -134,7 +138,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>goodskill</finalName>
+		<finalName>goodskill-web</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.jacoco</groupId>

@@ -34,29 +34,29 @@ public class StateMachineService {
      */
     @SneakyThrows
     public boolean feedMachine(Events e, long seckillId) {
-        log.info("feedMachine 开始, seckillId: {}, 事件: {}", seckillId, e);
+        log.debug("feedMachine 开始, seckillId: {}, 事件: {}", seckillId, e);
         StateMachine<States, Events> stateMachine = stateMachineMap.get(String.valueOf(seckillId));
         if (stateMachine == null) {
             log.error("feedMachine 失败, 状态机不存在, seckillId: {}", seckillId);
             return false;
         }
         States beforeState = stateMachine.getState().getId();
-        log.info("feedMachine restore前, seckillId: {}, 事件: {}, 内存状态: {}", seckillId, e, beforeState);
+        log.debug("feedMachine restore前, seckillId: {}, 事件: {}, 内存状态: {}", seckillId, e, beforeState);
 
         stateMachinePersister.restore(stateMachine, STATEMACHINE_REDIS_KEY_PREFIX + seckillId);
         States afterRestoreState = stateMachine.getState().getId();
-        log.info("feedMachine restore后, seckillId: {}, 事件: {}, 状态: {} -> {}", seckillId, e, beforeState, afterRestoreState);
+        log.debug("feedMachine restore后, seckillId: {}, 事件: {}, 状态: {} -> {}", seckillId, e, beforeState, afterRestoreState);
         StateMachineEventResult<States, Events> eventResult =
                 stateMachine.sendEvent(Mono.just(MessageBuilder.withPayload(e).build())).blockLast();
         States afterSendState = stateMachine.getState().getId();
-        log.info("feedMachine sendEvent后, seckillId: {}, 事件: {}, 状态: {}, 结果: {}",
+        log.debug("feedMachine sendEvent后, seckillId: {}, 事件: {}, 状态: {}, 结果: {}",
                 seckillId, e, afterSendState, eventResult != null ? eventResult.getResultType() : "null");
 
         stateMachinePersister.persist(stateMachine, STATEMACHINE_REDIS_KEY_PREFIX + seckillId);
-        log.info("feedMachine persist完成, seckillId: {}, 事件: {}, 最终状态: {}", seckillId, e, afterSendState);
+        log.debug("feedMachine persist完成, seckillId: {}, 事件: {}, 最终状态: {}", seckillId, e, afterSendState);
 
         boolean accepted = eventResult != null && StateMachineEventResult.ResultType.ACCEPTED.equals(eventResult.getResultType());
-        log.info("feedMachine 结束, seckillId: {}, 事件: {}, 是否接受: {}", seckillId, e, accepted);
+        log.debug("feedMachine 结束, seckillId: {}, 事件: {}, 是否接受: {}", seckillId, e, accepted);
         return accepted;
     }
 
@@ -70,7 +70,7 @@ public class StateMachineService {
      */
     @SneakyThrows
     public boolean checkState(long seckillId, States state) {
-        log.info("checkState 开始, seckillId: {}, 期望状态: {}", seckillId, state);
+        log.debug("checkState 开始, seckillId: {}, 期望状态: {}", seckillId, state);
         StateMachine<States, Events> stateMachine = stateMachineMap.get(String.valueOf(seckillId));
         if (stateMachine == null) {
             log.error("checkState 失败, 状态机不存在, seckillId: {}, 期望状态: {}", seckillId, state);
@@ -78,23 +78,23 @@ public class StateMachineService {
         }
 
         States beforeState = stateMachine.getState().getId();
-        log.info("checkState restore前, seckillId: {}, 期望状态: {}, 内存状态: {}", seckillId, state, beforeState);
+        log.debug("checkState restore前, seckillId: {}, 期望状态: {}, 内存状态: {}", seckillId, state, beforeState);
 
         stateMachinePersister.restore(stateMachine, STATEMACHINE_REDIS_KEY_PREFIX + seckillId);
 
         States afterRestoreState = stateMachine.getState().getId();
-        log.info("checkState restore后, seckillId: {}, 期望状态: {}, 状态: {} -> {}",
+        log.debug("checkState restore后, seckillId: {}, 期望状态: {}, 状态: {} -> {}",
                 seckillId, state, beforeState, afterRestoreState);
 
         boolean result = afterRestoreState.equals(state);
-        log.info("checkState 结束, seckillId: {}, 期望状态: {}, 实际状态: {}, 结果: {}",
+        log.debug("checkState 结束, seckillId: {}, 期望状态: {}, 实际状态: {}, 结果: {}",
                 seckillId, state, afterRestoreState, result);
         return result;
     }
 
     @SneakyThrows
     public StateMachine<States, Events> initStateMachine(long seckillId) {
-        log.info("initStateMachine 开始, seckillId: {}", seckillId);
+        log.debug("initStateMachine 开始, seckillId: {}", seckillId);
         String key = String.valueOf(seckillId);
         StateMachine<States, Events> existing = stateMachineMap.get(key);
         if (existing != null) {
@@ -102,11 +102,11 @@ public class StateMachineService {
             return existing;
         }
         StateMachine<States, Events> stateMachine = stateMachineFactory.getStateMachine();
-        log.info("initStateMachine 创建新实例, seckillId: {}, 初始状态: {}", seckillId, stateMachine.getState().getId());
+        log.debug("initStateMachine 创建新实例, seckillId: {}, 初始状态: {}", seckillId, stateMachine.getState().getId());
         stateMachinePersister.persist(stateMachine, STATEMACHINE_REDIS_KEY_PREFIX + seckillId);
-        log.info("initStateMachine persist完成, seckillId: {}, 状态: {}", seckillId, stateMachine.getState().getId());
+        log.debug("initStateMachine persist完成, seckillId: {}, 状态: {}", seckillId, stateMachine.getState().getId());
         StateMachine<States, Events> previous = stateMachineMap.put(key, stateMachine);
-        log.info("initStateMachine 放入map完成, seckillId: {}, 之前是否存在: {}, 当前状态: {}", seckillId, previous != null, stateMachine.getState().getId());
+        log.debug("initStateMachine 放入map完成, seckillId: {}, 之前是否存在: {}, 当前状态: {}", seckillId, previous != null, stateMachine.getState().getId());
         return previous;
     }
 
