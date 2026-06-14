@@ -180,10 +180,10 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     }
 
     @Override
-    public int reduceNumber(com.goodskill.core.pojo.dto.SuccessKilledDTO successKilled) {
+    public int reduceNumber(SuccessKilledDTO successKilled) {
         int count = 0;
         try {
-            count = this.reduceNumberInner(successKilled);
+            count = seckillService.reduceNumberInner(successKilled);
         } catch (Exception e) {
             log.warn(e.getMessage());
         }
@@ -192,7 +192,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int reduceNumberInner(com.goodskill.core.pojo.dto.SuccessKilledDTO successKilled) {
+    public int reduceNumberInner(SuccessKilledDTO successKilled) {
         SuccessKilled entity = BeanUtil.copyProperties(successKilled, SuccessKilled.class);
         successKilledMapper.insert(entity);
         Seckill wrapper = new Seckill();

@@ -42,7 +42,6 @@ public class SaTokenConfiguration {
                     // 打印路径
                     ServerHttpRequest request = SaReactorSyncHolder.getExchange().getRequest();
                     RequestPath path = request.getPath();
-                    log.info("---------- sa全局认证, 请求url:{}", path);
                     SaRouter.notMatch(ignoreProperties.getWhiteUrl())
                             .check(r -> {
                                 StpUtil.checkLogin();
@@ -56,7 +55,7 @@ public class SaTokenConfiguration {
                 })
                 // 指定[异常处理函数]：每次[认证函数]发生异常时执行此函数
                 .setError(e -> {
-                    log.error("---------- sa全局异常, 路径:{}, 错误:{}", 
+                    log.error("---------- sa全局异常, 路径:{}, 错误:{}",
                         SaReactorSyncHolder.getExchange().getRequest().getPath(), e.getMessage());
                     // 检查是否是token无效错误
                     if (e.getMessage().contains("token 无效") || e.getMessage().contains("未提供token") || e.getMessage().contains("token已过期")) {

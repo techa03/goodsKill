@@ -264,8 +264,6 @@ services:
     ports:
       - "16686:16686"
       - "16687:16687"
-      - "4317:4317"
-      - "4318:4318"
       - "14250:14250"
       - "14268:14268"
       - "9411:9411"
@@ -273,11 +271,11 @@ services:
       - somenetwork
 
   grafana-lgtm:
-    image: 'grafana/otel-lgtm:latest'
+    image: grafana/otel-lgtm:latest
     ports:
-      - '3000:3000' # UI
-      - '4317:4317'
-      - '4318:4318'
+      - "3000:3000"
+      - "4317:4317"
+      - "4318:4318"
     networks:
       - somenetwork
 
