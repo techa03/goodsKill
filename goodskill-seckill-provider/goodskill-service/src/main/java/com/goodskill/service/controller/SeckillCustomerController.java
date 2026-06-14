@@ -1,11 +1,11 @@
 package com.goodskill.service.controller;
 
 import com.goodskill.core.exception.SeckillException;
-import com.goodskill.core.feign.OrderRestClient;
 import com.goodskill.core.info.Result;
 import com.goodskill.core.pojo.dto.OrderDTO;
 import com.goodskill.core.pojo.dto.SuccessKilledDTO;
 import com.goodskill.core.pojo.vo.SeckillVO;
+import com.goodskill.core.rest.client.OrderRestClient;
 import com.goodskill.core.util.MD5Util;
 import com.goodskill.core.util.UserInfoUtil;
 import com.goodskill.service.inner.SeckillService;

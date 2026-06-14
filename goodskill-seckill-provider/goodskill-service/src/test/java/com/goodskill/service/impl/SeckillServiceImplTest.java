@@ -3,7 +3,7 @@ package com.goodskill.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goodskill.api.service.GoodsThirdPartyService;
-import com.goodskill.core.feign.OrderRestClient;
+import com.goodskill.core.rest.client.OrderRestClient;
 import com.goodskill.core.pojo.dto.SeckillMockRequestDTO;
 import com.goodskill.core.pojo.dto.SuccessKilledDTO;
 import com.goodskill.service.common.GoodsService;

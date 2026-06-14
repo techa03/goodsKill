@@ -1,6 +1,6 @@
 package com.goodskill.ai.tool;
 
-import com.goodskill.ai.service.feign.SeckillMockRestClient;
+import com.goodskill.ai.service.rest.client.SeckillMockRestClient;
 import com.goodskill.core.info.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

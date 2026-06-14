@@ -1,6 +1,6 @@
 package com.goodskill.ai.tool;
 
-import com.goodskill.ai.service.feign.SeckillMockRestClient;
+import com.goodskill.ai.service.rest.client.SeckillMockRestClient;
 import com.goodskill.core.info.Result;
 import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
 import org.slf4j.Logger;

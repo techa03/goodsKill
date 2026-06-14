@@ -2,7 +2,7 @@ package com.goodskill.job.simple;
 
 import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.vo.GoodsVO;
-import com.goodskill.core.feign.SeckillGoodsRestClient;
+import com.goodskill.core.rest.client.SeckillGoodsRestClient;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;

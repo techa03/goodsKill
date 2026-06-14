@@ -1,8 +1,8 @@
 package com.goodskill.web.stream.consumer;
 
 import com.goodskill.core.enums.SeckillSolutionEnum;
-import com.goodskill.core.feign.SeckillRestClient;
 import com.goodskill.core.pojo.dto.SeckillMockResponseDTO;
+import com.goodskill.core.rest.client.SeckillRestClient;
 import com.goodskill.web.util.TaskTimeCaculateUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

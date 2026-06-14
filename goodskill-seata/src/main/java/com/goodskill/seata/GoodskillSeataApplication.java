@@ -2,9 +2,9 @@ package com.goodskill.seata;
 
 import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.vo.GoodsVO;
-import com.goodskill.core.feign.SeckillRestClient;
 import com.goodskill.core.pojo.vo.SeckillVO;
-import com.goodskill.seata.feign.AuthRestClient;
+import com.goodskill.core.rest.client.SeckillRestClient;
+import com.goodskill.seata.rest.client.AuthRestClient;
 import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.seata.spring.annotation.GlobalTransactional;

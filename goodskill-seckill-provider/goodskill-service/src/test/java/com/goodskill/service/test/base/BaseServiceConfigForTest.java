@@ -1,7 +1,7 @@
 package com.goodskill.service.test.base;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.goodskill.core.feign.SeckillRestClient;
+import com.goodskill.core.rest.client.SeckillRestClient;
 import com.goodskill.service.SeckillApplication;
 import com.goodskill.service.entity.Seckill;
 import com.goodskill.service.entity.SuccessKilled;

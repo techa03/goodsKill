@@ -12,18 +12,17 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
@@ -41,8 +40,6 @@ class RedisMongoReactiveStrategyTest {
     RLock rLock;
     @Mock
     ValueOperations redisOperations;
-    @Spy
-    ThreadPoolExecutor taskExecutor = new ThreadPoolExecutor(1,1,10L, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
     @Mock
     SeckillMapper extSeckillMapper;
     @Mock
@@ -55,8 +52,12 @@ class RedisMongoReactiveStrategyTest {
     private StateMachineService stateMachineService;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
+        TaskExecutor taskExecutor = new SimpleAsyncTaskExecutor();
+        Field taskExecutorField = RedisMongoReactiveStrategy.class.getDeclaredField("taskExecutor");
+        taskExecutorField.setAccessible(true);
+        taskExecutorField.set(redisMongoReactiveStrategy, taskExecutor);
     }
 
     @Test

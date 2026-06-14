@@ -1,4 +1,4 @@
-package com.goodskill.core.feign;
+package com.goodskill.core.rest.client;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.goodskill.core.pojo.dto.ExposerDTO;

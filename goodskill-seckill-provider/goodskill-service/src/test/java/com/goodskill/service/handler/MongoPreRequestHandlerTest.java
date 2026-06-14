@@ -1,6 +1,6 @@
 package com.goodskill.service.handler;
 
-import com.goodskill.core.feign.OrderRestClient;
+import com.goodskill.core.rest.client.OrderRestClient;
 import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.goodskill.ai.service.feign;
+package com.goodskill.ai.service.rest.client;
 
 import com.goodskill.core.info.Result;
 import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;

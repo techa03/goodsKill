@@ -1,4 +1,4 @@
-package com.goodskill.core.feign;
+package com.goodskill.core.rest.client;
 
 import com.goodskill.core.pojo.dto.OrderDTO;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;

@@ -1,4 +1,4 @@
-package com.goodskill.seata.feign;
+package com.goodskill.seata.rest.client;
 
 import com.goodskill.core.info.Result;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;

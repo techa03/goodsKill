@@ -3,7 +3,7 @@ package com.goodskill.service.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.goodskill.core.feign.OrderRestClient;
+import com.goodskill.core.rest.client.OrderRestClient;
 import com.goodskill.core.info.Result;
 import com.goodskill.service.common.GoodsService;
 import com.goodskill.service.entity.Goods;

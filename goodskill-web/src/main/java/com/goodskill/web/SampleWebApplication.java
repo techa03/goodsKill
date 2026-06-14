@@ -12,7 +12,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
  *
  * @author heng
  */
-@SpringBootApplication(scanBasePackages = {"com.goodskill.web", "com.goodskill.core.tracing", "com.goodskill.core"})
+@SpringBootApplication(scanBasePackages = {"com.goodskill.web",
+        "com.goodskill.core.tracing",
+        "com.goodskill.core.rest.client"})
 @EnableDiscoveryClient
 @EnableAsync
 public class SampleWebApplication {

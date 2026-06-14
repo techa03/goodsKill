@@ -1,7 +1,7 @@
 package com.goodskill.web.stream.consumer;
 
 import com.goodskill.api.dto.SeckillMockCanalResponseDTO;
-import com.goodskill.core.feign.SeckillRestClient;
+import com.goodskill.core.rest.client.SeckillRestClient;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
