@@ -8,9 +8,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goodskill.core.enums.Events;
 import com.goodskill.core.exception.SeckillCloseException;
-import com.goodskill.core.feign.OrderFeignClient;
 import com.goodskill.core.pojo.dto.*;
 import com.goodskill.core.pojo.vo.SeckillVO;
+import com.goodskill.core.rest.client.OrderRestClient;
 import com.goodskill.core.util.MD5Util;
 import com.goodskill.service.common.GoodsService;
 import com.goodskill.service.common.RedisService;
@@ -31,6 +31,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +43,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -59,7 +59,7 @@ import java.util.stream.Collectors;
 @DubboService
 public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> implements SeckillService {
     @Resource
-    private OrderFeignClient orderFeignClient;
+    private OrderRestClient orderRestClient;
     @Resource
     private SuccessKilledMapper successKilledMapper;
     @Resource
@@ -73,7 +73,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
     @Resource
     private GoodsService goodsService;
     @Resource(name = "taskExecutor")
-    private ThreadPoolExecutor taskExecutor;
+    private TaskExecutor taskExecutor;
     @Resource
     private StreamBridge streamBridge;
     @Value("${alipay.qrcodeImagePath:1}")
@@ -161,7 +161,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillMapper, Seckill> impl
         long count = successKilledMapper.selectCount(new QueryWrapper<>(example));
         if (count == 0) {
             try {
-                count = orderFeignClient.count(seckillId);
+                count = orderRestClient.count(seckillId);
             } catch (Exception e) {
                 log.error("mongo服务不可用，请检查！", e);
                 throw e;

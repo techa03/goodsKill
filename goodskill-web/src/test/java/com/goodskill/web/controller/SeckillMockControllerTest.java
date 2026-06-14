@@ -1,9 +1,9 @@
 package com.goodskill.web.controller;
 
-import com.goodskill.core.feign.SeckillFeignClient;
 import com.goodskill.core.info.Result;
 import com.goodskill.core.pojo.dto.SeckillMockRequestDTO;
 import com.goodskill.core.pojo.dto.SeckillWebMockRequestDTO;
+import com.goodskill.core.rest.client.SeckillRestClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 public class SeckillMockControllerTest {
 
     @Mock
-    private SeckillFeignClient seckillFeignClient;
+    private SeckillRestClient seckillRestClient;
     @Mock
     private KafkaTemplate kafkaTemplate;
     @Mock
@@ -57,7 +57,7 @@ public class SeckillMockControllerTest {
         any.setSeckillId(1L);
         Result response = seckillMockController.doWithSychronized(requestDTO);
 
-        verify(seckillFeignClient, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
+        verify(seckillRestClient, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
         assertEquals(0, response.getCode());
     }
 
@@ -77,7 +77,7 @@ public class SeckillMockControllerTest {
             Thread.currentThread().interrupt();
         }
 
-        verify(seckillFeignClient, times(1)).execute(any(SeckillMockRequestDTO.class), anyInt());
+        verify(seckillRestClient, times(1)).execute(any(SeckillMockRequestDTO.class), anyInt());
         assertEquals(0, response.getCode());
     }
 
@@ -95,7 +95,7 @@ public class SeckillMockControllerTest {
         any.setSeckillId(1L);
         Result response = seckillMockController.doWithKafkaMqMessage(requestDTO);
 
-        verify(seckillFeignClient, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
+        verify(seckillRestClient, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
         assertEquals(0, response.getCode());
     }
 
@@ -115,7 +115,7 @@ public class SeckillMockControllerTest {
             Thread.currentThread().interrupt();
         }
 
-        verify(seckillFeignClient, times(1)).execute(any(SeckillMockRequestDTO.class), anyInt());
+        verify(seckillRestClient, times(1)).execute(any(SeckillMockRequestDTO.class), anyInt());
         assertEquals(0, response.getCode());
     }
 
@@ -133,7 +133,7 @@ public class SeckillMockControllerTest {
         any.setSeckillId(1L);
         Result response = seckillMockController.doWithZookeeperLock(requestDTO);
 
-        verify(seckillFeignClient, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
+        verify(seckillRestClient, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
         assertEquals(0, response.getCode());
     }
 
@@ -146,7 +146,7 @@ public class SeckillMockControllerTest {
         any.setSeckillId(1L);
         Result response = seckillMockController.redisReactiveMongo(requestDTO);
 
-        verify(seckillFeignClient, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
+        verify(seckillRestClient, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
         assertEquals(0, response.getCode());
     }
 
@@ -159,7 +159,7 @@ public class SeckillMockControllerTest {
         any.setSeckillId(1L);
         Result response = seckillMockController.doWithRabbitmq(requestDTO);
 
-        verify(seckillFeignClient, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
+        verify(seckillRestClient, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
         assertEquals(0, response.getCode());
     }
 
@@ -171,7 +171,7 @@ public class SeckillMockControllerTest {
         SeckillMockRequestDTO any = new SeckillMockRequestDTO();
         any.setSeckillId(1L);
         Result response = seckillMockController.limit(requestDTO);
-        verify(seckillFeignClient, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
+        verify(seckillRestClient, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
         assertEquals(0, response.getCode());
     }
 
@@ -183,7 +183,7 @@ public class SeckillMockControllerTest {
         SeckillMockRequestDTO any = new SeckillMockRequestDTO();
         any.setSeckillId(1L);
         Result response = seckillMockController.atomicWithCanal(requestDTO);
-        verify(seckillFeignClient, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
+        verify(seckillRestClient, times(0)).execute(any(SeckillMockRequestDTO.class), anyInt());
         assertEquals(0, response.getCode());
     }
 

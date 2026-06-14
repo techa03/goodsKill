@@ -2,7 +2,7 @@ package com.goodskill.job.simple;
 
 import com.goodskill.api.service.GoodsThirdPartyService;
 import com.goodskill.api.vo.GoodsVO;
-import com.goodskill.core.feign.SeckillGoodsFeignClient;
+import com.goodskill.core.rest.client.SeckillGoodsRestClient;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -20,7 +20,7 @@ public class MyJob implements SimpleJob {
     @DubboReference
     private GoodsThirdPartyService goodsThirdPartyService;
     @Resource
-    private SeckillGoodsFeignClient seckillGoodsFeignClient;
+    private SeckillGoodsRestClient seckillGoodsRestClient;
 
     @Override
     public void execute(ShardingContext context) {
@@ -33,7 +33,7 @@ public class MyJob implements SimpleJob {
                         BeanUtils.copyProperties(g, goods);
                         return goods;
                     }).collect(Collectors.toList());
-                    seckillGoodsFeignClient.saveBatch(list);
+                    seckillGoodsRestClient.saveBatch(list);
                     log.info("分片0 商品es索引更新成功，条数:{}", list.size());
                 } catch (Exception e) {
                     log.warn("分片0 商品es索引定时任务更新失败!", e);

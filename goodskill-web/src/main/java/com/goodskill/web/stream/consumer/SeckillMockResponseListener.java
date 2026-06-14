@@ -1,8 +1,8 @@
 package com.goodskill.web.stream.consumer;
 
 import com.goodskill.core.enums.SeckillSolutionEnum;
-import com.goodskill.core.feign.SeckillFeignClient;
 import com.goodskill.core.pojo.dto.SeckillMockResponseDTO;
+import com.goodskill.core.rest.client.SeckillRestClient;
 import com.goodskill.web.util.TaskTimeCaculateUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 @Configuration
 public class SeckillMockResponseListener {
     @Resource
-    private SeckillFeignClient seckillFeignClient;
+    private SeckillRestClient seckillRestClient;
 
     @Bean
     public Consumer<SeckillMockResponseDTO> seckillResult() {
@@ -34,7 +34,7 @@ public class SeckillMockResponseListener {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                long successKillCount = seckillFeignClient.getSuccessKillCount(seckillId);
+                long successKillCount = seckillRestClient.getSuccessKillCount(seckillId);
                 long temp = 0;
                 while (successKillCount != temp) {
                     // 计算总数可能有延迟，等待统计数据稳定后得到最终结果
@@ -45,7 +45,7 @@ public class SeckillMockResponseListener {
                     } catch (InterruptedException e) {
                         log.warn(e.getMessage(), e);
                     }
-                    temp = seckillFeignClient.getSuccessKillCount(seckillId);
+                    temp = seckillRestClient.getSuccessKillCount(seckillId);
                 }
                 TaskTimeCaculateUtil.stop(responseDto.getTaskId());
                 log.info("最终成功交易笔数：{}", successKillCount);
@@ -60,7 +60,7 @@ public class SeckillMockResponseListener {
                     log.error(e.getMessage(), e);
                     Thread.currentThread().interrupt();
                 }
-                seckillFeignClient.endSeckill(seckillId);
+                seckillRestClient.endSeckill(seckillId);
             }
         };
     }

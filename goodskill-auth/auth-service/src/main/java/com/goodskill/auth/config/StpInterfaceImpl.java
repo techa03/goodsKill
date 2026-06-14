@@ -13,8 +13,11 @@ import com.goodskill.auth.service.PermissionService;
 import com.goodskill.auth.service.RolePermissionService;
 import com.goodskill.auth.service.RoleService;
 import com.goodskill.auth.service.UserRoleService;
+import com.google.common.collect.Lists;
 import jakarta.annotation.Resource;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,10 +68,16 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
         SaSession session = StpUtil.getSessionByLoginId(loginId);
+        if (StringUtils.isBlank(loginType)) {
+            return Lists.newArrayList();
+        }
         return session.get("Role_List", () -> {
             // 从数据库查询这个账号id拥有的角色列表
             List<UserRole> userRoleList = userRoleService.list(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getUserId, loginId));
             List<Integer> roleIds = userRoleList.stream().map(UserRole::getRoleId).collect(Collectors.toList());
+            if (CollectionUtils.isEmpty(roleIds)) {
+                return Lists.newArrayList();
+            }
             return roleService.list(Wrappers.<Role>lambdaQuery().in(Role::getRoleId, roleIds)).stream().map(Role::getRoleCode)
                     .collect(Collectors.toList());
         });

@@ -2,7 +2,7 @@ package com.goodskill.service.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.goodskill.core.feign.OrderFeignClient;
+import com.goodskill.core.rest.client.OrderRestClient;
 import com.goodskill.core.info.Result;
 import com.goodskill.service.common.GoodsService;
 import com.goodskill.service.entity.Goods;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class GoodsControllerTest {
     @Mock
-    private OrderFeignClient orderFeignClient;
+    private OrderRestClient orderRestClient;
 
     @Mock
     private GoodsService goodsService;
@@ -39,12 +39,12 @@ class GoodsControllerTest {
         Long seckillId = 1000L;
         Long expectedCount = 10L;
 
-        when(orderFeignClient.count(seckillId)).thenReturn(expectedCount);
+        when(orderRestClient.count(seckillId)).thenReturn(expectedCount);
 
         Long result = goodsController.countOrders(seckillId);
 
         assertEquals(expectedCount, result);
-        verify(orderFeignClient, times(1)).count(seckillId);
+        verify(orderRestClient, times(1)).count(seckillId);
     }
 
     @Test
@@ -52,12 +52,12 @@ class GoodsControllerTest {
         Long seckillId = 1001L;
         Long expectedCount = 0L;
 
-        when(orderFeignClient.count(seckillId)).thenReturn(expectedCount);
+        when(orderRestClient.count(seckillId)).thenReturn(expectedCount);
 
         Long result = goodsController.countOrders(seckillId);
 
         assertEquals(expectedCount, result);
-        verify(orderFeignClient, times(1)).count(seckillId);
+        verify(orderRestClient, times(1)).count(seckillId);
     }
 
     @Test
@@ -65,25 +65,25 @@ class GoodsControllerTest {
         Long seckillId = 1002L;
         Long expectedCount = 999999L;
 
-        when(orderFeignClient.count(seckillId)).thenReturn(expectedCount);
+        when(orderRestClient.count(seckillId)).thenReturn(expectedCount);
 
         Long result = goodsController.countOrders(seckillId);
 
         assertEquals(expectedCount, result);
-        verify(orderFeignClient, times(1)).count(seckillId);
+        verify(orderRestClient, times(1)).count(seckillId);
     }
 
     @Test
     void testCountOrdersWithException() {
         Long seckillId = 1003L;
 
-        when(orderFeignClient.count(seckillId)).thenThrow(new RuntimeException("Service unavailable"));
+        when(orderRestClient.count(seckillId)).thenThrow(new RuntimeException("Service unavailable"));
 
         assertThrows(RuntimeException.class, () -> {
             goodsController.countOrders(seckillId);
         });
 
-        verify(orderFeignClient, times(1)).count(seckillId);
+        verify(orderRestClient, times(1)).count(seckillId);
     }
 
     @Test

@@ -4,7 +4,6 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 
@@ -13,9 +12,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
  *
  * @author heng
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.goodskill.web",
+        "com.goodskill.core.tracing",
+        "com.goodskill.core.rest.client"})
 @EnableDiscoveryClient
-@EnableFeignClients(value = {"com.goodskill.core.feign", "com.goodskill.order.api", "com.goodskill.core.tracing"})
 @EnableAsync
 public class SampleWebApplication {
 
