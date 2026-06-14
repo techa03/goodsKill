@@ -1,4 +1,4 @@
-package com.goodskill.core.config;
+package com.goodskill.core;
 
 import org.springframework.boot.restclient.autoconfigure.RestClientBuilderConfigurer;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;

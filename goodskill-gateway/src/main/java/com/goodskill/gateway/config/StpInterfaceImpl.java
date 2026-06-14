@@ -1,7 +1,7 @@
 package com.goodskill.gateway.config;
 
 import cn.dev33.satoken.stp.StpInterface;
-import com.goodskill.gateway.feign.AuthFeignClient;
+import com.goodskill.gateway.webclient.AuthWebClient;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
@@ -14,14 +14,14 @@ import java.util.concurrent.CompletableFuture;
 @Component
 public class StpInterfaceImpl implements StpInterface {
     @Resource
-    private AuthFeignClient authFeignClient;
+    private AuthWebClient authWebClient;
 
     /**
      * 返回一个账号所拥有的权限码集合
      */
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
-        return CompletableFuture.supplyAsync(() -> authFeignClient.listUserPermission(String.valueOf(loginId), loginType)).join();
+        return CompletableFuture.supplyAsync(() -> authWebClient.listUserPermission(String.valueOf(loginId), loginType).block()).join();
     }
 
     /**
@@ -29,7 +29,7 @@ public class StpInterfaceImpl implements StpInterface {
      */
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
-        return CompletableFuture.supplyAsync(() -> authFeignClient.listUserRole(String.valueOf(loginId), loginType)).join();
+        return CompletableFuture.supplyAsync(() -> authWebClient.listUserRole(String.valueOf(loginId), loginType).block()).join();
     }
 
 }
