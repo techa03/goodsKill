@@ -9,8 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.math.BigInteger;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -34,7 +32,7 @@ class OrderServiceImplTest {
     void shouldSaveOrderSuccessfully() {
         // Given
         OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setSeckillId(BigInteger.valueOf(1L));
+        orderDTO.setSeckillId(1L);
         orderDTO.setUserPhone("13800138000");
 
         // When
@@ -52,7 +50,7 @@ class OrderServiceImplTest {
     void shouldSetCorrectFieldsWhenSavingOrder() {
         // Given
         OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setSeckillId(BigInteger.valueOf(2L));
+        orderDTO.setSeckillId(2L);
         orderDTO.setUserPhone("13900139000");
         orderDTO.setStatus((byte) 1);
 
@@ -76,7 +74,7 @@ class OrderServiceImplTest {
 
         // Then
         assertTrue(result);
-        verify(orderRepository).deleteBySeckillId(BigInteger.valueOf(seckillId));
+        verify(orderRepository).deleteBySeckillId(seckillId);
     }
 
     /**
@@ -86,14 +84,14 @@ class OrderServiceImplTest {
     void shouldCountOrdersBySeckillId() {
         // Given
         long seckillId = 1L;
-        when(orderRepository.countBySeckillId(BigInteger.valueOf(seckillId))).thenReturn(5L);
+        when(orderRepository.countBySeckillId(seckillId)).thenReturn(5L);
 
         // When
         Long count = orderService.count(seckillId);
 
         // Then
         assertEquals(5L, count);
-        verify(orderRepository).countBySeckillId(BigInteger.valueOf(seckillId));
+        verify(orderRepository).countBySeckillId(seckillId);
     }
 
     /**
@@ -103,7 +101,7 @@ class OrderServiceImplTest {
     void shouldReturnZeroWhenNoOrders() {
         // Given
         long seckillId = 2L;
-        when(orderRepository.countBySeckillId(BigInteger.valueOf(seckillId))).thenReturn(0L);
+        when(orderRepository.countBySeckillId(seckillId)).thenReturn(0L);
 
         // When
         Long count = orderService.count(seckillId);
@@ -119,7 +117,7 @@ class OrderServiceImplTest {
     void shouldPropagateExceptionWhenRepositoryFails() {
         // Given
         OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setSeckillId(BigInteger.valueOf(1L));
+        orderDTO.setSeckillId(1L);
         orderDTO.setUserPhone("13800138000");
 
         doThrow(new RuntimeException("数据库连接失败"))

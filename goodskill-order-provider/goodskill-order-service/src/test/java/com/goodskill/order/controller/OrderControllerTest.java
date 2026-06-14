@@ -2,6 +2,7 @@ package com.goodskill.order.controller;
 
 import com.goodskill.core.info.Result;
 import com.goodskill.core.pojo.dto.OrderDTO;
+import com.goodskill.core.util.UserInfoUtil;
 import com.goodskill.order.entity.Order;
 import com.goodskill.order.service.impl.OrderServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -10,17 +11,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
-import com.goodskill.core.util.UserInfoUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
-import java.math.BigInteger;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 /**
@@ -53,7 +52,7 @@ class OrderControllerTest {
     void shouldSaveRecordSuccessfully() {
         // Given
         OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setSeckillId(BigInteger.valueOf(1L));
+        orderDTO.setSeckillId(1L);
         orderDTO.setUserPhone("13800138000");
         when(orderService.saveRecord(any(OrderDTO.class))).thenReturn("order-123");
 
