@@ -36,7 +36,6 @@
 | Apache Dubbo | RPC服务远程调用框架 | https://github.com/apache/dubbo |
 | Spring Cloud Gateway | 网关组件 | https://spring.io/projects/spring-cloud-gateway |
 | Seata | 分布式事务解决方案 | http://seata.io/zh-cn/index.html |
-| Spring Security OAuth2.0 | OAuth2.0授权组件 | https://spring.io/projects/spring-security-oauth |
 | GraphQL | 一种用于 API 的查询语言 | https://docs.spring.io/spring-graphql/docs/current/reference/html |
 | Spring Statemachine | Spring 状态机 | https://spring.io/projects/spring-statemachine |
 | Sa-Token | 轻量级权限认证框架 | https://sa-token.cc/ |
@@ -61,8 +60,6 @@ goodsKill
 |--goodskill-seata                          ||集成nacos+dubbo+shardingjdbc+seata的分布式事务解决方案示例
 |--goodskill-auth                           ||auth登录以及授权模块
 |   |--auth-service                         ||基于Sa-Token框架的用户登录授权服务
-    |--oauth2-auth-server                   ||oauth2.0登录授权服务端，自定义的登录授权服务
-    |--oauth2-resource-server               ||oauth2.0资源服务端，自定义的登录授权服务
 |--goodskill-ui                             ||前端项目，基于Vue 3 + Vite构建的管理系统
 |--goodskill-customer-ui                    ||C端用户前端项目，基于Vue 3 + Vite构建的秒杀商城
 ```
@@ -361,10 +358,6 @@ C端用户前端项目提供以下功能：
 grep vm.max_map_count /etc/sysctl.conf
 vm.max_map_count=262144
 ```
-
-### Q: 如何使用本项目自定义的OAuth2.0授权服务器进行登录授权？
-
-待完善。。
 
 ### Q: 项目集成的各个框架之间目前的兼容性如何？
 

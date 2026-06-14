@@ -55,14 +55,6 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-        - id: oauth2-auth-server
-          uri: lb://oauth2-auth-server
-          predicates:
-            - Path=/oauth/**,/.well-known/jwks.json
-        - id: oauth2-resource-server
-          uri: lb://oauth2-resource-server
-          predicates:
-            - Path=/api/v5/user
         - id: goodskill-admin
           uri: lb://goodskill-admin
           predicates:

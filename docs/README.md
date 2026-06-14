@@ -120,12 +120,6 @@ href="https://spring.io/projects/spring-cloud-gateway">https://spring.io/project
 href="http://seata.io/zh-cn/index.html">http://seata.io/zh-cn/index.html</a></p></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><p>Spring Security OAuth2.0</p></td>
-<td style="text-align: left;"><p>OAuth2.0授权组件</p></td>
-<td style="text-align: left;"><p><a
-href="https://spring.io/projects/spring-security-oauth">https://spring.io/projects/spring-security-oauth</a></p></td>
-</tr>
-<tr class="even">
 <td style="text-align: left;"><p>GraphQL</p></td>
 <td style="text-align: left;"><p>一种用于 API 的查询语言</p></td>
 <td style="text-align: left;"><p><a
@@ -168,8 +162,6 @@ href="https://flywaydb.org/">https://flywaydb.org/</a></p></td>
     |--goodskill-seata                          ||集成nacos+dubbo+shardingjdbc+seata的分布式事务解决方案示例
     |--goodskill-auth                           ||auth登录以及授权模块
     |   |--auth-service                         ||基于Sa-Token框架的用户登录授权服务
-        |--oauth2-auth-server                   ||oauth2.0登录授权服务端，自定义的登录授权服务
-        |--oauth2-resource-server               ||oauth2.0资源服务端，自定义的登录授权服务
 
 ## 🔥🔥 秒杀方案
 
