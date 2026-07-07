@@ -14,8 +14,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import java.util.Collections;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -61,6 +62,22 @@ public class UserAccountServiceImplTest {
 
     @Test
     public void findByUserAccount() {
-        assertNull(userService.findByUserAccount("1"));
+        // 未找到用户时返回null（mapper返回空列表）
+        when(baseMapper.selectList(any())).thenReturn(Collections.emptyList());
+        assertNull(userService.findByUserAccount("notexist"));
+    }
+
+    @Test
+    public void shouldReturnUserWhenFoundByUserAccount() {
+        // 找到唯一用户时返回该用户
+        User user = new User();
+        user.setAccount("testaccount");
+        user.setUsername("testuser");
+        when(baseMapper.selectList(any())).thenReturn(Lists.newArrayList(user));
+
+        User result = userService.findByUserAccount("testaccount");
+
+        assertNotNull(result);
+        assertEquals("testaccount", result.getAccount());
     }
 }

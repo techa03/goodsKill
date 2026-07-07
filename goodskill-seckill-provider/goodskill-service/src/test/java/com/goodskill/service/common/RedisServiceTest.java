@@ -14,8 +14,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class RedisServiceTest {
@@ -80,6 +81,20 @@ class RedisServiceTest {
         when(stringRedisTemplate.opsForValue()).thenReturn(valueOperations);
         Boolean result = redisService.setSeckillEndFlag(0L, "1");
         Assertions.assertEquals(Boolean.FALSE, result);
+    }
+
+    @Test
+    void testSetSeckillEndFlagReturnsTrue() {
+        long seckillId = 1001L;
+        String taskId = "task-1";
+        ValueOperations<String, String> valueOperations = mock(ValueOperations.class);
+        when(stringRedisTemplate.opsForValue()).thenReturn(valueOperations);
+        when(valueOperations.setIfAbsent(anyString(), eq("1"))).thenReturn(true);
+
+        Boolean result = redisService.setSeckillEndFlag(seckillId, taskId);
+
+        Assertions.assertTrue(result);
+        verify(valueOperations, times(1)).setIfAbsent(anyString(), eq("1"));
     }
 
     @Test
