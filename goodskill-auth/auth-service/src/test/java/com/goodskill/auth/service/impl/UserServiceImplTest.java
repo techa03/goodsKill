@@ -7,6 +7,8 @@ import com.goodskill.auth.entity.UserRole;
 import com.goodskill.auth.mapper.RoleMapper;
 import com.goodskill.auth.mapper.UserMapper;
 import com.goodskill.auth.mapper.UserRoleMapper;
+import com.goodskill.auth.pojo.dto.CustomerUserInfoUpdateDTO;
+import com.goodskill.auth.pojo.vo.CustomerUserInfoVO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,12 +47,16 @@ class UserServiceImplTest {
     private PasswordEncoder passwordEncoder;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         userService = new UserServiceImpl();
         ReflectionTestUtils.setField(userService, "baseMapper", baseMapper);
         ReflectionTestUtils.setField(userService, "userRoleMapper", userRoleMapper);
         ReflectionTestUtils.setField(userService, "roleMapper", roleMapper);
         ReflectionTestUtils.setField(userService, "passwordEncoder", passwordEncoder);
+        // 还需设置 CrudRepository 中的 baseMapper，使 ServiceImpl.updateById 等方法可用
+        java.lang.reflect.Field crudBaseMapper = com.baomidou.mybatisplus.extension.repository.CrudRepository.class.getDeclaredField("baseMapper");
+        crudBaseMapper.setAccessible(true);
+        crudBaseMapper.set(userService, baseMapper);
     }
 
     /**
@@ -377,5 +383,112 @@ class UserServiceImplTest {
 
         // Then
         assertNull(result);
+    }
+
+    /**
+     * 测试：更新最后登录时间成功
+     */
+    @Test
+    void shouldUpdateLastLoginTimeSuccessfully() {
+        // Given
+        Integer userId = 1;
+        when(baseMapper.updateById(any(User.class))).thenReturn(1);
+
+        // When
+        boolean result = userService.updateLastLoginTime(userId);
+
+        // Then
+        assertTrue(result);
+        verify(baseMapper).updateById(any(User.class));
+    }
+
+    /**
+     * 测试：更新C端用户信息成功
+     */
+    @Test
+    void shouldUpdateCustomerUserInfoSuccessfully() {
+        // Given
+        String userId = "1";
+        User user = new User();
+        user.setId(Integer.valueOf(userId));
+        user.setUsername("testuser");
+        user.setEmailAddr("old@example.com");
+
+        CustomerUserInfoUpdateDTO updateDTO = new CustomerUserInfoUpdateDTO();
+        updateDTO.setEmailAddr("new@example.com");
+
+        when(baseMapper.selectById(userId)).thenReturn(user);
+        when(baseMapper.updateById(any(User.class))).thenReturn(1);
+
+        // When
+        CustomerUserInfoVO result = userService.updateCustomerUserInfo(userId, updateDTO);
+
+        // Then
+        assertNotNull(result);
+        verify(baseMapper).updateById(any(User.class));
+        assertEquals("new@example.com", user.getEmailAddr());
+    }
+
+    /**
+     * 测试：更新C端用户信息时用户不存在
+     */
+    @Test
+    void shouldReturnNullWhenUpdateCustomerUserInfoUserNotFound() {
+        // Given
+        String userId = "999";
+        CustomerUserInfoUpdateDTO updateDTO = new CustomerUserInfoUpdateDTO();
+        updateDTO.setEmailAddr("new@example.com");
+
+        when(baseMapper.selectById(userId)).thenReturn(null);
+
+        // When
+        CustomerUserInfoVO result = userService.updateCustomerUserInfo(userId, updateDTO);
+
+        // Then
+        assertNull(result);
+        verify(baseMapper, never()).updateById(any(User.class));
+    }
+
+    /**
+     * 测试：更新C端用户头像成功
+     */
+    @Test
+    void shouldUpdateCustomerUserAvatarSuccessfully() {
+        // Given
+        String userId = "1";
+        String avatarUrl = "http://cdn.example.com/avatar.jpg";
+        User user = new User();
+        user.setId(Integer.valueOf(userId));
+        user.setUsername("testuser");
+
+        when(baseMapper.selectById(userId)).thenReturn(user);
+        when(baseMapper.updateById(any(User.class))).thenReturn(1);
+
+        // When
+        CustomerUserInfoVO result = userService.updateCustomerUserAvatar(userId, avatarUrl);
+
+        // Then
+        assertNotNull(result);
+        verify(baseMapper).updateById(any(User.class));
+        assertEquals(avatarUrl, user.getAvatar());
+    }
+
+    /**
+     * 测试：更新C端用户头像时用户不存在
+     */
+    @Test
+    void shouldReturnNullWhenUpdateCustomerUserAvatarUserNotFound() {
+        // Given
+        String userId = "999";
+        String avatarUrl = "http://cdn.example.com/avatar.jpg";
+
+        when(baseMapper.selectById(userId)).thenReturn(null);
+
+        // When
+        CustomerUserInfoVO result = userService.updateCustomerUserAvatar(userId, avatarUrl);
+
+        // Then
+        assertNull(result);
+        verify(baseMapper, never()).updateById(any(User.class));
     }
 }
