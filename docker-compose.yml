@@ -245,7 +245,7 @@ services:
 
   minio:
     container_name: minio
-    image: bitnami/minio:latest
+    image: soldevelo/minio:latest
     ports:
       - '19000:9000'
       - '19001:9001'
