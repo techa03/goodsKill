@@ -228,6 +228,18 @@ curl --location --request POST 'http://www.goodskill.com:8080/limit' \
 
 详细的环境配置和 API 介绍请参考 [goodskill-ai/README.md](goodskill-ai/README.md)。
 
+## 可选 Netty 聊天服务：JWT 密钥配置
+
+`goodskill-chat-provider` 是可选模块，当前未加入根 Maven reactor。下游部署需要自行构建并接入该模块时，必须先为所有调用 `JwtUtils` 的进程配置部署专用密钥：
+
+```bash
+export GOODSKILL_JWT_SECRET="$(openssl rand -base64 48)"
+```
+
+也可以为 Java 进程设置 `-Dgoodskill.jwt.secret=<deployment-secret>`；JVM 属性优先于 `GOODSKILL_JWT_SECRET`。应用使用密钥的 UTF-8 字节作为 HS256 key，少于 32 字节或未配置时，JWT 签发和验证会失败。请将密钥保存在部署平台的 Secret 管理功能中，不要提交到仓库。轮换密钥会使旧 JWT 失效，客户端需要重新获取令牌。
+
+注意：当前 `ChatProviderApplication` 的 `CommandLineRunner` 上 `@Bean` 注解仍被注释，因此配置密钥本身不会启动 Netty `ChatServer`。下游部署必须显式接入并启动该服务器，之后再开放其监听端口。
+
 ## 🕹️️ 启动其他可选项目步骤
 
 在快速开始部分基础上增加以下步骤即可启动一个完整项目
