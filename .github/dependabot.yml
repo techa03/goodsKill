@@ -1,0 +1,21 @@
+version: 2
+updates:
+  # Keep GitHub Actions in workflow files up to date
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "02:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "chore(deps)"
+    # Optional: group all action updates into one PR per run
+    groups:
+      github-actions:
+        patterns:
+          - "*"
