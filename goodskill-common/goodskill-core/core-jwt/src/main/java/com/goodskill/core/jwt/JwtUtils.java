@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,9 +18,17 @@ import java.util.UUID;
 @Slf4j
 public class JwtUtils {
     /**
-     * key（按照签名算法的字节长度设置key）
+     * JVM system property used to configure the JWT signing key.
      */
-    private final static String SECRET_KEY = "0123456789_0123456789_0123456789";
+    private static final String SECRET_KEY_PROPERTY = "goodskill.jwt.secret";
+    /**
+     * Environment variable used when the system property is not present.
+     */
+    private static final String SECRET_KEY_ENV = "GOODSKILL_JWT_SECRET";
+    /**
+     * HS256 requires at least 256 bits of key material.
+     */
+    private static final int MIN_SECRET_KEY_BYTES = 32;
     /**
      * 过期时间（毫秒单位）
      */
@@ -92,7 +101,21 @@ public class JwtUtils {
      * @return
      */
     public static Key generateKey() {
-        return new SecretKeySpec(SECRET_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
+        String secret = System.getProperty(SECRET_KEY_PROPERTY);
+        if (secret == null || secret.isBlank()) {
+            secret = System.getenv(SECRET_KEY_ENV);
+        }
+        if (secret == null || secret.isBlank()) {
+            throw new IllegalStateException("JWT signing key is not configured. Set "
+                    + SECRET_KEY_PROPERTY + " or " + SECRET_KEY_ENV + ".");
+        }
+
+        byte[] secretBytes = secret.getBytes(StandardCharsets.UTF_8);
+        if (secretBytes.length < MIN_SECRET_KEY_BYTES) {
+            throw new IllegalStateException("JWT signing key must contain at least "
+                    + MIN_SECRET_KEY_BYTES + " bytes.");
+        }
+        return new SecretKeySpec(secretBytes, SignatureAlgorithm.HS256.getJcaName());
     }
 
     public static void main(String[] args) throws InterruptedException {

@@ -4,10 +4,12 @@ import cn.hutool.core.bean.BeanUtil;
 import com.goodskill.chat.dto.ChatMessageDto;
 import com.goodskill.chat.server.User;
 import com.goodskill.core.jwt.JwtUtils;
+import io.jsonwebtoken.JwtException;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.*;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
+import static io.netty.handler.codec.http.HttpResponseStatus.UNAUTHORIZED;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 /**
@@ -38,11 +41,18 @@ public class ChatServerHandler extends ChannelInboundHandlerAdapter {
         User user;
         if (obj instanceof FullHttpRequest) {
             String token = ((FullHttpRequest) obj).headers().get("token");
-            String message = ((FullHttpRequest) obj).headers().get("msg");
-            new HttpRequestDecoder();
-            log.info("token: {}", token);
-            Map map = JwtUtils.parseToken(token);
-            user = BeanUtil.mapToBean(map, User.class, false, null);
+            if (token == null || token.isBlank()) {
+                writeUnauthorized(ctx);
+                return;
+            }
+            try {
+                Map map = JwtUtils.parseToken(token);
+                user = BeanUtil.mapToBean(map, User.class, false, null);
+            } catch (JwtException | IllegalArgumentException | IllegalStateException e) {
+                log.warn("拒绝无效聊天token", e);
+                writeUnauthorized(ctx);
+                return;
+            }
 
             HttpPostRequestDecoder decoder = new HttpPostRequestDecoder((HttpRequest) obj);
             while (decoder.hasNext()) {
@@ -105,6 +115,16 @@ public class ChatServerHandler extends ChannelInboundHandlerAdapter {
             response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
         }
         return response;
+    }
+
+    private void writeUnauthorized(ChannelHandlerContext ctx) {
+        FullHttpResponse response = new DefaultFullHttpResponse(
+                HTTP_1_1, UNAUTHORIZED,
+                Unpooled.copiedBuffer("Unauthorized", CharsetUtil.UTF_8));
+        response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain; charset=UTF-8");
+        response.headers().setInt(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
+        response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.CLOSE);
+        ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
     }
 
     @Override
